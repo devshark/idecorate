@@ -1,4 +1,5 @@
 from django.conf.urls import patterns, include, url
+from django.conf import settings
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -14,4 +15,14 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     # url(r'^admin/', include(admin.site.urls)),
+    url(r'^media/(?P<path>.*)$', "django.views.static.serve",{'document_root': settings.MEDIA_ROOT}),
+)
+
+"""
+	BOS URL
+"""
+urlpatterns += patterns('admin.views',
+    url(r'^admin/$', 'admin', {}, name='admin'),
+    url(r'^admin_login/$', 'admin_login', {}, name='admin_login'),
+    url(r'^admin_logout/$', 'admin_logout', {}, name='admin_logout'),
 )
