@@ -16,7 +16,7 @@ def admin_login(request):
 
 	if request.method == 'POST':
 
-		loginLog = LoginLog.objects.filter(created__gte=(datetime.now() - timedelta(minutes=5)))
+		loginLog = LoginLog.objects.filter(created__gte=(datetime.now() - timedelta(minutes=5)), ip_address=request.META['REMOTE_ADDR'])
 
 		username = request.POST['username']
 		password = request.POST['password']
