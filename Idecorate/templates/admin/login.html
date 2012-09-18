@@ -3,7 +3,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>{% trans "Idecorate Wedding" %}</title>
+    <title>{% trans "iDecorate CMS" %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
     <meta name="author" content="">
@@ -37,7 +37,7 @@
     		<div id="login_page">
         		<form method="post" class="form-horizontal" action="{% url admin_login %}">
             		<fieldset>
-               			<legend>{% trans "Idecorate Wedding" %}</legend>
+               			<legend style="text-align:center;">{% trans "iDecorate" %}</legend>
                 		<br />
                		<div style='display:none'>
                 		{% csrf_token %}
@@ -61,7 +61,7 @@
                     <div class="control-group {{ request|checkEmailError:1 }}">
     					<label class="control-label" for="id_username">{% trans "Email" %}</label>
     					<div class="controls">
-        					<input type="email" placeholder="{% trans "Email" %}" name="username" id="id_username" value="{{ request.session.admin_username }}" />
+        					<input type="email" placeholder="{% trans "Email" %}" name="username" id="id_username" value="{{ request.session.admin_username }}" maxlength="40" />
         					{{ request|checkEmailError:0 }}
         					{{ request|deleteSession:"admin_username" }}
     					</div>
@@ -71,7 +71,7 @@
                     <div class="control-group {{ request|checkPasswordError:1 }}">
     					<label class="control-label" for="id_password">{% trans "Password" %}</label>
     					<div class="controls">
-        					<input type="password" placeholder="{% trans "Password" %}" name="password" id="id_password" value="{{ request.session.admin_password }}" />
+        					<input type="password" placeholder="{% trans "Password" %}" name="password" id="id_password" value="{{ request.session.admin_password }}" maxlength="40" />
         					{{ request|checkPasswordError:0 }}
         					{{ request|deleteSession:"admin_password" }}
         				</div>
