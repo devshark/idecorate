@@ -17,6 +17,8 @@ def admin_login(request):
 		username = request.POST['username']
 		password = request.POST['password']
 
+		print request.META['REMOTE_ADDR']
+
 		request.session['admin_username'] = username
 		request.session['admin_password'] = password
 		request.session['admin_login_post'] = True
