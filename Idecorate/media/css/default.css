@@ -1,0 +1,12 @@
+body {
+	padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+}
+
+.tdCenter {
+	text-align:center;
+}
+
+#login_page{width:600px;margin:100px auto 0 auto;}
+footer{margin:50px 0 0 0;padding:20px 0 0 0;border-top:1px solid #eeeeee;text-align:center;}
+.non-field-errors{margin:0 0 10px 0;}.non-field-errors .errorlist{margin:0;padding:0;list-style:none;color:#9d261d;}
+.control-group.error .help-inline .errorlist{margin:0;padding:0;list-style:none;}
