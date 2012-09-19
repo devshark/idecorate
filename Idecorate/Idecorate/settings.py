@@ -135,6 +135,7 @@ INSTALLED_APPS = (
     'admin',
 
     'interface',
+    'category',
 
     'debug_toolbar',
     # Uncomment the next line to enable the admin:

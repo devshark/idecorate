@@ -1,4 +1,244 @@
 {% extends "base.html" %}
+{% block title %}iDecorate Wedding{% endblock %}
+{%  block style %}
+<style type="text/css">
+	* {
+		padding: 0;
+		margin:0;
+	}
+	body {
+		background: #ccc;
+	}
+	ul {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+	}
+	a {
+		text-decoration: none;
+		color: #000;
+	}
+	a:hover {
+		text-decoration: underline;
+	}
+	#header, #content {
+		margin-bottom: 20px;
+	}	
+	#header, #footer, #content {
+		clear: both;
+	}
+	.container {
+		min-width: 996px;
+		max-width: 1080px;
+		min-height: 100%;
+		margin-left: auto;
+		margin-right: auto;
+		position: relative;
+		margin-bottom: 20px;
+		background: #fff;
+		padding: 0 50px;
+	}
+	.topHome {
+		margin-bottom: 15px;
+	}
+	.topHome #sidebar, .topHome #headline {
+		float: left;
+	}
+	.topHome #sidebar {
+		width: 250px;
+		padding: 10px;
+		margin-right: 20px;
+		height: 286px;
+		border: 1px solid #000;
+	}
+	.topHome #headline {
+		border: 1px solid #000;
+		padding: 15px;
+		height: 276px;
+	}
+	.box1 {
+		width: 275px;
+		height: 275px;
+		border: 1px solid #000;
+		float: left;
+	}
+	.boxLabel {
+		float: left;
+		width: 429px;
+		padding: 0 25px;
+	}
+	.spacer {
+		clear: both;
+		width: 1px;
+		height: 1px;
+	}
+	.smallBox {
+		width: 60px;
+		height: 60px;
+		border: 1px solid #000;
+	}
+	.boxes div{
+		float: left;
+		margin-right: 50px
+	}
+	.boxes div.last{		
+		margin-right: 0
+	}
+	.featuredStyle {
+		margin-top: 20px;
+	}
+	.bigBox {
+		padding: 2%;
+		width: 45%;
+		height: 400px;
+		border: 1px solid #000;
+		margin-bottom: 18px;
+	}
+	.fltLeft {
+		float: left;
+	}
+	.fltRight {
+		float: right;
+	}
+	.box2 {
+		width: 100%;
+		border: 1px solid #000;
+		height: 230px;
+		margin-bottom: 18px;
+	}
+	.center {
+		text-align: center;
+	}
+	.title {
+		background: #dedede;
+		margin-bottom: 10px;
+	}
+	.featuredDesc, .rate {
+		clear: both;
+	}
+	.featuredDesc div{
+		float: left;
+		height: 90px;
+	}
+	.desc {
+		width: 75%;
+	}
+	.price {
+		width: 25%;
+		text-align: right;
+		font-weight: bold;
+	}
+	.rate {
+		height: 30px;
+		background: #dedede;
+	}
+</style>
+{% endblock %}
 {% block content %}
-Home Page
+<div class="topHome">
+	{% include 'sidebar.html' %}
+	<div id="headline">
+		<div class="box1"></div>
+		<div class="boxLabel">
+			<div>
+				<h3>Excepteur sint occaecat cupidatat</h3>
+			</div>
+			<div>
+				<p>
+				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+				</p>
+			</div>
+			<div style="text-align:center; border: 1px solid #000; margin-top: 20px;">
+				<p>Create your wedding style board</p>
+			</div>
+			<div>
+				<fieldset style="margin-top:20px; padding: 14px; border: #000 solid 1px;">
+					<legend style="text-align: center">
+						<div style="text-align:center; border: 1px solid #000; margin-top: 20px; padding: 2px 5px;">
+							Start with one of our templates
+						</div>
+					</legend>
+					<div class="boxes">
+						<div class="smallBox"></div>
+						<div class="smallBox"></div>
+						<div class="smallBox"></div>
+						<div class="smallBox last"></div>
+					</div>
+
+				</fieldset>
+			</div>
+		</div>
+	</div>
+	<div class="spacer"></div>
+</div>
+<h2>Featured Style Board</h2>
+<hr />
+<div class="featuredStyle">
+	<div>
+		<div class="bigBox fltLeft">
+			<div class="box2"></div>
+			<h3 class="title center">Lorem ipsum dolor sit amet</h3>
+			<div class="featuredDesc">
+				<div class="desc">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
+				</div>
+				<div class="price">
+					$10,000.00<br />
+					<small>100 guest</small>
+				</div>
+			</div>
+			<div class="rate">
+			</div>
+		</div>
+		<div class="bigBox fltRight">
+			<div class="box2"></div>
+			<h3 class="title center">Lorem ipsum dolor sit amet</h3>
+			<div class="featuredDesc">
+				<div class="desc">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
+				</div>
+				<div class="price">
+					$10,000.00<br />
+					<small>100 guest</small>
+				</div>
+			</div>
+			<div class="rate">
+			</div>
+		</div>
+	</div>
+	<div>
+		<div class="bigBox fltLeft">
+			<div class="box2"></div>
+			<h3 class="title center">Lorem ipsum dolor sit amet</h3>
+			<div class="featuredDesc">
+				<div class="desc">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
+				</div>
+				<div class="price">
+					$10,000.00<br />
+					<small>100 guest</small>
+				</div>
+			</div>
+			<div class="rate">
+			</div>
+		</div>
+		<div class="bigBox fltRight">
+			<div class="box2"></div>
+			<h3 class="title center">Lorem ipsum dolor sit amet</h3>
+			<div class="featuredDesc">
+				<div class="desc">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
+				</div>
+				<div class="price">
+					$10,000.00<br />
+					<small>100 guest</small>
+				</div>
+			</div>
+			<div class="rate">
+			</div>
+		</div>
+	</div>
+	<div class="spacer"></div>
+</div>
+<div class="spacer"></div>
 {% endblock %}
