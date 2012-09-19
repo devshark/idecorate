@@ -1,0 +1,116 @@
+{% load i18n admin %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <link href="/media/css/bootstrap.css" rel="stylesheet">
+    <link href="/media/css/default.css" rel="stylesheet">
+    <link href="/media/css/bootstrap-responsive.css" rel="stylesheet">
+    
+    {%  block style %}{% endblock %}
+
+    <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <link rel="shortcut icon" href="/media/ico/favicon.ico">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/media/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/media/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/media/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/media/ico/apple-touch-icon-57-precomposed.png">
+  </head>
+
+  <body>
+
+    <div class="container">
+        <header id="header">
+        </header>
+
+        <section id="content">
+            
+    		<div id="login_page">
+        		<form method="post" class="form-horizontal" action="{% url admin_login %}">
+            		<fieldset>
+               			<legend>{% trans "Idecorate Wedding" %}</legend>
+                		<br />
+               		<div style='display:none'>
+                		{% csrf_token %}
+                	</div>
+
+                	{% if messages %}
+
+                	{% if request.session.showMessages %}
+
+	                <div class="non-field-errors">
+	                    {% for message in messages %}
+	                    <ul class="errorlist"><li>{{ message }}</li></ul>
+	                    {% endfor %}
+	                </div>
+
+	                {% endif %}
+
+	                {% endif %}
+
+
+                    <div class="control-group {{ request|checkEmailError:1 }}">
+    					<label class="control-label" for="id_username">{% trans "Email" %}</label>
+    					<div class="controls">
+        					<input type="email" placeholder="{% trans "Email" %}" name="username" id="id_username" value="{{ request.session.admin_username }}" />
+        					{{ request|checkEmailError:0 }}
+        					{{ request|deleteSession:"admin_username" }}
+    					</div>
+					</div>
+
+                
+                    <div class="control-group {{ request|checkPasswordError:1 }}">
+    					<label class="control-label" for="id_password">{% trans "Password" %}</label>
+    					<div class="controls">
+        					<input type="password" placeholder="{% trans "Password" %}" name="password" id="id_password" value="{{ request.session.admin_password }}" />
+        					{{ request|checkPasswordError:0 }}
+        					{{ request|deleteSession:"admin_password" }}
+        				</div>
+					</div>
+							{{ request|deleteSession:"admin_login_post" }}
+							{{ request|deleteSession:"showMessages" }}
+            		</fieldset>
+            	<div class="form-actions">
+                	<input type="submit" class="btn btn-primary" value="{% trans "Sign In" %}">
+            	</div>
+
+        		</form>
+   			</div>
+
+        </section>
+
+        <footer>
+            &copy; {% trans "Idecorate Wedding" %}
+        </footer>
+
+    </div> <!-- /container -->
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="/media/js/jquery.js"></script>
+    <script src="/media/js/bootstrap-transition.js"></script>
+    <script src="/media/js/bootstrap-alert.js"></script>
+    <script src="/media/js/bootstrap-modal.js"></script>
+    <script src="/media/js/bootstrap-dropdown.js"></script>
+    <script src="/media/js/bootstrap-scrollspy.js"></script>
+    <script src="/media/js/bootstrap-tab.js"></script>
+    <script src="/media/js/bootstrap-tooltip.js"></script>
+    <script src="/media/js/bootstrap-popover.js"></script>
+    <script src="/media/js/bootstrap-button.js"></script>
+    <script src="/media/js/bootstrap-collapse.js"></script>
+    <script src="/media/js/bootstrap-carousel.js"></script>
+    <script src="/media/js/bootstrap-typeahead.js"></script>
+
+	{% block javascripts %}{% endblock %}
+  </body>
+</html>

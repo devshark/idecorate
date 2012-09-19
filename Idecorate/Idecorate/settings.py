@@ -133,6 +133,9 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'admin',
+
+    'interface',
+
     'debug_toolbar',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
