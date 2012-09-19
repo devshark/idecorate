@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n admin %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -8,18 +8,26 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
+        <link href="/media/css/bootstrap.css" rel="stylesheet">
+        <link href="/media/css/default.css" rel="stylesheet">
+        <link href="/media/css/bootstrap-responsive.css" rel="stylesheet">
+    
         {%  block style %}{% endblock %}
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        
+
+        <link rel="shortcut icon" href="/media/ico/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/media/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/media/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/media/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="/media/ico/apple-touch-icon-57-precomposed.png">
     </head>
     <body>
         <div class="container">
             <header id="header">
-                {% include "header.html" %}
             </header>
 
             <section id="content">
@@ -27,7 +35,7 @@
                 {% endblock %}
             </section>
             <footer>
-                {% include "footer.html" %}                
+                &copy; {% trans "Idecorate Wedding" %}
             </footer>
         </div> <!-- /container -->
 
