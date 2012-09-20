@@ -1,0 +1,38 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block content %}
+	<h3>{% trans "Manage Menu" %}</h3>
+	<div>&nbsp;</div>
+	<div>
+		<ul class="nav nav-tabs" id="manage_menu">
+		  <li class="active"><a href="#info_manage_menu">{% trans "Info Menu" %}</a></li>
+		  <li><a href="#site_manage_menu">{% trans "Site Menu" %}</a></li>
+		  <li><a href="#footer_manage_menu">{% trans "Footer" %}</a></li>
+		</ul>
+		 
+		<div class="tab-content">
+		  <div class="tab-pane active" id="info_manage_menu"></div>
+		  <div class="tab-pane" id="site_manage_menu"></div>
+		  <div class="tab-pane" id="footer_manage_menu"></div>
+		</div>
+	</div>	
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript">
+
+		$(function(e){
+
+			$('#manage_menu a').click(function (e) {
+  				e.preventDefault();
+  				$(this).tab('show');
+			})
+
+		});
+
+	</script>
+{% endblock %}
