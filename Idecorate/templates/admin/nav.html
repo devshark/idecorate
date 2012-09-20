@@ -10,7 +10,7 @@
           <a class="brand" href="#">{% trans "iDecorate" %}</a>
           <div class="nav-collapse">
             <ul class="nav">
-              <li class="active"><a href="{% url admin %}">{% trans "Home" %}</a></li>
+              <li {% if request.path == "/admin/" %}class="active"{% endif %}><a href="{% url admin %}">{% trans "Home" %}</a></li>
               <li><a href="{% url admin_logout %}">{% trans "Logout" %}</a></li>
             </ul>
           </div><!--/.nav-collapse -->

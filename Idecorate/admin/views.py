@@ -14,6 +14,12 @@ def admin(request):
 
     return render_to_response('admin/index.html',info,RequestContext(request))
 
+@staff_member_required
+def admin_manage_menu(request):
+    info = {}
+
+    return render_to_response('admin/admin_manage_menu.html',info,RequestContext(request))
+
 def admin_login(request):
 
 	if request.method == 'POST':
