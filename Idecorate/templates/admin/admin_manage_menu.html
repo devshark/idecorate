@@ -5,6 +5,10 @@
     {% trans "iDecorate CMS" %}
 {% endblock %}
 
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+{% endblock %}
+
 {% block content %}
 	<h3>{% trans "Manage Menu" %}</h3>
 	<div>&nbsp;</div>
@@ -16,9 +20,45 @@
 		</ul>
 		 
 		<div class="tab-content">
-		  <div class="tab-pane active" id="info_manage_menu"></div>
-		  <div class="tab-pane" id="site_manage_menu"></div>
-		  <div class="tab-pane" id="footer_manage_menu"></div>
+		  <div class="tab-pane active" id="info_manage_menu">
+
+				<ul class="sortable">
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+				</ul>
+
+		  </div>
+		  <div class="tab-pane" id="site_manage_menu">
+
+				<ul class="sortable">
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+				</ul>
+
+		  </div>
+		  <div class="tab-pane" id="footer_manage_menu">
+
+				<ul class="sortable">
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+				</ul>
+
+		  </div>
 		</div>
 	</div>	
 {% endblock %}
@@ -30,7 +70,10 @@
 			$('#manage_menu a').click(function (e) {
   				e.preventDefault();
   				$(this).tab('show');
-			})
+			});
+
+			$( ".sortable" ).sortable();
+			$( ".sortable" ).disableSelection();
 
 		});
 
