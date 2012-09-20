@@ -8,6 +8,8 @@
 	}
 	body {
 		background: #ccc;
+		font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+		font-size: 12px;
 	}
 	ul {
 		list-style: none;
@@ -28,8 +30,7 @@
 		clear: both;
 	}
 	.container {
-		min-width: 996px;
-		max-width: 1080px;
+		width: 980px;
 		min-height: 100%;
 		margin-left: auto;
 		margin-right: auto;
@@ -64,8 +65,8 @@
 	}
 	.boxLabel {
 		float: left;
-		width: 429px;
-		padding: 0 25px;
+		width: 354px;
+		padding: 10px 0 0 25px;
 	}
 	.spacer {
 		clear: both;
@@ -77,9 +78,15 @@
 		height: 60px;
 		border: 1px solid #000;
 	}
-	.boxes div{
+	.boxes {
+		clear: both;
+		padding: 11px 10px 15px 10px;
+		border: 1px solid #000;
+		border-top: 0;
+	}
+	.boxes div.smallBox{
 		float: left;
-		margin-right: 50px
+		margin-right: 28px
 	}
 	.boxes div.last{		
 		margin-right: 0
@@ -132,6 +139,11 @@
 		height: 30px;
 		background: #dedede;
 	}
+	.hr {
+		height: 1px;
+		background: #000;
+		width: 100%;
+	}
 </style>
 {% endblock %}
 {% block content %}
@@ -141,38 +153,34 @@
 		<div class="box1"></div>
 		<div class="boxLabel">
 			<div>
-				<h3>Excepteur sint occaecat cupidatat</h3>
+				<h3 style="margin-bottom: 10px;">Excepteur sint occaecat cupidatat</h3>
 			</div>
 			<div>
 				<p>
 				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
 				</p>
 			</div>
-			<div style="text-align:center; border: 1px solid #000; margin-top: 20px;">
-				<p>Create your wedding style board</p>
+			<div style="text-align:center; border: 1px solid #000; margin-top: 20px; padding: 5px 0">
+				<h3>Create your wedding style board</h3>
 			</div>
 			<div>
-				<fieldset style="margin-top:20px; padding: 14px; border: #000 solid 1px;">
-					<legend style="text-align: center">
-						<div style="text-align:center; border: 1px solid #000; margin-top: 20px; padding: 2px 5px;">
-							Start with one of our templates
-						</div>
-					</legend>
-					<div class="boxes">
-						<div class="smallBox"></div>
-						<div class="smallBox"></div>
-						<div class="smallBox"></div>
-						<div class="smallBox last"></div>
-					</div>
-
-				</fieldset>
+				<div style="text-align:center; border: 1px solid #000; margin-top: 20px; padding: 5px; font-weight: bold">
+					Start with one of our templates
+				</div>
+				<div class="boxes">
+					<div class="smallBox"></div>
+					<div class="smallBox"></div>
+					<div class="smallBox"></div>
+					<div class="smallBox last"></div>
+					<div class="spacer"></div>
+				</div>
 			</div>
 		</div>
 	</div>
 	<div class="spacer"></div>
 </div>
 <h2>Featured Style Board</h2>
-<hr />
+<div class="hr"></div>
 <div class="featuredStyle">
 	<div>
 		<div class="bigBox fltLeft">
