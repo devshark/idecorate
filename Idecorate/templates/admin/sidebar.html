@@ -1,12 +1,12 @@
+{% load i18n %}
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
-              <li class="active"><a href="#">Menu 1</a></li> 
-              <li><a href="#">&gt; One</a></li>
-              <li><a href="#">&gt; Two</a></li>
-              <li><a href="#">&gt; Three</a></li>
-              <li class="active"><a href="#">Menu 2</a></li> 
-              <li><a href="#">&gt; One</a></li>
-              <li><a href="#">&gt; Two</a></li>
-              <li><a href="#">&gt; Three</a></li>
+              <li class="active"><a href="#">{% trans "Main" %}</a></li> 
+              <li><a href="{% url admin %}">{% trans "Home" %}</a></li>
+              <li><a href="{% url admin_logout %}">{% trans "Logout" %}</a></li>
+              <li class="active"><a href="#">{% trans "Manage Menu" %}</a></li> 
+              <li><a href="#">{% trans "Info Menu" %}</a></li>
+              <li><a href="#">{% trans "Site Menu" %}</a></li>
+              <li><a href="#">{% trans "Footer Menu" %}</a></li>
             </ul>
           </div>
