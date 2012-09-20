@@ -8,36 +8,53 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <link href="/media/css/bootstrap.css" rel="stylesheet">
-        <link href="/media/css/default.css" rel="stylesheet">
-        <link href="/media/css/bootstrap-responsive.css" rel="stylesheet">
-    
-        {%  block style %}{% endblock %}
+        <!-- Le styles -->
+        <link href="/media/admin/css/bootstrap.css" rel="stylesheet">
+        <link href="/media/admin/css/default.css" rel="stylesheet">
+        <link href="/media/admin/css/bootstrap-responsive.css" rel="stylesheet">
 
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+          <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
 
-        <link rel="shortcut icon" href="/media/ico/favicon.ico">
-        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/media/ico/apple-touch-icon-144-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/media/ico/apple-touch-icon-114-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/media/ico/apple-touch-icon-72-precomposed.png">
-        <link rel="apple-touch-icon-precomposed" href="/media/ico/apple-touch-icon-57-precomposed.png">
+        <!-- Le fav and touch icons -->
+        <link rel="shortcut icon" href="/media/admin/ico/favicon.ico">
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/media/admin/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/media/admin/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/media/admin/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="/media/admin/ico/apple-touch-icon-57-precomposed.png">
     </head>
     <body>
-        <div class="container">
-            <header id="header">
-            </header>
 
-            <section id="content">
-                {% block content %}
-                {% endblock %}
-            </section>
-            <footer>
-                &copy; {% trans "Idecorate Wedding" %}
-            </footer>
-        </div> <!-- /container -->
+        {% include "admin/nav.html" %}
+    <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="span3">
+        {% include "admin/sidebar.html" %}
+        </div>
+        <div class="span9">
+        {% block content %}{% endblock %}
+        </div>
+      </div>
+      <hr>
+      <footer>
+        &copy; {% trans "IDecorate" %}
+      </footer>
+    </div>
+    <script src="/media/admin/js/jquery.js"></script>
+    <script src="/media/admin/js/bootstrap-transition.js"></script>
+    <script src="/media/admin/js/bootstrap-alert.js"></script>
+    <script src="/media/admin/js/bootstrap-modal.js"></script>
+    <script src="/media/admin/js/bootstrap-dropdown.js"></script>
+    <script src="/media/admin/js/bootstrap-scrollspy.js"></script>
+    <script src="/media/admin/js/bootstrap-tab.js"></script>
+    <script src="/media/admin/js/bootstrap-tooltip.js"></script>
+    <script src="/media/admin/js/bootstrap-popover.js"></script>
+    <script src="/media/admin/js/bootstrap-button.js"></script>
+    <script src="/media/admin/js/bootstrap-collapse.js"></script>
+    <script src="/media/admin/js/bootstrap-carousel.js"></script>
+    <script src="/media/admin/js/bootstrap-typeahead.js"></script>
 
         {% block javascripts %}{% endblock %}
     </body>

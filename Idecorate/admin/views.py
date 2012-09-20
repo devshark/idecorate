@@ -1,16 +1,18 @@
 # Create your views here.
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import HttpResponse, redirect
+from django.shortcuts import HttpResponse, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
+from django.template import RequestContext
 
 @staff_member_required
 def admin(request):
+    info = {}
 
-	return HttpResponse("Blank Page")
+    return render_to_response('admin/index.html',info,RequestContext(request))
 
 def admin_login(request):
 
