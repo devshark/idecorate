@@ -21,48 +21,55 @@
 		 
 		<div class="tab-content">
 		  <div class="tab-pane active" id="info_manage_menu">
-
-				<ul class="sortable">
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
-				</ul>
+			
+			<ol class="sortable" id="sortable1">
+			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
+			    <li class="ui-state-default">
+			        <div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div>
+			        <ol>
+			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
+			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
+			        </ol>
+			    </li>
+			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
+			</ol>
 
 		  </div>
 		  <div class="tab-pane" id="site_manage_menu">
 
-				<ul class="sortable">
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
-				</ul>
+			<ol class="sortable" id="sortable1">
+			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
+			    <li class="ui-state-default">
+			        <div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div>
+			        <ol>
+			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
+			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
+			        </ol>
+			    </li>
+			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
+			</ol>
 
 		  </div>
 		  <div class="tab-pane" id="footer_manage_menu">
 
-				<ul class="sortable">
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
-					<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
-				</ul>
+			<ol class="sortable" id="sortable1">
+			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
+			    <li class="ui-state-default">
+			        <div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div>
+			        <ol>
+			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
+			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
+			        </ol>
+			    </li>
+			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
+			</ol>
 
 		  </div>
 		</div>
 	</div>	
 {% endblock %}
 {% block javascripts %}
+	<script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
 	<script type="text/javascript">
 
 		$(function(e){
@@ -72,8 +79,20 @@
   				$(this).tab('show');
 			});
 
-			$( ".sortable" ).sortable();
-			$( ".sortable" ).disableSelection();
+	        $('#sortable1, #sortable2, #sortable3').nestedSortable({
+				disableNesting: 'no-nest',
+				forcePlaceholderSize: true,
+				handle: 'div',
+				helper:	'clone',
+				items: 'li',
+				maxLevels: 3,
+				opacity: .6,
+				placeholder: 'placeholder',
+				revert: 250,
+				tabSize: 25,
+				tolerance: 'pointer',
+				toleranceElement: '> div'
+	        });
 
 		});
 
