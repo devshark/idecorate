@@ -1,0 +1,15 @@
+$margin15:15px;
+
+.banner{
+	float: right;
+	width: 750px;
+
+	.dummyBanner{
+		float: left;
+	}
+}
+
+section{
+	clear: both;
+	margin-top: $margin15;
+}
