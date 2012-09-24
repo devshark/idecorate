@@ -7,6 +7,10 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
+from admin.forms import CategoryForm
+from admin.services import save_category
+
+from category.models import Categories
 
 @staff_member_required
 def admin(request):
@@ -81,3 +85,20 @@ def admin_logout(request):
 
 	return redirect('admin')
 
+@staff_member_required
+def category(request):
+	info = {}
+	parent = None	
+	form = CategoryForm()
+
+	if request.method == 'POST':
+		form = CategoryForm(request.POST)
+		if form.is_valid():
+			data = form.cleaned_data
+			res = save_category(data)
+			return redirect('category')
+
+	categories = Categories.objects.filter(parent__id=None)
+	info['form'] = form
+	info['categories'] = categories
+	return render_to_response('admin/category.html', info, RequestContext(request))

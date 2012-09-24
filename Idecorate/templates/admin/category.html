@@ -1,0 +1,83 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+{% block styles %}
+<style type="text/css">
+/*fieldset {
+    border: 1px solid #DDD;
+    padding: 0 1.4em 1.4em 1.4em;
+    margin: 0 0 1.5em 0;
+}
+
+legend {
+    font-size: 1.2em;
+    font-weight: bold;
+    border-bottom: 0;
+}*/
+.rowForm {
+	padding-top: 20px;
+}
+
+.center-text {
+	text-align: center;
+	padding: 4px 0;
+}
+.dropdown-submenu {
+	list-style-type: none;
+}
+#categories button.btn {
+	text-align: left;
+}
+</style>
+{% endblock %}
+{% block content %}
+	<h1>{% trans "Manage Product Categories" %}</h1>
+	<form method="post" class="form-inline" action="">
+		<fieldset>
+			<legend>Add new category</legend>
+			{% csrf_token %}
+			{{ form.parent }}
+			<div class="rowForm">
+				<div class="pull-left span4">
+					{{ form.name|add_class:"input"|attr:"placeholder:Category Name" }}
+				</div>
+				<div class="pull-left span1 center-text">
+					Parent
+				</div>
+				<div class="pull-left span2">									
+					<div id="categories" class="btn-group span12">
+						<button class="btn btn-primary span10" id="ddl-name">------------</button>
+						<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
+							<span class="caret"></span>
+						</button>						
+						<ul class="dropdown-menu">
+							<li><a href="#" rel="" class="cat">------------</a></li>
+							{{ categories|getSubCategories }}
+						</ul>
+					</div>
+				</div>
+				<div class="pull-left span1">
+					<input class="btn span12 btn-primary" type="submit" value="Add">
+				</div>
+			</div>
+		</fieldset>
+	</form>
+	<div class="well">
+		{% for cat in categories %}
+		<div> + {{ cat.name }}</div>
+		{% endfor %}
+	</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#categories a.cat').click(function(){
+		$('#ddl-name').text($(this).find('span').text());
+		$('#id_parent').val(this.rel);
+	});
+});
+</script>
+{% endblock %}

@@ -136,8 +136,11 @@ INSTALLED_APPS = (
 
     'interface',
     'category',
+    'menu',
 
     'debug_toolbar',
+    'stdimage',
+    'widget_tweaks'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
