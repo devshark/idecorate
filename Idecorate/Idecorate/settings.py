@@ -136,6 +136,7 @@ INSTALLED_APPS = (
 
     'interface',
     'category',
+    'menu',
 
     'debug_toolbar',
     'stdimage',
