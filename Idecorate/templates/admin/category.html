@@ -63,13 +63,48 @@ legend {
 			{% csrf_token %}
 			{{ form.parent }}
 			{{ form.id }}
+
+			{% if form.name.errors or form.thumbnail.errors %}
+
+			<div class="alert alert-error">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Please correct the following errors:</h4>
+			  <ol>
+			  	{% if form.name.errors %}
+					{% for e in form.name.errors %}
+						<li>{{ e }}</li>
+					{% endfor %}
+			  	{% endif %}
+			  	{% if form.thumbnail.errors %}
+					{% for e in form.thumbnail.errors %}
+						<li>{{ e }}</li>
+					{% endfor %}
+			  	{% endif %}
+			  </ol>
+			</div>
+
+			{% endif %}	
+
+
+			{% if messages and info_message  %}
+
+			<div class="alert alert-success">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Success!</h4>
+			  {% for message in messages %}
+			  	{{ message }}
+			  {% endfor %}
+			</div>
+
+			{% endif %}
+
 			<div class="rowForm">
 				<div class="pull-left span3">
 					{{ form.name|add_class:"input"|attr:"placeholder:Category Name" }}
 				</div>
 				<div class="pull-left" id="pre-view">
 					{% if cat %}
-					<img src="{{ site_url }}{{ MEDIA_URL }}{{ cat.thumbnail }}" />
+					<img src="{{ media_url }}{{ cat.thumbnail }}" />
 					{% endif %}
 				</div>
 				<div class="pull-left">
@@ -113,26 +148,31 @@ legend {
 	<div>
 		<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Ordering</a>
 	</div>
+ 
+	<!-- Modal -->
+	<input type="hidden" id="cat_id" name="cat_id" value="" />
+	<div class="modal hide fade" id="myModal">
+        <div class="modal-header">
+        	<button type="button" class="close" data-dismiss="modal">×</button>
+        	<h3>Confirm Delete</h3>
+        </div>
+        <div class="modal-body">
+        	<p>Are you sure want to delete this Category?</p>
+        	</div>
+        	<div class="modal-footer">
+        	<a href="#" id="btnDismiss" class="btn" data-dismiss="modal">Cancel</a>
+        	<a href="#" id="modalConfirm" class="btn btn-primary">Confirm</a>
+        </div>
+	</div>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
-<script type="text/javascript">
-
+<script type="text/javascript">	
 	$(document).ready(function(){
-
 		$('#categories a.cat').click(function(){
 			$('#ddl-name').text($(this).find('span').text());
 			$('#id_parent').val(this.rel);
 		});
-
-		// $('.sortable').draggable();
-		// $('.sortable').droppable({
-	 //        drop: function(ev, ui) {
-	 //            var dropped = ui.draggable;
-	 //            var droppedOn = $(this);
-	 //            $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);
-	 //        }
-	 //    });
 
         $('.sortable').nestedSortable({
 			disableNesting: 'no-nest',
@@ -166,10 +206,42 @@ legend {
         });
 
         $('#btnSaveOrdering').click(function(e){
+        	var data = new Array();
+        	$('.sortable li').each(function(e,ui){
+        		data[e] = ui.id.split('_')[1]    		
+        	});
+
+        	var csrf = ""
+			$('input:hidden').each(function(){
+				if ($(this).attr('name')=='csrfmiddlewaretoken'){
+					csrf = $(this).val()
+				}
+			});
+
+        	var p = $.param({ cat : data});
+        	console.log(p);        	
+
+			$.ajax({
+				url: "{% url order_category %}",
+				type: "POST",
+				data: decodeURIComponent(p),
+				async:   false,
+				success: function(msg){
+					//JAKOL
+				},
+				error: function(msg) {
+					//error message here
+				}
+			});
+
 		});
 
-		$('.btn-delete').click(function(){
-			var csrf = ""
+		$('.btn-delete').click(function(){			
+			$('#cat_id').val(this.rel);
+		});
+
+		$('#modalConfirm').click(function(){
+        	var csrf = ""
 			$('input:hidden').each(function(){
 				if ($(this).attr('name')=='csrfmiddlewaretoken'){
 					csrf = $(this).val()
@@ -178,11 +250,15 @@ legend {
 
 			var delurl = '{% url remove_category %}';
 			var elm = this;
-			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$(this).rel()}, function(data){
-				if (data)
-					$(elm).parent().parent().parent().remove();
+			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$('#cat_id').val()}, function(data){
+				if (data > 0)
+					$('#list_'+$('#cat_id').val()).fadeOut('slow', function(){
+						$(this).remove();
+					});
 			});
-		});
+			$('#btnDismiss').trigger('click');
+			return false;
+        });
 
 	});
 

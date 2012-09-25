@@ -4,6 +4,8 @@ from category.models import Categories
 from menu.models import InfoMenu, SiteMenu, FooterMenu
 from category.services import get_sub_categories
 from django.core.urlresolvers import reverse
+from django.contrib.sites.models import Site
+from Idecorate.services import get_media_url
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -47,26 +49,6 @@ def checkPasswordError(request, isControlGroup):
 	return ""
 
 @register.filter
-def getSubCategories(categories):
-	tags = ""
-	for cat in categories:
-		subcats = get_sub_categories(cat.id)
-
-		cls = ''
-		if subcats.count() > 0:
-			cls = 'class="sub-menu"'
-
-		tags += '''
-			<li %s><a href="#" rel="%s" class="cat"><span>%s</span></a>
-		''' % (cls, cat.id, cat.name)
-
-		if subcats.count() > 0:
-			tags += recursiveSubCat(cat.id)
-		tags += "</li>"
-
-	return mark_safe(tags)
-
-@register.filter
 def getMenus(menus, id):
 
 	return menuRecursion(menus, id)
@@ -108,6 +90,26 @@ def menuRecursion(menus, id):
 
 	return mark_safe(element)
 
+@register.filter
+def getSubCategories(categories):
+	tags = ""
+	for cat in categories:
+		subcats = get_sub_categories(cat.id)
+
+		cls = ''
+		if subcats.count() > 0:
+			cls = 'class="sub-menu"'
+
+		tags += '''
+			<li %s><a href="#" rel="%s" class="cat"><span>%s</span></a>
+		''' % (cls, cat.id, cat.name)
+
+		if subcats.count() > 0:
+			tags += recursiveSubCat(cat.id)
+		tags += "</li>"
+
+	return mark_safe(tags)
+
 def recursiveSubCat(parent_id):
 
 	cats = get_sub_categories(parent_id)
@@ -128,24 +130,38 @@ def recursiveSubCat(parent_id):
 
 @register.filter
 def generateProductCategories(categories):
-	tags = ''
+	tags = """
+		<div class="tab-pane active" id="info_manage_cat">
+			<ol class="sortable">
+		"""
 	for cat in categories:
 		subcats = get_sub_categories(cat.id)		
 		cat_name = cat.name
-		if subcats.count() > 0:
-			cat_name = '<span class="togglePlus">+</span> %s' % cat_name
+
+		src = "%s%s" % (get_media_url(), cat.thumbnail)
+
+		plus_sign = '+' if subcats.count() > 0 else '&nbsp;'
 
 		tags += '''
-			<div class="tab-pane active" id="info_manage_menu_%s">			
-				<ol class="sortable" id="sortable_parent_%s">
-				    <li id="list_%s" class="ui-state-default">
-				    	<div class="title-holder"><span class="ui-icon ui-icon-arrowthick-2-n-s pull-left"></span><span class="pull-left">%s</span><span class="pull-right"><a href="%s">Edit</a> | <a href="#" rel="%s" class="btn-delete">Delete</a></span></div>
-				''' % (cat.id, cat.id, cat.id, cat_name, reverse('edit_category', args=[cat.id]), cat.id)
+			<li id="list_%s" class="ui-state-default">
+				    	<div class="title-holder">
+				    		<span class="pull-left togglePlus">%s</span>
+				    		<span class="pull-left">%s</span>
+				    		<span class="pull-right"><a href="%s">Edit</a> 
+				    		| 
+				    		<a href="#myModal" rel="%s" role="button" class="btn-delete" data-toggle="modal">Delete</a></span>
+				    	</div>
+				''' % (cat.id, plus_sign, cat_name, reverse('edit_category', args=[cat.id]), cat.id)
 		if subcats.count() > 0:
 			tags += generateProductSubCategories(cat.id)
 
-		tags += '''</li></ol>
-		  	</div>'''
+		tags += '''
+			</li>
+			'''
+
+	tags += """</ol>
+		  	</div>
+		  """
 
 	return mark_safe(tags)
 
@@ -156,12 +172,17 @@ def generateProductSubCategories(parent_id):
 		subcats = get_sub_categories(cat.id)
 
 		cat_name = cat.name
-		if subcats.count() > 0:
-			cat_name = '<span class="togglePlus">+</span> %s %s' % (cat_name, subcats.count())
+		plus_sign = '+' if subcats.count() > 0 else '&nbsp;'
 
 		tags += '''
-			<li id="list_%s" class="ui-state-default"><div class="title-holder"><span class="ui-icon ui-icon-arrowthick-2-n-s pull-left"></span> <span class="pull-left">%s</span> <span class="pull-right"><a href="%s">Edit</a> | <a href="#" rel="%s" class="btn-delete">Delete</a></span></div>
-		''' % (cat.id, cat_name, reverse('edit_category', args=[cat.id]), cat.id)
+			<li id="list_%s" class="ui-state-default">
+				<div class="title-holder">
+					<span class="pull-left togglePlus">%s</span>
+					<span class="pull-left">%s</span> 
+					<span class="pull-right"><a href="%s">Edit</a> | 
+					<a href="#myModal" rel="%s" role="button" class="btn-delete" data-toggle="modal">Delete</a></span>
+				</div>
+		''' % (cat.id, plus_sign, cat_name, reverse('edit_category', args=[cat.id]), cat.id)
 
 		if subcats.count() > 0:
 			tags += generateProductSubCategories(cat.id)
