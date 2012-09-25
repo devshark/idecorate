@@ -17,7 +17,7 @@ legend {
     font-size: 1.2em;
     font-weight: bold;
     border-bottom: 0;
-}*/
+}
 .rowForm {
 	padding-top: 20px;
 	height: 100px;
@@ -52,100 +52,133 @@ legend {
 }
 #categories{
 	margin-top: 37px;
+}*/
+.form-inline fieldset{
+	margin: 15px 0 0 0;
+}
+
+.form-inline fieldset .formContent{
+	display: inline-block;
+	zoom:1;
+	*display: inline;
+	height: 30px;
+	vertical-align: bottom;
+	margin: 5px 2px 0 0;
+}
+
+.form-inline fieldset .formContent#preview{
+	width: 100px;
+	height: 100px;
+	padding: 5px;
+	border: 1px solid #EEEEEE;
+	display: none;
+}
+
+.form-inline fieldset .formContent.dropDown{
+	width: 150px !important;
+}
+
+.tab-content{
+	margin-bottom: 15px;
+}
+
+.tab-content .tab-pane .ui-state-default div{
+	height: 21px;
+	padding: 6px;
+}
+
+.submitForm{
+	text-align: right;
 }
 </style>
 {% endblock %}
 {% block content %}
 	<h1>{% trans "Manage Product Categories" %}</h1>
-	<form method="post" class="form-inline" action="" enctype="multipart/form-data">
+	<div class="formWrap">
+		{% if form.name.errors or form.thumbnail.errors %}
+
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert" href="#">×</a>
+			<h4 class="alert-heading">Please correct the following errors:</h4>
+			<ol>
+				{% if form.name.errors %}
+				{% for e in form.name.errors %}
+				<li>{{ e }}</li>
+				{% endfor %}
+				{% endif %}
+				{% if form.thumbnail.errors %}
+				{% for e in form.thumbnail.errors %}
+				<li>{{ e }}</li>
+				{% endfor %}
+				{% endif %}
+			</ol>
+		</div>
+
+		{% endif %}	
+
+
+		{% if messages and info_message  %}
+
+		<div class="alert alert-success">
+		  <a class="close" data-dismiss="alert" href="#">×</a>
+		  <h4 class="alert-heading">Success!</h4>
+		  {% for message in messages %}
+		  	{{ message }}
+		  {% endfor %}
+		</div>
+
+		{% endif %}
+		<form method="post" class="form-inline" action="" enctype="multipart/form-data">
 		<fieldset>
 			<legend>{{ heade_title }}</legend>
 			{% csrf_token %}
 			{{ form.parent }}
 			{{ form.id }}
 
-			{% if form.name.errors or form.thumbnail.errors %}
-
-			<div class="alert alert-error">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Please correct the following errors:</h4>
-			  <ol>
-			  	{% if form.name.errors %}
-					{% for e in form.name.errors %}
-						<li>{{ e }}</li>
-					{% endfor %}
-			  	{% endif %}
-			  	{% if form.thumbnail.errors %}
-					{% for e in form.thumbnail.errors %}
-						<li>{{ e }}</li>
-					{% endfor %}
-			  	{% endif %}
-			  </ol>
+			<div class="formContent">
+				{{ form.name|add_class:"input"|attr:"placeholder:Category Name" }}
 			</div>
-
-			{% endif %}	
-
-
-			{% if messages and info_message  %}
-
-			<div class="alert alert-success">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Success!</h4>
-			  {% for message in messages %}
-			  	{{ message }}
-			  {% endfor %}
+			
+			<div class="formContent" id="preview" {% if cat %} style="display:inline-block" {% endif %}>
+				{% if cat %}
+				<img src="{{ media_url }}{{ cat.thumbnail }}" />
+				{% endif %}
 			</div>
-
-			{% endif %}
-
-			<div class="rowForm">
-				<div class="pull-left span3">
-					{{ form.name|add_class:"input"|attr:"placeholder:Category Name" }}
+			
+			<div class="formContent">
+				{{ form.thumbnail }}
+			</div>
+			<div class="formContent dropDown">									
+				<div id="categories" class="btn-group span12">
+					<button class="btn btn-primary span10" id="ddl-name">
+						{% if cat %}
+							{{ parent }}
+						{% else %}
+							--- Parent ----
+						{% endif %}
+					</button>
+					<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>						
+					<ul class="dropdown-menu">
+						<li><a href="#" rel="" class="cat">--- Parent ----</a></li>
+						{{ categories|getSubCategories }}
+					</ul>
 				</div>
-				<div class="pull-left" id="pre-view">
-					{% if cat %}
-					<img src="{{ media_url }}{{ cat.thumbnail }}" />
-					{% endif %}
-				</div>
-				<div class="pull-left">
-					{{ form.thumbnail }}					
-				</div>
-				<div class="pull-left span1 center-text">
-					Parent
-				</div>
-				<div class="pull-left span2">									
-					<div id="categories" class="btn-group span12">
-						<button class="btn btn-primary span10" id="ddl-name">
-							{% if cat %}
-								{{ parent }}
-							{% else %}
-								------------
-							{% endif %}
-						</button>
-						<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
-							<span class="caret"></span>
-						</button>						
-						<ul class="dropdown-menu">
-							<li><a href="#" rel="" class="cat">------------</a></li>
-							{{ categories|getSubCategories }}
-						</ul>
-					</div>
-				</div>
-				<div class="pull-left">
-					{% if cat %}
-					<a href="{% url category %}" class="btn">Cancel</a>
-					{% endif %}
-					<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
-				</div>
+			</div>
+			<div class="formContent">
+				{% if cat %}
+				<a href="{% url category %}" class="btn">Cancel</a>
+				{% endif %}
+				<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
 			</div>
 		</fieldset>
-	</form>
-	<div class="well">
-		<div class="tab-content">
-			{{ categories|generateProductCategories }}
-		</div>
+		</form>
 	</div>
-	<div>
+	<div class="tab-content">
+		{{ categories|generateProductCategories }}
+	</div>
+	<div class="submitForm">
 		<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Ordering</a>
 	</div>
  
@@ -167,7 +200,36 @@ legend {
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
-<script type="text/javascript">	
+<script type="text/javascript">
+	
+	function getMenuHiearchy() {
+
+		/**
+			ID:INDEX:PARENT
+		**/
+
+		var str = "";
+		var ctr = 0;
+
+		$("#info_manage_cat li").each(function(e,v){
+
+			str += this.id.split('_')[1];
+			str += ':' + ($(this).index() + 1);
+
+			if($(this).parents('li').hasClass('parent')) {
+				str += ':None;';
+			} else {
+				$(this).parents('li').each(function(e,v){
+					str += ':' + this.id.split('_')[1]; + ';';
+				});	
+			}
+
+
+		});
+
+		return str;
+	}
+
 	$(document).ready(function(){
 		$('#categories a.cat').click(function(){
 			$('#ddl-name').text($(this).find('span').text());
@@ -190,36 +252,42 @@ legend {
 			rootID: true
         });
 
-        $('#id_thumbnail').change(function(e){
-        	for (var i=0;i<e.originalEvent.srcElement.files.length; i++){
-        		var file = e.originalEvent.srcElement.files[i];
-        		var img = document.createElement('img');
-        		var reader = new FileReader();
-        		reader.onloadend = function(){
-        			img.src = reader.result;
-        			img.width = 100;
-        			img.height = 100;
-        		}
-        		reader.readAsDataURL(file);
-        		$('#pre-view').html(img);
-        	}
-        });
+    	$('#id_thumbnail').change(function(){
+    		if (this.files && this.files[0]) {
+	            var reader = new FileReader();
+
+	            reader.onload = function (e) {
+	                $('#preview')
+	                	.css('display','inline-block')
+	                	.html('<img id="previewImg" src="'+e.target.result+'" alt="your image" />');
+	                $('#previewImg')
+	                    .width(100)
+	                    .height(100);
+	            };
+
+	            reader.readAsDataURL(this.files[0]);
+	        }
+    	});
+
 
         $('#btnSaveOrdering').click(function(e){
         	var data = new Array();
-        	$('.sortable li').each(function(e,ui){
-        		data[e] = ui.id.split('_')[1]    		
-        	});
+        	$("#info_manage_cat li").each(function(e,v){
 
-        	var csrf = ""
-			$('input:hidden').each(function(){
-				if ($(this).attr('name')=='csrfmiddlewaretoken'){
-					csrf = $(this).val()
-				}
+        		var id = this.id.split('_')[1];
+        		var parent = '';
+
+        		if($(this).parents('li').length == 0){
+        			parent = 'None';
+        		} else {
+        			parent = $(this).parents('li').attr('id').split('_')[1];
+        		}
+
+        		data[e] = id + ':' + ($(this).index() + 1) + ':' + parent;
+
 			});
 
         	var p = $.param({ cat : data});
-        	console.log(p);        	
 
 			$.ajax({
 				url: "{% url order_category %}",
@@ -227,10 +295,10 @@ legend {
 				data: decodeURIComponent(p),
 				async:   false,
 				success: function(msg){
-					//JAKOL
+					
 				},
 				error: function(msg) {
-					//error message here
+					
 				}
 			});
 

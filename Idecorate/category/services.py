@@ -65,9 +65,14 @@ def delete_sub_category(parent_id):
 def update_order(data):
 	cid = data['id']
 	order = data['order']
+	parent = data['parent']
 	try:
 		category = Categories.objects.get(id=cid)
 		category.order = order
+		try:
+			category.parent = Categories.objects.get(id=parent)
+		except:
+			pass
 		category.save()
 	except:
 		pass
