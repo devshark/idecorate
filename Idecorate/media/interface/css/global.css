@@ -107,6 +107,40 @@ h4 {
 h5 {
   font-size: 1em; }
 
+#header {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #EEEEEE; }
+
+.headerColumn {
+  display: inline-block;
+  width: 338px; }
+  .headerColumn a {
+    text-decoration: none;
+    color: #333333;
+    font-size: 1.2em; }
+
+#info-menu, #logo {
+  margin-right: 2px; }
+
+#info-menu {
+  vertical-align: top; }
+  #info-menu ul {
+    margin-bottom: 5px; }
+    #info-menu ul li {
+      display: inline-block;
+      padding: 0 3px; }
+
+#logo h1, #logo h3 {
+  text-align: center; }
+
+#site-menu {
+  vertical-align: top;
+  text-align: right; }
+  #site-menu ul li {
+    display: inline-block;
+    padding: 0 3px; }
+
 p {
   font-size: 1.1em;
   line-height: 1.2em; }
@@ -115,4 +149,24 @@ p {
   padding: 15px 0; }
 
 #sidebar {
+  float: left;
+  width: 260px;
+  padding: 10px 0; }
+  #sidebar ul li {
+    padding: 2px; }
+    #sidebar ul li a {
+      text-decoration: none;
+      color: #333333;
+      font-size: 1.2em; }
+
+footer .copyright {
   float: left; }
+footer .footerMenus {
+  float: right; }
+  footer .footerMenus ul li {
+    padding: 2px;
+    display: inline-block; }
+    footer .footerMenus ul li a {
+      text-decoration: none;
+      color: #333333;
+      font-size: 1.1em; }

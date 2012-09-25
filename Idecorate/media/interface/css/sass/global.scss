@@ -105,6 +105,55 @@ h3{ font-size: 1.5em;}
 h4{ font-size: 1.3em;} 
 h5{ font-size: 1em;}
 
+#header{
+	margin-bottom:15px;
+	padding-bottom:15px;
+	border-bottom:1px solid #EEEEEE;
+}
+
+.headerColumn{
+	display: inline-block;
+	width:338px;
+
+	a{
+		text-decoration:none;
+		color: #333333;
+		font-size:1.2em;
+	}
+}
+
+#info-menu,#logo{
+	margin-right:2px;
+}
+
+#info-menu{
+	vertical-align:top;
+	ul{
+		margin-bottom:5px;
+		li{
+			display:inline-block;
+			padding: 0 3px;
+		}
+	}
+}
+
+#logo{
+	h1,h3{
+		text-align:center;
+	}
+}
+
+#site-menu{
+	vertical-align:top;
+	text-align:right;
+	ul{
+		li{
+			display:inline-block;
+			padding: 0 3px;
+		}
+	}
+}
+
 p{
 	font-size: 1.1em;
 	line-height: 1.2em;
@@ -116,4 +165,40 @@ p{
 
 #sidebar{
 	float: left;
+	width: 260px;
+	padding:10px 0;
+
+	ul{
+
+		li{
+			padding:2px;
+			a{
+				text-decoration: none;
+				color:#333333;
+				font-size:1.2em;
+			}
+		}
+	}
+}
+
+footer{
+	
+	.copyright{
+		float:left;
+	}
+	.footerMenus{
+		float:right;
+		ul{
+
+			li{
+				padding:2px;
+				display:inline-block;
+				a{
+					text-decoration: none;
+					color:#333333;
+					font-size:1.1em;
+				}
+			}
+		}
+	}
 }
