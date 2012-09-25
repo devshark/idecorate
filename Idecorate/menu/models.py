@@ -43,3 +43,13 @@ class FooterMenu(models.Model):
 		db_table = 'footer_menu'
 		ordering = ["id"]
 		verbose_name = _("Footer Menu")
+
+class FooterCopyright(models.Model):
+	id = models.AutoField(db_column='id', primary_key=True)
+	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	copyright = models.CharField(db_column='copyright', max_length=256, blank=True)
+
+	class Meta:
+		db_table = 'footer_copyright'
+		ordering = ["id"]
+		verbose_name = _("Footer Copyright")

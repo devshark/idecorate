@@ -95,7 +95,7 @@ def menuRecursion(menus, id):
 		else:
 			menuType = 3
 
-		element += '<li class="ui-state-default"><div><span style="display:inline-block;float:right;"><a href="#" onclick="deleteMenu(\'%s\')">DELETE</a></span><span class="menu_id" style="display:none;">%s</span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>%s</div>' % (reverse('admin_delete_menu', args=[menu.id,menuType]),menu.id,menu.name)
+		element += '<li class="ui-state-default"><div><span style="display:inline-block;float:right;"><a data-toggle="modal" href="#myModal" onclick="setEdit(\'%s\',\'%s\',\'%s\',\'%s\')">Edit</a> | <a href="#" onclick="deleteMenu(\'%s\')">Delete</a></span><span class="menu_id" style="display:none;">%s</span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>%s</div>' % (menu.id,menu.name,menu.link,menuType,reverse('admin_delete_menu', args=[menu.id,menuType]),menu.id,menu.name)
 
 		if menus.model == type(InfoMenu()):
 
