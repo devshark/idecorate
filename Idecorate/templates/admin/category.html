@@ -53,6 +53,11 @@ legend {
 #categories{
 	margin-top: 37px;
 }*/
+
+#categories ul {
+	list-style-type: none;
+}
+
 .form-inline fieldset{
 	margin: 15px 0 0 0;
 }
@@ -90,53 +95,92 @@ legend {
 .submitForm{
 	text-align: right;
 }
+.plus {
+	margin-right: 5px;
+}
 </style>
 {% endblock %}
 {% block content %}
 	<h1>{% trans "Manage Product Categories" %}</h1>
 	<div class="formWrap">
+		{% if form.name.errors or form.thumbnail.errors %}
+
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert" href="#">×</a>
+			<h4 class="alert-heading">Please correct the following errors:</h4>
+			<ol>
+				{% if form.name.errors %}
+				{% for e in form.name.errors %}
+				<li>{{ e }}</li>
+				{% endfor %}
+				{% endif %}
+				{% if form.thumbnail.errors %}
+				{% for e in form.thumbnail.errors %}
+				<li>{{ e }}</li>
+				{% endfor %}
+				{% endif %}
+			</ol>
+		</div>
+
+		{% endif %}	
+
+
+		{% if messages and info_message  %}
+
+		<div class="alert alert-success">
+		  <a class="close" data-dismiss="alert" href="#">×</a>
+		  <h4 class="alert-heading">Success!</h4>
+		  {% for message in messages %}
+		  	{{ message }}
+		  {% endfor %}
+		</div>
+
+		{% endif %}
 		<form method="post" class="form-inline" action="" enctype="multipart/form-data">
-			<fieldset>
-				<legend>{{ heade_title }}</legend>
-				{% csrf_token %}
-				{{ form.parent }}
-				{{ form.id }}
-					<div class="formContent">
-						{{ form.name|add_class:"input"|attr:"placeholder:Category Name" }}
-					</div>
-					<div class="formContent" id="preview">
+		<fieldset>
+			<legend>{{ heade_title }}</legend>
+			{% csrf_token %}
+			{{ form.parent }}
+			{{ form.id }}
+
+			<div class="formContent">
+				{{ form.name|add_class:"input"|attr:"placeholder:Category Name" }}
+			</div>
+			
+			<div class="formContent" id="preview" {% if cat %} style="display:inline-block" {% endif %}>
+				{% if cat %}
+				<img src="{{ media_url }}{{ cat.thumbnail }}" />
+				{% endif %}
+			</div>
+			
+			<div class="formContent">
+				{{ form.thumbnail }}
+			</div>
+			<div class="formContent dropDown">									
+				<div id="categories" class="btn-group span12">
+					<button class="btn btn-primary span10" id="ddl-name">
 						{% if cat %}
-						<img src="{{ site_url }}{{ MEDIA_URL }}{{ cat.thumbnail }}" />
+							{{ parent }}
+						{% else %}
+							--- Parent ----
 						{% endif %}
-					</div>
-					<div class="formContent">
-						{{ form.thumbnail }}					
-					</div>
-					<div class="formContent dropDown">									
-						<div id="categories" class="btn-group span12">
-							<button class="btn btn-primary span10" id="ddl-name">
-								{% if cat %}
-									{{ parent }}
-								{% else %}
-									--- Parent ----
-								{% endif %}
-							</button>
-							<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
-								<span class="caret"></span>
-							</button>						
-							<ul class="dropdown-menu">
-								<li><a href="#" rel="" class="cat">--- Parent ----</a></li>
-								{{ categories|getSubCategories }}
-							</ul>
-						</div>
-					</div>
-					<div class="formContent">
-						{% if cat %}
-						<a href="{% url category %}" class="btn">Cancel</a>
-						{% endif %}
-						<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
-					</div>
-			</fieldset>
+					</button>
+					<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
+						<span class="caret"></span>
+					</button>						
+					<ul class="dropdown-menu">
+						<li><a href="#" rel="" class="cat">--- Parent ----</a></li>
+						{{ categories|getSubCategories }}
+					</ul>
+				</div>
+			</div>
+			<div class="formContent">
+				{% if cat %}
+				<a href="{% url category %}" class="btn">Cancel</a>
+				{% endif %}
+				<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
+			</div>
+		</fieldset>
 		</form>
 	</div>
 	<div class="tab-content">
@@ -145,26 +189,31 @@ legend {
 	<div class="submitForm">
 		<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Ordering</a>
 	</div>
+ 
+	<!-- Modal -->
+	<input type="hidden" id="cat_id" name="cat_id" value="" />
+	<div class="modal hide fade" id="myModal">
+        <div class="modal-header">
+        	<button type="button" class="close" data-dismiss="modal">×</button>
+        	<h3>Confirm Delete</h3>
+        </div>
+        <div class="modal-body">
+        	<p>Are you sure want to delete this Category?</p>
+        	</div>
+        	<div class="modal-footer">
+        	<a href="#" id="btnDismiss" class="btn" data-dismiss="modal">Cancel</a>
+        	<a href="#" id="modalConfirm" class="btn btn-primary">Confirm</a>
+        </div>
+	</div>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
 <script type="text/javascript">
-
 	$(document).ready(function(){
-
 		$('#categories a.cat').click(function(){
 			$('#ddl-name').text($(this).find('span').text());
 			$('#id_parent').val(this.rel);
 		});
-
-		// $('.sortable').draggable();
-		// $('.sortable').droppable({
-	 //        drop: function(ev, ui) {
-	 //            var dropped = ui.draggable;
-	 //            var droppedOn = $(this);
-	 //            $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);
-	 //        }
-	 //    });
 
         $('.sortable').nestedSortable({
 			disableNesting: 'no-nest',
@@ -201,10 +250,50 @@ legend {
 
 
         $('#btnSaveOrdering').click(function(e){
+        	var data = new Array();
+        	$("#info_manage_cat li").each(function(e,v){
+
+        		var id = this.id.split('_')[1];
+        		var parent = '';
+
+        		if($(this).parents('li').length == 0){
+        			parent = 'None';
+        		} else {
+        			parent = $(this).parents('li').attr('id').split('_')[1];
+        		}
+
+        		data[e] = id + ':' + ($(this).index() + 1) + ':' + parent;
+
+        		// if ($(this).children().find('li').length > 0)
+        		// 	$(this).find('span.plus').text('+');
+        		// else
+        		// 	$(this).find('span.plus').html('&nbsp;');
+
+			});
+
+        	var p = $.param({ cat : data});
+
+			$.ajax({
+				url: "{% url order_category %}",
+				type: "POST",
+				data: decodeURIComponent(p),
+				async:   false,
+				success: function(msg){
+					
+				},
+				error: function(msg) {
+					
+				}
+			});
+
 		});
 
-		$('.btn-delete').click(function(){
-			var csrf = ""
+		$('.btn-delete').click(function(){			
+			$('#cat_id').val(this.rel);
+		});
+
+		$('#modalConfirm').click(function(){
+        	var csrf = ""
 			$('input:hidden').each(function(){
 				if ($(this).attr('name')=='csrfmiddlewaretoken'){
 					csrf = $(this).val()
@@ -213,11 +302,15 @@ legend {
 
 			var delurl = '{% url remove_category %}';
 			var elm = this;
-			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$(this).rel()}, function(data){
-				if (data)
-					$(elm).parent().parent().parent().remove();
+			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$('#cat_id').val()}, function(data){
+				if (data > 0)
+					$('#list_'+$('#cat_id').val()).fadeOut('slow', function(){
+						$(this).remove();
+					});
 			});
-		});
+			$('#btnDismiss').trigger('click');
+			return false;
+        });
 
 	});
 

@@ -8,12 +8,13 @@ from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import CategoryForm, MenuAddForm, FooterCopyRightForm
-from category.services import save_category, delete_category
+from category.services import save_category, delete_category, update_order
 
 from category.models import Categories
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
+from Idecorate.services import get_media_url
 
 
 @staff_member_required
@@ -311,12 +312,15 @@ def category(request, cat_id=None):
 	info['heade_title'] = 'Add New Category'
 
 	site = Site.objects.get_current()
-	info['site_url'] = site.domain
+	info['media_url'] = get_media_url()
 	form = CategoryForm()
+
+	msg = 'New Category saved.'
+
 	if cat_id:
 		try:
 			cat = Categories.objects.get(id=cat_id)
-			parent_name = '------------'
+			parent_name = '--- Parent ----'
 			try:
 				parent = cat.parent.id
 				parent_name = cat.parent.name
@@ -327,6 +331,7 @@ def category(request, cat_id=None):
 			info['heade_title'] = 'Edit Category'
 			info['parent'] = parent_name
 			form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id})
+			msg = 'Edit Category saved.'
 		except Exception as e:
 			print e
 			pass
@@ -336,9 +341,11 @@ def category(request, cat_id=None):
 		if form.is_valid():
 			data = form.cleaned_data
 			res = save_category(data)
+			if res:
+				messages.success(request, _(msg))
 			return redirect('category')
 
-	categories = Categories.objects.filter(parent__id=None)
+	categories = Categories.objects.filter(parent__id=None).order_by('order')
 	info['form'] = form
 	info['categories'] = categories
 	return render_to_response('admin/category.html', info, RequestContext(request))
@@ -348,5 +355,28 @@ def remove_category(request):
 	if request.method == 'POST':
 		cat_id = request.POST['cat_id']
 		res = delete_category(cat_id)
-		if res:
-			return redirect('category')
+		if res:			
+			return HttpResponse('1')
+		else:
+			return HttpResponse('0')
+
+@staff_member_required
+def order_category(request):
+	if request.method == 'POST':
+		#print request.POST
+		cats = request.POST.getlist('cat[]')			
+		for cat in cats:
+			splited = cat.split(':')
+			cid = int(splited[0])
+			order = int(splited[1])
+			parent = None
+			if splited[2] != 'None':
+				parent = int(splited[2])
+			data = {}
+			data['id'] = cid
+			data['order'] = order
+			data['parent'] = parent
+			
+			update_order(data)
+
+	return HttpResponse('1')

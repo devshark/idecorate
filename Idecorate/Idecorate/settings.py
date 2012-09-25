@@ -149,6 +149,7 @@ INSTALLED_APPS = (
 
 # Add to your settings file
 CONTENT_TYPES = ['image']
+# 2MB - 2097152
 # 2.5MB - 2621440
 # 5MB - 5242880
 # 10MB - 10485760
@@ -157,7 +158,10 @@ CONTENT_TYPES = ['image']
 # 100MB 104857600
 # 250MB - 214958080
 # 500MB - 429916160
-MAX_UPLOAD_CATEGORY_IMAGE_SIZE = "2621440"
+MAX_UPLOAD_CATEGORY_IMAGE_SIZE = 2097152
+
+CATEGORY_THUMBNAIL_WIDTH = 100
+CATEGORY_THUMBNAIL_HEIGHT = 100
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -187,3 +191,8 @@ LOGGING = {
         },
     }
 }
+
+try:
+    from localsettings import *
+except:
+    pass
