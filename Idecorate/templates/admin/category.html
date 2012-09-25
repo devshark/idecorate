@@ -185,9 +185,11 @@ legend {
 	<div class="tab-content">
 		{{ categories|generateProductCategories }}
 	</div>
+	{% if categories %}
 	<div class="submitForm">
 		<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Ordering</a>
 	</div>
+	{% endif %}
  
 	<!-- Modal -->
 	<input type="hidden" id="cat_id" name="cat_id" value="" />
@@ -262,12 +264,6 @@ legend {
         		}
 
         		data[e] = id + ':' + ($(this).index() + 1) + ':' + parent;
-
-        		// if ($(this).children().find('li').length > 0)
-        		// 	$(this).find('span.plus').text('+');
-        		// else
-        		// 	$(this).find('span.plus').html('&nbsp;');
-
 			});
 
         	var p = $.param({ cat : data});
