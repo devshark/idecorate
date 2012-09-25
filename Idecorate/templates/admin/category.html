@@ -53,6 +53,11 @@ legend {
 #categories{
 	margin-top: 37px;
 }*/
+
+#categories ul {
+	list-style-type: none;
+}
+
 .form-inline fieldset{
 	margin: 15px 0 0 0;
 }
@@ -89,6 +94,9 @@ legend {
 
 .submitForm{
 	text-align: right;
+}
+.plus {
+	margin-right: 5px;
 }
 </style>
 {% endblock %}
@@ -201,35 +209,6 @@ legend {
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
 <script type="text/javascript">
-	
-	function getMenuHiearchy() {
-
-		/**
-			ID:INDEX:PARENT
-		**/
-
-		var str = "";
-		var ctr = 0;
-
-		$("#info_manage_cat li").each(function(e,v){
-
-			str += this.id.split('_')[1];
-			str += ':' + ($(this).index() + 1);
-
-			if($(this).parents('li').hasClass('parent')) {
-				str += ':None;';
-			} else {
-				$(this).parents('li').each(function(e,v){
-					str += ':' + this.id.split('_')[1]; + ';';
-				});	
-			}
-
-
-		});
-
-		return str;
-	}
-
 	$(document).ready(function(){
 		$('#categories a.cat').click(function(){
 			$('#ddl-name').text($(this).find('span').text());
@@ -284,6 +263,11 @@ legend {
         		}
 
         		data[e] = id + ':' + ($(this).index() + 1) + ':' + parent;
+
+        		// if ($(this).children().find('li').length > 0)
+        		// 	$(this).find('span.plus').text('+');
+        		// else
+        		// 	$(this).find('span.plus').html('&nbsp;');
 
 			});
 

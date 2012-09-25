@@ -148,12 +148,12 @@ def generateProductCategories(categories):
 
 		src = "%s%s" % (get_media_url(), cat.thumbnail)
 
-		plus_sign = '+' if subcats.count() > 0 else '&nbsp;'
+		plus_sign = '&nbsp;'
 
 		tags += '''
 			<li id="list_%s" class="ui-state-default parent">
 				    	<div class="title-holder">
-				    		<span class="pull-left togglePlus">%s</span>
+				    		<span class="pull-left plus">%s</span>
 				    		<span class="pull-left">%s</span>
 				    		<span class="pull-right"><a href="%s">Edit</a> 
 				    		| 
@@ -180,12 +180,12 @@ def generateProductSubCategories(parent_id):
 		subcats = get_sub_categories(cat.id)
 
 		cat_name = cat.name
-		plus_sign = '+' if subcats.count() > 0 else '&nbsp;'
+		plus_sign = '&nbsp;'
 
 		tags += '''
 			<li id="list_%s" class="ui-state-default">
 				<div class="title-holder">
-					<span class="pull-left togglePlus">%s</span>
+					<span class="pull-left plus">%s</span>
 					<span class="pull-left">%s</span> 
 					<span class="pull-right"><a href="%s">Edit</a> | 
 					<a href="#myModal" rel="%s" role="button" class="btn-delete" data-toggle="modal">Delete</a></span>

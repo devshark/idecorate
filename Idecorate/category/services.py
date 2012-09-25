@@ -69,10 +69,12 @@ def update_order(data):
 	try:
 		category = Categories.objects.get(id=cid)
 		category.order = order
+
 		try:
 			category.parent = Categories.objects.get(id=parent)
 		except:
-			pass
+			category.parent = None
+		
 		category.save()
 	except:
 		pass

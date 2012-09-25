@@ -256,7 +256,7 @@ def category(request, cat_id=None):
 	if cat_id:
 		try:
 			cat = Categories.objects.get(id=cat_id)
-			parent_name = '------------'
+			parent_name = '--- Parent ----'
 			try:
 				parent = cat.parent.id
 				parent_name = cat.parent.name
