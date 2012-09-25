@@ -125,8 +125,7 @@ legend {
 		{% endif %}	
 
 
-		{% if messages and info_message  %}
-
+		{% if messages %}
 		<div class="alert alert-success">
 		  <a class="close" data-dismiss="alert" href="#">×</a>
 		  <h4 class="alert-heading">Success!</h4>
@@ -149,7 +148,7 @@ legend {
 			
 			<div class="formContent" id="preview" {% if cat %} style="display:inline-block" {% endif %}>
 				{% if cat %}
-				<img src="{{ media_url }}{{ cat.thumbnail }}" />
+				<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" />
 				{% endif %}
 			</div>
 			

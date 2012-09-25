@@ -5,7 +5,6 @@ from menu.models import InfoMenu, SiteMenu, FooterMenu
 from category.services import get_sub_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
-from Idecorate.services import get_media_url
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -145,8 +144,6 @@ def generateProductCategories(categories):
 	for cat in categories:
 		subcats = get_sub_categories(cat.id)		
 		cat_name = cat.name
-
-		src = "%s%s" % (get_media_url(), cat.thumbnail)
 
 		plus_sign = '&nbsp;'
 
