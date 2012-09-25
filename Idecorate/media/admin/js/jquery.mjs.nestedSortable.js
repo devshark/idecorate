@@ -241,7 +241,7 @@
 		},
 
 		serialize: function(options) {
-
+			
 			var o = $.extend({}, this.options, options),
 				items = this._getItemsAsjQuery(o && o.connected),
 			    str = [];

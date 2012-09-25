@@ -3,6 +3,7 @@ CREATE TABLE `info_menu` (
     `ID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `parent_id` integer,
     `name` varchar(256) NOT NULL,
+    `link` varchar(256) NOT NULL,
     `order` integer NOT NULL,
     `created` date NOT NULL
 )
@@ -12,6 +13,7 @@ CREATE TABLE `site_menu` (
     `ID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `parent_id` integer,
     `name` varchar(256) NOT NULL,
+    `link` varchar(256) NOT NULL,
     `order` integer NOT NULL,
     `created` date NOT NULL
 )
@@ -21,6 +23,7 @@ CREATE TABLE `footer_menu` (
     `ID` integer AUTO_INCREMENT NOT NULL PRIMARY KEY,
     `parent_id` integer,
     `name` varchar(256) NOT NULL,
+    `link` varchar(256) NOT NULL,
     `order` integer NOT NULL,
     `created` date NOT NULL
 )

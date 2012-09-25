@@ -1,5 +1,5 @@
 {% extends "admin/base.html" %}
-{% load i18n %}
+{% load i18n widget_tweaks admin %}
 
 {% block title %}
     {% trans "iDecorate CMS" %}
@@ -10,7 +10,7 @@
 {% endblock %}
 
 {% block content %}
-	<h3>{% trans "Manage Menu" %}</h3>
+	<h1>{% trans "Manage Menu" %}</h1>
 	<div>&nbsp;</div>
 	<div>
 		<ul class="nav nav-tabs" id="manage_menu">
@@ -21,48 +21,186 @@
 		 
 		<div class="tab-content">
 		  <div class="tab-pane active" id="info_manage_menu">
-			
-			<ol class="sortable" id="sortable1">
-			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
-			    <li class="ui-state-default">
-			        <div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div>
-			        <ol>
-			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
-			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
-			        </ol>
-			    </li>
-			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
-			</ol>
+
+			{% if form_info_menu.name.errors or form_info_menu.link.errors  %}
+
+			<div class="alert alert-error">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Please correct the following errors:</h4>
+			  <ol>
+			  	{% if form_info_menu.name.errors %}
+					{% for e in form_info_menu.name.errors %}
+						<li>{{ e }}</li>
+					{% endfor %}
+			  	{% endif %}
+			  	{% if form_info_menu.link.errors %}
+					{% for e in form_info_menu.link.errors %}
+						<li>{{ e }}</li>
+					{% endfor %}
+			  	{% endif %}
+			  </ol>
+			</div>
+
+			{% endif %}	
+
+
+			{% if messages and info_message  %}
+
+			<div class="alert alert-success">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Success!</h4>
+			  {% for message in messages %}
+			  	{{ message }}
+			  {% endfor %}
+			</div>
+
+			{% endif %}	
+
+			<form class="form-inline" action="" method="post">
+				{% csrf_token %}
+				{{ form_info_menu.menu_type }}
+				<label class="checkbox">
+			  		{{ form_info_menu.name|add_class:"input-large"|attr:"placeholder:Name" }}
+				</label>
+				<label class="checkbox">
+			  		{{ form_info_menu.link|add_class:"input-large"|attr:"placeholder:Link" }}
+			  	</label>
+			  	<button type="submit" class="btn btn-primary">Add Menu</button>
+			</form>
+
+			{{ info_menus|getMenus:"sortable1" }}
+
+			<div class="form-actions">
+				<form action="" method="post" id="info_arrange">
+				{% csrf_token %}
+				<input type="hidden" name="menu_type" value="1" />
+				<input type="hidden" name="task" value="arrange" />
+				<input type="hidden" name="arrangement" value="" />
+  				<button type="button" class="btn btn-primary">Save changes</button>
+  				</form>
+			</div>
 
 		  </div>
 		  <div class="tab-pane" id="site_manage_menu">
 
-			<ol class="sortable" id="sortable1">
-			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
-			    <li class="ui-state-default">
-			        <div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div>
-			        <ol>
-			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
-			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
-			        </ol>
-			    </li>
-			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
-			</ol>
+
+			{% if form_site_menu.name.errors or form_site_menu.link.errors  %}
+
+			<div class="alert alert-error">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Please correct the following errors:</h4>
+			  <ol>
+			  	{% if form_site_menu.name.errors %}
+					{% for e in form_site_menu.name.errors %}
+						<li>{{ e }}</li>
+					{% endfor %}
+			  	{% endif %}
+			  	{% if form_site_menu.link.errors %}
+					{% for e in form_site_menu.link.errors %}
+						<li>{{ e }}</li>
+					{% endfor %}
+			  	{% endif %}
+			  </ol>
+			</div>
+
+			{% endif %}	
+
+			{% if messages and site_message  %}
+
+			<div class="alert alert-success">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Success!</h4>
+			  {% for message in messages %}
+			  	{{ message }}
+			  {% endfor %}
+			</div>
+
+			{% endif %}	
+
+			<form class="form-inline" action="" method="post">
+				{% csrf_token %}
+				{{ form_site_menu.menu_type }}
+				<label class="checkbox">
+			  		{{ form_site_menu.name|add_class:"input-large"|attr:"placeholder:Name" }}
+				</label>
+				<label class="checkbox">
+			  		{{ form_site_menu.link|add_class:"input-large"|attr:"placeholder:Link" }}
+			  	</label>
+			  	<button type="submit" class="btn btn-primary">Add Menu</button>
+			</form>
+
+			{{ site_menus|getMenus:"sortable2" }}
+
+			<div class="form-actions">
+				<form action="" method="post" id="site_arrange">
+				{% csrf_token %}
+				<input type="hidden" name="menu_type" value="2" />
+				<input type="hidden" name="task" value="arrange" />
+				<input type="hidden" name="arrangement" value="" />
+  				<button type="button" class="btn btn-primary">Save changes</button>
+  				</form>
+			</div>
 
 		  </div>
 		  <div class="tab-pane" id="footer_manage_menu">
 
-			<ol class="sortable" id="sortable1">
-			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
-			    <li class="ui-state-default">
-			        <div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div>
-			        <ol>
-			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
-			            <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some sub-item content</div></li>
-			        </ol>
-			    </li>
-			    <li class="ui-state-default"><div><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Some content</div></li>
-			</ol>
+			{% if form_footer_menu.name.errors or form_footer_menu.link.errors  %}
+
+			<div class="alert alert-error">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Please correct the following errors:</h4>
+			  <ol>
+			  	{% if form_footer_menu.name.errors %}
+					{% for e in form_footer_menu.name.errors %}
+						<li>{{ e }}</li>
+					{% endfor %}
+			  	{% endif %}
+			  	{% if form_footer_menu.link.errors %}
+					{% for e in form_footer_menu.link.errors %}
+						<li>{{ e }}</li>
+					{% endfor %}
+			  	{% endif %}
+			  </ol>
+			</div>
+
+			{% endif %}	
+
+
+			{% if messages and footer_message  %}
+
+			<div class="alert alert-success">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Success!</h4>
+			  {% for message in messages %}
+			  	{{ message }}
+			  {% endfor %}
+			</div>
+
+			{% endif %}	
+
+			<form class="form-inline" action="" method="post">
+				{% csrf_token %}
+				{{ form_footer_menu.menu_type }}
+				<label class="checkbox">
+			  		{{ form_footer_menu.name|add_class:"input-large"|attr:"placeholder:Name" }}
+				</label>
+				<label class="checkbox">
+			  		{{ form_footer_menu.link|add_class:"input-large"|attr:"placeholder:Link" }}
+			  	</label>
+			  	<button type="submit" class="btn btn-primary">Add Menu</button>
+			</form>
+
+			{{ footer_menus|getMenus:"sortable3" }}
+
+			<div class="form-actions">
+				<form action="" method="post" id="footer_arrange">
+				{% csrf_token %}
+				<input type="hidden" name="menu_type" value="3" />
+				<input type="hidden" name="task" value="arrange" />
+				<input type="hidden" name="arrangement" value="" />
+  				<button type="button" class="btn btn-primary">Save changes</button>
+  				</form>
+			</div>
 
 		  </div>
 		</div>
@@ -72,7 +210,68 @@
 	<script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
 	<script type="text/javascript">
 
+		function getMenuHiearchy(id) {
+
+			/**
+				ID:INDEX:PARENT
+			**/
+
+			str = "";
+			ctr = 0;
+
+			$("#" + id + " li").each(function(e,v){
+
+
+				$(this).find('span.menu_id').each(function(e,v){
+					if(e == 0) {
+						str += $(this).text();
+					}
+				});
+
+				str += ':' + ($(this).index() + 1);
+
+
+				if($(this).parents('li').find('span.menu_id').text() == "") {
+					str += ':None;';
+				} else {
+					$(this).parents('li').find('span.menu_id').each(function(e,v){
+						if(e == 0) {
+							str += ':' + $(this).text() + ';';
+						}
+					});	
+				}
+
+
+			});
+
+			return str;
+		}
+
+		function submitArrangement(id,sortable) {
+			
+			hi = getMenuHiearchy(sortable);
+
+			$(id + ' input[name="arrangement"]').val(hi);
+
+			$(id).submit();
+		}
+
 		$(function(e){
+
+			$('#info_arrange .btn').click(function(e){
+
+				submitArrangement('#info_arrange','sortable1');
+			});
+
+			$('#site_arrange .btn').click(function(e){
+
+				submitArrangement('#site_arrange','sortable2');
+			});
+
+			$('#footer_arrange .btn').click(function(e){
+
+				submitArrangement('#footer_arrange','sortable3');
+			});
 
 			$('#manage_menu a').click(function (e) {
   				e.preventDefault();
@@ -85,7 +284,7 @@
 				handle: 'div',
 				helper:	'clone',
 				items: 'li',
-				maxLevels: 3,
+				maxLevels: 0,
 				opacity: .6,
 				placeholder: 'placeholder',
 				revert: 250,
@@ -94,7 +293,20 @@
 				toleranceElement: '> div'
 	        });
 
+	        {% if menu_type %}
+	        	{% if menu_type == "1" %}
+	        $('#manage_menu a[href="#info_manage_menu"]').tab('show');
+	        	{% endif %}
+	        	{% if menu_type == "2" %}
+	        $('#manage_menu a[href="#site_manage_menu"]').tab('show');
+	        	{% endif %}
+	        	{% if menu_type == "3" %}
+	        $('#manage_menu a[href="#footer_manage_menu"]').tab('show');
+	        	{% endif %}
+	        {% endif %}
+
 		});
+
 
 	</script>
 {% endblock %}
