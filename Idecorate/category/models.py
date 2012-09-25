@@ -7,7 +7,7 @@ class Categories(models.Model):
 	parent = models.ForeignKey('self',db_column='parent_id', null=True)
 	name = models.CharField(db_column='name', max_length=256, blank=True)
 	order = models.IntegerField(db_column='order', null=True)
-	thumbnail = StdImageField(upload_to='categories/thumbnail', thumbnail_size=(100, 100, True))
+	thumbnail = StdImageField(upload_to='categories/thumbnail', size=(100, 100))
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 
 	class Meta:

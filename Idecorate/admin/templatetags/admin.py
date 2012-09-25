@@ -2,6 +2,8 @@ from django import template
 from django.utils.safestring import mark_safe
 from category.models import Categories
 from menu.models import InfoMenu, SiteMenu, FooterMenu
+from category.services import get_sub_categories
+from django.core.urlresolvers import reverse
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -44,29 +46,11 @@ def checkPasswordError(request, isControlGroup):
 
 	return ""
 
-def recursiveSubCat(parent_id, tags):
-
-	cats = Categories.objects.filter(parent__id=parent_id)
-	tags += '<ul class="dropdown-submenu">'
-	for cat in cats:
-		subcats = Categories.objects.filter(parent__id=cat.id)
-
-		tags += '''
-			<li><a href="#" rel="%s" class="cat"> - <span>%s</span></a>
-		''' % (cat.id, cat.name)
-
-		if subcats.count() > 0:
-			tags += recursiveSubCat(cat.id, "")
-
-		tags += '</li>'
-	tags += '</ul>'
-	return tags
-
 @register.filter
 def getSubCategories(categories):
 	tags = ""
 	for cat in categories:
-		subcats = Categories.objects.filter(parent__id=cat.id)
+		subcats = get_sub_categories(cat.id)
 
 		cls = ''
 		if subcats.count() > 0:
@@ -77,7 +61,7 @@ def getSubCategories(categories):
 		''' % (cls, cat.id, cat.name)
 
 		if subcats.count() > 0:
-			tags += recursiveSubCat(cat.id, "")
+			tags += recursiveSubCat(cat.id)
 		tags += "</li>"
 
 	return mark_safe(tags)
@@ -124,22 +108,64 @@ def menuRecursion(menus, id):
 
 	return mark_safe(element)
 
+def recursiveSubCat(parent_id):
 
+	cats = get_sub_categories(parent_id)
+	tags = '<ul class="dropdown-submenu">'
+	for cat in cats:
+		subcats = get_sub_categories(cat.id)
 
-def test_recursion():
+		tags += '''
+			<li><a href="#" rel="%s" class="cat"> - <span>%s</span></a>
+		''' % (cat.id, cat.name)
 
-	cat = Categories.objects.filter(parent__id=None)
+		if subcats.count() > 0:
+			tags += recursiveSubCat(cat.id)
 
-	recursion_function(cat)
+		tags += '</li>'
+	tags += '</ul>'
+	return tags
 
+@register.filter
+def generateProductCategories(categories):
+	tags = ''
+	for cat in categories:
+		subcats = get_sub_categories(cat.id)		
+		cat_name = cat.name
+		if subcats.count() > 0:
+			cat_name = '<span class="togglePlus">+</span> %s' % cat_name
 
-def recursion_function(obj):
+		tags += '''
+			<div class="tab-pane active" id="info_manage_menu_%s">			
+				<ol class="sortable" id="sortable_parent_%s">
+				    <li id="list_%s" class="ui-state-default">
+				    	<div class="title-holder"><span class="ui-icon ui-icon-arrowthick-2-n-s pull-left"></span><span class="pull-left">%s</span><span class="pull-right"><a href="%s">Edit</a> | <a href="#" rel="%s" class="btn-delete">Delete</a></span></div>
+				''' % (cat.id, cat.id, cat.id, cat_name, reverse('edit_category', args=[cat.id]), cat.id)
+		if subcats.count() > 0:
+			tags += generateProductSubCategories(cat.id)
 
-	print obj.count()
+		tags += '''</li></ol>
+		  	</div>'''
 
-	for o in obj:
+	return mark_safe(tags)
 
-		cat = Categories.objects.filter(parent__id=o.id)
+def generateProductSubCategories(parent_id):
+	cats = get_sub_categories(parent_id)
+	tags = '<ol id="parent_id_%s">' % parent_id
+	for cat in cats:
+		subcats = get_sub_categories(cat.id)
 
-		recursion_function(cat)
+		cat_name = cat.name
+		if subcats.count() > 0:
+			cat_name = '<span class="togglePlus">+</span> %s %s' % (cat_name, subcats.count())
 
+		tags += '''
+			<li id="list_%s" class="ui-state-default"><div class="title-holder"><span class="ui-icon ui-icon-arrowthick-2-n-s pull-left"></span> <span class="pull-left">%s</span> <span class="pull-right"><a href="%s">Edit</a> | <a href="#" rel="%s" class="btn-delete">Delete</a></span></div>
+		''' % (cat.id, cat_name, reverse('edit_category', args=[cat.id]), cat.id)
+
+		if subcats.count() > 0:
+			tags += generateProductSubCategories(cat.id)
+
+		tags += '</li>'
+	tags += '</ol>'
+	return tags

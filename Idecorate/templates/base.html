@@ -7,6 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
+        <link rel="stylesheet" type="text/css" href="media/interface/css/global.css">
+        <link rel="stylesheet" type="text/css" href="media/interface/css/home.css">
 
         {%  block style %}{% endblock %}
 
@@ -17,16 +19,17 @@
         
     </head>
     <body>
-        <div class="container">
+        <div id="main-container">
             <header id="header">
                 {% include "header.html" %}
             </header>
 
-            <section id="content">
+            <div id="content">
                 {% block content %}
                 {% endblock %}
-            </section>
-            <footer id="footer">
+            </div>
+            
+            <footer id="footer" class="clearfix">
                 {% include "footer.html" %}                
             </footer>
         </div> <!-- /container -->

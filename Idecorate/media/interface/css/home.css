@@ -1,0 +1,110 @@
+.banner {
+  float: right;
+  width: 720px;
+  box-shadow: 5px 5px 20px #DDDEE5;
+  padding: 15px; }
+  .banner .dummyBannerImg {
+    float: left;
+    width: 300px;
+    height: 300px;
+    background-color: #DDDEE5; }
+  .banner .dummyBannerInfoWrap {
+    float: right;
+    width: 405px; }
+    .banner .dummyBannerInfoWrap h1 {
+      margin-bottom: 10px; }
+    .banner .dummyBannerInfoWrap p {
+      margin-bottom: 10px;
+      font-size: 1.2em; }
+    .banner .dummyBannerInfoWrap a {
+      color: #333333;
+      font-size: 1.4em;
+      text-decoration: none;
+      text-align: center;
+      display: block;
+      margin-bottom: 10px; }
+  .banner .dummyBannerInfoItem {
+    font-size: 0;
+    text-align: center; }
+    .banner .dummyBannerInfoItem h2 {
+      text-align: center;
+      font-size: 20px;
+      margin-bottom: 10px; }
+    .banner .dummyBannerInfoItem a {
+      display: inline-block;
+      height: 50px;
+      width: 95px;
+      padding-top: 45px;
+      font-size: 10px;
+      background-color: #DDDEE5;
+      margin-right: 5px;
+      position: relative;
+      color: #999999; }
+      .banner .dummyBannerInfoItem a span {
+        position: absolute;
+        top: 105%;
+        left: 0;
+        display: block;
+        width: 95px;
+        text-align: center;
+        color: #666666; }
+
+section {
+  clear: both;
+  margin-top: 15px; }
+  section h2 {
+    margin-bottom: 20px; }
+
+.featureContentWrap {
+  float: left;
+  width: 490px;
+  padding: 5px;
+  margin-bottom: 16px;
+  border: 2px solid #EEEEEE; }
+  .featureContentWrap .featureImg {
+    width: 490px;
+    height: 250px;
+    background-color: #DDDEE5; }
+  .featureContentWrap h3 {
+    margin: 5px 0;
+    background-color: #EEEEEE;
+    padding: 5px; }
+  .featureContentWrap .featureDesc {
+    font-size: 1.1em;
+    float: left;
+    width: 65%;
+    line-height: 1.2em; }
+  .featureContentWrap .featurePrice {
+    float: right;
+    width: 20%;
+    text-align: right; }
+    .featureContentWrap .featurePrice h5 {
+      font-size: 1.5em; }
+    .featureContentWrap .featurePrice p {
+      font-size: 1.2em; }
+  .featureContentWrap .featureFooter {
+    clear: both;
+    margin: 5px 0;
+    background-color: #EEEEEE;
+    padding: 5px; }
+    .featureContentWrap .featureFooter span {
+      width: 15px;
+      height: 15px;
+      display: inline-block;
+      border: 1px solid #CCCCCC;
+      position: relative; }
+      .featureContentWrap .featureFooter span p {
+        position: absolute;
+        left: 130%;
+        top: 2px;
+        font-size: 11px;
+        white-space: nowrap;
+        color: #333333; }
+
+.featureContentWrap,
+.featureContentWrap + .featureContentWrap + .featureContentWrap {
+  margin-right: 16px; }
+
+.featureContentWrap + .featureContentWrap,
+.featureContentWrap + .featureContentWrap + .featureContentWrap + .featureContentWrap {
+  margin-right: 0; }

@@ -147,6 +147,18 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
+# Add to your settings file
+CONTENT_TYPES = ['image']
+# 2.5MB - 2621440
+# 5MB - 5242880
+# 10MB - 10485760
+# 20MB - 20971520
+# 50MB - 5242880
+# 100MB 104857600
+# 250MB - 214958080
+# 500MB - 429916160
+MAX_UPLOAD_CATEGORY_IMAGE_SIZE = "2621440"
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
