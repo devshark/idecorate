@@ -29,4 +29,6 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_manage_menu/$', 'admin_manage_menu', {}, name='admin_manage_menu'),
 
     url(r'^admin/category/$', 'category', {}, name='category'),
+    url(r'^admin/category/(?P<cat_id>\d+)/', 'category', {}, name='edit_category'),
+    url(r'^admin/remove_category/$', 'remove_category', {}, name='remove_category'),
 )

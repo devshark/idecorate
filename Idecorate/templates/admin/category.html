@@ -5,6 +5,7 @@
     {% trans "iDecorate CMS" %}
 {% endblock %}
 {% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
 <style type="text/css">
 /*fieldset {
     border: 1px solid #DDD;
@@ -19,6 +20,8 @@ legend {
 }*/
 .rowForm {
 	padding-top: 20px;
+	height: 100px;
+	line-height: 100px;
 }
 
 .center-text {
@@ -31,25 +34,59 @@ legend {
 #categories button.btn {
 	text-align: left;
 }
+.ui-state-default div.title-holder {
+	padding: 6px;
+	line-height: 21px;
+	height: 21px;
+}
+.ui-icon {
+	margin-top: 2px;
+}
+.togglePlus {
+	width: 10px;
+	cursor: pointer;
+}
+#pre-view{
+	width: 100px;
+	height: 100px;
+}
+#categories{
+	margin-top: 37px;
+}
 </style>
 {% endblock %}
 {% block content %}
 	<h1>{% trans "Manage Product Categories" %}</h1>
-	<form method="post" class="form-inline" action="">
+	<form method="post" class="form-inline" action="" enctype="multipart/form-data">
 		<fieldset>
-			<legend>Add new category</legend>
+			<legend>{{ heade_title }}</legend>
 			{% csrf_token %}
 			{{ form.parent }}
+			{{ form.id }}
 			<div class="rowForm">
-				<div class="pull-left span4">
+				<div class="pull-left span3">
 					{{ form.name|add_class:"input"|attr:"placeholder:Category Name" }}
+				</div>
+				<div class="pull-left" id="pre-view">
+					{% if cat %}
+					<img src="{{ site_url }}{{ MEDIA_URL }}{{ cat.thumbnail }}" />
+					{% endif %}
+				</div>
+				<div class="pull-left">
+					{{ form.thumbnail }}					
 				</div>
 				<div class="pull-left span1 center-text">
 					Parent
 				</div>
 				<div class="pull-left span2">									
 					<div id="categories" class="btn-group span12">
-						<button class="btn btn-primary span10" id="ddl-name">------------</button>
+						<button class="btn btn-primary span10" id="ddl-name">
+							{% if cat %}
+								{{ parent }}
+							{% else %}
+								------------
+							{% endif %}
+						</button>
 						<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
 							<span class="caret"></span>
 						</button>						
@@ -59,25 +96,95 @@ legend {
 						</ul>
 					</div>
 				</div>
-				<div class="pull-left span1">
-					<input class="btn span12 btn-primary" type="submit" value="Add">
+				<div class="pull-left">
+					{% if cat %}
+					<a href="{% url category %}" class="btn">Cancel</a>
+					{% endif %}
+					<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
 				</div>
 			</div>
 		</fieldset>
 	</form>
 	<div class="well">
-		{% for cat in categories %}
-		<div> + {{ cat.name }}</div>
-		{% endfor %}
+		<div class="tab-content">
+			{{ categories|generateProductCategories }}
+		</div>
+	</div>
+	<div>
+		<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Ordering</a>
 	</div>
 {% endblock %}
 {% block javascripts %}
+<script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
 <script type="text/javascript">
-$(document).ready(function(){
-	$('#categories a.cat').click(function(){
-		$('#ddl-name').text($(this).find('span').text());
-		$('#id_parent').val(this.rel);
+
+	$(document).ready(function(){
+
+		$('#categories a.cat').click(function(){
+			$('#ddl-name').text($(this).find('span').text());
+			$('#id_parent').val(this.rel);
+		});
+
+		// $('.sortable').draggable();
+		// $('.sortable').droppable({
+	 //        drop: function(ev, ui) {
+	 //            var dropped = ui.draggable;
+	 //            var droppedOn = $(this);
+	 //            $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);
+	 //        }
+	 //    });
+
+        $('.sortable').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			helper:	'clone',
+			items: 'li',
+			maxLevels: 0,
+			opacity: .6,
+			placeholder: 'placeholder',
+			revert: 250,
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div',
+			rootID: true
+        });
+
+        $('#id_thumbnail').change(function(e){
+        	for (var i=0;i<e.originalEvent.srcElement.files.length; i++){
+        		var file = e.originalEvent.srcElement.files[i];
+        		var img = document.createElement('img');
+        		var reader = new FileReader();
+        		reader.onloadend = function(){
+        			img.src = reader.result;
+        			img.width = 100;
+        			img.height = 100;
+        		}
+        		reader.readAsDataURL(file);
+        		$('#pre-view').html(img);
+        	}
+        });
+
+        $('#btnSaveOrdering').click(function(e){
+		});
+
+		$('.btn-delete').click(function(){
+			var csrf = ""
+			$('input:hidden').each(function(){
+				if ($(this).attr('name')=='csrfmiddlewaretoken'){
+					csrf = $(this).val()
+				}
+			});
+
+			var delurl = '{% url remove_category %}';
+			var elm = this;
+			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$(this).rel()}, function(data){
+				if (data)
+					$(elm).parent().parent().parent().remove();
+			});
+		});
+
 	});
-});
+
 </script>
 {% endblock %}

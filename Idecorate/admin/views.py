@@ -8,9 +8,10 @@ from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import CategoryForm
-from admin.services import save_category
+from category.services import save_category, delete_category
 
 from category.models import Categories
+from django.contrib.sites.models import Site
 
 @staff_member_required
 def admin(request):
@@ -86,13 +87,35 @@ def admin_logout(request):
 	return redirect('admin')
 
 @staff_member_required
-def category(request):
+def category(request, cat_id=None):
 	info = {}
-	parent = None	
+	parent = None
+	info['method'] = 'Add'
+	info['heade_title'] = 'Add New Category'
+
+	site = Site.objects.get_current()
+	info['site_url'] = site.domain
 	form = CategoryForm()
+	if cat_id:
+		try:
+			cat = Categories.objects.get(id=cat_id)
+			parent_name = '------------'
+			try:
+				parent = cat.parent.id
+				parent_name = cat.parent.name
+			except:
+				pass
+			info['cat'] = cat
+			info['method'] = 'Save'
+			info['heade_title'] = 'Edit Category'
+			info['parent'] = parent_name
+			form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id})
+		except Exception as e:
+			print e
+			pass
 
 	if request.method == 'POST':
-		form = CategoryForm(request.POST)
+		form = CategoryForm(request.POST, request.FILES)
 		if form.is_valid():
 			data = form.cleaned_data
 			res = save_category(data)
@@ -102,3 +125,11 @@ def category(request):
 	info['form'] = form
 	info['categories'] = categories
 	return render_to_response('admin/category.html', info, RequestContext(request))
+
+@staff_member_required
+def remove_category(request):
+	if request.method == 'POST':
+		cat_id = request.POST['cat_id']
+		res = delete_category(cat_id)
+		if res:
+			return redirect('category')
