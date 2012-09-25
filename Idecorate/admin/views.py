@@ -30,11 +30,23 @@ def admin_manage_menu(request):
     form_site_menu = MenuAddForm(initial={'menu_type':'2'})
     form_footer_menu = MenuAddForm(initial={'menu_type':'3'})
 
-    info_menus = InfoMenu.objects.filter(parent__id=None).order_by('order')
-    site_menus = SiteMenu.objects.filter(parent__id=None).order_by('order')
-    footer_menus = FooterMenu.objects.filter(parent__id=None).order_by('order')
+    info_menus = InfoMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
+    site_menus = SiteMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
+    footer_menus = FooterMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
 
     task = request.POST.get('task', None)
+
+    if 'menu_type' in request.session:
+    	info['menu_type'] = request.session['menu_type']
+    	del request.session['menu_type']
+
+    	if str(info['menu_type']) == "3":
+
+    		info['footer_message'] = True
+    	elif str(info['menu_type']) == "2":
+    		info['site_message'] = True
+    	else:
+    		info['info_message'] = True
 
     if request.method == 'POST':
 
@@ -148,7 +160,23 @@ def admin_manage_menu(request):
 
 @staff_member_required
 def admin_delete_menu(request,id_delete,menuType):
-	pass
+	
+	menu = None
+
+	if str(menuType) == "1":
+		menu = InfoMenu.objects.get(id=int(id_delete))
+	elif str(menuType) == "2":
+		menu = SiteMenu.objects.get(id=int(id_delete))
+	else:
+		menu = FooterMenu.objects.get(id=int(id_delete))
+
+	menu.deleted = True
+	menu.save()
+
+	request.session['menu_type'] = menuType
+	messages.success(request, _('Menu deleted.'))
+
+	return redirect('admin_manage_menu')
 
 def admin_login(request):
 

@@ -8,6 +8,7 @@ class InfoMenu(models.Model):
 	link = models.CharField(db_column='link', max_length=256, blank=True)
 	order = models.IntegerField(db_column='order')
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	deleted = models.BooleanField(db_column="deleted", default=False)
 
 	class Meta:
 		db_table = 'info_menu'
@@ -21,6 +22,7 @@ class SiteMenu(models.Model):
 	link = models.CharField(db_column='link', max_length=256, blank=True)
 	order = models.IntegerField(db_column='order')
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	deleted = models.BooleanField(db_column="deleted", default=False)
 
 	class Meta:
 		db_table = 'site_menu'
@@ -35,6 +37,7 @@ class FooterMenu(models.Model):
 	link = models.CharField(db_column='link', max_length=256, blank=True)
 	order = models.IntegerField(db_column='order')
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	deleted = models.BooleanField(db_column="deleted", default=False)
 
 	class Meta:
 		db_table = 'footer_menu'

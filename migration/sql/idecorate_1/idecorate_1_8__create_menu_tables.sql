@@ -5,7 +5,8 @@ CREATE TABLE `info_menu` (
     `name` varchar(256) NOT NULL,
     `link` varchar(256) NOT NULL,
     `order` integer NOT NULL,
-    `created` date NOT NULL
+    `created` date NOT NULL,
+    `deleted` bool NOT NULL
 )
 ;
 ALTER TABLE `info_menu` ADD CONSTRAINT `parent_id_refs_ID_22cfb85` FOREIGN KEY (`parent_id`) REFERENCES `info_menu` (`ID`);
@@ -15,7 +16,8 @@ CREATE TABLE `site_menu` (
     `name` varchar(256) NOT NULL,
     `link` varchar(256) NOT NULL,
     `order` integer NOT NULL,
-    `created` date NOT NULL
+    `created` date NOT NULL,
+    `deleted` bool NOT NULL
 )
 ;
 ALTER TABLE `site_menu` ADD CONSTRAINT `parent_id_refs_ID_78c535f3` FOREIGN KEY (`parent_id`) REFERENCES `site_menu` (`ID`);
@@ -25,7 +27,8 @@ CREATE TABLE `footer_menu` (
     `name` varchar(256) NOT NULL,
     `link` varchar(256) NOT NULL,
     `order` integer NOT NULL,
-    `created` date NOT NULL
+    `created` date NOT NULL,
+    `deleted` bool NOT NULL
 )
 ;
 ALTER TABLE `footer_menu` ADD CONSTRAINT `parent_id_refs_ID_3f55b077` FOREIGN KEY (`parent_id`) REFERENCES `footer_menu` (`ID`);
