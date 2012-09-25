@@ -75,6 +75,7 @@ def menuRecursion(menus, id):
 
 	element = ""
 	needToOpen = True
+	menuType = 0
 
 	for menu in menus:
 		if menu.parent is None:
@@ -87,18 +88,25 @@ def menuRecursion(menus, id):
 				element += '<ol>'
 				needToOpen = False
 
-		element += '<li class="ui-state-default"><div><span style="display:inline-block;float:right;"><a href="#">DELETE</a></span><span class="menu_id" style="display:none;">%s</span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>%s</div>' % (menu.id,menu.name)
+		if menus.model == type(InfoMenu()):
+			menuType = 1
+		elif menus.model == type(SiteMenu()):
+			menuType = 2
+		else:
+			menuType = 3
+
+		element += '<li class="ui-state-default"><div><span style="display:inline-block;float:right;"><a href="#" onclick="deleteMenu(\'%s\')">DELETE</a></span><span class="menu_id" style="display:none;">%s</span><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>%s</div>' % (reverse('admin_delete_menu', args=[menu.id,menuType]),menu.id,menu.name)
 
 		if menus.model == type(InfoMenu()):
 
-			sub_menus = InfoMenu.objects.filter(parent__id=menu.id).order_by('order')
+			sub_menus = InfoMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuRecursion(sub_menus, "")
 
 		elif menus.model == type(SiteMenu()):
-			sub_menus = SiteMenu.objects.filter(parent__id=menu.id).order_by('order')
+			sub_menus = SiteMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuRecursion(sub_menus, "")
 		else:
-			sub_menus = FooterMenu.objects.filter(parent__id=menu.id).order_by('order')
+			sub_menus = FooterMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuRecursion(sub_menus, "")
 
 		element +='</li>'
