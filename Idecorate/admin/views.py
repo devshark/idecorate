@@ -14,7 +14,6 @@ from category.models import Categories
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
-from Idecorate.services import get_media_url
 
 
 @staff_member_required
@@ -312,7 +311,6 @@ def category(request, cat_id=None):
 	info['heade_title'] = 'Add New Category'
 
 	site = Site.objects.get_current()
-	info['media_url'] = get_media_url()
 	form = CategoryForm()
 
 	msg = 'New Category saved.'
