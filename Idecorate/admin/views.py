@@ -36,6 +36,18 @@ def admin_manage_menu(request):
 
     task = request.POST.get('task', None)
 
+    if 'menu_type' in request.session:
+    	info['menu_type'] = request.session['menu_type']
+    	del request.session['menu_type']
+
+    	if str(info['menu_type']) == "3":
+
+    		info['footer_message'] = True
+    	elif str(info['menu_type']) == "2":
+    		info['site_message'] = True
+    	else:
+    		info['info_message'] = True
+
     if request.method == 'POST':
 
 		info['menu_type'] = request.POST.get('menu_type')
@@ -160,6 +172,9 @@ def admin_delete_menu(request,id_delete,menuType):
 
 	menu.deleted = True
 	menu.save()
+
+	request.session['menu_type'] = menuType
+	messages.success(request, _('Menu deleted.'))
 
 	return redirect('admin_manage_menu')
 
