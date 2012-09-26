@@ -18,10 +18,16 @@ def get_interface_info(infoType):
 		element = '<ul>'
 
 		footer_menus = FooterMenu.objects.filter(parent=None,deleted=False).order_by('order')
+		link = ""
 
 		for menu in footer_menus:
 
-			element += '<li><a href="%s">%s</a></li>' % (menu.link, menu.name)
+			if menu.link == "":
+				link = menu.name
+			else:
+				link = '<a href="%s">%s</a>' % (menu.link, menu.name)
+
+			element += '<li>%s</li>' % link
 
 		element += '</ul>'
 
