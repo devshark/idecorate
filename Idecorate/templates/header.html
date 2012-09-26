@@ -1,13 +1,16 @@
 {% load idecorate_interface %}
 <div class="headerColumn" id="info-menu">
 	{{ "info"|getInterfaceMenus }}
-<input type="text" placeholder="Search" > 
-<input type="submit" value="Search">
+	<input type="text" placeholder="Search Products" > 
+	<input type="submit" value="Search">
 </div>
 <div class="headerColumn" id="logo">
-	<h1>Idecorate</h1>
-	<h3>Wedding</h3>
+	<a href="{% url home %}">
+		<h1>Idecorate</h1>
+		<h3>Wedding</h3>
+	</a>
 </div>
 <div class="headerColumn" id="site-menu">
 	{{ "site"|getInterfaceMenus }}
 </div>
+

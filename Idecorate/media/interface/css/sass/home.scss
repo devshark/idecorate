@@ -1,5 +1,6 @@
 $greyBrownLight: #C2BDBD;
 $margin15:15px;
+$padding15:15px;
 
 .banner{
 	float: right;
@@ -77,6 +78,8 @@ section{
 
 	h2{
 		margin-bottom: 20px;
+		padding-bottom: $padding15;
+		border-bottom:1px solid #EEEEEE;
 	}
 }
 
