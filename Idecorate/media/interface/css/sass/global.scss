@@ -158,7 +158,6 @@ ul.dropdown{
 	margin-bottom:5px;
 
 	li{ 
-		font-weight: bold; 
 		float: left; 
 		zoom: 1;
 
@@ -279,6 +278,10 @@ p{
 
 footer{
 	
+	margin-top:15px;
+	padding: $padding15 15px;
+	border-top: 1px solid #EEEEEE;
+
 	.copyright{
 		float:left;
 	}
@@ -287,14 +290,22 @@ footer{
 		ul{
 
 			li{
-				padding:2px;
+				padding:2px 5px;
 				display:inline-block;
+				zoom:1;
+				*display:inline;
+				border-left:1px solid #CCCCCC;
 				a{
 					text-decoration: none;
 					color:#333333;
 					font-size:1.1em;
 				}
 			}
+
+			li:first-child{
+				border-left:none;
+			}
 		}
 	}
 }
+

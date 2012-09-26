@@ -5,9 +5,12 @@
 	<input type="submit" value="Search">
 </div>
 <div class="headerColumn" id="logo">
-	<h1>Idecorate</h1>
-	<h3>Wedding</h3>
+	<a href="{% url home %}">
+		<h1>Idecorate</h1>
+		<h3>Wedding</h3>
+	</a>
 </div>
 <div class="headerColumn" id="site-menu">
 	{{ "site"|getInterfaceMenus }}
 </div>
+

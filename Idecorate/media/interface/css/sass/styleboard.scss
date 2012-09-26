@@ -98,6 +98,10 @@ body {
 	padding:$padding15 0;
 }
 
+h1,h2,h3,h4,h5{
+	font-weight:normal;
+}
+
 h1{ font-size: 2em;}
 h2{ font-size: 1.7em;} 
 h3{ font-size: 1.5em;} 
@@ -153,7 +157,6 @@ ul.dropdown{
 	margin-bottom:5px;
 
 	li{ 
-		font-weight: bold; 
 		float: left; 
 		zoom: 1;
 
@@ -240,7 +243,8 @@ ul.dropdown{
 footer{
 	
 	margin-top:15px;
-	padding: 0 15px;
+	border-top: 1px solid #EEEEEE;
+	padding: $padding15 15px;
 
 	.copyright{
 		float:left;
@@ -250,13 +254,20 @@ footer{
 		ul{
 
 			li{
-				padding:2px;
+				padding:2px 5px;
 				display:inline-block;
+				zoom:1;
+				*display:inline;
+				border-left:1px solid #CCCCCC;
 				a{
 					text-decoration: none;
 					color:#333333;
 					font-size:1.1em;
 				}
+			}
+
+			li:first-child{
+				border-left:none;
 			}
 		}
 	}

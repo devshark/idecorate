@@ -92,6 +92,9 @@ body {
   background-color: #FFFFFF;
   padding: 15px 0; }
 
+h1, h2, h3, h4, h5 {
+  font-weight: normal; }
+
 h1 {
   font-size: 2em; }
 
@@ -149,7 +152,6 @@ ul.dropdown {
   LEVEL TWO
   */ }
   ul.dropdown li {
-    font-weight: bold;
     float: left;
     zoom: 1; }
     ul.dropdown li a {
@@ -206,18 +208,24 @@ ul.dropdown {
 
 footer {
   margin-top: 15px;
-  padding: 0 15px; }
+  border-top: 1px solid #EEEEEE;
+  padding: 15px 15px; }
   footer .copyright {
     float: left; }
   footer .footerMenus {
     float: right; }
     footer .footerMenus ul li {
-      padding: 2px;
-      display: inline-block; }
+      padding: 2px 5px;
+      display: inline-block;
+      zoom: 1;
+      *display: inline;
+      border-left: 1px solid #CCCCCC; }
       footer .footerMenus ul li a {
         text-decoration: none;
         color: #333333;
         font-size: 1.1em; }
+    footer .footerMenus ul li:first-child {
+      border-left: none; }
 
 #sidebar {
   width: 40%;

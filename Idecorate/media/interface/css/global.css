@@ -153,7 +153,6 @@ ul.dropdown {
   LEVEL TWO
   */ }
   ul.dropdown li {
-    font-weight: bold;
     float: left;
     zoom: 1; }
     ul.dropdown li a {
@@ -230,14 +229,23 @@ p {
     #sidebar ul li:hover a {
       color: black; }
 
-footer .copyright {
-  float: left; }
-footer .footerMenus {
-  float: right; }
-  footer .footerMenus ul li {
-    padding: 2px;
-    display: inline-block; }
-    footer .footerMenus ul li a {
-      text-decoration: none;
-      color: #333333;
-      font-size: 1.1em; }
+footer {
+  margin-top: 15px;
+  padding: 15px 15px;
+  border-top: 1px solid #EEEEEE; }
+  footer .copyright {
+    float: left; }
+  footer .footerMenus {
+    float: right; }
+    footer .footerMenus ul li {
+      padding: 2px 5px;
+      display: inline-block;
+      zoom: 1;
+      *display: inline;
+      border-left: 1px solid #CCCCCC; }
+      footer .footerMenus ul li a {
+        text-decoration: none;
+        color: #333333;
+        font-size: 1.1em; }
+    footer .footerMenus ul li:first-child {
+      border-left: none; }
