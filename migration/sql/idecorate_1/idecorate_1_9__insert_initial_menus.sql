@@ -1,3 +1,3 @@
 INSERT INTO `footer_menu` VALUES (1,NULL,'Terms of Service','#',1,'2012-09-24',0),(2,NULL,'Returns Policy','#',1,'2012-09-24',0),(3,NULL,'Privacy Policy','#',1,'2012-09-24',0),(4,NULL,'Copyright','#',1,'2012-09-24',0);
-INSERT INTO `info_menu` VALUES (1,NULL,'Help','#',1,'2012-09-24',0),(2,NULL,'About','#',1,'2012-09-24',0),(3,NULL,'Contact Us','#',1,'2012-09-24',0);
+INSERT INTO `info_menu` VALUES (1,NULL,'Help','#',1,'2012-09-24',0),(2,NULL,'About','#',1,'2012-09-24',0),(3,NULL,'Contact Us','#',1,'2012-09-24',0),(4,NULL,'+852-222-2222','',1,'2012-09-24',0);
 INSERT INTO `site_menu` VALUES (1,NULL,'Ideas','#',1,'2012-09-24',0);

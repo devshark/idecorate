@@ -412,13 +412,28 @@
   				$(this).tab('show');
 			});
 
-	        $('#sortable1, #sortable2, #sortable3').nestedSortable({
+	        $('#sortable1, #sortable2').nestedSortable({
 				disableNesting: 'no-nest',
 				forcePlaceholderSize: true,
 				handle: 'div',
 				helper:	'clone',
 				items: 'li',
 				maxLevels: 0,
+				opacity: .6,
+				placeholder: 'placeholder',
+				revert: 250,
+				tabSize: 25,
+				tolerance: 'pointer',
+				toleranceElement: '> div'
+	        });
+
+	        $('#sortable3').nestedSortable({
+				disableNesting: 'no-nest',
+				forcePlaceholderSize: true,
+				handle: 'div',
+				helper:	'clone',
+				items: 'li',
+				maxLevels: 1,
 				opacity: .6,
 				placeholder: 'placeholder',
 				revert: 250,
