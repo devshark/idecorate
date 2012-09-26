@@ -7,8 +7,8 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import CategoryForm, MenuAddForm, FooterCopyRightForm
-from category.services import save_category, delete_category, update_order
+from admin.forms import CategoryForm, MenuAddForm, FooterCopyRightForm, CategoryForm2
+from category.services import save_category, delete_category, update_order, generate_admin_dropdown_category
 
 from category.models import Categories
 from menu.services import addMenu
@@ -309,8 +309,7 @@ def category(request, cat_id=None):
 	parent = None
 	info['method'] = 'Add'
 	info['heade_title'] = 'Add New Category'
-	form = CategoryForm()
-
+	
 	msg = 'New Category saved.'
 
 	if cat_id:
@@ -326,13 +325,19 @@ def category(request, cat_id=None):
 			info['method'] = 'Save'
 			info['heade_title'] = 'Edit Category'
 			info['parent'] = parent_name
-			form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id})
 			msg = 'Edit Category saved.'
+			form = CategoryForm2(initial={'name':cat.name,'parent':parent, 'id':cat.id})
 		except Exception as e:
-			pass
+			return redirect('category')
+	else:
+		form = CategoryForm()
 
 	if request.method == 'POST':
-		form = CategoryForm(request.POST, request.FILES)
+		if cat_id:
+			form = CategoryForm2(request.POST, request.FILES)
+		else:
+			form = CategoryForm(request.POST, request.FILES)
+
 		if form.is_valid():
 			data = form.cleaned_data
 			res = save_category(data)
@@ -340,7 +345,7 @@ def category(request, cat_id=None):
 				messages.success(request, _(msg))
 			return redirect('category')
 
-	categories = Categories.objects.filter(parent__id=None).order_by('order')
+	categories = Categories.objects.filter(parent__id=None, deleted=0).order_by('order')
 	info['form'] = form
 	info['categories'] = categories
 	return render_to_response('admin/category.html', info, RequestContext(request))
@@ -358,7 +363,6 @@ def remove_category(request):
 @staff_member_required
 def order_category(request):
 	if request.method == 'POST':
-		#print request.POST
 		cats = request.POST.getlist('cat[]')			
 		for cat in cats:
 			splited = cat.split(':')
@@ -374,4 +378,8 @@ def order_category(request):
 			
 			update_order(data)
 
-	return HttpResponse('1')
+		tags = generate_admin_dropdown_category()
+
+		return HttpResponse(tags)
+	else:
+		return HttpResponse('0')

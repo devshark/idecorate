@@ -1,5 +1,7 @@
-from category.models import Categories
 import os
+from django.db.models import Max
+from category.models import Categories
+from django.utils.safestring import mark_safe
 
 def save_category(data):
 	category_name = data['name']
@@ -10,6 +12,7 @@ def save_category(data):
 			os.unlink(category.thumbnail.path)
 		except:
 			category = Categories()
+			category.order = get_next_order(data['parent'])
 
 		try:
 			cat = Categories.objects.get(id=data['parent'])
@@ -17,15 +20,18 @@ def save_category(data):
 		except:
 			pass
 		
+		if data['thumbnail']:
+			category.thumbnail = data['thumbnail']
+
 		category.name = category_name
-		category.thumbnail = data['thumbnail']
+		
 		category.save()
 		return True
 	except Exception as e:
 		return False
 
 def get_sub_categories(parent_id):
-	return Categories.objects.filter(parent__id=parent_id)
+	return Categories.objects.filter(parent__id=parent_id,deleted=0)
 
 def delete_category(category_id):
 	try:
@@ -33,11 +39,8 @@ def delete_category(category_id):
 		sub_categories_count = Categories.objects.filter(parent__id=category.id).count()
 		if sub_categories_count > 0:
 			delete_sub_category(cat.id)
-		try:
-			os.unlink(category.thumbnail.path)
-		except:
-			pass
-		category.delete()
+		category.deleted = 1
+		category.save()
 		return True
 	except Exception as e:
 		return False
@@ -50,12 +53,8 @@ def delete_sub_category(parent_id):
 			if has_sub_cat > 0:
 				delete_sub_category(cat.id)
 
-		try:
-			os.unlink(sub_categories.thumbnail.path)
-		except:
-			pass
-
-		sub_categories.delete()
+		sub_categories.deleted = 1
+		sub_categories.save()
 
 	except Exception as e:
 		pass
@@ -76,3 +75,56 @@ def update_order(data):
 		category.save()
 	except:
 		pass
+
+def get_next_order(parent_id):	
+	try:
+		max_order = Categories.objects.filter(parent__id=parent_id).aggregate(Max('order'))['order__max']
+		cat = Categories.objects.get(order=max_order, parent__id=parent_id)
+		order = int(cat.order)
+		if order <= 0:
+			order = 1
+		else:
+			order = order + 1
+	except:
+		order = 1
+
+	return order
+
+def generate_admin_dropdown_category():	
+	categories = get_sub_categories(None)
+	tags = """
+		<li><a href="#" rel="" class="cat">--- Parent ----</a></li>
+	"""
+	for cat in categories:
+		subcats = get_sub_categories(cat.id)
+
+		cls = ''
+		if subcats.count() > 0:
+			cls = 'class="sub-menu"'
+
+		tags += '''
+			<li %s><a href="#" rel="%s" class="cat"><span>%s</span></a>
+		''' % (cls, cat.id, cat.name)
+
+		if subcats.count() > 0:
+			tags += generate_admin_dropdown_sub_category(cat.id)
+		tags += "</li>"
+
+	return mark_safe(tags)
+
+def generate_admin_dropdown_sub_category(parent_id):
+	cats = get_sub_categories(parent_id)
+	tags = '<ul class="dropdown-submenu">'
+	for cat in cats:
+		subcats = get_sub_categories(cat.id)
+
+		tags += '''
+			<li><a href="#" rel="%s" class="cat"> - <span>%s</span></a>
+		''' % (cat.id, cat.name)
+
+		if subcats.count() > 0:
+			tags += generate_admin_dropdown_sub_category(cat.id)
+
+		tags += '</li>'
+	tags += '</ul>'
+	return tags
