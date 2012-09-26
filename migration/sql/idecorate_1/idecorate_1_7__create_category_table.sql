@@ -5,7 +5,8 @@ CREATE TABLE `categories` (
     `name` varchar(256) NOT NULL,
     `order` integer,
     `thumbnail` varchar(100) NOT NULL,
-    `created` date NOT NULL
+    `created` date NOT NULL,
+    `deleted` integer NOT NULL
 )
 ;
 ALTER TABLE `categories` ADD CONSTRAINT `parent_id_refs_ID_d28b8177` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`ID`);
