@@ -309,8 +309,6 @@ def category(request, cat_id=None):
 	parent = None
 	info['method'] = 'Add'
 	info['heade_title'] = 'Add New Category'
-
-	site = Site.objects.get_current()
 	form = CategoryForm()
 
 	msg = 'New Category saved.'
@@ -331,7 +329,6 @@ def category(request, cat_id=None):
 			form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id})
 			msg = 'Edit Category saved.'
 		except Exception as e:
-			print e
 			pass
 
 	if request.method == 'POST':
