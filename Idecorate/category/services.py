@@ -22,7 +22,6 @@ def save_category(data):
 		category.save()
 		return True
 	except Exception as e:
-		print e
 		return False
 
 def get_sub_categories(parent_id):
@@ -31,13 +30,16 @@ def get_sub_categories(parent_id):
 def delete_category(category_id):
 	try:
 		category = Categories.objects.get(id=category_id)
-		sub_categories_count = Categories.objects.get(parent__id=category.id).count()
+		sub_categories_count = Categories.objects.filter(parent__id=category.id).count()
 		if sub_categories_count > 0:
 			delete_sub_category(cat.id)
-
+		try:
+			os.unlink(category.thumbnail.path)
+		except:
+			pass
 		category.delete()
 		return True
-	except:
+	except Exception as e:
 		return False
 
 def delete_sub_category(parent_id):
@@ -48,7 +50,29 @@ def delete_sub_category(parent_id):
 			if has_sub_cat > 0:
 				delete_sub_category(cat.id)
 
+		try:
+			os.unlink(sub_categories.thumbnail.path)
+		except:
+			pass
+
 		sub_categories.delete()
 
+	except Exception as e:
+		pass
+
+def update_order(data):
+	cid = data['id']
+	order = data['order']
+	parent = data['parent']
+	try:
+		category = Categories.objects.get(id=cid)
+		category.order = order
+
+		try:
+			category.parent = Categories.objects.get(id=parent)
+		except:
+			category.parent = None
+		
+		category.save()
 	except:
 		pass

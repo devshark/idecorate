@@ -1,5 +1,5 @@
-{% load i18n %}
-<div class="copyright">&copy; {% trans "Idecorate Wedding" %}</div>
+{% load i18n idecorate_interface %}
+<div class="copyright">{{ "footer"|get_interface_info }}</div>
 <div class="footerMenus">
 	<ul>
 		<li><a href="#">Menu_001</a></li>

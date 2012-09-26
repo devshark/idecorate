@@ -7,12 +7,12 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import CategoryForm, MenuAddForm
-from category.services import save_category, delete_category
+from admin.forms import CategoryForm, MenuAddForm, FooterCopyRightForm
+from category.services import save_category, delete_category, update_order
 
 from category.models import Categories
 from menu.services import addMenu
-from menu.models import InfoMenu, SiteMenu, FooterMenu
+from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
 
 
@@ -29,6 +29,9 @@ def admin_manage_menu(request):
     form_info_menu = MenuAddForm(initial={'menu_type':'1'})
     form_site_menu = MenuAddForm(initial={'menu_type':'2'})
     form_footer_menu = MenuAddForm(initial={'menu_type':'3'})
+
+    footer_copyright = FooterCopyright.objects.get(id=1)
+    form_footer_copyright = FooterCopyRightForm(initial={'task':'copyright','menu_type':'3','copyright':footer_copyright.copyright})
 
     info_menus = InfoMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
     site_menus = SiteMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
@@ -54,7 +57,7 @@ def admin_manage_menu(request):
 		
 		if request.POST.get('menu_type') == "1":
 
-			if task:
+			if task == "arrange":
 				arrangement = request.POST.get('arrangement')
 
 				arrangementList = arrangement.split(';')
@@ -74,6 +77,22 @@ def admin_manage_menu(request):
 				info['info_message'] = True
 				messages.success(request, _('Arrangement saved.'))
 
+			elif task == "edit":
+				general_name = request.POST.get('general_name', '')
+				general_id = request.POST.get('general_id','')
+				general_link = request.POST.get('general_link','')
+
+				info['info_message'] = True
+
+				if general_name.strip() == "":
+					info['error_edit'] = True
+				else:
+					info_menu = InfoMenu.objects.get(id=int(general_id))
+					info_menu.name = general_name
+					info_menu.link = general_link
+					info_menu.save()
+
+					messages.success(request, _('Menu saved.'))					
 			else:
 
 				form_info_menu = MenuAddForm(request.POST)
@@ -87,7 +106,7 @@ def admin_manage_menu(request):
 
 		elif request.POST.get('menu_type') == "2":
 
-			if task:
+			if task == "arrange":
 				arrangement = request.POST.get('arrangement')
 
 				arrangementList = arrangement.split(';')
@@ -106,6 +125,22 @@ def admin_manage_menu(request):
 						arrange_site.save()
 				info['site_message'] = True
 				messages.success(request, _('Arrangement saved.'))
+			elif task == "edit":
+				general_name = request.POST.get('general_name', '')
+				general_id = request.POST.get('general_id','')
+				general_link = request.POST.get('general_link','')
+
+				info['site_message'] = True
+
+				if general_name.strip() == "":
+					info['error_edit'] = True
+				else:
+					site_menu = SiteMenu.objects.get(id=int(general_id))
+					site_menu.name = general_name
+					site_menu.link = general_link
+					site_menu.save()
+
+					messages.success(request, _('Menu saved.'))	
 			else:
 
 				form_site_menu = MenuAddForm(request.POST)
@@ -119,7 +154,7 @@ def admin_manage_menu(request):
 
 		elif request.POST.get('menu_type') == "3":
 
-			if task:
+			if task == "arrange":
 				arrangement = request.POST.get('arrangement')
 
 				arrangementList = arrangement.split(';')
@@ -138,6 +173,34 @@ def admin_manage_menu(request):
 						arrange_footer.save()
 				info['footer_message'] = True
 				messages.success(request, _('Arrangement saved.'))
+			elif task == "copyright":
+				form_footer_copyright = FooterCopyRightForm(request.POST)
+
+				if form_footer_copyright.is_valid():
+					footer_copyright = FooterCopyright.objects.get(id=1)
+					footer_copyright.copyright = form_footer_copyright.cleaned_data['copyright']
+					footer_copyright.save()
+
+					form_footer_copyright = FooterCopyRightForm(initial={'task':'copyright','menu_type':'3','copyright':footer_copyright.copyright})
+
+					info['footer_message'] = True
+					messages.success(request, _('Copyright saved.'))
+			elif task == "edit":
+				general_name = request.POST.get('general_name', '')
+				general_id = request.POST.get('general_id','')
+				general_link = request.POST.get('general_link','')
+
+				info['footer_message'] = True
+
+				if general_name.strip() == "":
+					info['error_edit'] = True
+				else:
+					footer_menu = FooterMenu.objects.get(id=int(general_id))
+					footer_menu.name = general_name
+					footer_menu.link = general_link
+					footer_menu.save()
+
+					messages.success(request, _('Menu saved.'))	
 			else:
 
 				form_footer_menu = MenuAddForm(request.POST)
@@ -155,6 +218,7 @@ def admin_manage_menu(request):
     info['info_menus'] = info_menus
     info['site_menus'] = site_menus
     info['footer_menus'] = footer_menus
+    info['form_footer_copyright'] = form_footer_copyright
     return render_to_response('admin/admin_manage_menu.html',info,RequestContext(request))
 
 
@@ -245,14 +309,14 @@ def category(request, cat_id=None):
 	parent = None
 	info['method'] = 'Add'
 	info['heade_title'] = 'Add New Category'
-
-	site = Site.objects.get_current()
-	info['site_url'] = site.domain
 	form = CategoryForm()
+
+	msg = 'New Category saved.'
+
 	if cat_id:
 		try:
 			cat = Categories.objects.get(id=cat_id)
-			parent_name = '------------'
+			parent_name = '--- Parent ----'
 			try:
 				parent = cat.parent.id
 				parent_name = cat.parent.name
@@ -263,8 +327,8 @@ def category(request, cat_id=None):
 			info['heade_title'] = 'Edit Category'
 			info['parent'] = parent_name
 			form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id})
+			msg = 'Edit Category saved.'
 		except Exception as e:
-			print e
 			pass
 
 	if request.method == 'POST':
@@ -272,9 +336,11 @@ def category(request, cat_id=None):
 		if form.is_valid():
 			data = form.cleaned_data
 			res = save_category(data)
+			if res:
+				messages.success(request, _(msg))
 			return redirect('category')
 
-	categories = Categories.objects.filter(parent__id=None)
+	categories = Categories.objects.filter(parent__id=None).order_by('order')
 	info['form'] = form
 	info['categories'] = categories
 	return render_to_response('admin/category.html', info, RequestContext(request))
@@ -284,5 +350,28 @@ def remove_category(request):
 	if request.method == 'POST':
 		cat_id = request.POST['cat_id']
 		res = delete_category(cat_id)
-		if res:
-			return redirect('category')
+		if res:			
+			return HttpResponse('1')
+		else:
+			return HttpResponse('0')
+
+@staff_member_required
+def order_category(request):
+	if request.method == 'POST':
+		#print request.POST
+		cats = request.POST.getlist('cat[]')			
+		for cat in cats:
+			splited = cat.split(':')
+			cid = int(splited[0])
+			order = int(splited[1])
+			parent = None
+			if splited[2] != 'None':
+				parent = int(splited[2])
+			data = {}
+			data['id'] = cid
+			data['order'] = order
+			data['parent'] = parent
+			
+			update_order(data)
+
+	return HttpResponse('1')
