@@ -1,52 +1,13 @@
+{% load idecorate_interface %}
 <div class="headerColumn" id="info-menu">
-	<ul class="dropdown clearfix">
-		<li><a href="#">Help</a></li>
-		<li><a href="#">About</a>
-			<ul class="sub_menu">
-				<li><a href="#">About_001</a></li>
-				<li><a href="#">About_002</a>
-					<ul>
-						<li><a href="#">About_001</a></li>
-						<li><a href="#">About_002</a>
-							<ul>
-								<li><a href="#">About_001</a></li>
-								<li><a href="#">About_002</a></li>
-								<li><a href="#">About_003</a></li>
-							</ul>
-						</li>
-						<li><a href="#">About_003</a></li>
-					</ul>
-				</li>
-				<li><a href="#">About_003</a></li>
-			</ul>
-		</li>
-		<li><a href="#">Contact Us</a></li>
-		<li class="nonLink">+852-222-2222</li>
-	</ul>
-<input type="text" placeholder="Search Product" > 
-<input type="submit" value="Search">
+	{{ "info"|getInterfaceMenus }}
+	<input type="text" placeholder="Search Products" > 
+	<input type="submit" value="Search">
 </div>
 <div class="headerColumn" id="logo">
 	<h1>Idecorate</h1>
 	<h3>Wedding</h3>
 </div>
 <div class="headerColumn" id="site-menu">
-	<ul class="dropdown clearfix">
-		<li><a href="#">Menu_001</a></li>
-		<li><a href="#">Menu_002</a>
-			<ul>
-				<li><a href="#">About_001</a></li>
-				<li><a href="#">About_002</a>
-					<ul>
-						<li><a href="#">About_001</a></li>
-						<li><a href="#">About_002</a></li>
-						<li><a href="#">About_003</a></li>
-					</ul>
-				</li>
-				<li><a href="#">About_003</a></li>
-			</ul>
-		</li>
-		<li><a href="#">Menu_003</a></li>
-	</ul>
+	{{ "site"|getInterfaceMenus }}
 </div>
-

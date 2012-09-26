@@ -10,6 +10,7 @@ class Categories(models.Model):
 	order = models.IntegerField(db_column='order', null=True)
 	thumbnail = StdImageField(upload_to='categories/thumbnail', size=(settings.CATEGORY_THUMBNAIL_WIDTH, settings.CATEGORY_THUMBNAIL_HEIGHT))
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	deleted = models.IntegerField(db_column='deleted', default=0)
 
 	class Meta:
 		db_table = 'categories'

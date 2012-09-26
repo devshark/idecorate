@@ -58,7 +58,7 @@ legend {
 	list-style-type: none;
 }
 
-.form-inline fieldset{
+/*.form-inline fieldset{
 	margin: 15px 0 0 0;
 }
 
@@ -69,42 +69,64 @@ legend {
 	height: 30px;
 	vertical-align: bottom;
 	margin: 5px 2px 0 0;
-}
+}*/
 
-.form-inline fieldset .formContent#preview{
+#preview{
 	width: 100px;
 	height: 100px;
 	padding: 5px;
-	border: 1px solid #EEEEEE;
-	display: none;
+	border: 1px solid #eee;
+	margin: 0 auto !important;
+	text-align: center;
+	background: #fff;
+	line-height: 100px;
 }
-
-.form-inline fieldset .formContent.dropDown{
-	width: 150px !important;
-}
-
 .tab-content{
 	margin-bottom: 15px;
 }
-
 .tab-content .tab-pane .ui-state-default div{
 	height: 21px;
 	padding: 6px;
 }
-
 .submitForm{
 	text-align: right;
 }
 .plus {
 	margin-right: 5px;
 }
+.dropdown-menu {
+	width: 100%;
+}
+.submitBtn {
+	text-align: right;
+}
+#ddl-name {
+	width: 90%
+}
+#btn-dropdown {
+	width: 10%
+}
+#browse {
+	width: 50%;
+}
+.placeholder { 
+	color: #aaa; 
+}
 </style>
+<!--[if IE]>
+	<style type="text/css">
+		#id_name {
+			line-height: 25px;
+			border: 2px solid #ccc;
+		}
+	</style>
+<![endif]-->
 {% endblock %}
 {% block content %}
-	<h1>{% trans "Manage Product Categories" %}</h1>
-	<div class="formWrap">
+	<div class="page-header"><h1>{% trans "Manage Product Categories" %}</h1></div>
+	<div class="">
+	<div class="span3">
 		{% if form.name.errors or form.thumbnail.errors %}
-
 		<div class="alert alert-error">
 			<a class="close" data-dismiss="alert" href="#">×</a>
 			<h4 class="alert-heading">Please correct the following errors:</h4>
@@ -121,10 +143,7 @@ legend {
 				{% endif %}
 			</ol>
 		</div>
-
-		{% endif %}	
-
-
+		{% endif %}
 		{% if messages %}
 		<div class="alert alert-success">
 		  <a class="close" data-dismiss="alert" href="#">×</a>
@@ -133,64 +152,76 @@ legend {
 		  	{{ message }}
 		  {% endfor %}
 		</div>
-
 		{% endif %}
-		<form method="post" class="form-inline" action="" enctype="multipart/form-data">
-		<fieldset>
-			<legend>{{ heade_title }}</legend>
-			{% csrf_token %}
-			{{ form.parent }}
-			{{ form.id }}
+		<div class="form-horizontal">
+			<form method="post" action="" enctype="multipart/form-data">
+				<div class="well">
+					<fieldset>
+						<legend>{{ heade_title }}</legend>
+						{% csrf_token %}
+						{{ form.parent }}
+						{{ form.id }}
+						
+						
+						<div class="control-group">
+							<div id="preview">
+							{% if cat %}
+							<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" />
+							{% endif %}
+							</div>
+						</div>
 
-			<div class="formContent">
-				{{ form.name|add_class:"input"|attr:"placeholder:Category Name" }}
-			</div>
-			
-			<div class="formContent" id="preview" {% if cat %} style="display:inline-block" {% endif %}>
-				{% if cat %}
-				<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" />
-				{% endif %}
-			</div>
-			
-			<div class="formContent">
-				{{ form.thumbnail }}
-			</div>
-			<div class="formContent dropDown">									
-				<div id="categories" class="btn-group span12">
-					<button class="btn btn-primary span10" id="ddl-name">
-						{% if cat %}
-							{{ parent }}
-						{% else %}
-							--- Parent ----
-						{% endif %}
-					</button>
-					<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown">
-						<span class="caret"></span>
-					</button>						
-					<ul class="dropdown-menu">
-						<li><a href="#" rel="" class="cat">--- Parent ----</a></li>
-						{{ categories|getSubCategories }}
-					</ul>
+						<div class="control-group" style="text-align: center">
+							<input id="browse" type="button" value="Browse" class="btn btn-primary" />					
+						</div>
+
+						<div class="control-group">
+						{{ form.name|add_class:"input"|attr:"placeholder:Category Name"|add_class:'span12' }}
+						</div>
+						
+						<div class="control-group">
+							<div class="formContent dropDown">									
+								<div id="categories" class="btn-group">
+									<button class="btn btn-primary" id="ddl-name">
+										{% if cat %}
+											{{ parent }}
+										{% else %}
+											--- Parent ----
+										{% endif %}
+									</button>
+									<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown" id="btn-dropdown">
+										<span class="caret"></span>
+									</button>						
+									<ul id="category-dropdown-menu" class="dropdown-menu">
+										<li><a href="#" rel="" class="cat"><span>--- Parent ----</span></a></li>
+										{{ categories|getSubCategories }}
+									</ul>
+								</div>
+							</div>
+						</div>
+						<div class="control-group submitBtn">
+							{% if cat %}
+							<a href="{% url category %}" class="btn">Cancel</a>
+							{% endif %}
+							<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
+						</div>
+					</fieldset>
 				</div>
-			</div>
-			<div class="formContent">
-				{% if cat %}
-				<a href="{% url category %}" class="btn">Cancel</a>
-				{% endif %}
-				<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
-			</div>
-		</fieldset>
-		</form>
+			{{ form.thumbnail|attr:"style:visibility:hidden;" }}
+			</form>
+		</div>
 	</div>
-	<div class="tab-content">
+	<div class="span9 well">
+		<div class="tab-content">
 		{{ categories|generateProductCategories }}
+		</div>
+		{% if categories %}
+		<div class="submitForm">
+			<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Changes</a>
+		</div>
+		{% endif %}
 	</div>
-	{% if categories %}
-	<div class="submitForm">
-		<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Ordering</a>
 	</div>
-	{% endif %}
- 
 	<!-- Modal -->
 	<input type="hidden" id="cat_id" name="cat_id" value="" />
 	<div class="modal hide" id="myModal">
@@ -206,17 +237,47 @@ legend {
         	<a href="#" id="modalConfirm" class="btn btn-primary">Confirm</a>
         </div>
 	</div>
+
+	<div class="modal hide" id="successModal">
+        <div class="modal-header">
+        	<button type="button" class="close" data-dismiss="modal">×</button>
+        	<h3>Category Ordering</h3>
+        </div>
+        <div class="modal-body">
+        	<p>Ordering saved.</p>
+        	</div>
+        	<div class="modal-footer">
+        	<a href="#" id="btnDismiss" class="btn btn-primary" data-dismiss="modal">Ok</a>
+        </div>
+	</div>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
+<!--[if IE]>
+    <script type="text/javascript" src="/media/js/jquery.placeholder.js"></script>
+    <script type="text/javascript">
+        $(function() {
+            $(':input[placeholder]').placeholder();
+        });
+    </script>
+<![endif]-->
 <script type="text/javascript">
 	$(document).ready(function(){
+		$('#browse').click(function(){
+			$('#id_thumbnail').trigger('click');
+		});
+
 		$('#categories a.cat').click(function(){
 			$('#ddl-name').text($(this).find('span').text());
 			$('#id_parent').val(this.rel);
 		});
 
-        $('.sortable').nestedSortable({
+		$('#ddl-name').click(function(){
+			$('#btn-dropdown').trigger('click');
+			return false;
+		});
+
+		$('.sortable').nestedSortable({
 			disableNesting: 'no-nest',
 			forcePlaceholderSize: true,
 			handle: 'div',
@@ -237,8 +298,7 @@ legend {
 	            var reader = new FileReader();
 
 	            reader.onload = function (e) {
-	                $('#preview')
-	                	.css('display','inline-block')
+	                $('#preview')	                	
 	                	.html('<img id="previewImg" src="'+e.target.result+'" alt="your image" />');
 	                $('#previewImg')
 	                    .width(100)
@@ -274,7 +334,14 @@ legend {
 				data: decodeURIComponent(p),
 				async:   false,
 				success: function(msg){
-					
+					$('#successModal').modal('show');
+					$('#category-dropdown-menu').html(msg);
+					$('#category-dropdown-menu a').each(function(){
+						$(this).bind('click', function(){
+							$('#ddl-name').text($(this).find('span').text());
+							$('#id_parent').val(this.rel);
+						});
+					});
 				},
 				error: function(msg) {
 					
