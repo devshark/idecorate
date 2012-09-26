@@ -76,19 +76,19 @@ def update_order(data):
 	except:
 		pass
 
-def get_next_order(parent_id):	
-	try:
-		max_order = Categories.objects.filter(parent__id=parent_id).aggregate(Max('order'))['order__max']
-		cat = Categories.objects.get(order=max_order, parent__id=parent_id)
-		order = int(cat.order)
-		if order <= 0:
-			order = 1
-		else:
-			order = order + 1
-	except:
-		order = 1
+def get_next_order(parent_id):
+	parent = None
+	if parent_id:
+		parent = parent_id
 
-	return order
+	cat = Categories.objects.filter(parent__id=parent)
+	order = 1
+	if cat.count() > 0:
+		max_order = cat.aggregate(Max('order'))['order__max']
+		if max_order:
+			order = max_order + 1
+
+	return int(order)
 
 def generate_admin_dropdown_category():	
 	categories = get_sub_categories(None)
