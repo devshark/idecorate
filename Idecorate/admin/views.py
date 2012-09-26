@@ -177,7 +177,7 @@ def admin_manage_menu(request):
 				form_footer_copyright = FooterCopyRightForm(request.POST)
 
 				if form_footer_copyright.is_valid():
-					footer_copyright = FooterCopyright()
+					footer_copyright = FooterCopyright.objects.get(id=1)
 					footer_copyright.copyright = form_footer_copyright.cleaned_data['copyright']
 					footer_copyright.save()
 
