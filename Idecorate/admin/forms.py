@@ -12,10 +12,6 @@ class CategoryForm(forms.Form):
 	def clean_thumbnail(self):
 	    content = self.cleaned_data['thumbnail']
 	    content_type = content.content_type.split('/')[0]
-	    print type(content._size)
-	    print type(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE)
-
-
 	    if content_type in settings.CONTENT_TYPES:
 	        if int(content._size) > int(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE):
 	            raise forms.ValidationError(_('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE), filesizeformat(content._size)))

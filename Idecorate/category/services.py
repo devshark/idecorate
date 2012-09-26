@@ -22,7 +22,6 @@ def save_category(data):
 		category.save()
 		return True
 	except Exception as e:
-		print e
 		return False
 
 def get_sub_categories(parent_id):
@@ -41,7 +40,6 @@ def delete_category(category_id):
 		category.delete()
 		return True
 	except Exception as e:
-		print e
 		return False
 
 def delete_sub_category(parent_id):
