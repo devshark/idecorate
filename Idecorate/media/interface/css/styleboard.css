@@ -87,10 +87,10 @@ body {
   color: #666666; }
 
 #main-container {
-  width: 1024px;
+  width: 100%;
+  min-width: 800px;
   background-color: #FFFFFF;
-  margin: 0 auto;
-  padding: 15px; }
+  padding: 15px 0; }
 
 h1 {
   font-size: 2em; }
@@ -109,7 +109,7 @@ h5 {
 
 #header {
   margin-bottom: 15px;
-  padding-bottom: 15px;
+  padding: 0 15px;
   border-bottom: 1px solid #EEEEEE;
   position: relative;
   min-height: 60px; }
@@ -121,22 +121,18 @@ h5 {
     color: #333333;
     font-size: 1.2em; }
 
-#info-menu {
+#info-menu, #site-menu, #logo {
   float: left; }
 
 #info-menu, #site-menu {
-  width: 400px; }
+  width: 40%; }
 
 #logo {
-  width: 224px;
-  position: absolute;
-  top: 0;
-  left: 400px; }
+  width: 20%; }
   #logo h1, #logo h3 {
     text-align: center; }
 
 #site-menu {
-  float: right;
   vertical-align: top;
   text-align: left; }
   #site-menu ul {
@@ -208,36 +204,30 @@ ul.dropdown {
   ul.dropdown li:hover > ul {
     visibility: visible; }
 
-p {
-  font-size: 1.1em;
-  line-height: 1.2em; }
-
-.defaultContent {
-  padding: 15px 0; }
+footer {
+  margin-top: 15px;
+  padding: 0 15px; }
+  footer .copyright {
+    float: left; }
+  footer .footerMenus {
+    float: right; }
+    footer .footerMenus ul li {
+      padding: 2px;
+      display: inline-block; }
+      footer .footerMenus ul li a {
+        text-decoration: none;
+        color: #333333;
+        font-size: 1.1em; }
 
 #sidebar {
-  float: left;
-  width: 260px;
-  padding: 10px 0; }
-  #sidebar ul li {
-    padding: 4px 2px; }
-    #sidebar ul li a {
-      text-decoration: none;
-      color: #333333;
-      font-size: 1.2em; }
-  #sidebar ul li:hover {
-    background: #F3D673; }
-    #sidebar ul li:hover a {
-      color: black; }
-
-footer .copyright {
+  width: 40%;
+  min-width: 300px;
+  height: 700px;
   float: left; }
-footer .footerMenus {
-  float: right; }
-  footer .footerMenus ul li {
-    padding: 2px;
-    display: inline-block; }
-    footer .footerMenus ul li a {
-      text-decoration: none;
-      color: #333333;
-      font-size: 1.1em; }
+  #sidebar #thumb-container {
+    border: 1px solid #DDDDDD; }
+    #sidebar #thumb-container .thumb {
+      float: left;
+      width: 100px;
+      height: 100px;
+      border: 1px solid #EEEEEE; }

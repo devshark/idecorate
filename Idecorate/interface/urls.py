@@ -3,4 +3,5 @@ from django.conf import settings
 
 urlpatterns =  patterns('interface.views',
     url(r'^$', 'home', {}, name='home'),
+    url(r'^styleboard/$', 'styleboard', {}, name='styleboard'),
 )
