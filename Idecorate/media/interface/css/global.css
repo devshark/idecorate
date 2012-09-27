@@ -153,22 +153,23 @@ ul.dropdown {
   LEVEL TWO
   */ }
   ul.dropdown li {
-    float: left;
-    zoom: 1; }
+    display: inline-block;
+    border-left: 1px solid #999999;
+    *float: left; }
     ul.dropdown li a {
       display: block;
       padding: 4px 10px;
       color: #222;
-      border-left: 1px solid #999999; }
+      white-space: nowrap; }
   ul.dropdown li.nonLink {
     font-size: 1.2em;
     line-height: 22px;
-    padding-left: 5px; }
+    padding: 0 10px; }
   ul.dropdown li.nonLink:hover,
   ul.dropdown li.nonLink.hover {
     background: none !important;
     color: #666666; }
-  ul.dropdown li:first-child a {
+  ul.dropdown li:first-child {
     border-left: none; }
   ul.dropdown li.hover,
   ul.dropdown li:hover {

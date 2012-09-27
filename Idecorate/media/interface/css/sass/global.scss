@@ -157,22 +157,24 @@ ul.dropdown{
 	position: relative; 
 	margin-bottom:5px;
 
+
 	li{ 
-		float: left; 
-		zoom: 1;
+		display: inline-block; 
+		border-left: 1px solid #999999;
+		*float:left;
 
 		a{ 
 			display: block; 
 			padding: 4px 10px; 
 			color: #222; 
-			border-left: 1px solid #999999;
+			white-space:nowrap;
 		}
 	}
 
 	li.nonLink{
 		font-size:1.2em;
 		line-height:22px;
-		padding-left:5px;
+		padding:0 10px;
 	}
 
 	li.nonLink:hover,
@@ -181,7 +183,7 @@ ul.dropdown{
 		color:#666666;
 	}
 
-	li:first-child a{ 
+	li:first-child{ 
 		border-left: none; 
 	} /* Doesn't work in IE */
 
