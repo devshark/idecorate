@@ -64,6 +64,63 @@
 .placeholder { 
 	color: #aaa; 
 }
+
+/*#file-browse-wrap {
+    width: 93px;
+    height: 28px;
+    background: url('/media/images/file_browse.png') 0 0 no-repeat;
+    border:none;
+    content: 'test';
+    overflow:hidden;
+}
+#file-browse-wrap:hover,
+#file-browse-wrap:active {
+    background-position:0 -28px;
+}
+
+#id_thumbnail{
+    opacity:0.0;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+}*/
+
+.file-wrapper {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.file-wrapper input {
+  cursor: pointer;
+  font-size: 100px;
+  height: 100%;
+  filter: alpha(opacity=1);
+  -moz-opacity: 0.01;
+  opacity: 0.01;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+.file-wrapper .button {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: bold;
+  margin-right: 5px;
+  padding: 4px 18px;
+  text-transform: uppercase;
+}
+
+.side.formWrap{
+	float: left;
+	width: 27%;
+	min-width: 220px;
+}
+
+.catContent{
+	float: right;
+	width: 66%;
+}
 </style>
 <!--[if IE]>
 	<style type="text/css">
@@ -76,103 +133,105 @@
 {% endblock %}
 {% block content %}
 	<div class="page-header"><h1>{% trans "Manage Product Categories" %}</h1></div>
-	<div class="">
-	<div class="span3">
-		{% if form.name.errors or form.thumbnail.errors %}
-		<div class="alert alert-error">
-			<a class="close" data-dismiss="alert" href="#">×</a>
-			<h4 class="alert-heading">Please correct the following errors:</h4>
-			<ol>
-				{% if form.name.errors %}
-				{% for e in form.name.errors %}
-				<li>{{ e }}</li>
-				{% endfor %}
-				{% endif %}
-				{% if form.thumbnail.errors %}
-				{% for e in form.thumbnail.errors %}
-				<li>{{ e }}</li>
-				{% endfor %}
-				{% endif %}
-			</ol>
-		</div>
-		{% endif %}
-		{% if messages %}
-		<div class="alert alert-success">
-		  <a class="close" data-dismiss="alert" href="#">×</a>
-		  <h4 class="alert-heading">Success!</h4>
-		  {% for message in messages %}
-		  	{{ message }}
-		  {% endfor %}
-		</div>
-		{% endif %}
-		<div class="form-horizontal">
-			<form method="post" action="" enctype="multipart/form-data">
-				<div class="well">
-					<fieldset>
-						<legend>{{ heade_title }}</legend>
-						{% csrf_token %}
-						{{ form.parent }}
-						{{ form.id }}
-						
-						
-						<div class="control-group">
-							<div id="preview">
-							{% if cat %}
-							<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" />
-							{% endif %}
-							</div>
-						</div>
-
-						<div class="control-group" style="text-align: center">
-							<input id="browse" type="button" value="Browse" class="btn btn-primary" />					
-						</div>
-
-						<div class="control-group">
-						{{ form.name|add_class:"input"|attr:"placeholder:Category Name"|add_class:'span12' }}
-						</div>
-						
-						<div class="control-group">
-							<div class="formContent dropDown">									
-								<div id="categories" class="btn-group">
-									<button class="btn btn-primary" id="ddl-name">
-										{% if cat %}
-											{{ parent }}
-										{% else %}
-											--- Parent ----
-										{% endif %}
-									</button>
-									<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown" id="btn-dropdown">
-										<span class="caret"></span>
-									</button>						
-									<ul id="category-dropdown-menu" class="dropdown-menu">
-										<li><a href="#" rel="" class="cat"><span>--- Parent ----</span></a></li>
-										{{ categories|getSubCategories }}
-									</ul>
+	<div>
+		<div class="formWrap side">
+			{% if form.name.errors or form.thumbnail.errors %}
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					{% if form.name.errors %}
+					{% for e in form.name.errors %}
+					<li>{{ e }}</li>
+					{% endfor %}
+					{% endif %}
+					{% if form.thumbnail.errors %}
+					{% for e in form.thumbnail.errors %}
+					<li>{{ e }}</li>
+					{% endfor %}
+					{% endif %}
+				</ol>
+			</div>
+			{% endif %}
+			{% if messages %}
+			<div class="alert alert-success">
+			  <a class="close" data-dismiss="alert" href="#">×</a>
+			  <h4 class="alert-heading">Success!</h4>
+			  {% for message in messages %}
+			  	{{ message }}
+			  {% endfor %}
+			</div>
+			{% endif %}
+			<div class="form-horizontal">
+				<form method="post" action="" enctype="multipart/form-data">
+					<div class="well">
+						<fieldset>
+							<legend>{{ heade_title }}</legend>
+							{% csrf_token %}
+							{{ form.parent }}
+							{{ form.id }}
+							
+							
+							<div class="control-group">
+								<div id="preview">
+								{% if cat %}
+								<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" />
+								{% endif %}
 								</div>
 							</div>
-						</div>
-						<div class="control-group submitBtn">
-							{% if cat %}
-							<a href="{% url category %}" class="btn">Cancel</a>
-							{% endif %}
-							<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
-						</div>
-					</fieldset>
-				</div>
-			{{ form.thumbnail|attr:"style:visibility:hidden;" }}
-			</form>
+
+							<div class="control-group" style="text-align: center">
+								<span class="file-wrapper">
+									{{ form.thumbnail }}	
+								  <span class="button btn btn-primary">Choose a Photo</span>
+								</span>
+							</div>
+
+							<div class="control-group">
+							{{ form.name|add_class:"input"|attr:"placeholder:Category Name"|add_class:'span12' }}
+							</div>
+							
+							<div class="control-group">
+								<div class="formContent dropDown">									
+									<div id="categories" class="btn-group">
+										<button class="btn btn-primary" id="ddl-name">
+											{% if cat %}
+												{{ parent }}
+											{% else %}
+												--- Parent ----
+											{% endif %}
+										</button>
+										<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown" id="btn-dropdown">
+											<span class="caret"></span>
+										</button>						
+										<ul id="category-dropdown-menu" class="dropdown-menu">
+											<li><a href="#" rel="" class="cat"><span>--- Parent ----</span></a></li>
+											{{ categories|getSubCategories }}
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="control-group submitBtn">
+								{% if cat %}
+								<a href="{% url category %}" class="btn">Cancel</a>
+								{% endif %}
+								<input class="btn btn-primary btn-submit" type="submit" value="{{ method }}">					
+							</div>
+						</fieldset>
+					</div>
+				</form>
+			</div>
 		</div>
-	</div>
-	<div class="span9 well">
-		<div class="tab-content">
-		{{ categories|generateProductCategories }}
+		<div class="catContent well">
+			<div class="tab-content">
+			{{ categories|generateProductCategories }}
+			</div>
+			{% if categories %}
+			<div class="submitForm">
+				<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Changes</a>
+			</div>
+			{% endif %}
 		</div>
-		{% if categories %}
-		<div class="submitForm">
-			<a href="#" id="btnSaveOrdering" class="btn btn-primary">Save Changes</a>
-		</div>
-		{% endif %}
-	</div>
 	</div>
 	<!-- Modal -->
 	<input type="hidden" id="cat_id" name="cat_id" value="" />
@@ -215,10 +274,6 @@
 <![endif]-->
 <script type="text/javascript">
 	$(document).ready(function(){
-		$('#browse').click(function(){
-			$('#id_thumbnail').trigger('click');
-		});
-
 		$('#categories a.cat').click(function(){
 			$('#ddl-name').text($(this).find('span').text());
 			$('#id_parent').val(this.rel);
@@ -325,6 +380,29 @@
 			$('#btnDismiss').trigger('click');
 			return false;
         });
+
+        var SITE = SITE || {};
+
+		SITE.fileInputs = function() {
+		  var $this = $(this),
+		      $val = $this.val(),
+		      valArray = $val.split('\\'),
+		      newVal = valArray[valArray.length-1],
+		      $button = $this.siblings('.button'),
+		      $fakeFile = $this.siblings('.file-holder');
+		  if(newVal !== '') {
+		    $button.text('Photo Chosen');
+		    if($fakeFile.length === 0) {
+		      $button.after('<span class="file-holder">' + newVal + '</span>');
+		    } else {
+		      $fakeFile.text(newVal);
+		    }
+		  }
+		};
+
+		$(document).ready(function() {
+		  $('.file-wrapper input[type=file]').bind('change focus click', SITE.fileInputs);
+		});
 
 	});
 
