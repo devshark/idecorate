@@ -2,7 +2,8 @@
   float: right;
   width: 720px;
   box-shadow: 5px 5px 20px #DDDEE5;
-  padding: 15px; }
+  padding: 15px;
+  border: 1px solid #EEEEEE; }
   .banner .dummyBannerImg {
     float: left;
     width: 300px;
@@ -33,7 +34,7 @@
     .banner .dummyBannerInfoItem a {
       display: inline-block;
       height: 50px;
-      width: 95px;
+      width: 90px;
       padding-top: 45px;
       font-size: 10px;
       background-color: #DDDEE5;
