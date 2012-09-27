@@ -18,7 +18,6 @@ def category(request, cat_id=None):
 	info['method'] = 'Add'
 	info['heade_title'] = 'Add New Category'
 	
-	msg = 'New Category saved.'
 	form = CategoryForm()		
 
 	if request.method == 'POST':
@@ -27,8 +26,7 @@ def category(request, cat_id=None):
 		if form.is_valid():
 			data = form.cleaned_data
 			res = new_category(data)
-			if res:
-				messages.success(request, _(msg))
+			messages.success(request, _('New Category saved.'))
 			return redirect('category')
 
 	categories = Categories.objects.filter(parent__id=None, deleted=0).order_by('order')
