@@ -217,9 +217,12 @@ p {
 #sidebar {
   float: left;
   width: 260px;
-  padding: 10px 0; }
+  padding: 10px 0;
+  height: 310px;
+  overflow: auto;
+  background-color: #F0EAF2; }
   #sidebar ul li {
-    padding: 4px 2px; }
+    padding: 4px 10px; }
     #sidebar ul li a {
       text-decoration: none;
       color: #333333;
