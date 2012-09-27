@@ -51,4 +51,5 @@
 			border-radius: 3px;
 		}
 
-*input { margin-right: 5px; border: 1px solid #CCC !important;}
+*input { margin-right: 5px; }
+input{ border: 1px solid #CCC !important; }
