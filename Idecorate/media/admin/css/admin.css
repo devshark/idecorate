@@ -50,3 +50,5 @@
 			-moz-border-radius: 3px;
 			border-radius: 3px;
 		}
+
+*input { margin-right: 5px; border: 1px solid #CCC !important;}
