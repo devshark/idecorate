@@ -114,38 +114,39 @@ h5{ font-size: 1em;}
 	border-bottom:1px solid #EEEEEE;
 	position:relative;
 	min-height:60px;
-}
 
-.headerColumn{
-	vertical-align:top;
 
-	a{
-		text-decoration:none;
-		color: #333333;
-		font-size:1.2em;
+	.headerColumn{
+		vertical-align:top;
+
+		a{
+			text-decoration:none;
+			color: #333333;
+			font-size:1.2em;
+		}
 	}
-}
 
-#info-menu,#site-menu,#logo{
-	float: left;
-}
-
-#info-menu,#site-menu{
-	width:40%;
-}
-
-#logo{
-	width:20%;
-	h1,h3{
-		text-align:center;
+	#info-menu,#site-menu,#logo{
+		float: left;
 	}
-}
 
-#site-menu{
-	vertical-align:top;
-	text-align:left;
-	ul{
-		float:right;
+	#info-menu,#site-menu{
+		width:40%;
+	}
+
+	#logo{
+		width:20%;
+		h1,h3{
+			text-align:center;
+		}
+	}
+
+	#site-menu{
+		vertical-align:top;
+		text-align:left;
+		ul{
+			float:right;
+		}
 	}
 }
 
@@ -156,22 +157,24 @@ ul.dropdown{
 	position: relative; 
 	margin-bottom:5px;
 
+
 	li{ 
+		display: inline-block; 
 		border-left: 1px solid #999999;
-		float: left; 
-		zoom: 1;
+		*float:left;
 
 		a{ 
 			display: block; 
 			padding: 4px 10px; 
 			color: #222; 
+			white-space:nowrap;
 		}
 	}
 
 	li.nonLink{
 		font-size:1.2em;
 		line-height:22px;
-		padding: 0 5px;
+		padding:0 10px;
 	}
 
 	li.nonLink:hover,
@@ -290,3 +293,6 @@ footer{
 		}
 	}
 }
+
+
+
