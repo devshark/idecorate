@@ -108,8 +108,8 @@ def getSubCategories(categories):
 			cls = 'class="sub-menu"'
 
 		tags += '''
-			<li %s><a href="#" rel="%s" class="cat"><span>%s</span></a>
-		''' % (cls, cat.id, cat.name)
+			<li %s><a href="#" rel="%s" class="cat" id="ddl-cat-%s"><span>%s</span></a>
+		''' % (cls, cat.id, cat.id, cat.name)
 
 		if subcats.count() > 0:
 			tags += recursiveSubCat(cat.id)
@@ -125,8 +125,8 @@ def recursiveSubCat(parent_id):
 		subcats = get_sub_categories(cat.id)
 
 		tags += '''
-			<li><a href="#" rel="%s" class="cat"> - <span>%s</span></a>
-		''' % (cat.id, cat.name)
+			<li><a href="#" rel="%s" class="cat" id="ddl-cat-%s"> - <span>%s</span></a>
+		''' % (cat.id, cat.id, cat.name)
 
 		if subcats.count() > 0:
 			tags += recursiveSubCat(cat.id)

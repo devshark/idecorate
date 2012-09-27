@@ -2,8 +2,11 @@ import os
 from django.db.models import Max
 from category.models import Categories
 from django.utils.safestring import mark_safe
+from PIL import Image
+import magic
+from django.conf import settings
 
-def save_category(data):
+def new_category(data):
 	category_name = data['name']
 
 	try:
@@ -26,9 +29,49 @@ def save_category(data):
 		category.name = category_name
 		
 		category.save()
+		convert_to_jpeg(category.id)
 		return True
 	except Exception as e:
 		return False
+
+def category_edit(data):
+	try:
+		category = Categories.objects.get(id=data['id'])
+		try:
+			cat = Categories.objects.get(id=data['parent'])
+			category.parent = cat
+		except:
+			pass
+
+		if data['thumbnail']:
+			category.thumbnail = data['thumbnail']
+		category.name = data['name']
+		category.save()
+		convert_to_jpeg(category.id)
+		return True
+	except Exception as e:
+		print e
+		return False
+
+def convert_to_jpeg(cat_id):
+	try:
+		cat = Categories.objects.get(id=cat_id)
+		thumb = cat.thumbnail.path
+		m = magic.Magic(mime=True)
+		if m.from_file(thumb) != 'image/jpeg':
+			s = thumb.split('/')
+			l = len(s)
+			fn = s[l-1].split('.')
+			nfn = fn[1]
+			img = Image.open(cat.thumbnail.path)
+			path = '%s%s.%s' % (settings.MEDIA_ROOT,nfn,'jpeg')
+			img.save(path)
+			cat.thumbnail = path
+			cat.save()
+			os.unlink(thumb)
+	except Exception as e:
+		print 'Exception : %s' % e
+
 
 def get_sub_categories(parent_id):
 	return Categories.objects.filter(parent__id=parent_id,deleted=0)
@@ -93,7 +136,7 @@ def get_next_order(parent_id):
 def generate_admin_dropdown_category():	
 	categories = get_sub_categories(None)
 	tags = """
-		<li><a href="#" rel="" class="cat">--- Parent ----</a></li>
+		<li><a href="#" rel="" class="cat">---- Parent ----</a></li>
 	"""
 	for cat in categories:
 		subcats = get_sub_categories(cat.id)
@@ -103,8 +146,8 @@ def generate_admin_dropdown_category():
 			cls = 'class="sub-menu"'
 
 		tags += '''
-			<li %s><a href="#" rel="%s" class="cat"><span>%s</span></a>
-		''' % (cls, cat.id, cat.name)
+			<li %s><a href="#" rel="%s" class="cat" id="ddl-cat-%s"><span>%s</span></a>
+		''' % (cls, cat.id, cat.id, cat.name)
 
 		if subcats.count() > 0:
 			tags += generate_admin_dropdown_sub_category(cat.id)
@@ -119,8 +162,8 @@ def generate_admin_dropdown_sub_category(parent_id):
 		subcats = get_sub_categories(cat.id)
 
 		tags += '''
-			<li><a href="#" rel="%s" class="cat"> - <span>%s</span></a>
-		''' % (cat.id, cat.name)
+			<li><a href="#" rel="%s" class="cat" id="ddl-cat-%s"> - <span>%s</span></a>
+		''' % (cat.id, cat.id, cat.name)
 
 		if subcats.count() > 0:
 			tags += generate_admin_dropdown_sub_category(cat.id)

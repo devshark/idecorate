@@ -10,3 +10,6 @@ wsgiref==0.1.2
 xlwt==0.7.4
 django-stdimage==0.2.2
 django-widget-tweaks==1.0
+django-treebeard==1.61
+python-memcached==1.48
+python-magic==0.4.3
