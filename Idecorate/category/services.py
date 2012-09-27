@@ -155,19 +155,19 @@ def generate_admin_dropdown_category():
 
 	return mark_safe(tags)
 
-def generate_admin_dropdown_sub_category(parent_id):
+def generate_admin_dropdown_sub_category(parent_id, level=''):
 	cats = get_sub_categories(parent_id)
-	tags = '<ul class="dropdown-submenu">'
+	tags = ''
 	for cat in cats:
 		subcats = get_sub_categories(cat.id)
-
+		arrow = '&rsaquo;'
 		tags += '''
-			<li><a href="#" rel="%s" class="cat" id="ddl-cat-%s"> - <span>%s</span></a>
-		''' % (cat.id, cat.id, cat.name)
+			<li><a href="#" rel="%s" class="cat" id="ddl-cat-%s"> %s <span>%s</span></a>
+		''' % (cat.id, cat.id, arrow + level , cat.name)
 
 		if subcats.count() > 0:
-			tags += generate_admin_dropdown_sub_category(cat.id)
+			tags += generate_admin_dropdown_sub_category(cat.id, arrow + level)
 
 		tags += '</li>'
-	tags += '</ul>'
+	tags += ''
 	return tags

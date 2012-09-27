@@ -117,22 +117,24 @@ def getSubCategories(categories):
 
 	return mark_safe(tags)
 
-def recursiveSubCat(parent_id):
+def recursiveSubCat(parent_id, level = ""):
 
 	cats = get_sub_categories(parent_id)
-	tags = '<ul class="dropdown-submenu">'
+	tags = ''
+
 	for cat in cats:
 		subcats = get_sub_categories(cat.id)
+		arrow = '&rsaquo;'			
 
 		tags += '''
-			<li><a href="#" rel="%s" class="cat" id="ddl-cat-%s"> - <span>%s</span></a>
-		''' % (cat.id, cat.id, cat.name)
+			<li><a href="#" rel="%s" class="cat" id="ddl-cat-%s"> %s <span>%s</span></a>
+		''' % (cat.id, cat.id, arrow + level , cat.name)
 
 		if subcats.count() > 0:
-			tags += recursiveSubCat(cat.id)
+			tags += recursiveSubCat(cat.id, arrow + level)
 
 		tags += '</li>'
-	tags += '</ul>'
+	tags += ''
 	return tags
 
 @register.filter
