@@ -65,25 +65,6 @@
 	color: #aaa; 
 }
 
-/*#file-browse-wrap {
-    width: 93px;
-    height: 28px;
-    background: url('/media/images/file_browse.png') 0 0 no-repeat;
-    border:none;
-    content: 'test';
-    overflow:hidden;
-}
-#file-browse-wrap:hover,
-#file-browse-wrap:active {
-    background-position:0 -28px;
-}
-
-#id_thumbnail{
-    opacity:0.0;
-    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
-    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
-}*/
-
 .file-wrapper {
   cursor: pointer;
   display: inline-block;
@@ -120,6 +101,9 @@
 .catContent{
 	float: right;
 	width: 66%;
+
+.alert-heading {
+	text-transform: capitalize;
 }
 </style>
 <!--[if IE]>
@@ -154,13 +138,13 @@
 			</div>
 			{% endif %}
 			{% if messages %}
-			<div class="alert alert-success">
+			{% for message in messages %}
+			<div class="alert alert-{{ message.tags }}">
 			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Success!</h4>
-			  {% for message in messages %}
-			  	{{ message }}
-			  {% endfor %}
+			  <h4 class="alert-heading">{{ message.tags }}!</h4>
+			  	{{ message }}		  
 			</div>
+			{% endfor %}
 			{% endif %}
 			<div class="form-horizontal">
 				<form method="post" action="" enctype="multipart/form-data">
@@ -198,14 +182,14 @@
 											{% if cat %}
 												{{ parent }}
 											{% else %}
-												--- Parent ----
+												---- Parent ----
 											{% endif %}
 										</button>
 										<button class="btn dropdown-toggle btn-primary" data-toggle="dropdown" id="btn-dropdown">
 											<span class="caret"></span>
 										</button>						
 										<ul id="category-dropdown-menu" class="dropdown-menu">
-											<li><a href="#" rel="" class="cat"><span>--- Parent ----</span></a></li>
+											<li><a href="#" rel="" class="cat"><span>---- Parent ----</span></a></li>
 											{{ categories|getSubCategories }}
 										</ul>
 									</div>
@@ -264,14 +248,6 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
-<!--[if IE]>
-    <script type="text/javascript" src="/media/js/jquery.placeholder.js"></script>
-    <script type="text/javascript">
-        $(function() {
-            $(':input[placeholder]').placeholder();
-        });
-    </script>
-<![endif]-->
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#categories a.cat').click(function(){
@@ -372,10 +348,15 @@
 			var delurl = '{% url remove_category %}';
 			var elm = this;
 			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$('#cat_id').val()}, function(data){
-				if (data > 0)
-					$('#list_'+$('#cat_id').val()).fadeOut('slow', function(){
-						$(this).remove();
-					});
+				if (data > 0){
+					$('#list_'+$('#cat_id').val()).remove();
+					$('#successModal h3').text('Remove Category');
+					$('#successModal p').text('Successfully removed category.');
+					$('#successModal').modal('show');
+					$('#ddl-cat-' + $('#cat_id').val()).remove();
+					if($('#id_id').val()==$('#cat_id').val())
+						window.location.href='{% url category %}'
+				}					
 			});
 			$('#btnDismiss').trigger('click');
 			return false;
