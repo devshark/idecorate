@@ -57,8 +57,10 @@ def category_edit(data):
 		try:
 			cat = Categories.objects.get(id=data['parent'])
 			category.parent = cat
+			category.order = get_next_order(data['parent'])
 		except:
-			pass
+			category.parent = None
+			category.order = get_next_order(None)
 
 		if data['thumbnail']:
 			category.thumbnail = data['thumbnail']

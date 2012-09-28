@@ -83,8 +83,9 @@ def remove_category(request):
 	if request.method == 'POST':
 		cat_id = request.POST['cat_id']
 		res = delete_category(cat_id)
+		tags = generate_admin_dropdown_category()
 		if res:			
-			return HttpResponse('1')
+			return HttpResponse(tags)
 		else:
 			return HttpResponse('0')
 
