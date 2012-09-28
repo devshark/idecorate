@@ -34,6 +34,23 @@ def new_category(data):
 	except Exception as e:
 		return False
 
+def parent_is_my_sub(cat_id,parent_id):
+	is_sub = False
+	try:
+		categories = Categories.objects.filter(parent__id=cat_id)
+		if categories.count() > 0:
+			for cat in categories:
+				subcats = Categories.objects.filter(parent__id=cat.id)
+
+				if subcats.count() > 0:
+					is_sub = parent_is_my_sub(cat.id, parent_id)
+				if int(cat.id) == int(parent_id):
+					is_sub = True
+					break
+	except:
+		pass
+	return is_sub
+
 def category_edit(data):
 	try:
 		category = Categories.objects.get(id=data['id'])
@@ -53,22 +70,32 @@ def category_edit(data):
 		print e
 		return False
 
-def convert_to_jpeg(cat_id):
+def convert_to_jpeg(cat_id):	
 	try:
 		cat = Categories.objects.get(id=cat_id)
 		thumb = cat.thumbnail.path
-		m = magic.Magic(mime=True)
-		if m.from_file(thumb) != 'image/jpeg':
-			s = thumb.split('/')
-			l = len(s)
-			fn = s[l-1].split('.')
-			nfn = fn[1]
-			img = Image.open(cat.thumbnail.path)
-			path = '%s%s.%s' % (settings.MEDIA_ROOT,nfn,'jpeg')
-			img.save(path)
-			cat.thumbnail = path
-			cat.save()
+		s = thumb.split('/')
+		l = len(s)
+		fn = s[l-1].split('.')
+		nfn = fn[0]
+
+		path = '%s%s.%s' % (settings.MEDIA_ROOT,nfn,'jpeg')
+
+		im = Image.open(cat.thumbnail.path)
+
+		size = (settings.CATEGORY_THUMBNAIL_WIDTH, settings.CATEGORY_THUMBNAIL_HEIGHT)
+
+		im.thumbnail(size, Image.ANTIALIAS)
+
+		if im.mode != 'RGB':
+			im = im.convert("RGB")
+		im.save(path)
+		cat.thumbnail = path
+		cat.save()
+
+		if fn[1] != 'jpeg' and fn[1] != 'jpg':
 			os.unlink(thumb)
+
 	except Exception as e:
 		print 'Exception : %s' % e
 
@@ -81,7 +108,7 @@ def delete_category(category_id):
 		category = Categories.objects.get(id=category_id)
 		sub_categories_count = Categories.objects.filter(parent__id=category.id).count()
 		if sub_categories_count > 0:
-			delete_sub_category(cat.id)
+			delete_sub_category(category.id)
 		category.deleted = 1
 		category.save()
 		return True

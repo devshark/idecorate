@@ -7,7 +7,7 @@ from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
 from forms import CategoryForm, CategoryForm2
-from services import new_category, category_edit, delete_category, update_order, generate_admin_dropdown_category
+from services import new_category, category_edit, delete_category, update_order, generate_admin_dropdown_category, parent_is_my_sub
 
 from category.models import Categories
 
@@ -63,12 +63,15 @@ def edit_category(request, cat_id=None):
 		form = CategoryForm2(request.POST, request.FILES)
 		if form.is_valid():
 			data = form.cleaned_data
-			res = category_edit(data)
-			if res:
-				messages.success(request, _(msg))
+			if parent_is_my_sub(data['id'],data['parent']):
+				messages.error(request, _('Cannot asign as parent that is a sub category. Please try again.'))
 			else:
-				messages.error(request, _('Edit category failed. Please try again.'))
-			return redirect('category')
+				res = category_edit(data)
+				if res:
+					messages.success(request, _(msg))
+				else:
+					messages.error(request, _('Edit category failed. Please try again.'))
+			return redirect('category')				
 
 	categories = Categories.objects.filter(parent__id=None, deleted=0).order_by('order')
 	info['form'] = form
