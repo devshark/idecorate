@@ -64,7 +64,7 @@ def edit_category(request, cat_id=None):
 		if form.is_valid():
 			data = form.cleaned_data
 			if parent_is_my_sub(data['id'],data['parent']):
-				messages.error(request, _('Cannot asign as parent that is a sub category. Please try again.'))
+				messages.error(request, _('Cannot assign as parent that is a sub category. Please try again.'))
 			else:
 				res = category_edit(data)
 				if res:
