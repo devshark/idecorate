@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu
-from category.services import get_sub_categories
+from category.services import get_categories
 
 register = template.Library()
 
@@ -36,7 +36,7 @@ def get_interface_info(infoType):
 
 @register.filter
 def get_parent_category(value):
-	parent_category = get_sub_categories(None)
+	parent_category = get_categories(None)
 
 	parent_category = parent_category.order_by('order')
 	tags = """

@@ -2,7 +2,7 @@ from django import template
 from django.utils.safestring import mark_safe
 from category.models import Categories
 from menu.models import InfoMenu, SiteMenu, FooterMenu
-from category.services import get_sub_categories
+from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 #from django.utils.translation import ugettext_lazy as _
@@ -101,7 +101,7 @@ def menuRecursion(menus, id):
 def getSubCategories(categories):
 	tags = ""
 	for cat in categories:
-		subcats = get_sub_categories(cat.id)
+		subcats = get_categories(cat.id)
 
 		cls = ''
 		if subcats.count() > 0:
@@ -119,11 +119,11 @@ def getSubCategories(categories):
 
 def recursiveSubCat(parent_id, level = ""):
 
-	cats = get_sub_categories(parent_id)
+	cats = get_categories(parent_id)
 	tags = ''
 
 	for cat in cats:
-		subcats = get_sub_categories(cat.id)
+		subcats = get_categories(cat.id)
 		arrow = '&rsaquo;'			
 
 		tags += '''
@@ -144,7 +144,7 @@ def generateProductCategories(categories):
 			<ol class="sortable">
 		"""
 	for cat in categories:
-		subcats = get_sub_categories(cat.id)		
+		subcats = get_categories(cat.id)		
 		cat_name = cat.name
 
 		plus_sign = '&nbsp;'
@@ -173,10 +173,10 @@ def generateProductCategories(categories):
 	return mark_safe(tags)
 
 def generateProductSubCategories(parent_id):
-	cats = get_sub_categories(parent_id)
+	cats = get_categories(parent_id)
 	tags = '<ol id="parent_id_%s">' % parent_id
 	for cat in cats:
-		subcats = get_sub_categories(cat.id)
+		subcats = get_categories(cat.id)
 
 		cat_name = cat.name
 		plus_sign = '&nbsp;'
