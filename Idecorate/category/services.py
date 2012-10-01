@@ -163,12 +163,12 @@ def get_next_order(parent_id):
 	return int(order)
 
 def generate_admin_dropdown_category():	
-	categories = get_sub_categories(None)
+	categories = get_categories(None)
 	tags = """
 		<li><a href="#" rel="" class="cat">---- Parent ----</a></li>
 	"""
 	for cat in categories:
-		subcats = get_sub_categories(cat.id)
+		subcats = get_categories(cat.id)
 
 		cls = ''
 		if subcats.count() > 0:
@@ -185,10 +185,10 @@ def generate_admin_dropdown_category():
 	return mark_safe(tags)
 
 def generate_admin_dropdown_sub_category(parent_id, level=''):
-	cats = get_sub_categories(parent_id)
+	cats = get_categories(parent_id)
 	tags = ''
 	for cat in cats:
-		subcats = get_sub_categories(cat.id)
+		subcats = get_categories(cat.id)
 		arrow = '&rsaquo;'
 		tags += '''
 			<li><a href="#" rel="%s" class="cat" id="ddl-cat-%s"> %s <span>%s</span></a>
