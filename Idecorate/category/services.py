@@ -102,7 +102,7 @@ def convert_to_jpeg(cat_id):
 		print 'Exception : %s' % e
 
 
-def get_sub_categories(parent_id):
+def get_categories(parent_id):
 	return Categories.objects.filter(parent__id=parent_id,deleted=0)
 
 def delete_category(category_id):
