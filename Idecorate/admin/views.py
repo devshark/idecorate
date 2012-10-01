@@ -298,3 +298,10 @@ def admin_logout(request):
 	logout(request)
 
 	return redirect('admin')
+
+
+@staff_member_required
+def admin_create_product(request):
+    info = {}
+
+    return render_to_response('admin/admin_create_product.html',info,RequestContext(request))
