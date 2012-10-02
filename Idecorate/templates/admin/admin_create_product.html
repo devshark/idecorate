@@ -1,0 +1,144 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<h1>{% trans "Create Product" %}</h1>
+	<div>&nbsp;</div>
+
+    <div class="container-fluid">      
+      <form class="form-horizontal">
+      <div class="row-fluid">
+        <div class="span12">
+
+          <legend>Product Information</legend>
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Product Status</label>
+                <div class="controls">
+              		<label class="radio inline">
+  						<input type="radio" name="active_inactive" value="1" checked="checked" /> Active
+					</label>
+					<label class="radio inline">
+  						<input type="radio" name="active_inactive" value="0" /> Inactive
+					</label>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Product SKU *</label>
+                <div class="controls">
+                  <input type="text" class="input-xlarge" placeholder="SKU">
+                  <span class="help-block">Supply a unique identifier for this product using letters, numbers, hyphens, and underscores. <br />Commas may not be used.</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Product Name *</label>
+                <div class="controls">
+                  <input type="text" class="input-xlarge" placeholder="Name">
+                  <span class="help-block">Enter the name of this product to be displayed on the product lists on the Front-end and CMS. It is recommended you keep the name short. Max 60 chars.</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Price *</label>
+                <div class="controls">
+                  <input type="text" class="input-xlarge" placeholder="Price">
+                  <span class="help-block">Enter product price per unit using numbers, commas, and periods. Up to 2 decimal points will be accepted. Decimals will automatically added to whole numbers upon saving the product.</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Product Description *</label>
+                <div class="controls">
+                  <span class="help-block">Enter the product description to be displayed on the product information window on the front-end. Web page addresses and e-mail addresses turn into links automatically. Max 500 characters.</span>
+                  <textarea class="input-xxlarge" style="height:300px;"></textarea>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <legend>Product Images </legend>
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">&nbsp;</label>
+                <div class="controls">
+                  <span class="help-block">Upload one product image with a background and another with a transparent background. Images uploaded will be automatically converted to the correct filetype and resized by the system.</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Original Image:</label>
+                <div class="controls">
+                  <input type="file" />
+                  <span class="help-block">Accepted files: JPG, PNG, GIF, TIFF. Max filesize 10MB.</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">No Background:</label>
+                <div class="controls">
+                  <input type="file" />
+                  <span class="help-block">Accepted files: PNG only. Max filesize 10MB.</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+        </div><!--/span-->      
+      </div><!--/row-->
+			<div class="form-actions" style="text-align:left">
+  				<button type="button" class="btn btn-primary">Save</button>
+			</div>
+      </form>
+     </div>
+
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript" src="/media/admin/js/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript" >
+		tinyMCE.init({
+		        mode : "textareas",
+		        theme : "simple"
+		});
+	</script >
+{% endblock %}

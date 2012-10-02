@@ -27,7 +27,8 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_login/$', 'admin_login', {}, name='admin_login'),
     url(r'^admin/admin_logout/$', 'admin_logout', {}, name='admin_logout'),
     url(r'^admin/admin_manage_menu/$', 'admin_manage_menu', {}, name='admin_manage_menu'),
-    url(r'^admin/admin_delete_menu/(?P<id_delete>\d+)/(?P<menuType>\d+)/$','admin_delete_menu', {}, name='admin_delete_menu'),    
+    url(r'^admin/admin_delete_menu/(?P<id_delete>\d+)/(?P<menuType>\d+)/$','admin_delete_menu', {}, name='admin_delete_menu'),
+    url(r'^admin/admin_create_product/$', 'admin_create_product', {}, name='admin_create_product'),
 )
 
 """

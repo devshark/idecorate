@@ -100,6 +100,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
+    'plata.context_processors.plata_context',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -133,14 +134,19 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'admin',
-
     'interface',
     'category',
     'menu',
-
     'debug_toolbar',
     'stdimage',
-    'widget_tweaks'
+    'widget_tweaks',
+    'cart',
+    'plata',
+    'plata.contact',
+    'plata.discount',
+    'plata.payment',
+    'plata.product',
+    'plata.shop',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -162,6 +168,25 @@ MAX_UPLOAD_CATEGORY_IMAGE_SIZE = 2097152
 
 CATEGORY_THUMBNAIL_WIDTH = 100
 CATEGORY_THUMBNAIL_HEIGHT = 100
+
+#Plata Settings
+POSTFINANCE = {
+    'PSPID': 'plataTEST',
+    'SHA1_IN': 'plataSHA1_IN',
+    'SHA1_OUT': 'plataSHA1_OUT',
+    'LIVE': False,
+    }
+
+PAYPAL = {
+    'BUSINESS': 'example@paypal.com',
+    'LIVE': False,
+    }
+
+PLATA_REPORTING_ADDRESSLINE = 'Example Corp. - 3. Example Street - 1234 Example'
+
+PLATA_SHOP_PRODUCT = 'cart.Product'
+CURRENCIES = ('USD',)
+#End of Plata Settings
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

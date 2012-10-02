@@ -7,7 +7,7 @@ from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
 from forms import CategoryForm, CategoryForm2
-from services import new_category, category_edit, delete_category, update_order, generate_admin_dropdown_category
+from services import new_category, category_edit, delete_category, update_order, generate_admin_dropdown_category, parent_is_my_sub
 
 from category.models import Categories
 
@@ -18,7 +18,6 @@ def category(request, cat_id=None):
 	info['method'] = 'Add'
 	info['heade_title'] = 'Add New Category'
 	
-	msg = 'New Category saved.'
 	form = CategoryForm()		
 
 	if request.method == 'POST':
@@ -27,8 +26,7 @@ def category(request, cat_id=None):
 		if form.is_valid():
 			data = form.cleaned_data
 			res = new_category(data)
-			if res:
-				messages.success(request, _(msg))
+			messages.success(request, _('New Category saved.'))
 			return redirect('category')
 
 	categories = Categories.objects.filter(parent__id=None, deleted=0).order_by('order')
@@ -65,12 +63,15 @@ def edit_category(request, cat_id=None):
 		form = CategoryForm2(request.POST, request.FILES)
 		if form.is_valid():
 			data = form.cleaned_data
-			res = category_edit(data)
-			if res:
-				messages.success(request, _(msg))
+			if parent_is_my_sub(data['id'],data['parent']):
+				messages.error(request, _('Cannot assign as parent that is a sub category. Please try again.'))
 			else:
-				messages.error(request, _('Edit category failed. Please try again.'))
-			return redirect('category')
+				res = category_edit(data)
+				if res:
+					messages.success(request, _(msg))
+				else:
+					messages.error(request, _('Edit category failed. Please try again.'))
+			return redirect('category')				
 
 	categories = Categories.objects.filter(parent__id=None, deleted=0).order_by('order')
 	info['form'] = form
@@ -82,8 +83,9 @@ def remove_category(request):
 	if request.method == 'POST':
 		cat_id = request.POST['cat_id']
 		res = delete_category(cat_id)
+		tags = generate_admin_dropdown_category()
 		if res:			
-			return HttpResponse('1')
+			return HttpResponse(tags)
 		else:
 			return HttpResponse('0')
 
