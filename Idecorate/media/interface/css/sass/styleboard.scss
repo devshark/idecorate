@@ -299,21 +299,118 @@ footer{
 
 #sidebar{
 	width:768%/$doc_width*100;
-	height:700px;
+	height:670px;
 	float:left;
 	border:1px solid #DDDDDD;
+	margin-left: 15%/$doc_width*100;
+	position:relative;
+	margin-top: 30px;
+
+	#sidebar-nav{
+		position:absolute;
+		top: -31px;
+		left: -1px;
+
+		li{
+			display:inline;
+
+			a{
+				margin-right:2px;
+				float:left;
+				display:block;
+				text-decoration: none;
+				height:30px;
+				background-color: #CCCCCC;
+				font-size: 13em/$default_font_size;
+				line-height: 30px;
+				padding: 0 20em/$default_font_size;
+				color: #FFF;
+				border-left: 1px solid #999999;
+				border-top: 1px solid #999999;
+				border-right: 1px solid #999999;
+				-moz-border-radius:  5px 5px 0 0;
+				-webkit-border-radius:  5px 5px 0 0;
+				border-radius:  5px 5px 0 0; /* future proofing */
+				-khtml-border-radius:  5px 5px 0 0; /* for old Konqueror browsers */
+				text-shadow: 0 1px #999999;
+			}
+
+			a:hover{
+				background-color: #999999;
+			}
+		}
+	}
+
+	#sidebar-form-wrap{
+		border: 1px solid #EEE;
+		margin: 10px 5px;
+		padding: 10px 10em/$default_font_size;
+
+		.sidebarInputs{
+			width: 50%;
+			float:left;
+		}
+
+		.sidebarTotals{
+			width: 50%;
+			float:right;
+			margin-top: 10px;
+			text-align:right;
+		}
+
+		h3{
+			margin-bottom: 10px;
+			border-bottom: 1px solid #EEE;
+			padding: 5px 0;
+		}
+
+		h5{
+
+			span{
+				color:#333;
+			}
+		}
+
+		label{
+			display:block;
+			margin-top: 5px;
+			color: #333;
+			font-size:12em/$default_font_size;
+		}
+
+		input[type="text"]{
+			width:200%/768*100;
+			border: 1px solid #CCC;
+			padding: 5px;
+			-moz-border-radius: 3px;
+			-webkit-border-radius:3px;
+			border-radius:3px; /* future proofing */
+			-khtml-border-radius:3px; /* for old Konqueror browsers */
+		}
+	}
 
 	#thumb-container{
 
 		.thumb{
 			float:left;
-			width:100%/768*100;
+			width:121%/768*100;
+			margin-left:3.5%/768*100;
+			min-width:76px;
 			height:100%;
-			border:1px solid #EEEEEE;
+			margin-bottom:5em/$default_font_size;
 
 			img{
 				width:100%;
 				height:100%;
+			}
+
+			span{
+				color: #0096ff;
+				margin-top:10em/$default_font_size;
+				display:block;
+				width:100%;
+				font-size: 11em/$default_font_size;
+				text-align:center;
 			}
 		}
 	}
@@ -322,8 +419,9 @@ footer{
 #canvas-wrap{
 	float:right;
 	border:1px solid #DDDDDD;
-	width:1130%/$doc_width*100;
+	width:1100%/$doc_width*100;
 	height:700px;
+	margin-right: 15%/$doc_width*100;
 }
 
 
