@@ -5,10 +5,14 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.template import RequestContext
 
+from category.services import get_categories
+
 def home(request):
 	info = {}
 	return render_to_response('interface/home.html',info,RequestContext(request))
 
-def styleboard(request):
-	info= {}
+def styleboard(request, cat_id=None):
+	info = {}
+	categories = get_categories(cat_id)
+	info['categories'] = categories
 	return render_to_response('interface/styleboard.html', info,RequestContext(request))
