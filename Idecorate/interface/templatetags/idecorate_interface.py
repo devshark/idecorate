@@ -2,6 +2,7 @@ from django import template
 from django.utils.safestring import mark_safe
 from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu
 from category.services import get_categories
+from django.core.urlresolvers import reverse
 
 register = template.Library()
 
@@ -44,8 +45,8 @@ def get_parent_category(value):
 	"""
 	for cat in parent_category:
 		tags += """
-			<li><a href="#">%s</a></li>
-		""" % cat.name
+			<li><a href="%s">%s</a></li>
+		""" % (reverse('styleboard_cat', args=[cat.id]), cat.name)
 		
 	tags += """
 		</ul>

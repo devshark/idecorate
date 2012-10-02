@@ -51,16 +51,31 @@ def parent_is_my_sub(cat_id,parent_id):
 		pass
 	return is_sub
 
+def is_parent_change(cat_parent,parent_id):
+	cat_parent = 0 if not cat_parent else cat_parent
+	parent = 0 if not parent_id else parent_id
+	is_change = False
+	if int(cat_parent) != int(parent):
+		is_change = True
+
+	return is_change
+
 def category_edit(data):
 	try:
 		category = Categories.objects.get(id=data['id'])
 		try:
+			cat_parent = category.parent.id
+		except:
+			cat_parent = None
+		try:
 			cat = Categories.objects.get(id=data['parent'])
 			category.parent = cat
-			category.order = get_next_order(data['parent'])
+			if is_parent_change(cat_parent, data['parent']):
+				category.order = get_next_order(data['parent'])
 		except:
 			category.parent = None
-			category.order = get_next_order(None)
+			if is_parent_change(cat_parent,None):
+				category.order = get_next_order(None)
 
 		if data['thumbnail']:
 			category.thumbnail = data['thumbnail']
