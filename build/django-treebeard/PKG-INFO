@@ -1,0 +1,44 @@
+Metadata-Version: 1.0
+Name: django-treebeard
+Version: 1.61
+Summary: Efficient tree implementations for Django 1.0+
+Home-page: https://tabo.pe/projects/django-treebeard/
+Author: Gustavo Picon
+Author-email: tabo@tabo.pe
+License: Apache License 2.0
+Description:    
+        django-treebeard
+        ================
+        
+        django-treebeard is a library that implements efficient tree implementations
+        for the Django Web Framework 1.0+, written by Gustavo Picón and licensed under
+        the Apache License 2.0.
+        
+        django-treebeard is:
+        
+        - **Flexible**: Includes 3 different tree implementations with the same API:
+        
+          1. Adjacency List
+          2. Materialized Path
+          3. Nested Sets
+        
+        - **Fast**: Optimized non-naive tree operations (see Benchmarks).
+        - **Easy**: Uses Django Model Inheritance with abstract classes to define your own
+          models.
+        - **Clean**: Testable and well tested code base. Code/branch test coverage is above
+          96%.
+        
+        You can find the documentation in
+        
+            https://tabo.pe/projects/django-treebeard/docs/tip/
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: Apache Software License
+Classifier: Programming Language :: Python
+Classifier: Operating System :: OS Independent
+Classifier: Topic :: Software Development :: Libraries
+Classifier: Topic :: Utilities
+Classifier: Environment :: Web Environment
+Classifier: Framework :: Django

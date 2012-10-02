@@ -1,11 +1,3 @@
-$greyBrownLight: #C2BDBD;
-$grey : #666666;
-
-$margin15: 15px;
-
-$padding15: 15px;
-
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -84,36 +76,41 @@ a:hover, a:active { outline: 0; }
 /*=========================================
 	Main Styles
 =========================================*/
+$doc_width 				: 1920;/*px*/
+$default_font_size		: 16;/*px*/ 
+$margin_15				: 15;/*px*/
+$padding_15				: 15;/*px*/
+$grey_ligh_brown		: #C2BDBD;
+$grey 					: #666666;
+
 body {
 	font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
-	font-size: 12px;
-	background-color: $greyBrownLight;
+	font-size: 100%;
+	background-color: $grey_ligh_brown;
 	color: $grey;
 }
 
 #main-container{
 	width: 100%;
-	min-width:800px;
+	min-width: 800px;
 	background-color: #FFFFFF;
-	padding:$padding15 0;
 }
 
 h1,h2,h3,h4,h5{
 	font-weight:normal;
 }
 
-h1{ font-size: 2em;}
-h2{ font-size: 1.7em;} 
-h3{ font-size: 1.5em;} 
-h4{ font-size: 1.3em;} 
-h5{ font-size: 1em;}
+h1{ font-size: 28/$default_font_size*100%;}/*28px/16px*100*/
+h2{ font-size: 25/$default_font_size*100%;}/*25px/16px*100*/ 
+h3{ font-size: 22/$default_font_size*100%;}/*22px/16px*100*/ 
+h4{ font-size: 19/$default_font_size*100%;}/*19px/16px*100*/ 
+h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 #header{
-	margin-bottom:15px;
-	padding:0 15px;
+	margin-bottom:15em/$default_font_size;
 	border-bottom:1px solid #EEEEEE;
-	position:relative;
-	min-height:60px;
+	min-height:100%;
+	padding: 15em/$default_font_size 0;
 
 
 	.headerColumn{
@@ -122,7 +119,6 @@ h5{ font-size: 1em;}
 		a{
 			text-decoration:none;
 			color: #333333;
-			font-size:1.2em;
 		}
 	}
 
@@ -131,17 +127,22 @@ h5{ font-size: 1em;}
 	}
 
 	#info-menu,#site-menu{
-		width:40%;
+		width:753/$doc_width*100%;
+	}
+
+	#info-menu{
+		margin-left:15/$doc_width*100%;
 	}
 
 	#logo{
-		width:20%;
+		width:384/$doc_width*100%;
 		h1,h3{
 			text-align:center;
 		}
 	}
 
 	#site-menu{
+		margin-right:15/$doc_width*100%;
 		vertical-align:top;
 		text-align:left;
 		ul{
@@ -150,12 +151,30 @@ h5{ font-size: 1em;}
 	}
 }
 
+@media screen and (max-width:800px) {
+    #info-menu,#site-menu,#logo{
+		float: none;
+		margin: 0;
+		width:100% !important;
+		text-align:center !important;
+		margin-bottom:10em/$default_font_size;/*22px/16px*/
+
+		ul{
+			float:none !important;
+		}
+	}
+
+	#site-menu{
+		margin-bottom:0 !important;
+	}
+}
+
 /* 
 	LEVEL ONE
 */
 ul.dropdown{ 
 	position: relative; 
-	margin-bottom:5px;
+	margin-bottom:15em/$default_font_size;/*22px/16px*/
 
 
 	li{ 
@@ -165,16 +184,17 @@ ul.dropdown{
 
 		a{ 
 			display: block; 
-			padding: 4px 10px; 
+			padding: 3em/$default_font_size 8em/$default_font_size; 
 			color: #222; 
 			white-space:nowrap;
+			font-size: 14em/$default_font_size;/*22px/16px*/
 		}
 	}
 
 	li.nonLink{
-		font-size:1.2em;
-		line-height:22px;
-		padding:0 10px;
+		font-size: 14em/$default_font_size;/*22px/16px*/
+		line-height: 22em/$default_font_size;/*22px/16px*/
+		padding: 0 8em/$default_font_size;
 	}
 
 	li.nonLink:hover,
@@ -185,7 +205,7 @@ ul.dropdown{
 
 	li:first-child{ 
 		border-left: none; 
-	} /* Doesn't work in IE */
+	} 
 
 	li.hover,
 	li:hover{ 
@@ -221,7 +241,7 @@ ul.dropdown{
 			color: #000; 
 			border-bottom: 1px solid #ccc; 
 			float: none; 
-			padding-right:10px;
+			padding-right:10em/$default_font_size;/*22px/16px*/
 
 			a{ 
 				border-left: none; width: 100%; display: inline-block; 
@@ -245,27 +265,28 @@ ul.dropdown{
 
 footer{
 	
-	margin-top:15px;
+	margin-top:15em/$default_font_size;
 	border-top: 1px solid #EEEEEE;
-	padding: $padding15 15px;
+	padding: 15em/$default_font_size 15/$doc_width*100%;
 
 	.copyright{
 		float:left;
+		font-size: 12em/$default_font_size;
 	}
 	.footerMenus{
 		float:right;
 		ul{
-
 			li{
-				padding:2px 5px;
+				padding:1em/$default_font_size 5em/$default_font_size;
 				display:inline-block;
 				zoom:1;
 				*display:inline;
 				border-left:1px solid #CCCCCC;
-				a{
+				a{	
+					display:block;
 					text-decoration: none;
 					color:#333333;
-					font-size:1.1em;
+					font-size: 10em/$default_font_size;
 				}
 			}
 
@@ -277,21 +298,32 @@ footer{
 }
 
 #sidebar{
-	width:40%;
-	min-width:300px;
+	width:768%/$doc_width*100;
 	height:700px;
 	float:left;
+	border:1px solid #DDDDDD;
 
 	#thumb-container{
-		border:1px solid #DDDDDD;
 
 		.thumb{
 			float:left;
-			width:100px;
-			height:100px;
+			width:100%/768*100;
+			height:100%;
 			border:1px solid #EEEEEE;
+
+			img{
+				width:100%;
+				height:100%;
+			}
 		}
 	}
+}
+
+#canvas-wrap{
+	float:right;
+	border:1px solid #DDDDDD;
+	width:1130%/$doc_width*100;
+	height:700px;
 }
 
 

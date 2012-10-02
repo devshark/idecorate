@@ -80,69 +80,92 @@ a:hover, a:active {
 /*=========================================
 	Main Styles
 =========================================*/
+/*px*/
+/*px*/
+/*px*/
+/*px*/
 body {
   font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
-  font-size: 12px;
+  font-size: 100%;
   background-color: #c2bdbd;
   color: #666666; }
 
 #main-container {
   width: 100%;
   min-width: 800px;
-  background-color: #FFFFFF;
-  padding: 15px 0; }
+  background-color: #FFFFFF; }
 
 h1, h2, h3, h4, h5 {
   font-weight: normal; }
 
 h1 {
-  font-size: 2em; }
+  font-size: 175%; }
 
+/*28px/16px*100*/
 h2 {
-  font-size: 1.7em; }
+  font-size: 156.25%; }
 
+/*25px/16px*100*/
 h3 {
-  font-size: 1.5em; }
+  font-size: 137.5%; }
 
+/*22px/16px*100*/
 h4 {
-  font-size: 1.3em; }
+  font-size: 118.75%; }
 
+/*19px/16px*100*/
 h5 {
-  font-size: 1em; }
+  font-size: 100%; }
 
+/*16px/16px*100*/
 #header {
-  margin-bottom: 15px;
-  padding: 0 15px;
+  margin-bottom: 0.938em;
   border-bottom: 1px solid #EEEEEE;
-  position: relative;
-  min-height: 60px; }
+  min-height: 100%;
+  padding: 0.938em 0; }
   #header .headerColumn {
     vertical-align: top; }
     #header .headerColumn a {
       text-decoration: none;
-      color: #333333;
-      font-size: 1.2em; }
+      color: #333333; }
   #header #info-menu, #header #site-menu, #header #logo {
     float: left; }
   #header #info-menu, #header #site-menu {
-    width: 40%; }
+    width: 39.219%; }
+  #header #info-menu {
+    margin-left: 0.781%; }
   #header #logo {
     width: 20%; }
     #header #logo h1, #header #logo h3 {
       text-align: center; }
   #header #site-menu {
+    margin-right: 0.781%;
     vertical-align: top;
     text-align: left; }
     #header #site-menu ul {
       float: right; }
+
+@media screen and (max-width:800px) {
+  #info-menu, #site-menu, #logo {
+    float: none;
+    margin: 0;
+    width: 100% !important;
+    text-align: center !important;
+    margin-bottom: 0.625em;
+    /*22px/16px*/ }
+    #info-menu ul, #site-menu ul, #logo ul {
+      float: none !important; }
+
+  #site-menu {
+    margin-bottom: 0 !important; } }
 
 /* 
 	LEVEL ONE
 */
 ul.dropdown {
   position: relative;
-  margin-bottom: 5px;
-  /* Doesn't work in IE */
+  margin-bottom: 0.938em;
+  /*22px/16px*/
   /* 
   LEVEL TWO
   */ }
@@ -152,13 +175,17 @@ ul.dropdown {
     *float: left; }
     ul.dropdown li a {
       display: block;
-      padding: 4px 10px;
+      padding: 0.188em 0.5em;
       color: #222;
-      white-space: nowrap; }
+      white-space: nowrap;
+      font-size: 0.875em;
+      /*22px/16px*/ }
   ul.dropdown li.nonLink {
-    font-size: 1.2em;
-    line-height: 22px;
-    padding: 0 10px; }
+    font-size: 0.875em;
+    /*22px/16px*/
+    line-height: 1.375em;
+    /*22px/16px*/
+    padding: 0 0.5em; }
   ul.dropdown li.nonLink:hover,
   ul.dropdown li.nonLink.hover {
     background: none !important;
@@ -191,7 +218,8 @@ ul.dropdown {
       color: #000;
       border-bottom: 1px solid #ccc;
       float: none;
-      padding-right: 10px; }
+      padding-right: 0.625em;
+      /*22px/16px*/ }
       ul.dropdown ul li a {
         border-left: none;
         width: 100%;
@@ -203,35 +231,44 @@ ul.dropdown {
     visibility: visible; }
 
 footer {
-  margin-top: 15px;
+  margin-top: 0.938em;
   border-top: 1px solid #EEEEEE;
-  padding: 15px 15px; }
+  padding: 0.938em 0.781%; }
   footer .copyright {
-    float: left; }
+    float: left;
+    font-size: 0.75em; }
   footer .footerMenus {
     float: right; }
     footer .footerMenus ul li {
-      padding: 2px 5px;
+      padding: 0.063em 0.313em;
       display: inline-block;
       zoom: 1;
       *display: inline;
       border-left: 1px solid #CCCCCC; }
       footer .footerMenus ul li a {
+        display: block;
         text-decoration: none;
         color: #333333;
-        font-size: 1.1em; }
+        font-size: 0.625em; }
     footer .footerMenus ul li:first-child {
       border-left: none; }
 
 #sidebar {
   width: 40%;
-  min-width: 300px;
   height: 700px;
-  float: left; }
-  #sidebar #thumb-container {
-    border: 1px solid #DDDDDD; }
-    #sidebar #thumb-container .thumb {
-      float: left;
-      width: 100px;
-      height: 100px;
-      border: 1px solid #EEEEEE; }
+  float: left;
+  border: 1px solid #DDDDDD; }
+  #sidebar #thumb-container .thumb {
+    float: left;
+    width: 13.021%;
+    height: 100%;
+    border: 1px solid #EEEEEE; }
+    #sidebar #thumb-container .thumb img {
+      width: 100%;
+      height: 100%; }
+
+#canvas-wrap {
+  float: right;
+  border: 1px solid #DDDDDD;
+  width: 58.854%;
+  height: 700px; }

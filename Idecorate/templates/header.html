@@ -1,16 +1,16 @@
 {% load idecorate_interface %}
-<div class="headerColumn" id="info-menu">
+<div class="headerColumn clearfix" id="info-menu">
 	{{ "info"|getInterfaceMenus }}
 	<input type="text" placeholder="Search Products" > 
 	<input type="submit" value="Search">
 </div>
-<div class="headerColumn" id="logo">
+<div class="headerColumn clearfix" id="logo">
 	<a href="{% url home %}">
 		<h1>Idecorate</h1>
 		<h3>Wedding</h3>
 	</a>
 </div>
-<div class="headerColumn" id="site-menu">
+<div class="headerColumn clearfix" id="site-menu">
 	{{ "site"|getInterfaceMenus }}
 </div>
 
