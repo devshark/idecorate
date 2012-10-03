@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -303,5 +303,14 @@ def admin_logout(request):
 @staff_member_required
 def admin_create_product(request):
     info = {}
+    form = AddProductForm()
 
+    if request.method == "POST":
+
+    	form = AddProductForm(request.POST)
+
+    	if form.is_valid():
+    		pass
+
+    info['form'] = form
     return render_to_response('admin/admin_create_product.html',info,RequestContext(request))

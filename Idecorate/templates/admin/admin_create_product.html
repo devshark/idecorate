@@ -14,7 +14,8 @@
 	<div>&nbsp;</div>
 
     <div class="container-fluid">      
-      <form class="form-horizontal">
+      <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+      	{% csrf_token %}
       <div class="row-fluid">
         <div class="span12">
 
@@ -23,14 +24,13 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Product Status</label>
+                <label class="control-label">{{ form.product_status.label }}</label>
                 <div class="controls">
-              		<label class="radio inline">
-  						<input type="radio" name="active_inactive" value="1" checked="checked" /> Active
-					</label>
-					<label class="radio inline">
-  						<input type="radio" name="active_inactive" value="0" /> Inactive
-					</label>
+                {% for choice in form.product_status.field.choices %}
+                  <label class="radio inline">
+                      <input type="radio" name="product_status" value="{{choice.0}}" {% if form.product_status.data == choice.0 %}checked="checked" {% endif %}/> {{choice.1}}
+                  </label>
+                {% endfor %}
                 </div>
               </div>
             </div><!--/span-->          
@@ -39,23 +39,10 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Product SKU *</label>
+                <label class="control-label">{{ form.product_sku.label }} *</label>
                 <div class="controls">
-                  <input type="text" class="input-xlarge" placeholder="SKU">
-                  <span class="help-block">Supply a unique identifier for this product using letters, numbers, hyphens, and underscores. <br />Commas may not be used.</span>
-                </div>
-              </div>
-            </div><!--/span-->          
-          </div><!--/row-->
-
-
-          <div class="row-fluid">
-            <div class="span12">
-              <div class="control-group">
-                <label class="control-label">Product Name *</label>
-                <div class="controls">
-                  <input type="text" class="input-xlarge" placeholder="Name">
-                  <span class="help-block">Enter the name of this product to be displayed on the product lists on the Front-end and CMS. It is recommended you keep the name short. Max 60 chars.</span>
+                  {{ form.product_sku|add_class:"input-xlarge"|attr:"placeholder:SKU" }}
+                  <span class="help-block">{{ form.product_sku.help_text }}</span>
                 </div>
               </div>
             </div><!--/span-->          
@@ -65,10 +52,23 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Price *</label>
+                <label class="control-label">{{ form.product_name.label }} *</label>
                 <div class="controls">
-                  <input type="text" class="input-xlarge" placeholder="Price">
-                  <span class="help-block">Enter product price per unit using numbers, commas, and periods. Up to 2 decimal points will be accepted. Decimals will automatically added to whole numbers upon saving the product.</span>
+                  {{ form.product_name|add_class:"input-xlarge"|attr:"placeholder:Name" }}
+                  <span class="help-block">{{ form.product_name.help_text }}</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.price.label }} *</label>
+                <div class="controls">
+                  {{ form.price|add_class:"input-xlarge"|attr:"placeholder:Price" }}
+                  <span class="help-block">{{ form.price.help_text }}</span>
                 </div>
               </div>
             </div><!--/span-->          
@@ -77,10 +77,11 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Product Description *</label>
+                <label class="control-label">{{ form.product_description.label }} *</label>
                 <div class="controls">
-                  <span class="help-block">Enter the product description to be displayed on the product information window on the front-end. Web page addresses and e-mail addresses turn into links automatically. Max 500 characters.</span>
-                  <textarea class="input-xxlarge" style="height:300px;"></textarea>
+                  <span class="help-block">{{ form.product_description.help_text }}</span>
+
+                  {{ form.product_description|add_class:"input-xxlarge"|attr:"style:height:300px;" }}
                 </div>
               </div>
             </div><!--/span-->          
@@ -127,7 +128,7 @@
         </div><!--/span-->      
       </div><!--/row-->
 			<div class="form-actions" style="text-align:left">
-  				<button type="button" class="btn btn-primary">Save</button>
+  				<button type="submit" class="btn btn-primary">Save</button>
 			</div>
       </form>
      </div>

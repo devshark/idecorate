@@ -66,7 +66,8 @@ CREATE TABLE `product` (
   `slug` varchar(50) NOT NULL,
   `ordering` int(10) unsigned NOT NULL,
   `description` longtext NOT NULL,
-  `thumbnail` varchar(100) NOT NULL,
+  `original_image` longtext NOT NULL,
+  `no_background` longtext NOT NULL,
   `sku` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
