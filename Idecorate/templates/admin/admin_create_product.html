@@ -7,11 +7,57 @@
 
 {% block styles %}
 <link href="/media/admin/css/admin.css" rel="stylesheet">
+<style type="text/css">
+
+  .preview {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border: 2px dotted #CCC;
+    margin-right: 16px;
+  }
+
+  div.preview.loading { 
+    background: url(/media/admin/images/loading.gif) no-repeat 39px 40px; 
+  }
+
+  div.preview.loading img {
+    display: none; 
+  }
+
+</style>
 {% endblock %}
 
 {% block content %}
 	<h1>{% trans "Create Product" %}</h1>
 	<div>&nbsp;</div>
+
+      {% if form.product_status.errors or form.product_sku.errors or form.product_name.errors or form.price.errors or form.product_description.errors %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for e in form.product_status.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.product_sku.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.product_name.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.price.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.product_description.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+        </ol> 
+      </div>
+
+      {% endif %}
+
 
     <div class="container-fluid">      
       <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
@@ -94,7 +140,7 @@
               <div class="control-group">
                 <label class="control-label">&nbsp;</label>
                 <div class="controls">
-                  <span class="help-block">Upload one product image with a background and another with a transparent background. Images uploaded will be automatically converted to the correct filetype and resized by the system.</span>
+                  <span class="help-block">{% trans "Upload one product image with a background and another with a transparent background. Images uploaded will be automatically converted to the correct filetype and resized by the system." %}</span>
                 </div>
               </div>
             </div><!--/span-->          
@@ -103,10 +149,13 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Original Image:</label>
+                <label class="control-label">{% trans "Original Image" %}:</label>
                 <div class="controls">
-                  <input type="file" />
-                  <span class="help-block">Accepted files: JPG, PNG, GIF, TIFF. Max filesize 10MB.</span>
+                  <div class="preview" id="preview1">
+                    <img id="thumb_original" src="/media/admin/images/bg_transparent.png" alt="" />
+                  </div>
+                  <a href="#" id="btn_orginal_image" class="btn btn-primary">{% trans "Browse ..." %}</a>
+                  <span class="help-block">{% trans "Accepted files: JPG, PNG, GIF, TIFF. Max filesize 10MB." %}</span>
                 </div>
               </div>
             </div><!--/span-->          
@@ -116,10 +165,13 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">No Background:</label>
+                <label class="control-label">{% trans "No Background" %}:</label>
                 <div class="controls">
-                  <input type="file" />
-                  <span class="help-block">Accepted files: PNG only. Max filesize 10MB.</span>
+                  <div class="preview" id="preview2">
+                    <img id="thumb_no_background" src="/media/admin/images/bg_transparent.png" alt="" />
+                  </div>
+                  <a href="#" id="btn_no_background" class="btn btn-primary">{% trans "Browse ..." %}</a>
+                  <span class="help-block">{% trans "Accepted files: PNG only. Max filesize 10MB." %}</span>
                 </div>
               </div>
             </div><!--/span-->          
@@ -128,7 +180,7 @@
         </div><!--/span-->      
       </div><!--/row-->
 			<div class="form-actions" style="text-align:left">
-  				<button type="submit" class="btn btn-primary">Save</button>
+  				<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
 			</div>
       </form>
      </div>
@@ -136,10 +188,45 @@
 {% endblock %}
 {% block javascripts %}
 	<script type="text/javascript" src="/media/admin/js/tiny_mce/tiny_mce.js"></script>
+  <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
 	<script type="text/javascript" >
 		tinyMCE.init({
 		        mode : "textareas",
 		        theme : "simple"
 		});
+
+    $(function(e){
+
+      var thumb_original = $('img#thumb_original');
+
+      new AjaxUpload('btn_orginal_image', {
+        name: 'image',
+        action: '{% url admin_upload_product_image %}',
+        onSubmit: function(file, extension) {
+          $('div#preview1').addClass('loading');
+        },
+        onComplete: function(file, response){                        
+          //alert(response);
+          console.log(response);
+        }
+      });
+
+      var thumb_no_background = $('img#thumb_no_background');
+
+      new AjaxUpload('btn_no_background', {
+        name: 'image',
+        action: '{% url admin_upload_product_image %}',
+        onSubmit: function(file, extension) {
+          $('div#preview2').addClass('loading');
+        },
+        onComplete: function(file, response){                        
+          //alert(response);
+          console.log(response);
+        }
+      });
+
+
+    });
+
 	</script >
 {% endblock %}

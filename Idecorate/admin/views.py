@@ -6,11 +6,11 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, ProductImageForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
-
+from django.views.decorators.csrf import csrf_exempt
 
 @staff_member_required
 def admin(request):
@@ -314,3 +314,13 @@ def admin_create_product(request):
 
     info['form'] = form
     return render_to_response('admin/admin_create_product.html',info,RequestContext(request))
+
+@csrf_exempt
+def admin_upload_product_image(request):
+
+	if request.method == "POST":
+		uploaded = request.FILES['image']
+		return HttpResponse('')
+
+	else:
+		return HttpResponse('Invalid Upload')

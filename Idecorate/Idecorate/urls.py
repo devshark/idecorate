@@ -29,6 +29,7 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_manage_menu/$', 'admin_manage_menu', {}, name='admin_manage_menu'),
     url(r'^admin/admin_delete_menu/(?P<id_delete>\d+)/(?P<menuType>\d+)/$','admin_delete_menu', {}, name='admin_delete_menu'),
     url(r'^admin/admin_create_product/$', 'admin_create_product', {}, name='admin_create_product'),
+    url(r'^admin/admin_upload_product_image/$', 'admin_upload_product_image', {}, name='admin_upload_product_image'),
 )
 
 """
