@@ -1,35 +1,29 @@
 import os
 from django.db.models import Max
-from category.models import Categories
+from models import Categories, CategoryThumbnail
 from django.utils.safestring import mark_safe
 from PIL import Image
 import magic
 from django.conf import settings
+from django.utils.translation import ugettext_lazy as _
 
 def new_category(data):
 	category_name = data['name']
 
 	try:
-		try:
-			category = Categories.objects.get(id=data['id'])
-			os.unlink(category.thumbnail.path)
-		except:
-			category = Categories()
-			category.order = get_next_order(data['parent'])
+		category = Categories()
+		category.order = get_next_order(data['parent'])
 
 		try:
 			cat = Categories.objects.get(id=data['parent'])
 			category.parent = cat
 		except:
 			pass
-		
-		if data['thumbnail']:
-			category.thumbnail = data['thumbnail']
 
-		category.name = category_name
-		
+		category.name = category_name		
 		category.save()
-		convert_to_jpeg(category.id)
+
+		set_category_thumbnail(category,data['thumbnail'])
 		return True
 	except Exception as e:
 		return False
@@ -77,20 +71,52 @@ def category_edit(data):
 			if is_parent_change(cat_parent,None):
 				category.order = get_next_order(None)
 
-		if data['thumbnail']:
-			category.thumbnail = data['thumbnail']
 		category.name = data['name']
 		category.save()
-		convert_to_jpeg(category.id)
+		
+		if data['thumbnail']:
+			set_category_thumbnail(category, data['thumbnail'])
+
 		return True
 	except Exception as e:
 		print e
 		return False
 
-def convert_to_jpeg(cat_id):	
+def set_category_thumbnail(category, thumbnail):
+	cat_thumb = CategoryThumbnail.objects.get(id=thumbnail)
+	cat_thumb.category = category
+	cat_thumb.save()
+
+def manage_category_thumbnail(data):
 	try:
-		cat = Categories.objects.get(id=cat_id)
-		thumb = cat.thumbnail.path
+		cat_thumb = CategoryThumbnail.objects.get(id=data['id'])
+	except:
+		cat_thumb = CategoryThumbnail()
+
+	cat_thumb.thumbnail = data['thumbnail']
+	cat_thumb.save()
+
+	convert_to_jpeg(cat_thumb)
+	
+	return cat_thumb.id
+
+def category_thumbnails(**kwargs):
+	ctid = kwargs.get('ctid',None)
+	cid = kwargs.get('cid',None)
+	try:
+		if ctid:
+			cat_thumb = CategoryThumbnail.objects.get(id=ctid)
+
+		if cid:
+			cat_thumb = CategoryThumbnail.objects.get(category__id=cid)
+	except:
+		cat_thumb = None
+
+	return cat_thumb
+
+def convert_to_jpeg(cat_thumb):	
+	try:
+		thumb = cat_thumb.thumbnail.path
 		s = thumb.split('/')
 		l = len(s)
 		fn = s[l-1].split('.')
@@ -98,7 +124,7 @@ def convert_to_jpeg(cat_id):
 
 		path = '%s%s.%s' % (settings.MEDIA_ROOT,nfn,'jpeg')
 
-		im = Image.open(cat.thumbnail.path)
+		im = Image.open(cat_thumb.thumbnail.path)
 
 		size = (settings.CATEGORY_THUMBNAIL_WIDTH, settings.CATEGORY_THUMBNAIL_HEIGHT)
 
@@ -106,15 +132,22 @@ def convert_to_jpeg(cat_id):
 
 		if im.mode != 'RGB':
 			im = im.convert("RGB")
+
+		# background = Image.new('RGB', size, (255, 255, 255))
+		# im.paste(background, (100,100), background)
+
+		#background.paste(im, (100,100), im)
+
 		im.save(path)
-		cat.thumbnail = path
-		cat.save()
+		cat_thumb.thumbnail = path
+		cat_thumb.save()
 
 		if fn[1] != 'jpeg' and fn[1] != 'jpg':
 			os.unlink(thumb)
 
 	except Exception as e:
-		print 'Exception : %s' % e
+		print e
+		pass
 
 
 def get_categories(parent_id):
@@ -215,3 +248,22 @@ def generate_admin_dropdown_sub_category(parent_id, level=''):
 		tags += '</li>'
 	tags += ''
 	return tags
+
+def validate_thumbnail(thumbnail=None):
+	res = {}
+	res['error'] = False
+	res['msg'] = ''
+	if thumbnail:
+		content_type = thumbnail.content_type.split('/')[0]	
+		if content_type in settings.CONTENT_TYPES:
+			if int(thumbnail._size) > int(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE):
+				res['error'] = True
+				res['msg'] = _('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE), filesizeformat(thumbnail._size))
+		else:
+			res['error'] = True
+			res['msg'] = _('File type is not supported')
+	else:
+		res['error'] = True
+		res['msg'] = _('Thumbnail is required.')
+
+	return res

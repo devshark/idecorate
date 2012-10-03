@@ -7,7 +7,11 @@ class CategoryForm(forms.Form):
 	id = forms.CharField(widget=forms.HiddenInput, required=False)
 	parent = forms.CharField(label=_("Parent"), widget=forms.HiddenInput, required=False)
 	name = forms.CharField(label=_("Category Name"), error_messages={'required':_('Category Name is a required field.')})
-	thumbnail = forms.FileField(label=_("Thumbnail"), error_messages={'required':_('Image thumbnail is a required field.')})
+	thumbnail = forms.CharField(widget=forms.HiddenInput, error_messages={'required':_('Image thumbnail is a required field.')})
+
+class CategoryThumbnailForm(forms.Form):
+	id = forms.CharField(widget=forms.HiddenInput, required=False)
+	thumbnail = forms.FileField(label=_("Thumbnail"))
 
 	def clean_thumbnail(self):
 	    content = self.cleaned_data['thumbnail']
@@ -19,9 +23,3 @@ class CategoryForm(forms.Form):
 		    else:
 		        raise forms.ValidationError(_('File type is not supported'))
 	    return content
-
-class CategoryForm2(CategoryForm):
-    
-    def __init__(self,*args,**kwargs):
-        CategoryForm.__init__(self,*args,**kwargs)
-        self.fields['thumbnail'].required = False
