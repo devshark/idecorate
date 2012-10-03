@@ -14,7 +14,6 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
-import datetime
 
 @staff_member_required
 def admin(request):
@@ -332,7 +331,7 @@ def admin_upload_product_image(request):
 				return HttpResponse(_('notok:Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE), filesizeformat(uploaded.size)))
 			else:
 				splittedName = getExtensionAndFileName(uploaded.name)
-				newFileName = "%s-%s%s" % (splittedName[0],datetime.datetime.now().strftime('%b-%d-%I%M%s%p-%G'),splittedName[1])
+				newFileName = "%s-%s%s" % (splittedName[0],datetime.now().strftime('%b-%d-%I%M%s%p-%G'),splittedName[1])
 
 				destination = open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName), 'wb+')
 				for chunk in uploaded.chunks():
