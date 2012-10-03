@@ -6,11 +6,14 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, ProductImageForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
 from django.views.decorators.csrf import csrf_exempt
+from django.template.defaultfilters import filesizeformat
+from django.conf import settings
+from services import getExtensionAndFileName
 
 @staff_member_required
 def admin(request):
@@ -319,8 +322,23 @@ def admin_create_product(request):
 def admin_upload_product_image(request):
 
 	if request.method == "POST":
-		uploaded = request.FILES['image']
-		return HttpResponse('')
 
-	else:
-		return HttpResponse('Invalid Upload')
+		uploaded = request.FILES['image']
+		content_type = uploaded.content_type.split('/')[0]
+
+		if content_type in settings.CONTENT_TYPES:
+			if int(uploaded.size) > int(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE):
+				return HttpResponse(_('notok:Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE), filesizeformat(uploaded.size)))
+			else:
+				splittedName = getExtensionAndFileName(uploaded.name)
+				newFileName = "%s-%s%s" % (splittedName[0],datetime.now().strftime('%b-%d-%I%M%s%p-%G'),splittedName[1])
+
+				destination = open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName), 'wb+')
+				for chunk in uploaded.chunks():
+					destination.write(chunk)
+
+				destination.close()
+
+				return HttpResponse('ok:%s' % newFileName)
+		else:
+			return HttpResponse(_('notok:File type is not supported').encode('utf-8'))
