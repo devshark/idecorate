@@ -3,11 +3,14 @@ from django.shortcuts import HttpResponse, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
+from django.core.urlresolvers import reverse
+
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from forms import CategoryForm, CategoryForm2
-from services import new_category, category_edit, delete_category, update_order, generate_admin_dropdown_category, parent_is_my_sub
+from forms import CategoryForm, CategoryThumbnailForm
+from services import new_category, category_edit, delete_category, update_order, generate_admin_dropdown_category, parent_is_my_sub,\
+validate_thumbnail, manage_category_thumbnail, category_thumbnails
 
 from category.models import Categories
 
@@ -21,7 +24,7 @@ def category(request, cat_id=None):
 	form = CategoryForm()		
 
 	if request.method == 'POST':
-		form = CategoryForm(request.POST, request.FILES)			
+		form = CategoryForm(request.POST)			
 
 		if form.is_valid():
 			data = form.cleaned_data
@@ -54,13 +57,18 @@ def edit_category(request, cat_id=None):
 			pass
 		info['cat'] = cat		
 		info['parent'] = parent_name
+
+		thumb_id = None
+		cat_thumb = category_thumbnails(cid=cat.id)
+		if cat_thumb:
+			thumb_id = cat_thumb.id
 		
-		form = CategoryForm2(initial={'name':cat.name,'parent':parent, 'id':cat.id})
+		form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id, 'thumbnail': thumb_id })
 	except Exception as e:
 		return redirect('category')
 
 	if request.method == 'POST':
-		form = CategoryForm2(request.POST, request.FILES)
+		form = CategoryForm(request.POST, request.FILES)
 		if form.is_valid():
 			data = form.cleaned_data
 			if parent_is_my_sub(data['id'],data['parent']):
@@ -112,3 +120,51 @@ def order_category(request):
 		return HttpResponse(tags)
 	else:
 		return HttpResponse('0')
+
+@staff_member_required
+def category_thumbnail(request):
+	info = {}
+	form = CategoryThumbnailForm()
+
+	if request.method == "POST":		
+		thumbnail = request.FILES['thumbnail']
+		res = validate_thumbnail(thumbnail)
+		if res['error']:
+			messages.error(request, res['msg'])
+		else:
+			data = {}
+			data['id'] = request.POST['id']
+			data['thumbnail'] = thumbnail
+			thumb_id = manage_category_thumbnail(data)
+
+			return redirect(reverse('category_thumbnail_view', args=[thumb_id]))
+
+	info['form'] = form
+	return render_to_response('admin/iframe/category_thumbnail.html', info, RequestContext(request))
+
+@staff_member_required
+def category_thumbnail_view(request, ctid=None):
+	info = {}
+	
+	cat_thumb = category_thumbnails(ctid=ctid)
+	if not cat_thumb:
+		return redirect('category_thumbnail')
+
+	form = CategoryThumbnailForm(initial={ 'id': cat_thumb.id })
+
+	if request.method == "POST":		
+		thumbnail = request.FILES['thumbnail']
+		res = validate_thumbnail(thumbnail)
+		if res['error']:
+			messages.error(request, res['msg'])
+		else:
+			data = {}
+			data['id'] = request.POST['id']
+			data['thumbnail'] = thumbnail
+			thumb_id = manage_category_thumbnail(data)
+
+			return redirect(reverse('category_thumbnail_view', args=[thumb_id]))
+
+	info['form'] = form
+	info['cat_thumb'] = cat_thumb
+	return render_to_response('admin/iframe/category_thumbnail.html', info, RequestContext(request))

@@ -39,4 +39,6 @@ urlpatterns += patterns('category.views',
     url(r'^admin/category/(?P<cat_id>\d+)/', 'edit_category', {}, name='edit_category'),
     url(r'^admin/remove_category/$', 'remove_category', {}, name='remove_category'),
     url(r'^admin/order_category/$', 'order_category', {}, name='order_category'),
+    url(r'^admin/category_thumbnail/$', 'category_thumbnail', {}, name='category_thumbnail'),
+    url(r'^admin/category_thumbnail/(?P<ctid>\d+)/', 'category_thumbnail_view', {}, name='category_thumbnail_view'),
     )
