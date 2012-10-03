@@ -156,6 +156,7 @@
                   </div>
                   <a href="#" id="btn_orginal_image" class="btn btn-primary">{% trans "Browse ..." %}</a>
                   <span class="help-block">{% trans "Accepted files: JPG, PNG, GIF, TIFF. Max filesize 10MB." %}</span>
+                  <div id="error_1" style="color:red">&nbsp;</div>
                 </div>
               </div>
             </div><!--/span-->          
@@ -172,6 +173,7 @@
                   </div>
                   <a href="#" id="btn_no_background" class="btn btn-primary">{% trans "Browse ..." %}</a>
                   <span class="help-block">{% trans "Accepted files: PNG only. Max filesize 10MB." %}</span>
+                  <div id="error_2" style="color:red">&nbsp;</div>
                 </div>
               </div>
             </div><!--/span-->          
@@ -206,8 +208,22 @@
           $('div#preview1').addClass('loading');
         },
         onComplete: function(file, response){                        
-          //alert(response);
-          console.log(response);
+
+          var splittedResponse = response.split(':')
+
+          if (splittedResponse[0] == 'notok') {
+            $('#error_1').text(splittedResponse[1]);
+          } else {
+            thumb_original.load(function(){
+              thumb_original.unbind();
+            });
+
+            thumb_original.attr('src', '/media/products/temp/' + splittedResponse[1]);
+            $('#error_1').text('');
+          }
+
+          $('div#preview1').removeClass('loading');
+
         }
       });
 
@@ -220,8 +236,24 @@
           $('div#preview2').addClass('loading');
         },
         onComplete: function(file, response){                        
-          //alert(response);
-          console.log(response);
+
+          var splittedResponse = response.split(':')
+
+          if (splittedResponse[0] == 'notok') {
+
+            $('#error_2').text(splittedResponse[1]);
+            
+          } else {
+            thumb_no_background.load(function(){
+              thumb_no_background.unbind();
+            });
+
+            thumb_no_background.attr('src', '/media/products/temp/' + splittedResponse[1]);
+            $('#error_2').text('');
+          }
+
+          $('div#preview2').removeClass('loading');
+
         }
       });
 

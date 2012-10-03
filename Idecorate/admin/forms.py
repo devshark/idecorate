@@ -21,19 +21,3 @@ class AddProductForm(forms.Form):
 	product_name = forms.CharField(label=_("Product Name"), required=True, help_text=_('Enter the name of this product to be displayed on the product lists on the Front-end and CMS. It is recommended you keep the name short. Max 60 chars.'), error_messages={'required':_('Product Name is a required field.')})
 	price = forms.DecimalField(label=_("Price"), max_digits=19, decimal_places=4, required=True, help_text=_('Enter product price per unit using numbers, commas, and periods. Up to 2 decimal points will be accepted. Decimals will automatically added to whole numbers upon saving the product.'), error_messages={'required':_('Price is a required field.')})
 	product_description = forms.CharField(label=_("Product Description"), required=True,widget=forms.Textarea, help_text=_('Enter the product description to be displayed on the product information window on the front-end. Web page addresses and e-mail addresses turn into links automatically. Max 500 characters.'), error_messages={'required':_('Product Description is a required field.')})
-
-class ProductImageForm(forms.Form):
-
-	image = forms.FileField(label=_("Image"), required=False)
-
-	def clean_image(self):
-	    content = self.cleaned_data['image']
-	    if content:
-	    	content_type = content.content_type.split('/')[0]
-	    	if content_type in settings.CONTENT_TYPES:
-	    		if int(content._size) > int(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE):
-	    			raise forms.ValidationError(_('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE), filesizeformat(content._size)))
-	    	else:
-	    		raise forms.ValidationError(_('File type is not supported'))
-
-	    return content
