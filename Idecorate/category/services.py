@@ -1,11 +1,12 @@
 import os
 from django.db.models import Max
-from models import Categories, CategoryThumbnail
+from models import Categories, CategoryThumbnail, CategoryThumbnailTemp
 from django.utils.safestring import mark_safe
 from PIL import Image
 import magic
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+import time
 
 def new_category(data):
 	category_name = data['name']
@@ -73,9 +74,8 @@ def category_edit(data):
 
 		category.name = data['name']
 		category.save()
-		
-		if data['thumbnail']:
-			set_category_thumbnail(category, data['thumbnail'])
+
+		set_category_thumbnail(category, data['thumbnail'])
 
 		return True
 	except Exception as e:
@@ -83,22 +83,61 @@ def category_edit(data):
 		return False
 
 def set_category_thumbnail(category, thumbnail):
-	cat_thumb = CategoryThumbnail.objects.get(id=thumbnail)
-	cat_thumb.category = category
-	cat_thumb.save()
+	print thumbnail
+	if thumbnail.find('temp')!=-1:
+		print 'asdasdasdasdasd'
+		try:	
+			cat_thumb = CategoryThumbnail.objects.get(category__id=category.id)
+		except:
+			cat_thumb = CategoryThumbnail()
+			cat_thumb.category = category
+
+		spl = thumbnail.split('|')
+		temp_id = spl[1]
+		cat_temp = CategoryThumbnailTemp.objects.get(id=temp_id)
+
+		thumb = cat_temp.thumbnail.path
+
+		t = time.time()
+		t = str(t)
+		fn = t.replace('.','_')
+		fname = '%s.%s' % (fn,'jpeg')
+
+		path = '%scategories/thumbnail/%s' % (settings.MEDIA_ROOT,fname)
+		print path
+
+		im = Image.open(thumb)
+
+		size = (settings.CATEGORY_THUMBNAIL_WIDTH, settings.CATEGORY_THUMBNAIL_HEIGHT)
+
+		im.thumbnail(size, Image.ANTIALIAS)
+
+		if im.mode != 'RGB':
+			im = im.convert("RGB")
+
+		im.save(path)
+
+		cat_thumb.thumbnail = 'categories/thumbnail/%s' % fname
+		cat_thumb.save()
+		clear_temp(temp_id)
 
 def manage_category_thumbnail(data):
 	try:
-		cat_thumb = CategoryThumbnail.objects.get(id=data['id'])
+		cat_thumb = CategoryThumbnailTemp.objects.get(id=data['id'])
 	except:
-		cat_thumb = CategoryThumbnail()
+		cat_thumb = CategoryThumbnailTemp()
 
 	cat_thumb.thumbnail = data['thumbnail']
 	cat_thumb.save()
+	return cat_thumb
 
-	convert_to_jpeg(cat_thumb)
-	
-	return cat_thumb.id
+def clear_temp(temp_id):
+	try:
+		cat_temp = CategoryThumbnailTemp.objects.get(id=temp_id)
+		os.unlink(cat_temp.thumbnail.path)
+		cat_temp.delete()
+	except:
+		pass
 
 def category_thumbnails(**kwargs):
 	ctid = kwargs.get('ctid',None)
@@ -114,9 +153,8 @@ def category_thumbnails(**kwargs):
 
 	return cat_thumb
 
-def convert_to_jpeg(cat_thumb):	
+def convert_to_jpeg(thumb):	
 	try:
-		thumb = cat_thumb.thumbnail.path
 		s = thumb.split('/')
 		l = len(s)
 		fn = s[l-1].split('.')
@@ -124,7 +162,7 @@ def convert_to_jpeg(cat_thumb):
 
 		path = '%s%s.%s' % (settings.MEDIA_ROOT,nfn,'jpeg')
 
-		im = Image.open(cat_thumb.thumbnail.path)
+		im = Image.open(thumb)
 
 		size = (settings.CATEGORY_THUMBNAIL_WIDTH, settings.CATEGORY_THUMBNAIL_HEIGHT)
 
@@ -139,15 +177,10 @@ def convert_to_jpeg(cat_thumb):
 		#background.paste(im, (100,100), im)
 
 		im.save(path)
-		cat_thumb.thumbnail = path
-		cat_thumb.save()
 
-		if fn[1] != 'jpeg' and fn[1] != 'jpg':
-			os.unlink(thumb)
-
+		return path
 	except Exception as e:
-		print e
-		pass
+		return False
 
 
 def get_categories(parent_id):
@@ -266,4 +299,4 @@ def validate_thumbnail(thumbnail=None):
 		res['error'] = True
 		res['msg'] = _('Thumbnail is required.')
 
-	return res
+	return res	
