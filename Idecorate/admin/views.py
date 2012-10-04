@@ -14,6 +14,10 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
+from cart.models import Product, ProductPrice
+from plata.shop.models import TaxClass
+import shutil
+from PIL import Image
 
 @staff_member_required
 def admin(request):
@@ -313,7 +317,46 @@ def admin_create_product(request):
     	form = AddProductForm(request.POST)
 
     	if form.is_valid():
-    		pass
+
+    		#CREATE THUMBNAIL
+
+    		splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
+    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+
+    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+    		img.thumbnail((settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT),Image.ANTIALIAS)
+
+    		if img.mode != "RGB":
+    			img = img.convert("RGB")
+
+    		img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
+
+    		#Save product and price
+    		product = Product()
+    		product.is_active = form.cleaned_data['product_status']
+    		product.name = form.cleaned_data['product_name']
+    		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
+    		product.description = form.cleaned_data['product_description']
+    		product.original_image = form.cleaned_data['original_image']
+    		product.no_background = form.cleaned_data['no_background']
+    		product.original_image_thumbnail = thumbName
+    		product.sku = form.cleaned_data['product_sku']
+    		product.save()
+
+    		productPrice = ProductPrice()
+    		productPrice.product = product
+    		productPrice._unit_price = form.cleaned_data['price']
+    		productPrice.currency = settings.CURRENCIES[0] #USD
+    		productPrice.tax_included = False
+    		productPrice.tax_class = TaxClass.objects.get(pk=1)
+    		productPrice.save()
+
+    		#MOVE FILES
+    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
+    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+    		
+    		messages.success(request, _('Product Saved.'))
+    		return redirect('admin_create_product')
 
     info['form'] = form
     return render_to_response('admin/admin_create_product.html',info,RequestContext(request))
