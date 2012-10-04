@@ -83,9 +83,7 @@ def category_edit(data):
 		return False
 
 def set_category_thumbnail(category, thumbnail):
-	print thumbnail
 	if thumbnail.find('temp')!=-1:
-		print 'asdasdasdasdasd'
 		try:	
 			cat_thumb = CategoryThumbnail.objects.get(category__id=category.id)
 		except:
@@ -104,7 +102,6 @@ def set_category_thumbnail(category, thumbnail):
 		fname = '%s.%s' % (fn,'jpeg')
 
 		path = '%scategories/thumbnail/%s' % (settings.MEDIA_ROOT,fname)
-		print path
 
 		im = Image.open(thumb)
 
@@ -291,12 +288,12 @@ def validate_thumbnail(thumbnail=None):
 		if content_type in settings.CONTENT_TYPES:
 			if int(thumbnail._size) > int(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE):
 				res['error'] = True
-				res['msg'] = _('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE), filesizeformat(thumbnail._size))
+				res['msg'] = _('Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE), filesizeformat(thumbnail._size))
 		else:
 			res['error'] = True
-			res['msg'] = _('File type is not supported')
+			res['msg'] = _('File type is not supported').encode('utf-8')
 	else:
 		res['error'] = True
-		res['msg'] = _('Thumbnail is required.')
+		res['msg'] = _('Thumbnail is required.').encode('utf-8')
 
 	return res	
