@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from django.template import RequestContext
 from forms import CategoryForm, CategoryThumbnailForm
 from services import new_category, category_edit, delete_category, update_order, generate_admin_dropdown_category, parent_is_my_sub,\
-validate_thumbnail, manage_category_thumbnail, category_thumbnails
+validate_thumbnail, manage_category_thumbnail, category_thumbnails, clear_temp
 
 from category.models import Categories
 
@@ -124,6 +124,12 @@ def order_category(request):
 @staff_member_required
 def category_thumbnail(request):
 	info = {}
+
+	created_temp = request.session.get('TEMP_CAT_ID',None)
+	if created_temp:
+		clear_temp(created_temp)
+		del request.session['TEMP_CAT_ID']
+
 	form = CategoryThumbnailForm()
 
 	if request.method == "POST":		
@@ -135,9 +141,9 @@ def category_thumbnail(request):
 			data = {}
 			data['id'] = request.POST['id']
 			data['thumbnail'] = thumbnail
-			thumb_id = manage_category_thumbnail(data)
-
-			return redirect(reverse('category_thumbnail_view', args=[thumb_id]))
+			cat_thumb = manage_category_thumbnail(data)
+			request.session['TEMP_CAT_ID'] = cat_thumb.id
+			info['cat_thumb'] = cat_thumb
 
 	info['form'] = form
 	return render_to_response('admin/iframe/category_thumbnail.html', info, RequestContext(request))
@@ -145,12 +151,17 @@ def category_thumbnail(request):
 @staff_member_required
 def category_thumbnail_view(request, ctid=None):
 	info = {}
+
+	created_temp = request.session.get('TEMP_CAT_ID',None)
+	if created_temp:
+		clear_temp(created_temp)
+		del request.session['TEMP_CAT_ID']
 	
 	cat_thumb = category_thumbnails(ctid=ctid)
 	if not cat_thumb:
 		return redirect('category_thumbnail')
 
-	form = CategoryThumbnailForm(initial={ 'id': cat_thumb.id })
+	form = CategoryThumbnailForm()
 
 	if request.method == "POST":		
 		thumbnail = request.FILES['thumbnail']
@@ -161,9 +172,9 @@ def category_thumbnail_view(request, ctid=None):
 			data = {}
 			data['id'] = request.POST['id']
 			data['thumbnail'] = thumbnail
-			thumb_id = manage_category_thumbnail(data)
-
-			return redirect(reverse('category_thumbnail_view', args=[thumb_id]))
+			cat_thumb = manage_category_thumbnail(data)
+			request.session['TEMP_CAT_ID'] = cat_thumb.id
+			info['cat_thumb'] = cat_thumb
 
 	info['form'] = form
 	info['cat_thumb'] = cat_thumb

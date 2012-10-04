@@ -18,9 +18,17 @@ class Categories(models.Model):
 
 class CategoryThumbnail(models.Model):
 	id = models.AutoField(db_column='ID', primary_key=True)
-	thumbnail = StdImageField(upload_to='categories/thumbnail')
+	thumbnail = models.CharField(db_column='thumbnail', max_length=256, null=True)
 	category = models.ForeignKey(Categories, db_column='category_id', null=True)
 
 	class Meta:
 		db_table = 'category_thumbnails'
-		verbose_name = _("Categories Thumbnail")
+		verbose_name = _("Category Thumbnails")
+
+class CategoryThumbnailTemp(models.Model):
+	id = models.AutoField(db_column='ID', primary_key=True)
+	thumbnail = models.ImageField(upload_to='categories/temp')
+
+	class Meta:
+		db_table = 'category_thumbnail_temps'
+		verbose_name = _("Category Thumbnail Temps")
