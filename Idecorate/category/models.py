@@ -27,7 +27,7 @@ class CategoryThumbnail(models.Model):
 
 class CategoryThumbnailTemp(models.Model):
 	id = models.AutoField(db_column='ID', primary_key=True)
-	thumbnail = models.ImageField(upload_to='categories/temp')
+	thumbnail = StdImageField(upload_to='categories/temp', size=(settings.CATEGORY_THUMBNAIL_WIDTH, settings.CATEGORY_THUMBNAIL_HEIGHT))
 
 	class Meta:
 		db_table = 'category_thumbnail_temps'

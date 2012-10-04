@@ -74,27 +74,11 @@
 	text-align: center;
 	clear: both;
 }
-iframe {
-	border: 0;
-	height: 165px;
-	width: 100%;
-}
 .file-wrapper {
   cursor: pointer;
   display: inline-block;
   overflow: hidden;
   position: relative;
-}
-.file-wrapper input {
-  cursor: pointer;
-  font-size: 100px;
-  height: 100%;
-  filter: alpha(opacity=1);
-  -moz-opacity: 0.01;
-  opacity: 0.01;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 #btn-browse.button {
   cursor: pointer;
@@ -315,7 +299,7 @@ iframe {
 						}, 10000);
 					}
 				} else {
-					$('#btn-browse').text('Photo Choosen');
+					$('#btn-browse').text('Photo Chosen');
 					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
 					$('div#preview').append('<img id="created-thumb" src="/media/' + splittedResponse[2] + '" />');
 				}				
