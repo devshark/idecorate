@@ -7,6 +7,7 @@ import magic
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 import time
+from django.template.defaultfilters import filesizeformat
 
 def new_category(data):
 	category_name = data['name']
@@ -291,14 +292,16 @@ def validate_thumbnail(thumbnail=None):
 			if int(thumbnail._size) > int(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE):
 				print 3
 				res['error'] = True
-				msg = _('Max filesize exceeded.')
+				max_size = filesizeformat(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE)
+				image_size = filesizeformat(thumbnail._size)
+				msg = _('Please keep filesize under %s. Current filesize %s') % (max_size, image_size)
 				res['msg'] = msg.encode('utf-8') 
 		else:
 			print 4
 			res['error'] = True
 			res['msg'] = _('File type is not supported').encode('utf-8')
 	else:
-		print 5
+		print 
 		res['error'] = True
 		res['msg'] = _('Thumbnail is required.').encode('utf-8')
 
