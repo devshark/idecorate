@@ -281,23 +281,29 @@ def generate_admin_dropdown_sub_category(parent_id, level=''):
 	return tags
 
 def validate_thumbnail(thumbnail=None):
-	print 1
 	res = {}
 	res['error'] = False
 	res['msg'] = ''
 	if thumbnail:
-		content_type = thumbnail.content_type.split('/')[0]	
+		splitted_content_type = thumbnail.content_type.split('/')
+		content_type = splitted_content_type[0]
+		file_type = splitted_content_type[1]
+
+		print file_type
+
 		if content_type in settings.CONTENT_TYPES:
-			print 2
 			if int(thumbnail._size) > int(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE):
-				print 3
 				res['error'] = True
 				max_size = filesizeformat(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE)
 				image_size = filesizeformat(thumbnail._size)
 				msg = _('Please keep filesize under %s. Current filesize %s') % (max_size, image_size)
-				res['msg'] = msg.encode('utf-8') 
+				res['msg'] = msg.encode('utf-8')
+
+			if file_type not in settings.ALLOWED_CATEGORY_IMAGES:
+				res['error'] = True
+				res['msg'] = _('File type is not supported').encode('utf-8')
+
 		else:
-			print 4
 			res['error'] = True
 			res['msg'] = _('File type is not supported').encode('utf-8')
 	else:

@@ -155,6 +155,7 @@ INSTALLED_APPS = (
 
 # Add to your settings file
 CONTENT_TYPES = ['image']
+ALLOWED_CATEGORY_IMAGES = ['png','gif','jpeg','jpg']
 # 2MB - 2097152
 # 2.5MB - 2621440
 # 5MB - 5242880
