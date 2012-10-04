@@ -110,10 +110,13 @@ def set_category_thumbnail(category, thumbnail):
 
 		im.thumbnail(size, Image.ANTIALIAS)
 
-		if im.mode != 'RGB':
-			im = im.convert("RGB")
+		background = Image.new('RGBA', size, (255, 255, 255, 0))
+		background.paste(im,((size[0] - im.size[0]) / 2, (size[1] - im.size[1]) / 2))
 
-		im.save(path)
+		# if im.mode != 'RGB':
+		# 	im = im.convert("RGB")
+
+		background.save(path)
 
 		cat_thumb.thumbnail = 'categories/thumbnail/%s' % fname
 		cat_thumb.save()
