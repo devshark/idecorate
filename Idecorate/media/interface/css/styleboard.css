@@ -290,6 +290,8 @@ footer {
         text-shadow: 0 1px #999999; }
       #sidebar #sidebar-nav li a:hover {
         background-color: #999999; }
+    #sidebar #sidebar-nav li.active a {
+      background-color: #999999; }
   #sidebar #sidebar-form-wrap {
     border: 1px solid #EEE;
     margin: 10px 5px;
@@ -323,23 +325,97 @@ footer {
       /* future proofing */
       -khtml-border-radius: 3px;
       /* for old Konqueror browsers */ }
-  #sidebar #thumb-container .thumb {
+  #sidebar #create-tab .thumb {
     float: left;
     width: 15.755%;
     margin-left: 0.456%;
     min-width: 76px;
     height: 100%;
     margin-bottom: 0.313em; }
-    #sidebar #thumb-container .thumb img {
-      width: 100%;
-      height: 100%; }
-    #sidebar #thumb-container .thumb span {
+    #sidebar #create-tab .thumb img {
+      width: 100%; }
+    #sidebar #create-tab .thumb span {
       color: #0096ff;
       margin-top: 0.625em;
       display: block;
       width: 100%;
       font-size: 0.688em;
       text-align: center; }
+  #sidebar .overflowY {
+    max-height: 517px;
+    overflow: auto; }
+  #sidebar #buy-tab .overflowY {
+    max-height: 450px;
+    overflow: auto; }
+  #sidebar #buy-tab #buy-table {
+    width: 97.656%;
+    margin: 10px auto; }
+    #sidebar #buy-tab #buy-table thead {
+      border-bottom: medium double #DDD; }
+      #sidebar #buy-tab #buy-table thead th {
+        padding: 5px 0;
+        font-size: 0.875em;
+        color: #333; }
+      #sidebar #buy-tab #buy-table thead th:first-child {
+        width: 52.083%; }
+      #sidebar #buy-tab #buy-table thead th:first-child + th {
+        width: 19.531%; }
+      #sidebar #buy-tab #buy-table thead th:first-child + th + th {
+        width: 26.042%; }
+    #sidebar #buy-tab #buy-table tbody tr.odd {
+      background-color: #FFF; }
+    #sidebar #buy-tab #buy-table tbody tr.even {
+      background-color: #EEE; }
+      #sidebar #buy-tab #buy-table tbody tr.even .buyItemImg {
+        border: 1px solid #DDD; }
+    #sidebar #buy-tab #buy-table tbody td {
+      text-align: center;
+      font-size: 0.75em;
+      vertical-align: middle; }
+    #sidebar #buy-tab #buy-table tbody .buyItemImg {
+      border: 1px solid #EEE;
+      width: 30%;
+      line-height: 30%;
+      position: relative;
+      margin: 5px 2.5%; }
+      #sidebar #buy-tab #buy-table tbody .buyItemImg img {
+        width: 100%; }
+      #sidebar #buy-tab #buy-table tbody .buyItemImg .buyItemMeta {
+        position: absolute;
+        left: 110%;
+        top: 0; }
+        #sidebar #buy-tab #buy-table tbody .buyItemImg .buyItemMeta h5 {
+          color: #0096ff;
+          white-space: nowrap;
+          font-size: 1.125em;
+          line-height: 2.188em; }
+        #sidebar #buy-tab #buy-table tbody .buyItemImg .buyItemMeta p {
+          white-space: nowrap;
+          font-size: 0.938em; }
+    #sidebar #buy-tab #buy-table tbody input[type="text"] {
+      width: 26.042%;
+      border: 1px solid #CCC;
+      padding: 5px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      /* future proofing */
+      -khtml-border-radius: 3px;
+      /* for old Konqueror browsers */ }
+    #sidebar #buy-tab #buy-table tfoot {
+      border-top: medium double #DDD; }
+      #sidebar #buy-tab #buy-table tfoot td {
+        padding: 5px 0;
+        color: #333;
+        font-size: 0.938em;
+        text-align: center; }
+      #sidebar #buy-tab #buy-table tfoot td[colspan="2"] {
+        text-align: right; }
+  #sidebar #buy-tab .checkOutWrap {
+    text-align: right;
+    padding: 1.953%;
+    width: 93.75%;
+    margin: 10px auto; }
 
 #canvas-wrap {
   float: right;

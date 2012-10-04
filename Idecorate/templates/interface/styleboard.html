@@ -7,6 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
+        <script type="text/javascript" src=""></script>
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard.css">
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -22,9 +23,9 @@
 
             <div id="content" class="clearfix">
             	<div id="sidebar">
-            		<ul id="sidebar-nav">
-            			<li><a href="#">Create</a></li>
-            			<li><a href="#">Buy</a></li>
+            		<ul id="sidebar-nav" class="etabs">
+            			<li class="tab"><a href="#create-tab">Create</a></li>
+            			<li class="tab"><a href="#buy-tab">Buy</a></li>
             		</ul>
                     <div id="sidebar-form-wrap"  class="clearfix">
                         <h3>My Order</h3>
@@ -38,60 +39,168 @@
                                 </label>
                             </div>
                             <div class="sidebarTotals">
-                                <h5>Total <span>$ 10,000,000</span></h4>
+                                <h5>Total <span>$ 10,000,000</span></h5>
                             </div>
                         </form>
                     </div>
-            		<div id="thumb-container" class="clearfix">
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_1.jpg">
+            		<div id="create-tab" class="overflowY clearfix">
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_1.jpg">
                             <span>Category_001</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_2.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_2.jpg">
                             <span>Category_002</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_3.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_3.jpg">
                             <span>Category_003</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_4.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_4.jpg">
                             <span>Category_004</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_5.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_5.jpg">
                             <span>Category_005</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_6.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_6.jpg">
                             <span>Category_006</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_7.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_7.jpg">
                             <span>Category_007</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_8.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_8.jpg">
                             <span>Category_008</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_9.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_9.jpg">
                             <span>Category_009</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_10.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_10.jpg">
                             <span>Category_010</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_11.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_11.jpg">
                             <span>Category_011</span>
-            			</div>
-            			<div class="thumb">
-            				<img src="/media/dummyproduct/thumb/img_thumb_12.jpg">
+                        </div>
+                        <div class="thumb">
+                            <img src="/media/dummyproduct/thumb/img_thumb_12.jpg">
                             <span>Category_012</span>
-            			</div>
-            		</div>
+                        </div>
+                    </div><!-- end of create -->
+                    <div id="buy-tab" class="clearfix">
+                        <form action="" method="post">
+                            <div class="overflowY">
+                                <table id="buy-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Item</th>
+                                            <th>Quantity</th>
+                                            <th>Price</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="odd">
+                                            <td>
+                                                <div class="buyItemImg">
+                                                    <img src="/media/dummyproduct/thumb/img_thumb_1.jpg">
+                                                    <div class="buyItemMeta">
+                                                        <h5>Product 1</h5>
+                                                        <p>$100.00</p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </td>
+                                            <td><input type="text" value="5" placeholder="qty"/></td>
+                                            <td>$500.00</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td>
+                                                <div class="buyItemImg">
+                                                    <img src="/media/dummyproduct/thumb/img_thumb_2.jpg">
+                                                    <div class="buyItemMeta">
+                                                        <h5>Product 1</h5>
+                                                        <p>$100.00</p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </td>
+                                            <td><input type="text" value="5" placeholder="qty"/></td>
+                                            <td>$500.00</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td>
+                                                <div class="buyItemImg">
+                                                    <img src="/media/dummyproduct/thumb/img_thumb_3.jpg">
+                                                    <div class="buyItemMeta">
+                                                        <h5>Product 1</h5>
+                                                        <p>$100.00</p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </td>
+                                            <td><input type="text" value="5" placeholder="qty"/></td>
+                                            <td>$500.00</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td>
+                                                <div class="buyItemImg">
+                                                    <img src="/media/dummyproduct/thumb/img_thumb_4.jpg">
+                                                    <div class="buyItemMeta">
+                                                        <h5>Product 1</h5>
+                                                        <p>$100.00</p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </td>
+                                            <td><input type="text" value="5" placeholder="qty"/></td>
+                                            <td>$500.00</td>
+                                        </tr>
+                                        <tr class="odd">
+                                            <td>
+                                                <div class="buyItemImg">
+                                                    <img src="/media/dummyproduct/thumb/img_thumb_5.jpg">
+                                                    <div class="buyItemMeta">
+                                                        <h5>Product 1</h5>
+                                                        <p>$100.00</p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </td>
+                                            <td><input type="text" value="5" placeholder="qty"/></td>
+                                            <td>$500.00</td>
+                                        </tr>
+                                        <tr class="even">
+                                            <td>
+                                                <div class="buyItemImg">
+                                                    <img src="/media/dummyproduct/thumb/img_thumb_6.jpg">
+                                                    <div class="buyItemMeta">
+                                                        <h5>Product 1</h5>
+                                                        <p>$100.00</p>
+                                                    </div>
+                                                </div>
+                                                
+                                            </td>
+                                            <td><input type="text" value="5" placeholder="qty"/></td>
+                                            <td>$500.00</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="2">Total :</td>
+                                            <td>$3,000.00</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        <div class="checkOutWrap"><input type="submit" name="submit" value="Checkout" class="globalBtn"/></div>
+                        </form>
+                    </div><!-- end of buy -->
             	</div>
             	<div id="canvas-wrap">
 
@@ -106,6 +215,13 @@
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
         <script src="/media/interface/js/dropdown/hoverIntent.js"></script>
         <script src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
+        <script src="/media/interface/js/tabpannel/jquery.hashchange.min.js" type="text/javascript"></script>
+        <script src="/media/interface/js/tabpannel/jquery.easytabs.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready( function() {
+            $('#sidebar').easytabs();
+            }); 
+        </script>
     </body>
 </html>
 
