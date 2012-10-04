@@ -288,9 +288,6 @@ def validate_thumbnail(thumbnail=None):
 		splitted_content_type = thumbnail.content_type.split('/')
 		content_type = splitted_content_type[0]
 		file_type = splitted_content_type[1]
-
-		print file_type
-
 		if content_type in settings.CONTENT_TYPES:
 			if int(thumbnail._size) > int(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE):
 				res['error'] = True
