@@ -3,7 +3,6 @@ from django.utils.translation import ugettext_lazy as _
 
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase
-from stdimage import StdImageField
 
 
 class Product(ProductBase):
@@ -13,7 +12,9 @@ class Product(ProductBase):
     slug = models.SlugField(_('slug'), unique=True)
     ordering = models.PositiveIntegerField(_('ordering'), default=0)
     description = models.TextField(_('description'), blank=True)
-    thumbnail = StdImageField(upload_to='products/thumbnail')
+    original_image = models.TextField(_('original_image'), blank=True)
+    original_image_thumbnail = models.TextField(_('original_image_thumbnail'), blank=True)
+    no_background = models.TextField(_('no_background'), blank=True)
     sku = models.CharField(_('sku'), max_length=100)
 
     class Meta:

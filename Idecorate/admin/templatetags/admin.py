@@ -197,3 +197,12 @@ def generateProductSubCategories(parent_id):
 		tags += '</li>'
 	tags += '</ol>'
 	return tags
+
+@register.filter
+def generateThumbnailUrl(value):
+	tags = ''
+	if value:
+		tags = '%s' % reverse('category_thumbnail_view', args=[value])
+	else:
+		tags = '%s' % reverse('category_thumbnail')
+	return mark_safe(tags)

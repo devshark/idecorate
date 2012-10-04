@@ -66,7 +66,9 @@ CREATE TABLE `product` (
   `slug` varchar(50) NOT NULL,
   `ordering` int(10) unsigned NOT NULL,
   `description` longtext NOT NULL,
-  `thumbnail` varchar(100) NOT NULL,
+  `original_image` longtext NOT NULL,
+  `original_image_thumbnail` longtext NOT NULL,
+  `no_background` longtext NOT NULL,
   `sku` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
@@ -183,3 +185,5 @@ CREATE TABLE `shop_taxclass` (
   `priority` int(10) unsigned NOT NULL,
   PRIMARY KEY (`id`)
 );
+
+INSERT INTO `shop_taxclass` VALUES (1,'Test Tax','0.00',0);

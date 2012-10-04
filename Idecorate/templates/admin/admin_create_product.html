@@ -7,14 +7,79 @@
 
 {% block styles %}
 <link href="/media/admin/css/admin.css" rel="stylesheet">
+<style type="text/css">
+
+  .preview {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border: 2px dotted #CCC;
+    margin-right: 16px;
+  }
+
+  div.preview.loading { 
+    background: url(/media/admin/images/loading.gif) no-repeat 39px 40px; 
+  }
+
+  div.preview.loading img {
+    display: none; 
+  }
+
+</style>
 {% endblock %}
 
 {% block content %}
 	<h1>{% trans "Create Product" %}</h1>
 	<div>&nbsp;</div>
 
+      {% if form.product_status.errors or form.product_sku.errors or form.product_name.errors or form.price.errors or form.product_description.errors or form.original_image.errors or form.no_background.errors %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for e in form.product_status.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.product_sku.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.product_name.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.price.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.product_description.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.original_image.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.no_background.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+        </ol> 
+      </div>
+
+      {% endif %}
+
+      {% if messages  %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %} 
+
+
     <div class="container-fluid">      
-      <form class="form-horizontal">
+      <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+      	{% csrf_token %}
       <div class="row-fluid">
         <div class="span12">
 
@@ -23,14 +88,13 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Product Status</label>
+                <label class="control-label">{{ form.product_status.label }}</label>
                 <div class="controls">
-              		<label class="radio inline">
-  						<input type="radio" name="active_inactive" value="1" checked="checked" /> Active
-					</label>
-					<label class="radio inline">
-  						<input type="radio" name="active_inactive" value="0" /> Inactive
-					</label>
+                {% for choice in form.product_status.field.choices %}
+                  <label class="radio inline">
+                      <input type="radio" name="product_status" value="{{choice.0}}" {% if form.product_status.data == choice.0 %}checked="checked" {% endif %}/> {{choice.1}}
+                  </label>
+                {% endfor %}
                 </div>
               </div>
             </div><!--/span-->          
@@ -39,23 +103,10 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Product SKU *</label>
+                <label class="control-label">{{ form.product_sku.label }} *</label>
                 <div class="controls">
-                  <input type="text" class="input-xlarge" placeholder="SKU">
-                  <span class="help-block">Supply a unique identifier for this product using letters, numbers, hyphens, and underscores. <br />Commas may not be used.</span>
-                </div>
-              </div>
-            </div><!--/span-->          
-          </div><!--/row-->
-
-
-          <div class="row-fluid">
-            <div class="span12">
-              <div class="control-group">
-                <label class="control-label">Product Name *</label>
-                <div class="controls">
-                  <input type="text" class="input-xlarge" placeholder="Name">
-                  <span class="help-block">Enter the name of this product to be displayed on the product lists on the Front-end and CMS. It is recommended you keep the name short. Max 60 chars.</span>
+                  {{ form.product_sku|add_class:"input-xlarge"|attr:"placeholder:SKU" }}
+                  <span class="help-block">{{ form.product_sku.help_text }}</span>
                 </div>
               </div>
             </div><!--/span-->          
@@ -65,10 +116,23 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Price *</label>
+                <label class="control-label">{{ form.product_name.label }} *</label>
                 <div class="controls">
-                  <input type="text" class="input-xlarge" placeholder="Price">
-                  <span class="help-block">Enter product price per unit using numbers, commas, and periods. Up to 2 decimal points will be accepted. Decimals will automatically added to whole numbers upon saving the product.</span>
+                  {{ form.product_name|add_class:"input-xlarge"|attr:"placeholder:Name" }}
+                  <span class="help-block">{{ form.product_name.help_text }}</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.price.label }} *</label>
+                <div class="controls">
+                  {{ form.price|add_class:"input-xlarge"|attr:"placeholder:Price" }}
+                  <span class="help-block">{{ form.price.help_text }}</span>
                 </div>
               </div>
             </div><!--/span-->          
@@ -77,10 +141,11 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Product Description *</label>
+                <label class="control-label">{{ form.product_description.label }} *</label>
                 <div class="controls">
-                  <span class="help-block">Enter the product description to be displayed on the product information window on the front-end. Web page addresses and e-mail addresses turn into links automatically. Max 500 characters.</span>
-                  <textarea class="input-xxlarge" style="height:300px;"></textarea>
+                  <span class="help-block">{{ form.product_description.help_text }}</span>
+
+                  {{ form.product_description|add_class:"input-xxlarge"|attr:"style:height:300px;" }}
                 </div>
               </div>
             </div><!--/span-->          
@@ -93,7 +158,7 @@
               <div class="control-group">
                 <label class="control-label">&nbsp;</label>
                 <div class="controls">
-                  <span class="help-block">Upload one product image with a background and another with a transparent background. Images uploaded will be automatically converted to the correct filetype and resized by the system.</span>
+                  <span class="help-block">{% trans "Upload one product image with a background and another with a transparent background. Images uploaded will be automatically converted to the correct filetype and resized by the system." %}</span>
                 </div>
               </div>
             </div><!--/span-->          
@@ -102,10 +167,15 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">Original Image:</label>
+                <label class="control-label">{% trans "Original Image" %}:</label>
                 <div class="controls">
-                  <input type="file" />
-                  <span class="help-block">Accepted files: JPG, PNG, GIF, TIFF. Max filesize 10MB.</span>
+                  <div class="preview" id="preview1">
+                    <img id="thumb_original" src="/media/admin/images/bg_transparent.png" alt="" />
+                  </div>
+                  {{ form.original_image }}
+                  <a href="#" id="btn_orginal_image" class="btn btn-primary">{% trans "Browse ..." %}</a>
+                  <span class="help-block">{% trans "Accepted files: JPG, PNG, GIF, TIFF. Max filesize 10MB." %}</span>
+                  <div id="error_1" style="color:red">&nbsp;</div>
                 </div>
               </div>
             </div><!--/span-->          
@@ -115,10 +185,15 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
-                <label class="control-label">No Background:</label>
+                <label class="control-label">{% trans "No Background" %}:</label>
                 <div class="controls">
-                  <input type="file" />
-                  <span class="help-block">Accepted files: PNG only. Max filesize 10MB.</span>
+                  <div class="preview" id="preview2">
+                    <img id="thumb_no_background" src="/media/admin/images/bg_transparent.png" alt="" />
+                  </div>
+                  {{ form.no_background }}
+                  <a href="#" id="btn_no_background" class="btn btn-primary">{% trans "Browse ..." %}</a>
+                  <span class="help-block">{% trans "Accepted files: PNG only. Max filesize 10MB." %}</span>
+                  <div id="error_2" style="color:red">&nbsp;</div>
                 </div>
               </div>
             </div><!--/span-->          
@@ -127,7 +202,7 @@
         </div><!--/span-->      
       </div><!--/row-->
 			<div class="form-actions" style="text-align:left">
-  				<button type="button" class="btn btn-primary">Save</button>
+  				<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
 			</div>
       </form>
      </div>
@@ -135,10 +210,77 @@
 {% endblock %}
 {% block javascripts %}
 	<script type="text/javascript" src="/media/admin/js/tiny_mce/tiny_mce.js"></script>
+  <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
 	<script type="text/javascript" >
 		tinyMCE.init({
 		        mode : "textareas",
 		        theme : "simple"
 		});
+
+    $(function(e){
+
+      var thumb_original = $('img#thumb_original');
+
+      new AjaxUpload('btn_orginal_image', {
+        name: 'image',
+        action: '{% url admin_upload_product_image %}',
+        onSubmit: function(file, extension) {
+          $('div#preview1').addClass('loading');
+        },
+        onComplete: function(file, response){                        
+
+          var splittedResponse = response.split(':')
+
+          if (splittedResponse[0] == 'notok') {
+            $('#error_1').text(splittedResponse[1]);
+          } else {
+            thumb_original.load(function(){
+              thumb_original.unbind();
+            });
+
+            thumb_original.attr('src', '/media/products/temp/' + splittedResponse[1]);
+            $('#error_1').text('');
+            $('#id_original_image').val(splittedResponse[1]);
+          }
+
+          $('div#preview1').removeClass('loading');
+
+        }
+      });
+
+      var thumb_no_background = $('img#thumb_no_background');
+
+      new AjaxUpload('btn_no_background', {
+        name: 'image',
+        action: '{% url admin_upload_product_image %}',
+        onSubmit: function(file, extension) {
+          $('div#preview2').addClass('loading');
+        },
+        onComplete: function(file, response){                        
+
+          var splittedResponse = response.split(':')
+
+          if (splittedResponse[0] == 'notok') {
+
+            $('#error_2').text(splittedResponse[1]);
+            
+          } else {
+            thumb_no_background.load(function(){
+              thumb_no_background.unbind();
+            });
+
+            thumb_no_background.attr('src', '/media/products/temp/' + splittedResponse[1]);
+            $('#error_2').text('');
+            $('#id_no_background').val(splittedResponse[1]);
+          }
+
+          $('div#preview2').removeClass('loading');
+
+        }
+      });
+
+
+    });
+
 	</script >
 {% endblock %}

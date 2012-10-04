@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    	<link href="/media/admin/css/bootstrap.css" rel="stylesheet">
+    	<style type="text/css">
+    		body {
+    			margin: 0;
+    			padding: 0;
+    			background: #f5f5f5;
+    		}
+    		.file-wrapper {
+			  cursor: pointer;
+			  display: inline-block;
+			  overflow: hidden;
+			  position: relative;
+			}
+			.file-wrapper input {
+			  cursor: pointer;
+			  font-size: 100px;
+			  height: 100%;
+			  filter: alpha(opacity=1);
+			  -moz-opacity: 0.01;
+			  opacity: 0.01;
+			  position: absolute;
+			  right: 0;
+			  top: 0;
+			}
+			.file-wrapper .button {
+			  cursor: pointer;
+			  display: inline-block;
+			  font-size: 11px;
+			  font-weight: bold;
+			  margin-right: 5px;
+			  padding: 4px 18px;
+			  text-transform: uppercase;
+			}
+			#preview{
+				width: 100px;
+				height: 100px;
+				padding: 5px;
+				border: 1px solid #eee;
+				margin: 0 auto !important;
+				text-align: center;
+				background: #fff;
+				line-height: 100px;
+			}
+			#preview img{
+				width: 100px;
+				height: 100px;
+			}
+			form {
+				margin: 0;
+				padding: 0;
+			}
+    	</style>
+    </head>
+    <body>
+    	<form method="post" action="" enctype="multipart/form-data">
+    		{% csrf_token %}
+    		{{ form.id }}
+			<div class="control-group">
+				<div id="preview">
+				{% if cat_thumb %}
+				<img src="/{{ MEDIA_URL }}{{ cat_thumb.thumbnail }}" />
+				{% endif %}
+				</div>
+			</div>
+			<div class="control-group" style="text-align: center">
+				<span class="file-wrapper">
+					{{ form.thumbnail }}
+				  <span class="button btn btn-primary">Choose a Photo</span>
+				</span>
+			</div>
+		</form>
+		<script src="/media/admin/js/jquery-1.8.0.min.js"></script>
+    	<script src="/media/admin/js/csrf.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				{% if messages %}
+				var e = '{% for e in messages %}{{ e }}{% endfor %}';
+				if (window.parent)
+					window.parent.alert_error(e);
+				{% endif %}
+
+				{% if cat_thumb %}
+				if (window.parent)
+					window.parent.set_thumbnail('temp|{{ cat_thumb.id }}')
+				{% endif %}
+
+				$('#id_thumbnail').change(function(){
+					$('form').submit();
+		    	});
+
+				var SITE = SITE || {};
+
+				SITE.fileInputs = function() {
+				  var $this = $(this),
+				      $val = $this.val(),
+				      valArray = $val.split('\\'),
+				      newVal = valArray[valArray.length-1],
+				      $button = $this.siblings('.button'),
+				      $fakeFile = $this.siblings('.file-holder');
+				  if(newVal !== '') {
+				    $button.text('Photo Chosen');
+				    if($fakeFile.length === 0) {
+				      //$button.after('<span class="file-holder">' + newVal + '</span>');
+				    } else {
+				      $fakeFile.text(newVal);
+				    }
+				  }
+				};
+
+				$(document).ready(function() {
+				  $('.file-wrapper input[type=file]').bind('change focus click', SITE.fileInputs);
+				});
+ 
+			});
+		</script>
+	</body>
+</html>

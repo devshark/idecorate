@@ -22,17 +22,6 @@
 #categories ul {
 	list-style-type: none;
 }
-
-#preview{
-	width: 100px;
-	height: 100px;
-	padding: 5px;
-	border: 1px solid #eee;
-	margin: 0 auto !important;
-	text-align: center;
-	background: #fff;
-	line-height: 100px;
-}
 .tab-content{
 	margin-bottom: 15px;
 }
@@ -65,33 +54,6 @@
 	color: #aaa; 
 }
 
-.file-wrapper {
-  cursor: pointer;
-  display: inline-block;
-  overflow: hidden;
-  position: relative;
-}
-.file-wrapper input {
-  cursor: pointer;
-  font-size: 100px;
-  height: 100%;
-  filter: alpha(opacity=1);
-  -moz-opacity: 0.01;
-  opacity: 0.01;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-.file-wrapper .button {
-  cursor: pointer;
-  display: inline-block;
-  font-size: 11px;
-  font-weight: bold;
-  margin-right: 5px;
-  padding: 4px 18px;
-  text-transform: uppercase;
-}
-
 .side.formWrap{
 	float: left;
 	width: 27%;
@@ -112,6 +74,52 @@
 	text-align: center;
 	clear: both;
 }
+iframe {
+	border: 0;
+	height: 165px;
+	width: 100%;
+}
+.file-wrapper {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+.file-wrapper input {
+  cursor: pointer;
+  font-size: 100px;
+  height: 100%;
+  filter: alpha(opacity=1);
+  -moz-opacity: 0.01;
+  opacity: 0.01;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+#btn-browse.button {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: bold;
+  margin-right: 5px;
+  padding: 4px 18px;
+  text-transform: uppercase;
+}
+#preview{
+	width: 100px;
+	height: 100px;
+	padding: 5px;
+	border: 1px solid #eee;
+	margin: 0 auto !important;
+	text-align: center;
+	background: #fff;
+	line-height: 100px;
+}
+.loading { 
+	background: url(/media/admin/images/loading.gif) no-repeat 39px 40px;
+	width: 100%;
+	height: 100%;
+}
 </style>
 <!--[if IE]>
 	<style type="text/css">
@@ -126,6 +134,7 @@
 	<div class="page-header"><h1>{% trans "Manage Product Categories" %}</h1></div>
 	<div>
 		<div class="formWrap side">
+			<div id="alert-error"></div>
 			{% if form.name.errors or form.thumbnail.errors %}
 			<div class="alert alert-error">
 				<a class="close" data-dismiss="alert" href="#">×</a>
@@ -154,30 +163,26 @@
 			{% endfor %}
 			{% endif %}
 			<div class="form-horizontal">
-				<form method="post" action="" enctype="multipart/form-data">
+				<form method="post" action="">
 					<div class="well">
 						<fieldset>
 							<legend>{{ heade_title }}</legend>
 							{% csrf_token %}
 							{{ form.parent }}
 							{{ form.id }}
-							
-							
+							{{ form.thumbnail }}
 							<div class="control-group">
 								<div id="preview">
-								{% if cat %}
-								<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" />
+								{% if cat_thumb %}
+								<img id="created-thumb" src="/{{ MEDIA_URL }}{{ cat_thumb.thumbnail }}" />
 								{% endif %}
 								</div>
 							</div>
 
 							<div class="control-group" style="text-align: center">
-								<span class="file-wrapper">
-									{{ form.thumbnail }}	
-								  <span class="button btn btn-primary">Choose a Photo</span>
-								</span>
-							</div>
-
+								<a id="btn-browse" class="button btn btn-primary">Choose a Photo</a>
+							</div>					
+							
 							<div class="control-group">
 							{{ form.name|add_class:"input"|attr:"placeholder:Category Name"|add_class:'span12' }}
 							</div>
@@ -255,11 +260,66 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
+<script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('#categories a.cat').click(function(){
 			$('#ddl-name').text($(this).find('span').text());
 			$('#id_parent').val(this.rel);
+		});
+
+		if ($('.alert.alert-error').length > 0){
+			setTimeout(function(){
+				if($('.alert.alert-error')){
+					$('.alert.alert-error').hide('fast',function(){
+						$('.alert.alert-error').remove();
+					});
+				}
+			}, 10000);
+		}
+
+		new AjaxUpload('btn-browse', {
+			name: 'image',
+			action: '{% url category_thumbnail_upload %}',
+			onSubmit: function(file, extension) {
+				if($('#created-thumb').length > 0)
+					$('#created-thumb').remove();
+				$('div#preview').append('<div class="loading"></div>');
+			},
+			onComplete: function(file, response){
+				$('div.loading').remove();
+				var splittedResponse = response.split('|');				
+				if (splittedResponse[0] == 'fail') {
+					var elm = '';
+					var msg = splittedResponse[1];
+					if($('.alert.alert-error').length > 0){
+						$('.alert.alert-error ol').append('<li>' + msg + '</li>');
+					} else {
+						elm = '<div class="alert alert-error">' +
+								'<a class="close" data-dismiss="alert" href="#">×</a>' +
+								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+								'<ol>' +
+								'<li>' + msg + '</li>' +
+								'</ol>' +
+							'</div>';
+					}					
+					$('#alert-error').html(elm);
+
+					if ($('.alert.alert-error').length){
+						setTimeout(function(){
+							if($('.alert.alert-error')){
+								$('.alert.alert-error').hide('fast',function(){
+									$('.alert.alert-error').remove();
+								});
+							}
+						}, 10000);
+					}
+				} else {
+					$('#btn-browse').text('Photo Choosen');
+					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
+					$('div#preview').append('<img id="created-thumb" src="/media/' + splittedResponse[2] + '" />');
+				}				
+			}
 		});
 
 		$('#ddl-name').click(function(){
@@ -282,40 +342,6 @@
 			toleranceElement: '> div',
 			rootID: true
         });
-
-        if($.browser.safari){
-        	$('#id_thumbnail').click(function(){
-	    		if (this.files && this.files[0]) {
-		            var reader = new FileReader();
-
-		            reader.onload = function (e) {
-		                $('#preview')	                	
-		                	.html('<img id="previewImg" src="'+e.target.result+'" alt="your image" />');
-		                $('#previewImg')
-		                    .width(100)
-		                    .height(100);
-		            };
-
-		            reader.readAsDataURL(this.files[0]);
-		        }
-	    	});
-		} else {
-			$('#id_thumbnail').change(function(){
-	    		if (this.files && this.files[0]) {
-		            var reader = new FileReader();
-
-		            reader.onload = function (e) {
-		                $('#preview')	                	
-		                	.html('<img id="previewImg" src="'+e.target.result+'" alt="your image" />');
-		                $('#previewImg')
-		                    .width(100)
-		                    .height(100);
-		            };
-
-		            reader.readAsDataURL(this.files[0]);
-		        }
-	    	});
-		}
 
         $('#btnSaveOrdering').click(function(e){
         	var data = new Array();
@@ -391,31 +417,28 @@
 			$('#btnDismiss').trigger('click');
 			return false;
         });
-
-        var SITE = SITE || {};
-
-		SITE.fileInputs = function() {
-		  var $this = $(this),
-		      $val = $this.val(),
-		      valArray = $val.split('\\'),
-		      newVal = valArray[valArray.length-1],
-		      $button = $this.siblings('.button'),
-		      $fakeFile = $this.siblings('.file-holder');
-		  if(newVal !== '') {
-		    $button.text('Photo Chosen');
-		    if($fakeFile.length === 0) {
-		      $button.after('<span class="file-holder">' + newVal + '</span>');
-		    } else {
-		      $fakeFile.text(newVal);
-		    }
-		  }
-		};
-
-		$(document).ready(function() {
-		  $('.file-wrapper input[type=file]').bind('change focus click', SITE.fileInputs);
-		});
-
 	});
+
+	function alert_error(msg){
+		var elm = '';
+		if($('.alert.alert-error')){
+			$('.alert.alert-error ol').append('<li>' + msg + '</li>');
+		} else {
+			elm = '<div class="alert alert-error">' +
+					'<a class="close" data-dismiss="alert" href="#">×</a>' +
+					'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+					'<ol>' +
+					'<li>' + msg + '</li>' +
+					'</ol>' +
+				'</div>';
+		}
+
+		$('#alert-error').html(elm);
+	}
+
+	function set_thumbnail(value){
+		$('#id_thumbnail').val(value);
+	}
 
 </script>
 {% endblock %}
