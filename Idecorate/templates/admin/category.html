@@ -96,7 +96,7 @@ iframe {
   right: 0;
   top: 0;
 }
-.file-wrapper .button {
+#btn-browse.button {
   cursor: pointer;
   display: inline-block;
   font-size: 11px;
@@ -315,6 +315,7 @@ iframe {
 						}, 10000);
 					}
 				} else {
+					$('#btn-browse').text('Photo Choosen');
 					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
 					$('div#preview').append('<img id="created-thumb" src="/media/' + splittedResponse[2] + '" />');
 				}				
