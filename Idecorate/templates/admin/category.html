@@ -256,16 +256,6 @@
 			$('#id_parent').val(this.rel);
 		});
 
-		if ($('.alert.alert-error').length > 0){
-			setTimeout(function(){
-				if($('.alert.alert-error')){
-					$('.alert.alert-error').hide('fast',function(){
-						$('.alert.alert-error').remove();
-					});
-				}
-			}, 10000);
-		}
-
 		new AjaxUpload('btn-browse', {
 			name: 'image',
 			action: '{% url category_thumbnail_upload %}',
@@ -292,16 +282,6 @@
 							'</div>';
 					}					
 					$('#alert-error').html(elm);
-
-					if ($('.alert.alert-error').length){
-						setTimeout(function(){
-							if($('.alert.alert-error')){
-								$('.alert.alert-error').hide('fast',function(){
-									$('.alert.alert-error').remove();
-								});
-							}
-						}, 10000);
-					}
 				} else {
 					$('#btn-browse').text('Photo Chosen');
 					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
