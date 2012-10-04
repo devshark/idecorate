@@ -13,6 +13,7 @@ class Product(ProductBase):
     ordering = models.PositiveIntegerField(_('ordering'), default=0)
     description = models.TextField(_('description'), blank=True)
     original_image = models.TextField(_('original_image'), blank=True)
+    original_image_thumbnail = models.TextField(_('original_image_thumbnail'), blank=True)
     no_background = models.TextField(_('no_background'), blank=True)
     sku = models.CharField(_('sku'), max_length=100)
 

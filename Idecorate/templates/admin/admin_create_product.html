@@ -32,7 +32,7 @@
 	<h1>{% trans "Create Product" %}</h1>
 	<div>&nbsp;</div>
 
-      {% if form.product_status.errors or form.product_sku.errors or form.product_name.errors or form.price.errors or form.product_description.errors %}
+      {% if form.product_status.errors or form.product_sku.errors or form.product_name.errors or form.price.errors or form.product_description.errors or form.original_image.errors or form.no_background.errors %}
 
       <div class="alert alert-error">
         <a class="close" data-dismiss="alert" href="#">×</a>
@@ -53,10 +53,28 @@
           {% for e in form.product_description.errors %}
             <li>{{ e }}</li>
           {% endfor %}
+          {% for e in form.original_image.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.no_background.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
         </ol> 
       </div>
 
       {% endif %}
+
+      {% if messages  %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %} 
 
 
     <div class="container-fluid">      
@@ -154,6 +172,7 @@
                   <div class="preview" id="preview1">
                     <img id="thumb_original" src="/media/admin/images/bg_transparent.png" alt="" />
                   </div>
+                  {{ form.original_image }}
                   <a href="#" id="btn_orginal_image" class="btn btn-primary">{% trans "Browse ..." %}</a>
                   <span class="help-block">{% trans "Accepted files: JPG, PNG, GIF, TIFF. Max filesize 10MB." %}</span>
                   <div id="error_1" style="color:red">&nbsp;</div>
@@ -171,6 +190,7 @@
                   <div class="preview" id="preview2">
                     <img id="thumb_no_background" src="/media/admin/images/bg_transparent.png" alt="" />
                   </div>
+                  {{ form.no_background }}
                   <a href="#" id="btn_no_background" class="btn btn-primary">{% trans "Browse ..." %}</a>
                   <span class="help-block">{% trans "Accepted files: PNG only. Max filesize 10MB." %}</span>
                   <div id="error_2" style="color:red">&nbsp;</div>
@@ -220,6 +240,7 @@
 
             thumb_original.attr('src', '/media/products/temp/' + splittedResponse[1]);
             $('#error_1').text('');
+            $('#id_original_image').val(splittedResponse[1]);
           }
 
           $('div#preview1').removeClass('loading');
@@ -250,6 +271,7 @@
 
             thumb_no_background.attr('src', '/media/products/temp/' + splittedResponse[1]);
             $('#error_2').text('');
+            $('#id_no_background').val(splittedResponse[1]);
           }
 
           $('div#preview2').removeClass('loading');
