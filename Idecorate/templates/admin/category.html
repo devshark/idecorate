@@ -261,20 +261,22 @@
 			action: '{% url category_thumbnail_upload %}',
 			onSubmit: function(file, extension) {
 
-				if(extension == 'tif' || extension == 'tiff'){
-					var elm = '';
+				if(extension == 'tif' || extension == 'tiff'){					
 					if($('.alert.alert-error').length > 0){
-						$('.alert.alert-error ol').append('<li>{% trans "File type is not supported" %}</li>');
+						if ($('.thumb-error').length > 0)
+							$('.alert.alert-error ol li.thumb-error').text('{% trans "File type is not supported" %}');
+						else
+							$('.alert.alert-error ol').append('<li class="thumb-error">{% trans "File type is not supported" %}</li>');
 					} else {
-						elm = '<div class="alert alert-error">' +
+						var elm = '<div class="alert alert-error">' +
 								'<a class="close" data-dismiss="alert" href="#">×</a>' +
 								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
 								'<ol>' +
-								'<li>{% trans "File type is not supported" %}</li>' +
+								'<li class="thumb-error">{% trans "File type is not supported" %}</li>' +
 								'</ol>' +
 							'</div>';
+						$('#alert-error').html(elm);
 					}					
-					$('#alert-error').html(elm);
 					return false;
 				}
 
@@ -286,40 +288,47 @@
 				$('div.loading').remove();
 				var splittedResponse = response.split('|');				
 				if (splittedResponse[0] == 'fail') {
-					var elm = '';
 					var msg = splittedResponse[1];
 					if($('.alert.alert-error').length > 0){
-						$('.alert.alert-error ol').append('<li>' + msg + '</li>');
+						if ($('.thumb-error').length > 0)
+							$('.alert.alert-error ol li.thumb-error').text(msg);
+						else
+							$('.alert.alert-error ol').append('<li class="thumb-error">' + msg + '</li>');						
 					} else {
-						elm = '<div class="alert alert-error">' +
+						var elm = '<div class="alert alert-error">' +
 								'<a class="close" data-dismiss="alert" href="#">×</a>' +
 								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
 								'<ol>' +
-								'<li>' + msg + '</li>' +
+								'<li class="thumb-error">' + msg + '</li>' +
 								'</ol>' +
 							'</div>';
-					}					
-					$('#alert-error').html(elm);
+						$('#alert-error').html(elm);
+					}
 				} else {
 					$('#btn-browse').text('Photo Chosen');
 					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
 					$('div#preview').append('<img id="created-thumb" src="/media/' + splittedResponse[2] + '" />');
+					if($('.alert.alert-error').length > 0){
+						$('.alert.alert-error a.close').trigger('click');
+					}
 				}				
 			},
 			error: function(){
-				var elm = '';
 				if($('.alert.alert-error').length > 0){
-					$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
+					if ($('.thumb-error').length > 0)
+						$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');
+					else
+						$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
 				} else {
-					elm = '<div class="alert alert-error">' +
+					var elm = '<div class="alert alert-error">' +
 							'<a class="close" data-dismiss="alert" href="#">×</a>' +
 							'<h4 class="alert-heading">Please correct the following errors:</h4>' +
 							'<ol>' +
-							'<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
+							'<li class="thumb-error">{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
 							'</ol>' +
 						'</div>';
-				}					
-				$('#alert-error').html(elm);
+					$('#alert-error').html(elm);
+				}				
 				$('div.loading').remove();
 			}
 		});
