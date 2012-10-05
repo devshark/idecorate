@@ -374,6 +374,8 @@ def admin_upload_product_image(request):
 		uploaded = request.FILES['image']
 		content_type = uploaded.content_type.split('/')[0]
 
+		print "The content type is: %s" % (uploaded.content_type)
+
 		if content_type in settings.CONTENT_TYPES:
 			if int(uploaded.size) > int(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE):
 				return HttpResponse(_('notok:Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE), filesizeformat(uploaded.size)))
@@ -387,7 +389,7 @@ def admin_upload_product_image(request):
 
 				destination.close()
 
-				if uploaded.content_type == "image/tiff":
+				if uploaded.content_type == "image/tiff" or uploaded.content_type == "image/pjpeg" or uploaded.content_type == "image/jpeg":
 					img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName))
 
 					splittedName = getExtensionAndFileName(newFileName)
