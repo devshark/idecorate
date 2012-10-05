@@ -299,9 +299,9 @@ def validate_thumbnail(thumbnail=None):
 				msg = _('Please keep filesize under %s. Current filesize %s') % (max_size, image_size)
 				res['msg'] = msg.encode('utf-8')
 
-			if file_type not in settings.ALLOWED_CATEGORY_IMAGES:
-				res['error'] = True
-				res['msg'] = _('File type is not supported').encode('utf-8')
+			# if file_type not in settings.ALLOWED_CATEGORY_IMAGES:
+			# 	res['error'] = True
+			# 	res['msg'] = _('File type is not supported').encode('utf-8')
 
 		else:
 			res['error'] = True
