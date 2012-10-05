@@ -260,6 +260,24 @@
 			name: 'image',
 			action: '{% url category_thumbnail_upload %}',
 			onSubmit: function(file, extension) {
+
+				if(extension == 'tif' || extension == 'tiff'){
+					var elm = '';
+					if($('.alert.alert-error').length > 0){
+						$('.alert.alert-error ol').append('<li>{% trans "File type is not supported" %}</li>');
+					} else {
+						elm = '<div class="alert alert-error">' +
+								'<a class="close" data-dismiss="alert" href="#">×</a>' +
+								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+								'<ol>' +
+								'<li>{% trans "File type is not supported" %}</li>' +
+								'</ol>' +
+							'</div>';
+					}					
+					$('#alert-error').html(elm);
+					return false;
+				}
+
 				if($('#created-thumb').length > 0)
 					$('#created-thumb').remove();
 				$('div#preview').append('<div class="loading"></div>');
