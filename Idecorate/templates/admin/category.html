@@ -305,6 +305,22 @@
 					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
 					$('div#preview').append('<img id="created-thumb" src="/media/' + splittedResponse[2] + '" />');
 				}				
+			},
+			error: function(){
+				var elm = '';
+				if($('.alert.alert-error').length > 0){
+					$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
+				} else {
+					elm = '<div class="alert alert-error">' +
+							'<a class="close" data-dismiss="alert" href="#">×</a>' +
+							'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+							'<ol>' +
+							'<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
+							'</ol>' +
+						'</div>';
+				}					
+				$('#alert-error').html(elm);
+				$('div.loading').remove();
 			}
 		});
 
