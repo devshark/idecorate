@@ -82,8 +82,12 @@
       	{% csrf_token %}
       <div class="row-fluid">
         <div class="span12">
-
+          <!--
           <legend>Product Information</legend>
+          -->
+
+          <h3 style="font-weight:normal;">{% trans "Product Information" %}</h3>
+          <hr />
 
           <div class="row-fluid">
             <div class="span12">
@@ -130,7 +134,7 @@
             <div class="span12">
               <div class="control-group">
                 <label class="control-label">{{ form.price.label }} *</label>
-                <div class="controls">
+                <div class="controls">$
                   {{ form.price|add_class:"input-xlarge"|attr:"placeholder:Price" }}
                   <span class="help-block">{{ form.price.help_text }}</span>
                 </div>
@@ -142,7 +146,7 @@
             <div class="span12">
               <div class="control-group">
                 <label class="control-label">{{ form.product_description.label }} *</label>
-                <div class="controls">
+                <div class="controls" style="margin-top:-3px;">
                   <span class="help-block">{{ form.product_description.help_text }}</span>
 
                   {{ form.product_description|add_class:"input-xxlarge"|attr:"style:height:300px;" }}
@@ -151,7 +155,8 @@
             </div><!--/span-->          
           </div><!--/row-->
 
-          <legend>Product Images </legend>
+          <h3 style="font-weight:normal;">{% trans "Product Images" %}</h3>
+          <hr />
 
           <div class="row-fluid">
             <div class="span12">

@@ -9,7 +9,7 @@ class Product(ProductBase):
 
     is_active = models.BooleanField(_('is active'), default=True)
     name = models.CharField(_('name'), max_length=100)
-    slug = models.SlugField(_('slug'), unique=True)
+    slug = models.SlugField(_('slug'), unique=True, max_length=201)
     ordering = models.PositiveIntegerField(_('ordering'), default=0)
     description = models.TextField(_('description'), blank=True)
     original_image = models.TextField(_('original_image'), blank=True)
