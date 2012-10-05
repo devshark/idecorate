@@ -52,3 +52,12 @@ class AddProductForm(forms.Form):
 			raise forms.ValidationError(_("Product Description must be no more than 500 characters."))
 
 		return description
+
+	def clean_product_name(self):
+
+		name = self.cleaned_data['product_name']
+
+		if len(name) > 60:
+			raise forms.ValidationError(_("Product Name must be no more than 60 characters."))			
+
+		return name
