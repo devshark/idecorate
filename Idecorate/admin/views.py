@@ -333,7 +333,7 @@ def admin_create_product(request):
 
     		#Save product and price
     		product = Product()
-    		product.is_active = form.cleaned_data['product_status']
+    		product.is_active = bool(int(form.cleaned_data['product_status']))
     		product.name = form.cleaned_data['product_name']
     		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
     		product.description = form.cleaned_data['product_description']

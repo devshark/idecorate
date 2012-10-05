@@ -169,8 +169,8 @@
               <div class="control-group">
                 <label class="control-label">{% trans "Original Image" %}:</label>
                 <div class="controls">
-                  <div class="preview" id="preview1">
-                    <img id="thumb_original" src="/media/admin/images/bg_transparent.png" alt="" />
+                  <div class="preview" id="preview1" style="text-align:center;">
+                    <img id="thumb_original" style="position:relative;max-height:100px;max-width:100px" src="/media/admin/images/bg_transparent.png" alt="" />
                   </div>
                   {{ form.original_image }}
                   <a href="#" id="btn_orginal_image" class="btn btn-primary">{% trans "Browse ..." %}</a>
@@ -187,8 +187,8 @@
               <div class="control-group">
                 <label class="control-label">{% trans "No Background" %}:</label>
                 <div class="controls">
-                  <div class="preview" id="preview2">
-                    <img id="thumb_no_background" src="/media/admin/images/bg_transparent.png" alt="" />
+                  <div class="preview" id="preview2" style="text-align:center;">
+                    <img id="thumb_no_background" style="position:relative;max-height:100px;max-width:100px" src="/media/admin/images/bg_transparent.png" alt="" />
                   </div>
                   {{ form.no_background }}
                   <a href="#" id="btn_no_background" class="btn btn-primary">{% trans "Browse ..." %}</a>
@@ -214,7 +214,8 @@
 	<script type="text/javascript" >
 		tinyMCE.init({
 		        mode : "textareas",
-		        theme : "simple"
+		        theme : "simple",
+            plugins : "autolink"
 		});
 
     $(function(e){
@@ -235,12 +236,20 @@
             $('#error_1').text(splittedResponse[1]);
           } else {
             thumb_original.load(function(){
+
+              if($('#thumb_original').height() < 100) {
+                $('#thumb_original').css('top',((100 - $('#thumb_original').height()) / 2) + 'px');
+              } else {
+                $('#thumb_original').css('top','0px');
+              }
+
               thumb_original.unbind();
             });
 
             thumb_original.attr('src', '/media/products/temp/' + splittedResponse[1]);
             $('#error_1').text('');
             $('#id_original_image').val(splittedResponse[1]);
+
           }
 
           $('div#preview1').removeClass('loading');
@@ -254,6 +263,13 @@
         name: 'image',
         action: '{% url admin_upload_product_image %}',
         onSubmit: function(file, extension) {
+
+          if(extension != "png") {
+
+            $('#error_2').text('{% trans "File type is not supported" %}');
+            return false;
+          }
+
           $('div#preview2').addClass('loading');
         },
         onComplete: function(file, response){                        
@@ -266,6 +282,13 @@
             
           } else {
             thumb_no_background.load(function(){
+
+              if($('#thumb_no_background').height() < 100) {
+                $('#thumb_no_background').css('top',((100 - $('#thumb_no_background').height()) / 2) + 'px');
+              } else {
+                $('#thumb_no_background').css('top','0px');
+              }
+
               thumb_no_background.unbind();
             });
 
