@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.views.decorators.csrf import csrf_exempt
 
 from admin.models import LoginLog
 from datetime import datetime, timedelta
@@ -62,6 +63,8 @@ def edit_category(request, cat_id=None):
 		cat_thumb = category_thumbnails(cid=cat.id)
 		if cat_thumb:
 			thumb_id = cat_thumb.id
+
+		info['cat_thumb'] = cat_thumb
 		
 		form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id, 'thumbnail': thumb_id })
 	except Exception as e:
@@ -121,61 +124,23 @@ def order_category(request):
 	else:
 		return HttpResponse('0')
 
-@staff_member_required
-def category_thumbnail(request):
-	info = {}
+@csrf_exempt
+def category_thumbnail_upload(request):	
+	if request.method == 'POST':
+		created_temp = request.session.get('TEMP_CAT_ID',None)
+		if created_temp:
+			clear_temp(created_temp)
+			del request.session['TEMP_CAT_ID']
 
-	created_temp = request.session.get('TEMP_CAT_ID',None)
-	if created_temp:
-		clear_temp(created_temp)
-		del request.session['TEMP_CAT_ID']
-
-	form = CategoryThumbnailForm()
-
-	if request.method == "POST":		
-		thumbnail = request.FILES['thumbnail']
+		thumbnail = request.FILES['image']
 		res = validate_thumbnail(thumbnail)
 		if res['error']:
-			messages.error(request, res['msg'])
+			return_response = 'fail|%s' % res['msg']			
 		else:
 			data = {}
-			data['id'] = request.POST['id']
 			data['thumbnail'] = thumbnail
 			cat_thumb = manage_category_thumbnail(data)
 			request.session['TEMP_CAT_ID'] = cat_thumb.id
-			info['cat_thumb'] = cat_thumb
-
-	info['form'] = form
-	return render_to_response('admin/iframe/category_thumbnail.html', info, RequestContext(request))
-
-@staff_member_required
-def category_thumbnail_view(request, ctid=None):
-	info = {}
-
-	created_temp = request.session.get('TEMP_CAT_ID',None)
-	if created_temp:
-		clear_temp(created_temp)
-		del request.session['TEMP_CAT_ID']
-	
-	cat_thumb = category_thumbnails(ctid=ctid)
-	if not cat_thumb:
-		return redirect('category_thumbnail')
-
-	form = CategoryThumbnailForm()
-
-	if request.method == "POST":		
-		thumbnail = request.FILES['thumbnail']
-		res = validate_thumbnail(thumbnail)
-		if res['error']:
-			messages.error(request, res['msg'])
-		else:
-			data = {}
-			data['id'] = request.POST['id']
-			data['thumbnail'] = thumbnail
-			cat_thumb = manage_category_thumbnail(data)
-			request.session['TEMP_CAT_ID'] = cat_thumb.id
-			info['cat_thumb'] = cat_thumb
-
-	info['form'] = form
-	info['cat_thumb'] = cat_thumb
-	return render_to_response('admin/iframe/category_thumbnail.html', info, RequestContext(request))
+			return_response = 'ok|%s|%s' % (cat_thumb.id,cat_thumb.thumbnail)
+		return HttpResponse(return_response)
+	return HttpResponse(0)

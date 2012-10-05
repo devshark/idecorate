@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu
-from category.services import get_categories
+from category.services import get_categories, category_thumbnails
 from django.core.urlresolvers import reverse
 
 register = template.Library()
@@ -106,3 +106,10 @@ def getInterfaceMenus(menuType):
 		menus = SiteMenu.objects.filter(parent=None,deleted=False).order_by('order')
 
 	return menuInterfaceRecursion(menus)
+
+@register.filter
+def get_category_thumbnail(cat_id):
+
+	cat_thumb = category_thumbnails(cid=cat_id)
+
+	return mark_safe(cat_thumb.thumbnail)

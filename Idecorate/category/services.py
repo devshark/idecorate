@@ -7,6 +7,7 @@ import magic
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 import time
+from django.template.defaultfilters import filesizeformat
 
 def new_category(data):
 	category_name = data['name']
@@ -83,9 +84,7 @@ def category_edit(data):
 		return False
 
 def set_category_thumbnail(category, thumbnail):
-	print thumbnail
 	if thumbnail.find('temp')!=-1:
-		print 'asdasdasdasdasd'
 		try:	
 			cat_thumb = CategoryThumbnail.objects.get(category__id=category.id)
 		except:
@@ -104,7 +103,6 @@ def set_category_thumbnail(category, thumbnail):
 		fname = '%s.%s' % (fn,'jpeg')
 
 		path = '%scategories/thumbnail/%s' % (settings.MEDIA_ROOT,fname)
-		print path
 
 		im = Image.open(thumb)
 
@@ -112,10 +110,13 @@ def set_category_thumbnail(category, thumbnail):
 
 		im.thumbnail(size, Image.ANTIALIAS)
 
-		if im.mode != 'RGB':
-			im = im.convert("RGB")
+		background = Image.new('RGBA', size, (255, 255, 255, 0))
+		background.paste(im,((size[0] - im.size[0]) / 2, (size[1] - im.size[1]) / 2))
 
-		im.save(path)
+		# if im.mode != 'RGB':
+		# 	im = im.convert("RGB")
+
+		background.save(path)
 
 		cat_thumb.thumbnail = 'categories/thumbnail/%s' % fname
 		cat_thumb.save()
@@ -287,16 +288,27 @@ def validate_thumbnail(thumbnail=None):
 	res['error'] = False
 	res['msg'] = ''
 	if thumbnail:
-		content_type = thumbnail.content_type.split('/')[0]	
+		splitted_content_type = thumbnail.content_type.split('/')
+		content_type = splitted_content_type[0]
+		file_type = splitted_content_type[1]
 		if content_type in settings.CONTENT_TYPES:
 			if int(thumbnail._size) > int(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE):
 				res['error'] = True
-				res['msg'] = _('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE), filesizeformat(thumbnail._size))
+				max_size = filesizeformat(settings.MAX_UPLOAD_CATEGORY_IMAGE_SIZE)
+				image_size = filesizeformat(thumbnail._size)
+				msg = _('Please keep filesize under %s. Current filesize %s') % (max_size, image_size)
+				res['msg'] = msg.encode('utf-8')
+
+			if file_type not in settings.ALLOWED_CATEGORY_IMAGES:
+				res['error'] = True
+				res['msg'] = _('File type is not supported').encode('utf-8')
+
 		else:
 			res['error'] = True
-			res['msg'] = _('File type is not supported')
+			res['msg'] = _('File type is not supported').encode('utf-8')
 	else:
+		print 
 		res['error'] = True
-		res['msg'] = _('Thumbnail is required.')
+		res['msg'] = _('Thumbnail is required.').encode('utf-8')
 
 	return res	

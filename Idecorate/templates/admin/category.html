@@ -74,10 +74,39 @@
 	text-align: center;
 	clear: both;
 }
-iframe {
-	border: 0;
-	height: 165px;
+.file-wrapper {
+  cursor: pointer;
+  display: inline-block;
+  overflow: hidden;
+  position: relative;
+}
+#btn-browse.button {
+  cursor: pointer;
+  display: inline-block;
+  font-size: 11px;
+  font-weight: bold;
+  margin-right: 5px;
+  padding: 4px 18px;
+  text-transform: uppercase;
+}
+#preview{
+	width: 100px;
+	height: 100px;
+	padding: 5px;
+	border: 1px solid #eee;
+	margin: 0 auto !important;
+	text-align: center;
+	background: #fff;
+	line-height: 100px;
+}
+#preview img {
+	max-height: 100px;
+	max-width: 100px;
+}
+.loading { 
+	background: url(/media/admin/images/loading.gif) no-repeat 39px 40px;
 	width: 100%;
+	height: 100%;
 }
 </style>
 <!--[if IE]>
@@ -130,8 +159,17 @@ iframe {
 							{{ form.parent }}
 							{{ form.id }}
 							{{ form.thumbnail }}
+							<div class="control-group">
+								<div id="preview">
+								{% if cat_thumb %}
+								<img id="created-thumb" src="/{{ MEDIA_URL }}{{ cat_thumb.thumbnail }}" />
+								{% endif %}
+								</div>
+							</div>
 
-							<iframe id="iframe-thumbnail"></iframe>						
+							<div class="control-group" style="text-align: center">
+								<a id="btn-browse" class="button btn btn-primary">Choose a Photo</a>
+							</div>					
 							
 							<div class="control-group">
 							{{ form.name|add_class:"input"|attr:"placeholder:Category Name"|add_class:'span12' }}
@@ -210,25 +248,47 @@ iframe {
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
+<script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
-		var ifu = '{{ form.thumbnail.value|generateThumbnailUrl }}';
-		$('#iframe-thumbnail').attr('src',ifu);
-
 		$('#categories a.cat').click(function(){
 			$('#ddl-name').text($(this).find('span').text());
 			$('#id_parent').val(this.rel);
 		});
 
-		if ($('.alert.alert-error')){
-			setTimeout(function(){
-				if($('.alert.alert-error')){
-					$('.alert.alert-error').hide('fast',function(){
-						$('.alert.alert-error').remove();
-					});
-				}
-			}, 10000);
-		}
+		new AjaxUpload('btn-browse', {
+			name: 'image',
+			action: '{% url category_thumbnail_upload %}',
+			onSubmit: function(file, extension) {
+				if($('#created-thumb').length > 0)
+					$('#created-thumb').remove();
+				$('div#preview').append('<div class="loading"></div>');
+			},
+			onComplete: function(file, response){
+				$('div.loading').remove();
+				var splittedResponse = response.split('|');				
+				if (splittedResponse[0] == 'fail') {
+					var elm = '';
+					var msg = splittedResponse[1];
+					if($('.alert.alert-error').length > 0){
+						$('.alert.alert-error ol').append('<li>' + msg + '</li>');
+					} else {
+						elm = '<div class="alert alert-error">' +
+								'<a class="close" data-dismiss="alert" href="#">×</a>' +
+								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+								'<ol>' +
+								'<li>' + msg + '</li>' +
+								'</ol>' +
+							'</div>';
+					}					
+					$('#alert-error').html(elm);
+				} else {
+					$('#btn-browse').text('Photo Chosen');
+					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
+					$('div#preview').append('<img id="created-thumb" src="/media/' + splittedResponse[2] + '" />');
+				}				
+			}
+		});
 
 		$('#ddl-name').click(function(){
 			$('#btn-dropdown').trigger('click');
