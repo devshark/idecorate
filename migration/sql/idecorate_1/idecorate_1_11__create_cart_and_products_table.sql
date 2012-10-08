@@ -186,4 +186,14 @@ CREATE TABLE `shop_taxclass` (
   PRIMARY KEY (`id`)
 );
 
+CREATE TABLE `product_categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `product_id` int(11) NOT NULL,
+  `categories_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `product_id` (`product_id`,`categories_id`),
+  KEY `product_categories_44bdf3ee` (`product_id`),
+  KEY `product_categories_6405a0d2` (`categories_id`)
+);
+
 INSERT INTO `shop_taxclass` VALUES (1,'Test Tax','0.00',0);

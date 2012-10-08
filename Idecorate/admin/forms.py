@@ -26,6 +26,7 @@ class AddProductForm(forms.Form):
 	product_description = forms.CharField(label=_("Product Description"), required=True,widget=forms.Textarea, help_text=_('Enter the product description to be displayed on the product information window on the front-end. Web page addresses and e-mail addresses turn into links automatically. Max 500 characters.'), error_messages={'required':_('Product Description is a required field.')})
 	original_image = forms.CharField(label=_("Original Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Original Image is a required field.')})
 	no_background = forms.CharField(label=_("No Background Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('No Background Image is a required field.')})
+	categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, error_messages={'required':_('Product Category is a required field.')})
 
 	def clean_product_sku(self):
 
