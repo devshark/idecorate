@@ -14,5 +14,6 @@ def home(request):
 def styleboard(request, cat_id=None):
 	info = {}
 	categories = get_categories(cat_id)
+	print categories.query
 	info['categories'] = categories
 	return render_to_response('interface/styleboard.html', info,RequestContext(request))

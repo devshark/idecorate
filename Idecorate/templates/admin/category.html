@@ -74,27 +74,11 @@
 	text-align: center;
 	clear: both;
 }
-iframe {
-	border: 0;
-	height: 165px;
-	width: 100%;
-}
 .file-wrapper {
   cursor: pointer;
   display: inline-block;
   overflow: hidden;
   position: relative;
-}
-.file-wrapper input {
-  cursor: pointer;
-  font-size: 100px;
-  height: 100%;
-  filter: alpha(opacity=1);
-  -moz-opacity: 0.01;
-  opacity: 0.01;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 #btn-browse.button {
   cursor: pointer;
@@ -114,6 +98,10 @@ iframe {
 	text-align: center;
 	background: #fff;
 	line-height: 100px;
+}
+#preview img {
+	max-height: 100px;
+	max-width: 100px;
 }
 .loading { 
 	background: url(/media/admin/images/loading.gif) no-repeat 39px 40px;
@@ -268,20 +256,30 @@ iframe {
 			$('#id_parent').val(this.rel);
 		});
 
-		if ($('.alert.alert-error').length > 0){
-			setTimeout(function(){
-				if($('.alert.alert-error')){
-					$('.alert.alert-error').hide('fast',function(){
-						$('.alert.alert-error').remove();
-					});
-				}
-			}, 10000);
-		}
-
 		new AjaxUpload('btn-browse', {
 			name: 'image',
 			action: '{% url category_thumbnail_upload %}',
 			onSubmit: function(file, extension) {
+
+				if(extension == 'tif' || extension == 'tiff'){					
+					if($('.alert.alert-error').length > 0){
+						if ($('.thumb-error').length > 0)
+							$('.alert.alert-error ol li.thumb-error').text('{% trans "File type is not supported" %}');
+						else
+							$('.alert.alert-error ol').append('<li class="thumb-error">{% trans "File type is not supported" %}</li>');
+					} else {
+						var elm = '<div class="alert alert-error">' +
+								'<a class="close" data-dismiss="alert" href="#">×</a>' +
+								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+								'<ol>' +
+								'<li class="thumb-error">{% trans "File type is not supported" %}</li>' +
+								'</ol>' +
+							'</div>';
+						$('#alert-error').html(elm);
+					}					
+					return false;
+				}
+
 				if($('#created-thumb').length > 0)
 					$('#created-thumb').remove();
 				$('div#preview').append('<div class="loading"></div>');
@@ -290,35 +288,48 @@ iframe {
 				$('div.loading').remove();
 				var splittedResponse = response.split('|');				
 				if (splittedResponse[0] == 'fail') {
-					var elm = '';
 					var msg = splittedResponse[1];
 					if($('.alert.alert-error').length > 0){
-						$('.alert.alert-error ol').append('<li>' + msg + '</li>');
+						if ($('.thumb-error').length > 0)
+							$('.alert.alert-error ol li.thumb-error').text(msg);
+						else
+							$('.alert.alert-error ol').append('<li class="thumb-error">' + msg + '</li>');						
 					} else {
-						elm = '<div class="alert alert-error">' +
+						var elm = '<div class="alert alert-error">' +
 								'<a class="close" data-dismiss="alert" href="#">×</a>' +
 								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
 								'<ol>' +
-								'<li>' + msg + '</li>' +
+								'<li class="thumb-error">' + msg + '</li>' +
 								'</ol>' +
 							'</div>';
-					}					
-					$('#alert-error').html(elm);
-
-					if ($('.alert.alert-error').length){
-						setTimeout(function(){
-							if($('.alert.alert-error')){
-								$('.alert.alert-error').hide('fast',function(){
-									$('.alert.alert-error').remove();
-								});
-							}
-						}, 10000);
+						$('#alert-error').html(elm);
 					}
 				} else {
-					$('#btn-browse').text('Photo Choosen');
+					$('#btn-browse').text('Photo Chosen');
 					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
 					$('div#preview').append('<img id="created-thumb" src="/media/' + splittedResponse[2] + '" />');
+					if($('.alert.alert-error').length > 0){
+						$('.alert.alert-error a.close').trigger('click');
+					}
 				}				
+			},
+			error: function(){
+				if($('.alert.alert-error').length > 0){
+					if ($('.thumb-error').length > 0)
+						$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');
+					else
+						$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
+				} else {
+					var elm = '<div class="alert alert-error">' +
+							'<a class="close" data-dismiss="alert" href="#">×</a>' +
+							'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+							'<ol>' +
+							'<li class="thumb-error">{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
+							'</ol>' +
+						'</div>';
+					$('#alert-error').html(elm);
+				}				
+				$('div.loading').remove();
 			}
 		});
 

@@ -18,6 +18,7 @@ from cart.models import Product, ProductPrice
 from plata.shop.models import TaxClass
 import shutil
 from PIL import Image
+import os
 
 @staff_member_required
 def admin(request):
@@ -319,21 +320,25 @@ def admin_create_product(request):
     	if form.is_valid():
 
     		#CREATE THUMBNAIL
-
+    		imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
     		splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
     		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
 
     		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
-    		img.thumbnail((settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT),Image.ANTIALIAS)
+    		img.thumbnail(imgSize,Image.ANTIALIAS)
+    		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
+    		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
+    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
 
+    		"""
     		if img.mode != "RGB":
     			img = img.convert("RGB")
 
     		img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
-
+    		"""
     		#Save product and price
     		product = Product()
-    		product.is_active = form.cleaned_data['product_status']
+    		product.is_active = bool(int(form.cleaned_data['product_status']))
     		product.name = form.cleaned_data['product_name']
     		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
     		product.description = form.cleaned_data['product_description']
@@ -369,6 +374,8 @@ def admin_upload_product_image(request):
 		uploaded = request.FILES['image']
 		content_type = uploaded.content_type.split('/')[0]
 
+		print "The content type is: %s" % (uploaded.content_type)
+
 		if content_type in settings.CONTENT_TYPES:
 			if int(uploaded.size) > int(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE):
 				return HttpResponse(_('notok:Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE), filesizeformat(uploaded.size)))
@@ -381,6 +388,14 @@ def admin_upload_product_image(request):
 					destination.write(chunk)
 
 				destination.close()
+
+				if uploaded.content_type == "image/tiff" or uploaded.content_type == "image/pjpeg" or uploaded.content_type == "image/jpeg":
+					img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName))
+
+					splittedName = getExtensionAndFileName(newFileName)
+					os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName))
+					newFileName = "%s%s" % (splittedName[0], ".jpg")
+					img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName))
 
 				return HttpResponse('ok:%s' % newFileName)
 		else:

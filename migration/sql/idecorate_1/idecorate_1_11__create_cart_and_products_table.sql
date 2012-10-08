@@ -63,7 +63,7 @@ CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `is_active` tinyint(1) NOT NULL,
   `name` varchar(100) NOT NULL,
-  `slug` varchar(50) NOT NULL,
+  `slug` varchar(201) NOT NULL,
   `ordering` int(10) unsigned NOT NULL,
   `description` longtext NOT NULL,
   `original_image` longtext NOT NULL,
