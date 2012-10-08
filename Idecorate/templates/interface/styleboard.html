@@ -292,18 +292,20 @@
                             $(response_data).find('object').each(function(){
                                 var type = $(this).attr('model') == 'category.categories' ? 'categories' : 'products';                         
                                 var id = $(this).attr('pk');
-                                var name = $(this).find('field[name="name"]').text();                                
-                                var thumb = $(this).find('field[name="thumbnail"]').text();
-                                if(type =='products'){
-                                    thumb = $(this).find('field[name="original_image_thumbnail"]').text();
-                                    thumb = 'products/' + thumb;
+                                var name = $(this).find('field[name="name"]').text();
+                                if (name){                                    
+                                    var thumb = $(this).find('field[name="thumbnail"]').text();
+                                    if(type =='products'){
+                                        thumb = $(this).find('field[name="original_image_thumbnail"]').text();
+                                        thumb = 'products/' + thumb;
+                                    }
+                                    items += '<div class="thumb ' + type + '">' +
+                                            '<a rel="' + id + '" href="#">' +
+                                                '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
+                                                '<span>' + name + '</span>' +
+                                            '</a>' +
+                                        '</div>';
                                 }
-                                items += '<div class="thumb ' + type + '">' +
-                                        '<a rel="' + id + '" href="#">' +
-                                            '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
-                                            '<span>' + name + '</span>' +
-                                        '</a>' +
-                                    '</div>';
                             });
                             var breadcrumb_tree = '';
                             $.ajax({
