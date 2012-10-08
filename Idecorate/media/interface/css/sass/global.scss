@@ -1,12 +1,3 @@
-
-$greyBrownLight: #C2BDBD;
-$grey : #666666;
-
-$margin15: 15px;
-
-$padding15: 15px;
-
-
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -20,297 +11,246 @@ article, aside, canvas, details, embed,
 figure, figcaption, footer, header, hgroup,
 menu, nav, output, ruby, section, summary,
 time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 100%;
-	font: inherit;
-	vertical-align: baseline;
-}
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-	display: block;
-}
+  display: block; }
+
 body {
-	line-height: 1;
-}
+  line-height: 1; }
+
 ol, ul {
-	list-style: none;
-}
+  list-style: none; }
+
 blockquote, q {
-	quotes: none;
-}
+  quotes: none; }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
-	content: '';
-	content: none;
-}
+  content: '';
+  content: none; }
+
 table {
-	border-collapse: collapse;
-	border-spacing: 0;
-}
+  border-collapse: collapse;
+  border-spacing: 0; }
 
 /*
  * These selection declarations have to be separate
  * No text-shadow: twitter.com/miketaylr/status/12228805301
  * Also: hot pink!
  */
+::-moz-selection {
+  background: #fe57a1;
+  color: #fff;
+  text-shadow: none; }
 
-::-moz-selection { background: #fe57a1; color: #fff; text-shadow: none; }
-::selection { background: #fe57a1; color: #fff; text-shadow: none; }
+::selection {
+  background: #fe57a1;
+  color: #fff;
+  text-shadow: none; }
 
 /*=========================================
 	Clearfix for self clearing floated children
 =========================================*/
-
 .clearfix:before,
 .clearfix:after {
-    content: "";
-    display: table;
-} 
+  content: "";
+  display: table; }
+
 .clearfix:after {
-    clear: both;
-}
+  clear: both; }
+
 .clearfix {
-    zoom: 1; /* For IE 6/7 (trigger hasLayout) */
-}
+  zoom: 1;
+  /* For IE 6/7 (trigger hasLayout) */ }
 
 /* ========================================
 	Links
 =========================================*/
-
-a:hover, a:active { outline: 0; }
+a:hover, a:active {
+  outline: 0; }
 
 /*=========================================
 	Main Styles
 =========================================*/
 body {
-	font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
-	font-size: 12px;
-	background-color: $greyBrownLight;
-	color: $grey;
-}
+  font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+  font-size: 12px;
+  background-color: #c2bdbd;
+  color: #666666; }
 
-#main-container{
-	width: 1024px;
-	background-color: #FFFFFF;
-	margin: 0 auto;
-	padding:$padding15;
-}
+#main-container {
+  width: 1024px;
+  background-color: #FFFFFF;
+  margin: 0 auto;
+  padding: 15px; }
 
-h1{ font-size: 2em;}
-h2{ font-size: 1.7em;} 
-h3{ font-size: 1.5em;} 
-h4{ font-size: 1.3em;} 
-h5{ font-size: 1em;}
+h1 {
+  font-size: 2em; }
 
-#header{
-	margin-bottom:15px;
-	padding-bottom:15px;
-	border-bottom:1px solid #EEEEEE;
-	position:relative;
-	min-height:60px;
-}
+h2 {
+  font-size: 1.7em; }
 
-.headerColumn{
-	vertical-align:top;
+h3 {
+  font-size: 1.5em; }
 
-	a{
-		text-decoration:none;
-		color: #333333;
-		font-size:1.2em;
-	}
-}
+h4 {
+  font-size: 1.3em; }
 
-#info-menu{
-	float: left;
-}
+h5 {
+  font-size: 1em; }
 
-#info-menu,#site-menu{
-	width:400px;
-}
+#header {
+  margin-bottom: 15px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #EEEEEE;
+  position: relative;
+  min-height: 60px; }
 
-#logo{
-	width:224px;
-	position:absolute;
-	top:0;
-	left:400px;
-	h1,h3{
-		text-align:center;
-	}
-}
+.headerColumn {
+  vertical-align: top; }
+  .headerColumn a {
+    text-decoration: none;
+    color: #333333;
+    font-size: 1.2em; }
 
-#site-menu{
-	float: right;
-	vertical-align:top;
-	text-align:left;
-	ul{
-		float:right;
-	}
-}
+#info-menu {
+  float: left; }
+
+#info-menu, #site-menu {
+  width: 400px; }
+
+#logo {
+  width: 224px;
+  position: absolute;
+  top: 0;
+  left: 400px; }
+  #logo h1, #logo h3 {
+    text-align: center; }
+
+#site-menu {
+  float: right;
+  vertical-align: top;
+  text-align: left; }
+  #site-menu ul {
+    float: right; }
 
 /* 
 	LEVEL ONE
 */
-ul.dropdown{ 
-	position: relative; 
-	margin-bottom:5px;
+ul.dropdown {
+  position: relative;
+  margin-bottom: 10px;
+  /* Doesn't work in IE */
+  /* 
+  LEVEL TWO
+  */ }
+  ul.dropdown li {
+    display: inline-block;
+    border-left: 1px solid #999999;
+    *float: left; }
+    ul.dropdown li a {
+      display: block;
+      padding: 4px 10px;
+      color: #222;
+      white-space: nowrap; }
+  ul.dropdown li.nonLink {
+    font-size: 1.2em;
+    line-height: 22px;
+    white-space: nowrap;
+    padding: 0 10px; }
+  ul.dropdown li.nonLink:hover,
+  ul.dropdown li.nonLink.hover {
+    background: none !important;
+    color: #666666; }
+  ul.dropdown li:first-child {
+    border-left: none; }
+  ul.dropdown li.hover,
+  ul.dropdown li:hover {
+    background: #F3D673;
+    color: black;
+    position: relative; }
+  ul.dropdown li.hover a {
+    color: black; }
+  ul.dropdown a:hover {
+    color: #000; }
+  ul.dropdown a:active {
+    color: #ffa500; }
+  ul.dropdown ul {
+    visibility: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    /* IE 6 & 7 Needs Inline Block */
+    /* 
+    	LEVEL THREE
+    */ }
+    ul.dropdown ul li {
+      font-weight: normal;
+      background: #f6f6f6;
+      color: #000;
+      border-bottom: 1px solid #ccc;
+      float: none;
+      padding-right: 10px; }
+      ul.dropdown ul li a {
+        border-left: none;
+        width: 100%;
+        display: inline-block; }
+    ul.dropdown ul ul {
+      left: 100%;
+      top: 0; }
+  ul.dropdown li:hover > ul {
+    visibility: visible; }
 
+p {
+  font-size: 1.1em;
+  line-height: 1.2em; }
 
-	li{ 
-		display: inline-block; 
-		border-left: 1px solid #999999;
-		*float:left;
+.defaultContent {
+  padding: 15px 0; }
 
-		a{ 
-			display: block; 
-			padding: 4px 10px; 
-			color: #222; 
-			white-space:nowrap;
-		}
-	}
+#sidebar {
+  float: left;
+  width: 260px;
+  padding: 10px 0;
+  height: 310px;
+  overflow: auto;
+  background-color: #F0EAF2; }
+  #sidebar ul li {
+    padding: 4px 10px; }
+    #sidebar ul li a {
+      text-decoration: none;
+      color: #333333;
+      font-size: 1.2em; }
+  #sidebar ul li:hover {
+    background: #F3D673; }
+    #sidebar ul li:hover a {
+      color: black; }
 
-	li.nonLink{
-		font-size:1.2em;
-		line-height:22px;
-		padding:0 10px;
-	}
-
-	li.nonLink:hover,
-	li.nonLink.hover{
-		background:none !important;
-		color:#666666;
-	}
-
-	li:first-child{ 
-		border-left: none; 
-	} /* Doesn't work in IE */
-
-	li.hover,
-	li:hover{ 
-		background: #F3D673; 
-		color: black; 
-		position: relative; 
-	}
-
-	li.hover a{ 
-		color: black; 
-	}
-
-	a:hover{ 
-		color: #000; 
-	}
-
-	a:active{ 
-		color: #ffa500; 
-	}
-
-	/* 
-	LEVEL TWO
-	*/
-	ul{ 
-		visibility: hidden; 
-		position: absolute; 
-		top: 100%; 
-		left: 0; 
-
-		li{ 
-			font-weight: normal; 
-			background: #f6f6f6; 
-			color: #000; 
-			border-bottom: 1px solid #ccc; 
-			float: none; 
-			padding-right:10px;
-
-			a{ 
-				border-left: none; width: 100%; display: inline-block; 
-			} 
-
-		}/* IE 6 & 7 Needs Inline Block */
-
-		/* 
-			LEVEL THREE
-		*/
-		ul{ 
-			left: 100%; top: 0; 
-		}
-	}
-
-	li:hover > ul{ 
-		visibility: visible; 
-	}
-}
-
-p{
-	font-size: 1.1em;
-	line-height: 1.2em;
-}
-
-.defaultContent{
-	padding: $padding15 0;
-}
-
-#sidebar{
-	float: left;
-	width: 260px;
-	padding:10px 0;
-	height:310px;
-	overflow:auto;
-	background-color:#F0EAF2;
-
-	ul{
-
-		li{
-			padding:4px 10px;
-			a{
-				text-decoration: none;
-				color:#333333;
-				font-size:1.2em;
-			}
-
-		}
-
-		li:hover{
-			background: #F3D673; 
-
-			a{
-				color: black; 
-			}
-		}
-	}
-}
-
-footer{
-	
-	margin-top:15px;
-	padding: $padding15 15px;
-	border-top: 1px solid #EEEEEE;
-
-	.copyright{
-		float:left;
-	}
-	.footerMenus{
-		float:right;
-		ul{
-
-			li{
-				padding:2px 5px;
-				display:inline-block;
-				zoom:1;
-				*display:inline;
-				border-left:1px solid #CCCCCC;
-				a{
-					text-decoration: none;
-					color:#333333;
-					font-size:1.1em;
-				}
-			}
-
-			li:first-child{
-				border-left:none;
-			}
-		}
-	}
-}
-
+footer {
+  margin-top: 15px;
+  padding: 15px 15px;
+  border-top: 1px solid #EEEEEE; }
+  footer .copyright {
+    float: left; }
+  footer .footerMenus {
+    float: right; }
+    footer .footerMenus ul li {
+      padding: 2px 5px;
+      display: inline-block;
+      zoom: 1;
+      *display: inline;
+      border-left: 1px solid #CCCCCC; }
+      footer .footerMenus ul li a {
+        text-decoration: none;
+        color: #333333;
+        font-size: 1.1em; }
+    footer .footerMenus ul li:first-child {
+      border-left: none; }

@@ -311,4 +311,24 @@ def validate_thumbnail(thumbnail=None):
 		res['error'] = True
 		res['msg'] = _('Thumbnail is required.').encode('utf-8')
 
-	return res	
+	return res
+
+def category_tree_crumb(parent_id, pipe=''):
+	breadcrumb = ''
+	try:
+		cat = Categories.objects.get(id=parent_id)
+		try:
+			parent = cat.parent.id
+			pipe = '|'
+		except:
+			pipe = ''
+			parent = None
+		breadcrumb += '%s:%s%s' % (cat.id,cat.name,pipe)
+		if parent:
+			breadcrumb += category_tree_crumb(parent,pipe)
+	except Exception as e:
+		pass
+	return breadcrumb
+
+def get_cat(cat_id):
+	return Categories.objects.get(id=cat_id)

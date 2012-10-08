@@ -6,6 +6,7 @@ from django.contrib import messages
 from django.template import RequestContext
 
 from category.services import get_categories
+from cart.models import Product
 
 def home(request):
 	info = {}
@@ -14,6 +15,12 @@ def home(request):
 def styleboard(request, cat_id=None):
 	info = {}
 	categories = get_categories(cat_id)
-	print categories.query
-	info['categories'] = categories
+	if categories.count() > 0:
+		info['categories'] = categories
+	else:
+		info['products'] = Product.objects.all()
+	info['cat_id'] = cat_id
 	return render_to_response('interface/styleboard.html', info,RequestContext(request))
+
+def styleboard_ajax(request):
+	return HttpResponse(200)
