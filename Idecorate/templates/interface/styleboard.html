@@ -71,6 +71,7 @@
                     <div id="sidebar-form-wrap"  class="clearfix">
                         <h3>My Order</h3>
                         <form action="" method="post">
+                            {% csrf_token %}
                             <div class="sidebarInputs">
                                 <label for="guests">
                                     <input type="text" id="guests" name="guests" placeholder="Guests" /> Guests
@@ -84,13 +85,14 @@
                             </div>
                         </form>
                     </div>
-            		<div id="create-tab" class="overflowY clearfix">
-                        <!--<div id="dragable_1" class="thumb draggable">
-                            <img src="/media/dummyproduct/thumb/img_thumb_1.jpg">
+            		<div id="create-tab" class="overflowY clearfix">                        
+                        <!--<div id="prod_id" class="thumb draggable">
+                            <img id="filename_default_image" src="/media/dummyproduct/thumb/img_thumb_1.jpg">
                             <span>Category_001</span>
                         </div>
                         <div id="dragable_2" class="thumb draggable">
-                            <img src="/media/dummyproduct/thumb/img_thumb_2.jpg">
+                            <img id='' src="/media/dummyproduct/thumb/img_thumb_2.jpg">
+                            <span style="display:none">test.png</span>
                             <span>Category_002</span>
                         </div>
                         <div id="dragable_3" class="thumb draggable">
@@ -254,6 +256,7 @@
             </footer>
         </div> <!-- /container -->
         <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
         <script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
         <script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
         <script type="text/javascript" src="/media/interface/js/jquery.tablescroll.js"></script>
@@ -264,7 +267,88 @@
                 $('#sidebar').easytabs();
                 //tableScroll sets the table's tbody to be scrollable leaving the head and foot fixed.
                 //$('#buy-table').tableScroll({height:450});
-            }); 
+
+                $('.categories a').click(function(){
+                    browse_categories(this.rel);
+                    return false;
+                });
+
+                $('.breadcrumb a').click(function(){
+                    browse_categories(this.rel);
+                    return false;
+                });
+            });
+            
+            function browse_categories(elm_id){
+                $.ajax({
+                        url: "{% url styleboard_ajax %}",
+                        type: "POST",
+                        dataType: 'xml',
+                        data: { cat_id: elm_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+                        async:   false,
+                        success: function(response_data){
+                            var items = '';
+                            var breadcrumb = '';
+                            $(response_data).find('object').each(function(){
+                                var type = $(this).attr('model') == 'category.categories' ? 'categories' : 'products';                         
+                                var id = $(this).attr('pk');
+                                var name = $(this).find('field[name="name"]').text();                                
+                                var thumb = $(this).find('field[name="thumbnail"]').text();
+                                if(type =='products'){
+                                    thumb = $(this).find('field[name="original_image_thumbnail"]').text();
+                                    thumb = 'products/' + thumb;
+                                }
+                                items += '<div class="thumb ' + type + '">' +
+                                        '<a rel="' + id + '" href="#">' +
+                                            '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
+                                            '<span>' + name + '</span>' +
+                                        '</a>' +
+                                    '</div>';
+                            });
+                            var breadcrumb_tree = '';
+                            $.ajax({
+                                url: "{% url get_category_tree_ajax %}",
+                                type: "POST",
+                                data: { cat_id: elm_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+                                async:   false,
+                                success: function(breadcrumb_data){
+                                    if (breadcrumb_data){
+                                        arr = breadcrumb_data.split('|');
+                                        breadcrumb += '<ul class="breadcrumb">'
+                                        breadcrumb += '<li><a href="#">All</a></li>';
+                                        i = arr.length;
+                                        while (i!=0){
+                                            cc = arr[i-1].split(':');
+                                            if (i==1)
+                                                breadcrumb += '<li> > </li><li class="active">' + cc[1] + '</li>';
+                                            else
+                                                breadcrumb += '<li> > </li><li><a rel="' + cc[0] + '" href="#">' + cc[1] + '</a></li>';
+                                            i = i-1
+                                        }
+                                        breadcrumb += '</ul>'
+                                    }
+                                },
+                                error: function(msg) {
+                            
+                                }
+                            });
+                            var side_content = breadcrumb + items;
+                            $('#create-tab').html(side_content);
+                            $('.breadcrumb a').each(function(){
+                                $(this).bind('click',function(){
+                                    browse_categories(this.rel);
+                                });
+                            });
+                            $('.categories a').each(function(){
+                                $(this).bind('click',function(){
+                                    browse_categories(this.rel);
+                                });
+                            });
+                        },
+                        error: function(msg) {
+                        }
+                    });
+            }
         </script>
 
         <!-- idecorate app js-->

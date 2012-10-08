@@ -161,8 +161,8 @@
 							{{ form.thumbnail }}
 							<div class="control-group">
 								<div id="preview">
-								{% if cat_thumb %}
-								<img id="created-thumb" src="/{{ MEDIA_URL }}{{ cat_thumb.thumbnail }}" />
+								{% if category %}
+								<img id="created-thumb" src="/{{ MEDIA_URL }}{{ category.thumbnail }}" />
 								{% endif %}
 								</div>
 							</div>
