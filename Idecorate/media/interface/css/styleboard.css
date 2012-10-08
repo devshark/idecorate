@@ -423,3 +423,13 @@ footer {
   width: 57.292%;
   height: 700px;
   margin-right: 0.781%; }
+
+/* breadcrumb */
+.breadcrumb {
+  margin-left: 5px;
+}
+.breadcrumb li{
+  display: inline-block;
+  font-size: 12px;
+  padding-right: 5px;
+}

@@ -1,7 +1,22 @@
 {% load idecorate_interface %}
+{{ cat_id|get_breadcrumb }}
 {% for cat in categories %}
 <div class="thumb">
-	<img src="/{{ MEDIA_URL }}{{ cat.id|get_category_thumbnail }}" alt="{{ cat.name }}" />
-    <span>{{ cat.name }}</span>
+	<a href="#">
+		<img src="/{{ MEDIA_URL }}{{ cat.id|get_category_thumbnail }}" alt="{{ cat.name }}" />
+	    <span>{{ cat.name }}</span>
+	</a>
 </div>
 {% endfor %}
+{% if products %}
+{% for prod in products %}
+
+<div class="thumb">
+	<a href="#">
+		<img src="/{{ MEDIA_URL }}{{ cat.id|get_category_thumbnail }}" alt="{{ cat.name }}" />
+	    <span>{{ cat.name }}</span>
+	</a>
+</div>
+
+{% endfor %}
+{% endif %}
