@@ -400,7 +400,6 @@ footer{
 			width:121%/768*100;
 			margin-left:3.5%/768*100;
 			min-width:76px;
-			height:100%;
 			margin-bottom:5em/$default_font_size;
 
 			img{
@@ -419,15 +418,15 @@ footer{
 	}
 
 	.overflowY{
-		max-height: 517px;
+		height: 517px;
 		overflow: auto;
+		*overflow-x:hidden;
 	}
 
 	#buy-tab{
 
 		.overflowY{
-			max-height: 450px;
-			overflow: auto;
+			height: 450px;
 		}
 
 		#buy-table{
@@ -549,6 +548,8 @@ footer{
 	width:1100%/$doc_width*100;
 	height:700px;
 	margin-right: 15%/$doc_width*100;
+	overflow: hidden;
+	position: relative;
 }
 
 
