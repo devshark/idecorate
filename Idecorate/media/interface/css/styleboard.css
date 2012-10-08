@@ -330,7 +330,6 @@ footer {
     width: 15.755%;
     margin-left: 0.456%;
     min-width: 76px;
-    height: 100%;
     margin-bottom: 0.313em; }
     #sidebar #create-tab .thumb img {
       width: 100%; }
@@ -342,11 +341,11 @@ footer {
       font-size: 0.688em;
       text-align: center; }
   #sidebar .overflowY {
-    max-height: 517px;
-    overflow: auto; }
+    height: 517px;
+    overflow: auto;
+    *overflow-x: hidden; }
   #sidebar #buy-tab .overflowY {
-    max-height: 450px;
-    overflow: auto; }
+    height: 450px; }
   #sidebar #buy-tab #buy-table {
     width: 97.656%;
     margin: 10px auto; }
@@ -422,7 +421,9 @@ footer {
   border: 1px solid #DDDDDD;
   width: 57.292%;
   height: 700px;
-  margin-right: 0.781%; }
+  margin-right: 0.781%;
+  overflow: hidden;
+  position: relative; }
 
 /* breadcrumb */
 .breadcrumb {
