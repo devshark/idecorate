@@ -29,7 +29,7 @@ def styleboard(request, cat_id=None):
 	if categories.count() > 0:
 		info['categories'] = categories
 	else:
-		info['products'] = Product.objects.filter(categories__id=cat_id)
+		info['products'] = Product.objects.filter(categories__id=cat_id,is_active=True)
 	info['cat_id'] = cat_id
 	return render_to_response('interface/styleboard.html', info,RequestContext(request))
 
@@ -44,7 +44,7 @@ def styleboard_ajax(request):
 			categories = categories.order_by('order')
 			data = serializers.serialize("xml", categories)
 		else:
-			products = Product.objects.filter(categories__id=cat_id)
+			products = Product.objects.filter(categories__id=cat_id, is_active=True)
 			data = serializers.serialize("xml", products)
 
 		return HttpResponse(data, mimetype='application/xml')
