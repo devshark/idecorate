@@ -424,13 +424,9 @@ footer {
   margin-right: 0.781%;
   overflow: hidden;
   position: relative; }
-
-/* breadcrumb */
-.breadcrumb {
-  margin-left: 5px;
-}
-.breadcrumb li{
-  display: inline-block;
-  font-size: 12px;
-  padding-right: 5px;
-}
+  #canvas-wrap .handles {
+    border: 1px solid #999;
+    position: absolute;
+    display: none; }
+  #canvas-wrap .product {
+    position: absolute; }

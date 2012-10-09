@@ -550,6 +550,17 @@ footer{
 	margin-right: 15%/$doc_width*100;
 	overflow: hidden;
 	position: relative;
+
+
+    .handles{
+        border: 1px solid #999;
+        position:absolute;
+        display:none;
+    }
+
+	.product{
+		position: absolute;
+	}
 }
 
 
