@@ -17,7 +17,6 @@ $(document).ready(function () {
                 product_id = $(ui.draggable)[0].id;
 
                 //get image filename from DB using product_id via ajax
-
                 /*
                 $.ajax({
                     url : 'class/method/',
@@ -28,7 +27,6 @@ $(document).ready(function () {
 
                     }
                 });
-                */
                 
                 product_image = new Image();
                 product_image.src = '/media/dummyproduct/large/img_default_'+product_id+'.jpg';
@@ -38,11 +36,14 @@ $(document).ready(function () {
                         top : e.pageY-$('#canvas-wrap').offset().top-product_image.height/2,
                         left :e.pageX-$('#canvas-wrap').offset().left-product_image.width/2,
                     });
-
-                    $('.handles').css({display: 'block'});
                 });
+                */
 			}
 		}
+    });
+
+    $('.selected').click(function(){
+        console.log('text');
     });
 
     $('.handles').draggable({
