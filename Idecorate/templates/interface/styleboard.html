@@ -255,8 +255,8 @@
                 //tableScroll sets the table's tbody to be scrollable leaving the head and foot fixed.
                 //$('#buy-table').tableScroll({height:450});
 
-                $('.categories a').click(function(){
-                    browse_categories(this.rel);
+                $('.categories').click(function(){
+                    browse_categories(this.id);
                     return false;
                 });
 
@@ -276,6 +276,7 @@
                         success: function(response_data){
                             var items = '';
                             var breadcrumb = '';
+                            $(".draggable").draggable("destroy");
                             $(response_data).find('object').each(function(){
                                 var type = $(this).attr('model') == 'category.categories' ? 'categories' : 'products';                         
                                 var id = $(this).attr('pk');
@@ -285,15 +286,19 @@
                                     if(type =='products'){
                                         thumb = $(this).find('field[name="original_image_thumbnail"]').text();
                                         thumb = 'products/' + thumb;
+                                        items += '<a class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                                                    '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
+                                                '</a>';
+                                    }else{
+                                        items += '<div  style="cursor: pointer;" id="' + id + '" class="thumb ' + type + '">' +
+                                                    '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
+                                                    '<span>' + name + '</span>' +
+                                            '</div>';
                                     }
-                                    items += '<div class="thumb ' + type + '">' +
-                                            '<a rel="' + id + '" href="#">' +
-                                                '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
-                                                '<span>' + name + '</span>' +
-                                            '</a>' +
-                                        '</div>';
                                 }
+
                             });
+            
                             var breadcrumb_tree = '';
                             $.ajax({
                                 url: "{% url get_category_tree_ajax %}",
@@ -324,14 +329,21 @@
                             var side_content = breadcrumb + items;
                             $('#create-tab').html(side_content);
                             $('.breadcrumb a').each(function(){
-                                $(this).bind('click',function(){
+                                $(this).bind('click',function(e){
+                                    e.preventDefault();
                                     browse_categories(this.rel);
                                 });
                             });
-                            $('.categories a').each(function(){
-                                $(this).bind('click',function(){
-                                    browse_categories(this.rel);
+                            $('.categories').each(function(){
+                                $(this).bind('click',function(e){
+                                    e.preventDefault();
+                                    browse_categories(this.id);
                                 });
+                            });
+                            
+                            $(".draggable").draggable({ 
+                                revert:true, 
+                                helper: 'clone' 
                             });
                         },
                         error: function(msg) {

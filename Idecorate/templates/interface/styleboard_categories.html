@@ -1,20 +1,18 @@
 {% load idecorate_interface %}
 {{ cat_id|get_breadcrumb }}
 {% for cat in categories %}
-<div class="thumb categories">
-	<a rel="{{ cat.id }}" href="#">
+<div style="cursor: pointer;" id="{{ cat.id }}" class="thumb categories">
 		<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" alt="{{ cat.name }}" />
 	    <span>{{ cat.name }}</span>
-	</a>
 </div>
 {% endfor %}
 {% if products %}
 {% for prod in products %}
 
-<div id="{{ prod.id }}" class="thumb draggable">
+<a id="{{ prod.id }}" title="{{ prod.name }}" class="thumb draggable">
     <img src="/{{ MEDIA_URL }}products/{{ prod.original_image_thumbnail }}">
-    <span>{{ prod.name }}</span>
-</div>
+    <!--<span>{{ prod.name }}</span>-->
+</a>
 
 {% endfor %}
 {% endif %}
