@@ -428,6 +428,7 @@ footer {
 /* breadcrumb */
 .breadcrumb {
   margin-left: 5px;
+  margin-bottom: 10px;
 }
 .breadcrumb li{
   display: inline-block;

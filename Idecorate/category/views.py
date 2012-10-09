@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from django.template import RequestContext
 from forms import CategoryForm, CategoryThumbnailForm
 from services import new_category, category_edit, delete_category, update_order, generate_admin_dropdown_category, parent_is_my_sub,\
-validate_thumbnail, manage_category_thumbnail, category_thumbnails, clear_temp
+validate_thumbnail, manage_category_thumbnail, clear_temp
 
 from category.models import Categories
 
@@ -58,16 +58,10 @@ def edit_category(request, cat_id=None):
 			pass
 		info['cat'] = cat		
 		info['parent'] = parent_name
-
-		thumb_id = None
-		cat_thumb = category_thumbnails(cid=cat.id)
-		if cat_thumb:
-			thumb_id = cat_thumb.id
-
-		info['cat_thumb'] = cat_thumb
 		
-		form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id, 'thumbnail': thumb_id })
+		form = CategoryForm(initial={'name':cat.name,'parent':parent, 'id':cat.id, 'thumbnail': cat.id })
 	except Exception as e:
+		print e
 		return redirect('category')
 
 	if request.method == 'POST':
@@ -87,6 +81,7 @@ def edit_category(request, cat_id=None):
 	categories = Categories.objects.filter(parent__id=None, deleted=0).order_by('order')
 	info['form'] = form
 	info['categories'] = categories
+	info['category'] = cat
 	return render_to_response('admin/category.html', info, RequestContext(request))
 
 @staff_member_required

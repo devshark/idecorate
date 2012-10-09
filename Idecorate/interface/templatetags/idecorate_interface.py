@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu
-from category.services import get_categories, category_thumbnails, category_tree_crumb, get_cat
+from category.services import get_categories, category_tree_crumb, get_cat
 from django.core.urlresolvers import reverse
 
 register = template.Library()
@@ -108,18 +108,11 @@ def getInterfaceMenus(menuType):
 	return menuInterfaceRecursion(menus)
 
 @register.filter
-def get_category_thumbnail(cat_id):
-
-	cat_thumb = category_thumbnails(cid=cat_id)
-
-	return mark_safe(cat_thumb.thumbnail)
-
-@register.filter
 def get_breadcrumb(parent_id):
 	if parent_id:
 		cat_tree = category_tree_crumb(parent_id)
 		tags = '<ul class="breadcrumb">'
-		tags += '<li><a href="%s">All</a></li>' % reverse('styleboard_ajax')
+		tags += '<li><a href="#">All</a></li>'
 		arr = cat_tree.split('|')
 		i = len(arr)
 
@@ -128,7 +121,7 @@ def get_breadcrumb(parent_id):
 			if i==1:
 				tags += '<li> > </li><li class="active">%s</li>' % (cc[1])
 			else:
-				tags += '<li> > </li><li><a href="%s">%s</a></li>' % (reverse('styleboard_ajax'),cc[1])
+				tags += '<li> > </li><li><a rel="%s" href="#">%s</a></li>' % (cc[0], cc[1])
 			i = i-1
 
 		tags += '</ul>'

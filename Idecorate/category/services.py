@@ -1,6 +1,6 @@
 import os
 from django.db.models import Max
-from models import Categories, CategoryThumbnail, CategoryThumbnailTemp
+from models import Categories, CategoryThumbnailTemp
 from django.utils.safestring import mark_safe
 from PIL import Image
 import magic
@@ -85,16 +85,9 @@ def category_edit(data):
 
 def set_category_thumbnail(category, thumbnail):
 	if thumbnail.find('temp')!=-1:
-		try:	
-			cat_thumb = CategoryThumbnail.objects.get(category__id=category.id)
-		except:
-			cat_thumb = CategoryThumbnail()
-			cat_thumb.category = category
-
 		spl = thumbnail.split('|')
 		temp_id = spl[1]
 		cat_temp = CategoryThumbnailTemp.objects.get(id=temp_id)
-
 		thumb = cat_temp.thumbnail.path
 
 		t = time.time()
@@ -113,14 +106,11 @@ def set_category_thumbnail(category, thumbnail):
 		background = Image.new('RGBA', size, (255, 255, 255, 0))
 		background.paste(im,((size[0] - im.size[0]) / 2, (size[1] - im.size[1]) / 2))
 
-		# if im.mode != 'RGB':
-		# 	im = im.convert("RGB")
-
 		background.save(path)
 
-		cat_thumb.thumbnail = 'categories/thumbnail/%s' % fname
-		cat_thumb.save()
-		clear_temp(temp_id)
+		category.thumbnail = 'categories/thumbnail/%s' % fname
+		category.save()
+		clear_temp(cat_temp.id)
 
 def manage_category_thumbnail(data):
 	try:
@@ -139,20 +129,6 @@ def clear_temp(temp_id):
 		cat_temp.delete()
 	except:
 		pass
-
-def category_thumbnails(**kwargs):
-	ctid = kwargs.get('ctid',None)
-	cid = kwargs.get('cid',None)
-	try:
-		if ctid:
-			cat_thumb = CategoryThumbnail.objects.get(id=ctid)
-
-		if cid:
-			cat_thumb = CategoryThumbnail.objects.get(category__id=cid)
-	except:
-		cat_thumb = None
-
-	return cat_thumb
 
 def convert_to_jpeg(thumb):	
 	try:
@@ -331,4 +307,9 @@ def category_tree_crumb(parent_id, pipe=''):
 	return breadcrumb
 
 def get_cat(cat_id):
-	return Categories.objects.get(id=cat_id)
+	cat = None
+	try:
+		cat = Categories.objects.get(id=cat_id)
+	except:
+		pass
+	return cat
