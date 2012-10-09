@@ -19,6 +19,7 @@ from plata.shop.models import TaxClass
 import shutil
 from PIL import Image
 import os
+from category.models import Categories
 
 @staff_member_required
 def admin(request):
@@ -312,10 +313,19 @@ def admin_logout(request):
 def admin_create_product(request):
     info = {}
     form = AddProductForm()
+    info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
+    categories = Categories.objects.filter(deleted=False).order_by('order')    
+
+    catList = []
+    for category in categories:
+    	catList.append((str(category.id),category.name))
+
+    form.fields['categories'].choices = tuple(catList)
 
     if request.method == "POST":
 
     	form = AddProductForm(request.POST)
+    	form.fields['categories'].choices = tuple(catList)
 
     	if form.is_valid():
 
@@ -347,6 +357,29 @@ def admin_create_product(request):
     		product.original_image_thumbnail = thumbName
     		product.sku = form.cleaned_data['product_sku']
     		product.save()
+
+    		#add category
+    		catPostLists = request.POST.getlist('categories')
+    		for catPostList in catPostLists:
+    			cat = Categories.objects.get(id=int(catPostList))
+
+    			#check if parent
+    			childCats = Categories.objects.filter(parent=cat)
+
+    			if childCats.count() > 0:
+    				#parent
+    				ignoreThis = False
+    				for childCat in childCats:
+
+    					if str(childCat.id) in catPostLists:
+    						ignoreThis = True
+    						break
+
+    				if not ignoreThis:
+    					product.categories.add(cat)
+    			else:
+    				#not parent
+    				product.categories.add(cat)
 
     		productPrice = ProductPrice()
     		productPrice.product = product

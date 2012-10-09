@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase
+from category.models import Categories
 
 
 class Product(ProductBase):
@@ -16,6 +17,7 @@ class Product(ProductBase):
     original_image_thumbnail = models.TextField(_('original_image_thumbnail'), blank=True)
     no_background = models.TextField(_('no_background'), blank=True)
     sku = models.CharField(_('sku'), max_length=100)
+    categories = models.ManyToManyField(Categories)
 
     class Meta:
         ordering = ['ordering', 'name']

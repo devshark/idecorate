@@ -261,6 +261,13 @@ footer {
   margin-left: 0.781%;
   position: relative;
   margin-top: 30px; }
+  #sidebar .breadcrumb {
+    margin-left: 5px;
+    margin-bottom: 10px; }
+    #sidebar .breadcrumb li {
+      display: inline-block;
+      font-size: 12px;
+      padding-right: 5px; }
   #sidebar #sidebar-nav {
     position: absolute;
     top: -31px;

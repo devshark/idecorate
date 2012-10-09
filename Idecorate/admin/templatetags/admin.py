@@ -206,3 +206,55 @@ def generateThumbnailUrl(value):
 	else:
 		tags = '%s' % reverse('category_thumbnail')
 	return mark_safe(tags)
+
+
+@register.filter
+def getCategoryTree(categories, req):
+
+	return treeRecursion(categories, req)
+
+def treeRecursion(categories, req):
+
+	element = ""
+	needToOpen = True
+
+	for category in categories:
+		if category.parent is None:
+			if needToOpen:
+				element += '<ul id="tree1">'
+				needToOpen = False
+
+		else:
+			if needToOpen:
+				element += '<ul>'
+				needToOpen = False
+
+		chk = ""
+
+		if req.method == "POST":
+
+			if str(category.id) in req.POST.getlist('categories'):
+				chk = ' checked="checked"'
+			else:
+				chk = ''
+
+		sub_menus = Categories.objects.filter(parent__id=category.id,deleted=False).order_by('order')
+
+		hidden = ""
+		if sub_menus.count() > 0:
+			#parent
+			hidden = ' style="display:none"'
+		else:
+			#not parent
+			hidden = ''
+
+		element += '<li><input class="treeinput" type="checkbox" name="categories" value="%s"%s%s/><label class="treelabel">%s</label>' % (category.id, chk, hidden, category.name)
+
+		element += treeRecursion(sub_menus, req)
+
+		element +='</li>'
+
+	if needToOpen == False:
+		element += '</ul>'
+
+	return mark_safe(element)

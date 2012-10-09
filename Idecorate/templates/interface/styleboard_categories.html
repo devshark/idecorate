@@ -1,9 +1,9 @@
 {% load idecorate_interface %}
 {{ cat_id|get_breadcrumb }}
 {% for cat in categories %}
-<div class="thumb">
-	<a href="#">
-		<img src="/{{ MEDIA_URL }}{{ cat.id|get_category_thumbnail }}" alt="{{ cat.name }}" />
+<div class="thumb categories">
+	<a rel="{{ cat.id }}" href="#">
+		<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" alt="{{ cat.name }}" />
 	    <span>{{ cat.name }}</span>
 	</a>
 </div>
@@ -11,11 +11,9 @@
 {% if products %}
 {% for prod in products %}
 
-<div class="thumb">
-	<a href="#">
-		<img src="/{{ MEDIA_URL }}{{ cat.id|get_category_thumbnail }}" alt="{{ cat.name }}" />
-	    <span>{{ cat.name }}</span>
-	</a>
+<div id="{{ prod.id }}" class="thumb draggable">
+    <img src="/{{ MEDIA_URL }}products/{{ prod.original_image_thumbnail }}">
+    <span>{{ prod.name }}</span>
 </div>
 
 {% endfor %}

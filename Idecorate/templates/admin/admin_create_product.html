@@ -7,6 +7,7 @@
 
 {% block styles %}
 <link href="/media/admin/css/admin.css" rel="stylesheet">
+<link href="/media/admin/css/jquery.checkboxtree.min.css" rel="stylesheet">
 <style type="text/css">
 
   .preview {
@@ -23,6 +24,20 @@
 
   div.preview.loading img {
     display: none; 
+  }
+
+  #tree1 {
+    padding: 0px 15px;
+    margin-left: 0px;
+  }
+
+  .treelabel {
+    display: inline-block;
+    margin: 0px;
+  }
+
+  .treeinput {
+    margin-bottom: 5px !important;
   }
 
 </style>
@@ -50,6 +65,9 @@
           {% for e in form.price.errors %}
             <li>{{ e }}</li>
           {% endfor %}
+          {% for e in form.categories.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}    
           {% for e in form.product_description.errors %}
             <li>{{ e }}</li>
           {% endfor %}
@@ -145,6 +163,20 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
+                <label class="control-label">{% trans "Product Category" %} *</label>
+                <div class="controls" style="margin-top:-3px;">
+                  <span class="help-block">{% trans "Check the box for each category you want this product to appear under. Hide/expand parent categories by clicking the arrows beside them." %}</span>
+
+                  {{ categories|getCategoryTree:request }}
+                  
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
                 <label class="control-label">{{ form.product_description.label }} *</label>
                 <div class="controls" style="margin-top:-3px;">
                   <span class="help-block">{{ form.product_description.help_text }}</span>
@@ -216,6 +248,7 @@
 {% block javascripts %}
 	<script type="text/javascript" src="/media/admin/js/tiny_mce/tiny_mce.js"></script>
   <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
+  <script type="text/javascript" src="/media/admin/js/jquery.checkboxtree.min.js"></script>
 	<script type="text/javascript" >
 		tinyMCE.init({
 		        mode : "textareas",
@@ -306,6 +339,8 @@
 
         }
       });
+
+      $('#tree1').checkboxTree();
 
 
     });
