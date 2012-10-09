@@ -243,7 +243,7 @@ def treeRecursion(categories, req):
 		hidden = ""
 		if sub_menus.count() > 0:
 			#parent
-			hidden = ' style="display:none"'
+			hidden = ' style="display:none" disabled="disabled"'
 		else:
 			#not parent
 			hidden = ''
