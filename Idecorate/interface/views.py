@@ -7,6 +7,7 @@ from django.template import RequestContext
 from django.utils import simplejson
 from django.http import HttpResponseNotFound
 from django.core import serializers
+from django.views.decorators.csrf import csrf_exempt
 
 from category.services import get_categories, get_cat, category_tree_crumb
 from cart.models import Product
@@ -60,3 +61,13 @@ def get_category_tree_ajax(request):
 		return HttpResponse(cat_tree)
 	else:
 		return HttpResponseNotFound()
+
+@csrf_exempt
+def get_product_original_image(request):
+
+	if request.method == "POST":
+		product_id = request.POST.get('product_id')
+
+		product = Product.objects.get(id=int(product_id))
+
+		return HttpResponse(product.original_image)
