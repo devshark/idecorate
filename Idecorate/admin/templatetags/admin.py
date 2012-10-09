@@ -238,9 +238,18 @@ def treeRecursion(categories, req):
 			else:
 				chk = ''
 
-		element += '<li><input type="checkbox" name="categories" value="%s"%s/><label class="treelabel">%s</label>' % (category.id, chk, category.name)
-
 		sub_menus = Categories.objects.filter(parent__id=category.id,deleted=False).order_by('order')
+
+		hidden = ""
+		if sub_menus.count() > 0:
+			#parent
+			hidden = ' style="display:none"'
+		else:
+			#not parent
+			hidden = ''
+
+		element += '<li><input class="treeinput" type="checkbox" name="categories" value="%s"%s%s/><label class="treelabel">%s</label>' % (category.id, chk, hidden, category.name)
+
 		element += treeRecursion(sub_menus, req)
 
 		element +='</li>'

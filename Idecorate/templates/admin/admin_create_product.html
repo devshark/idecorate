@@ -33,6 +33,11 @@
 
   .treelabel {
     display: inline-block;
+    margin: 0px;
+  }
+
+  .treeinput {
+    margin-bottom: 5px !important;
   }
 
 </style>
@@ -160,7 +165,7 @@
               <div class="control-group">
                 <label class="control-label">{% trans "Product Category" %} *</label>
                 <div class="controls" style="margin-top:-3px;">
-                  <span class="help-block">{% trans "Check the box for each category you want this product to appear under. Hide/expand parent categories by clicking the arrows beside them" %}</span>
+                  <span class="help-block">{% trans "Check the box for each category you want this product to appear under. Hide/expand parent categories by clicking the arrows beside them." %}</span>
 
                   {{ categories|getCategoryTree:request }}
                   
