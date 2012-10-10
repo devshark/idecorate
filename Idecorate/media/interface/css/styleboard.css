@@ -430,10 +430,43 @@ footer {
   height: 700px;
   margin-right: 0.781%;
   overflow: hidden;
-  position: relative; }
-  #canvas-wrap .handles {
-    border: 1px solid #999;
-    position: absolute;
-    display: none; }
+  position: relative;
+    /*.handles{
+        border: 1px solid #999;
+        position:absolute;
+        display:none;
+    }
+	*/ }
   #canvas-wrap .product {
-    position: absolute; }
+    position: absolute;
+    overflow: visible !important; }
+  #canvas-wrap .ui-wrapper {
+    overflow: visible !important;
+    border: 1px solid #999; }
+  #canvas-wrap .ui-resizable-handle {
+    background: #EEE;
+    border: 1px solid #333;
+    z-index: 2;
+    width: 8px;
+    height: 8px; }
+  #canvas-wrap .ui-rotatable-handle.clone {
+    visibility: hidden; }
+  #canvas-wrap .ui-rotatable-handle-wrap {
+    position: absolute;
+    width: 1px;
+    height: 25px;
+    left: 50%;
+    position: absolute;
+    top: -25px;
+    background-color: #999; }
+  #canvas-wrap .ui-rotatable-handle {
+    background: #EEE;
+    border: 1px solid #333;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -o-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    cursor: url("http://akwww.polyvorecdn.com/rsrc/img/rotate_arrow.cur") 13 4, crosshair;
+    margin-left: -5px;
+    height: 9px;
+    width: 9px; }

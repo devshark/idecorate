@@ -1,9 +1,4 @@
 $(document).ready(function () {
-	
-	$(".draggable").draggable({
-        helper: 'clone',
-        cursor: 'move'
-    });
 
     //set dropable area for the dragable obj
     $("#canvas-wrap").droppable({
@@ -15,6 +10,7 @@ $(document).ready(function () {
                 ui.helper.remove();
 
                 product_id = $(ui.draggable)[0].id;
+                product_image_src = '/media/products/';
 
                 //get image filename from DB using product_id via ajax
                 $.ajax({
@@ -23,37 +19,101 @@ $(document).ready(function () {
                     data: { product_id: product_id},
                     async:   false,
                     success: function(data){
-
-                        product_image = new Image();
-                        product_image.src = '/media/products/' + data;
+                        product_image_src = product_image_src+data;
                         
-                        img_wrapped = $(product_image).load(function(){
-                            $('<div class="product unselected selected"><img src="' + product_image.src + '" /></div>').appendTo('#canvas-wrap').css({
-                                top : e.pageY-$('#canvas-wrap').offset().top-product_image.height/2,
-                                left :e.pageX-$('#canvas-wrap').offset().left-product_image.width/2,
-                            });
-
-                            $('.handles').css({display: 'block'});
-                        });
-
                     },
                     error: function(msg) {
-                            
                     }
                 });
+
+                product_image = new Image();
+                product_image.src = product_image_src;
+
+                new_image = $('<img src="'+product_image_src+'" />');
+                    
+                new_image.width(200);
+
+                dropedObj = $('<div class="product" />');
+
+                dropedObj.html('');
+
+                new_image.appendTo(dropedObj);
+
+                dropedObj.appendTo('#canvas-wrap');
+
+                dropedObj.css({
+                    top : e.pageY-$('#canvas-wrap').offset().top-dropedObj.height()/2,
+                    left: e.pageX-$('#canvas-wrap').offset().left-dropedObj.width()/2
+                });
+
+                dropedObj.find('img').resizable({
+                            handles: 'ne,se,nw,sw',
+                            aspectRatio: true  
+                        });
+
+                dropedObj.draggable({
+                            helper: 'original',
+                            cursor: 'move'
+                        });
+
+                dropedObj.find('img').parent().rotatable();
+
+
+                /*$(product_image).load(function(){
+
+                    new_image = $('<img src="'+product_image_src+'" />');
+                    
+                    new_image.width(product_image.width*.40);
+
+                    dropedObj = $('<div class="product" />');
+
+                    dropedObj.html('');
+
+                    new_image.appendTo(dropedObj);
+
+                    dropedObj.appendTo('#canvas-wrap');
+
+                    dropedObj.css({
+                        top : e.pageY-$('#canvas-wrap').offset().top-dropedObj.height()/2,
+                        left: e.pageX-$('#canvas-wrap').offset().left-dropedObj.width()/2
+                    });
+
+                    dropedObj.find('img').resizable({
+                                handles: 'ne,se,nw,sw',
+                                aspectRatio: true  
+                            });
+
+                    dropedObj.draggable({
+                                helper: 'original',
+                                cursor: 'move'
+                            });
+
+                    dropedObj.find('img').parent().rotatable();
+
+
+                });*/
+
+
+                /*product_image = new Image();
+                product_image.src = '/media/products/' + data;
+                
+                img_wrapped = $(product_image).load(function(){
+                    $('<div class="product unselected selected"><img src="' + product_image.src + '" /></div>').appendTo('#canvas-wrap').css({
+                        top : e.pageY-$('#canvas-wrap').offset().top-product_image.height/2,
+                        left :e.pageX-$('#canvas-wrap').offset().left-product_image.width/2,
+                    });
+
+                    $('.handles').css({display: 'block'});
+                });*/
 			}
 		}
     });
 
-    $('.selected').click(function(){
-        console.log('text');
-    });
-
-    $('.handles').draggable({
+    /*$('.handles').draggable({
                     helper: 'original',
                     cursor: 'move'
                 }).resizable({
                     handles: 'ne,se,nw,sw',
                     aspectRatio: true  
-                }).rotatable();
+                }).rotatable();*/
 });
