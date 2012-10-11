@@ -1,5 +1,8 @@
 $(document).ready(function () {
-
+    $(".draggable").draggable({ 
+        revert:true, 
+        helper: 'clone' 
+    });
     //set dropable area for the dragable obj
     $("#canvas-wrap").droppable({
 
