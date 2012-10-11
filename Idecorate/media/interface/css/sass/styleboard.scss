@@ -307,17 +307,31 @@ footer{
 	margin-top: 30px;
 
 	.breadcrumb {
-		margin-left: 5px;
-		margin-bottom: 10px;
+		margin: 5px;
 
 		li{
 		  display: inline-block;
+		  zoom: 1;
+		  *display: inline;
 		  font-size: 12px;
 		  padding-right: 5px;
+
+		  a{
+		  	text-decoration: none;
+		  	color: #000;
+		  	display: block;
+		  	background-color: #DDDDDD;
+		  	padding: 2px 5px;
+		  	border: 1px solid #CCCCCC;
+		  }
+		  a:hover{
+		  	background-color: #999999;
+		  	color: #FFF;
+		  }
 		}
 	}
 
-	#sidebar-nav{
+	.sideNav{
 		position:absolute;
 		top: -31px;
 		left: -1px;
@@ -401,6 +415,24 @@ footer{
 			-webkit-border-radius:3px;
 			border-radius:3px; /* future proofing */
 			-khtml-border-radius:3px; /* for old Konqueror browsers */
+		}
+	}
+
+	#create-tab-nav{
+
+		margin: 0 5px;
+		border-bottom: 1px solid #DDDDDD;
+
+		ul{
+			position:relative !important;
+			top: 0;
+			left: -1px;
+
+			a{
+				height:25px;
+				line-height:25px;
+				padding: 0 10em/$default_font_size;
+			}
 		}
 	}
 

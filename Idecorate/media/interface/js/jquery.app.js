@@ -29,37 +29,7 @@ $(document).ready(function () {
                 product_image = new Image();
                 product_image.src = product_image_src;
 
-                new_image = $('<img src="'+product_image_src+'" />');
-                    
-                new_image.width(200);
-
-                dropedObj = $('<div class="product" />');
-
-                dropedObj.html('');
-
-                new_image.appendTo(dropedObj);
-
-                dropedObj.appendTo('#canvas-wrap');
-
-                dropedObj.css({
-                    top : e.pageY-$('#canvas-wrap').offset().top-dropedObj.height()/2,
-                    left: e.pageX-$('#canvas-wrap').offset().left-dropedObj.width()/2
-                });
-
-                dropedObj.find('img').resizable({
-                            handles: 'ne,se,nw,sw',
-                            aspectRatio: true  
-                        });
-
-                dropedObj.draggable({
-                            helper: 'original',
-                            cursor: 'move'
-                        });
-
-                dropedObj.find('img').parent().rotatable();
-
-
-                /*$(product_image).load(function(){
+                $(product_image).load(function(){
 
                     new_image = $('<img src="'+product_image_src+'" />');
                     
@@ -91,7 +61,7 @@ $(document).ready(function () {
                     dropedObj.find('img').parent().rotatable();
 
 
-                });*/
+                });
 
 
                 /*product_image = new Image();
