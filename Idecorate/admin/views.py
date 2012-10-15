@@ -587,7 +587,8 @@ def admin_manage_product(request):
     			else:
     				q = Q(categories__in=catPostLists)
 
-    		products = Product.objects.filter(q).order_by('sku')
+    		if q is not None:
+    			products = products.filter(q).order_by('sku')
 
     paginator = Paginator(products, 50)
     page = request.GET.get('page')
