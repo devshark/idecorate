@@ -249,6 +249,19 @@ def admin_delete_menu(request,id_delete,menuType):
 
 	return redirect('admin_manage_menu')
 
+@staff_member_required
+def admin_delete_product(request,id_delete):
+	
+	product = Product.objects.get(id=int(id_delete))
+
+	product.is_deleted = True
+	product.is_active = False
+	product.save()
+
+	messages.success(request, _('Product deleted.'))
+
+	return redirect('admin_manage_product')
+
 def admin_login(request):
 
 	if request.method == 'POST':
@@ -442,7 +455,7 @@ def admin_manage_product(request):
     info = {}
     info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
     form = SearchProductForm()
-    products = Product.objects.filter().order_by('sku')
+    products = Product.objects.filter(is_deleted=False).order_by('sku')
 
     categories = Categories.objects.filter(deleted=False).order_by('order')    
 
@@ -488,11 +501,7 @@ def admin_manage_product(request):
     			else:
     				q = Q(categories__in=catPostLists)
 
-
-    		if q is None:
-    			products = Product.objects.filter().order_by('sku')
-    		else:
-    			products = Product.objects.filter(q).order_by('sku')
+    		products = Product.objects.filter(q).order_by('sku')
 
     paginator = Paginator(products, 50)
     page = request.GET.get('page')

@@ -18,6 +18,7 @@ class Product(ProductBase):
     no_background = models.TextField(_('no_background'), blank=True)
     sku = models.CharField(_('sku'), max_length=100)
     categories = models.ManyToManyField(Categories)
+    is_deleted = models.BooleanField(_('is active'), default=False)
 
     class Meta:
         ordering = ['ordering', 'name']
