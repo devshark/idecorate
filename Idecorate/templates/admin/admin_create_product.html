@@ -256,6 +256,34 @@
             plugins : "autolink"
 		});
 
+    function uncheckInvalid(obj) {
+      var gotCheck = false;
+
+      if(obj.attr('checked')) {
+        gotCheck = true;
+      }
+
+      obj.parent().siblings().each(function(e){
+          
+        if($(this).find('input').attr('checked')) {
+          gotCheck = true;
+        } 
+
+      });
+
+      var parent = obj.parent().parent().parent().children('input');
+      //console.log(parent);
+      if(!gotCheck) {
+        //uncheck the parent
+        parent.attr('checked',false);
+
+        if(parent.attr('isparent') != 'isparent') {
+          uncheckInvalid(parent);
+        }
+      }
+
+    }
+
     $(function(e){
 
       var thumb_original = $('img#thumb_original');
@@ -341,6 +369,12 @@
       });
 
       $('#tree1').checkboxTree();
+
+      $('input[name="categories"]').click(function(e){
+
+        uncheckInvalid($(this));
+
+      });
 
 
     });

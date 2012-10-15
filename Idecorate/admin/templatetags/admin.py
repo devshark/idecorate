@@ -218,9 +218,11 @@ def treeRecursion(categories, req):
 
 	element = ""
 	needToOpen = True
+	attrParent = ""
 
 	for category in categories:
 		if category.parent is None:
+			attrParent = 'isparent="isparent" '
 			if needToOpen:
 				element += '<ul id="tree1">'
 				needToOpen = False
@@ -244,12 +246,14 @@ def treeRecursion(categories, req):
 		hidden = ""
 		if sub_menus.count() > 0:
 			#parent
-			hidden = ' style="display:none" disabled="disabled"'
+			#hidden = ' style="display:none" disabled="disabled"'
+			hidden = ' style="display:none"'
 		else:
 			#not parent
 			hidden = ''
 
-		element += '<li><input class="treeinput" type="checkbox" name="categories" value="%s"%s%s/><label class="treelabel">%s</label>' % (category.id, chk, hidden, category.name)
+		element += '<li><input %sclass="treeinput" type="checkbox" name="categories" value="%s"%s%s/><label class="treelabel">%s</label>' % (attrParent, category.id, chk, hidden, category.name)
+		attrParent = ""
 
 		element += treeRecursion(sub_menus, req)
 
