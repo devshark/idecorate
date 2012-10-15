@@ -283,6 +283,11 @@ def getProductStatus(product):
 
 	return 'Active' if product.is_active else 'Inactive'
 
+@register.filter
+def getProductThumbnail(product):
+
+	return mark_safe('<img src="/media/products/%s" alt="" />' % product.original_image_thumbnail)
+
 
 @register.filter
 def getCategoryTreeParentOnly(categories, req):

@@ -84,6 +84,7 @@
       <table class="table table-bordered table-hover">
         <thead>
           <th>SKU</th>
+          <th style="width:100px;">Image</th>
           <th>Product Name</th>
           <th>Categories</th>
           <th>Def Qty</th>
@@ -97,6 +98,7 @@
           {% for product in products %}
           <tr>
             <td>{{ product.sku }}</td>
+            <td>{{ product|getProductThumbnail }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product|getProductCategories }}</td>
             <td>&nbsp;</td>
