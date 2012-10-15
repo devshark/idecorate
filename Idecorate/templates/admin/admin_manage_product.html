@@ -1,5 +1,5 @@
 {% extends "admin/base.html" %}
-{% load i18n widget_tweaks admin %}
+{% load i18n widget_tweaks admin bootstrap_pagination %}
 
 {% block title %}
     {% trans "iDecorate CMS" %}
@@ -82,6 +82,8 @@
         </tbody>
         {% endif %}
       </table>
+
+      {% bootstrap_paginate products %}
 
 {% endblock %}
 {% block javascripts %}

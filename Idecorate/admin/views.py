@@ -21,6 +21,7 @@ from PIL import Image
 import os
 from category.models import Categories
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 @staff_member_required
 def admin(request):
@@ -492,6 +493,16 @@ def admin_manage_product(request):
     			products = Product.objects.filter().order_by('sku')
     		else:
     			products = Product.objects.filter(q).order_by('sku')
+
+    paginator = Paginator(products, 50)
+    page = request.GET.get('page')
+
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
 
     info['form'] = form
     info['products'] = products
