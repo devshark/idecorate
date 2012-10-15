@@ -41,7 +41,10 @@
         <label>{% trans "Category" %}:</label>
         {{ categories|getCategoryTree:request }}
         <label class="checkbox">
-            {{ form.product_sku|add_class:"input-large"|attr:"placeholder:Product Name or SKU" }}
+            {{ form.product_name|add_class:"input-large"|attr:"placeholder:Product Name" }}
+        </label>
+        <label class="checkbox">
+            {{ form.product_sku|add_class:"input-large"|attr:"placeholder:SKU" }}
         </label>
         <label class="checkbox" style="margin-left:23px;">{{ form.product_status.label }}:
             {{ form.product_status|add_class:"input-small" }}
@@ -55,7 +58,6 @@
       <table class="table table-bordered table-hover">
         <thead>
           <th>SKU</th>
-          <th>Image</th>
           <th>Product Name</th>
           <th>Categories</th>
           <th>Def Qty</th>
@@ -69,7 +71,6 @@
           {% for product in products %}
           <tr>
             <td>{{ product.sku }}</td>
-            <td>&nbsp;</td>
             <td>{{ product.name }}</td>
             <td>{{ product|getProductCategories }}</td>
             <td>&nbsp;</td>
