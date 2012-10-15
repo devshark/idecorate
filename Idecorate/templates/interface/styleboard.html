@@ -26,7 +26,7 @@
 
             <div id="content" class="clearfix">
             	<div id="sidebar">
-            		<ul id="sidebar-nav" class="etabs">
+            		<ul id="sidebar-nav" class="etabs sideNav">
             			<li class="tab"><a href="#create-tab">Create</a></li>
             			<li class="tab"><a href="#buy-tab">Buy</a></li>
             		</ul>
@@ -47,7 +47,14 @@
                             </div>
                         </form>
                     </div>
-            		<div id="create-tab" class="overflowY clearfix">
+                    <div id="create-tab-nav" class="clearfix">
+                        <ul class="etabs sideNav">
+                            <li class="tab"><a href="#products">Products</a></li>
+                            <li class="tab"><a href="#embellishments">Embellishments</a></li>
+                            <li class="tab"><a href="#templates">Templates</a></li>
+                        </ul>
+                    </div>
+                    <div id="create-tab" class="overflowY clearfix">
                         {% include 'interface/styleboard_categories.html' %}
                     </div><!-- end of create -->
                     <div id="buy-tab" class="clearfix">
