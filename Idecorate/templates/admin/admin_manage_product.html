@@ -1,0 +1,93 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<link href="/media/admin/css/jquery.checkboxtree.min.css" rel="stylesheet">
+<style type="text/css">
+
+  #tree1 {
+    padding: 0px 15px;
+    margin-left: 0px;
+  }
+
+  .treelabel {
+    display: inline-block;
+    margin: 0px;
+  }
+
+  .treeinput {
+    margin-bottom: 5px !important;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+	<h1>{% trans "Manage Products" %}</h1>
+	<div>&nbsp;</div>
+
+          
+      <h3 style="font-weight:normal;">{% trans "Show only products where" %}</h3>
+      <hr />
+
+      <form class="form-inline" action="" method="post">
+        {% csrf_token %}
+        <label>{% trans "Category" %}:</label>
+        {{ categories|getCategoryTree:request }}
+        <label class="checkbox">
+            {{ form.product_sku|add_class:"input-large"|attr:"placeholder:Product Name or SKU" }}
+        </label>
+        <label class="checkbox" style="margin-left:23px;">{{ form.product_status.label }}:
+            {{ form.product_status|add_class:"input-small" }}
+          </label>
+          <button type="submit" class="btn btn-primary">Apply</button>
+      </form>
+
+      <hr />
+
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <th>SKU</th>
+          <th>Image</th>
+          <th>Product Name</th>
+          <th>Categories</th>
+          <th>Def Qty</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Operations</th>
+        </thead>
+
+        {% if products %}
+        <tbody>
+          {% for product in products %}
+          <tr>
+            <td>{{ product.sku }}</td>
+            <td>&nbsp;</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product|getProductCategories }}</td>
+            <td>&nbsp;</td>
+            <td>${{ product|getProductPrice|floatformat:2 }}</td>
+            <td>{{ product|getProductStatus }}</td>
+            <td><a href="#">Edit</a> | <a href="#">Delete</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        {% endif %}
+      </table>
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="/media/admin/js/jquery.checkboxtree.min.js"></script>
+<script type="text/javascript">
+  $(function(e){
+    $('#tree1').checkboxTree();
+  });
+</script>
+{% endblock %}
