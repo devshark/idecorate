@@ -65,7 +65,7 @@
       <form class="form-inline" action="" method="post">
         {% csrf_token %}
         <label>{% trans "Category" %}:</label>
-        {{ categories|getCategoryTree:request }}
+        {{ categories|getCategoryTreeParentOnly:request }}
         <label class="checkbox">
             {{ form.product_name|add_class:"input-large"|attr:"placeholder:Product Name" }}
         </label>

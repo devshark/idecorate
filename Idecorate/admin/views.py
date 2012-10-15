@@ -378,7 +378,9 @@ def admin_create_product(request):
     		catPostLists = request.POST.getlist('categories')
     		for catPostList in catPostLists:
     			cat = Categories.objects.get(id=int(catPostList))
+    			product.categories.add(cat)
 
+    			"""
     			#check if parent
     			childCats = Categories.objects.filter(parent=cat)
 
@@ -396,6 +398,7 @@ def admin_create_product(request):
     			else:
     				#not parent
     				product.categories.add(cat)
+    			"""
 
     		productPrice = ProductPrice()
     		productPrice.product = product
@@ -543,7 +546,7 @@ def admin_manage_product(request):
     form = SearchProductForm()
     products = Product.objects.filter(is_deleted=False).order_by('sku')
 
-    categories = Categories.objects.filter(deleted=False).order_by('order')    
+    categories = Categories.objects.filter(deleted=False, parent=None).order_by('order')    
 
     catList = []
     for category in categories:

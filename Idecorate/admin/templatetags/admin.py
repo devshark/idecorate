@@ -282,3 +282,41 @@ def getProductPrice(product):
 def getProductStatus(product):
 
 	return 'Active' if product.is_active else 'Inactive'
+
+
+@register.filter
+def getCategoryTreeParentOnly(categories, req):
+
+	element = ""
+	needToOpen = True
+
+	for category in categories:
+		if category.parent is None:
+			if needToOpen:
+				element += '<ul id="tree1">'
+				needToOpen = False
+
+		else:
+			if needToOpen:
+				element += '<ul>'
+				needToOpen = False
+
+		chk = ""
+
+		if req.method == "POST":
+
+			if str(category.id) in req.POST.getlist('categories'):
+				chk = ' checked="checked"'
+			else:
+				chk = ''
+
+		hidden = ""
+
+		element += '<li><input class="treeinput" type="checkbox" name="categories" value="%s"%s%s/><label class="treelabel">%s</label>' % (category.id, chk, hidden, category.name)
+
+		element +='</li>'
+
+	if needToOpen == False:
+		element += '</ul>'
+
+	return mark_safe(element)
