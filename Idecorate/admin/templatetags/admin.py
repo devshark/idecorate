@@ -5,6 +5,7 @@ from menu.models import InfoMenu, SiteMenu, FooterMenu
 from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
+from cart.models import ProductPrice
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -258,3 +259,22 @@ def treeRecursion(categories, req):
 		element += '</ul>'
 
 	return mark_safe(element)
+
+@register.filter
+def getProductCategories(product):
+
+	categories = product.categories.all()
+	catList = [cat.name for cat in categories]
+
+	return ",".join(catList)
+
+@register.filter
+def getProductPrice(product):
+	price = ProductPrice.objects.get(product=product)
+
+	return price._unit_price
+
+@register.filter
+def getProductStatus(product):
+
+	return 'Active' if product.is_active else 'Inactive'

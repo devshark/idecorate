@@ -62,3 +62,9 @@ class AddProductForm(forms.Form):
 			raise forms.ValidationError(_("Product Name must be no more than 60 characters."))			
 
 		return name
+
+class SearchProductForm(forms.Form):
+
+	categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False)
+	product_sku = forms.CharField(max_length=100,label=_("SKU"), required=False)
+	product_status = forms.ChoiceField(label=_("Status"),widget=forms.Select, required=False, choices=(('any','Any'),('1','Active'),('0','Inactive'),))

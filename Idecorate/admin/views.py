@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -407,7 +407,7 @@ def admin_upload_product_image(request):
 		uploaded = request.FILES['image']
 		content_type = uploaded.content_type.split('/')[0]
 
-		print "The content type is: %s" % (uploaded.content_type)
+		#print "The content type is: %s" % (uploaded.content_type)
 
 		if content_type in settings.CONTENT_TYPES:
 			if int(uploaded.size) > int(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE):
@@ -433,3 +433,31 @@ def admin_upload_product_image(request):
 				return HttpResponse('ok:%s' % newFileName)
 		else:
 			return HttpResponse(_('notok:File type is not supported').encode('utf-8'))
+
+
+@staff_member_required
+def admin_manage_product(request):
+    info = {}
+    info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
+    form = SearchProductForm()
+    products = Product.objects.filter().order_by('sku')
+
+    categories = Categories.objects.filter(deleted=False).order_by('order')    
+
+    catList = []
+    for category in categories:
+    	catList.append((str(category.id),category.name))
+
+    form.fields['categories'].choices = tuple(catList)
+
+    if request.method == "POST":
+
+    	form = SearchProductForm(request.POST)
+    	form.fields['categories'].choices = tuple(catList)
+
+    	if form.is_valid():
+    		pass
+
+    info['form'] = form
+    info['products'] = products
+    return render_to_response('admin/admin_manage_product.html',info,RequestContext(request))
