@@ -13,6 +13,7 @@
   #tree1 {
     padding: 0px 15px;
     margin-left: 0px;
+    width: 634px;
   }
 
   .treelabel {
@@ -101,7 +102,7 @@
             <td>&nbsp;</td>
             <td>${{ product|getProductPrice|floatformat:2 }}</td>
             <td>{{ product|getProductStatus }}</td>
-            <td><a href="#">Edit</a> | <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_product product.id %}')">Delete</a></td>
+            <td><a href="{% url admin_edit_product product.id %}">Edit</a> | <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_product product.id %}')">Delete</a></td>
           </tr>
           {% endfor %}
         </tbody>
