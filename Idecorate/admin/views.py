@@ -564,20 +564,20 @@ def admin_manage_product(request):
 
     		if form.cleaned_data['product_name']:
     			if q is not None:
-    				q.add(Q(name__icontains=form.cleaned_data['product_name']), Q.OR)
+    				q.add(Q(name__icontains=form.cleaned_data['product_name']), Q.AND)
     			else:
     				q = Q(name__icontains=form.cleaned_data['product_name'])
 
     		if form.cleaned_data['product_sku']:
     			if q is not None:
-    				q.add(Q(sku__icontains=form.cleaned_data['product_sku']), Q.OR)
+    				q.add(Q(sku__icontains=form.cleaned_data['product_sku']), Q.AND)
     			else:
     				q = Q(sku__icontains=form.cleaned_data['product_sku'])
 
     		if form.cleaned_data['product_status']:
     			if form.cleaned_data['product_status'] != "any":
 	    			if q is not None:
-	    				q.add(Q(is_active=bool(int(form.cleaned_data['product_status']))), Q.OR)
+	    				q.add(Q(is_active=bool(int(form.cleaned_data['product_status']))), Q.AND)
 	    			else:
 	    				q = Q(is_active=bool(int(form.cleaned_data['product_status'])))
 
@@ -586,7 +586,7 @@ def admin_manage_product(request):
 	    		catPostLists = [int(catPostList) for catPostList in catPostLists]
 
     			if q is not None:
-    				q.add(Q(categories__in=catPostLists), Q.OR)
+    				q.add(Q(categories__in=catPostLists), Q.AND)
     			else:
     				q = Q(categories__in=catPostLists)
 
