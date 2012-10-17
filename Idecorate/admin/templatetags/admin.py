@@ -278,10 +278,10 @@ def treeRecursion(categories, req):
 @register.filter
 def getProductCategories(product):
 
-	categories = product.categories.all()
-	catList = [cat.name for cat in categories]
+	categories = product.categories.all().order_by('name')
+	catList = [cat.name for cat in categories if cat.parent != None]
 
-	return ",".join(catList)
+	return ", ".join(catList)
 
 @register.filter
 def getProductPrice(product):
