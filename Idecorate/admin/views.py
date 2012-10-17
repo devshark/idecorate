@@ -489,7 +489,7 @@ def admin_edit_product(request, prod_id):
 
     		#delete all the categories
     		product.categories.clear()
-    		#add category
+    		#edit category
     		catPostLists = request.POST.getlist('categories')
     		for catPostList in catPostLists:
     			cat = Categories.objects.get(id=int(catPostList))
