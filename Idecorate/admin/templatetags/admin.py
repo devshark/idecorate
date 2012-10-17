@@ -240,6 +240,17 @@ def treeRecursion(categories, req):
 				chk = ' checked="checked"'
 			else:
 				chk = ''
+		else:
+			try:
+				listCats = req.listCats
+				#print listCats
+				if str(category.id) in listCats:
+					chk = ' checked="checked"'
+				else:
+					chk = ''
+
+			except AttributeError:
+				pass
 
 		sub_menus = Categories.objects.filter(parent__id=category.id,deleted=False).order_by('order')
 

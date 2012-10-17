@@ -114,7 +114,7 @@
                 <div class="controls">
                 {% for choice in form.product_status.field.choices %}
                   <label class="radio inline">
-                      <input type="radio" name="product_status" value="{{choice.0}}" {% if form.product_status.data == choice.0 %}checked="checked" {% endif %}/> {{choice.1}}
+                      <input type="radio" name="product_status" value="{{choice.0}}" {% if form.product_status.data == choice.0 or initial_form_data.product_status == choice.0 %}checked="checked" {% endif %}/> {{choice.1}}
                   </label>
                 {% endfor %}
                 </div>
@@ -256,7 +256,77 @@
             plugins : "autolink"
 		});
 
+    function initOriginal() {
+      var thumb_original = $('img#thumb_original');
+      thumb_original.load(function(){
+
+        if($('#thumb_original').height() < 100) {
+            $('#thumb_original').css('top',((100 - $('#thumb_original').height()) / 2) + 'px');
+        } else {
+            $('#thumb_original').css('top','0px');
+        }
+
+        thumb_original.unbind();
+
+      });
+
+      thumb_original.attr('src', '/media/products/' + $('#id_original_image').val());
+    }
+
+    function initNoBackground() {
+      var thumb_no_background = $('img#thumb_no_background');
+
+      thumb_no_background.load(function(){
+
+        if($('#thumb_no_background').height() < 100) {
+          $('#thumb_no_background').css('top',((100 - $('#thumb_no_background').height()) / 2) + 'px');
+        } else {
+          $('#thumb_no_background').css('top','0px');
+        }
+
+        thumb_no_background.unbind();
+      });
+
+      thumb_no_background.attr('src', '/media/products/' + $('#id_no_background').val());      
+    }
+
+    function initThumbnails() {
+
+      initOriginal();
+      initNoBackground();
+    }
+
+    function uncheckInvalid(obj) {
+      var gotCheck = false;
+
+      if(obj.attr('checked')) {
+        gotCheck = true;
+      }
+
+      obj.parent().siblings().each(function(e){
+          
+        if($(this).find('input').attr('checked')) {
+          gotCheck = true;
+        } 
+
+      });
+
+      var parent = obj.parent().parent().parent().children('input');
+      //console.log(parent);
+      if(!gotCheck) {
+        //uncheck the parent
+        parent.attr('checked',false);
+
+        if(parent.attr('isparent') != 'isparent') {
+          uncheckInvalid(parent);
+        }
+      }
+
+    }
+
     $(function(e){
+
+      initThumbnails();
 
       var thumb_original = $('img#thumb_original');
 
@@ -342,6 +412,11 @@
 
       $('#tree1').checkboxTree();
 
+      $('input[name="categories"]').click(function(e){
+
+        uncheckInvalid($(this));
+
+      });
 
     });
 

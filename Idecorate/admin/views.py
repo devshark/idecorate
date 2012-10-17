@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -422,7 +422,27 @@ def admin_create_product(request):
 @staff_member_required
 def admin_edit_product(request, prod_id):
     info = {}
-    form = AddProductForm()
+
+    product = Product.objects.get(id=int(prod_id))
+    productPrice = ProductPrice.objects.get(product=product)
+    initCats = product.categories.all()
+    listCats = [str(initCat.id) for initCat in initCats]
+
+    request.listCats = listCats
+
+    info['initial_form_data'] = {
+    	'product_status':str(int(product.is_active)),
+    	'product_sku':product.sku,
+    	'product_name':product.name,
+    	'price':"%.2f" % float(productPrice._unit_price),
+    	'categories': listCats,
+    	'product_description':product.description,
+    	'original_image':product.original_image,
+    	'no_background':product.no_background
+    }
+
+    form = EditProductForm(initial=info['initial_form_data'],product_id=int(prod_id))
+
     info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
     categories = Categories.objects.filter(deleted=False).order_by('order')    
 
@@ -434,69 +454,51 @@ def admin_edit_product(request, prod_id):
 
     if request.method == "POST":
 
-    	form = AddProductForm(request.POST)
+    	form = EditProductForm(request.POST,product_id=int(prod_id))
     	form.fields['categories'].choices = tuple(catList)
 
     	if form.is_valid():
-    		"""
-    		#CREATE THUMBNAIL
-    		imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
-    		splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
-    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
 
-    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
-    		img.thumbnail(imgSize,Image.ANTIALIAS)
-    		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
-    		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
-    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
-
-    		#Save product and price
-    		product = Product()
     		product.is_active = bool(int(form.cleaned_data['product_status']))
     		product.name = form.cleaned_data['product_name']
     		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
     		product.description = form.cleaned_data['product_description']
-    		product.original_image = form.cleaned_data['original_image']
-    		product.no_background = form.cleaned_data['no_background']
-    		product.original_image_thumbnail = thumbName
+
+    		if product.original_image != form.cleaned_data['original_image']:
+	    		imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
+	    		splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
+	    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+
+	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+	    		img.thumbnail(imgSize,Image.ANTIALIAS)
+	    		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
+	    		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
+	    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
+
+	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
+
+	    		product.original_image_thumbnail = thumbName
+	    		product.original_image = form.cleaned_data['original_image']
+
+	    	if product.no_background != form.cleaned_data['no_background']:
+	    		product.no_background = form.cleaned_data['no_background']
+	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+
     		product.sku = form.cleaned_data['product_sku']
     		product.save()
 
+    		#delete all the categories
+    		product.categories.clear()
     		#add category
     		catPostLists = request.POST.getlist('categories')
     		for catPostList in catPostLists:
     			cat = Categories.objects.get(id=int(catPostList))
+    			product.categories.add(cat)
 
-    			#check if parent
-    			childCats = Categories.objects.filter(parent=cat)
-
-    			if childCats.count() > 0:
-    				#parent
-    				ignoreThis = False
-    				for childCat in childCats:
-
-    					if str(childCat.id) in catPostLists:
-    						ignoreThis = True
-    						break
-
-    				if not ignoreThis:
-    					product.categories.add(cat)
-    			else:
-    				#not parent
-    				product.categories.add(cat)
-
-    		productPrice = ProductPrice()
-    		productPrice.product = product
+    		productPrice = ProductPrice.objects.get(product=product)
     		productPrice._unit_price = form.cleaned_data['price']
-    		productPrice.currency = settings.CURRENCIES[0] #USD
-    		productPrice.tax_included = False
-    		productPrice.tax_class = TaxClass.objects.get(pk=1)
     		productPrice.save()
 
-    		#MOVE FILES
-    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
-    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
-    		"""
     		messages.success(request, _('Product Saved.'))
     		return redirect(reverse('admin_edit_product', args=[prod_id]))
 
