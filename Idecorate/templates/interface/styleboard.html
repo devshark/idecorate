@@ -12,11 +12,52 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL = '{% url get_product_original_image %}';
+            var category_id = {{ cat_id }};
+            var media_url = '{{ MEDIA_URL }}';
+            var STYLEBOARD_AJAX_URL = '{% url styleboard_ajax %}';
+            var STYLEBOARD_PRODUCT_AJAX_URL = '{% url styleboard_product_ajax %}';
+            var CATEGORY_TREE_AJAX_URL ='{% url get_category_tree_ajax %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        <style type="text/css">
+        .product-list {
+            overflow: hidden;
+            width: 100%;
+            height: 75%;
+        }
+        .products {
+            border: 1px solid #fff;
+        }
+        .products:hover {
+            border: 1px solid #ccc;
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .pagination span{
+            cursor: pointer;
+            margin-right: 5px;
+            padding: 4px 6px;
+        }
+        .pagination span.cur-page{
+            background-color: #ccc;
+            cursor: default;
+            font-weight: bold;            
+            border-radius: 3px;
+            -ms-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;    
+        }
+        .product-overlay {
+            background: #fff;
+            position: absolute;            
+        }
+        </style>
     </head>
     <body>
         <div id="main-container">
@@ -182,109 +223,17 @@
         <script type="text/javascript" src="/media/interface/js/jquery.tablescroll.js"></script>
         <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
         <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
+        <script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
+        <script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
+        <script type="text/javascript" src="/media/interface/js/product_category.js"></script>
         <script type="text/javascript">
-            $(document).ready( function() {
-                $('#sidebar').easytabs();
-                //tableScroll sets the table's tbody to be scrollable leaving the head and foot fixed.
-                //$('#buy-table').tableScroll({height:450});
-
-                $('.categories').click(function(){
-                    browse_categories(this.id);
-                    return false;
-                });
-
-                $('.breadcrumb a').click(function(){
-                    browse_categories(this.rel);
-                    return false;
-                });
-            });
-            
-            function browse_categories(elm_id){
-                $.ajax({
-                        url: "{% url styleboard_ajax %}",
-                        type: "POST",
-                        dataType: 'xml',
-                        data: { cat_id: elm_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
-                        async:   false,
-                        success: function(response_data){
-                            var items = '';
-                            var breadcrumb = '';
-                            $(".draggable").draggable("destroy");
-                            $(response_data).find('object').each(function(){
-                                var type = $(this).attr('model') == 'category.categories' ? 'categories' : 'products';                         
-                                var id = $(this).attr('pk');
-                                var name = $(this).find('field[name="name"]').text();
-                                if (name){                                    
-                                    var thumb = $(this).find('field[name="thumbnail"]').text();
-                                    if(type =='products'){
-                                        thumb = $(this).find('field[name="original_image_thumbnail"]').text();
-                                        thumb = 'products/' + thumb;
-                                        items += '<a class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
-                                                    '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
-                                                '</a>';
-                                    }else{
-                                        items += '<div  style="cursor: pointer;" id="' + id + '" class="thumb ' + type + '">' +
-                                                    '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
-                                                    '<span>' + name + '</span>' +
-                                            '</div>';
-                                    }
-                                }
-
-                            });
-            
-                            var breadcrumb_tree = '';
-                            $.ajax({
-                                url: "{% url get_category_tree_ajax %}",
-                                type: "POST",
-                                data: { cat_id: elm_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
-                                async:   false,
-                                success: function(breadcrumb_data){
-                                    if (breadcrumb_data){
-                                        arr = breadcrumb_data.split('|');
-                                        breadcrumb += '<ul class="breadcrumb">'
-                                        breadcrumb += '<li><a href="#">All</a></li>';
-                                        i = arr.length;
-                                        while (i!=0){
-                                            cc = arr[i-1].split(':');
-                                            if (i==1)
-                                                breadcrumb += '<li> > </li><li class="active">' + cc[1] + '</li>';
-                                            else
-                                                breadcrumb += '<li> > </li><li><a rel="' + cc[0] + '" href="#">' + cc[1] + '</a></li>';
-                                            i = i-1
-                                        }
-                                        breadcrumb += '</ul>'
-                                    }
-                                },
-                                error: function(msg) {
-                            
-                                }
-                            });
-                            var side_content = breadcrumb + items;
-                            $('#create-tab').html(side_content);
-                            $('.breadcrumb a').each(function(){
-                                $(this).bind('click',function(e){
-                                    e.preventDefault();
-                                    browse_categories(this.rel);
-                                });
-                            });
-                            $('.categories').each(function(){
-                                $(this).bind('click',function(e){
-                                    e.preventDefault();
-                                    browse_categories(this.id);
-                                });
-                            });
-                            
-                            $(".draggable").draggable({ 
-                                revert:true, 
-                                helper: 'clone' 
-                            });
-                        },
-                        error: function(msg) {
-                        }
-                    });
-            }
+        $(document).ready( function() {
+            $('#sidebar').easytabs();
+            {% if category_count == 0 %}
+            populate_products(category_id);
+            {% endif %}   
+        });
         </script>
-
         <!-- idecorate app js-->
 
         <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>

@@ -8,6 +8,8 @@ from django.utils import simplejson
 from django.http import HttpResponseNotFound
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.utils.safestring import mark_safe
 
 from category.services import get_categories, get_cat, category_tree_crumb
 from cart.models import Product
@@ -29,10 +31,40 @@ def styleboard(request, cat_id=None):
 	categories = get_categories(cat_id)
 	if categories.count() > 0:
 		info['categories'] = categories
-	else:
-		info['products'] = Product.objects.filter(categories__id=cat_id,is_active=True)
+
+	info['category_count'] = categories.count()		
+
 	info['cat_id'] = cat_id
 	return render_to_response('interface/styleboard.html', info,RequestContext(request))
+
+def styleboard_product_ajax(request):
+	if request.method == "POST":
+		cat_id = request.POST.get('cat_id',None)
+
+		product_list = Product.objects.filter(categories__id=cat_id, is_active=True, is_deleted=False)
+		product_list = product_list.order_by('ordering')
+		product_counts = product_list.count()		
+
+		paginator = Paginator(product_list, 25)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+
+		reponse_data = {}
+
+		json_data = serializers.serialize("json", products, fields=('id','name','original_image_thumbnail','sku'))
+		reponse_data['data'] = json_data
+		reponse_data['page_number'] = products.number
+		reponse_data['num_pages'] = products.paginator.num_pages
+		reponse_data['product_counts'] = product_counts
+
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+	return HttpResponseNotFound()
+
 
 def styleboard_ajax(request):
 	if request.method == "POST":
@@ -41,14 +73,33 @@ def styleboard_ajax(request):
 			cat_id = None
 		items = None
 		categories = get_categories(cat_id)
+		reponse_data = {}
 		if categories.count() > 0:
 			categories = categories.order_by('order')
-			data = serializers.serialize("xml", categories)
+			reponse_data['data'] = serializers.serialize("json", categories, fields=('id','name','thumbnail'))
 		else:
-			products = Product.objects.filter(categories__id=cat_id, is_active=True)
-			data = serializers.serialize("xml", products)
+			product_list = Product.objects.filter(categories__id=cat_id, is_active=True)
+			product_counts = product_list.count()
+			product_list = product_list.order_by('ordering')
 
-		return HttpResponse(data, mimetype='application/xml')
+			paginator = Paginator(product_list, 25)
+			page = request.GET.get('page')
+			try:
+				products = paginator.page(page)
+			except PageNotAnInteger:
+				products = paginator.page(1)
+			except EmptyPage:
+				products = paginator.page(paginator.num_pages)
+
+			print products
+
+			json_data = serializers.serialize("json", products, fields=('id','name','original_image_thumbnail','sku'))
+			reponse_data['data'] = json_data
+			reponse_data['page_number'] = products.number
+			reponse_data['num_pages'] = products.paginator.num_pages
+			reponse_data['product_counts'] = product_counts
+
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
 	else:
 		return HttpResponseNotFound()
 
