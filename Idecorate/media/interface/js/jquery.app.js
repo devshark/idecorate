@@ -31,7 +31,7 @@ $(document).ready(function () {
 
                 //image source can be generated using ajax 
 
-                var img_src = '/media/products/';
+                var img_src = media_url+'products/';
 
                 //get image filename from DB using product_id via ajax
                 $.ajax({
@@ -41,54 +41,19 @@ $(document).ready(function () {
                     async:   false,
                     success: function(data){
                         img_src = img_src+data;
-                        
+                        //create new image using image object
+                        create_instance({
+                            _uid    : uid,
+                            _event  : e,
+                            _src    : img_src
+                        });
                     },
                     error: function(msg) {
+                        alert(msg);
                     }
                 });
 
-                //create new image using image object
-                var Obj_img = $('<img />').attr('src',img_src+ "?" + new Date().getTime()).hide().load(function () {
-                    
-                    var imgWidth    = this.width;
-                    var imgHeight   = this.height;
-                    var dimentions  = aspectratio(imgWidth, imgHeight, .60);
-                    var imgTop      = e.pageY-$('#canvas').offset().top-dimentions['height']/2;
-                    var imgLeft     = e.pageX-$('#canvas').offset().left-dimentions['width']/2;
-
-                    //create instance of this object
-                    object = create_new_instance({
-                            id          : uid,
-                            img         : this,
-                            imgW        : dimentions['width'],
-                            imgH        : dimentions['height'],
-                            container   : $('<div />'),
-                            addclass    : 'product unselected'
-                        });
-
-                    //show menus
-                    update_menu();
-
-                    //display handles based on the dropped position of created instance
-                    update_ui({
-                        styles:{
-                            display: 'block',
-                            top: imgTop,
-                            left: imgLeft,
-                            width: dimentions['width'],
-                            height: dimentions['height']
-                        }
-                    });
-                    
-                    //append to canvas the newly created instance
-                    setTimeout(function(){
-                        append_to_canvas(e,object,objCounter);
-                    },500);
-
-                    //GLOBAL var objCounter is for setting z-index for each created instance
-                    objCounter++;
-
-                }).fadeIn(1000);
+                
             }
         }
     });
@@ -267,7 +232,52 @@ $(document).ready(function () {
     });
 });
 
-function create_new_instance(options){
+function create_instance(options){
+
+    var Obj_img = $('<img />').attr('src',"/" + options._src+ "?" + new Date().getTime()).hide().load(function () {
+        
+        var imgWidth    = this.width;
+        var imgHeight   = this.height;
+        var dimensions  = aspectratio(imgWidth, imgHeight, .60);
+        var imgTop      = options._event.pageY-$('#canvas').offset().top-dimensions['height']/2;
+        var imgLeft     = options._event.pageX-$('#canvas').offset().left-dimensions['width']/2;
+
+        //create instance of this object
+        object = create_new_object({
+                id          : options._uid,
+                img         : this,
+                imgW        : dimensions['width'],
+                imgH        : dimensions['height'],
+                container   : $('<div />'),
+                addclass    : 'product unselected'
+            });
+
+        //show menus
+        update_menu();
+
+        //display handles based on the dropped position of created instance
+        update_ui({
+            styles:{
+                display: 'block',
+                top: imgTop,
+                left: imgLeft,
+                width: dimensions['width'],
+                height: dimensions['height']
+            }
+        });
+        
+        //append to canvas the newly created instance
+        setTimeout(function(){
+            append_to_canvas(options._event,object,objCounter);
+        },500);
+
+        //GLOBAL var objCounter is for setting z-index for each created instance
+        objCounter++;
+
+    }).fadeIn(1000);
+}
+
+function create_new_object(options){
 
     object = options.container;
     object.addClass(options.addclass);
@@ -282,13 +292,14 @@ function create_new_instance(options){
 
 function append_to_canvas(event, obj, index){
 
-    obj.appendTo('#canvas');
-    obj_top = event.pageY-$('#canvas').offset().top-obj.height()/2;
-    obj_left = event.pageX-$('#canvas').offset().left-obj.width()/2;
-    obj.css({top : obj_top, left: obj_left, zIndex: index });
-    if(obj.hasClass('selected')){obj.siblings('.unselected').removeClass('selected');}
+    object = obj;
+    object.appendTo('#canvas');
+    object_top = event.pageY-$('#canvas').offset().top-object.height()/2;
+    object_left = event.pageX-$('#canvas').offset().left-object.width()/2;
+    object.css({top : object_top, left: object_left, zIndex: index });
+    if(object.hasClass('selected')){object.siblings('.unselected').removeClass('selected');}
 
-    return obj;
+    return object;
 }
 
 function aspectratio(width, height, percent){
@@ -440,3 +451,4 @@ function cloneObj(obj) {
         }
     });
 }
+

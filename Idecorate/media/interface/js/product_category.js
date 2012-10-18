@@ -41,7 +41,7 @@ function browse_categories(elm_id){
                 if(type =='products'){
                     thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
-                    items += '<a class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                    items += '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                         '</a>';
                 }else{
@@ -140,7 +140,7 @@ function populate_products(){
         var name = val.fields.name;
         var thumb = val.fields.original_image_thumbnail;
         thumb = 'products/' + thumb;
-        items += '<a class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
+        items += '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
                 '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
             '</a>';
     });
