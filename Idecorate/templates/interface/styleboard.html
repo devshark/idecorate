@@ -12,11 +12,52 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL = '{% url get_product_original_image %}';
+            var category_id = {{ cat_id }};
+            var media_url = '{{ MEDIA_URL }}';
+            var STYLEBOARD_AJAX_URL = '{% url styleboard_ajax %}';
+            var STYLEBOARD_PRODUCT_AJAX_URL = '{% url styleboard_product_ajax %}';
+            var CATEGORY_TREE_AJAX_URL ='{% url get_category_tree_ajax %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        <style type="text/css">
+        .product-list {
+            overflow: hidden;
+            width: 100%;
+            height: 75%;
+        }
+        .products {
+            border: 1px solid #fff;
+        }
+        .products:hover {
+            border: 1px solid #ccc;
+        }
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .pagination span{
+            cursor: pointer;
+            margin-right: 5px;
+            padding: 4px 6px;
+        }
+        .pagination span.cur-page{
+            background-color: #ccc;
+            cursor: default;
+            font-weight: bold;            
+            border-radius: 3px;
+            -ms-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -webkit-border-radius: 3px;    
+        }
+        .product-overlay {
+            background: #fff;
+            position: absolute;            
+        }
+        </style>
     </head>
     <body>
         <div id="main-container">
@@ -206,38 +247,50 @@
             	{% include "footer.html" %}             
             </footer>
         </div> <!-- /container -->
-        <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
-        <script type="text/javascript">
-            //Initial load of page
-            $(document).ready(sizeContent);
-            //Every resize of window
-            $(window).resize(sizeContent);
-            //Dynamically assign height
-            function sizeContent() {
-                var newHeight = $(window).height()-$("#header").outerHeight(true)-$("#footer").outerHeight(true) + "px";
-                $("#page-wrap").css("height", newHeight);
-        }
-        </script>
-        <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
-        <script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
-        <script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
-        <script type="text/javascript" src="/media/interface/js/jquery.tablescroll.js"></script>
-        <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
-        <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
-        <script type="text/javascript">
-            $(document).ready( function() {
-                $('#sidebar').easytabs();
-            });
-        </script>
-        <!-- idecorate app js-->
-        <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
-        <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
-        <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
-        <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.draggable.js"></script>
-        <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
-        <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
-        <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
-        <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
+
+        
+<script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript">
+    //Initial load of page
+    $(document).ready(sizeContent);
+    //Every resize of window
+    $(window).resize(sizeContent);
+    //Dynamically assign height
+    function sizeContent() {
+        var newHeight = $(window).height()-$("#header").outerHeight(true)-$("#footer").outerHeight(true) + "px";
+        $("#page-wrap").css("height", newHeight);
+}
+</script>
+<!-- PYTHON CRF -->
+<script type="text/javascript" src="/media/admin/js/csrf.js"></script>
+<!-- MENU BAR -->
+<script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
+<script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery.tablescroll.js"></script>
+<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
+<!-- STYLEBOARD TABPANNELS -->
+<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
+<!-- PRODUCT CATEGORIES AJAX CALLS -->
+<script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/media/interface/js/product_category.js"></script>
+<script type="text/javascript">
+    $(document).ready( function() {
+        $('#sidebar').easytabs();
+        {% if category_count == 0 %}
+        populate_products(category_id);
+        {% endif %}   
+    });
+</script>
+<!-- IDECORATE APP -->
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.draggable.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
         
     </body>
 </html>

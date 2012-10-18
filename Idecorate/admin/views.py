@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -20,6 +20,11 @@ import shutil
 from PIL import Image
 import os
 from category.models import Categories
+from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.urlresolvers import reverse
+from django.http import QueryDict
+import urllib #urlencode
 
 @staff_member_required
 def admin(request):
@@ -247,6 +252,19 @@ def admin_delete_menu(request,id_delete,menuType):
 
 	return redirect('admin_manage_menu')
 
+@staff_member_required
+def admin_delete_product(request,id_delete):
+	
+	product = Product.objects.get(id=int(id_delete))
+
+	product.is_deleted = True
+	product.is_active = False
+	product.save()
+
+	messages.success(request, _('Product deleted.'))
+
+	return redirect('admin_manage_product')
+
 def admin_login(request):
 
 	if request.method == 'POST':
@@ -362,7 +380,9 @@ def admin_create_product(request):
     		catPostLists = request.POST.getlist('categories')
     		for catPostList in catPostLists:
     			cat = Categories.objects.get(id=int(catPostList))
+    			product.categories.add(cat)
 
+    			"""
     			#check if parent
     			childCats = Categories.objects.filter(parent=cat)
 
@@ -380,6 +400,7 @@ def admin_create_product(request):
     			else:
     				#not parent
     				product.categories.add(cat)
+    			"""
 
     		productPrice = ProductPrice()
     		productPrice.product = product
@@ -399,6 +420,93 @@ def admin_create_product(request):
     info['form'] = form
     return render_to_response('admin/admin_create_product.html',info,RequestContext(request))
 
+
+@staff_member_required
+def admin_edit_product(request, prod_id):
+    info = {}
+
+    product = Product.objects.get(id=int(prod_id))
+    productPrice = ProductPrice.objects.get(product=product)
+    initCats = product.categories.all()
+    listCats = [str(initCat.id) for initCat in initCats]
+
+    request.listCats = listCats
+
+    info['initial_form_data'] = {
+    	'product_status':str(int(product.is_active)),
+    	'product_sku':product.sku,
+    	'product_name':product.name,
+    	'price':"%.2f" % float(productPrice._unit_price),
+    	'categories': listCats,
+    	'product_description':product.description,
+    	'original_image':product.original_image,
+    	'no_background':product.no_background
+    }
+
+    form = EditProductForm(initial=info['initial_form_data'],product_id=int(prod_id))
+
+    info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
+    categories = Categories.objects.filter(deleted=False).order_by('order')    
+
+    catList = []
+    for category in categories:
+    	catList.append((str(category.id),category.name))
+
+    form.fields['categories'].choices = tuple(catList)
+
+    if request.method == "POST":
+
+    	form = EditProductForm(request.POST,product_id=int(prod_id))
+    	form.fields['categories'].choices = tuple(catList)
+
+    	if form.is_valid():
+
+    		product.is_active = bool(int(form.cleaned_data['product_status']))
+    		product.name = form.cleaned_data['product_name']
+    		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
+    		product.description = form.cleaned_data['product_description']
+
+    		if product.original_image != form.cleaned_data['original_image']:
+	    		imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
+	    		splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
+	    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+
+	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+	    		img.thumbnail(imgSize,Image.ANTIALIAS)
+	    		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
+	    		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
+	    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
+
+	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
+
+	    		product.original_image_thumbnail = thumbName
+	    		product.original_image = form.cleaned_data['original_image']
+
+	    	if product.no_background != form.cleaned_data['no_background']:
+	    		product.no_background = form.cleaned_data['no_background']
+	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+
+    		product.sku = form.cleaned_data['product_sku']
+    		product.save()
+
+    		#delete all the categories
+    		product.categories.clear()
+    		#edit category
+    		catPostLists = request.POST.getlist('categories')
+    		for catPostList in catPostLists:
+    			cat = Categories.objects.get(id=int(catPostList))
+    			product.categories.add(cat)
+
+    		productPrice = ProductPrice.objects.get(product=product)
+    		productPrice._unit_price = form.cleaned_data['price']
+    		productPrice.save()
+
+    		messages.success(request, _('Product Saved.'))
+    		return redirect(reverse('admin_edit_product', args=[prod_id]))
+
+    info['form'] = form
+    return render_to_response('admin/admin_edit_product.html',info,RequestContext(request))    
+
 @csrf_exempt
 def admin_upload_product_image(request):
 
@@ -407,7 +515,7 @@ def admin_upload_product_image(request):
 		uploaded = request.FILES['image']
 		content_type = uploaded.content_type.split('/')[0]
 
-		print "The content type is: %s" % (uploaded.content_type)
+		#print "The content type is: %s" % (uploaded.content_type)
 
 		if content_type in settings.CONTENT_TYPES:
 			if int(uploaded.size) > int(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE):
@@ -433,3 +541,135 @@ def admin_upload_product_image(request):
 				return HttpResponse('ok:%s' % newFileName)
 		else:
 			return HttpResponse(_('notok:File type is not supported').encode('utf-8'))
+
+
+@staff_member_required
+def admin_manage_product(request):
+    info = {}
+    info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
+    form = SearchProductForm()
+
+    order_by = request.GET.get('order_by','sku')
+    sort_type = request.GET.get('sort_type','asc')
+    s_type = order_by
+    cat_link = ""
+
+    if sort_type == 'desc':
+    	s_type = "-%s" % order_by
+
+    products = Product.objects.filter(is_deleted=False).order_by(s_type)
+
+    categories = Categories.objects.filter(deleted=False, parent=None).order_by('order')
+
+    other_params_dict = {}
+
+    catList = []
+    for category in categories:
+    	catList.append((str(category.id),category.name))
+
+    form.fields['categories'].choices = tuple(catList)
+
+    if request.method == "POST":
+
+    	form = SearchProductForm(request.POST)
+    	form.fields['categories'].choices = tuple(catList)
+
+
+    	product_name = request.POST.get('product_name','')
+    	product_sku = request.POST.get('product_sku','')
+    	product_status = request.POST.get('product_status','')
+    	product_categories = request.POST.getlist('categories', None)
+
+    else:
+    	product_name = request.GET.get('product_name','')
+    	product_sku = request.GET.get('product_sku','')
+    	product_status = request.GET.get('product_status','')
+    	product_categories = request.GET.getlist('categories', None)
+
+    q = None
+    if product_name:
+
+    	other_params_dict.update({'product_name':product_name})
+
+    	if q is not None:
+    		q.add(Q(name__icontains=product_name), Q.AND)
+    	else:
+    		q = Q(name__icontains=product_name)
+
+    if product_sku:
+
+    	other_params_dict.update({'product_sku':product_sku})
+
+    	if q is not None:
+    		q.add(Q(sku__icontains=product_sku), Q.AND)
+    	else:
+    		q = Q(sku__icontains=product_sku)
+
+    if product_status:
+    	if product_status != "any":
+    		other_params_dict.update({'product_status':product_status})
+    		if q is not None:
+    			q.add(Q(is_active=bool(int(product_status))), Q.AND)
+    		else:
+    			q = Q(is_active=bool(int(product_status)))
+
+	if product_categories:
+		catPostLists = product_categories
+		catPostLists = [int(catPostList) for catPostList in catPostLists]
+
+		for product_category in product_categories:
+			cat_link += "&categories=" + product_category
+
+		if q is not None:
+			q.add(Q(categories__in=catPostLists), Q.AND)
+		else:
+			q = Q(categories__in=catPostLists)
+
+
+    if q is not None:
+    	products = products.filter(q).order_by(s_type)
+
+    other_params_dict.update({'order_by':order_by, 'sort_type':sort_type})
+    other_params = QueryDict(urllib.urlencode(other_params_dict) + cat_link)
+
+    paginator = Paginator(products, 20)
+    page = request.GET.get('page','')
+
+    #sku ascending link
+    other_params_dict['order_by'] = 'sku'
+    other_params_dict['sort_type'] = 'asc'
+    info['sku_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+	#sku descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['sku_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)  
+
+    #product name ascending link
+    other_params_dict['order_by'] = 'name'
+    other_params_dict['sort_type'] = 'asc'
+    info['name_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #product name descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['name_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #status ascending link
+    other_params_dict['order_by'] = 'is_active'
+    other_params_dict['sort_type'] = 'asc'
+    info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #status descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    try:
+        products = paginator.page(page)
+    except PageNotAnInteger:
+        products = paginator.page(1)
+    except EmptyPage:
+        products = paginator.page(paginator.num_pages)
+
+    info['other_params'] = other_params
+    info['form'] = form
+    info['products'] = products
+    return render_to_response('admin/admin_manage_product.html',info,RequestContext(request))

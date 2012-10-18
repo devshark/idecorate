@@ -53,3 +53,7 @@
 
 *input { margin-right: 5px; }
 input{ border: 1px solid #CCC !important; }
+
+.tbsorter {
+	float:right;
+}

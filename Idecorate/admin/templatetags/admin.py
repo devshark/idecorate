@@ -5,6 +5,7 @@ from menu.models import InfoMenu, SiteMenu, FooterMenu
 from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
+from cart.models import ProductPrice
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -217,6 +218,93 @@ def treeRecursion(categories, req):
 
 	element = ""
 	needToOpen = True
+	attrParent = ""
+
+	for category in categories:
+		if category.parent is None:
+			attrParent = 'isparent="isparent" '
+			if needToOpen:
+				element += '<ul id="tree1">'
+				needToOpen = False
+
+		else:
+			if needToOpen:
+				element += '<ul>'
+				needToOpen = False
+
+		chk = ""
+
+		if req.method == "POST":
+
+			if str(category.id) in req.POST.getlist('categories'):
+				chk = ' checked="checked"'
+			else:
+				chk = ''
+		else:
+			try:
+				listCats = req.listCats
+				#print listCats
+				if str(category.id) in listCats:
+					chk = ' checked="checked"'
+				else:
+					chk = ''
+
+			except AttributeError:
+				pass
+
+		sub_menus = Categories.objects.filter(parent__id=category.id,deleted=False).order_by('order')
+
+		hidden = ""
+		if sub_menus.count() > 0:
+			#parent
+			#hidden = ' style="display:none" disabled="disabled"'
+			hidden = ' style="display:none"'
+		else:
+			#not parent
+			hidden = ''
+
+		element += '<li><input %sclass="treeinput" type="checkbox" name="categories" value="%s"%s%s/><label class="treelabel">%s</label>' % (attrParent, category.id, chk, hidden, category.name)
+		attrParent = ""
+
+		element += treeRecursion(sub_menus, req)
+
+		element +='</li>'
+
+	if needToOpen == False:
+		element += '</ul>'
+
+	return mark_safe(element)
+
+@register.filter
+def getProductCategories(product):
+
+	categories = product.categories.all().order_by('name')
+	catList = [cat.name for cat in categories if cat.parent != None]
+
+	return ", ".join(catList)
+
+@register.filter
+def getProductPrice(product):
+	price = ProductPrice.objects.get(product=product)
+
+	return price._unit_price
+
+@register.filter
+def getProductStatus(product):
+
+	return 'Active' if product.is_active else 'Inactive'
+
+@register.filter
+def getProductThumbnail(product):
+
+	return mark_safe('<img src="/media/products/%s" alt="" />' % product.original_image_thumbnail)
+
+
+@register.filter
+def getCategoryTreeParentOnly(categories, req):
+
+	element = ""
+	needToOpen = True
 
 	for category in categories:
 		if category.parent is None:
@@ -238,19 +326,9 @@ def treeRecursion(categories, req):
 			else:
 				chk = ''
 
-		sub_menus = Categories.objects.filter(parent__id=category.id,deleted=False).order_by('order')
-
 		hidden = ""
-		if sub_menus.count() > 0:
-			#parent
-			hidden = ' style="display:none" disabled="disabled"'
-		else:
-			#not parent
-			hidden = ''
 
 		element += '<li><input class="treeinput" type="checkbox" name="categories" value="%s"%s%s/><label class="treelabel">%s</label>' % (category.id, chk, hidden, category.name)
-
-		element += treeRecursion(sub_menus, req)
 
 		element +='</li>'
 

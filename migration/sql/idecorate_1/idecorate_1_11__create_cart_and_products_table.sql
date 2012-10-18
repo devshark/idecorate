@@ -70,6 +70,7 @@ CREATE TABLE `product` (
   `original_image_thumbnail` longtext NOT NULL,
   `no_background` longtext NOT NULL,
   `sku` varchar(100) NOT NULL,
+  `is_deleted` tinyint(1) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `slug` (`slug`)
 );
