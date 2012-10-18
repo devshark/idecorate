@@ -166,8 +166,39 @@
                         </form>
                     </div><!-- end of buy -->
             	</div>
-            	<div id="canvas-wrap">
-                    <!--<div class="handles"></div>-->
+            	<div id="canvas">
+                    <div class="handles"></div>
+                    <div class="neMenus">
+                        <div class="imgControlWrap">
+                            <ul class="imgControl clearfix">
+                                <li><a href="#" id="remove-btn">Remove</a></li>
+                                <li><a href="#" id="flip-btn">Flip</a></li>
+                                <li><a href="#" id="flap-btn">Flap</a></li>
+                                <li><a href="#" id="clone-btn">Clone</a></li>
+                                <li><a href="#" id="forward-btn">Forward</a></li>
+                                <li><a href="#" id="backward-btn">Backward</a></li>
+                            </ul>
+                        </div>
+                        <div class="imgBgControlWrap">
+                            <ul class="imgBgControl">
+                                <li>
+                                    <a href="#" id="whiteBg-btn">
+                                        <img title="Show Image Background" alt="show bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" id="transBg-btn">
+                                        <img title="Hide Image Background" alt="hide bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" id="customBg-btn">
+                                        <img title="Custom Crop Background" alt="crop bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
             	</div>
             </div>
             
@@ -176,6 +207,17 @@
             </footer>
         </div> <!-- /container -->
         <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+        <script type="text/javascript">
+            //Initial load of page
+            $(document).ready(sizeContent);
+            //Every resize of window
+            $(window).resize(sizeContent);
+            //Dynamically assign height
+            function sizeContent() {
+                var newHeight = $(window).height()-$("#header").outerHeight(true)-$("#footer").outerHeight(true) + "px";
+                $("#page-wrap").css("height", newHeight);
+        }
+        </script>
         <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
         <script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
         <script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
@@ -185,108 +227,9 @@
         <script type="text/javascript">
             $(document).ready( function() {
                 $('#sidebar').easytabs();
-                //tableScroll sets the table's tbody to be scrollable leaving the head and foot fixed.
-                //$('#buy-table').tableScroll({height:450});
-
-                $('.categories').click(function(){
-                    browse_categories(this.id);
-                    return false;
-                });
-
-                $('.breadcrumb a').click(function(){
-                    browse_categories(this.rel);
-                    return false;
-                });
             });
-            
-            function browse_categories(elm_id){
-                $.ajax({
-                        url: "{% url styleboard_ajax %}",
-                        type: "POST",
-                        dataType: 'xml',
-                        data: { cat_id: elm_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
-                        async:   false,
-                        success: function(response_data){
-                            var items = '';
-                            var breadcrumb = '';
-                            $(".draggable").draggable("destroy");
-                            $(response_data).find('object').each(function(){
-                                var type = $(this).attr('model') == 'category.categories' ? 'categories' : 'products';                         
-                                var id = $(this).attr('pk');
-                                var name = $(this).find('field[name="name"]').text();
-                                if (name){                                    
-                                    var thumb = $(this).find('field[name="thumbnail"]').text();
-                                    if(type =='products'){
-                                        thumb = $(this).find('field[name="original_image_thumbnail"]').text();
-                                        thumb = 'products/' + thumb;
-                                        items += '<a class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
-                                                    '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
-                                                '</a>';
-                                    }else{
-                                        items += '<div  style="cursor: pointer;" id="' + id + '" class="thumb ' + type + '">' +
-                                                    '<img src="/{{ MEDIA_URL }}' + thumb + '" alt="' + name + '" />' +
-                                                    '<span>' + name + '</span>' +
-                                            '</div>';
-                                    }
-                                }
-
-                            });
-            
-                            var breadcrumb_tree = '';
-                            $.ajax({
-                                url: "{% url get_category_tree_ajax %}",
-                                type: "POST",
-                                data: { cat_id: elm_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
-                                async:   false,
-                                success: function(breadcrumb_data){
-                                    if (breadcrumb_data){
-                                        arr = breadcrumb_data.split('|');
-                                        breadcrumb += '<ul class="breadcrumb">'
-                                        breadcrumb += '<li><a href="#">All</a></li>';
-                                        i = arr.length;
-                                        while (i!=0){
-                                            cc = arr[i-1].split(':');
-                                            if (i==1)
-                                                breadcrumb += '<li> > </li><li class="active">' + cc[1] + '</li>';
-                                            else
-                                                breadcrumb += '<li> > </li><li><a rel="' + cc[0] + '" href="#">' + cc[1] + '</a></li>';
-                                            i = i-1
-                                        }
-                                        breadcrumb += '</ul>'
-                                    }
-                                },
-                                error: function(msg) {
-                            
-                                }
-                            });
-                            var side_content = breadcrumb + items;
-                            $('#create-tab').html(side_content);
-                            $('.breadcrumb a').each(function(){
-                                $(this).bind('click',function(e){
-                                    e.preventDefault();
-                                    browse_categories(this.rel);
-                                });
-                            });
-                            $('.categories').each(function(){
-                                $(this).bind('click',function(e){
-                                    e.preventDefault();
-                                    browse_categories(this.id);
-                                });
-                            });
-                            
-                            $(".draggable").draggable({ 
-                                revert:true, 
-                                helper: 'clone' 
-                            });
-                        },
-                        error: function(msg) {
-                        }
-                    });
-            }
         </script>
-
         <!-- idecorate app js-->
-
         <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
         <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
         <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>

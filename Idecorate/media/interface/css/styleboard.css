@@ -1,3 +1,7 @@
+/* http://meyerweb.com/eric/tools/css/reset/
+   v2.0 | 20110126
+   License: none (public domain)
+*/
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -74,8 +78,10 @@ table {
 /* ========================================
 	Links
 =========================================*/
-a:hover, a:active {
-  outline: 0; }
+a, a:hover, a:active {
+  outline: 0;
+  text-decoration: none;
+  text-decoration: none; }
 
 /*=========================================
 	Main Styles
@@ -355,11 +361,14 @@ footer {
         line-height: 25px;
         padding: 0 0.625em; }
   #sidebar #create-tab .thumb {
+    display: block;
     float: left;
-    width: 15.755%;
-    margin-left: 0.456%;
-    min-width: 76px;
-    margin-bottom: 0.313em; }
+    width: 17.578125%;
+    /*100/768*100*/
+    padding: 1px;
+    margin: 6px -3px -3px 6px;
+    font-size: 0;
+    min-width: 76px; }
     #sidebar #create-tab .thumb img {
       width: 100%; }
     #sidebar #create-tab .thumb span {
@@ -369,6 +378,8 @@ footer {
       width: 100%;
       font-size: 0.688em;
       text-align: center; }
+  #sidebar #create-tab .thumb:hover {
+    background: #DDD; }
   #sidebar .overflowY {
     height: 517px;
     overflow: auto;
@@ -445,50 +456,98 @@ footer {
     width: 93.75%;
     margin: 10px auto; }
 
-#canvas-wrap {
-  float: right;
-  border: 1px solid #DDDDDD;
-  width: 57.292%;
-  height: 700px;
-  margin-right: 0.781%;
-  overflow: hidden;
+#canvas {
   position: relative;
-    /*.handles{
-        border: 1px solid #999;
-        position:absolute;
-        display:none;
-    }
-	*/ }
-  #canvas-wrap .product {
+  overflow: hidden;
+  width: 57.96875%;
+  /*1113/1920*100*/
+  border: 1px solid #DDD;
+  height: 100%;
+  float: right;
+  margin-right: 0.520833333%;
+  /*10/1920*100*/
+  background-color: #FFF; }
+  #canvas .product {
     position: absolute;
-    overflow: visible !important; }
-  #canvas-wrap .ui-wrapper {
-    overflow: visible !important;
-    border: 1px solid #999; }
-  #canvas-wrap .ui-resizable-handle {
-    background: #EEE;
-    border: 1px solid #333;
-    z-index: 2;
-    width: 8px;
-    height: 8px; }
-  #canvas-wrap .ui-rotatable-handle.clone {
-    visibility: hidden; }
-  #canvas-wrap .ui-rotatable-handle-wrap {
-    position: absolute;
-    width: 1px;
-    height: 25px;
-    left: 50%;
-    position: absolute;
-    top: -25px;
-    background-color: #999; }
-  #canvas-wrap .ui-rotatable-handle {
-    background: #EEE;
-    border: 1px solid #333;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -o-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    cursor: url("http://akwww.polyvorecdn.com/rsrc/img/rotate_arrow.cur") 13 4, crosshair;
-    margin-left: -5px;
-    height: 9px;
-    width: 9px; }
+    padding: 1px;
+    font-size: 0;
+    background: url("../images/fake_bg.png") 0 0 repeat; }
+  #canvas .product:hover {
+    background-color: #DDD; }
+  #canvas .neMenus {
+    float: right;
+    margin-top: 5px;
+    margin-right: 5px;
+    display: none; }
+  #canvas .neMenus .imgControlWrap .imgControl {
+    display: block;
+    float: right\9;
+    position: relative;
+    z-index: 99999; }
+    #canvas .neMenus .imgControlWrap .imgControl li {
+      display: block;
+      float: left;
+      background-color: rgba(225, 225, 225, 0.5);
+      background-color: #EEE\9; }
+      #canvas .neMenus .imgControlWrap .imgControl li a {
+        display: block;
+        padding: 8px 10px;
+        margin: 5px;
+        color: #333;
+        font-size: 0.8em; }
+      #canvas .neMenus .imgControlWrap .imgControl li a:hover {
+        background-color: #C7C6C3;
+        color: #000000; }
+  #canvas .neMenus .imgBgControlWrap {
+    float: right;
+    margin-top: 5px;
+    clear: both\9;
+    position: relative;
+    z-index: 99999; }
+    #canvas .neMenus .imgBgControlWrap .imgBgControl li {
+      background-color: rgba(225, 225, 225, 0.5);
+      background-color: #EEE\9;
+      padding: 5px; }
+      #canvas .neMenus .imgBgControlWrap .imgBgControl li a {
+        display: block;
+        width: 50px;
+        height: 50px;
+        border: 1px solid #DDD;
+        position: relative;
+        z-index: 99999; }
+    #canvas .neMenus .imgBgControlWrap .imgBgControl li + li,
+    #canvas .neMenus .imgBgControlWrap .imgBgControl li + li + li {
+      padding-top: 0; }
+
+/*===== juery UI styles overwrites =====*/
+#sidebar .ui-draggable-dragging {
+  width: 100px !important;
+  z-index: 1;
+  box-shadow: -4px 4px 5px #999999;
+  border: 1px solid #CCC;
+  background-color: #FFF;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+  filter: alpha(opacity=60);
+  -moz-opacity: 0.6;
+  -khtml-opacity: 0.6;
+  opacity: 0.6; }
+
+#canvas .handles {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #999;
+  cursor: move;
+  display: none;
+  position: absolute;
+  z-index: 90000;
+  background: url("../images/fake_bg.png") 0 0 repeat; }
+  #canvas .handles .handles .ui-resizable-handle {
+    background-color: #CCC;
+    border: 1px solid #333; }
+  #canvas .handles .selected {
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    filter: alpha(opacity=80);
+    -moz-opacity: 0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
+    z-index: 1; }
