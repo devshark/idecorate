@@ -45,9 +45,10 @@ def styleboard_product_ajax(request):
 
 		product_list = Product.objects.filter(categories__id=cat_id, is_active=True, is_deleted=False)
 		product_list = product_list.order_by('ordering')
-		product_counts = product_list.count()		
+		product_counts = product_list.count()
+		offset = request.GET.get('offset',25)	
 
-		paginator = Paginator(product_list, 25)
+		paginator = Paginator(product_list, offset)
 		page = request.GET.get('page')
 		try:
 			products = paginator.page(page)
@@ -83,8 +84,9 @@ def styleboard_ajax(request):
 			product_list = Product.objects.filter(categories__id=cat_id, is_active=True)
 			product_counts = product_list.count()
 			product_list = product_list.order_by('ordering')
+			offset = request.GET.get('offset',25)
 
-			paginator = Paginator(product_list, 25)
+			paginator = Paginator(product_list, offset)
 			page = request.GET.get('page')
 			try:
 				products = paginator.page(page)
