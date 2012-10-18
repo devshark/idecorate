@@ -23,6 +23,8 @@ from category.models import Categories
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
+from django.http import QueryDict
+import urllib #urlencode
 
 @staff_member_required
 def admin(request):
@@ -546,9 +548,20 @@ def admin_manage_product(request):
     info = {}
     info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
     form = SearchProductForm()
-    products = Product.objects.filter(is_deleted=False).order_by('sku')
 
-    categories = Categories.objects.filter(deleted=False, parent=None).order_by('order')    
+    order_by = request.GET.get('order_by','sku')
+    sort_type = request.GET.get('sort_type','asc')
+    s_type = order_by
+    cat_link = ""
+
+    if sort_type == 'desc':
+    	s_type = "-%s" % order_by
+
+    products = Product.objects.filter(is_deleted=False).order_by(s_type)
+
+    categories = Categories.objects.filter(deleted=False, parent=None).order_by('order')
+
+    other_params_dict = {}
 
     catList = []
     for category in categories:
@@ -561,42 +574,93 @@ def admin_manage_product(request):
     	form = SearchProductForm(request.POST)
     	form.fields['categories'].choices = tuple(catList)
 
-    	if form.is_valid():
-    		q = None
 
-    		if form.cleaned_data['product_name']:
-    			if q is not None:
-    				q.add(Q(name__icontains=form.cleaned_data['product_name']), Q.AND)
-    			else:
-    				q = Q(name__icontains=form.cleaned_data['product_name'])
+    	product_name = request.POST.get('product_name','')
+    	product_sku = request.POST.get('product_sku','')
+    	product_status = request.POST.get('product_status','')
+    	product_categories = request.POST.getlist('categories', None)
 
-    		if form.cleaned_data['product_sku']:
-    			if q is not None:
-    				q.add(Q(sku__icontains=form.cleaned_data['product_sku']), Q.AND)
-    			else:
-    				q = Q(sku__icontains=form.cleaned_data['product_sku'])
+    else:
+    	product_name = request.GET.get('product_name','')
+    	product_sku = request.GET.get('product_sku','')
+    	product_status = request.GET.get('product_status','')
+    	product_categories = request.GET.getlist('categories', None)
 
-    		if form.cleaned_data['product_status']:
-    			if form.cleaned_data['product_status'] != "any":
-	    			if q is not None:
-	    				q.add(Q(is_active=bool(int(form.cleaned_data['product_status']))), Q.AND)
-	    			else:
-	    				q = Q(is_active=bool(int(form.cleaned_data['product_status'])))
+    q = None
+    if product_name:
 
-	    	if form.cleaned_data['categories']:
-	    		catPostLists = request.POST.getlist('categories')
-	    		catPostLists = [int(catPostList) for catPostList in catPostLists]
+    	other_params_dict.update({'product_name':product_name})
 
-    			if q is not None:
-    				q.add(Q(categories__in=catPostLists), Q.AND)
-    			else:
-    				q = Q(categories__in=catPostLists)
+    	if q is not None:
+    		q.add(Q(name__icontains=product_name), Q.AND)
+    	else:
+    		q = Q(name__icontains=product_name)
 
+    if product_sku:
+
+    	other_params_dict.update({'product_sku':product_sku})
+
+    	if q is not None:
+    		q.add(Q(sku__icontains=product_sku), Q.AND)
+    	else:
+    		q = Q(sku__icontains=product_sku)
+
+    if product_status:
+    	if product_status != "any":
+    		other_params_dict.update({'product_status':product_status})
     		if q is not None:
-    			products = products.filter(q).order_by('sku')
+    			q.add(Q(is_active=bool(int(product_status))), Q.AND)
+    		else:
+    			q = Q(is_active=bool(int(product_status)))
 
-    paginator = Paginator(products, 50)
-    page = request.GET.get('page')
+	if product_categories:
+		catPostLists = product_categories
+		catPostLists = [int(catPostList) for catPostList in catPostLists]
+
+		for product_category in product_categories:
+			cat_link += "&categories=" + product_category
+
+		if q is not None:
+			q.add(Q(categories__in=catPostLists), Q.AND)
+		else:
+			q = Q(categories__in=catPostLists)
+
+
+    if q is not None:
+    	products = products.filter(q).order_by(s_type)
+
+    other_params_dict.update({'order_by':order_by, 'sort_type':sort_type})
+    other_params = QueryDict(urllib.urlencode(other_params_dict) + cat_link)
+
+    paginator = Paginator(products, 20)
+    page = request.GET.get('page','')
+
+    #sku ascending link
+    other_params_dict['order_by'] = 'sku'
+    other_params_dict['sort_type'] = 'asc'
+    info['sku_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+	#sku descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['sku_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)  
+
+    #product name ascending link
+    other_params_dict['order_by'] = 'name'
+    other_params_dict['sort_type'] = 'asc'
+    info['name_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #product name descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['name_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #status ascending link
+    other_params_dict['order_by'] = 'is_active'
+    other_params_dict['sort_type'] = 'asc'
+    info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #status descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
 
     try:
         products = paginator.page(page)
@@ -605,6 +669,7 @@ def admin_manage_product(request):
     except EmptyPage:
         products = paginator.page(paginator.num_pages)
 
+    info['other_params'] = other_params
     info['form'] = form
     info['products'] = products
     return render_to_response('admin/admin_manage_product.html',info,RequestContext(request))

@@ -83,13 +83,13 @@
 
       <table class="table table-bordered table-hover">
         <thead>
-          <th>SKU</th>
+          <th>SKU <span class="tbsorter"><a href="{% url admin_manage_product %}{{ sku_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ sku_desc_link }}">∇</a></span></th>
           <th style="width:100px;">Image</th>
-          <th>Product Name</th>
+          <th>Product Name <span class="tbsorter"><a href="{% url admin_manage_product %}{{ name_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ name_desc_link }}">∇</a></span></th>
           <th>Categories</th>
           <th>Def Qty</th>
           <th>Price</th>
-          <th>Status</th>
+          <th>Status <span class="tbsorter"><a href="{% url admin_manage_product %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ status_desc_link }}">∇</a></span></th>
           <th>Operations</th>
         </thead>
 
@@ -111,7 +111,7 @@
         {% endif %}
       </table>
 
-      {% bootstrap_paginate products %}
+      {% bootstrap_paginate products url_get_params=other_params %}
 
 {% endblock %}
 {% block javascripts %}
