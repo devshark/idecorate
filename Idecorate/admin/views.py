@@ -377,7 +377,7 @@ def admin_create_product(request):
     		product.no_background = form.cleaned_data['no_background']
     		product.original_image_thumbnail = thumbName
     		product.sku = form.cleaned_data['product_sku']
-    		product.default_quantity = form.cleaned_data['default_quantity']
+    		product.default_quantity = 1 if form.cleaned_data['default_quantity'] is None else form.cleaned_data['default_quantity']
     		product.guest_table = ProductGuestTable.objects.get(id=int(form.cleaned_data['guest_table']))
     		product.save()
 
@@ -473,7 +473,7 @@ def admin_edit_product(request, prod_id):
     		product.name = form.cleaned_data['product_name']
     		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
     		product.description = form.cleaned_data['product_description']
-    		product.default_quantity = form.cleaned_data['default_quantity']
+    		product.default_quantity = 1 if form.cleaned_data['default_quantity'] is None else form.cleaned_data['default_quantity']
     		product.guest_table = ProductGuestTable.objects.get(id=int(form.cleaned_data['guest_table']))
 
     		if product.original_image != form.cleaned_data['original_image']:
