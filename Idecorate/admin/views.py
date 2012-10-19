@@ -264,7 +264,7 @@ def admin_delete_product(request,id_delete):
 	messages.success(request, _('Product deleted.'))
 
 	if request.session.get('manage_product_redirect', False):
-		return redirect('admin_manage_product_get', params=request.session['manage_product_redirect'])
+		return redirect(reverse('admin_manage_product') + request.session['manage_product_redirect'])
 	else:
 		return redirect('admin_manage_product')
 
@@ -508,7 +508,7 @@ def admin_edit_product(request, prod_id):
     		messages.success(request, _('Product Saved.'))
 
     		if request.session.get('manage_product_redirect', False):
-    			return redirect('admin_manage_product_get', params=request.session['manage_product_redirect'])
+    			return redirect(reverse('admin_manage_product') + request.session['manage_product_redirect'])
     		else:
     			return redirect('admin_manage_product')
 
@@ -558,6 +558,7 @@ def admin_manage_product(request, params = None):
     info = {}
     info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
     form = SearchProductForm()
+    initial_form = {}
 
     order_by = request.GET.get('order_by','sku')
     sort_type = request.GET.get('sort_type','asc')
@@ -601,6 +602,22 @@ def admin_manage_product(request, params = None):
     	product_status = request.GET.get('product_status','')
     	product_categories = request.GET.getlist('categories', None)
 
+    	if product_name:
+    		initial_form.update({'product_name':product_name})
+
+    	if product_sku:
+    		initial_form.update({'product_sku':product_sku})
+
+    	if product_status:
+    		initial_form.update({'product_status':product_status})
+
+    	if product_categories:
+    		initial_form.update({'product_categories':product_categories})
+
+    	form = SearchProductForm(initial=initial_form)
+    	form.fields['categories'].choices = tuple(catList)
+
+
     q = None
     if product_name:
 
@@ -628,18 +645,21 @@ def admin_manage_product(request, params = None):
     		else:
     			q = Q(is_active=bool(int(product_status)))
 
-	if product_categories:
+    if product_categories:
+		
 		catPostLists = product_categories
 		catPostLists = [int(catPostList) for catPostList in catPostLists]
+		request.listCats = product_categories
+
+		#print "The get are: %s" % str(request.listCats)
 
 		for product_category in product_categories:
 			cat_link += "&categories=" + product_category
-		print catPostLists
+		#print catPostLists
 		if q is not None:
 			q.add(Q(categories__in=catPostLists), Q.AND)
 		else:
 			q = Q(categories__in=catPostLists)
-
 
     if q is not None:
     	products = products.filter(q).distinct().order_by(s_type)

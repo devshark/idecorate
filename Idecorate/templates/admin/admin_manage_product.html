@@ -62,7 +62,7 @@
       <h3 style="font-weight:normal;">{% trans "Show only products where" %}</h3>
       <hr />
 
-      <form class="form-inline" action="" method="post">
+      <form class="form-inline" action="{% url admin_manage_product %}" method="post">
         {% csrf_token %}
         <label>{% trans "Category" %}:</label>
         {{ categories|getCategoryTreeParentOnly:request }}
