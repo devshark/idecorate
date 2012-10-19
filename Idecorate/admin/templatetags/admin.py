@@ -279,7 +279,7 @@ def treeRecursion(categories, req):
 def getProductCategories(product):
 
 	categories = product.categories.all().order_by('name')
-	catList = [cat.name for cat in categories if cat.parent != None]
+	catList = [cat.name for cat in categories if cat.parent == None]
 
 	return ", ".join(catList)
 

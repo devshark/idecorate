@@ -85,12 +85,12 @@
         <thead>
           <th>SKU <span class="tbsorter"><a href="{% url admin_manage_product %}{{ sku_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ sku_desc_link }}">∇</a></span></th>
           <th style="width:100px;">Image</th>
-          <th>Product Name <span class="tbsorter"><a href="{% url admin_manage_product %}{{ name_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ name_desc_link }}">∇</a></span></th>
+          <th style="min-width:150px;">Product Name <span class="tbsorter"><a href="{% url admin_manage_product %}{{ name_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ name_desc_link }}">∇</a></span></th>
           <th>Categories</th>
-          <th>Def Qty</th>
+          <th style="min-width:80px;">Def Qty</th>
           <th>Price</th>
-          <th>Status <span class="tbsorter"><a href="{% url admin_manage_product %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ status_desc_link }}">∇</a></span></th>
-          <th>Operations</th>
+          <th style="min-width:100px;">Status <span class="tbsorter"><a href="{% url admin_manage_product %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ status_desc_link }}">∇</a></span></th>
+          <th style="min-width:80px;">Operations</th>
         </thead>
 
         {% if products %}
