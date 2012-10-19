@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
-from cart.models import Product, ProductPrice
+from cart.models import Product, ProductPrice, ProductGuestTable
 from plata.shop.models import TaxClass
 import shutil
 from PIL import Image
@@ -264,7 +264,7 @@ def admin_delete_product(request,id_delete):
 	messages.success(request, _('Product deleted.'))
 
 	if request.session.get('manage_product_redirect', False):
-		return redirect('admin_manage_product_get', params=request.session['manage_product_redirect'])
+		return redirect(reverse('admin_manage_product') + request.session['manage_product_redirect'])
 	else:
 		return redirect('admin_manage_product')
 
@@ -377,6 +377,8 @@ def admin_create_product(request):
     		product.no_background = form.cleaned_data['no_background']
     		product.original_image_thumbnail = thumbName
     		product.sku = form.cleaned_data['product_sku']
+    		product.default_quantity = 1 if form.cleaned_data['default_quantity'] is None else form.cleaned_data['default_quantity']
+    		product.guest_table = ProductGuestTable.objects.get(id=int(form.cleaned_data['guest_table']))
     		product.save()
 
     		#add category
@@ -444,7 +446,9 @@ def admin_edit_product(request, prod_id):
     	'categories': listCats,
     	'product_description':product.description,
     	'original_image':product.original_image,
-    	'no_background':product.no_background
+    	'no_background':product.no_background,
+    	'default_quantity':product.default_quantity,
+    	'guest_table':str(product.guest_table.id)
     }
 
     form = EditProductForm(initial=info['initial_form_data'],product_id=int(prod_id))
@@ -469,6 +473,8 @@ def admin_edit_product(request, prod_id):
     		product.name = form.cleaned_data['product_name']
     		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
     		product.description = form.cleaned_data['product_description']
+    		product.default_quantity = 1 if form.cleaned_data['default_quantity'] is None else form.cleaned_data['default_quantity']
+    		product.guest_table = ProductGuestTable.objects.get(id=int(form.cleaned_data['guest_table']))
 
     		if product.original_image != form.cleaned_data['original_image']:
 	    		imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
@@ -508,7 +514,7 @@ def admin_edit_product(request, prod_id):
     		messages.success(request, _('Product Saved.'))
 
     		if request.session.get('manage_product_redirect', False):
-    			return redirect('admin_manage_product_get', params=request.session['manage_product_redirect'])
+    			return redirect(reverse('admin_manage_product') + request.session['manage_product_redirect'])
     		else:
     			return redirect('admin_manage_product')
 
@@ -558,6 +564,7 @@ def admin_manage_product(request, params = None):
     info = {}
     info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
     form = SearchProductForm()
+    initial_form = {}
 
     order_by = request.GET.get('order_by','sku')
     sort_type = request.GET.get('sort_type','asc')
@@ -601,6 +608,22 @@ def admin_manage_product(request, params = None):
     	product_status = request.GET.get('product_status','')
     	product_categories = request.GET.getlist('categories', None)
 
+    	if product_name:
+    		initial_form.update({'product_name':product_name})
+
+    	if product_sku:
+    		initial_form.update({'product_sku':product_sku})
+
+    	if product_status:
+    		initial_form.update({'product_status':product_status})
+
+    	if product_categories:
+    		initial_form.update({'product_categories':product_categories})
+
+    	form = SearchProductForm(initial=initial_form)
+    	form.fields['categories'].choices = tuple(catList)
+
+
     q = None
     if product_name:
 
@@ -628,18 +651,21 @@ def admin_manage_product(request, params = None):
     		else:
     			q = Q(is_active=bool(int(product_status)))
 
-	if product_categories:
+    if product_categories:
+		
 		catPostLists = product_categories
 		catPostLists = [int(catPostList) for catPostList in catPostLists]
+		request.listCats = product_categories
+
+		#print "The get are: %s" % str(request.listCats)
 
 		for product_category in product_categories:
 			cat_link += "&categories=" + product_category
-		print catPostLists
+		#print catPostLists
 		if q is not None:
 			q.add(Q(categories__in=catPostLists), Q.AND)
 		else:
 			q = Q(categories__in=catPostLists)
-
 
     if q is not None:
     	products = products.filter(q).distinct().order_by(s_type)
@@ -678,6 +704,15 @@ def admin_manage_product(request, params = None):
     #status descending link
     other_params_dict['sort_type'] = 'desc'
     info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #quantity ascending link
+    other_params_dict['order_by'] = 'default_quantity'
+    other_params_dict['sort_type'] = 'asc'
+    info['quantity_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #quantity desc link
+    other_params_dict['sort_type'] = 'desc'
+    info['quantity_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
 
     try:
         products = paginator.page(page)

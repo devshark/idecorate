@@ -57,3 +57,8 @@ input{ border: 1px solid #CCC !important; }
 .tbsorter {
 	float:right;
 }
+
+.tbtitle {
+	vertical-align:middle;
+	float:left;	
+}

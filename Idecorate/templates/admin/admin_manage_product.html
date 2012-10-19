@@ -62,7 +62,7 @@
       <h3 style="font-weight:normal;">{% trans "Show only products where" %}</h3>
       <hr />
 
-      <form class="form-inline" action="" method="post">
+      <form class="form-inline" action="{% url admin_manage_product %}" method="post">
         {% csrf_token %}
         <label>{% trans "Category" %}:</label>
         {{ categories|getCategoryTreeParentOnly:request }}
@@ -83,14 +83,14 @@
 
       <table class="table table-bordered table-hover">
         <thead>
-          <th>SKU <span class="tbsorter"><a href="{% url admin_manage_product %}{{ sku_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ sku_desc_link }}">∇</a></span></th>
+          <th><span class="tbtitle">SKU</span> <span class="tbsorter"><a href="{% url admin_manage_product %}{{ sku_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ sku_desc_link }}">∇</a></span></th>
           <th style="width:100px;">Image</th>
-          <th style="min-width:150px;">Product Name <span class="tbsorter"><a href="{% url admin_manage_product %}{{ name_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ name_desc_link }}">∇</a></span></th>
+          <th style="width:150px;"><span class="tbtitle">Product Name</span> <span class="tbsorter"><a href="{% url admin_manage_product %}{{ name_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ name_desc_link }}">∇</a></span></th>
           <th>Categories</th>
-          <th style="min-width:80px;">Def Qty</th>
+          <th style="width:80px;"><span class="tbtitle">Def Qty</span> <span class="tbsorter"><a href="{% url admin_manage_product %}{{ quantity_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ quantity_desc_link }}">∇</a></span></th>
           <th>Price</th>
-          <th style="min-width:100px;">Status <span class="tbsorter"><a href="{% url admin_manage_product %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ status_desc_link }}">∇</a></span></th>
-          <th style="min-width:80px;">Operations</th>
+          <th style="width:100px;"><span class="tbtitle">Status</span> <span class="tbsorter"><a href="{% url admin_manage_product %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ status_desc_link }}">∇</a></span></th>
+          <th style="width:80px;">Operations</th>
         </thead>
 
         {% if products %}
@@ -101,7 +101,7 @@
             <td>{{ product|getProductThumbnail }}</td>
             <td>{{ product.name }}</td>
             <td>{{ product|getProductCategories }}</td>
-            <td>&nbsp;</td>
+            <td>{{ product.default_quantity }}/{{ product.guest_table.name }}</td>
             <td>${{ product|getProductPrice|floatformat:2 }}</td>
             <td>{{ product|getProductStatus }}</td>
             <td><a href="{% url admin_edit_product product.id %}">Edit</a> | <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_product product.id %}')">Delete</a></td>
