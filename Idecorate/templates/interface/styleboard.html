@@ -22,56 +22,14 @@
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <style type="text/css">
-        .product-list {
-            overflow: hidden;
-            width: 100%;
-            height: 75%;
-        }
-        .products {
-            border: 1px solid #fff;
-        }
-        .products:hover {
-            border: 1px solid #ccc;
-        }
-        .pagination {
-            margin-top: 20px;
-            text-align: center;
-            font-size: 12px;
-        }
-        .pagination span{
-            cursor: pointer;
-            margin-right: 5px;
-            padding: 4px 6px;
-        }
-        .pagination span.cur-page{
-            background-color: #ccc;
-            cursor: default;
-            font-weight: bold;            
-            border-radius: 3px;
-            -ms-border-radius: 3px;
-            -moz-border-radius: 3px;
-            -webkit-border-radius: 3px;    
-        }
-        .product-overlay {
-            background: #fff;
-            position: absolute;            
-        }
-        .loading { 
-            background: url(/media/admin/images/loading.gif) no-repeat 39px 40px;
-            width: 100%;
-            height: 100%;
-        }
-        </style>
     </head>
     <body>
-        <div id="main-container">
+        <div id="page-wrap">
             <header id="header" class="clearfix">
-            	{% include "header.html" %}
+                {% include "header.html" %}
             </header>
-
-            <div id="content" class="clearfix">
-            	<div id="sidebar">
+            <div id="content-wrap" class="clearfix">
+                <div id="sidebar">
             		<ul id="sidebar-nav" class="etabs sideNav">
             			<li class="tab"><a href="#create-tab">Create</a></li>
             			<li class="tab"><a href="#buy-tab">Buy</a></li>
@@ -80,17 +38,19 @@
                         <h3>My Order</h3>
                         <form action="" method="post">
                             {% csrf_token %}
-                            <div class="sidebarInputs">
-                                <label for="guests">
-                                    <input type="text" id="guests" name="guests" placeholder="Guests" /> Guests
-                                </label>
-                                <label for="tables">
-                                    <input type="text" id="tables" name="tables" placeholder="Tables" /> Tables
-                                </label>
-                            </div>
-                            <div class="sidebarTotals">
-                                <h5>Total <span>$ 10,000,000</span></h5>
-                            </div>
+                            <fieldset>
+                                <div class="sidebarInputs">
+                                    <label for="guests">
+                                        <input type="text" id="guests" name="guests" placeholder="Guests" /> Guests
+                                    </label>
+                                    <label for="tables">
+                                        <input type="text" id="tables" name="tables" placeholder="Tables" /> Tables
+                                    </label>
+                                </div>
+                                <div class="sidebarTotals">
+                                    <h5>Total <span>$ 10,000,000</span></h5>
+                                </div>
+                            </fieldset>
                         </form>
                     </div>
                     <div id="create-tab-nav" class="clearfix">
@@ -100,12 +60,13 @@
                             <li class="tab"><a href="#templates">Templates</a></li>
                         </ul>
                     </div>
-                    <div id="create-tab" class="overflowY clearfix">
+                    <div id="create-tab" class="clearfix">
                         {% include 'interface/styleboard_categories.html' %}
                     </div><!-- end of create -->
-                    <div id="buy-tab" class="clearfix">
+                    
+                    <!--<div id="buy-tab">
                         <form action="" method="post">
-                            <div class="overflowY">
+                            <div class="buyTableWrap">
                                 <table id="buy-table">
                                     <thead>
                                         <tr>
@@ -210,7 +171,8 @@
                             </div>
                         <div class="checkOutWrap"><input type="submit" name="submit" value="Checkout" class="globalBtn"/></div>
                         </form>
-                    </div><!-- end of buy -->
+                    </div> end of buy -->
+
             	</div>
             	<div id="canvas">
                     <div class="handles"></div>
@@ -246,32 +208,20 @@
                         </div>
                     </div>
             	</div>
-            </div>
-            
+            </div> <!-- /container -->
+                
             <footer id="footer" class="clearfix"> 
             	{% include "footer.html" %}             
             </footer>
-        </div> <!-- /container -->
+        </div>
 
         
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
-<script type="text/javascript">
-    //Initial load of page
-    $(document).ready(sizeContent);
-    //Every resize of window
-    $(window).resize(sizeContent);
-    //Dynamically assign height
-    function sizeContent() {
-        var newHeight = $(window).height()-$("#header").outerHeight(true)-$("#footer").outerHeight(true) + "px";
-        $("#page-wrap").css("height", newHeight);
-}
-</script>
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
 <!-- MENU BAR -->
 <script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
 <script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
-<script type="text/javascript" src="/media/interface/js/jquery.tablescroll.js"></script>
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
 <!-- STYLEBOARD TABPANNELS -->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
@@ -281,11 +231,46 @@
 <script type="text/javascript" src="/media/interface/js/product_category.js"></script>
 <script type="text/javascript">
     $(document).ready( function() {
+        
         $('#sidebar').easytabs();
+        
+        $("#content-wrap").css({height: contentHeight()});
+
+        $('#create-tab').css({height: thumbWrapHeight()+'%'});
+
         {% if category_count == 0 %}
-        populate_products(category_id);
+            populate_products(category_id);
         {% endif %}   
     });
+
+    $(window).resize(resizedContentHeight);
+
+    function contentHeight() {
+
+        var _height = $(window).height()-
+                     $("#header").outerHeight(true)-
+                     $("#footer").outerHeight(true);
+
+        return _height;
+
+    }
+
+    function resizedContentHeight(){
+
+        $("#content-wrap").css({height: contentHeight()});
+        $('#create-tab').css({height: thumbWrapHeight()+'%'});
+    }
+
+    function thumbWrapHeight(){
+
+        var _height = contentHeight()-
+                    $("#sidebar-nav").outerHeight(true)-
+                    $("#sidebar-form-wrap").outerHeight(true)-
+                    $("#create-tab-nav").outerHeight(true);
+
+        return _height/contentHeight()*100;
+    }
+
 </script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
