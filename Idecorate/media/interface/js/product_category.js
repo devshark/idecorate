@@ -164,7 +164,7 @@ function get_products(){
 
                 var t = $('#create-tab').offset().top;
                 var l = $('#create-tab').offset().left;
-                elm_overlay.css({ 'position':'absolute', 'background':'transparent', 'top':(t-140)+'px', 'left':0, 'width': $('#create-tab').width()+'px', 'height':($('#create-tab').height()-25)+'px' });
+                elm_overlay.css({ 'position':'absolute', 'background':'transparent', 'top':(t)+'px', 'left':l+'px', 'width': $('#create-tab').width()+'px', 'height':($('#create-tab').height())+'px' });
                 elm_overlay.appendTo('#create-tab');
                 elm_overlay.html('<div class="loading"></div>');
             }
