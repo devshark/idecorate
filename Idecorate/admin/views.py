@@ -629,7 +629,7 @@ def admin_manage_product(request, params = None):
 
 		for product_category in product_categories:
 			cat_link += "&categories=" + product_category
-
+		print catPostLists
 		if q is not None:
 			q.add(Q(categories__in=catPostLists), Q.AND)
 		else:
@@ -637,7 +637,7 @@ def admin_manage_product(request, params = None):
 
 
     if q is not None:
-    	products = products.filter(q).order_by(s_type)
+    	products = products.filter(q).distinct().order_by(s_type)
 
     other_params_dict.update({'order_by':order_by, 'sort_type':sort_type})
     other_params = QueryDict(urllib.urlencode(other_params_dict) + cat_link)
