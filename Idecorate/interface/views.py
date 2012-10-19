@@ -34,6 +34,8 @@ def styleboard(request, cat_id=None):
 
 	info['category_count'] = categories.count()		
 
+	if not cat_id:
+		cat_id = 0
 	info['cat_id'] = cat_id
 	return render_to_response('interface/styleboard.html', info,RequestContext(request))
 
