@@ -632,7 +632,7 @@ def admin_manage_product(request):
     other_params_dict.update({'order_by':order_by, 'sort_type':sort_type})
     other_params = QueryDict(urllib.urlencode(other_params_dict) + cat_link)
 
-    paginator = Paginator(products, 20)
+    paginator = Paginator(products, 25)
     page = request.GET.get('page','')
 
     #sku ascending link
