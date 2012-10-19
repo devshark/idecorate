@@ -14,7 +14,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
-from cart.models import Product, ProductPrice
+from cart.models import Product, ProductPrice, ProductGuestTable
 from plata.shop.models import TaxClass
 import shutil
 from PIL import Image
@@ -377,6 +377,8 @@ def admin_create_product(request):
     		product.no_background = form.cleaned_data['no_background']
     		product.original_image_thumbnail = thumbName
     		product.sku = form.cleaned_data['product_sku']
+    		product.default_quantity = form.cleaned_data['default_quantity']
+    		product.guest_table = ProductGuestTable.objects.get(id=int(form.cleaned_data['guest_table']))
     		product.save()
 
     		#add category
@@ -444,7 +446,9 @@ def admin_edit_product(request, prod_id):
     	'categories': listCats,
     	'product_description':product.description,
     	'original_image':product.original_image,
-    	'no_background':product.no_background
+    	'no_background':product.no_background,
+    	'default_quantity':product.default_quantity,
+    	'guest_table':str(product.guest_table.id)
     }
 
     form = EditProductForm(initial=info['initial_form_data'],product_id=int(prod_id))
@@ -469,6 +473,8 @@ def admin_edit_product(request, prod_id):
     		product.name = form.cleaned_data['product_name']
     		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
     		product.description = form.cleaned_data['product_description']
+    		product.default_quantity = form.cleaned_data['default_quantity']
+    		product.guest_table = ProductGuestTable.objects.get(id=int(form.cleaned_data['guest_table']))
 
     		if product.original_image != form.cleaned_data['original_image']:
 	    		imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)

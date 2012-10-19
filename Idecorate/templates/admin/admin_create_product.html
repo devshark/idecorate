@@ -47,7 +47,7 @@
 	<h1>{% trans "Create Product" %}</h1>
 	<div>&nbsp;</div>
 
-      {% if form.product_status.errors or form.product_sku.errors or form.product_name.errors or form.price.errors or form.product_description.errors or form.original_image.errors or form.no_background.errors %}
+      {% if form.product_status.errors or form.product_sku.errors or form.product_name.errors or form.price.errors or form.product_description.errors or form.original_image.errors or form.no_background.errors or form.default_quantity.errors %}
 
       <div class="alert alert-error">
         <a class="close" data-dismiss="alert" href="#">×</a>
@@ -75,6 +75,9 @@
             <li>{{ e }}</li>
           {% endfor %}
           {% for e in form.no_background.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.default_quantity.errors %}
             <li>{{ e }}</li>
           {% endfor %}
         </ol> 
@@ -187,6 +190,20 @@
             </div><!--/span-->          
           </div><!--/row-->
 
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{% trans "Default Quantity Per Guest/Table" %}</label>
+                <div class="controls">
+                  {{ form.default_quantity|attr:"style:width:30px;" }} per {{ form.guest_table }}
+                  <span class="help-block">{% trans "Select Guest/Table from the drop-down and enter the number of units of this product to be added to cart by default. This number can be changed by the user." %}</span>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
           <h3 style="font-weight:normal;">{% trans "Product Images" %}</h3>
           <hr />
 
@@ -235,6 +252,7 @@
               </div>
             </div><!--/span-->          
           </div><!--/row-->
+
 
         </div><!--/span-->      
       </div><!--/row-->
