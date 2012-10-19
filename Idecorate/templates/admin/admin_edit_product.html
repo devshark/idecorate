@@ -447,7 +447,10 @@
         }
       });
 
-      $('#tree1').checkboxTree();
+      $('#tree1').checkboxTree({
+        initializeChecked: 'expanded',
+        initializeUnchecked: 'collapsed'
+      });
 
       $('input[name="categories"]').click(function(e){
 
