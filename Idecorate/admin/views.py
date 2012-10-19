@@ -705,6 +705,15 @@ def admin_manage_product(request, params = None):
     other_params_dict['sort_type'] = 'desc'
     info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
 
+    #quantity ascending link
+    other_params_dict['order_by'] = 'default_quantity'
+    other_params_dict['sort_type'] = 'asc'
+    info['quantity_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
+    #quantity desc link
+    other_params_dict['sort_type'] = 'desc'
+    info['quantity_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
+
     try:
         products = paginator.page(page)
     except PageNotAnInteger:
