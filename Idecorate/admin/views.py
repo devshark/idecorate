@@ -263,7 +263,10 @@ def admin_delete_product(request,id_delete):
 
 	messages.success(request, _('Product deleted.'))
 
-	return redirect('admin_manage_product')
+	if request.session.get('manage_product_redirect', False):
+		return redirect('admin_manage_product_get', params=request.session['manage_product_redirect'])
+	else:
+		return redirect('admin_manage_product')
 
 def admin_login(request):
 
@@ -426,6 +429,7 @@ def admin_edit_product(request, prod_id):
     info = {}
 
     product = Product.objects.get(id=int(prod_id))
+    info['product'] = product
     productPrice = ProductPrice.objects.get(product=product)
     initCats = product.categories.all()
     listCats = [str(initCat.id) for initCat in initCats]
@@ -502,7 +506,13 @@ def admin_edit_product(request, prod_id):
     		productPrice.save()
 
     		messages.success(request, _('Product Saved.'))
-    		return redirect(reverse('admin_edit_product', args=[prod_id]))
+
+    		if request.session.get('manage_product_redirect', False):
+    			return redirect('admin_manage_product_get', params=request.session['manage_product_redirect'])
+    		else:
+    			return redirect('admin_manage_product')
+
+    		#return redirect(reverse('admin_edit_product', args=[prod_id]))
 
     info['form'] = form
     return render_to_response('admin/admin_edit_product.html',info,RequestContext(request))    
@@ -544,7 +554,7 @@ def admin_upload_product_image(request):
 
 
 @staff_member_required
-def admin_manage_product(request):
+def admin_manage_product(request, params = None):
     info = {}
     info['categories'] = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
     form = SearchProductForm()
@@ -634,6 +644,8 @@ def admin_manage_product(request):
 
     paginator = Paginator(products, 25)
     page = request.GET.get('page','')
+
+    request.session['manage_product_redirect'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict) + cat_link)
 
     #sku ascending link
     other_params_dict['order_by'] = 'sku'
