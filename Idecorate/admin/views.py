@@ -564,8 +564,13 @@ def admin_manage_product(request, params = None):
     s_type = order_by
     cat_link = ""
 
-    if sort_type == 'desc':
-    	s_type = "-%s" % order_by
+    if order_by == 'is_active':
+    	if sort_type == 'asc':
+    		s_type = "-%s" % order_by
+    else:
+
+	    if sort_type == 'desc':
+	    	s_type = "-%s" % order_by
 
     products = Product.objects.filter(is_deleted=False).order_by(s_type)
 
