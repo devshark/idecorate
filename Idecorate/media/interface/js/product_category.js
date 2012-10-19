@@ -31,7 +31,7 @@ function browse_categories(elm_id){
         success: function(response_data){
             var items = '';
             var breadcrumb = '';
-            $(".draggable").draggable("destroy");
+            //$(".draggable").draggable("destroy");
             var data = $.parseJSON(response_data.data);                                            
             $.each(data,function(i, val){                            
                 var id = val.pk;
@@ -129,7 +129,7 @@ function populate_products(){
     var response_data = get_products();
     var items = '';
     var breadcrumb = '';
-    $(".draggable").draggable("destroy");
+    //$(".draggable").draggable("destroy");
     var data = $.parseJSON(response_data.data);
     total_product_count = response_data.product_counts;
     page_number = response_data.page_number;
@@ -185,7 +185,7 @@ function manage_product_pagination(){
             product_page_cont.attr('id','prod-page-' + page);
             product_page_cont.addClass('product-page-cont');
             product_page_cont.addClass('current-page');
-            $(".draggable").draggable("destroy");
+            //$(".draggable").draggable("destroy");
             product_page_cont.appendTo('.product-list');
             var counter = 1;
             $('.product-list a').each(function(i, val){                            
@@ -204,10 +204,10 @@ function manage_product_pagination(){
 
             var total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
 
-            $(".draggable").draggable({ 
-                revert:true, 
-                helper: 'clone' 
-            });
+            // $(".draggable").draggable({ 
+            //     revert:true, 
+            //     helper: 'clone' 
+            // });
 
             $('.product-list').bind('mousewheel', function(event, delta) {
                 // var elm_overlay = $('<div />');
@@ -352,10 +352,10 @@ function populate_product_via_paginate(page_cont_elm){
             counter = 0;
         }
         $(product_page_cont).append(items);
-        $('#' + id).draggable({ 
-            revert:true, 
-            helper: 'clone' 
-        });
+        // $('#' + id).draggable({ 
+        //     revert:true, 
+        //     helper: 'clone' 
+        // });
         counter++;
     });    
 }
