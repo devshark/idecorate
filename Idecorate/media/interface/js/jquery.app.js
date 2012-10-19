@@ -5,7 +5,7 @@ objCounter = 0;
 $(document).ready(function () {
 
     //draggable sidebar obj to canvas
-    $(".draggable").draggable({
+    $(".draggable").liveDraggable({
         revert:true, 
         helper: 'clone'
     }).click(function(e){
@@ -330,7 +330,7 @@ function update_menu(){
     
     update_ui({
         styles : {
-            display : 'block',
+            display : 'block'
         },
         update_obj : $img_menus
     });
@@ -452,3 +452,13 @@ function cloneObj(obj) {
     });
 }
 
+(function ($) {
+   $.fn.liveDraggable = function (opts) {
+      this.live("mouseover", function() {
+         if (!$(this).data("init")) {
+            $(this).data("init", true).draggable(opts);
+         }
+      });
+      return $();
+   };
+}(jQuery));
