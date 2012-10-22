@@ -12,7 +12,20 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 
 from category.services import get_categories, get_cat, category_tree_crumb
-from cart.models import Product
+from cart.services import get_product
+
+import plata
+from plata.contact.models import Contact
+from plata.discount.models import Discount
+from plata.shop.models import Order
+from plata.shop.views import Shop
+from cart.models import Product, ProductPrice
+
+shop = Shop(
+	contact_model=Contact,
+	order_model=Order,
+	discount_model=Discount,
+	)
 
 def home(request):
 	info = {}
@@ -44,9 +57,9 @@ def styleboard_product_ajax(request):
 		cat_id = request.POST.get('cat_id',None)
 
 		product_list = Product.objects.filter(categories__id=cat_id, is_active=True, is_deleted=False)
-		product_list = product_list.order_by('ordering')
-		product_counts = product_list.count()
-		offset = request.GET.get('offset',25)	
+		product_list = product_list.order_by('ordering')		
+		product_counts = product_list.count()		
+		offset = request.GET.get('offset',25)
 
 		paginator = Paginator(product_list, offset)
 		page = request.GET.get('page')
@@ -126,3 +139,28 @@ def get_product_original_image(request):
 		product = Product.objects.get(id=int(product_id))
 
 		return HttpResponse(product.original_image)
+
+def add_to_cart_ajax(request):
+	if request.method == "POST":
+		product_id = request.POST.get('prod_id')
+		product = get_product(product_id)
+
+		reponse_data = {}
+		reponse_data['id'] = product.product.id
+		reponse_data['original_image_thumbnail'] = product.product.original_image_thumbnail
+		reponse_data['sku'] = product.product.sku
+		reponse_data['name'] = product.product.name
+		reponse_data['default_quantity'] = product.product.default_quantity
+		reponse_data['price'] = product._unit_price
+		reponse_data['currency'] = product.currency
+		reponse_data['original_image'] = product.product.original_image
+		reponse_data['guest_table'] = product.product.original_image
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+	else:
+		return HttpResponseNotFound()
+
+def remove_from_cart_ajax(request):
+	if request.method == "POST":		
+		return HttpResponse(200)
+	else:
+		return HttpResponseNotFound()

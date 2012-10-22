@@ -95,6 +95,7 @@ function browse_categories(elm_id){
             });
 
             if(type =='products'){
+                category_id = elm_id;
                 items = '<div class="product-list">' + items + '</div>';
             }
 
