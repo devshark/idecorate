@@ -13,6 +13,8 @@ from django.utils.safestring import mark_safe
 
 from category.services import get_categories, get_cat, category_tree_crumb
 from cart.models import Product
+from django.conf import settings
+from PIL import Image
 
 def home(request):
 	info = {}
@@ -121,8 +123,28 @@ def get_category_tree_ajax(request):
 def get_product_original_image(request):
 
 	if request.method == "POST":
+
+		ret = {}
+
 		product_id = request.POST.get('product_id')
 
 		product = Product.objects.get(id=int(product_id))
+		ret['original_image'] = product.original_image
+		ret['no_background'] = product.no_background
 
-		return HttpResponse(product.original_image)
+
+		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.original_image))
+		
+
+		width, height = img.size
+
+		ret['original_image_w'] = width
+		ret['original_image_h'] = height
+
+		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.no_background))
+		width, height = img.size
+
+		ret['no_background_w'] = width
+		ret['no_background_h'] = height
+
+		return HttpResponse(simplejson.dumps(ret), mimetype="application/json")
