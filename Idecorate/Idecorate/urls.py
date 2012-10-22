@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
-from interface.views import shop
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -46,12 +45,4 @@ urlpatterns += patterns('category.views',
     url(r'^admin/remove_category/$', 'remove_category', {}, name='remove_category'),
     url(r'^admin/order_category/$', 'order_category', {}, name='order_category'),
     url(r'^admin/category_thumbnail_upload/$', 'category_thumbnail_upload', {}, name='category_thumbnail_upload'),
-    )
-
-urlpatterns += patterns('',
-    url(r'^shop/', include(shop.urls)),
-    # url(r'^products/$', 'myapp.views.product_list',
-    #     name='plata_product_list'),
-    # url(r'^products/(?P<slug>[-\w]+)/$', 'myapp.views.product_detail',
-    #     name='plata_product_detail'),
     )

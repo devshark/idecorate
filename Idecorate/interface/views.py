@@ -13,19 +13,9 @@ from django.utils.safestring import mark_safe
 
 from category.services import get_categories, get_cat, category_tree_crumb
 from cart.services import get_product
-
-import plata
-from plata.contact.models import Contact
-from plata.discount.models import Discount
-from plata.shop.models import Order
-from plata.shop.views import Shop
-from cart.models import Product, ProductPrice
-
-shop = Shop(
-	contact_model=Contact,
-	order_model=Order,
-	discount_model=Discount,
-	)
+from cart.models import Product
+from django.conf import settings
+from PIL import Image
 
 def home(request):
 	info = {}
@@ -134,33 +124,27 @@ def get_category_tree_ajax(request):
 def get_product_original_image(request):
 
 	if request.method == "POST":
+
+		ret = {}
+
 		product_id = request.POST.get('product_id')
 
 		product = Product.objects.get(id=int(product_id))
+		ret['original_image'] = product.original_image
+		ret['no_background'] = product.no_background
 
-		return HttpResponse(product.original_image)
 
-def add_to_cart_ajax(request):
-	if request.method == "POST":
-		product_id = request.POST.get('prod_id')
-		product = get_product(product_id)
+		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.original_image))
+		
 
-		reponse_data = {}
-		reponse_data['id'] = product.product.id
-		reponse_data['original_image_thumbnail'] = product.product.original_image_thumbnail
-		reponse_data['sku'] = product.product.sku
-		reponse_data['name'] = product.product.name
-		reponse_data['default_quantity'] = product.product.default_quantity
-		reponse_data['price'] = product._unit_price
-		reponse_data['currency'] = product.currency
-		reponse_data['original_image'] = product.product.original_image
-		reponse_data['guest_table'] = product.product.original_image
-		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
-	else:
-		return HttpResponseNotFound()
+		width, height = img.size
 
-def remove_from_cart_ajax(request):
-	if request.method == "POST":		
-		return HttpResponse(200)
-	else:
-		return HttpResponseNotFound()
+		ret['original_image_w'] = width
+		ret['original_image_h'] = height
+
+		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.no_background))
+		width, height = img.size
+
+		ret['no_background_w'] = width
+		ret['no_background_h'] = height
+		return HttpResponse(simplejson.dumps(ret), mimetype="application/json")

@@ -35,7 +35,7 @@ def add_to_cart_ajax(request):
 		order = shop.order_from_request(request, create=True)
 		order.modify_item(product.product, relative=quantity)
 
-		print request.session
+		print order
 
 		reponse_data = {}
 		reponse_data['id'] = product.product.id

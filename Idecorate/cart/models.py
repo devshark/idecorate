@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
 
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase
@@ -55,3 +56,12 @@ class ProductPrice(PriceBase):
         verbose_name_plural = _('prices')
         db_table = 'product_price'
 
+class CartTemp(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    product = models.ForeignKey(Product, db_column='product_id')
+    user = models.ForeignKey(User, db_column='user_id', null=True)
+    sessionid = models.CharField(db_column='session_key', max_length=200, null=True)
+
+    class Meta:
+        verbose_name = _('Cart Temp')
+        db_table = 'cart_temps'
