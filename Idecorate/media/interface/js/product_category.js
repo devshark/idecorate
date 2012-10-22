@@ -47,7 +47,7 @@ function manage_product_resize(){
 
     product_per_page = count_by_width*count_by_height;
 
-    console.log(product_per_page, prod_item_height);
+    //console.log(product_per_page, prod_item_height);
 
     var page = 1;
     $(".draggable").draggable("destroy");
