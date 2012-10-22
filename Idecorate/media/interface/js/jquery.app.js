@@ -172,12 +172,16 @@ $(document).ready(function () {
             }
 
         }
-    }).resizable({
+    });
+    $handles.resizable({
 
         handles: 'ne,se,nw,sw',
         minWidth: 50,
         aspectRatio: true,
         start : function(e, ui){
+
+            $(".draggable").draggable('destroy');
+            
             if($.browser.msie){//it appears that this event is not supported by IE
                 $(document).unbind("click");
             }
@@ -194,6 +198,14 @@ $(document).ready(function () {
             });
         },
         stop : function(e, ui){
+
+            console.log(e);
+
+            $(".draggable").draggable({
+                revert:true, 
+                helper: 'clone'
+            });
+
             if($.browser.msie){//bind click in document after resize
                 setTimeout(function(){
                     $(document).click(function(e){;
@@ -245,9 +257,7 @@ $(document).ready(function () {
 });
 
 function create_instance(options){
-    var Obj_img = $('<img />').attr('src',"/" + options._src+ "?" + new Date().getTime());
-    Obj_img.hide();
-    Obj_img.load(function () {
+    var Obj_img = $('<img />').attr('src',"/" + options._src+ "?" + new Date().getTime()).hide().load(function () {
         var imgWidth    = options._width;
         var imgHeight   = options._height;
         var dimensions  = aspectratio(imgWidth, imgHeight, .60);

@@ -209,19 +209,20 @@ footer {
     color: #333; }
   footer .footerMenus {
     float: right; }
-    footer .footerMenus ul li {
-      *white-space: nowrap;
-      display: inline-block;
-      zoom: 1;
-      *display: inline;
-      font-size: 0;
-      padding: 3px 5px;
-      border-left: 1px solid #DDD; }
-      footer .footerMenus ul li a {
+    footer .footerMenus ul {
+      font-size: 0; }
+      footer .footerMenus ul li {
+        *white-space: nowrap;
+        display: inline-block;
+        zoom: 1;
+        *display: inline;
         font-size: 10px;
-        color: #333; }
-    footer .footerMenus ul li:first-child {
-      border-left: none; }
+        padding: 3px 5px;
+        border-left: 1px solid #DDD; }
+        footer .footerMenus ul li a {
+          color: #333; }
+      footer .footerMenus ul li:first-child {
+        border-left: none; }
 
 #sidebar {
   background-color: #FFF;
