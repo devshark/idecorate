@@ -59,6 +59,12 @@ CREATE TABLE `discount_discount` (
   KEY `discount_discount_17c56b03` (`tax_class_id`)
 );
 
+CREATE TABLE `product_guest_table` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
 CREATE TABLE `product` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `is_active` tinyint(1) NOT NULL,
@@ -71,8 +77,11 @@ CREATE TABLE `product` (
   `no_background` longtext NOT NULL,
   `sku` varchar(100) NOT NULL,
   `is_deleted` tinyint(1) NOT NULL,
+  `default_quantity` int(10) unsigned NOT NULL,
+  `guest_table` int(11) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `slug` (`slug`)
+  UNIQUE KEY `slug` (`slug`),
+  KEY `product_63a233db` (`guest_table`)
 );
 
 CREATE TABLE `product_price` (
@@ -198,3 +207,5 @@ CREATE TABLE `product_categories` (
 );
 
 INSERT INTO `shop_taxclass` VALUES (1,'Test Tax','0.00',0);
+
+INSERT INTO `product_guest_table` VALUES (1,'table'),(2,'guest');

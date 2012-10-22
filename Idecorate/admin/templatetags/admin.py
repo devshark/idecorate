@@ -325,6 +325,16 @@ def getCategoryTreeParentOnly(categories, req):
 				chk = ' checked="checked"'
 			else:
 				chk = ''
+		else:
+			try:
+				listCats = req.listCats
+				if str(category.id) in listCats:
+					chk = ' checked="checked"'
+				else:
+					chk = ''
+
+			except AttributeError:
+				pass
 
 		hidden = ""
 

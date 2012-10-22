@@ -31,7 +31,6 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_create_product/$', 'admin_create_product', {}, name='admin_create_product'),
     url(r'^admin/admin_upload_product_image/$', 'admin_upload_product_image', {}, name='admin_upload_product_image'),
     url(r'^admin/admin_manage_product/$', 'admin_manage_product', {}, name='admin_manage_product'),
-    url(r'^admin/admin_manage_product/(?P<params>.+?)', 'admin_manage_product', {}, name='admin_manage_product_get'),
     url(r'^admin/admin_delete_product/(?P<id_delete>\d+)/$','admin_delete_product', {}, name='admin_delete_product'),
     url(r'^admin/admin_edit_product/(?P<prod_id>\d+)/$','admin_edit_product', {}, name='admin_edit_product'),
 )

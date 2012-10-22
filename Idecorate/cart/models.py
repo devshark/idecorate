@@ -5,6 +5,14 @@ from plata.product.models import ProductBase
 from plata.shop.models import PriceBase
 from category.models import Categories
 
+class ProductGuestTable(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    name = models.CharField(db_column='name', max_length=64, blank=True)
+
+    class Meta:
+        db_table = 'product_guest_table'
+        ordering = ["id"]
+        verbose_name = _("Product Per Guest Table") 
 
 class Product(ProductBase):
 
@@ -19,6 +27,8 @@ class Product(ProductBase):
     sku = models.CharField(_('sku'), max_length=100)
     categories = models.ManyToManyField(Categories)
     is_deleted = models.BooleanField(_('is active'), default=False)
+    default_quantity = models.PositiveIntegerField(_('default_quantity'), default=1)
+    guest_table = models.ForeignKey(ProductGuestTable, db_column='guest_table')
 
     class Meta:
         ordering = ['ordering', 'name']
