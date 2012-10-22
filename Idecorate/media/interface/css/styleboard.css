@@ -420,7 +420,7 @@ footer {
 /*===== jquery UI styles overwrites =====*/
 #sidebar .ui-draggable-dragging {
   width: 100px !important;
-  z-index: 1;
+  z-index: 99;
   box-shadow: -4px 4px 5px #999999;
   border: 1px solid #CCC;
   background-color: #FFF;
@@ -443,8 +443,8 @@ footer {
     background-color: #CCC;
     border: 1px solid #333; }
 #canvas .selected {
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-  filter: alpha(opacity=80);
+  	/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+    	filter: alpha(opacity=80);*/
   -moz-opacity: 0.8;
   -khtml-opacity: 0.8;
   opacity: 0.8;

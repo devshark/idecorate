@@ -8,8 +8,11 @@ $(document).ready(function () {
     $(".draggable").liveDraggable({
         revert:true, 
         helper: 'clone'
-    }).click(function(e){
+    });
+
+    $('.draggable').live('click', function(e){
         e.preventDefault();
+        return false;
     });
 
     //set dropable area for the draggable sidebar objects
@@ -233,11 +236,12 @@ $(document).ready(function () {
 });
 
 function create_instance(options){
-
-    var Obj_img = $('<img />').attr('src',"/" + options._src+ "?" + new Date().getTime()).hide().load(function () {
-        
+    var Obj_img = $('<img />').attr('src',"/" + options._src+ "?" + new Date().getTime());
+    Obj_img.hide();
+    Obj_img.load(function () {
         var imgWidth    = this.width;
         var imgHeight   = this.height;
+        alert('width: '+imgWidth+' height: '+imgHeight);
         var dimensions  = aspectratio(imgWidth, imgHeight, .60);
         var imgTop      = options._event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = options._event.pageX-$('#canvas').offset().left-dimensions['width']/2;
@@ -366,8 +370,6 @@ function update_ui(options) {
     defaults.update_obj = options.update_obj == null ? defaults.update_obj : options.update_obj;
 
     defaults.update_obj.css(defaults.styles);
-    //console.log(defaults.styles);
-    //console.log(defaults.update_obj);
 }
 
 function disableEventPropagation(event) {
