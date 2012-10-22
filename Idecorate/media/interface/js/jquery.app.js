@@ -181,7 +181,7 @@ $(document).ready(function () {
         start : function(e, ui){
 
             $(".draggable").draggable('destroy');
-            
+
             if($.browser.msie){//it appears that this event is not supported by IE
                 $(document).unbind("click");
             }
@@ -198,8 +198,6 @@ $(document).ready(function () {
             });
         },
         stop : function(e, ui){
-
-            console.log(e);
 
             $(".draggable").draggable({
                 revert:true, 
