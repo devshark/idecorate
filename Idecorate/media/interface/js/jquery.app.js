@@ -43,12 +43,21 @@ $(document).ready(function () {
                     data: { product_id: uid},
                     async:   false,
                     success: function(data){
-                        img_src = img_src+data;
+                        //original
+                        img_src     = img_src+data.original_image;
+                        img_w       = data.original_image_w;
+                        img_h       = data.original_image_h;
+                        //no bg
+                        img_no_bg   = data.no_background;
+                        img_no_bg_w = data.no_background_w;
+                        img_no_bg_h = data.no_background_h;
                         //create new image using image object
                         create_instance({
                             _uid    : uid,
                             _event  : e,
-                            _src    : img_src
+                            _src    : img_src,
+                            _width  : img_w,
+                            _height : img_h
                         });
                     },
                     error: function(msg) {
@@ -165,12 +174,16 @@ $(document).ready(function () {
             }
 
         }
-    }).resizable({
+    });
+    $handles.resizable({
 
         handles: 'ne,se,nw,sw',
         minWidth: 50,
         aspectRatio: true,
         start : function(e, ui){
+
+            $(".draggable").draggable('destroy');
+
             if($.browser.msie){//it appears that this event is not supported by IE
                 $(document).unbind("click");
             }
@@ -187,6 +200,12 @@ $(document).ready(function () {
             });
         },
         stop : function(e, ui){
+
+            $(".draggable").draggable({
+                revert:true, 
+                helper: 'clone'
+            });
+
             if($.browser.msie){//bind click in document after resize
                 setTimeout(function(){
                     $(document).click(function(e){;
@@ -238,12 +257,9 @@ $(document).ready(function () {
 });
 
 function create_instance(options){
-    var Obj_img = $('<img />').attr('src',"/" + options._src+ "?" + new Date().getTime());
-    Obj_img.hide();
-    Obj_img.load(function () {
-        var imgWidth    = this.width;
-        var imgHeight   = this.height;
-        alert('width: '+imgWidth+' height: '+imgHeight);
+    var Obj_img = $('<img />').attr('src',"/" + options._src+ "?" + new Date().getTime()).hide().load(function () {
+        var imgWidth    = options._width;
+        var imgHeight   = options._height;
         var dimensions  = aspectratio(imgWidth, imgHeight, .60);
         var imgTop      = options._event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = options._event.pageX-$('#canvas').offset().left-dimensions['width']/2;
