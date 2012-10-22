@@ -251,11 +251,16 @@ footer{
 				*display:inline;
 				font-size: 0;
 				padding: 3px 5px;
+				border-left:1px solid #DDD;
 
 				a{
 					font-size: 10px;
 					color: #333;
 				}
+			}
+			
+			li:first-child{
+				border-left:none;
 			}
 		}
 	}
@@ -403,7 +408,30 @@ footer{
 				}
 			}
 		}
-		.thumb{
+
+		.thumb.categories{
+
+			display: block;
+			float: left;
+			width: 17.578125%;/*100/768*100*/
+			padding: 1px;
+			margin: 6px -3px -3px 6px;  
+			font-size: 0;
+			min-width:76px;
+
+			img{
+				width: 100%;
+			}
+
+			span{
+				display:block;
+				margin-top: 10px;
+				font-size:10px;
+				text-align:center;
+			}
+		}
+
+		.thumb.products{
 			display: block;
 			float: left;
 			width: 17.578125%;/*100/768*100*/
