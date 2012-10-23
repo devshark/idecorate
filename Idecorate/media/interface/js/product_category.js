@@ -380,32 +380,34 @@ function manage_product_resize(){
     if ( total_pages < current_page ){
         current_page = total_pages;        
     }
-    if ( $('.product-list a').length < product_per_page ){
-        next_page = current_page;
-        offset = product_per_page;
-        var response_data = get_products();
+    if ( total_product_count > product_per_page ){
+        if ( $('.product-list a').length < product_per_page ){
+            next_page = current_page;
+            offset = product_per_page;
+            var response_data = get_products();
 
-        var data = $.parseJSON(response_data.data);
-        var y = $('.product-list a').length;
-        $.each(data,function(i, val){            
-            var id = val.pk;
-            if ( $('#'+id).length == 0 ){
-                type = 'products';
-                var name = val.fields.name;
-                var thumb = val.fields.original_image_thumbnail;
-                thumb = 'products/' + thumb;
-                item = '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
-                        '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
-                    '</a>';
+            var data = $.parseJSON(response_data.data);
+            var y = $('.product-list a').length;
+            $.each(data,function(i, val){            
+                var id = val.pk;
+                if ( $('#'+id).length == 0 ){
+                    type = 'products';
+                    var name = val.fields.name;
+                    var thumb = val.fields.original_image_thumbnail;
+                    thumb = 'products/' + thumb;
+                    item = '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                            '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                        '</a>';
 
-                $('.product-list').append(item);
-                if ( y ==  product_per_page)
-                    return false;
-                y++;
-            }
-        });
+                    $('.product-list').append(item);
+                    if ( y ==  product_per_page)
+                        return false;
+                    y++;
+                }
+            });
 
-    }
+        }
+    }    
     generate_pagenation();
     sort_remove_prod();
 }
