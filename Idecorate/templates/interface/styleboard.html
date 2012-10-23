@@ -17,6 +17,8 @@
             var STYLEBOARD_AJAX_URL = '{% url styleboard_ajax %}';
             var STYLEBOARD_PRODUCT_AJAX_URL = '{% url styleboard_product_ajax %}';
             var CATEGORY_TREE_AJAX_URL ='{% url get_category_tree_ajax %}';
+            var ADD_TO_CART_URL = '{% url add_to_cart_ajax %}';
+            var REMOVE_TO_CART_URL = '{% url remove_from_cart_ajax %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -81,6 +83,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                        <!--
                                         <tr class="odd">
                                             <td>
                                                 <div class="buyItemImg">
@@ -165,6 +168,7 @@
                                             <td><input type="text" value="5" placeholder="qty"/></td>
                                             <td>$500.00</td>
                                         </tr>
+                                        -->
                                     </tbody>
                                     <tfoot>
                                         <tr>
@@ -174,10 +178,13 @@
                                     </tfoot>
                                 </table>
                             </div>
-                        <div class="checkOutWrap"><input type="submit" name="submit" value="Checkout" class="globalBtn"/></div>
+                        <div class="checkOutWrap">                            
+                            <a href="{% url checkout %}" class="globalBtn">
+                                <input type="button" value="Checkout" class="globalBtn"/>
+                            </a>
+                        </div>
                         </form>
                     </div>
-
             	</div>
             	<div id="canvas">
                     <div class="handles">
@@ -220,6 +227,9 @@
             <footer id="footer" class="clearfix"> 
             	{% include "footer.html" %}             
             </footer>
+        </div>
+        <div id="remove_products_container" style="display:none">
+
         </div>
 
         
@@ -279,6 +289,8 @@
     }
 
 </script>
+<!-- CART -->
+<script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>

@@ -12,6 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 
 from category.services import get_categories, get_cat, category_tree_crumb
+from cart.services import get_product
 from cart.models import Product
 from django.conf import settings
 from PIL import Image
@@ -46,9 +47,9 @@ def styleboard_product_ajax(request):
 		cat_id = request.POST.get('cat_id',None)
 
 		product_list = Product.objects.filter(categories__id=cat_id, is_active=True, is_deleted=False)
-		product_list = product_list.order_by('ordering')
-		product_counts = product_list.count()
-		offset = request.GET.get('offset',25)	
+		product_list = product_list.order_by('ordering')		
+		product_counts = product_list.count()		
+		offset = request.GET.get('offset',25)
 
 		paginator = Paginator(product_list, offset)
 		page = request.GET.get('page')
@@ -146,5 +147,4 @@ def get_product_original_image(request):
 
 		ret['no_background_w'] = width
 		ret['no_background_h'] = height
-
 		return HttpResponse(simplejson.dumps(ret), mimetype="application/json")

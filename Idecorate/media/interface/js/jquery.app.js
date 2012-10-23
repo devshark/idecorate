@@ -65,6 +65,8 @@ $(document).ready(function () {
                     }
                 });
 
+                //ajax add to cart
+                add_to_cart(uid);
                 
             }
         }
