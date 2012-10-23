@@ -97,7 +97,7 @@ body {
   background-color: #c2bdbd;
   color: #666666;
   background-color: #FFFFFF;
-  overflow: hidden;
+  overflow: auto;
   height: 100%; }
 
 #page-wrap {
