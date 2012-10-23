@@ -228,6 +228,16 @@ $(document).ready(function () {
         e.preventDefault();
         objCounter--;
         updateZIndex($('.selected'));
+        
+        var selected_uid = $('.selected').attr('_uid');
+        var count = 0;
+        $('.unselected').each(function(){
+            if (selected_uid == $(this).attr('_uid'))
+                count++;
+        });
+        if (count<=1)
+            remove_from_cart(parseInt(selected_uid,10));
+
         $('.selected').remove();
     });
 

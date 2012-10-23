@@ -32,24 +32,18 @@ def add_to_cart_ajax(request):
 		product_id = request.POST.get('prod_id')
 		quantity = request.POST.get('quantity',1)
 		product = get_product(product_id)
+		sessionid = request.session.get('cartsession',None)
+		if not sessionid:
+			sessionid = generate_unique_id()
+			request.session['cartsession'] = sessionid
 
-		if request.user.is_authenticated():
-			exists = CartTemp.objects.filter(product=product.product,user__id=request.user.id).exists()
-		else:
-			sessionid = request.COOKIES.get('cartsession',None)
-			if not sessionid:
-				sessionid = generate_unique_id()
-				request.COOKIES['cartsession'] = sessionid
-			exists = CartTemp.objects.filter(product=product.product,sessionid=sessionid).exists()
+		exists = CartTemp.objects.filter(product=product.product,sessionid=sessionid).exists()			
 
 		if not exists:
 			cartTemp = CartTemp()
 			cartTemp.product = product.product
 			cartTemp.quantity = quantity
-			if request.user.is_authenticated():
-				cartTemp.user = User.objects.get(id=request.user.id)
-			else:				
-				cartTemp.sessionid = sessionid
+			cartTemp.sessionid = sessionid
 			cartTemp.save()
 
 		reponse_data = {}
@@ -58,11 +52,34 @@ def add_to_cart_ajax(request):
 		reponse_data['sku'] = product.product.sku
 		reponse_data['name'] = product.product.name
 		reponse_data['default_quantity'] = product.product.default_quantity
-		reponse_data['default_quantity'] = product.product.default_quantity
 		reponse_data['price'] = product._unit_price
 		reponse_data['currency'] = product.currency
 		reponse_data['original_image'] = product.product.original_image
 		reponse_data['guest_table'] = product.product.original_image
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+	else:
+		return HttpResponseNotFound()
+
+def update_cart(request):
+	if request.method == "POST":
+		product_id = request.POST.get('prod_id')
+		quantity = request.POST.get('quantity',1)
+		sessionid = request.session.get('cartsession',None)
+		reponse_data = {}
+		try:
+			product = product = get_product(product_id)
+			cartTemp = CartTemp.objects.get(product=product.product, sessionid=sessionid)
+			cartTemp.quantity = quantity
+			cartTemp.save()
+			reponse_data['status'] = 1
+			msg = 'Cart Updated'
+			reponse_data['price'] = product._unit_price
+			reponse_data['currency'] = product.currency
+		except:
+			reponse_data['status'] = 0
+			msg = 'Failed to update cart.'
+
+		reponse_data['msg'] = msg		
 		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
 	else:
 		return HttpResponseNotFound()
@@ -74,12 +91,11 @@ def remove_from_cart_ajax(request):
 		return HttpResponseNotFound()
 
 def checkout(request):
-
-	if request.user.is_authenticated():
-		cart_item = CartTemp.objects.filter(user__id=request.user.id)
-	else:
-		sessionid = request.COOKIES['cartsession']
-		cart_item = CartTemp.objects.filter(sessionid=sessionid)
+	sessionid = request.session.get('cartsession',None)
+	if not sessionid:
+		sessionid = generate_unique_id()
+		request.session['cartsession'] = sessionid
+	cart_item = CartTemp.objects.filter(sessionid=sessionid)
 
 	if cart_item.count() > 0:
 		for cart in cart_item:

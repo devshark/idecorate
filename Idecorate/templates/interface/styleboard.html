@@ -19,6 +19,7 @@
             var CATEGORY_TREE_AJAX_URL ='{% url get_category_tree_ajax %}';
             var ADD_TO_CART_URL = '{% url add_to_cart_ajax %}';
             var REMOVE_TO_CART_URL = '{% url remove_from_cart_ajax %}';
+            var UPDATE_CART = '{% url update_cart %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -173,7 +174,7 @@
                                     <tfoot>
                                         <tr>
                                             <td colspan="2">Total :</td>
-                                            <td>$3,000.00</td>
+                                            <td><span id="cart-total-cur"></span> <span id="cart-total-amount"></span></td>
                                         </tr>
                                     </tfoot>
                                 </table>
