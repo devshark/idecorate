@@ -10,9 +10,10 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
+from django.contrib.auth.models import User
 
-from cart.models import Product, ProductPrice
-from cart.services import get_product
+from cart.models import Product, ProductPrice, CartTemp
+from cart.services import get_product, generate_unique_id
 
 import plata
 from plata.contact.models import Contact
@@ -26,16 +27,30 @@ shop = Shop(
 	discount_model=Discount,
 	)
 
-def add_to_cart_ajax(request):
+def add_to_cart_ajax(request):	
 	if request.method == "POST":
 		product_id = request.POST.get('prod_id')
 		quantity = request.POST.get('quantity',1)
 		product = get_product(product_id)
 
-		order = shop.order_from_request(request, create=True)
-		order.modify_item(product.product, relative=quantity)
+		if request.user.is_authenticated():
+			exists = CartTemp.objects.filter(product=product.product,user__id=request.user.id).exists()
+		else:
+			sessionid = request.COOKIES.get('cartsession',None)
+			if not sessionid:
+				sessionid = generate_unique_id()
+				request.COOKIES['cartsession'] = sessionid
+			exists = CartTemp.objects.filter(product=product.product,sessionid=sessionid).exists()
 
-		print order
+		if not exists:
+			cartTemp = CartTemp()
+			cartTemp.product = product.product
+			cartTemp.quantity = quantity
+			if request.user.is_authenticated():
+				cartTemp.user = User.objects.get(id=request.user.id)
+			else:				
+				cartTemp.sessionid = sessionid
+			cartTemp.save()
 
 		reponse_data = {}
 		reponse_data['id'] = product.product.id
@@ -57,3 +72,18 @@ def remove_from_cart_ajax(request):
 		return HttpResponse(200)
 	else:
 		return HttpResponseNotFound()
+
+def checkout(request):
+
+	if request.user.is_authenticated():
+		cart_item = CartTemp.objects.filter(user__id=request.user.id)
+	else:
+		sessionid = request.COOKIES['cartsession']
+		cart_item = CartTemp.objects.filter(sessionid=sessionid)
+
+	if cart_item.count() > 0:
+		for cart in cart_item:
+			order = shop.order_from_request(request, create=True)
+			order.modify_item(cart.product, relative=cart.quantity)
+
+	return redirect('plata_shop_cart')

@@ -59,6 +59,7 @@ class ProductPrice(PriceBase):
 class CartTemp(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
     product = models.ForeignKey(Product, db_column='product_id')
+    quantity = models.PositiveIntegerField(db_column='quantity')
     user = models.ForeignKey(User, db_column='user_id', null=True)
     sessionid = models.CharField(db_column='session_key', max_length=200, null=True)
 

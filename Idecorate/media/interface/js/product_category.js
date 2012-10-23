@@ -7,6 +7,7 @@ var product_per_page;
 var page_scroll_process = false;
 var offset = 25;
 var withloading = false;
+var total_pages;
 $(document).ready( function() {
     $('.categories').click(function(){
         browse_categories(this.id);
@@ -54,12 +55,59 @@ function manage_product_resize(){
     var counter = 1;
     $('.product-list a').each(function(i, val){                
         if (counter > product_per_page){
-            $(this).remove();
+            $('#remove_products_container').append(this);
         }
         counter++;
     });
 
-    var total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
+    if ( $('.product-list a').length < product_per_page ){
+        var x = $('.product-list a').length;        
+        $('#remove_products_container a').each(function(){
+            $('.product-list').append(this);
+            if ( x == product_per_page )
+                return false;
+            x++;            
+        });
+    }
+
+    total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
+    if ( total_pages < current_page ){
+        current_page = total_pages;        
+    }
+    if ( $('.product-list a').length < product_per_page ){
+        next_page = current_page;
+        offset = product_per_page;
+        var response_data = get_products();
+
+        var data = $.parseJSON(response_data.data);
+        var y = $('.product-list a').length;
+        $.each(data,function(i, val){            
+            var id = val.pk;
+            if ( $('#'+id).length == 0 ){
+                type = 'products';
+                var name = val.fields.name;
+                var thumb = val.fields.original_image_thumbnail;
+                thumb = 'products/' + thumb;
+                item = '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                        '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                    '</a>';
+
+                $('.product-list').append(item);
+                if ( y ==  product_per_page)
+                    return false;
+                y++;
+            }
+        });
+
+    }
+    generate_pagenation();
+    sort_remove_prod();
+}
+
+function sort_remove_prod(){
+    $('#remove_products_container a').each(function(){
+        $(this).index(this.id);
+    });
 }
 
 function browse_categories(elm_id){
@@ -237,7 +285,6 @@ function manage_product_pagination(){
 
             product_per_page = count_by_width*count_by_height;
             var page = 1;            
-            //$(".draggable").draggable("destroy");
             var counter = 1;
             $('.product-list a').each(function(i, val){                
                 if (counter > product_per_page){
@@ -246,12 +293,7 @@ function manage_product_pagination(){
                 counter++;
             });
 
-            var total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
-
-            // $(".draggable").draggable({ 
-            //     revert:true, 
-            //     helper: 'clone' 
-            // });
+            total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
 
             $('.product-list').bind('mousewheel', function(event, delta) {
                 mode = 1;
@@ -266,12 +308,11 @@ function manage_product_pagination(){
                     }
                 } else {
                     if(current_page != total_pages){
-                        page_scroll_process = true;
-                        var prev_page = current_page;
                         current_page = current_page+1;
                         next_page = current_page;
                         withloading = true;
-                        populate_product_by_page()
+                        populate_product_by_page();
+                        console.log(current_page, total_pages);
                     }
                 }
                 $('.cur-page').removeClass('cur-page');
@@ -287,7 +328,7 @@ function manage_product_pagination(){
 
 function generate_pagenation(){
 
-    var total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
+    total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
     var left = 1, right = 5;
     if ( total_pages <= 5 ){
         right = total_pages;
