@@ -3,6 +3,8 @@ $img_menus = $('.neMenus');
 objCounter = 0;
 lassoStart = false;
 lassoCoordinate = {startX: 0, startY: 0};
+uniqueIdentifier = 1;
+changesCounter = 0;
 
 $(document).ready(function () {
 
@@ -73,7 +75,7 @@ $(document).ready(function () {
 
                 //ajax add to cart
                 add_to_cart(uid);
-                
+
             }
         }
     }).mousemove(function(e){
@@ -132,6 +134,8 @@ $(document).ready(function () {
         $('#lasso').width(0);
         $('#lasso').height(0);
         $('#lasso').css('display', 'none');
+    }).change(function(e){
+        console.log('changed');
     });
         
     //display menus and handles onmousedown 
@@ -225,6 +229,9 @@ $(document).ready(function () {
                 update_obj : $('.selected')
             });
 
+            //track event
+            eventTracker($('.selected'),'move');
+
             if($.browser.msie){//bind click in document after resize
                 setTimeout(function(){
                     $(document).click(function(e){;
@@ -268,6 +275,9 @@ $(document).ready(function () {
                 helper: 'clone'
             });
 
+            //track event
+            eventTracker($('.selected'),'resize');
+
             if($.browser.msie){//bind click in document after resize
                 setTimeout(function(){
                     $(document).click(function(e){;
@@ -308,6 +318,7 @@ $(document).ready(function () {
         if (count<=1)
             remove_from_cart(parseInt(selected_uid,10));
 
+        eventTracker($('.selected'),'remove');
         $('.selected').remove();
     });
 
@@ -377,6 +388,7 @@ function create_instance(options){
         objCounter++;
 
     }).fadeIn(1000);
+
 }
 
 function create_new_object(options){
@@ -399,7 +411,12 @@ function append_to_canvas(event, obj, index){
     object_top = event.pageY-$('#canvas').offset().top-object.height()/2;
     object_left = event.pageX-$('#canvas').offset().left-object.width()/2;
     object.css({top : object_top, left: object_left, zIndex: index });
+    object.attr('object_id',uniqueIdentifier);
+    uniqueIdentifier++;
     if(object.hasClass('selected')){object.siblings('.unselected').removeClass('selected');}
+
+    //track event
+    eventTracker(object,'create');
 
     return object;
 }
@@ -529,8 +546,9 @@ function updateZIndex(obj) {
 }
 
 function cloneObj(obj) {
-    objCounter++;
+
     var cloned_obj = obj.clone().appendTo('#canvas');
+    objCounter++;
 
     cloned_obj.siblings('.product').removeClass('selected');
     cloned_obj.css({
@@ -538,6 +556,9 @@ function cloneObj(obj) {
         top : parseInt(obj.css('top'),10)+20,
         left : parseInt(obj.css('left'),10)+20
     });
+
+    cloned_obj.attr('object_id',uniqueIdentifier);
+    uniqueIdentifier++;
 
     update_menu();
 
@@ -550,6 +571,17 @@ function cloneObj(obj) {
             height: cloned_obj.css('height')
         }
     });
+
+    //track event
+    eventTracker(cloned_obj, 'clone');
+}
+
+function eventTracker(currentObject, eventType) {
+
+    changesCounter++;
+    //console.log('Count of changes: ' + changesCounter);
+    //console.log(currentObject);
+    console.log(eventType);
 }
 
 (function ($) {
