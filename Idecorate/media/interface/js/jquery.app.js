@@ -8,6 +8,7 @@ $(document).ready(function () {
 
     //init lasso
     $('<div id="lasso"></div>').appendTo('#canvas');
+    $('#canvas').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
 
     //draggable sidebar obj to canvas
     $(".draggable").liveDraggable({
@@ -81,25 +82,48 @@ $(document).ready(function () {
             var x = e.pageX - $(this).offset().left;
             var y = e.pageY - $(this).offset().top;
 
-            $('#lasso').width(x - lassoCoordinate.startX);
-            $('#lasso').height(y - lassoCoordinate.startY);
+            var lassoLeft = 0;
+            var lassoTop = 0;
+            var lassoWidth = 0;
+            var lassoHeight = 0;
+
+            if(x > lassoCoordinate.startX) {
+                lassoLeft = lassoCoordinate.startX;
+                lassoWidth = x - lassoCoordinate.startX;
+            } else {
+                lassoLeft = x;
+                lassoWidth = lassoCoordinate.startX - x;
+            }
+
+            if(y > lassoCoordinate.startY) {
+                lassoTop = lassoCoordinate.startY;
+                lassoHeight = y - lassoCoordinate.startY;
+            }else {
+                lassoTop = y;
+                lassoHeight = lassoCoordinate.startY - y;
+            }
+
+            $('#lasso').css('display', 'block'); 
+            $('#lasso').css({'left':lassoLeft, 'top':lassoTop});
+            $('#lasso').width(lassoWidth);
+            $('#lasso').height(lassoHeight);
         }
 
     }).mousedown(function(e){
-        e.preventDefault();
+        //e.preventDefault();
+        //remove_handles(e);
         if($('.selected').length == 0) {
 
             var x = e.pageX - $(this).offset().left;
             var y = e.pageY - $(this).offset().top;
             lassoCoordinate.startX = x;
             lassoCoordinate.startY = y;
-            lassoStart = true;
-            $('#lasso').css('display', 'block'); 
-            $('#lasso').css({'left':lassoCoordinate.startX, 'top':lassoCoordinate.startY});   
+            lassoStart = true;   
         }
 
     }).mouseup(function(e){
-        e.preventDefault();
+        //console.log('up');
+        //e.preventDefault();
         lassoStart = false;
         var x = e.pageX - $(this).offset().left;
         var y = e.pageY - $(this).offset().top;
@@ -257,12 +281,12 @@ $(document).ready(function () {
     });
 
     //hide handles and menus
-    $(document).click(function(e){;
+    $(document).click(function(e){
         remove_handles(e);
     }).keydown(function(e){
         //console.log(e.keyCode);
-        e.preventDefault();
         if(e.keyCode == 8 || e.keyCode == 46) {
+            e.preventDefault();
             if($('.selected').length > 0) {
                 $('#remove-btn').trigger('click');
             }
