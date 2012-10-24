@@ -1,8 +1,13 @@
 $handles   = $('.handles');
 $img_menus = $('.neMenus');
 objCounter = 0;
+lassoStart = false;
+lassoCoordinate = {startX: 0, startY: 0};
 
 $(document).ready(function () {
+
+    //init lasso
+    $('<div id="lasso"></div>').appendTo('#canvas');
 
     //draggable sidebar obj to canvas
     $(".draggable").liveDraggable({
@@ -70,6 +75,39 @@ $(document).ready(function () {
                 
             }
         }
+    }).mousemove(function(e){
+        e.preventDefault();
+        if(lassoStart && $('.selected').length == 0) {
+            var x = e.pageX - $(this).offset().left;
+            var y = e.pageY - $(this).offset().top;
+
+            $('#lasso').width(x - lassoCoordinate.startX);
+            $('#lasso').height(y - lassoCoordinate.startY);
+        }
+
+    }).mousedown(function(e){
+        e.preventDefault();
+        if($('.selected').length == 0) {
+
+            var x = e.pageX - $(this).offset().left;
+            var y = e.pageY - $(this).offset().top;
+            lassoCoordinate.startX = x;
+            lassoCoordinate.startY = y;
+            lassoStart = true;
+            $('#lasso').css('display', 'block'); 
+            $('#lasso').css({'left':lassoCoordinate.startX, 'top':lassoCoordinate.startY});   
+        }
+
+    }).mouseup(function(e){
+        e.preventDefault();
+        lassoStart = false;
+        var x = e.pageX - $(this).offset().left;
+        var y = e.pageY - $(this).offset().top;
+        lassoCoordinate.startX = 0;
+        lassoCoordinate.startY = 0;
+        $('#lasso').width(0);
+        $('#lasso').height(0);
+        $('#lasso').css('display', 'none');
     });
         
     //display menus and handles onmousedown 
