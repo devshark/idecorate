@@ -221,6 +221,14 @@ $(document).ready(function () {
     //hide handles and menus
     $(document).click(function(e){;
         remove_handles(e);
+    }).keydown(function(e){
+        //console.log(e.keyCode);
+        e.preventDefault();
+        if(e.keyCode == 8 || e.keyCode == 46) {
+            if($('.selected').length > 0) {
+                $('#remove-btn').trigger('click');
+            }
+        }
     });
 
     //remove selected obj

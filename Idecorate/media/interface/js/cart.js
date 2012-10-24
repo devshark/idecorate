@@ -91,7 +91,7 @@ function add_to_cart(prod_id){
 }
 
 function remove_from_cart(prod_id){
-    console.log(prod_id)
+    //console.log(prod_id)
 	action_url = REMOVE_TO_CART_URL;
 	arrange_tr_class();
     $('#prod_cart_'+prod_id).remove();
