@@ -13,7 +13,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 
 from cart.models import Product, ProductPrice, CartTemp
-from cart.services import get_product, generate_unique_id
+from cart.services import get_product, generate_unique_id, remove_from_cart_temp
 
 import plata
 from plata.contact.models import Contact
@@ -101,5 +101,6 @@ def checkout(request):
 		for cart in cart_item:
 			order = shop.order_from_request(request, create=True)
 			order.modify_item(cart.product, relative=cart.quantity)
+			remove_from_cart_temp(cart.id)
 
 	return redirect('plata_shop_cart')

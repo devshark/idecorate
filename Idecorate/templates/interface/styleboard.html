@@ -20,6 +20,7 @@
             var ADD_TO_CART_URL = '{% url add_to_cart_ajax %}';
             var REMOVE_TO_CART_URL = '{% url remove_from_cart_ajax %}';
             var UPDATE_CART = '{% url update_cart %}';
+            var CHECKOUT_URL = '{% url checkout %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -38,7 +39,9 @@
           border-style: dashed;
           z-index: 8001;
         }
-
+        .input-error {
+            border-color: #ff0000;
+        }
         </style>
     </head>
     <body>
@@ -190,9 +193,7 @@
                                 </table>
                             </div>
                         <div class="checkOutWrap">                            
-                            <a href="{% url checkout %}" class="globalBtn">
-                                <input type="button" value="Checkout" class="globalBtn"/>
-                            </a>
+                            <input id="check-button" type="button" value="Checkout" class="globalBtn"/>
                         </div>
                         </form>
                     </div>
