@@ -347,26 +347,30 @@ $(document).ready(function () {
         cloneObj(obj);
     });
 
-    //make selected product image transparent background
+    //make selected product image PNG
     $('#transBg-btn').click(function(e){
         e.preventDefault();
         disableEventPropagation(e);
-        if($('.selected').length == 1){
-            
-            change_img($('.selected'),false);
-            
-        }
+
+        if($('.selected').length == 1){change_img($('.selected'),false);}
+
     });
 
-    //make selected product image transparent background
+    //make selected product image JPG
     $('#whiteBg-btn').click(function(e){
         e.preventDefault();
         disableEventPropagation(e);
-        if($('.selected').length == 1){
-            
-            change_img($('.selected'),true);
-            
-        }
+
+        if($('.selected').length == 1){change_img($('.selected'),true);}
+
+    });
+
+    // create custom image crop
+    $('#customBg-btn').click(function(e){
+        e.preventDefault();
+        disableEventPropagation(e);
+
+        display_modal(MODAL_SRC);
     });
 
 });
@@ -630,6 +634,10 @@ function change_img(obj, background){
     var _img    = $('<img />').attr({'src':__src, 'style': _style, '_wb':_wb, '_nb':_nb});
     
     obj.html(_img);
+}
+
+function display_modal(iframe_src){
+    var modal = $('<div />').attr({'class':'modal','id':'modal'});
 }
 
 (function ($) {
