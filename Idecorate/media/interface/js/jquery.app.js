@@ -295,11 +295,10 @@ $(document).ready(function () {
         remove_handles(e);
     }).keydown(function(e){
         //console.log(e.keyCode);
-        if(e.keyCode == 8 || e.keyCode == 46) {
+        if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
+            //alert('test');
             e.preventDefault();
-            if($('.selected').length > 0) {
-                $('#remove-btn').trigger('click');
-            }
+            $('#remove-btn').trigger('click');
         }
     });
 
