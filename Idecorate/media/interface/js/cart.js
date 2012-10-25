@@ -55,7 +55,7 @@ function add_to_cart(prod_id){
                 '</div>' +
             '</td>' +
             '<td><input type="text" _pid="' + data.id + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
-            '<td id="subtotal_' + data.id + '">' + data.currency + ' ' + price + '</td>'+
+            '<td class="amount" id="subtotal_' + data.id + '">' + data.currency + ' ' + price + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
         var cart_total = total.toFixed(2);
