@@ -327,6 +327,7 @@ function populate_product_by_page(){
 }
 
 function manage_product_resize(){
+    $('.draggable').draggable('destroy');
     var elm = $('.product-list a:first');
 
     var prod_width = $('.product-list').width();
@@ -406,6 +407,10 @@ function manage_product_resize(){
         }
     }    
     generate_pagenation();
+    $('.draggable').draggable({
+        revert:true,
+        helper:'clone'
+    });
     sort_remove_prod();
 }
 
