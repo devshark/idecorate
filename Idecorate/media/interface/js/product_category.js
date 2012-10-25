@@ -223,8 +223,7 @@ function manage_product_pagination(){
                         current_page = current_page+1;
                         next_page = current_page;
                         withloading = true;
-                        populate_product_by_page();
-                        console.log(current_page, total_pages);
+                        populate_product_by_page();                        
                     }
                 }
                 $('.cur-page').removeClass('cur-page');
@@ -328,6 +327,7 @@ function populate_product_by_page(){
 }
 
 function manage_product_resize(){
+    $('.draggable').draggable('destroy');
     var elm = $('.product-list a:first');
 
     var prod_width = $('.product-list').width();
@@ -353,8 +353,6 @@ function manage_product_resize(){
         count_by_height = count_by_height - 1;
 
     product_per_page = count_by_width*count_by_height;
-
-    //console.log(product_per_page, prod_item_height);
 
     var page = 1;
     $(".draggable").draggable("destroy");
@@ -409,6 +407,10 @@ function manage_product_resize(){
         }
     }    
     generate_pagenation();
+    $('.draggable').draggable({
+        revert:true,
+        helper:'clone'
+    });
     sort_remove_prod();
 }
 
