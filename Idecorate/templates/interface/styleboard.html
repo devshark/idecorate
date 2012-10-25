@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n idecorate_interface %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -42,6 +42,9 @@
         .input-error {
             border: 1px solid #ff0000 !important;
         }
+        .hidden {
+            visibility: hidden;
+        }
         </style>
     </head>
     <body>
@@ -74,18 +77,21 @@
                             </fieldset>
                         </form>
                     </div>
-                    <div id="create-tab-nav" class="clearfix">
-                        <ul class="etabs sideNav">
-                            <li class="tab"><a href="#products">Products</a></li>
-                            <li class="tab"><a href="#embellishments">Embellishments</a></li>
-                            <li class="tab"><a href="#templates">Templates</a></li>
-                        </ul>
-                    </div>
                     <div id="create-tab" class="clearfix">
-                        {% include 'interface/styleboard_categories.html' %}
+                        <div id="create-tab-nav" class="clearfix">
+                            <ul class="etabs sideNav">
+                                <li class="tab"><a href="#products">Products</a></li>
+                                <li class="tab"><a href="#embellishments">Embellishments</a></li>
+                                <li class="tab"><a href="#templates">Templates</a></li>
+                            </ul>
+                        </div>
+                        <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
+                        <div class="product-list-wrap">
+                            {% include 'interface/styleboard_categories.html' %}
+                        </div>                        
                     </div><!-- end of create -->
                     
-                    <div id="buy-tab">
+                    <div id="buy-tab" style="display:none">
                         <form action="" method="post" id="cart-form">
                             <div class="buyTableWrap">
                                 <table id="buy-table">

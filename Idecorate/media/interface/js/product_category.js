@@ -42,11 +42,11 @@ function browse_categories(elm_id){
                 if(type =='products'){
                     thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
-                    items += '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                    items += '<a _uid="'+id+'" class="hidden thumb draggable ' + type + '" id="'+id+'" href="#">' +
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                         '</a>';
                 }else{
-                    items += '<div  style="cursor: pointer;" id="' + id + '" class="thumb ' + type + '">' +
+                    items += '<div id="' + id + '" class="thumb ' + type + '">' +
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                             '<span>' + name + '</span>' +
                         '</div>';
@@ -85,9 +85,9 @@ function browse_categories(elm_id){
                 error: function(msg) {
             
                 }
-            });
-            var side_content = breadcrumb + items;
-            $('#create-tab').html(side_content);
+            });            
+            $('.breadcrumb-wrap').html(breadcrumb);
+            $('.product-list-wrap').html(items);
             $('.breadcrumb a').each(function(){
                 $(this).bind('click',function(e){
                     e.preventDefault();
@@ -157,17 +157,20 @@ function populate_products(){
         var name = val.fields.name;
         var thumb = val.fields.original_image_thumbnail;
         thumb = 'products/' + thumb;
-        items += '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
+        items += '<a _uid="'+id+'" class="hidden thumb draggable ' + type + '" id="'+id+'" href="#">' +
                 '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
             '</a>';
     });
 
     items = '<div class="product-list">' + items + '</div>';
-    $('#create-tab .breadcrumb').after(items);
+    $('.product-list-wrap').after(items);
     manage_product_pagination();
 }
 
 function manage_product_pagination(){
+    console.log($('#create-tab').height(),$('#create-tab-nav').height(), $('.breadcrumb-wrap').height())
+    var computed_height = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-40;
+    $('.product-list').css('height',computed_height+'px');
     $('.product-list a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('.product-list a:first');
@@ -179,7 +182,7 @@ function manage_product_pagination(){
             if (prod_per_width > prod_width)
                 count_by_width = count_by_width - 1;
 
-            var prod_height = $('.product-list').height();    
+            var prod_height = $('.product-list').height();
             var prod_item_height = $(elm).outerHeight(true);
 
             if (prod_item_height > prod_height){
@@ -198,10 +201,14 @@ function manage_product_pagination(){
             product_per_page = count_by_width*count_by_height;
             var page = 1;            
             var counter = 1;
-            $('.product-list a').each(function(i, val){                
+            $('.product-list a').each(function(i, val){
+                if ( counter <= product_per_page ){                    
+                    $(this).removeClass('hidden');
+                }
                 if (counter > product_per_page){
                     $(this).remove();
                 }
+                    
                 counter++;
             });
 

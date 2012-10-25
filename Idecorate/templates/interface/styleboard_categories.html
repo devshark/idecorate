@@ -1,7 +1,6 @@
 {% load idecorate_interface %}
-{{ cat_id|get_breadcrumb }}
 {% for cat in categories %}
-<div style="cursor: pointer;" id="{{ cat.id }}" class="thumb categories">
+<div id="{{ cat.id }}" class="thumb categories">
 		<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" alt="{{ cat.name }}" />
 	    <span>{{ cat.name }}</span>
 </div>
