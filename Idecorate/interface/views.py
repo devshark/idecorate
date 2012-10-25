@@ -97,9 +97,7 @@ def styleboard_ajax(request):
 				products = paginator.page(1)
 			except EmptyPage:
 				products = paginator.page(paginator.num_pages)
-
-			print products
-
+				
 			json_data = serializers.serialize("json", products, fields=('id','name','original_image_thumbnail','sku'))
 			reponse_data['data'] = json_data
 			reponse_data['page_number'] = products.number
