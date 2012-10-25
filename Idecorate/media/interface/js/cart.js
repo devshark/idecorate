@@ -47,7 +47,7 @@ function add_to_cart(prod_id){
         var item = '<tr class="odd" id="prod_cart_' + data.id + '">' +
             '<td>' +
                 '<div class="buyItemImg">' +
-                    '<img src="/' + img_src + data.original_image_thumbnail + '">' +
+                    '<img width="70" src="/' + img_src + data.original_image_thumbnail + '">' +
                     '<div class="buyItemMeta">' +
                         '<h5>' + data.name + '</h5>' +
                         '<p>' + data.currency + ' ' + price + '</p>'+
