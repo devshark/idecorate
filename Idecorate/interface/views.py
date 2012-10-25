@@ -148,3 +148,8 @@ def get_product_original_image(request):
 		ret['no_background_w'] = width
 		ret['no_background_h'] = height
 		return HttpResponse(simplejson.dumps(ret), mimetype="application/json")
+
+def crop(request):
+	info = {}
+
+	return render_to_response('interface/iframe/crop.html', info,RequestContext(request))
