@@ -33,16 +33,22 @@ function add_to_cart(prod_id){
         $('input[name="qty"]').focus(function(){
             selected_prev_prod_qty = $(this).val()<=0 ?1:$(this).val();
         });
-        $('input[name="qty"]').keypress(function(e){
-            if ( e.which == 0 || e.which == 8){
-                // do nothing
-            } else if ( e.which < 48 || e.which > 57 )
-                return false;
 
-            var l = $(this).val().length;
-            if ( l >= 10)
+        $('input[name="qty"]').keydown(function(e){            
+            var action = '';            
+            if ( e.keyCode==116 )
+                return true;
+            if ( e.keyCode == 8 || e.keyCode == 46){
+                action = 'del';
+            } else if ( (e.keyCode  < 48 || e.keyCode > 57) && (e.keyCode  < 96 || e.keyCode > 105) ){
                 return false;
+            }            
+            var l = $(this).val().length;            
+            if ( l >= 10 && action != 'del')
+                return false;
+            return true;
         });
+
         $('input[name="qty"]').change(function(){                    
             var pid = $(this).attr('_pid');
             var qty = $(this).val();
