@@ -284,7 +284,6 @@ footer{
 			display:inline-block;
 			zoom: 1;
 			*display:inline;
-			margin-left:-1px;
 
 			a{
 				display:block;
@@ -299,6 +298,13 @@ footer{
 			
 			a:hover{
 				background-color: #CCC;
+			}
+
+			a.active{
+				margin-bottom:-1px;
+				background-color: #FFF;
+				border-bottom:1px solid #FFF;
+				color: #888;
 			}
 		}
 	}
@@ -352,8 +358,7 @@ footer{
 	}
 
 	#create-tab-nav{
-		border-left: 1px solid #DDD;
-		border-right: 1px solid #DDD;
+		border-bottom: 1px solid #DDD;
 
 		ul{
 			li{
@@ -381,7 +386,9 @@ footer{
 
 	#create-tab{
 		overflow:hidden;
-		border: 1px solid #DDD;
+		border-left: 1px solid #DDD;
+		border-right: 1px solid #DDD;
+		border-bottom: 1px solid #DDD;
 
 		.breadcrumb {
 			margin: 5px;
@@ -443,6 +450,78 @@ footer{
 			img{
 				width: 100%;
 			}
+		}
+	}
+
+	#buy-tab{
+		border: 1px solid #DDD;
+		padding: 10px;
+
+		#buy-table{
+			width: 100%;
+
+			thead{
+
+				tr{
+
+					th{
+						font-size: 14em/$default_font_size;
+						color: #FFF;
+						background-color: #333;
+						padding: 7px 0;
+					}
+				}
+			}
+
+			tbody{
+
+				tr{
+
+					td{
+						text-align: center;	
+						padding: 3px 0;
+						color: #333;
+
+						.buyItemImg{
+
+							.buyItemMeta{
+								color: #333;
+								h5{
+									font-size: 12em/$default_font_size;
+									margin-bottom: 4px;
+								}
+
+								p{
+									font-size: 11em/$default_font_size;
+								}
+							}
+						}
+
+						input[type="text"]{
+							width:150%/768*100;
+							border: 1px solid #CCC;
+							padding: 5px;
+							-moz-border-radius: 3px;
+							-webkit-border-radius:3px;
+							border-radius:3px; /* future proofing */
+							-khtml-border-radius:3px; /* for old Konqueror browsers */
+						}
+					}
+				}
+
+				tr.odd{
+					background-color: #FFF;
+				}
+
+				tr.even{
+					background-color: #EEE;
+				}
+			}
+		}
+
+		.checkOutWrap{
+			text-align: right;
+			padding:10px 0;
 		}
 	}
 }
@@ -526,6 +605,25 @@ footer{
 						border: 1px solid #DDD;
 						position: relative;
 						z-index: 99999;
+
+						div{
+							width: 100%;
+							height: 100%;
+							background-size:contain;
+							background-repeat: no-repeat;
+							background-position: center center;
+						}
+					}
+
+					a#transBg-btn{
+						background-image: url('/media/interface/images/transBg.jpg');
+						background-repeat: repeat;
+					}
+
+					a#customBg-btn div{
+						background-image: url('/media/interface/images/customBg.png');
+						background-repeat: no-repeat;
+						background-position: center center;
 					}
 				}
 				li + li,

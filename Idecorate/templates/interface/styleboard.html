@@ -17,8 +17,6 @@
             var STYLEBOARD_AJAX_URL = '{% url styleboard_ajax %}';
             var STYLEBOARD_PRODUCT_AJAX_URL = '{% url styleboard_product_ajax %}';
             var CATEGORY_TREE_AJAX_URL ='{% url get_category_tree_ajax %}';
-            var ADD_TO_CART_URL = '{% url add_to_cart_ajax %}';
-            var REMOVE_TO_CART_URL = '{% url remove_from_cart_ajax %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -60,14 +58,14 @@
                             </fieldset>
                         </form>
                     </div>
-                    <div id="create-tab-nav" class="clearfix">
-                        <ul class="etabs sideNav">
-                            <li class="tab"><a href="#products">Products</a></li>
-                            <li class="tab"><a href="#embellishments">Embellishments</a></li>
-                            <li class="tab"><a href="#templates">Templates</a></li>
-                        </ul>
-                    </div>
                     <div id="create-tab" class="clearfix">
+                        <div id="create-tab-nav" class="clearfix">
+                            <ul class="etabs sideNav">
+                                <li class="tab"><a href="#products">Products</a></li>
+                                <li class="tab"><a href="#embellishments">Embellishments</a></li>
+                                <li class="tab"><a href="#templates">Templates</a></li>
+                            </ul>
+                        </div>
                         {% include 'interface/styleboard_categories.html' %}
                     </div><!-- end of create -->
                     
@@ -83,36 +81,35 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!--
                                         <tr class="odd">
                                             <td>
                                                 <div class="buyItemImg">
-                                                    <img src="/media/dummyproduct/thumb/img_thumb_1.jpg">
+                                                    <img width="70" src="/media/products/img_default_12-Oct-21-09561350874560PM-2012_thumbnail.jpg">
                                                     <div class="buyItemMeta">
-                                                        <h5>Product 1</h5>
-                                                        <p>$100.00</p>
+                                                        <h5>Product_00</h5>
+                                                        <p>$00.00</p>
                                                     </div>
                                                 </div>
                                                 
                                             </td>
-                                            <td><input type="text" value="5" placeholder="qty"/></td>
-                                            <td>$500.00</td>
+                                            <td><input type="text" value="" placeholder="qty"/></td>
+                                            <td>$00.00</td>
                                         </tr>
                                         <tr class="even">
                                             <td>
                                                 <div class="buyItemImg">
-                                                    <img src="/media/dummyproduct/thumb/img_thumb_2.jpg">
+                                                    <img width="70" src="/media/products/img_default_12-Oct-21-09561350874560PM-2012_thumbnail.jpg">
                                                     <div class="buyItemMeta">
-                                                        <h5>Product 1</h5>
-                                                        <p>$100.00</p>
+                                                        <h5>Product_00</h5>
+                                                        <p>$00.00</p>
                                                     </div>
                                                 </div>
                                                 
                                             </td>
-                                            <td><input type="text" value="5" placeholder="qty"/></td>
-                                            <td>$500.00</td>
+                                            <td><input type="text" value="" placeholder="qty"/></td>
+                                            <td>$00.00</td>
                                         </tr>
-                                        <tr class="odd">
+                                        <!--<tr class="odd">
                                             <td>
                                                 <div class="buyItemImg">
                                                     <img src="/media/dummyproduct/thumb/img_thumb_3.jpg">
@@ -168,23 +165,19 @@
                                             <td><input type="text" value="5" placeholder="qty"/></td>
                                             <td>$500.00</td>
                                         </tr>
-                                        -->
                                     </tbody>
                                     <tfoot>
                                         <tr>
                                             <td colspan="2">Total :</td>
                                             <td>$3,000.00</td>
                                         </tr>
-                                    </tfoot>
+                                    </tfoot>-->
                                 </table>
                             </div>
-                        <div class="checkOutWrap">                            
-                            <a href="{% url checkout %}" class="globalBtn">
-                                <input type="button" value="Checkout" class="globalBtn"/>
-                            </a>
-                        </div>
+                        <div class="checkOutWrap"><input type="submit" name="submit" value="Checkout" class="globalBtn"/></div>
                         </form>
                     </div>
+
             	</div>
             	<div id="canvas">
                     <div class="handles">
@@ -204,19 +197,13 @@
                         <div class="imgBgControlWrap">
                             <ul class="imgBgControl">
                                 <li>
-                                    <a href="#" id="whiteBg-btn">
-                                        <img title="Show Image Background" alt="show bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
-                                    </a>
+                                    <a href="#" id="whiteBg-btn"></a>
                                 </li>
                                 <li>
-                                    <a href="#" id="transBg-btn">
-                                        <img title="Hide Image Background" alt="hide bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
-                                    </a>
+                                    <a href="#" id="transBg-btn"><div></div></a>
                                 </li>
                                 <li>
-                                    <a href="#" id="customBg-btn">
-                                        <img title="Custom Crop Background" alt="crop bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
-                                    </a>
+                                    <a href="#" id="customBg-btn"><div></div></a>
                                 </li>
                             </ul>
                         </div>
@@ -227,9 +214,6 @@
             <footer id="footer" class="clearfix"> 
             	{% include "footer.html" %}             
             </footer>
-        </div>
-        <div id="remove_products_container" style="display:none">
-
         </div>
 
         
@@ -249,7 +233,7 @@
 <script type="text/javascript">
     $(document).ready( function() {
         
-        $('#sidebar').easytabs();
+        $('#sidebar').easytabs({animate:false});
         
         $("#content-wrap").css({height: contentHeight()});
 
@@ -266,7 +250,7 @@
 
         var _height = $(window).height()-
                      $("#header").outerHeight(true)-
-                     $("#footer").outerHeight(true)-5;
+                     $("#footer").outerHeight(true)-2;
 
         return _height;
 
@@ -282,15 +266,12 @@
 
         var _height = contentHeight()-
                     $("#sidebar-nav").outerHeight(true)-
-                    $("#sidebar-form-wrap").outerHeight(true)-
-                    $("#create-tab-nav").outerHeight(true);
+                    $("#sidebar-form-wrap").outerHeight(true)+1;
 
         return _height/contentHeight()*100;
     }
 
 </script>
-<!-- CART -->
-<script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>

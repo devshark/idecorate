@@ -34,7 +34,7 @@ $(document).ready(function () {
 
                 //image source can be generated using ajax 
 
-                var img_src = media_url+'products/';
+                var _img_src = media_url+'products/';
 
                 //get image filename from DB using product_id via ajax
                 $.ajax({
@@ -44,20 +44,23 @@ $(document).ready(function () {
                     async:   false,
                     success: function(data){
                         //original
-                        img_src     = img_src+data.original_image;
+                        img_src     = '/'+_img_src+data.original_image;
                         img_w       = data.original_image_w;
                         img_h       = data.original_image_h;
-                        //no bg
-                        img_no_bg   = data.no_background;
-                        img_no_bg_w = data.no_background_w;
-                        img_no_bg_h = data.no_background_h;
+                        img_w_bg    = data.original_image;
+                        img_wo_bg   = data.no_background;
+                        // img_wo_bg_w = data.no_background_w;
+                        // img_wo_bg_h = data.no_background_h;
+
                         //create new image using image object
                         create_instance({
-                            _uid    : uid,
-                            _event  : e,
-                            _src    : img_src,
-                            _width  : img_w,
-                            _height : img_h
+                            _uid     : uid,
+                            _event   : e,
+                            _src     : img_src,
+                            _img_wo_b: img_wo_bg,
+                            _img_w_b : img_w_bg,
+                            _width   : img_w,
+                            _height  : img_h
                         });
                     },
                     error: function(msg) {
@@ -65,8 +68,6 @@ $(document).ready(function () {
                     }
                 });
 
-                //ajax add to cart
-                add_to_cart(uid);
                 
             }
         }
@@ -78,7 +79,7 @@ $(document).ready(function () {
 
         disableEventPropagation(e);
 
-        update_menu();
+        update_menu($(this).find('img'));
 
 
         if(!$(this).hasClass('selected')){
@@ -130,7 +131,6 @@ $(document).ready(function () {
                 update_obj : $('.selected')
             });
 
-            update_menu();
             if($.browser.msie){//it appears that this event is not supported by IE
                 $(document).unbind("click");
             }
@@ -254,10 +254,22 @@ $(document).ready(function () {
         obj = $('.selected');
         cloneObj(obj);
     });
+
+    //make selected product image transparent background
+    $('#transBg-btn').click(function(e){
+        e.preventDefault();
+        disableEventPropagation(e);
+        if($('.selected').length == 1){
+            
+            change_img($('.selected'),false);
+            
+        }
+    });
+
 });
 
 function create_instance(options){
-    var Obj_img = $('<img />').attr('src',"/" + options._src+ "?" + new Date().getTime()).hide().load(function () {
+    var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b}).hide().load(function () {
         var imgWidth    = options._width;
         var imgHeight   = options._height;
         var dimensions  = aspectratio(imgWidth, imgHeight, .60);
@@ -275,7 +287,7 @@ function create_instance(options){
             });
 
         //show menus
-        update_menu();
+        update_menu($(this));
 
         //display handles based on the dropped position of created instance
         update_ui({
@@ -348,7 +360,7 @@ function remove_handles(event){
     }
 }
 
-function update_menu(){
+function update_menu(obj){
     
     update_ui({
         styles : {
@@ -356,6 +368,16 @@ function update_menu(){
         },
         update_obj : $img_menus
     });
+
+    var _src        = '/'+media_url+'products/';
+    var wo_bg_img   = obj.attr('_nb');
+    var w_bg_img    = obj.attr('_wb');
+
+    $('#whiteBg-btn').css({'background-image':"url("+_src+w_bg_img+")",'background-size':'contain'});
+
+    $('#customBg-btn').css({'background-image':"url("+_src+w_bg_img+")",'background-size':'contain'});
+
+    $('#transBg-btn div').css({'background-image':"url("+_src+wo_bg_img+")"});
 }
 
 function update_ui(options) {
@@ -459,7 +481,7 @@ function cloneObj(obj) {
         left : parseInt(obj.css('left'),10)+20
     });
 
-    update_menu();
+    update_menu(cloned_obj.find('img'));
 
     update_ui({
         styles:{
@@ -472,6 +494,16 @@ function cloneObj(obj) {
     });
 }
 
+function change_img(obj){
+    
+    var _src    = obj.find('img').attr('src');
+    var _nb     = obj.find('img').attr('_nb');
+    var _wb     = obj.find('img').attr('_wb');
+    var _style  = obj.find('img').attr('style');
+    var _img    = $('<img />').attr({'src':'/'+media_url+'products/'+_nb, 'style': _style, '_wb':_wb, '_nb':_nb});
+    obj.html(_img);
+}
+
 (function ($) {
    $.fn.liveDraggable = function (opts) {
       this.live("mouseover", function() {
@@ -480,5 +512,23 @@ function cloneObj(obj) {
          }
       });
       return $();
-   };
+   }
+
+   //extending the attr function to return all attrs
+   // duck-punching to make attr() return a map
+    var _old = $.fn.attr;
+    $.fn.attr = function() {
+      var a, aLength, attributes, map;
+      if (this[0] && arguments.length === 0) {
+              map = {};
+              attributes = this[0].attributes;
+              aLength = attributes.length;
+              for (a = 0; a < aLength; a++) {
+                      map[attributes[a].name.toLowerCase()] = attributes[a].value;
+              }
+              return map;
+      } else {
+              return _old.apply(this, arguments);
+      }
+  }
 }(jQuery));
