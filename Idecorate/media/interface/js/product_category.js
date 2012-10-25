@@ -168,7 +168,6 @@ function populate_products(){
 }
 
 function manage_product_pagination(){
-    console.log($('#create-tab').height(),$('#create-tab-nav').height(), $('.breadcrumb-wrap').height())
     var computed_height = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-40;
     $('.product-list').css('height',computed_height+'px');
     $('.product-list a:first img').each(function(){
@@ -334,6 +333,8 @@ function populate_product_by_page(){
 }
 
 function manage_product_resize(){
+    var computed_height = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-40;
+    $('.product-list').css('height',computed_height+'px');
     $('.draggable').draggable('destroy');
     var elm = $('.product-list a:first');
 
