@@ -339,7 +339,8 @@ footer {
       padding: 1px;
       margin: 6px -3px -3px 6px;
       font-size: 0;
-      min-width: 76px; }
+      min-width: 76px;
+      cursor: pointer; }
       #sidebar #create-tab .thumb.categories img {
         width: 100%; }
       #sidebar #create-tab .thumb.categories span {
@@ -474,6 +475,47 @@ footer {
     #canvas .neMenus .imgBgControlWrap .imgBgControl li + li + li {
       padding-top: 0; }
 
+#page-mask {
+  position: fixed;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+  filter: alpha(opacity=50);
+  -moz-opacity: 0.5;
+  -khtml-opacity: 0.5;
+  opacity: 0.5;
+  background-color: #000;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  z-index: 99999; }
+
+#modal-window {
+  border: 5px solid #DDD;
+  position: absolute;
+  width: 500px;
+  min-height: 400px;
+  max-height: 700px;
+  overflow: hidden;
+  background-color: #FFF;
+  box-shadow: 0 0 8px #333;
+  z-index: 99999;
+  top: 10%; }
+  #modal-window h2 {
+    margin: 0 5px 0 0;
+    padding: 0;
+    text-align: right; }
+    #modal-window h2 a {
+      color: #999;
+      font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif; }
+    #modal-window h2 a:hover {
+      color: #333; }
+  #modal-window #iframe-wrap {
+    width: 405px;
+    margin: 0 auto; }
+  #modal-window iframe {
+    width: 402px;
+    height: 400px; }
+
 /*===== jquery UI styles overwrites =====*/
 #sidebar .ui-draggable-dragging {
   width: 100px !important;
@@ -494,7 +536,7 @@ footer {
   cursor: move;
   display: none;
   position: absolute;
-  z-index: 90000;
+  z-index: 1000;
   background: url("../images/fake_bg.png") 0 0 repeat; }
   #canvas .handles .ui-resizable-handle {
     background-color: #CCC;

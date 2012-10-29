@@ -61,15 +61,15 @@ $(document).ready(function () {
                         // img_wo_bg_h = data.no_background_h;
 
                         //create new image using image object
-                        create_instance({
-                            _uid     : uid,
-                            _event   : e,
-                            _src     : img_src,
-                            _img_wo_b: img_wo_bg,
-                            _img_w_b : img_w_bg,
-                            _width   : img_w,
-                            _height  : img_h
-                        });
+                        var newObj = create_instance({
+                                    _uid     : uid,
+                                    _event   : e,
+                                    _src     : img_src,
+                                    _img_wo_b: img_wo_bg,
+                                    _img_w_b : img_w_bg,
+                                    _width   : img_w,
+                                    _height  : img_h
+                                });
                     },
                     error: function(msg) {
                         alert(msg);
@@ -140,9 +140,47 @@ $(document).ready(function () {
     }).change(function(e){
         console.log('changed');
     });
-        
-    //display menus and handles onmousedown 
-    //need more research on trigering draggable on mousedown using .live
+
+    //drag the selected product together with its handle on the fly
+    $('.product').liveDraggable({
+        helper: 'original',
+        cursor: 'move',
+        start : function(e, ui){
+            update_ui({
+                styles:{
+                    display: 'block',
+                    top: $(this).css('top'),
+                    left: $(this).css('left'),
+                    width: $(this).css('width'),
+                    height: $(this).css('height')
+                }
+            });
+        },
+        drag : function(e, ui){
+            update_ui({
+                styles:{
+                    display: 'block',
+                    top: $(this).css('top'),
+                    left: $(this).css('left'),
+                    width: $(this).css('width'),
+                    height: $(this).css('height')
+                }
+            });
+        },
+        stop : function(e, ui){
+            update_ui({
+                styles:{
+                    display: 'block',
+                    top: $(this).css('top'),
+                    left: $(this).css('left'),
+                    width: $(this).css('width'),
+                    height: $(this).css('height')
+                }
+            });
+        }
+    });
+
+    //onmouse down show handles for selected product
     $('.product').live('mousedown',function(e){
 
         disableEventPropagation(e);
@@ -164,7 +202,9 @@ $(document).ready(function () {
                 }
             });
         }
-
+        $(document).click(function(e){
+            return false;
+        });
         // IE related catch
         if($.browser.msie){
 
@@ -183,7 +223,6 @@ $(document).ready(function () {
 
     //draggable handles binds style on selected obj
     $handles.draggable({
-
         helper: 'original',
         cursor: 'move',
         start: function(e, ui){
@@ -245,8 +284,7 @@ $(document).ready(function () {
             }
 
         }
-    });
-    $handles.resizable({
+    }).resizable({
 
         handles: 'ne,se,nw,sw',
         minWidth: 50,
@@ -294,7 +332,10 @@ $(document).ready(function () {
 
     //hide handles and menus
     $(document).click(function(e){
-        remove_handles(e);
+        console.log(e.target);
+        if(e.target != $('.fakeHandle, .product')[0]){
+            remove_handles(e);
+        }
     }).keydown(function(e){
         //console.log(e.keyCode);
         if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
@@ -369,8 +410,19 @@ $(document).ready(function () {
     $('#customBg-btn').click(function(e){
         e.preventDefault();
         disableEventPropagation(e);
+        display_modal(MODAL_SRC.replace('0',$('.selected').attr('_uid')));
+    });
 
-        display_modal(MODAL_SRC);
+    // close modal
+    $('#close-modal').click(function(e){
+        e.preventDefault();
+        disableEventPropagation(e);
+        close_modal();
+    });
+
+    //dont remove handles and selected object when modal window is displayed
+    $('#modal-window, #page-mask').click(function(e){
+        disableEventPropagation(e);
     });
 
 });
@@ -405,6 +457,23 @@ function create_instance(options){
                 width: dimensions['width'],
                 height: dimensions['height']
             }
+        });
+
+        update_ui({
+            styles:{
+                width               : dimensions['width'],
+                height              : dimensions['height'],
+                top                 : '',
+                left                : '',
+                '-moz-transform'    : '',
+                '-o-transform'      : '',
+                '-webkit-transform' : '',
+                '-ms-transform'     : '',
+                'transform'         : '',
+                'filter'            : '',
+                '-ms-filter'        : ''
+            },
+            update_obj: $('.fakeHandle')
         });
         
         //append to canvas the newly created instance
@@ -523,6 +592,8 @@ function update_ui(options) {
     defaults.update_obj = options.update_obj == null ? defaults.update_obj : options.update_obj;
 
     defaults.update_obj.css(defaults.styles);
+
+    return defaults.update_obj;
 }
 
 function disableEventPropagation(event) {
@@ -637,8 +708,22 @@ function change_img(obj, background){
 }
 
 function display_modal(iframe_src){
-    var modal = $('<div />').attr({'class':'modal','id':'modal'});
+    var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':iframe_src});
+    var modal   = $('#modal-window'),
+        _left   = $(window).width()/2-modal.width()/2,
+        frame   = $('#iframe-wrap').append(iframe);
+
+    $('#page-mask').css({display:'block'});
+    modal.append(frame).css({display:'block',left:_left});
+
 }
+
+function close_modal(){
+    $('#page-mask').css({display:'none'});
+    $('#modal-window iframe').remove();
+    $('#modal-window').css({display:'none'});
+}
+
 
 (function ($) {
    $.fn.liveDraggable = function (opts) {
@@ -668,3 +753,5 @@ function display_modal(iframe_src){
       }
   }
 }(jQuery));
+
+
