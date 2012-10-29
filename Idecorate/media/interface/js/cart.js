@@ -140,7 +140,7 @@ function remove_from_cart(prod_id){
     total -= diffTotal;
     $('#cart-total-amount').text(addCommas(total.toFixed(2)));
 
-    console.log(diffTotal);
+    //console.log(diffTotal);
 	action_url = REMOVE_TO_CART_URL;
 	arrange_tr_class();
     $('#prod_cart_'+prod_id).remove();
