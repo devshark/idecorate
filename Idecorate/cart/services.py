@@ -16,3 +16,8 @@ def get_product(prod_id):
 def remove_from_cart_temp(cart_temp_id):
 	ct = CartTemp.objects.get(id=cart_temp_id)
 	ct.delete()
+
+def clear_cart_temp(session_id):
+	ct = CartTemp.objects.filter(sessionid=session_id)
+	for c in ct:
+		remove_from_cart_temp(c.id)

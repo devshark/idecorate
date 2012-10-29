@@ -70,8 +70,8 @@
             <div id="content-wrap" class="clearfix">
                 <div id="sidebar">
             		<ul id="sidebar-nav" class="etabs sideNav">
-            			<li class="tab"><a href="#create-tab">Create</a></li>
-            			<li class="tab"><a href="#buy-tab">Buy</a></li>
+            			<li class="tab"><a href="#create-tab" id="createTab">Create</a></li>
+            			<li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
             		</ul>
                     <div id="sidebar-form-wrap"  class="clearfix">
                         <h3>My Order</h3>
@@ -195,7 +195,7 @@
 <script type="text/javascript">
     $(document).ready( function() {
         
-        $('#sidebar').easytabs();
+        $('#sidebar').easytabs({ animate:false });
         
         $("#content-wrap").css({height: contentHeight()});
 
@@ -203,6 +203,11 @@
 
         {% if category_count == 0 %}
             populate_products();
+            $('#createTab').click(function(){
+                hideProducts();
+                $('.product-list').unbind('mousewheel');
+                manage_product_pagination();
+            });
         {% endif %}   
     });
 

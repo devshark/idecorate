@@ -166,6 +166,13 @@ function populate_products(){
     manage_product_pagination();
 }
 
+function hideProducts(){
+    $('.product-list a').each(function(){
+        if ( !$(this).hasClass('hidden') )
+            $(this).addClass('hidden');
+    });
+}
+
 function manage_product_pagination(){
     var computed_height = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-40;
     $('.product-list').css('height',computed_height+'px');
