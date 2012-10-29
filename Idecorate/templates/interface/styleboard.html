@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load i18n idecorate_interface %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -41,7 +41,68 @@
           z-index: 8001;
         }
         .input-error {
-            border-color: #ff0000;
+            border: 1px solid #ff0000 !important;
+        }
+        .hidden {
+            visibility: hidden;
+        }
+        .categories {
+            cursor: pointer;
+        }
+        .product-list-wrap {
+            height: 100%;
+            overflow: auto;
+        }
+        .amount {
+            text-align: right !important;
+            padding-right: 20px !important;
+        }
+        .checkOutWrap {
+            padding-right: 20px !important;
+        }
+        .table {
+
+        }
+        .table .thead {
+            background: #333;
+            color: #FFFFFF;
+            font-size: 0.875em;
+            padding: 7px 0;
+        }        
+        .table .thead .tr .th, .table .tbody .tr .td {
+            display: inline-block;
+            text-align: center;
+        }
+        .table .tbody .tr .td{
+            padding: 3px 0;
+        }
+        .table .tbody .tr .td input[type="text"] {
+            border: 1px solid #CCCCCC;
+            border-radius: 3px 3px 3px 3px;
+            padding: 5px;
+        }
+        .table .tbody .tr .td h5 {
+            font-size: 0.75em;
+            margin-bottom: 4px;
+        }
+        .table .tbody .tr .td p {
+            font-size: 0.688em;
+        }
+        .table .span1 {
+            width: 10%;
+        }
+        .table .span2 {
+            width: 20%;
+        }
+        .table .span3 {
+            width: 30%;
+        }
+        .table .span4 {
+            width: 40%;
+        }
+        .table .tbody {
+            height: 450px;
+            overflow: auto;
         }
         </style>
     </head>
@@ -53,12 +114,12 @@
             <div id="content-wrap" class="clearfix">
                 <div id="sidebar">
             		<ul id="sidebar-nav" class="etabs sideNav">
-            			<li class="tab"><a href="#create-tab">Create</a></li>
-            			<li class="tab"><a href="#buy-tab">Buy</a></li>
+            			<li class="tab"><a href="#create-tab" id="createTab">Create</a></li>
+            			<li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
             		</ul>
                     <div id="sidebar-form-wrap"  class="clearfix">
                         <h3>My Order</h3>
-                        <form action="" method="post">
+                        <!-- <form action="" method="post"> -->
                             {% csrf_token %}
                             <fieldset>
                                 <div class="sidebarInputs">
@@ -73,7 +134,7 @@
                                     <h5>Total <span>$ 10,000,000</span></h5>
                                 </div>
                             </fieldset>
-                        </form>
+                        <!-- </form> -->
                     </div>
                     <div id="create-tab" class="clearfix">
                         <div id="create-tab-nav" class="clearfix">
@@ -83,35 +144,41 @@
                                 <li class="tab"><a href="#templates">Templates</a></li>
                             </ul>
                         </div>
-                        {% include 'interface/styleboard_categories.html' %}
+                        <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
+                        <div class="product-list-wrap">
+                            {% include 'interface/styleboard_categories.html' %}
+                        </div>                        
                     </div><!-- end of create -->
                     
-                    <div id="buy-tab">
-                        <form action="" method="post" id="cart-form">
+                    <div id="buy-tab" style="display:none">
+                        <!-- <form action="" method="post" id="cart-form"> -->
                             <div class="buyTableWrap">
-                                <table id="buy-table">
-                                    <thead>
-                                        <tr>
-                                            <th>Item</th>
-                                            <th>Quantity</th>
-                                            <th>Price</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                    <tfoot>
-                                        <tr>
-                                            <td colspan="2">Total :</td>
-                                            <td><span id="cart-total-cur"></span> <span id="cart-total-amount"></span></td>
-                                        </tr>
-                                    </tfoot>
-                                </table>
+                                <div class="table">
+                                    <div class="thead">
+                                        <table width="100%">
+                                            <tr>
+                                                <th class="span2">Item</th>
+                                                <th class="span3">Quantity</th>
+                                                <th>Price</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="tbody">
+                                        <table id="buy-table">                                            
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tfoot">
+                                        <div class="td">Total</div>
+                                        <div class="td amount"><span id="cart-total-cur"></span> <span id="cart-total-amount"></span></div>
+                                    </div>
+                                </div>                                
                             </div>
                         <div class="checkOutWrap">                            
-                            <input id="check-button" type="button" value="Checkout" class="globalBtn"/>
+                            <input id="check-button" type="button" value="Checkout" class="globalBtn checkoutButton"/>
                         </div>
-                        </form>
+                        <!-- </form> -->
                     </div>
-
             	</div>
             	<div id="canvas">
                     <div class="handles">
@@ -131,13 +198,19 @@
                         <div class="imgBgControlWrap">
                             <ul class="imgBgControl">
                                 <li>
-                                    <a href="#" id="whiteBg-btn"></a>
+                                    <a href="#" id="whiteBg-btn">
+                                        <img title="Show Image Background" alt="show bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#" id="transBg-btn"><div></div></a>
+                                    <a href="#" id="transBg-btn">
+                                        <img title="Hide Image Background" alt="hide bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
+                                    </a>
                                 </li>
                                 <li>
-                                    <a href="#" id="customBg-btn"><div></div></a>
+                                    <a href="#" id="customBg-btn">
+                                        <img title="Custom Crop Background" alt="crop bg" src="images/product/thumb/img_thumb_1.jpg" width="50" />
+                                    </a>
                                 </li>
                             </ul>
                         </div>
@@ -148,6 +221,9 @@
             <footer id="footer" class="clearfix"> 
             	{% include "footer.html" %}             
             </footer>
+        </div>
+        <div id="remove_products_container" style="display:none">
+
         </div>
 
 <div id="page-mask" style="display:none;"></div>
@@ -169,19 +245,23 @@
 <!-- PRODUCT CATEGORIES AJAX CALLS -->
 <script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <script type="text/javascript" src="/media/interface/js/product_category.js"></script>
 <script type="text/javascript">
     $(document).ready( function() {
         
-        $('#sidebar').easytabs({animate:false});
+        $('#sidebar').easytabs({ animate:false });
         
         $("#content-wrap").css({height: contentHeight()});
 
         $('#create-tab').css({height: thumbWrapHeight()+'%'});
 
         {% if category_count == 0 %}
-            populate_products(category_id);
+            populate_products();
+            $('#createTab').click(function(){
+                hideProducts();
+                $('.product-list').unbind('mousewheel');
+                manage_product_pagination();
+            });
         {% endif %}   
     });
 
@@ -191,7 +271,7 @@
 
         var _height = $(window).height()-
                      $("#header").outerHeight(true)-
-                     $("#footer").outerHeight(true)-2;
+                     $("#footer").outerHeight(true)-5;
 
         return _height;
 
@@ -207,12 +287,15 @@
 
         var _height = contentHeight()-
                     $("#sidebar-nav").outerHeight(true)-
-                    $("#sidebar-form-wrap").outerHeight(true)+1;
+                    $("#sidebar-form-wrap").outerHeight(true)-
+                    $("#create-tab-nav").outerHeight(true);
 
         return _height/contentHeight()*100;
     }
 
 </script>
+<!-- CART -->
+<script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>

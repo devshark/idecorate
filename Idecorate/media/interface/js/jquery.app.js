@@ -691,7 +691,7 @@ function eventTracker(currentObject, eventType) {
     changesCounter++;
     //console.log('Count of changes: ' + changesCounter);
     //console.log(currentObject);
-    console.log(eventType);
+    //console.log(eventType);
 }
 
 function change_img(obj, background){
