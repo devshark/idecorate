@@ -22,6 +22,7 @@ $(document).ready( function() {
 });
 
 function browse_categories(elm_id){
+    //current_page = 1;
     var type;
     $.ajax({
         url: STYLEBOARD_AJAX_URL,
@@ -250,7 +251,7 @@ function manage_product_pagination(){
 }
 
 function generate_pagenation(){
-
+    $(".draggable").draggable("destroy");
     total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
     var left = 1, right = 5;
     if ( total_pages <= 5 ){
@@ -302,6 +303,10 @@ function generate_pagenation(){
             $(this).addClass('cur-page');
             generate_pagenation();
         });
+    });    
+    $('.draggable').draggable({
+        revert:true,
+        helper:'clone'
     });
 }
 
@@ -368,8 +373,7 @@ function manage_product_resize(){
 
     product_per_page = count_by_width*count_by_height;
 
-    var page = 1;
-    $(".draggable").draggable("destroy");
+    var page = 1;    
     var counter = 1;
     $('.product-list a').each(function(i, val){                
         if (counter > product_per_page){
@@ -420,11 +424,7 @@ function manage_product_resize(){
 
         }
     }    
-    generate_pagenation();
-    $('.draggable').draggable({
-        revert:true,
-        helper:'clone'
-    });
+    generate_pagenation();    
     sort_remove_prod();
 }
 

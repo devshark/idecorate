@@ -73,6 +73,10 @@
             display: inline-block;
             text-align: center;
         }
+        .table .tfoot .th{
+            display: inline-block;
+            text-align: center;
+        }
         .table .tbody .tr .td{
             padding: 3px 0;
         }
@@ -101,8 +105,13 @@
             width: 40%;
         }
         .table .tbody {
-            height: 450px;
             overflow: auto;
+        }
+        #footer {
+            margin-left: 41%;
+        }
+        .idecorateTooltip {
+            width: 400px;
         }
         </style>
     </head>
@@ -169,8 +178,12 @@
                                         </table>
                                     </div>
                                     <div class="tfoot">
-                                        <div class="td">Total</div>
-                                        <div class="td amount"><span id="cart-total-cur"></span> <span id="cart-total-amount"></span></div>
+                                        <table width="100%">
+                                            <tr>
+                                                <th class="span2">Total</th>
+                                                <th class="amount"><span id="cart-total-cur"></span><span id="cart-total-amount"></span></th>
+                                            </tr>
+                                        </table>
                                     </div>
                                 </div>                                
                             </div>
@@ -223,7 +236,29 @@
             </footer>
         </div>
         <div id="remove_products_container" style="display:none">
-
+        </div>
+        <div class="idecorateTooltip">
+            <div class="container">
+                <table cellspacing="0" cellpadding="0" width="100%">
+                    <tbody>
+                        <tr valign="top">
+                            <td>
+                                <img class="grid bordered" alt="" src="http://ak1.polyvoreimg.com/cgi/img-thing/size/m/tid/68069470.jpg">
+                            </td>
+                            <td>
+                                <div style="overflow: hidden; padding-left: 8px;">
+                                    <ul class="list">
+                                        <li title="Phoenix blouse">Phoenix blouse</li>
+                                        <li></li>
+                                        <li></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="close" _uid="998">×</div>
         </div>
 
         
