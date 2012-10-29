@@ -3,7 +3,8 @@ var total = 0;
 var quantity = 1;
 var selected_prev_prod_qty = 0;
 $(document).ready(function(){
-    $('#check-button').click(function(){
+    var cart_triggered = false;
+    $('.checkoutButton').click(function(){
         var url = $(this).parent().attr('href');
 
         var error = hasError();
@@ -13,10 +14,11 @@ $(document).ready(function(){
         } else {
             if ( error == 2 )
                 alert('Quantity must not be less than 1.');
-            else
+            else {
                 alert('No item to checkout.');
+            }
         }
-        return false;
+        //return false;
     });
 });
 
@@ -81,7 +83,7 @@ function add_to_cart(prod_id){
             return true;
         });
 
-        $('input[name="qty"]').change(function(){                    
+        $('input[name="qty"]').blur(function(){                    
             var pid = $(this).attr('_pid');
             var qty = $(this).val();
 

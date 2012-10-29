@@ -142,7 +142,7 @@ function get_products(){
     return data;
 }
 
-function populate_products(){
+function populate_products(){    
     var response_data = get_products();
     var items = '';
     var breadcrumb = '';
@@ -157,13 +157,12 @@ function populate_products(){
         var name = val.fields.name;
         var thumb = val.fields.original_image_thumbnail;
         thumb = 'products/' + thumb;
-        items += '<a _uid="'+id+'" class="hidden thumb draggable ' + type + '" id="'+id+'" href="#">' +
+        items += '<a _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
                 '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
             '</a>';
     });
-
     items = '<div class="product-list">' + items + '</div>';
-    $('.product-list-wrap').after(items);
+    $('.product-list-wrap').html(items);
     manage_product_pagination();
 }
 

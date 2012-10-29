@@ -75,7 +75,7 @@
             		</ul>
                     <div id="sidebar-form-wrap"  class="clearfix">
                         <h3>My Order</h3>
-                        <form action="" method="post">
+                        <!-- <form action="" method="post"> -->
                             {% csrf_token %}
                             <fieldset>
                                 <div class="sidebarInputs">
@@ -90,7 +90,7 @@
                                     <h5>Total <span>$ 10,000,000</span></h5>
                                 </div>
                             </fieldset>
-                        </form>
+                        <!-- </form> -->
                     </div>
                     <div id="create-tab" class="clearfix">
                         <div id="create-tab-nav" class="clearfix">
@@ -107,7 +107,7 @@
                     </div><!-- end of create -->
                     
                     <div id="buy-tab" style="display:none">
-                        <form action="" method="post" id="cart-form">
+                        <!-- <form action="" method="post" id="cart-form"> -->
                             <div class="buyTableWrap">
                                 <table id="buy-table">
                                     <thead>
@@ -127,9 +127,9 @@
                                 </table>
                             </div>
                         <div class="checkOutWrap">                            
-                            <input id="check-button" type="button" value="Checkout" class="globalBtn"/>
+                            <input id="check-button" type="button" value="Checkout" class="globalBtn checkoutButton"/>
                         </div>
-                        </form>
+                        <!-- </form> -->
                     </div>
             	</div>
             	<div id="canvas">
@@ -191,7 +191,6 @@
 <!-- PRODUCT CATEGORIES AJAX CALLS -->
 <script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <script type="text/javascript" src="/media/interface/js/product_category.js"></script>
 <script type="text/javascript">
     $(document).ready( function() {
@@ -203,7 +202,7 @@
         $('#create-tab').css({height: thumbWrapHeight()+'%'});
 
         {% if category_count == 0 %}
-            populate_products(category_id);
+            populate_products();
         {% endif %}   
     });
 
