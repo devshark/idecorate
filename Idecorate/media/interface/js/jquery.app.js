@@ -138,7 +138,7 @@ $(document).ready(function () {
         $('#lasso').height(0);
         $('#lasso').css('display', 'none');
     }).change(function(e){
-        console.log('changed');
+        //console.log('changed');
     });
 
     //drag the selected product together with its handle on the fly
@@ -332,7 +332,7 @@ $(document).ready(function () {
 
     //hide handles and menus
     $(document).click(function(e){
-        console.log(e.target);
+        //console.log(e.target);
         if(e.target != $('.fakeHandle, .product')[0]){
             remove_handles(e);
         }

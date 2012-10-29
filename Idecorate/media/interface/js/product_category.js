@@ -45,6 +45,7 @@ function browse_categories(elm_id){
                     thumb = 'products/' + thumb;
                     items += '<a _uid="'+id+'" class="hidden thumb draggable ' + type + '" id="'+id+'" href="#">' +
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                            '<span>' + name + '</span>' +
                         '</a>';
                 }else{
                     items += '<div id="' + id + '" class="thumb ' + type + '">' +
@@ -160,6 +161,7 @@ function populate_products(){
         thumb = 'products/' + thumb;
         items += '<a _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
                 '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                '<span>' + name + '</span>' +
             '</a>';
     });
     items = '<div class="product-list">' + items + '</div>';
@@ -308,6 +310,60 @@ function generate_pagenation(){
         revert:true,
         helper:'clone'
     });
+    $('.product-list a').each(function(){                
+        $(this).unbind('click');        
+    });
+    $('.product-list a').bind('click',function(){
+        get_product_details(this);
+    });
+}
+var prev_clicked_id = 0;
+function get_product_details(elm){
+    $('#idecorate-tooltip .close').unbind('click');
+    var pid = $(elm).attr('_uid');
+    if (pid != prev_clicked_id){
+        $.ajax({
+            url: PRODUCT_DETAILS_URL,
+            type: "POST",
+            dataType: 'json',
+            data: { prod_id: pid, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+            async:   false,
+            beforeSend : function(a){            
+            },
+            success: function(response_data){
+                prev_clicked_id = pid;
+                var name = response_data.name;
+                var original_image_thumbnail = response_data.original_image;
+                var default_quantity = response_data.default_quantity;
+                var price = response_data.price.toFixed(2);
+                var guest_table = response_data.guest_table;
+
+                $('#tooltip-image').attr({'src':'/' + media_url + 'products/' + original_image_thumbnail + '?' + new Date().getTime(), 'alt':name, 'width':150, 'height':150});
+                //$('#tooltip-image').attr('alt',name);
+                $('#tooltip-title').attr('title',name);
+                $('#tooltip-title').text(name);
+                $('#tooltip-price').text('$'+price);
+                $('#tooltip-unit').text(default_quantity+'/'+guest_table);
+                var elm_offset = $(elm).offset();
+                $('#idecorate-tooltip').css({'top':elm_offset.top+'px','left':(elm_offset.left+$(elm).outerWidth(true)+5)+'px'});
+                $('#idecorate-tooltip').show(function(){
+                    $(this).addClass('ticked-tooltip');
+                });
+                $('#idecorate-tooltip .close').bind('click',function(){
+                    $(this).parent().hide();
+                });
+            },
+            error: function(msg) {
+            }
+        });
+    } else {
+        $('#idecorate-tooltip').show(function(){
+            $(this).addClass('ticked-tooltip');
+        });
+        $('#idecorate-tooltip .close').bind('click',function(){
+            $(this).parent().hide();
+        });
+    }    
 }
 
 function getHeight(el,fn) {
@@ -338,6 +394,7 @@ function populate_product_by_page(){
         thumb = 'products/' + thumb;
         var items = '<a _uid="'+id+'"  class="thumb draggable products" id="'+id+'" href="#">' +
                 '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                '<span>' + name + '</span>' +
             '</a>';
         $('.product-list').append(items);
     });    
@@ -413,6 +470,7 @@ function manage_product_resize(){
                     thumb = 'products/' + thumb;
                     item = '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                            '<span>' + name + '</span>' +
                         '</a>';
 
                     $('.product-list').append(item);

@@ -54,12 +54,12 @@ function add_to_cart(prod_id){
         price = addCommas(price);
 
         var item = '<tr id="prod_cart_' + data.id + '">' +
-            '<td class="span2">' +
+            '<td class="span3">' +
                 '<div class="buyItemImg">' +
-                    '<img width="70" src="/' + img_src + data.original_image_thumbnail + '">' +
+                    '<div><img width="70" src="/' + img_src + data.original_image_thumbnail + '"></div>' +
                     '<div class="buyItemMeta">' +
-                        '<h5>' + data.name + '</h5>' +
-                        '<p>' + data.currency + ' ' + price + '</p>'+
+                        '<p>' + data.name + '</p>' +
+                        '<p>$' + price + '</p>'+
                     '</div>' +
                 '</div>' +
             '</td>' +

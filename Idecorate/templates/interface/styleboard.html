@@ -22,6 +22,7 @@
             var UPDATE_CART                 = '{% url update_cart %}';
             var CHECKOUT_URL                = '{% url checkout %}';
             var MODAL_SRC                   = '{% url crop 0 %}';
+            var PRODUCT_DETAILS_URL         = '{% url get_product_details %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -112,6 +113,51 @@
         }
         .idecorateTooltip {
             width: 400px;
+        }
+        .buyItemImg img, .buyItemImg .buyItemMeta {
+            float: left
+        }
+        .buyItemImg .buyItemMeta {
+            margin-top: 20px;
+            width: 60%;
+        }
+        .buyItemImg .buyItemMeta {
+            text-align: left;
+        }
+        #buy-table td{
+            vertical-align: middle;
+        }
+        .idecorateTooltip {
+            box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+            position: absolute;
+            width: 350px;
+            background: #fff;
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+        .idecorateTooltip table {
+            width: 100%;
+        }
+        .idecorateTooltip table td{
+            vertical-align: top;
+        }
+        .idecorateTooltip .close {
+            color: #aaa;
+            cursor: pointer;
+            font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+            font-size: 20px;
+            padding: 3px 10px 2px 8px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            margin-left: 4px;
+        }
+        .idecorateTooltip .container-tooltip {
+            overflow: hidden;
+            padding-top: 8px;
+        }
+        .idecorateTooltip ul li{
+            margin-bottom: 4px;
         }
         </style>
     </head>
@@ -237,20 +283,20 @@
         </div>
         <div id="remove_products_container" style="display:none">
         </div>
-        <div class="idecorateTooltip">
-            <div class="container">
-                <table cellspacing="0" cellpadding="0" width="100%">
+        <div id="idecorate-tooltip" class="idecorateTooltip" style="display:none">
+            <div class="container-tooltip">
+                <table cellspacing="0" cellpadding="0">
                     <tbody>
                         <tr valign="top">
-                            <td>
-                                <img class="grid bordered" alt="" src="http://ak1.polyvoreimg.com/cgi/img-thing/size/m/tid/68069470.jpg">
+                            <td width="42%">
+                                <img id="tooltip-image" alt="" src="">
                             </td>
                             <td>
                                 <div style="overflow: hidden; padding-left: 8px;">
                                     <ul class="list">
-                                        <li title="Phoenix blouse">Phoenix blouse</li>
-                                        <li></li>
-                                        <li></li>
+                                        <li id="tooltip-title"></li>
+                                        <li id="tooltip-price"></li>
+                                        <li id="tooltip-unit"></li>
                                     </ul>
                                 </div>
                             </td>
@@ -258,7 +304,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="close" _uid="998">×</div>
+            <div class="close">×</div>
         </div>
 
 <div id="page-mask" style="display:none;"></div>

@@ -9,5 +9,6 @@ urlpatterns =  patterns('interface.views',
     url(r'^styleboard_product_ajax/$', 'styleboard_product_ajax', {}, name='styleboard_product_ajax'),    
     url(r'^get_category_tree_ajax/$', 'get_category_tree_ajax', {}, name='get_category_tree_ajax'),
     url(r'^get_product_original_image/$', 'get_product_original_image', {}, name='get_product_original_image'),
+    url(r'^styleboard_ajax/product_detail$', 'get_product_details', {}, name='get_product_details'),    
     url(r'^crop/(?P<id>\d+)$', 'crop', {}, name='crop'),    
 )
