@@ -21,7 +21,7 @@
             var REMOVE_TO_CART_URL          = '{% url remove_from_cart_ajax %}';
             var UPDATE_CART                 = '{% url update_cart %}';
             var CHECKOUT_URL                = '{% url checkout %}';
-            var MODAL_SRC                   = '{% url crop %}';
+            var MODAL_SRC                   = '{% url crop 0 %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -195,7 +195,7 @@
             	</div>
             	<div id="canvas">
                     <div class="handles">
-                        <div class="filler"></div>
+                        <div class="fakeHandle"></div>
                     </div>
                     <div class="neMenus">
                         <div class="imgControlWrap">
@@ -261,7 +261,13 @@
             <div class="close" _uid="998">×</div>
         </div>
 
-        
+<div id="page-mask" style="display:none;"></div>
+<div id="modal-window" style="display:none;">
+    <h2 id="modal-header">
+        <a href="#" id="close-modal">&times;</a>
+    </h2>
+    <div id="iframe-wrap"></div>
+</div>       
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
