@@ -46,8 +46,8 @@ function add_to_cart(prod_id){
         price = price.toFixed(2);
         price = addCommas(price);
 
-        var item = '<tr class="odd" id="prod_cart_' + data.id + '">' +
-            '<td>' +
+        var item = '<tr id="prod_cart_' + data.id + '">' +
+            '<td class="span2">' +
                 '<div class="buyItemImg">' +
                     '<img width="70" src="/' + img_src + data.original_image_thumbnail + '">' +
                     '<div class="buyItemMeta">' +
@@ -56,7 +56,7 @@ function add_to_cart(prod_id){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
+            '<td class="span3"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
             '<td class="amount" id="subtotal_' + data.id + '">' + data.currency + ' ' + price + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
@@ -87,7 +87,7 @@ function add_to_cart(prod_id){
             return true;
         });
 
-        $('input[name="qty"]').change(function(){                    
+        $('input[name="qty"]').keyup(function(){
             var pid = $(this).attr('_pid');
             var qty = $(this).val();
 
@@ -109,7 +109,7 @@ function add_to_cart(prod_id){
                 dif = (qty-selected_prev_prod_qty);
             }
 
-            var pr = $(this).attr('_pr');
+            var pr = $(this).attr('_pr').replace(',','');
             var cur = $(this).attr('_cur');
             pr = parseInt(pr);
             var price = pr*qty;
@@ -122,6 +122,7 @@ function add_to_cart(prod_id){
             var cart_total = total.toFixed(2);
             cart_total = addCommas(cart_total);
             $('#cart-total-amount').text(cart_total);
+            selected_prev_prod_qty = qty;
         });
     }
 }
