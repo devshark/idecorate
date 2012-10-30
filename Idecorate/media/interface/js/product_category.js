@@ -59,6 +59,9 @@ function browse_categories(elm_id){
                 type = val.model == 'category.categories' ? 'categories' : 'products';
                 var thumb = val.fields.thumbnail;
                 var name = val.fields.name;
+                if (name.length > 20){
+                    name = name.substring(0,19) + '..';
+                }
                 if(type =='products'){
                     thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
