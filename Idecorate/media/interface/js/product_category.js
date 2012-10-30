@@ -41,7 +41,7 @@ function product_list_wrap_resize(){
 }
 
 function browse_categories(elm_id){
-    //current_page = 1;
+    current_page = 1;
     var type;
     $.ajax({
         url: STYLEBOARD_AJAX_URL,
