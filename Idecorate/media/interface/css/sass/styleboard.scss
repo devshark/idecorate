@@ -390,28 +390,29 @@ footer{
 		border-right: 1px solid #DDD;
 		border-bottom: 1px solid #DDD;
 
-		.breadcrumb {
+		.breadcrumb-wrap{
 			margin: 5px;
+			.breadcrumb {
+				li{
+					display: inline-block;
+					zoom: 1;
+					*display: inline;
+					font-size: 12px;
+					padding-right: 5px;
 
-			li{
-				display: inline-block;
-				zoom: 1;
-				*display: inline;
-				font-size: 12px;
-				padding-right: 5px;
+					a{
+						text-decoration: none;
+						color: #000;
+						display: block;
+						background-color: #DDDDDD;
+						padding: 2px 5px;
+						border: 1px solid #CCCCCC;
+					}
 
-				a{
-					text-decoration: none;
-					color: #000;
-					display: block;
-					background-color: #DDDDDD;
-					padding: 2px 5px;
-					border: 1px solid #CCCCCC;
-				}
-
-				a:hover{
-					background-color: #999999;
-					color: #FFF;
+					a:hover{
+						background-color: #999999;
+						color: #FFF;
+					}
 				}
 			}
 		}
@@ -451,6 +452,14 @@ footer{
 			img{
 				width: 100%;
 			}
+
+			span {
+	            display: block;
+	            font-size: 10px;
+	            margin-top: 10px;
+	            text-align: center;
+	            color: #666;
+	        }
 		}
 	}
 
@@ -525,6 +534,126 @@ footer{
 			padding:10px 0;
 		}
 	}
+}
+
+.table {
+	.thead {
+	    background: #333;
+	    color: #FFFFFF;
+	    font-size: 0.875em;
+	    padding: 7px 0;
+
+	    .tr .th, .tr .td {
+		    display: inline-block;
+		    text-align: center;
+		}
+	}
+	.tfoot .th{
+	    display: inline-block;
+	    text-align: center;
+	}
+	.tbody {
+	    overflow: auto;
+	    .tr .td{
+		    padding: 3px 0;
+
+		    input[type="text"] {
+			    border: 1px solid #CCCCCC;
+			    border-radius: 3px 3px 3px 3px;
+			    padding: 5px;
+			}
+
+			h5 {
+			    font-size: 0.75em;
+			    margin-bottom: 4px;
+			}
+
+			p {
+			    font-size: 0.688em;
+			}
+		}
+	}
+
+	.span2 {
+	    width: 20%;
+	}
+
+	.span3 {
+	    width: 30%;
+	}
+}
+.buyItemImg{
+	img,.buyItemMeta{
+	    float: left
+	}
+	.buyItemMeta {
+	    margin-top: 20px;
+	    width: 60%;
+	    text-align: left;
+	}
+}
+#buy-table td{
+    vertical-align: middle;
+}
+
+.idecorateTooltip {
+    width: 400px;
+    box-shadow: -2px 2px 5px rgba(0, 0, 0, 0.5);
+    position: absolute;
+    width: 350px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 8px;
+    z-index: 500000;
+
+    table {
+	    width: 100%;
+    	td{
+		    vertical-align: top;
+		}
+	}
+
+	.close {
+	    color: #aaa;
+	    cursor: pointer;
+	    font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+	    font-size: 20px;
+	    padding: 3px 10px 2px 8px;
+	    position: absolute;
+	    right: 0;
+	    top: 0;
+	    margin-left: 4px;
+	}
+
+	.container-tooltip {
+	    overflow: hidden;
+	    padding-top: 8px;
+	}
+
+	ul li{
+	    margin-bottom: 4px;
+	}
+}
+
+.input-error {
+    border: 1px solid #ff0000 !important;
+}
+.hidden {
+    visibility: hidden;
+}
+.categories {
+    cursor: pointer;
+}
+.product-list-wrap {
+    height: 100%;
+    overflow: auto;
+}
+.amount {
+    text-align: right !important;
+    padding-right: 20px !important;
+}
+.checkOutWrap {
+    padding-right: 20px !important;
 }
 
 #canvas {
@@ -634,7 +763,16 @@ footer{
 				}
 			}
 		}
-	} 
+	}
+
+	#lasso {
+      position: relative;
+      display: none;
+      background: none;
+      border-width: 1px;
+      border-style: dashed;
+      z-index: 8001;
+    } 
 }
 
 #page-mask{
@@ -744,20 +882,20 @@ footer{
     margin-top: 20px;
     text-align: center;
     font-size: 12px;
-}
-.pagination span{
-    cursor: pointer;
-    margin-right: 5px;
-    padding: 4px 6px;
-}
-.pagination span.cur-page{
-    background-color: #ccc;
-    cursor: default;
-    font-weight: bold;            
-    border-radius: 3px;
-    -ms-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;    
+    span{
+	    cursor: pointer;
+	    margin-right: 5px;
+	    padding: 4px 6px;
+	}
+	span.cur-page{
+	    background-color: #ccc;
+	    cursor: default;
+	    font-weight: bold;            
+	    border-radius: 3px;
+	    -ms-border-radius: 3px;
+	    -moz-border-radius: 3px;
+	    -webkit-border-radius: 3px;    
+	}
 }
 .product-overlay {
     background: #fff;

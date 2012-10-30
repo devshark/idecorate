@@ -103,4 +103,4 @@ def checkout(request):
 			order.modify_item(cart.product, relative=cart.quantity)
 			remove_from_cart_temp(cart.id)
 
-	return redirect('plata_shop_cart')
+	return redirect('plata_shop_checkout')

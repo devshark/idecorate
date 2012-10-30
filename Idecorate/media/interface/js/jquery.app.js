@@ -177,6 +177,11 @@ $(document).ready(function () {
                     height: $(this).css('height')
                 }
             });
+
+
+            //track event
+            eventTracker($(this),'move');
+
         }
     });
 
@@ -270,9 +275,6 @@ $(document).ready(function () {
                 update_obj : $('.selected')
             });
 
-            //track event
-            eventTracker($('.selected'),'move');
-
             if($.browser.msie){//bind click in document after resize
                 setTimeout(function(){
                     $(document).click(function(e){;
@@ -315,9 +317,6 @@ $(document).ready(function () {
                 helper: 'clone'
             });
 
-            //track event
-            eventTracker($('.selected'),'resize');
-
             if($.browser.msie){//bind click in document after resize
                 setTimeout(function(){
                     $(document).click(function(e){;
@@ -327,6 +326,10 @@ $(document).ready(function () {
                     });
                 },300);
             }
+
+            //track event
+            eventTracker($('.selected'),'resize');
+
         }
     });
 
@@ -335,6 +338,7 @@ $(document).ready(function () {
         //console.log(e.target);
         if(e.target != $('.fakeHandle, .product')[0]){
             remove_handles(e);
+            eventTracker(e.target, 'unselect');
         }
     }).keydown(function(e){
         //console.log(e.keyCode);
@@ -360,8 +364,12 @@ $(document).ready(function () {
         if (count<=1)
             remove_from_cart(parseInt(selected_uid,10));
 
-        eventTracker($('.selected'),'remove');
+        var removedElement = $('.selected');
+
         $('.selected').remove();
+
+        eventTracker(removedElement,'remove');
+
     });
 
     //forward selected obj
@@ -424,6 +432,8 @@ $(document).ready(function () {
     $('#modal-window, #page-mask').click(function(e){
         disableEventPropagation(e);
     });
+
+    initProductPositions();
 
 });
 
@@ -622,7 +632,9 @@ function moveNext(obj) {
         });
 
         obj.css('z-index', nextIndex);
+        eventTracker(obj, 'forward');
     }
+
 }
 
 function moveBack(obj) {
@@ -640,7 +652,9 @@ function moveBack(obj) {
         });
 
         obj.css('z-index', backIndex);
-    }        
+        eventTracker(obj, 'backward');
+    }   
+     
 }
 
 function updateZIndex(obj) {
@@ -692,6 +706,7 @@ function eventTracker(currentObject, eventType) {
     //console.log('Count of changes: ' + changesCounter);
     //console.log(currentObject);
     //console.log(eventType);
+    setProductPositions();
 }
 
 function change_img(obj, background){
@@ -722,6 +737,50 @@ function close_modal(){
     $('#page-mask').css({display:'none'});
     $('#modal-window iframe').remove();
     $('#modal-window').css({display:'none'});
+}
+
+function setProductPositions() {
+
+    product_objects = '';
+
+    $('.product.unselected').each(function(e){
+
+        product_objects += $(this).prop('outerHTML').replace(' selected','');
+
+    });
+
+
+    $.ajax({
+        url: SET_PRODUCT_POSITION_URL,
+        type: "POST",
+        data: { buy_table_html: $('.table').html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: changesCounter, product_objects: product_objects },
+        beforeSend : function(){
+            
+        },
+        success: function(response_data){
+           
+        },
+        error: function(msg) {
+        }
+    });
+}
+
+function initProductPositions() {
+    if(PRODUCT_POSITIONS != '') {
+        uniqueIdentifier = parseInt(PRODUCT_POSITIONS['unique_identifier']);
+        objCounter = parseInt(PRODUCT_POSITIONS['obj_counter']);
+        changesCounter = parseInt(PRODUCT_POSITIONS['changes_counter']);
+        action_url = PRODUCT_POSITIONS['action_url'];
+        total = parseFloat(PRODUCT_POSITIONS['total']);
+        quantity = parseInt(PRODUCT_POSITIONS['quantity']);
+        selected_prev_prod_qty = parseInt(PRODUCT_POSITIONS['selected_prev_prod_qty']);
+
+        $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
+        $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
+
+        attachEventToQty();
+
+    }
 }
 
 
