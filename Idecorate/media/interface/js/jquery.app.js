@@ -177,6 +177,11 @@ $(document).ready(function () {
                     height: $(this).css('height')
                 }
             });
+
+
+            //track event
+            eventTracker($(this),'move');
+
         }
     });
 
@@ -280,9 +285,6 @@ $(document).ready(function () {
                 },300);
             }
 
-            //track event
-            eventTracker($('.selected'),'move');
-
         }
     }).resizable({
 
@@ -336,6 +338,7 @@ $(document).ready(function () {
         //console.log(e.target);
         if(e.target != $('.fakeHandle, .product')[0]){
             remove_handles(e);
+            eventTracker(e.target, 'unselect');
         }
     }).keydown(function(e){
         //console.log(e.keyCode);
