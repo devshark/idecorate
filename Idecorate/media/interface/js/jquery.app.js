@@ -779,7 +779,7 @@ function initProductPositions() {
         $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
 
         attachEventToQty();
-
+        manage_total();
     }
 }
 

@@ -123,29 +123,30 @@ function manage_computation(elm){
             $(elm).removeClass('input-error');                
     }
 
-    var mod = 'i';
-    var dif = 0;
-    if ( qty < selected_prev_prod_qty ){
-        mod = 'd';
-        dif = (selected_prev_prod_qty-qty);
-    } else if ( qty > selected_prev_prod_qty ){
-        dif = (qty-selected_prev_prod_qty);
-    }
-
     var pr = $(elm).attr('_pr').replace(',','');
     var cur = $(elm).attr('_cur');
     pr = parseInt(pr);
     var price = pr*qty;
     var sub_total = '$' + (addCommas(price.toFixed(2)));
     $('#subtotal_'+pid).text(sub_total);
-    if ( mod == 'd' )
-        total = total - (pr*dif);
-    else
-        total = total + (pr*dif);
-    var cart_total = total.toFixed(2);
-    cart_total = addCommas(cart_total);
-    $('#cart-total-amount').text(cart_total);
     selected_prev_prod_qty = qty;
+    manage_total();
+}
+
+function manage_total(){
+    var cart_total = 0;
+    $('input[name="qty"]').each(function(){
+        var pr = $(this).attr('_pr').replace(',','');
+        pr = parseInt(pr);
+        var qty = $(this).val()<=0?0:$(this).val();
+        qty = parseInt(qty);
+        var subtotal = pr*qty;
+        cart_total = cart_total + subtotal;
+    });
+    total = cart_total;
+    cart_total = cart_total.toFixed(2);
+    $('#cart-total-cur').text('$');
+    $('#cart-total-amount').text(addCommas(cart_total));
 }
 
 function isNumeric(fData)
