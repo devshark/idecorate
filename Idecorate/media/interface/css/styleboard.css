@@ -313,22 +313,22 @@ footer {
     border-left: 1px solid #DDD;
     border-right: 1px solid #DDD;
     border-bottom: 1px solid #DDD; }
-    #sidebar #create-tab .breadcrumb {
+    #sidebar #create-tab .breadcrumb-wrap {
       margin: 5px; }
-      #sidebar #create-tab .breadcrumb li {
+      #sidebar #create-tab .breadcrumb-wrap .breadcrumb li {
         display: inline-block;
         zoom: 1;
         *display: inline;
         font-size: 12px;
         padding-right: 5px; }
-        #sidebar #create-tab .breadcrumb li a {
+        #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a {
           text-decoration: none;
           color: #000;
           display: block;
           background-color: #DDDDDD;
           padding: 2px 5px;
           border: 1px solid #CCCCCC; }
-        #sidebar #create-tab .breadcrumb li a:hover {
+        #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a:hover {
           background-color: #999999;
           color: #FFF; }
     #sidebar #create-tab .thumb.categories {

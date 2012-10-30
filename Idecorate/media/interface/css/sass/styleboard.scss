@@ -390,28 +390,29 @@ footer{
 		border-right: 1px solid #DDD;
 		border-bottom: 1px solid #DDD;
 
-		.breadcrumb {
+		.breadcrumb-wrap{
 			margin: 5px;
+			.breadcrumb {
+				li{
+					display: inline-block;
+					zoom: 1;
+					*display: inline;
+					font-size: 12px;
+					padding-right: 5px;
 
-			li{
-				display: inline-block;
-				zoom: 1;
-				*display: inline;
-				font-size: 12px;
-				padding-right: 5px;
+					a{
+						text-decoration: none;
+						color: #000;
+						display: block;
+						background-color: #DDDDDD;
+						padding: 2px 5px;
+						border: 1px solid #CCCCCC;
+					}
 
-				a{
-					text-decoration: none;
-					color: #000;
-					display: block;
-					background-color: #DDDDDD;
-					padding: 2px 5px;
-					border: 1px solid #CCCCCC;
-				}
-
-				a:hover{
-					background-color: #999999;
-					color: #FFF;
+					a:hover{
+						background-color: #999999;
+						color: #FFF;
+					}
 				}
 			}
 		}
