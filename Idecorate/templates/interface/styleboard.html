@@ -45,7 +45,20 @@
         }
         .buyItemMeta p {
             padding-left: 5px !important;
-        } 
+        }
+        .text-right {
+            text-align: right;            
+        }
+        .text-left {
+            text-align: left;
+            padding-left: 10px;
+        }
+        .pad-r20 {
+            padding-right: 20px;
+        }
+        .pad-r40 {
+            padding-right: 40px !important;
+        }
         </style>
     </head>
     <body>
@@ -99,9 +112,9 @@
                                     <div class="thead">
                                         <table width="100%">
                                             <tr>
-                                                <th class="span4">Item</th>
+                                                <th class="span4 text-left">Item</th>
                                                 <th class="span1">Quantity</th>
-                                                <th>Price</th>
+                                                <th class="text-right pad-r40">Price</th>
                                             </tr>
                                         </table>
                                     </div>
@@ -113,8 +126,8 @@
                                     <div class="tfoot">
                                         <table width="100%">
                                             <tr>
-                                                <th class="span2">Total</th>
-                                                <th class="amount"><span id="cart-total-cur"></span><span id="cart-total-amount"></span></th>
+                                                <th class="text-right pad-r20">Total:</th>
+                                                <th class="amount span2 pad-r40"><span id="cart-total-cur"></span><span id="cart-total-amount"></span></th>
                                             </tr>
                                         </table>
                                     </div>

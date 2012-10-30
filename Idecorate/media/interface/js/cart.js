@@ -69,7 +69,7 @@ function add_to_cart(prod_id){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td class="span1"><input type="number" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
+            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
             '<td class="amount" id="subtotal_' + data.id + '">$' + price + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
