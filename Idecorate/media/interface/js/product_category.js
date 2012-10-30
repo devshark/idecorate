@@ -20,9 +20,12 @@ $(document).ready( function() {
 
     $(window).resize(function(){
         manage_product_resize();
-        product_list_wrap_resize();
+        //product_list_wrap_resize();
     });
-    product_list_wrap_resize();
+    //product_list_wrap_resize();
+    $('#buyTab').click(function(){
+        $('#idecorate-tooltip').hide();
+    });
 });
 
 function product_list_wrap_resize(){
