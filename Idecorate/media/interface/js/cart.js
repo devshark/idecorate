@@ -10,6 +10,9 @@ $(document).ready(function(){
         var error = hasError();
 
         if ( !error ){
+
+            
+
             window.location.href = CHECKOUT_URL;
         } else {
             if ( error == 2 )
@@ -103,7 +106,9 @@ function attachEventToQty() {
     });
 
     $('input[name="qty"]').keyup(function(){
-        manage_computation(this);
+        update_cart(this);
+        if($(this).val()>0)
+            manage_computation(this);
     });
     $('input[name="qty"]').blur(function(){
         manage_computation(this);
@@ -127,10 +132,24 @@ function manage_computation(elm){
     var cur = $(elm).attr('_cur');
     pr = parseInt(pr);
     var price = pr*qty;
+    
     var sub_total = '$' + (addCommas(price.toFixed(2)));
     $('#subtotal_'+pid).text(sub_total);
     selected_prev_prod_qty = qty;
     manage_total();
+}
+
+function manage_subtotal(){
+    $('input[name="qty"]').each(function(){
+        var pid = $(elm).attr('_pid');
+        var pr = $(this).attr('_pr').replace(',','');
+        pr = parseInt(pr);
+        var qty = $(this).val()<=0?0:$(this).val();
+        qty = parseInt(qty);
+        var subtotal = pr*qty;
+        var sub_total = '$' + (addCommas(subtotal.toFixed(2)));
+        $('#subtotal_'+pid).text(sub_total);
+    });
 }
 
 function manage_total(){
@@ -166,6 +185,17 @@ function remove_from_cart(prod_id){
 	action_url = REMOVE_TO_CART_URL;
 	arrange_tr_class();
     $('#prod_cart_'+prod_id).remove();
+}
+
+function update_cart(elm){
+    var pid = $(elm).attr('_pid');
+    var qty = $(elm).val();
+    $.ajax({
+        url: UPDATE_CART,
+        type: "POST",
+        dataType: 'json',
+        data: { prod_id: pid, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), quantity:qty }
+    });
 }
 
 function submit_action(id){
