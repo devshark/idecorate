@@ -20,8 +20,11 @@ $(document).ready(function(){
         }
         return false;
     });
-    buy_tab_resize()
+    buy_tab_resize();
     $(window).resize(buy_tab_resize);
+    $('#buyTab').click(function(){
+        buy_tab_resize();
+    });
 });
 
 function buy_tab_resize(){
