@@ -41,7 +41,7 @@ function product_list_wrap_resize(){
 }
 
 function browse_categories(elm_id){
-    //current_page = 1;
+    current_page = 1;
     var type;
     $.ajax({
         url: STYLEBOARD_AJAX_URL,
@@ -78,6 +78,8 @@ function browse_categories(elm_id){
                 category_id = elm_id;
                 total_product_count = response_data.product_counts;
                 items = '<div class="product-list">' + items + '</div>';
+            } else {
+                items = '<div class="category-wrap">' + items + '</div>';                
             }
 
             var breadcrumb_tree = '';

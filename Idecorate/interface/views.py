@@ -33,12 +33,12 @@ def styleboard(request, cat_id=None):
 
 	"""
 	clear temporary cart
-	"""
+
 	sessionid = request.session.get('cartsession',None)
 	if sessionid: 
 		clear_cart_temp(sessionid)
 		del request.session['cartsession']
-
+	"""
 	info = {}
 	categories = get_categories(cat_id)
 	if categories.count() > 0:
@@ -57,7 +57,7 @@ def styleboard(request, cat_id=None):
 
 	if product_positions:
 		info['product_positions'] = mark_safe(str(product_positions))
-		del request.session['product_positions']
+		#del request.session['product_positions']
 	else:
 		info['product_positions'] = mark_safe("''")
 
@@ -205,12 +205,22 @@ def set_product_positions(request):
 		unique_identifier = request.POST.get('unique_identifier','')
 		changes_counter = request.POST.get('changes_counter','')
 		product_objects = request.POST.get('product_objects','')
+		action_url = request.POST.get('action_url','')
+		total = request.POST.get('total','')
+		quantity = request.POST.get('quantity','')
+		selected_prev_prod_qty = request.POST.get('selected_prev_prod_qty','')
+		buy_table_html = request.POST.get('buy_table_html','')
 
 		request.session['product_positions'] = {
 			'obj_counter':str(obj_counter),
 			'unique_identifier': str(unique_identifier),
 			'changes_counter': str(changes_counter),
-			'product_objects':str(product_objects)
+			'product_objects':str(product_objects),
+			'action_url': str(action_url),
+			'total': str(total),
+			'quantity': str(quantity),
+			'selected_prev_prod_qty': str(selected_prev_prod_qty),
+			'buy_table_html': str(buy_table_html)
 		}
 
 		ret = obj_counter

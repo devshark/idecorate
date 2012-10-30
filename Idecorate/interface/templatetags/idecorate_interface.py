@@ -128,3 +128,30 @@ def get_breadcrumb(parent_id):
 		return mark_safe(tags)
 
 	return ''
+
+@register.filter
+def generate_product_order_list(obj,objMain):
+	products = obj.filter()
+	ret = ""
+
+	for product in products:
+
+		ret += """
+						<tr>
+							<td>
+								<img src="/media/products/%s" align="left" />
+								<span>%s</span>
+							</td>
+							<td valign="middle" class="productPricing">
+								%s %s
+							</td>
+							<td valign="middle" class="productPricing">
+								%s
+							</td>
+							<td valign="middle" class="productPricing">
+								%s %s
+							</td>
+						</tr>
+		""" % (product.product.original_image_thumbnail, product.product.name, objMain.currency, "%.2f" % product.unit_price, product.quantity, objMain.currency, "%.2f" % product.discounted_subtotal)
+
+	return mark_safe(ret)
