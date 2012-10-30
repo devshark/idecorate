@@ -78,6 +78,8 @@ function browse_categories(elm_id){
                 category_id = elm_id;
                 total_product_count = response_data.product_counts;
                 items = '<div class="product-list">' + items + '</div>';
+            } else {
+                items = '<div class="category-wrap">' + items + '</div>';                
             }
 
             var breadcrumb_tree = '';

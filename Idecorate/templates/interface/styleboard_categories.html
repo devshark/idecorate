@@ -1,7 +1,11 @@
 {% load idecorate_interface %}
-{% for cat in categories %}
-<div id="{{ cat.id }}" class="thumb categories">
+{% if categories %}
+<div class="category-wrap">
+	{% for cat in categories %}
+	<div id="{{ cat.id }}" class="thumb categories">
 		<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" alt="{{ cat.name }}" />
-	    <span>{{ cat.name }}</span>
+		<span>{{ cat.name }}</span>
+	</div>
+	{% endfor %}
 </div>
-{% endfor %}
+{% endif %}

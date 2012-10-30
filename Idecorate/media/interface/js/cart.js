@@ -79,66 +79,74 @@ function add_to_cart(prod_id){
 }
 
 function attachEventToQty() {
-        $('input[name="qty"]').focus(function(){
-            selected_prev_prod_qty = $(this).val()<=0 ?1:$(this).val();
-        });
+    $('input[name="qty"]').focus(function(){
+        selected_prev_prod_qty = $(this).val()<=0 ?0:$(this).val();
+    });
 
-        $('input[name="qty"]').keydown(function(e){
-            if (e.shiftKey){
-                return false;
-            }
+    $('input[name="qty"]').keydown(function(e){
+        if (e.shiftKey){
+            return false;
+        }
 
-            var action = '';
-            if ( e.keyCode==116 || e.keyCode==37 || e.keyCode==39 || e.keyCode==9)
-                return true;
-            if ( e.keyCode == 8 || e.keyCode == 46){
-                action = 'del';
-            } else if ( (e.keyCode  < 48 || e.keyCode > 57) && (e.keyCode  < 96 || e.keyCode > 105) ){
-                return false;
-            }            
-            var l = $(this).val().length;            
-            if ( l >= 10 && action != 'del')
-                return false;
+        var action = '';
+        if ( e.keyCode==116 || e.keyCode==37 || e.keyCode==39 || e.keyCode==9)
             return true;
-        });
+        if ( e.keyCode == 8 || e.keyCode == 46){
+            action = 'del';
+        } else if ( (e.keyCode  < 48 || e.keyCode > 57) && (e.keyCode  < 96 || e.keyCode > 105) ){
+            return false;
+        }            
+        var l = $(this).val().length;            
+        if ( l >= 10 && action != 'del')
+            return false;
+        return true;
+    });
 
-        $('input[name="qty"]').keyup(function(){
-            var pid = $(this).attr('_pid');
-            var qty = $(this).val();
+    $('input[name="qty"]').keyup(function(){
+        manage_computation(this);
+    });
+    $('input[name="qty"]').blur(function(){
+        manage_computation(this);
+    });
+}
 
-            if ( qty<=0 ){
-                if (!$(this).hasClass('input-error'))
-                    $(this).addClass('input-error');
-                qty = 0;
-            } else {
-                if ($(this).hasClass('input-error'))
-                    $(this).removeClass('input-error');                
-            }
+function manage_computation(elm){
+    var pid = $(elm).attr('_pid');
+    var qty = $(elm).val();
 
-            var mod = 'i';
-            var dif = 0;
-            if ( qty < selected_prev_prod_qty ){
-                mod = 'd';
-                dif = (selected_prev_prod_qty-qty);
-            } else if ( qty > selected_prev_prod_qty ){
-                dif = (qty-selected_prev_prod_qty);
-            }
+    if ( qty<=0 ){
+        if (!$(elm).hasClass('input-error'))
+            $(elm).addClass('input-error');
+        qty = 0;
+    } else {
+        if ($(elm).hasClass('input-error'))
+            $(elm).removeClass('input-error');                
+    }
 
-            var pr = $(this).attr('_pr').replace(',','');
-            var cur = $(this).attr('_cur');
-            pr = parseInt(pr);
-            var price = pr*qty;
-            var sub_total = '$' + (addCommas(price.toFixed(2)));
-            $('#subtotal_'+pid).text(sub_total);
-            if ( mod == 'd' )
-                total = total - (pr*dif);
-            else
-                total = total + (pr*dif);
-            var cart_total = total.toFixed(2);
-            cart_total = addCommas(cart_total);
-            $('#cart-total-amount').text(cart_total);
-            selected_prev_prod_qty = qty;
-        });    
+    var pr = $(elm).attr('_pr').replace(',','');
+    var cur = $(elm).attr('_cur');
+    pr = parseInt(pr);
+    var price = pr*qty;
+    var sub_total = '$' + (addCommas(price.toFixed(2)));
+    $('#subtotal_'+pid).text(sub_total);
+    selected_prev_prod_qty = qty;
+    manage_total();
+}
+
+function manage_total(){
+    var cart_total = 0;
+    $('input[name="qty"]').each(function(){
+        var pr = $(this).attr('_pr').replace(',','');
+        pr = parseInt(pr);
+        var qty = $(this).val()<=0?0:$(this).val();
+        qty = parseInt(qty);
+        var subtotal = pr*qty;
+        cart_total = cart_total + subtotal;
+    });
+    total = cart_total;
+    cart_total = cart_total.toFixed(2);
+    $('#cart-total-cur').text('$');
+    $('#cart-total-amount').text(addCommas(cart_total));
 }
 
 function isNumeric(fData)
