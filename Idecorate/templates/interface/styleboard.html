@@ -34,6 +34,12 @@
         .breadcrumb-wrap {
             height: 19px;
         }
+        .table .span4 {
+            width:40%;
+        }
+        .table .span1 {
+            width:10%;
+        }
         </style>
     </head>
     <body>
@@ -61,7 +67,7 @@
                                     </label>
                                 </div>
                                 <div class="sidebarTotals">
-                                    <h5>Total <span>$ 10,000,000</span></h5>
+                                    <h5>Total <span id="my-order-total">$0</span></h5>
                                 </div>
                             </fieldset>
                         <!-- </form> -->
@@ -87,8 +93,8 @@
                                     <div class="thead">
                                         <table width="100%">
                                             <tr>
-                                                <th class="span2">Item</th>
-                                                <th class="span3">Quantity</th>
+                                                <th class="span4">Item</th>
+                                                <th class="span1">Quantity</th>
                                                 <th>Price</th>
                                             </tr>
                                         </table>
