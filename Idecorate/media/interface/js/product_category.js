@@ -18,8 +18,24 @@ $(document).ready( function() {
         return false;
     });
 
-    $(window).resize(manage_product_resize);
+    $(window).resize(function(){
+        manage_product_resize();
+        product_list_wrap_resize();
+    });
+    product_list_wrap_resize();
 });
+
+function product_list_wrap_resize(){
+    var ph = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-10;
+    var computed = ph+$('.breadcrumb-wrap').outerHeight(true)+$('#create-tab-nav').outerHeight(true);
+    console.log(ph) 
+    if (computed < $('#create-tab').outerHeight(true)){
+        ph = ph + ($('#create-tab').outerHeight(true)-computed);        
+    }
+
+    console.log(computed, $('#create-tab').outerHeight(true), ph) 
+    $('#create-tab .product-list-wrap').css('height',ph+'px')
+}
 
 function browse_categories(elm_id){
     //current_page = 1;
