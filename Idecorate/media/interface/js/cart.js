@@ -106,9 +106,9 @@ function attachEventToQty() {
     });
 
     $('input[name="qty"]').keyup(function(){
-        update_cart(this);
         if($(this).val()>0)
-            manage_computation(this);
+            update_cart(this);
+        manage_computation(this);
     });
     $('input[name="qty"]').blur(function(){
         manage_computation(this);
