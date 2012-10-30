@@ -775,6 +775,8 @@ function initProductPositions() {
         $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
         $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
 
+        attachEventToQty();
+
     }
 }
 

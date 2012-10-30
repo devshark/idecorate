@@ -74,6 +74,11 @@ function add_to_cart(prod_id){
         cart_total = addCommas(cart_total);
         $('#cart-total-amount').text(cart_total);
         $('#cart-total-cur').text('$');
+        attachEventToQty();
+    }
+}
+
+function attachEventToQty() {
         $('input[name="qty"]').focus(function(){
             selected_prev_prod_qty = $(this).val()<=0 ?1:$(this).val();
         });
@@ -133,8 +138,7 @@ function add_to_cart(prod_id){
             cart_total = addCommas(cart_total);
             $('#cart-total-amount').text(cart_total);
             selected_prev_prod_qty = qty;
-        });
-    }
+        });    
 }
 
 function isNumeric(fData)
