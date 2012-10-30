@@ -350,16 +350,33 @@ def admin_create_product(request):
 
     	if form.is_valid():
 
-    		#CREATE THUMBNAIL
+    		
     		imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
+    		imgSizeProduct = (settings.PRODUCT_WIDTH, settings.PRODUCT_HEIGHT)
     		splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
     		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+    		prodName ="%s%s" % (splittedName[0], '.jpg')
 
+    		#CREATE THUMBNAIL
     		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
     		img.thumbnail(imgSize,Image.ANTIALIAS)
     		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
     		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
     		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
+
+    		#RESIZE MAIN IMAGE
+    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+    		img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
+    		bgImg = Image.new('RGBA', imgSizeProduct, (255, 255, 255, 0))
+    		bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
+    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", prodName))
+
+    		#RESIZE NO BACKGROUND IMAGE
+    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+    		img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
+    		bgImg = Image.new('RGBA', imgSizeProduct, (255, 255, 255, 0))
+    		bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
+    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
 
     		"""
     		if img.mode != "RGB":
@@ -373,7 +390,7 @@ def admin_create_product(request):
     		product.name = form.cleaned_data['product_name']
     		product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
     		product.description = form.cleaned_data['product_description']
-    		product.original_image = form.cleaned_data['original_image']
+    		product.original_image = prodName
     		product.no_background = form.cleaned_data['no_background']
     		product.original_image_thumbnail = thumbName
     		product.sku = form.cleaned_data['product_sku']
@@ -415,9 +432,11 @@ def admin_create_product(request):
     		productPrice.tax_class = TaxClass.objects.get(pk=1)
     		productPrice.save()
 
-    		#MOVE FILES
-    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
-    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+    		#REMOVE FILES
+    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+    		#shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
+    		#shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
     		
     		messages.success(request, _('Product Saved.'))
     		return redirect('admin_create_product')
@@ -468,6 +487,7 @@ def admin_edit_product(request, prod_id):
     	form.fields['categories'].choices = tuple(catList)
 
     	if form.is_valid():
+    		imgSizeProduct = (settings.PRODUCT_WIDTH, settings.PRODUCT_HEIGHT)
 
     		product.is_active = bool(int(form.cleaned_data['product_status']))
     		product.name = form.cleaned_data['product_name']
@@ -480,21 +500,40 @@ def admin_edit_product(request, prod_id):
 	    		imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
 	    		splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
 	    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+	    		prodName ="%s%s" % (splittedName[0], '.jpg')
 
+	    		#CREATE THUMBNAIL
 	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
 	    		img.thumbnail(imgSize,Image.ANTIALIAS)
 	    		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
 	    		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
 	    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
 
-	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
+	    		#RESIZE MAIN IMAGE
+	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+	    		img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
+	    		bgImg = Image.new('RGBA', imgSizeProduct, (255, 255, 255, 0))
+	    		bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
+	    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", prodName))
+
+	    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+	    		#shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
 
 	    		product.original_image_thumbnail = thumbName
-	    		product.original_image = form.cleaned_data['original_image']
+	    		product.original_image = prodName
 
 	    	if product.no_background != form.cleaned_data['no_background']:
 	    		product.no_background = form.cleaned_data['no_background']
-	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+
+	    		#RESIZE NO BACKGROUND IMAGE
+	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+	    		img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
+	    		bgImg = Image.new('RGBA', imgSizeProduct, (255, 255, 255, 0))
+	    		bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
+	    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+	    		
+	    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+	    		#shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
 
     		product.sku = form.cleaned_data['product_sku']
     		product.save()
