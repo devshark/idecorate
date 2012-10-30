@@ -2,7 +2,214 @@
 {% load i18n plata_tags %}
 {% block title %}iDecorate Wedding{% endblock %}
 {%  block style %}
+<link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
 {% endblock %}
 {% block content %}
-
+<div id="content" class="clearfix">
+	<h3>Checkout</h3>
+	<div class="clearfix orderWrap">
+		<!-- <span>Your Order</span> -->
+		<form>
+			<fieldset>
+				<legend>Your Order</legend>
+				<table>
+					<thead>
+						<tr>
+							<th></th>
+							<th>Unit Cost</th>
+							<th>Quantity</th>
+							<th>Total Cost</th>
+						</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>
+								<img src="http://www.cherylclubwear.com/images/bathing%20suits%20+%20tops%205.27.07%20004.jpg" align="left" />
+								<span>Lorem ipsum dolor sit amet</span>
+							</td>
+							<td valign="middle" class="productPricing">
+								HK$200
+							</td>
+							<td valign="middle" class="productPricing">
+								5
+							</td>
+							<td valign="middle" class="productPricing">
+								HK$1000
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<img src="http://www.cherylclubwear.com/images/bathing%20suits%20+%20tops%205.27.07%20004.jpg" align="left" />
+								<span>Lorem ipsum dolor sit amet</span>
+							</td>
+							<td valign="middle" class="productPricing">
+								HK$200
+							</td>
+							<td valign="middle" class="productPricing">
+								5
+							</td>
+							<td valign="middle" class="productPricing">
+								HK$1000
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<img src="http://www.cherylclubwear.com/images/bathing%20suits%20+%20tops%205.27.07%20004.jpg" align="left" />
+								<span>Lorem ipsum dolor sit amet</span>
+							</td>
+							<td valign="middle" class="productPricing">
+								HK$200
+							</td>
+							<td valign="middle" class="productPricing">
+								5
+							</td>
+							<td valign="middle" class="productPricing">
+								HK$1000
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<img src="http://www.cherylclubwear.com/images/bathing%20suits%20+%20tops%205.27.07%20004.jpg" align="left" />
+								<span>Lorem ipsum dolor sit amet</span>
+							</td>
+							<td valign="middle" class="productPricing">
+								HK$200
+							</td>
+							<td valign="middle" class="productPricing">
+								5
+							</td>
+							<td valign="middle" class="productPricing">
+								HK$1000
+							</td>
+						</tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td></td>
+							<td></td>
+							<td>
+								<p>100 Guests</p>
+								<p>10 tables</p>
+							</td>
+							<td>
+								<p>+ $100 Shipping Fee</p>
+								<p>Total: HK$ 1100.00</p>
+								<button>Edit</button>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</fieldset>
+		</form>
+	</div>
+	<div class="clearfix loginDetails">
+		<h4>Are you a returning customer?</h4>
+		<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
+		<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
+		<form>
+			<input type="text" placeholder="Email" />
+			<input type="password" placeholder="Password" />
+			<input type="submit" value="Login" class="submit" />
+			<a href="#">Forgot your password?</a>
+		</form>
+	</div>
+	<div class="clearfix information">
+		<fieldset class="personal">
+			<legend>Personal Information</legend>
+			<form>
+				<table>
+					<tr>
+						<td><label>Salutations</label></td>
+						<td>
+							<select>
+								<option>Mr.</option>
+								<option>Mrs.</option>
+								<option>Ms.</option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td>First Name</td>
+						<td><input type="text" /></td>
+					</tr>
+					<tr>
+						<td>Last Name</td>
+						<td><input type="text" /></td>
+					</tr>
+					<tr>
+						<td>Email</td>
+						<td><input type="text" /></td>
+					</tr>
+				</table>
+			</form>
+		</fieldset>
+		<fieldset class="delivery">
+			<legend>Delivery Address</legend>
+			<form>
+				<table>
+					<tr>
+						<td><label>Address 1</label></td>
+						<td><input type="text" /></td>
+					</tr>
+					<tr>
+						<td><label>Address 2</label></td>
+						<td><input type="text" /></td>
+					</tr>
+					<tr>
+						<td><label>District</label></td>
+						<td>
+							<select class="districtList">
+								<option>Sheung Wan, Hong Kong Island</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<input type="checkbox"> My delivery address is the same as my billing address.
+			</form>
+		</fieldset>
+	</div>
+	<div class="clearfix deliveryDetails">
+		<fieldset class="deliveryDate">
+			<legend>Delivery Date</legend>
+			<form>
+				<input type="text" placeholder="Date" />
+			</form>
+			<p>NOTES:</p>
+			<ul>
+				<li>It's ideal to schedule every 3 weeks before your wedding date</li>
+				<li>For scheduling concerns please contact us at: +852 222 222</li>
+				<li>Please see our <a href="#">returns policy</a> for more details</li>
+			</ul>
+		</fieldset>
+		<fieldset class="paymentMethod">
+			<legend>Payment Method</legend>
+			<form>
+				<table>
+					<tr>
+						<td><input type="radio"> Paypal</td>
+						<td><img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" /></td>
+					</tr>
+					<tr>
+						<td><input type="radio"> VISA/Mastercard</td>
+						<td><img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" /></td>
+					</tr>
+					<tr>
+						<td><input type="radio"> American Express &nbsp</td>
+						<td><img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" /></td>
+					</tr>
+				</table>
+			</form>
+		</fieldset>
+	</div>
+	<div class="clearfix inquiry">
+		<fieldset>
+			<legend>Any Questions?</legend>
+			<p align="justify">Want to know more about our delivery and returns policy? Have special requests or delivery instructions? Visit our <a href="#">FAQs</a> page or call us at +852 1234 5678</p>
+		</fieldset>
+	</div>
+	<div class="clearfix disclaimer">
+		<p align="justify">By clicking "proceed to payment" I certify that I have read and understand the <a href="#">terms and conditions</a>.</p>
+		<button>Proceed to Payment</button>
+	</div>
+</div>
 {% endblock %}
