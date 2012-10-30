@@ -60,7 +60,7 @@ function add_to_cart(prod_id){
         price = addCommas(price);
 
         var item = '<tr id="prod_cart_' + data.id + '">' +
-            '<td class="span3">' +
+            '<td class="span4">' +
                 '<div class="buyItemImg">' +
                     '<div><img width="70" src="/' + img_src + data.original_image_thumbnail + '"></div>' +
                     '<div class="buyItemMeta">' +
@@ -69,7 +69,7 @@ function add_to_cart(prod_id){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td class="span3"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
+            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
             '<td class="amount" id="subtotal_' + data.id + '">$' + price + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
