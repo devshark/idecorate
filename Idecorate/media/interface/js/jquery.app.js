@@ -750,7 +750,7 @@ function setProductPositions() {
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
-        data: { obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: changesCounter, product_objects: product_objects },
+        data: { buy_table_html: $('.table').html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: changesCounter, product_objects: product_objects },
         beforeSend : function(){
             
         },
@@ -767,8 +767,15 @@ function initProductPositions() {
         uniqueIdentifier = parseInt(PRODUCT_POSITIONS['unique_identifier']);
         objCounter = parseInt(PRODUCT_POSITIONS['obj_counter']);
         changesCounter = parseInt(PRODUCT_POSITIONS['changes_counter']);
+        action_url = PRODUCT_POSITIONS['action_url'];
+        total = parseFloat(PRODUCT_POSITIONS['total']);
+        quantity = parseInt(PRODUCT_POSITIONS['quantity']);
+        selected_prev_prod_qty = parseInt(PRODUCT_POSITIONS['selected_prev_prod_qty']);
 
         $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
+        $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
+
+        attachEventToQty();
 
     }
 }

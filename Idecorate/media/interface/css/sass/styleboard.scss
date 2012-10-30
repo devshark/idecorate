@@ -574,6 +574,10 @@ footer{
 		}
 	}
 
+	.span2 {
+	    width: 20%;
+	}
+
 	.span3 {
 	    width: 30%;
 	}
@@ -878,20 +882,20 @@ footer{
     margin-top: 20px;
     text-align: center;
     font-size: 12px;
-}
-.pagination span{
-    cursor: pointer;
-    margin-right: 5px;
-    padding: 4px 6px;
-}
-.pagination span.cur-page{
-    background-color: #ccc;
-    cursor: default;
-    font-weight: bold;            
-    border-radius: 3px;
-    -ms-border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;    
+    span{
+	    cursor: pointer;
+	    margin-right: 5px;
+	    padding: 4px 6px;
+	}
+	span.cur-page{
+	    background-color: #ccc;
+	    cursor: default;
+	    font-weight: bold;            
+	    border-radius: 3px;
+	    -ms-border-radius: 3px;
+	    -moz-border-radius: 3px;
+	    -webkit-border-radius: 3px;    
+	}
 }
 .product-overlay {
     background: #fff;
