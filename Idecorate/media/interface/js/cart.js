@@ -69,7 +69,7 @@ function add_to_cart(prod_id){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="10.15" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
+            '<td class="span1"><input type="number" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
             '<td class="amount" id="subtotal_' + data.id + '">$' + price + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
@@ -86,33 +86,60 @@ function attachEventToQty() {
         selected_prev_prod_qty = $(this).val()<=0 ?0:$(this).val();
     });
 
-    $('input[name="qty"]').keydown(function(e){
-        if (e.shiftKey){
-            return false;
+    $('input[name="qty"]').keyup(function(e){
+
+        var val = $(this).val();
+        val = val.replace(/[^0-9]/g,'');
+        val = val.replace(/\./g, '');
+        $(this).val(val);
+
+        //this.value = this.value.replace('[^0-9\.]/g','');
+
+        // if (!$.browser.opera){
+        //     if (e.shiftKey){
+        //         return false;
+        //     }
+
+        //     var action = '';
+        //     if ( e.keyCode==116 || e.keyCode==37 || e.keyCode==39 || e.keyCode==9)
+        //         return true;
+        //     if ( e.keyCode == 8 || e.keyCode == 46){
+        //         action = 'del';
+        //     } else if ( (e.keyCode  < 48 || e.keyCode > 57) && (e.keyCode  < 96 || e.keyCode > 105) ){
+        //         return false;
+        //     }            
+        //     var l = $(this).val().length;            
+        //     if ( l >= 10 && action != 'del')
+        //         return false;
+        //     return true;
+        // } else {
+        //     if(!isNumeric($(this).val())){
+        //         isNumeric
+        //     }
+        // }
+        var l = $(this).val().length;
+        if (l<10){
+            if (!isNaN($(this).val()))
+                cal(this);   
+        } else {
+            $(this).val($(this).val().substring(0,10));
         }
-
-        var action = '';
-        if ( e.keyCode==116 || e.keyCode==37 || e.keyCode==39 || e.keyCode==9)
-            return true;
-        if ( e.keyCode == 8 || e.keyCode == 46){
-            action = 'del';
-        } else if ( (e.keyCode  < 48 || e.keyCode > 57) && (e.keyCode  < 96 || e.keyCode > 105) ){
-            return false;
-        }            
-        var l = $(this).val().length;            
-        if ( l >= 10 && action != 'del')
-            return false;
-        return true;
     });
 
-    $('input[name="qty"]').keyup(function(){
-        if($(this).val()>0)
-            update_cart(this);
-        manage_computation(this);
-    });
+    // $('input[name="qty"]').keyup(function(){
+    //     if($(this).val()>0)
+    //         update_cart(this);
+    //     manage_computation(this);
+    // });
     $('input[name="qty"]').blur(function(){
         manage_computation(this);
     });
+}
+
+function cal(elm){
+    if($(elm).val()>0)
+        update_cart(elm);
+    manage_computation(elm);
 }
 
 function manage_computation(elm){
