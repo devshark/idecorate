@@ -207,23 +207,21 @@ $(document).ready(function () {
                 }
             });
         }
-        $(document).click(function(e){
-            return false;
-        });
+
         // IE related catch
-        if($.browser.msie){
+        if($.browser.msie){$(document).unbind("click");}//unbind click event
 
-            $(document).unbind("click");//unbind click event
+        $(this).mouseup(function(e){
+            // IE related catch
+            if($.browser.msie){
 
-            setTimeout(function(){//bind click in document after click
-                $(document).click(function(e){;
+                setTimeout(function(){//bind click in document after click
+                    $(document).click(function(e){remove_handles(e);});
+                },300);
+            
+            }
+        });
 
-                    remove_handles(e);
-
-                });
-            },300);
-        
-        }
     });
 
     //draggable handles binds style on selected obj
@@ -242,10 +240,6 @@ $(document).ready(function () {
                 },
                 update_obj : $('.selected')
             });
-
-            if($.browser.msie){//it appears that this event is not supported by IE
-                $(document).unbind("click");
-            }
 
         },
         drag: function(e, ui){
@@ -274,16 +268,8 @@ $(document).ready(function () {
                 },
                 update_obj : $('.selected')
             });
-
-            if($.browser.msie){//bind click in document after resize
-                setTimeout(function(){
-                    $(document).click(function(e){;
-        
-                        remove_handles(e);
-
-                    });
-                },300);
-            }
+            //track event
+            eventTracker($('.selected'),'move');
 
         }
     }).resizable({
@@ -294,10 +280,6 @@ $(document).ready(function () {
         start : function(e, ui){
 
             $(".draggable").draggable('destroy');
-
-            if($.browser.msie){//it appears that this event is not supported by IE
-                $(document).unbind("click");
-            }
         },
         resize: function(e, ui){
             update_ui({
@@ -317,19 +299,21 @@ $(document).ready(function () {
                 helper: 'clone'
             });
 
-            if($.browser.msie){//bind click in document after resize
-                setTimeout(function(){
-                    $(document).click(function(e){;
-        
-                        remove_handles(e);
-
-                    });
-                },300);
-            }
-
             //track event
             eventTracker($('.selected'),'resize');
 
+        }
+    });
+
+    // IE related catch
+    $handles.mousedown(function(e){
+        disableEventPropagation(e);
+        if($.browser.msie){$(document).unbind("click");}//unbind click event
+    }).mouseup(function(e){
+        if($.browser.msie){
+            setTimeout(function(){//bind click in document after click
+                $(document).click(function(e){remove_handles(e);});
+            },300);
         }
     });
 
