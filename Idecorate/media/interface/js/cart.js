@@ -69,7 +69,7 @@ function add_to_cart(prod_id){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
+            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="10.15" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
             '<td class="amount" id="subtotal_' + data.id + '">$' + price + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
@@ -130,7 +130,7 @@ function manage_computation(elm){
 
     var pr = $(elm).attr('_pr').replace(',','');
     var cur = $(elm).attr('_cur');
-    pr = parseInt(pr);
+    pr = parseFloat(pr);
     var price = pr*qty;
     
     var sub_total = '$' + (addCommas(price.toFixed(2)));
@@ -143,7 +143,7 @@ function manage_subtotal(){
     $('input[name="qty"]').each(function(){
         var pid = $(elm).attr('_pid');
         var pr = $(this).attr('_pr').replace(',','');
-        pr = parseInt(pr);
+        pr = parseFloat(pr);
         var qty = $(this).val()<=0?0:$(this).val();
         qty = parseInt(qty);
         var subtotal = pr*qty;
@@ -156,7 +156,7 @@ function manage_total(){
     var cart_total = 0;
     $('input[name="qty"]').each(function(){
         var pr = $(this).attr('_pr').replace(',','');
-        pr = parseInt(pr);
+        pr = parseFloat(pr);
         var qty = $(this).val()<=0?0:$(this).val();
         qty = parseInt(qty);
         var subtotal = pr*qty;
