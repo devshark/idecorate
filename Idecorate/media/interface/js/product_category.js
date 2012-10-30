@@ -243,7 +243,7 @@ function manage_product_pagination(){
                 }
                 $('.cur-page').removeClass('cur-page');
                 $('#page-number-' + current_page).addClass('cur-page');
-                generate_pagenation()
+                generate_pagenation();
                 return false;
             });
 
@@ -310,10 +310,13 @@ function generate_pagenation(){
         revert:true,
         helper:'clone'
     });
-    $('.product-list a').each(function(){                
-        $(this).unbind('click');        
-    });
-    $('.product-list a').bind('click',function(){
+    // $('.product-list a').each(function(){                
+    //     $(this).unbind('click');        
+    // });
+    // $('.product-list a').bind('click',function(){
+    //     get_product_details(this);
+    // });
+    $('.product-list a').live('click', function(e){
         get_product_details(this);
     });
 }
@@ -357,12 +360,12 @@ function get_product_details(elm){
             }
         });
     } else {
-        $('#idecorate-tooltip').show(function(){
-            $(this).addClass('ticked-tooltip');
-        });
         $('#idecorate-tooltip .close').bind('click',function(){
             $(this).parent().hide();
         });
+        $('#idecorate-tooltip').show(function(){
+            $(this).addClass('ticked-tooltip');
+        });        
     }    
 }
 
