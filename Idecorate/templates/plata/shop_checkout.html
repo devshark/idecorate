@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n plata_tags %}
+{% load i18n plata_tags idecorate_interface %}
 {% block title %}iDecorate Wedding{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
@@ -22,66 +22,7 @@
 						</th>
 					</thead>
 					<tbody>
-						<tr>
-							<td>
-								<img src="http://www.cherylclubwear.com/images/bathing%20suits%20+%20tops%205.27.07%20004.jpg" align="left" />
-								<span>Lorem ipsum dolor sit amet</span>
-							</td>
-							<td valign="middle" class="productPricing">
-								HK$200
-							</td>
-							<td valign="middle" class="productPricing">
-								5
-							</td>
-							<td valign="middle" class="productPricing">
-								HK$1000
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<img src="http://www.cherylclubwear.com/images/bathing%20suits%20+%20tops%205.27.07%20004.jpg" align="left" />
-								<span>Lorem ipsum dolor sit amet</span>
-							</td>
-							<td valign="middle" class="productPricing">
-								HK$200
-							</td>
-							<td valign="middle" class="productPricing">
-								5
-							</td>
-							<td valign="middle" class="productPricing">
-								HK$1000
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<img src="http://www.cherylclubwear.com/images/bathing%20suits%20+%20tops%205.27.07%20004.jpg" align="left" />
-								<span>Lorem ipsum dolor sit amet</span>
-							</td>
-							<td valign="middle" class="productPricing">
-								HK$200
-							</td>
-							<td valign="middle" class="productPricing">
-								5
-							</td>
-							<td valign="middle" class="productPricing">
-								HK$1000
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<img src="http://www.cherylclubwear.com/images/bathing%20suits%20+%20tops%205.27.07%20004.jpg" align="left" />
-								<span>Lorem ipsum dolor sit amet</span>
-							</td>
-							<td valign="middle" class="productPricing">
-								HK$200
-							</td>
-							<td valign="middle" class="productPricing">
-								5
-							</td>
-							<td valign="middle" class="productPricing">
-								HK$1000
-							</td>
-						</tr>
+						{{ order.items|generate_product_order_list:order }}
 					</tbody>
 					<tfoot>
 						<tr>
