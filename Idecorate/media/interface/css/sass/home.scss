@@ -10,9 +10,14 @@ $padding15:15px;
 	box-shadow: 5px 5px 20px #DDDEE5;
 	border:1px solid #EEEEEE;
 */
+	.dummyButton{
+		width: 25px;
+		padding: 10px 0 10px 10px;
+		float: left;
+	}
 	.dummyBannerImg{
 		float: left;
-		width: 760px;
+		width: 720px;
 		height: 330px;
 		background-color: #000000;
 
@@ -20,6 +25,7 @@ $padding15:15px;
 			width: 720px;
 			height: 330px;
 		}
+
 	}
 
 	.dummyBannerInfoWrap{

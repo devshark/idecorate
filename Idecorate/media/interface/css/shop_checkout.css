@@ -67,8 +67,21 @@
       width: 250px;
       margin: 0 15px 0 0; }
     .loginDetails form .submit {
-      width: 100px;
-      background: #d89b96; }
+      width: 80px;
+      padding: 3px;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+      /* for IE */
+      background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+      /* for webkit browsers */
+      background: -moz-linear-gradient(top, white, #da9b94);
+      /* for firefox 3.6+ */
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+      /* future proofing */
+      -khtml-border-radius: 4px;
+      /* for old Konqueror browsers */
+      border: 0; }
   .loginDetails a {
     color: #d89b96; }
 
@@ -175,3 +188,18 @@
     margin: 15px auto; }
     .disclaimer p a {
       color: #d89b96; }
+  .disclaimer button {
+    padding: 8px;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, white, #da9b94);
+    /* for firefox 3.6+ */
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    /* future proofing */
+    -khtml-border-radius: 4px;
+    /* for old Konqueror browsers */
+    border: 0; }
