@@ -88,7 +88,7 @@ body {
 
 #main-container {
   width: 1024px;
-  background-color: #FFFFFF;
+  background-color: #f0ebe5;
   margin: 0 auto;
   padding: 15px; }
 
@@ -110,9 +110,12 @@ h5 {
 #header {
   margin-bottom: 15px;
   padding-bottom: 15px;
-  border-bottom: 1px solid #EEEEEE;
   position: relative;
   min-height: 60px; }
+
+.headerRowTop {
+  width: auto;
+  height: 60px; }
 
 .headerColumn {
   vertical-align: top; }
@@ -121,6 +124,23 @@ h5 {
   text-decoration: none;
   color: #333333;
   font-size: 1.2em; }
+
+.headerRowBottom {
+  width: 100%;
+  height: auto; }
+  .headerRowBottom .search {
+    width: 260px;
+    height: auto;
+    padding: 10px;
+    background: #000000;
+    position: relative; }
+    .headerRowBottom .search .searchIcon {
+      height: 20px;
+      background: #FFFFFF;
+      margin: 0;
+      padding: 0; }
+    .headerRowBottom .search input {
+      margin: 0; }
 
 #info-menu {
   float: left; }
@@ -235,18 +255,18 @@ p {
 
 #sidebar {
   float: left;
-  width: 260px;
-  padding: 10px 0;
-  height: 310px;
+  width: 240px;
+  padding: 40px 10px;
+  height: 250px;
   overflow: auto;
-  background-color: #F0EAF2; }
+  background-color: #000000; }
 
 #sidebar ul li {
   padding: 4px 10px; }
 
 #sidebar ul li a {
   text-decoration: none;
-  color: #333333;
+  color: #FFFFFF;
   font-size: 1.2em; }
 
 #sidebar ul li:hover {

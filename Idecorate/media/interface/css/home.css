@@ -1,14 +1,19 @@
 .banner {
-  float: right;
-  width: 720px;
-  box-shadow: 5px 5px 20px #DDDEE5;
-  padding: 15px;
-  border: 1px solid #EEEEEE; }
+  float: left;
+  width: 760px;
+  background-color: #000000;
+  	/*
+  	box-shadow: 5px 5px 20px #DDDEE5;
+  	border:1px solid #EEEEEE;
+  */ }
   .banner .dummyBannerImg {
     float: left;
-    width: 300px;
-    height: 300px;
-    background-color: #DDDEE5; }
+    width: 760px;
+    height: 330px;
+    background-color: #000000; }
+    .banner .dummyBannerImg img {
+      width: 720px;
+      height: 330px; }
   .banner .dummyBannerInfoWrap {
     float: right;
     width: 405px; }
