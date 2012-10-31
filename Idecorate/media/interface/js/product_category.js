@@ -41,7 +41,7 @@ function product_list_wrap_resize(){
 }
 
 function browse_categories(elm_id){
-    //current_page = 1;
+    current_page = 1;
     var type;
     $.ajax({
         url: STYLEBOARD_AJAX_URL,
@@ -59,6 +59,9 @@ function browse_categories(elm_id){
                 type = val.model == 'category.categories' ? 'categories' : 'products';
                 var thumb = val.fields.thumbnail;
                 var name = val.fields.name;
+                if (name.length > 12){
+                    name = name.substring(0,10) + '..';
+                }
                 if(type =='products'){
                     thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
@@ -178,6 +181,9 @@ function populate_products(){
         var id = val.pk;
         type = val.model == 'category.categories' ? 'categories' : 'products';
         var name = val.fields.name;
+        if (name.length > 12){
+            name = name.substring(0,10) + '..';
+        }
         var thumb = val.fields.original_image_thumbnail;
         thumb = 'products/' + thumb;
         items += '<a _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
@@ -414,6 +420,9 @@ function populate_product_by_page(){
     $.each(data,function(i, val){
         var id = val.pk;
         var name = val.fields.name;
+        if (name.length > 12){
+            name = name.substring(0,10) + '..';
+        }
         var thumb = val.fields.original_image_thumbnail;
         thumb = 'products/' + thumb;
         var items = '<a _uid="'+id+'"  class="thumb draggable products" id="'+id+'" href="#">' +
@@ -490,6 +499,9 @@ function manage_product_resize(){
                 if ( $('#'+id).length == 0 ){
                     type = 'products';
                     var name = val.fields.name;
+                    if (name.length > 12){
+                        name = name.substring(0,10) + '..';
+                    }
                     var thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
                     item = '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +

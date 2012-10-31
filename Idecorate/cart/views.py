@@ -67,20 +67,13 @@ def update_cart(request):
 		sessionid = request.session.get('cartsession',None)
 		reponse_data = {}
 		try:
-			product = product = get_product(product_id)
+			product = get_product(product_id)
 			cartTemp = CartTemp.objects.get(product=product.product, sessionid=sessionid)
 			cartTemp.quantity = quantity
 			cartTemp.save()
-			reponse_data['status'] = 1
-			msg = 'Cart Updated'
-			reponse_data['price'] = product._unit_price
-			reponse_data['currency'] = product.currency
 		except:
-			reponse_data['status'] = 0
-			msg = 'Failed to update cart.'
-
-		reponse_data['msg'] = msg		
-		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+			return HttpResponse(0)
+		return HttpResponse(1)
 	else:
 		return HttpResponseNotFound()
 

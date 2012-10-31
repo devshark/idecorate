@@ -387,7 +387,7 @@ footer {
           #sidebar #buy-tab #buy-table tbody tr td .buyItemImg .buyItemMeta p {
             font-size: 0.688em; }
         #sidebar #buy-tab #buy-table tbody tr td input[type="text"] {
-          width: 19.531%;
+          /*width:150%/768*100;*/
           border: 1px solid #CCC;
           padding: 5px;
           -moz-border-radius: 3px;
@@ -428,10 +428,16 @@ footer {
       margin-bottom: 4px; }
     .table .tbody .tr .td p {
       font-size: 0.688em; }
+.table .span1 {
+  width: 10%; }
 .table .span2 {
   width: 20%; }
 .table .span3 {
   width: 30%; }
+.table .span4 {
+  width: 40%; }
+.table .span5 {
+  width: 50%; }
 
 .buyItemImg img, .buyItemImg .buyItemMeta {
   float: left; }
