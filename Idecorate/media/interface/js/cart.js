@@ -34,11 +34,11 @@ $(document).ready(function(){
         val = val.replace(/\./g, '');
         $(this).val(val);
         var l = $(this).val().length;
-        if (l<6){
+        if (l<=5){
             if (!isNaN($(this).val()))
                 manage_my_order();
         } else {
-            $(this).val($(this).val().substring(0,6));
+            $(this).val($(this).val().substring(0,5));
         }        
     });
     $('#tables').keyup(function(){
@@ -47,11 +47,11 @@ $(document).ready(function(){
         val = val.replace(/\./g, '');
         $(this).val(val);
         var l = $(this).val().length;
-        if (l<6){
+        if (l<=5){
             if (!isNaN($(this).val()))
                 manage_my_order();
         } else {
-            $(this).val($(this).val().substring(0,6));
+            $(this).val($(this).val().substring(0,5));
         }
     });
 });
