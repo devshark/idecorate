@@ -1,13 +1,19 @@
 #content {
+	padding: 15px;
+	background: #FFFFFF;
 
 	h3{ 
 		width: 100%;
 		height: 20px;
 		margin: 0 0 15px 0;
 		padding: 0 0 15px 0;
-		border-bottom: 1px solid #eeeeee;
+		border-bottom: 2px solid #000000;
+		color: #000000;
 	}
 
+}
+.checkout{
+	background: #FFFFFF;
 }
 
 .orderWrap {
@@ -15,12 +21,13 @@
 	form{
 
 		fieldset {
-			border: 1px solid #eeeeee;
+			border: 1px solid #000000;
 			padding: 10px;
 
 			legend{
 				margin: 0 0 0 20px;
 				font-size: 14px;
+				color: #000000;
 			}
 
 			table{
@@ -28,11 +35,12 @@
 				height: auto;
 
 				thead{
-					border-bottom: 1px solid #eeeeee;
+					border-bottom: 2px dotted #999999;
 
 					tr{
 						th{
 							padding: 10px;
+							color: #000000;
 						}
 
 					}
@@ -49,20 +57,24 @@
 								max-width: 50px;
 								max-height: 80px;
 								float: left;
+								border: 2px solid #999999;
 							}
 
 							span{
 								width: 400px;
 								height: auto;
 								display: block;
-								margin: 30px 0 0 60px;
+								margin: 20px 0 0 60px;
+								font-size: 14px;
 								font-weight: bold;
+								color: #d89b96;
 							}
 
 						}
 
 						.productPricing {
 							text-align:center;
+							color: #000000;
 						}
 
 					}
@@ -70,11 +82,12 @@
 				}
 
 				tfoot{
-					border-top: 1px solid #eeeeee;
+					border-top: 2px dotted #999999;
 
 					tr{
 						td{
 							padding: 10px;
+							color: #000000;
 						}
 					}
 				}
@@ -88,15 +101,17 @@
 }
 
 .loginDetails{
-	width: 100;
+	width: auto;
 	height: auto;
 	margin: 15px auto;
 	padding: 10px;
-	border: 1px solid #eeeeee;
+	background: #fbf6f0;
+	box-shadow: 3px 3px 3px 2px #EEEEEE;
 
 	h4{
 		font-weight: bold;
 		margin: 0 0 15px 0;
+		color: #000000;
 	}
 
 	form{
@@ -109,8 +124,13 @@
 
 		.submit{
 			width: 100px;
+			background: #d89b96;
 		}
 
+	}
+
+	a {
+		color: #d89b96;
 	}
 
 }
@@ -121,9 +141,9 @@
 	margin: 0 0 15px 0;
 
 	fieldset{
-		width: 499px;
-		height: 145px;
-		border: 1px solid #eeeeee;
+		width: 470px;
+		height: 200px;
+		border: 1px solid #000000;
 		float: left;
 
 		legend{
@@ -133,24 +153,6 @@
 
 		form{
 			padding: 15px;
-
-			table{
-				tr{
-					td{
-						label{
-							width: 80px;
-							display: block;
-						}
-
-						input, .districtList{
-							width: 300px;
-						}
-
-					}
-				
-				}
-			
-			}
 		
 		}
 
@@ -159,12 +161,19 @@
 	.personal{
 		margin: 0 20px 0 0;
 
-		table{
-			tr{
-				td{
-					padding: 2px 0;
-				}
+		div {
+			margin-bottom: 15px;
+		
+			label {
+				display: block;
+				width: 70px;
+				height: auto;
+				padding-top: 10px;
+				float: left;
+			}
 
+			input {
+				width: 350px;
 			}
 
 		}
@@ -173,12 +182,23 @@
 
 	.delivery{
 
-		table{
-			tr{
-				td{
-					padding: 2px 0;
-				}
+		div {
+			margin-bottom: 15px;
+		
+			label {
+				display: block;
+				width: 70px;
+				height: auto;
+				padding-top: 10px;
+				float: left;
+			}
 
+			input {
+				width: 350px;
+			}
+
+			select {
+				width: 355px;
 			}
 
 		}
@@ -193,9 +213,9 @@
 	margin: 0 0 15px 0;
 
 	fieldset{
-		width: 499px;
+		width: 470px;
 		height: 145px;
-		border: 1px solid #eeeeee;
+		border: 1px solid #000000;
 		float: left;
 
 		legend{
@@ -217,6 +237,11 @@
 			li{
 				list-style-type: disc;
 				margin: 0 0 0 15px;
+
+				a {
+					color: #d89b96;
+				}
+
 			}
 	
 		}
@@ -229,12 +254,24 @@
 
 	.paymentMethod{
 
-		table{
-			tr{
-				td{
-					padding: 2px 0;
-				}
+		div {
+			margin-bottom: 15px;
+			
+			input {
+				float: left;
+				margin-top: 5px;
+			}
 
+			label {
+				display: block;
+				width: 110px;
+				height: auto;
+				padding-top: 8px;
+				float: left;
+			}
+
+			img {
+				float: left;
 			}
 
 		}
@@ -248,9 +285,9 @@
 	height: auto;
 
 	fieldset{
-		width: 499px;
+		width: 470px;
 		height: 145px;
-		border: 1px solid #eeeeee;
+		border: 1px solid #000000;
 		float: left;
 
 		legend{
@@ -260,6 +297,11 @@
 
 		p{
 			padding: 15px;
+
+			a {
+				color: #d89b96;
+			}
+
 		}
 	
 	}
@@ -274,6 +316,11 @@
 	p{
 		width: 600px;
 		margin: 15px auto;
+
+		a {
+			color: #d89b96;
+		}
+
 	}
 
 }
