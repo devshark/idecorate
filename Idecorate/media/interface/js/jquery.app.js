@@ -481,7 +481,10 @@ function create_instance(options){
         //GLOBAL var objCounter is for setting z-index for each created instance
         objCounter++;
 
-    }).fadeIn(1000);
+    }).fadeIn(1000, function(e){
+        //track event
+        eventTracker(object,'create');        
+    });
 
 }
 
@@ -510,7 +513,7 @@ function append_to_canvas(event, obj, index){
     if(object.hasClass('selected')){object.siblings('.unselected').removeClass('selected');}
 
     //track event
-    eventTracker(object,'create');
+    //eventTracker(object,'create');
 
     return object;
 }
