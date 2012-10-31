@@ -85,6 +85,9 @@ section{
 	padding: 15px 30px 0 30px;
 
 	h2{
+		font-family: Times New Roman, serif;
+		text-transform: uppercase;
+		color: #000000;
 		margin-bottom: 20px;
 		padding-bottom: $padding15;
 		border-bottom: 2px solid #000000;
@@ -97,7 +100,7 @@ section{
 	padding: 10px;
 	margin-bottom: 16px;
 	background: #f0ebe5;
-	box-shadow: 5px 5px 20px #999999;
+	box-shadow: 5px 5px 5px #CCCCCC;
 
 	.featureImg{
 		width: 450px;
@@ -114,6 +117,7 @@ section{
 		margin: 5px 0;
 		padding: 10px !important;
 		background-color: #f1ccc6;
+		font-family: Times New Roman, serif;
 		font-style: italic;
 		color: #000000;
 		padding: 5px;
@@ -139,6 +143,7 @@ section{
 
 		p{
 			padding: 5px;
+			margin-top: 5px;
 			background: #99a237;
 			font-size: 1.2em;
 			font-style: italic;
