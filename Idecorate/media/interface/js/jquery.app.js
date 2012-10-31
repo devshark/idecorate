@@ -285,6 +285,9 @@ $(document).ready(function () {
                 },300);
             }
 
+            //track event
+            eventTracker($(this),'move');
+
         }
     }).resizable({
 
@@ -741,11 +744,16 @@ function close_modal(){
 
 function setProductPositions() {
 
-    product_objects = '';
+    var product_objects = '';
 
-    $('.product.unselected').each(function(e){
+    var clonedObject = $('.product.unselected').clone();
 
-        product_objects += $(this).prop('outerHTML').replace(' selected','');
+    //clonedObject.;
+
+    clonedObject.each(function(e){
+        $(this).removeClass('selected');
+        //$(this).removeClass('selected');
+        product_objects += $(this).prop('outerHTML');
 
     });
 
