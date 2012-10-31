@@ -71,7 +71,7 @@ section {
   float: left;
   width: 450px;
   padding: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 23px;
   background: #f0ebe5;
   box-shadow: 5px 5px 5px #CCCCCC; }
   .featureContentWrap .featureImg {
@@ -137,7 +137,7 @@ section {
 
 .featureContentWrap,
 .featureContentWrap + .featureContentWrap + .featureContentWrap {
-  margin-right: 16px; }
+  margin-right: 23px; }
 
 .featureContentWrap + .featureContentWrap,
 .featureContentWrap + .featureContentWrap + .featureContentWrap + .featureContentWrap {

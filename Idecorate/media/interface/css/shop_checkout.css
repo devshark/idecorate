@@ -22,11 +22,10 @@
   .orderWrap form fieldset table {
     width: 100%;
     height: auto; }
-    .orderWrap form fieldset table thead {
+    .orderWrap form fieldset table thead tr th {
+      padding: 10px;
+      color: #000000;
       border-bottom: 2px dotted #999999; }
-      .orderWrap form fieldset table thead tr th {
-        padding: 10px;
-        color: #000000; }
     .orderWrap form fieldset table tbody tr td {
       padding: 10px;
       margin: 0 auto; }
@@ -46,11 +45,10 @@
     .orderWrap form fieldset table tbody tr .productPricing {
       text-align: center;
       color: #000000; }
-    .orderWrap form fieldset table tfoot {
+    .orderWrap form fieldset table tfoot tr td {
+      padding: 10px;
+      color: #000000;
       border-top: 2px dotted #999999; }
-      .orderWrap form fieldset table tfoot tr td {
-        padding: 10px;
-        color: #000000; }
 
 .loginDetails {
   width: auto;

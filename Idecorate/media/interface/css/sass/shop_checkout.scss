@@ -35,12 +35,12 @@
 				height: auto;
 
 				thead{
-					border-bottom: 2px dotted #999999;
 
 					tr{
 						th{
 							padding: 10px;
 							color: #000000;
+							border-bottom: 2px dotted #999999;
 						}
 
 					}
@@ -82,12 +82,12 @@
 				}
 
 				tfoot{
-					border-top: 2px dotted #999999;
 
 					tr{
 						td{
 							padding: 10px;
 							color: #000000;
+							border-top: 2px dotted #999999;
 						}
 					}
 				}
