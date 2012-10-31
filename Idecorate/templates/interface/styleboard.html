@@ -112,10 +112,12 @@
                                 <li><a href="#templates">Templates</a></li>
                             </ul>
                         </div>
-                        <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
-                        <div id="products" class="product-list-wrap" style="display:none;">
-                            {% include 'interface/styleboard_categories.html' %}
-                        </div> 
+                        <div id="products" style="display:none; height:100%;">
+                            <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
+                            <div class="product-list-wrap">
+                                {% include 'interface/styleboard_categories.html' %}
+                            </div> 
+                        </div>
                         <div id="embellishments" style="display:none;"></div>
                         <div id="templates" style="display:none;"></div>                       
                     </div><!-- end of create -->
@@ -232,6 +234,7 @@
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
 <!-- STYLEBOARD TABPANNELS -->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.change.tab.js"></script>
 <!-- PRODUCT CATEGORIES AJAX CALLS -->
 <script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
@@ -257,34 +260,6 @@
         $('#create-tab-nav').changeTab();
 
     });
-
-    (function( $ ) {
-      $.fn.changeTab = function(options) {
-        
-        options = $.extend({activeTabClass:"activeTab",activePanel:"activePannel",defaultTab:"li:first-child"}, options);
-            
-            var defTab      = this.find('ul li:first-child'),
-                pannelID    = $('a', defTab).attr('href');
-
-                defTab.addClass(options.activeTabClass);
-                $(pannelID).show(100);
-
-        return  this.find('ul li').each(function(e){
-                    $(this).on('click',function(e){
-                        if($(this).hasClass(options.activeTabClass) === false){
-                            $(this).siblings('li').removeClass(options.activeTabClass);
-                            $(this).addClass(options.activeTabClass);
-                            defTab = $(this);
-                        }
-                    });
-                    $('a',this).click(function(ev){
-                        ev.preventDefault();
-                        console.log($(this).attr('href'));
-                    });
-                });
-
-      };
-    })( jQuery );
 
     $(window).resize(resizedContentHeight);
 
