@@ -22,11 +22,10 @@
   .orderWrap form fieldset table {
     width: 100%;
     height: auto; }
-    .orderWrap form fieldset table thead {
+    .orderWrap form fieldset table thead tr th {
+      padding: 10px;
+      color: #000000;
       border-bottom: 2px dotted #999999; }
-      .orderWrap form fieldset table thead tr th {
-        padding: 10px;
-        color: #000000; }
     .orderWrap form fieldset table tbody tr td {
       padding: 10px;
       margin: 0 auto; }
@@ -46,11 +45,10 @@
     .orderWrap form fieldset table tbody tr .productPricing {
       text-align: center;
       color: #000000; }
-    .orderWrap form fieldset table tfoot {
+    .orderWrap form fieldset table tfoot tr td {
+      padding: 10px;
+      color: #000000;
       border-top: 2px dotted #999999; }
-      .orderWrap form fieldset table tfoot tr td {
-        padding: 10px;
-        color: #000000; }
 
 .loginDetails {
   width: auto;
@@ -69,8 +67,22 @@
       width: 250px;
       margin: 0 15px 0 0; }
     .loginDetails form .submit {
-      width: 100px;
-      background: #d89b96; }
+      width: 80px;
+      padding: 3px;
+      cursor: pointer;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+      /* for IE */
+      background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+      /* for webkit browsers */
+      background: -moz-linear-gradient(top, white, #da9b94);
+      /* for firefox 3.6+ */
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      border-radius: 4px;
+      /* future proofing */
+      -khtml-border-radius: 4px;
+      /* for old Konqueror browsers */
+      border: 0; }
   .loginDetails a {
     color: #d89b96; }
 
@@ -177,3 +189,19 @@
     margin: 15px auto; }
     .disclaimer p a {
       color: #d89b96; }
+  .disclaimer button {
+    padding: 8px;
+    cursor: pointer;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, white, #da9b94);
+    /* for firefox 3.6+ */
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    /* future proofing */
+    -khtml-border-radius: 4px;
+    /* for old Konqueror browsers */
+    border: 0; }

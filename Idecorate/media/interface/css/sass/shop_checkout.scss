@@ -35,12 +35,12 @@
 				height: auto;
 
 				thead{
-					border-bottom: 2px dotted #999999;
 
 					tr{
 						th{
 							padding: 10px;
 							color: #000000;
+							border-bottom: 2px dotted #999999;
 						}
 
 					}
@@ -82,12 +82,12 @@
 				}
 
 				tfoot{
-					border-top: 2px dotted #999999;
 
 					tr{
 						td{
 							padding: 10px;
 							color: #000000;
+							border-top: 2px dotted #999999;
 						}
 					}
 				}
@@ -123,8 +123,17 @@
 		}
 
 		.submit{
-			width: 100px;
-			background: #d89b96;
+			width: 80px;
+			padding: 3px;
+			cursor: pointer;
+			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
+          background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
+          background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+			border-radius: 4px; /* future proofing */
+			-khtml-border-radius: 4px; /* for old Konqueror browsers */
+			border: 0;
 		}
 
 	}
@@ -321,6 +330,19 @@
 			color: #d89b96;
 		}
 
+	}
+
+	button {
+		padding: 8px;
+		cursor: pointer;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
+      background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
+      background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
+		-moz-border-radius: 4px;
+		-webkit-border-radius: 4px;
+		border-radius: 4px; /* future proofing */
+		-khtml-border-radius: 4px; /* for old Konqueror browsers */
+		border: 0;
 	}
 
 }

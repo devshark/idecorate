@@ -6,9 +6,13 @@
   	box-shadow: 5px 5px 20px #DDDEE5;
   	border:1px solid #EEEEEE;
   */ }
+  .banner .dummyButton {
+    width: 25px;
+    padding: 10px 0 10px 10px;
+    float: left; }
   .banner .dummyBannerImg {
     float: left;
-    width: 760px;
+    width: 720px;
     height: 330px;
     background-color: #000000; }
     .banner .dummyBannerImg img {
@@ -71,7 +75,7 @@ section {
   float: left;
   width: 450px;
   padding: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 23px;
   background: #f0ebe5;
   box-shadow: 5px 5px 5px #CCCCCC; }
   .featureContentWrap .featureImg {
@@ -137,7 +141,7 @@ section {
 
 .featureContentWrap,
 .featureContentWrap + .featureContentWrap + .featureContentWrap {
-  margin-right: 16px; }
+  margin-right: 23px; }
 
 .featureContentWrap + .featureContentWrap,
 .featureContentWrap + .featureContentWrap + .featureContentWrap + .featureContentWrap {
