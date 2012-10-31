@@ -54,6 +54,16 @@ $(document).ready(function(){
             $(this).val($(this).val().substring(0,5));
         }
     });
+    $('#createTab').click(function(){
+        if($('input[name="qty"]').length>0){
+            if($('.myorder-edit a').hasClass('hidden'))
+                $('.myorder-edit a').removeClass('hidden');
+        }
+    });
+    $('#buyTab').click(function(){
+        if(!$('.myorder-edit a').hasClass('hidden'))
+            $('.myorder-edit a').addClass('hidden');
+    });
 });
 
 function buy_tab_resize(){
@@ -205,6 +215,15 @@ function manage_total(){
         cart_total = cart_total + subtotal;
     });
     total = cart_total;
+
+    if (cart_total > 0){
+        if($('.myorder-edit a').hasClass('hidden') && !$('#buyTab').hasClass('active'))
+            $('.myorder-edit a').removeClass('hidden');
+    } else {
+        if(!$('.myorder-edit a').hasClass('hidden'))
+            $('.myorder-edit a').addClass('hidden');
+    }
+
     cart_total = cart_total.toFixed(2);
     $('#cart-total-cur').text('$');
     cart_total = addCommas(cart_total);
