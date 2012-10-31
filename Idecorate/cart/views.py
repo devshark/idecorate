@@ -55,7 +55,12 @@ def add_to_cart_ajax(request):
 		reponse_data['price'] = product._unit_price
 		reponse_data['currency'] = product.currency
 		reponse_data['original_image'] = product.product.original_image
-		reponse_data['guest_table'] = product.product.original_image
+		guest_table = 'Table'
+		try:
+			guest_table = product.product.guest_table.name
+		except:
+			pass
+		reponse_data['guest_table'] = guest_table
 		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
 	else:
 		return HttpResponseNotFound()

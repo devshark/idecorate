@@ -28,6 +28,42 @@ $(document).ready(function(){
     $('#buyTab').click(function(){
         buy_tab_resize();
     });
+    $('#guests').keyup(function(){
+        var val = $(this).val();
+        val = val.replace(/[^0-9]/g,'');
+        val = val.replace(/\./g, '');
+        $(this).val(val);
+        var l = $(this).val().length;
+        if (l<=5){
+            if (!isNaN($(this).val()))
+                manage_my_order();
+        } else {
+            $(this).val($(this).val().substring(0,5));
+        }        
+    });
+    $('#tables').keyup(function(){
+        var val = $(this).val();
+        val = val.replace(/[^0-9]/g,'');
+        val = val.replace(/\./g, '');
+        $(this).val(val);
+        var l = $(this).val().length;
+        if (l<=5){
+            if (!isNaN($(this).val()))
+                manage_my_order();
+        } else {
+            $(this).val($(this).val().substring(0,5));
+        }
+    });
+    $('#createTab').click(function(){
+        if($('input[name="qty"]').length>0){
+            if($('.myorder-edit a').hasClass('hidden'))
+                $('.myorder-edit a').removeClass('hidden');
+        }
+    });
+    $('#buyTab').click(function(){
+        if(!$('.myorder-edit a').hasClass('hidden'))
+            $('.myorder-edit a').addClass('hidden');
+    });
 });
 
 function buy_tab_resize(){
@@ -69,15 +105,16 @@ function add_to_cart(prod_id){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
+            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" _gs="' + data.guest_table + '" _dq="' + data.default_quantity + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
             '<td class="amount" id="subtotal_' + data.id + '">$' + price + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
-        var cart_total = total.toFixed(2);
-        cart_total = addCommas(cart_total);
-        $('#cart-total-amount').text(cart_total);
-        $('#cart-total-cur').text('$');
+        // var cart_total = total.toFixed(2);
+        // cart_total = addCommas(cart_total);
+        // $('#cart-total-amount').text(cart_total);
+        // $('#cart-total-cur').text('$');
         attachEventToQty();
+        manage_total();
     }
 }
 
@@ -87,36 +124,10 @@ function attachEventToQty() {
     });
 
     $('input[name="qty"]').keyup(function(e){
-
         var val = $(this).val();
         val = val.replace(/[^0-9]/g,'');
         val = val.replace(/\./g, '');
         $(this).val(val);
-
-        //this.value = this.value.replace('[^0-9\.]/g','');
-
-        // if (!$.browser.opera){
-        //     if (e.shiftKey){
-        //         return false;
-        //     }
-
-        //     var action = '';
-        //     if ( e.keyCode==116 || e.keyCode==37 || e.keyCode==39 || e.keyCode==9)
-        //         return true;
-        //     if ( e.keyCode == 8 || e.keyCode == 46){
-        //         action = 'del';
-        //     } else if ( (e.keyCode  < 48 || e.keyCode > 57) && (e.keyCode  < 96 || e.keyCode > 105) ){
-        //         return false;
-        //     }            
-        //     var l = $(this).val().length;            
-        //     if ( l >= 10 && action != 'del')
-        //         return false;
-        //     return true;
-        // } else {
-        //     if(!isNumeric($(this).val())){
-        //         isNumeric
-        //     }
-        // }
         var l = $(this).val().length;
         if (l<10){
             if (!isNaN($(this).val()))
@@ -125,15 +136,29 @@ function attachEventToQty() {
             $(this).val($(this).val().substring(0,10));
         }
     });
-
-    // $('input[name="qty"]').keyup(function(){
-    //     if($(this).val()>0)
-    //         update_cart(this);
-    //     manage_computation(this);
-    // });
     $('input[name="qty"]').blur(function(){
         manage_computation(this);
     });
+}
+
+function manage_my_order(){
+    var tables = $('#tables').val()>0?$('#tables').val():1;
+    var guests = $('#guests').val()>0?$('#guests').val():1;
+
+    $('input[name="qty"]').each(function(){
+        var gs = $(this).attr('_gs');
+        var dq = $(this).attr('_dq');
+        dq = parseInt(dq);
+        if ((gs=='Table' || gs=='Tables') && tables>0){
+            $(this).val(Math.ceil(tables/dq));
+            update_cart(this);
+        } else if ((gs=='Guest' || gs=='Guests') && tables>0) {
+            $(this).val(Math.ceil(guests/dq));
+            update_cart(this);
+        }
+    });
+    manage_subtotal();
+    manage_total();
 }
 
 function cal(elm){
@@ -190,9 +215,21 @@ function manage_total(){
         cart_total = cart_total + subtotal;
     });
     total = cart_total;
+
+    if (cart_total > 0){
+        if($('.myorder-edit a').hasClass('hidden') && !$('#buyTab').hasClass('active'))
+            $('.myorder-edit a').removeClass('hidden');
+    } else {
+        if(!$('.myorder-edit a').hasClass('hidden'))
+            $('.myorder-edit a').addClass('hidden');
+    }
+
     cart_total = cart_total.toFixed(2);
     $('#cart-total-cur').text('$');
-    $('#cart-total-amount').text(addCommas(cart_total));
+    cart_total = addCommas(cart_total);
+    $('#cart-total-cur').text('$');
+    $('#cart-total-amount').text(cart_total);
+    $('#my-order-total').text('$'+cart_total);
 }
 
 function isNumeric(fData)
@@ -212,6 +249,7 @@ function remove_from_cart(prod_id){
 	action_url = REMOVE_TO_CART_URL;
 	arrange_tr_class();
     $('#prod_cart_'+prod_id).remove();
+    manage_total();
 }
 
 function update_cart(elm){
