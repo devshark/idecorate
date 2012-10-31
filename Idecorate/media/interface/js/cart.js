@@ -192,7 +192,9 @@ function manage_total(){
     total = cart_total;
     cart_total = cart_total.toFixed(2);
     $('#cart-total-cur').text('$');
-    $('#cart-total-amount').text(addCommas(cart_total));
+    cart_total = addCommas(cart_total);
+    $('#cart-total-amount').text(cart_total);
+    $('#my-order-total').text('$'+cart_total);
 }
 
 function isNumeric(fData)
