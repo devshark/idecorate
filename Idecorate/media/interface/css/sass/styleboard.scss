@@ -97,6 +97,7 @@ body {
 	color: $grey;
 	background-color: #FFFFFF;
 	overflow:auto;
+	*min-width:800px;
 	height:100%;
 }
 
@@ -380,6 +381,15 @@ footer{
 				a:hover{
 					background-color: #CCC;
 				}
+			}
+
+			li.activeTab a{
+				background-color: #FFFFFF;
+			    border-bottom-color: #FFFFFF;
+			    border-bottom-style: solid;
+			    border-bottom-width: 1px;
+			    color: #888888;
+			    margin-bottom: -1px;
 			}
 		}
 	}

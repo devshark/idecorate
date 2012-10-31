@@ -98,6 +98,7 @@ body {
   color: #666666;
   background-color: #FFFFFF;
   overflow: auto;
+  *min-width: 800px;
   height: 100%; }
 
 #page-wrap {
@@ -308,6 +309,13 @@ footer {
         color: #333; }
       #sidebar #create-tab-nav ul li a:hover {
         background-color: #CCC; }
+    #sidebar #create-tab-nav ul li.activeTab a {
+      background-color: #FFFFFF;
+      border-bottom-color: #FFFFFF;
+      border-bottom-style: solid;
+      border-bottom-width: 1px;
+      color: #888888;
+      margin-bottom: -1px; }
   #sidebar #create-tab {
     overflow: hidden;
     border-left: 1px solid #DDD;
