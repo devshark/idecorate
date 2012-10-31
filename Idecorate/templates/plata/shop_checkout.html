@@ -5,10 +5,9 @@
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
 {% endblock %}
 {% block content %}
-<div id="content" class="clearfix">
+<div id="content" class="clearfix checkout">
 	<h3>Checkout</h3>
 	<div class="clearfix orderWrap">
-		<!-- <span>Your Order</span> -->
 		<form>
 			<fieldset>
 				<legend>Your Order</legend>
@@ -58,53 +57,45 @@
 		<fieldset class="personal">
 			<legend>Personal Information</legend>
 			<form>
-				<table>
-					<tr>
-						<td><label>Salutations</label></td>
-						<td>
-							<select>
-								<option>Mr.</option>
-								<option>Mrs.</option>
-								<option>Ms.</option>
-							</select>
-						</td>
-					</tr>
-					<tr>
-						<td>First Name</td>
-						<td><input type="text" /></td>
-					</tr>
-					<tr>
-						<td>Last Name</td>
-						<td><input type="text" /></td>
-					</tr>
-					<tr>
-						<td>Email</td>
-						<td><input type="text" /></td>
-					</tr>
-				</table>
+				<div class="clearfix">
+					<label>Salutations</label>
+					<select>
+						<option>Mr.</option>
+						<option>Mrs.</option>
+						<option>Ms.</option>
+					</select>
+				</div>
+				<div class="clearfix">
+					<label>First Name</label>
+					<input type="text" />
+				</div>
+				<div class="clearfix">
+					<label>Last Name</label>
+					<input type="text" />
+				</div>
+				<div class="clearfix">
+					<label>Email</label>
+					<input type="text" />
+				</div>
 			</form>
 		</fieldset>
 		<fieldset class="delivery">
 			<legend>Delivery Address</legend>
 			<form>
-				<table>
-					<tr>
-						<td><label>Address 1</label></td>
-						<td><input type="text" /></td>
-					</tr>
-					<tr>
-						<td><label>Address 2</label></td>
-						<td><input type="text" /></td>
-					</tr>
-					<tr>
-						<td><label>District</label></td>
-						<td>
-							<select class="districtList">
-								<option>Sheung Wan, Hong Kong Island</option>
-							</select>
-						</td>
-					</tr>
-				</table>
+				<div class="clearfix">
+					<label>Address 1</label>
+					<input type="text" />
+				</div>
+				<div class="clearfix">
+					<label>Address 2</label>
+					<input type="text" />
+				</div>
+				<div class="clearfix">
+					<label>District</label>
+					<select class="districtList">
+						<option>Sheung Wan, Hong Kong Island</option>
+					</select>
+				</div>
 				<input type="checkbox"> My delivery address is the same as my billing address.
 			</form>
 		</fieldset>
@@ -125,20 +116,21 @@
 		<fieldset class="paymentMethod">
 			<legend>Payment Method</legend>
 			<form>
-				<table>
-					<tr>
-						<td><input type="radio"> Paypal</td>
-						<td><img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" /></td>
-					</tr>
-					<tr>
-						<td><input type="radio"> VISA/Mastercard</td>
-						<td><img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" /></td>
-					</tr>
-					<tr>
-						<td><input type="radio"> American Express &nbsp</td>
-						<td><img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" /></td>
-					</tr>
-				</table>
+				<div class="clearfix">
+					<input type="radio">
+					<label>Paypal</label>
+					<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />
+				</div>
+				<div class="clearfix">
+					<input type="radio">
+					<label>VISA/Mastercard</label>
+					<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />
+				</div>
+				<div class="clearfix">
+					<input type="radio">
+					<label>American Express</label>
+					<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
+				</div>
 			</form>
 		</fieldset>
 	</div>

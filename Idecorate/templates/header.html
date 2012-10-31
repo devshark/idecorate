@@ -1,16 +1,24 @@
 {% load idecorate_interface %}
-<div class="headerColumn clearfix" id="info-menu">
-	{{ "info"|getInterfaceMenus }}
-	<input type="text" placeholder="Search Products" > 
-	<input type="submit" value="Search">
+<div class="headerRowTop clearfix">
+	<div class="headerColumn clearfix" id="info-menu">
+		{{ "info"|getInterfaceMenus }}
+	</div>
+	<div class="headerColumn clearfix" id="logo">
+		<a href="{% url home %}">
+			<h1>Idecorate</h1>
+			<h3>Wedding</h3>
+		</a>
+	</div>
+	<div class="headerColumn clearfix" id="site-menu">
+		{{ "site"|getInterfaceMenus }}
+	</div>
 </div>
-<div class="headerColumn clearfix" id="logo">
-	<a href="{% url home %}">
-		<h1>Idecorate</h1>
-		<h3>Wedding</h3>
-	</a>
+<div class="headerRowBottom clearfix">
+	<div class="search">
+		<input type="image" src="http://media.sunherald.com/mistatic/images/search/magnifying_glass_icon.png" class="searchIcon" />
+		<input type="text" placeholder="Search Products" > 
+		<input type="submit" value="Search">
+	</div>
+	<div class="socialIcons">
+	</div>
 </div>
-<div class="headerColumn clearfix" id="site-menu">
-	{{ "site"|getInterfaceMenus }}
-</div>
-
