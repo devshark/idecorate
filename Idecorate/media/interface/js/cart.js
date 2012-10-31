@@ -168,7 +168,7 @@ function manage_computation(elm){
 
 function manage_subtotal(){
     $('input[name="qty"]').each(function(){
-        var pid = $(elm).attr('_pid');
+        var pid = $(this).attr('_pid');
         var pr = $(this).attr('_pr').replace(',','');
         pr = parseFloat(pr);
         var qty = $(this).val()<=0?0:$(this).val();

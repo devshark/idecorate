@@ -271,6 +271,9 @@ $(document).ready(function () {
             //track event
             eventTracker($('.selected'),'move');
 
+            //track event
+            eventTracker($(this),'move');
+
         }
     }).resizable({
 
@@ -478,7 +481,10 @@ function create_instance(options){
         //GLOBAL var objCounter is for setting z-index for each created instance
         objCounter++;
 
-    }).fadeIn(1000);
+    }).fadeIn(1000, function(e){
+        //track event
+        eventTracker(object,'create');        
+    });
 
 }
 
@@ -507,7 +513,7 @@ function append_to_canvas(event, obj, index){
     if(object.hasClass('selected')){object.siblings('.unselected').removeClass('selected');}
 
     //track event
-    eventTracker(object,'create');
+    //eventTracker(object,'create');
 
     return object;
 }
@@ -725,11 +731,16 @@ function close_modal(){
 
 function setProductPositions() {
 
-    product_objects = '';
+    var product_objects = '';
 
-    $('.product.unselected').each(function(e){
+    var clonedObject = $('.product.unselected').clone();
 
-        product_objects += $(this).prop('outerHTML').replace(' selected','');
+    //clonedObject.;
+
+    clonedObject.each(function(e){
+        $(this).removeClass('selected');
+        //$(this).removeClass('selected');
+        product_objects += $(this).prop('outerHTML');
 
     });
 
