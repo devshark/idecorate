@@ -125,6 +125,7 @@
 		.submit{
 			width: 80px;
 			padding: 3px;
+			cursor: pointer;
 			filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
           background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
           background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
@@ -333,6 +334,7 @@
 
 	button {
 		padding: 8px;
+		cursor: pointer;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
       background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
       background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */

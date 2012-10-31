@@ -69,6 +69,7 @@
     .loginDetails form .submit {
       width: 80px;
       padding: 3px;
+      cursor: pointer;
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
       /* for IE */
       background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
@@ -190,6 +191,7 @@
       color: #d89b96; }
   .disclaimer button {
     padding: 8px;
+    cursor: pointer;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
     /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
