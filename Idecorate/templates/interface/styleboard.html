@@ -58,6 +58,20 @@
             overflow: auto;
             height: 83%;
         }
+
+        .thumb.categories span{
+            height: 30px;
+        }
+        .myorder-edit {
+            float: right;
+            font-weight: normal;
+            font-size: small;
+            line-height: 20px;
+            padding-right: 10px;
+        }
+        .myorder-edit a {
+            color: #666;
+        }
         </style>
     </head>
     <body>
@@ -72,7 +86,7 @@
             			<li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
             		</ul>
                     <div id="sidebar-form-wrap"  class="clearfix">
-                        <h3>My Order</h3>
+                        <h3>My Order <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div></h3>
                         <!-- <form action="" method="post"> -->
                             {% csrf_token %}
                             <fieldset>
