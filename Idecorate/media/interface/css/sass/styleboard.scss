@@ -508,7 +508,7 @@ footer{
 						}
 
 						input[type="text"]{
-							width:150%/768*100;
+							/*width:150%/768*100;*/
 							border: 1px solid #CCC;
 							padding: 5px;
 							-moz-border-radius: 3px;
@@ -574,12 +574,24 @@ footer{
 		}
 	}
 
+	.span1 {
+	    width: 10%;
+	}
+
 	.span2 {
 	    width: 20%;
 	}
 
 	.span3 {
 	    width: 30%;
+	}
+
+	.span4 {
+	    width: 40%;
+	}
+
+	.span5 {
+	    width: 50%;
 	}
 }
 .buyItemImg{
