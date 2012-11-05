@@ -94,6 +94,7 @@ def checkout(request):
 		sessionid = generate_unique_id()
 		request.session['cartsession'] = sessionid
 	cart_item = CartTemp.objects.filter(sessionid=sessionid)
+	print cart_item
 
 	if cart_item.count() > 0:
 		for cart in cart_item:
