@@ -151,7 +151,8 @@ def get_product_original_image(request):
 		product = Product.objects.get(id=int(product_id))
 		ret['original_image'] = product.original_image
 		ret['no_background'] = product.no_background
-
+		ret['default_quantity'] = product.default_quantity
+		ret['guest_table'] = product.guest_table.name
 
 		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.original_image))
 		

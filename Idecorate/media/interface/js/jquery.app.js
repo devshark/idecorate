@@ -57,6 +57,8 @@ $(document).ready(function () {
                         img_h       = data.original_image_h;
                         img_w_bg    = data.original_image;
                         img_wo_bg   = data.no_background;
+                        p_d_qty     = data.default_quantity;
+                        p_g_t       = data.guest_table;
                         // img_wo_bg_w = data.no_background_w;
                         // img_wo_bg_h = data.no_background_h;
 
@@ -68,7 +70,9 @@ $(document).ready(function () {
                                     _img_wo_b: img_wo_bg,
                                     _img_w_b : img_w_bg,
                                     _width   : img_w,
-                                    _height  : img_h
+                                    _height  : img_h,
+                                    _p_d_qty : p_d_qty,
+                                    _p_g_t   : p_g_t
                                 });
                     },
                     error: function(msg) {
@@ -425,7 +429,7 @@ $(document).ready(function () {
 });
 
 function create_instance(options){
-    var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b}).hide().load(function () {
+    var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b,'_def_qty':options._p_d_qty,'_gst_tb':options._p_g_t}).hide().load(function () {
         var imgWidth    = options._width;
         var imgHeight   = options._height;
         var dimensions  = aspectratio(imgWidth, imgHeight, .60);
