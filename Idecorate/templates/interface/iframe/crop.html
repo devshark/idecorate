@@ -72,6 +72,8 @@
         <script type="text/javascript">
 
         PIC_FILENAME = '{{ filename }}';
+        BASE_FILENAME = '{{ file_only }}';
+        CROP_URL = '{% url cropped %}';
         
         </script>
         <script type="text/javascript" src="/media/interface/js/crop.js"></script>
@@ -85,7 +87,7 @@
             </h4>
             <div id="canvas_container"><div id="main"></div></div>
             <div id="formpic"></div>
-            <div id="modal-footer"><a href="#" class="cstyle">Clear</a> <span class="clearfix"><input type="button" name="submit" value="Ok" /> <input type="button" name="cancel" value="Cancel" /></span></div>
+            <div id="modal-footer"><a href="#" class="cstyle">Clear</a> <span class="clearfix"><input type="button" name="submit" value="Ok" id="crop_it" /> <input type="button" name="cancel" value="Cancel" id="cancel_crop" /></span></div>
         </div>
     </body>
 </html>

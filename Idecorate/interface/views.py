@@ -17,6 +17,7 @@ from cart.models import Product
 from cart.services import generate_unique_id, clear_cart_temp
 from django.conf import settings
 from PIL import Image
+import ImageDraw
 from django.core.urlresolvers import reverse
 import re
 
@@ -175,6 +176,7 @@ def crop(request, id):
 	info = {}
 
 	info['filename'] = "%s?filename=%s" % (reverse('crop_view'), re.sub(r'\?[0-9].*','', str(id)))
+	info['file_only'] = re.sub(r'\?[0-9].*','', str(id))
 
 	return render_to_response('interface/iframe/crop.html', info,RequestContext(request))
 
@@ -285,4 +287,40 @@ def crop_view(request):
 	response = HttpResponse(mimetype="image/png")
 	#newImg.save(response, "PNG")
 	imgBackground.save(response, "PNG")
+	return response
+
+
+def cropped(request):
+
+	filename = request.GET.get('filename')
+
+	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", filename))
+	back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+	back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+	poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT))
+	pdraw = ImageDraw.Draw(poly)
+
+	dimensionList = []
+	splittedPosts = request.GET.get('dimensions').split(',')
+
+	if request.GET.get('task') == 'poly':
+		for splittedPost in splittedPosts:
+			spl = splittedPost.split(':')
+			dimensionList.append((float(spl[0]),float(spl[1])))
+
+		pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+	elif request.GET.get('task') == 'rect':
+		for splittedPost in splittedPosts:
+			dimensionList.append(float(splittedPost))
+		pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+
+	poly.paste(back,mask=poly)
+	response = HttpResponse(mimetype="image/png")
+
+	newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+	newImg.save(response, "PNG")
+
 	return response
