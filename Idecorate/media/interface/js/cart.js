@@ -85,15 +85,31 @@ function hasError(){
     return c;
 }
 
-function add_to_cart(prod_id){
+function add_to_cart(prod_id,default_quantity,guest_table){
     if ($('#prod_cart_' + prod_id).length == 0){
         action_url = ADD_TO_CART_URL;
-        var data = submit_action(prod_id);    
+        var qty = 1;
+        var tables = parseInt($('#tables').val());
+        var guests = parseInt($('#guests').val());
+        if(tables>0 || guests>0){
+            if ((guest_table=='Table' || guest_table=='table' || guest_table=='Tables' || guest_table=='tables') && tables>0){
+                qty = tables*default_quantity;
+            } 
+
+            if ((guest_table=='Guest' || guest_table=='guest' || guest_table=='Guests' || guest_table=='guests') && tables>0) {
+                qty = guests*default_quantity;
+            }            
+        }   
+
+        var data = addToCart_submit_action(prod_id,qty);    
         var img_src = media_url+'products/';
         var price = data.price;
+        var subtotal = price*qty;
         total = (price+total);
         price = price.toFixed(2);
         price = addCommas(price);
+        subtotal = subtotal.toFixed(2);
+        subtotal = addCommas(subtotal);
 
         var item = '<tr id="prod_cart_' + data.id + '">' +
             '<td class="span4">' +
@@ -105,14 +121,10 @@ function add_to_cart(prod_id){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" _gs="' + data.guest_table + '" _dq="' + data.default_quantity + '" max-length="11" name="qty" value="1" placeholder="qty"/></td>' +
-            '<td class="amount" id="subtotal_' + data.id + '">$' + price + '</td>'+
+            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" _gs="' + data.guest_table + '" _dq="' + data.default_quantity + '" max-length="11" name="qty" value="' + qty + '" placeholder="qty"/></td>' +
+            '<td class="amount" id="subtotal_' + data.id + '">$' + subtotal + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
-        // var cart_total = total.toFixed(2);
-        // cart_total = addCommas(cart_total);
-        // $('#cart-total-amount').text(cart_total);
-        // $('#cart-total-cur').text('$');
         attachEventToQty();
         manage_total();
     }
@@ -149,11 +161,12 @@ function manage_my_order(){
         var gs = $(this).attr('_gs');
         var dq = $(this).attr('_dq');
         dq = parseInt(dq);
-        if ((gs=='Table' || gs=='Tables') && tables>0){
-            $(this).val(Math.ceil(tables/dq));
+        if ((gs=='Table' || gs=='table' || gs=='Tables' || gs=='tables') && tables>0){
+            $(this).val(tables*dq);
             update_cart(this);
-        } else if ((gs=='Guest' || gs=='Guests') && tables>0) {
-            $(this).val(Math.ceil(guests/dq));
+        } 
+        if ((gs=='Guest' || gs=='guest' || gs=='Guests' || gs=='guests') && tables>0) {
+            $(this).val(guests*dq);
             update_cart(this);
         }
     });
@@ -239,13 +252,10 @@ function isNumeric(fData)
 }
 
 function remove_from_cart(prod_id){
-    //console.log(prod_id)
-
     var diffTotal = (parseFloat($('[_pid="' + prod_id + '"]').attr('_pr')) * parseFloat($('[_pid="' + prod_id + '"]').val())).toFixed(2)
     total -= diffTotal;
     $('#cart-total-amount').text(addCommas(total.toFixed(2)));
 
-    //console.log(diffTotal);
 	action_url = REMOVE_TO_CART_URL;
 	arrange_tr_class();
     $('#prod_cart_'+prod_id).remove();
@@ -263,7 +273,7 @@ function update_cart(elm){
     });
 }
 
-function submit_action(id){
+function addToCart_submit_action(id,qty){
     var data;
 	$.ajax({
         url: action_url,
