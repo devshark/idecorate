@@ -160,6 +160,12 @@ h5 {
           padding: 4px 10px;
           color: #222;
           white-space: nowrap; }
+        #header .headerRowTop ul.dropdown li span {
+          display: block;
+          padding: 4px 10px;
+          color: #222;
+          white-space: nowrap;
+          font-size: 1.2em; }
       #header .headerRowTop ul.dropdown li.nonLink {
         font-size: 1.2em;
         line-height: 22px;
