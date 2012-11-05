@@ -57,6 +57,11 @@ $(document).ready(function(){
             $('.myorder-edit a').addClass('hidden');
     });
 
+    $('.myorder-edit a').click(function(){
+        if(!$('.myorder-edit a').hasClass('hidden'))
+            $('.myorder-edit a').addClass('hidden');
+    });
+
     buy_tab_resize();
     $(window).resize(function(){
         buy_tab_resize();

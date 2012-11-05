@@ -177,6 +177,13 @@ h5 {
           color: #222;
           white-space: nowrap; 
         }
+        span {
+          display: block;
+          padding: 4px 10px;
+          color: #222;
+          white-space: nowrap; 
+          font-size: 1.2em;
+        }
       }
       li.nonLink {
         font-size: 1.2em;
