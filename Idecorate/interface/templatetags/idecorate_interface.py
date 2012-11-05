@@ -60,6 +60,8 @@ def menuInterfaceRecursion(menus):
 	needToOpen = True
 	css_class = ""
 	link = ""
+	spanOpen = ""
+	spanClose = ""
 
 	for menu in menus:
 		if menu.parent is None:
@@ -75,11 +77,15 @@ def menuInterfaceRecursion(menus):
 		if menu.link == "":
 			css_class = ' class="nonLink"'
 			link = menu.name
+			spanOpen = '<span>'
+			spanClose = '</span>'
 		else:
 			css_class = ''
 			link = '<a href="%s">%s</a>' % (menu.link, menu.name)
+			spanOpen = ''
+			spanClose = ''
 
-		element += '<li%s>%s' % (css_class, link)
+		element += '<li%s>%s%s' % (css_class, spanOpen, link)
 
 		if menus.model == type(InfoMenu()):
 
@@ -90,7 +96,7 @@ def menuInterfaceRecursion(menus):
 			sub_menus = SiteMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuInterfaceRecursion(sub_menus)
 
-		element +='</li>'
+		element += '%s</li>' % spanClose
 
 	if needToOpen == False:
 		element += '</ul>'
