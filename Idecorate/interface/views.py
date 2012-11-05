@@ -34,23 +34,17 @@ def styleboard(request, cat_id=None):
 		if not get_cat(cat_id):
 			return redirect('styleboard')
 
-	"""
-	clear temporary cart
-
 	sessionid = request.session.get('cartsession',None)
-	if sessionid: 
-		clear_cart_temp(sessionid)
-		del request.session['cartsession']
-	"""
+	if not sessionid: 
+		session_id = generate_unique_id()
+		request.session['cartsession'] = session_id
+
 	info = {}
 	categories = get_categories(cat_id)
 	if categories.count() > 0:
 		info['categories'] = categories
 
 	info['category_count'] = categories.count()
-
-	session_id = generate_unique_id()
-	request.session['cartsession'] = session_id
 
 	if not cat_id:
 		cat_id = 0

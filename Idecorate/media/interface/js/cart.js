@@ -10,9 +10,6 @@ $(document).ready(function(){
         var error = hasError();
 
         if ( !error ){
-
-            
-
             window.location.href = CHECKOUT_URL;
         } else {
             if ( error == 2 )
@@ -22,12 +19,7 @@ $(document).ready(function(){
             }
         }
         return false;
-    });
-    buy_tab_resize();
-    $(window).resize(buy_tab_resize);
-    $('#buyTab').click(function(){
-        buy_tab_resize();
-    });
+    });    
     $('#guests').keyup(function(){
         var val = $(this).val();
         val = val.replace(/[^0-9]/g,'');
@@ -64,6 +56,19 @@ $(document).ready(function(){
         if(!$('.myorder-edit a').hasClass('hidden'))
             $('.myorder-edit a').addClass('hidden');
     });
+
+    buy_tab_resize();
+    $(window).resize(function(){
+        buy_tab_resize();
+        var cnt = $('#sidebar-form-wrap').offset();
+        $('.myorder-edit').css({'top':(cnt.top+5)+'px', 'left':($('#sidebar-form-wrap').width()-($('.myorder-edit').outerWidth(true)))+'px'});
+    });
+    $('#buyTab').click(function(){
+        buy_tab_resize();
+    });
+
+    var cnt = $('#sidebar-form-wrap').offset();
+    $('.myorder-edit').css({'top':(cnt.top+5)+'px', 'left':($('#sidebar-form-wrap').width()-($('.myorder-edit').width()))+'px'});
 });
 
 function buy_tab_resize(){
@@ -75,7 +80,7 @@ function hasError(){
     var c = false;
     if ( $('input[name="qty"]').length > 0 ){
         $('input[name="qty"]').each(function(){
-            if ($(this).hasClass('input-error')){                
+            if ($(this).val()<=0 ){                
                 c = 2;
             }
         });
