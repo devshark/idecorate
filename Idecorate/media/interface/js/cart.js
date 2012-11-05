@@ -93,11 +93,11 @@ function add_to_cart(prod_id,default_quantity,guest_table){
         var guests = parseInt($('#guests').val());
         if(tables>0 || guests>0){
             if ((guest_table=='Table' || guest_table=='table' || guest_table=='Tables' || guest_table=='tables') && tables>0){
-                qty = Math.ceil(tables/default_quantity);
+                qty = tables*default_quantity;
             } 
 
             if ((guest_table=='Guest' || guest_table=='guest' || guest_table=='Guests' || guest_table=='guests') && tables>0) {
-                qty = Math.ceil(guests/default_quantity);
+                qty = guests*default_quantity;
             }            
         }   
 
@@ -162,11 +162,11 @@ function manage_my_order(){
         var dq = $(this).attr('_dq');
         dq = parseInt(dq);
         if ((gs=='Table' || gs=='table' || gs=='Tables' || gs=='tables') && tables>0){
-            $(this).val(Math.ceil(tables/dq));
+            $(this).val(tables*dq);
             update_cart(this);
         } 
         if ((gs=='Guest' || gs=='guest' || gs=='Guests' || gs=='guests') && tables>0) {
-            $(this).val(Math.ceil(guests/dq));
+            $(this).val(guests*dq);
             update_cart(this);
         }
     });
@@ -255,7 +255,7 @@ function remove_from_cart(prod_id){
     var diffTotal = (parseFloat($('[_pid="' + prod_id + '"]').attr('_pr')) * parseFloat($('[_pid="' + prod_id + '"]').val())).toFixed(2)
     total -= diffTotal;
     $('#cart-total-amount').text(addCommas(total.toFixed(2)));
-    
+
 	action_url = REMOVE_TO_CART_URL;
 	arrange_tr_class();
     $('#prod_cart_'+prod_id).remove();
