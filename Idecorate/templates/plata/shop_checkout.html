@@ -34,7 +34,7 @@
 							<td>
 								<p>+ $100 Shipping Fee</p>
 								<p>Total: HK$ 1100.00</p>
-								<button>Edit</button>
+								<button type="button" id="edit_button">Edit</button>
 							</td>
 						</tr>
 					</tfoot>
@@ -145,4 +145,19 @@
 		<button>Proceed to Payment</button>
 	</div>
 </div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+
+	$(function(){
+
+		$('#edit_button').click(function(e){
+
+			window.location = '{% url styleboard %}#buy-tab';
+			
+		});
+
+	});
+
+</script>
 {% endblock %}
