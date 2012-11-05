@@ -429,7 +429,7 @@ $(document).ready(function () {
 });
 
 function create_instance(options){
-    var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b,'_def_qty':options._p_d_qty,'_gst_tb':options._p_g_t}).hide().load(function () {
+    var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b}).hide().load(function () {
         var imgWidth    = options._width;
         var imgHeight   = options._height;
         var dimensions  = aspectratio(imgWidth, imgHeight, .60);
@@ -442,6 +442,8 @@ function create_instance(options){
                 img         : this,
                 imgW        : dimensions['width'],
                 imgH        : dimensions['height'],
+                def_qty     : options._p_d_qty,
+                gst_tb      : options._p_g_t,
                 container   : $('<div />'),
                 addclass    : 'product unselected'
             });
@@ -497,6 +499,8 @@ function create_new_object(options){
     object = options.container;
     object.addClass(options.addclass);
     object.attr('_uid', options.id);
+    object.attr('def_qty', options.def_qty);
+    object.attr('gst_tb', options.gst_tb);
     object.append(options.img).width(options.imgW).height(options.imgH);
     object.find('img').width('100%').height('auto');
 
