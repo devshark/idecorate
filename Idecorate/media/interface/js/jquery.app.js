@@ -770,6 +770,15 @@ function setProductPositions() {
     });
 }
 
+function closeModalForm() {
+    $('#close-modal').trigger('click');
+}
+
+function setSelectedImage(imgName) {
+    $('.selected > img').attr('src',imgName);
+    closeModalForm();
+}
+
 function initProductPositions() {
     if(PRODUCT_POSITIONS != '') {
         uniqueIdentifier = parseInt(PRODUCT_POSITIONS['unique_identifier']);
