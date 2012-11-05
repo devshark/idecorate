@@ -17,6 +17,8 @@ from cart.models import Product
 from cart.services import generate_unique_id, clear_cart_temp
 from django.conf import settings
 from PIL import Image
+from django.core.urlresolvers import reverse
+import re
 
 def home(request):
 	info = {}
@@ -171,6 +173,9 @@ def get_product_original_image(request):
 
 def crop(request, id):
 	info = {}
+
+	info['filename'] = "%s?filename=%s" % (reverse('crop_view'), re.sub(r'\?[0-9].*','', str(id)))
+
 	return render_to_response('interface/iframe/crop.html', info,RequestContext(request))
 
 def get_product_details(request):
@@ -268,4 +273,16 @@ def styleboard2(request, cat_id=None):
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
+def crop_view(request):
 
+	filename = request.GET.get('filename','')
+
+	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", filename))
+	imgBackground = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+	imgBackground.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+	#newImg = imgBackground.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+
+	response = HttpResponse(mimetype="image/png")
+	#newImg.save(response, "PNG")
+	imgBackground.save(response, "PNG")
+	return response
