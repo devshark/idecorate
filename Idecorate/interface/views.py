@@ -17,6 +17,9 @@ from cart.models import Product
 from cart.services import generate_unique_id, clear_cart_temp
 from django.conf import settings
 from PIL import Image
+import ImageDraw
+from django.core.urlresolvers import reverse
+import re
 
 def home(request):
 	info = {}
@@ -31,23 +34,17 @@ def styleboard(request, cat_id=None):
 		if not get_cat(cat_id):
 			return redirect('styleboard')
 
-	"""
-	clear temporary cart
-
 	sessionid = request.session.get('cartsession',None)
-	if sessionid: 
-		clear_cart_temp(sessionid)
-		del request.session['cartsession']
-	"""
+	if not sessionid: 
+		session_id = generate_unique_id()
+		request.session['cartsession'] = session_id
+
 	info = {}
 	categories = get_categories(cat_id)
 	if categories.count() > 0:
 		info['categories'] = categories
 
 	info['category_count'] = categories.count()
-
-	session_id = generate_unique_id()
-	request.session['cartsession'] = session_id
 
 	if not cat_id:
 		cat_id = 0
@@ -151,7 +148,8 @@ def get_product_original_image(request):
 		product = Product.objects.get(id=int(product_id))
 		ret['original_image'] = product.original_image
 		ret['no_background'] = product.no_background
-
+		ret['default_quantity'] = product.default_quantity
+		ret['guest_table'] = product.guest_table.name
 
 		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.original_image))
 		
@@ -170,6 +168,10 @@ def get_product_original_image(request):
 
 def crop(request, id):
 	info = {}
+
+	info['filename'] = "%s?filename=%s" % (reverse('crop_view'), re.sub(r'\?[0-9].*','', str(id)))
+	info['file_only'] = re.sub(r'\?[0-9].*','', str(id))
+
 	return render_to_response('interface/iframe/crop.html', info,RequestContext(request))
 
 def get_product_details(request):
@@ -267,4 +269,52 @@ def styleboard2(request, cat_id=None):
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
+def crop_view(request):
 
+	filename = request.GET.get('filename','')
+
+	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", filename))
+	imgBackground = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+	imgBackground.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+	#newImg = imgBackground.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+
+	response = HttpResponse(mimetype="image/png")
+	#newImg.save(response, "PNG")
+	imgBackground.save(response, "PNG")
+	return response
+
+
+def cropped(request):
+
+	filename = request.GET.get('filename')
+
+	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", filename))
+	back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+	back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+	poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT))
+	pdraw = ImageDraw.Draw(poly)
+
+	dimensionList = []
+	splittedPosts = request.GET.get('dimensions').split(',')
+
+	if request.GET.get('task') == 'poly':
+		for splittedPost in splittedPosts:
+			spl = splittedPost.split(':')
+			dimensionList.append((float(spl[0]),float(spl[1])))
+
+		pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+	elif request.GET.get('task') == 'rect':
+		for splittedPost in splittedPosts:
+			dimensionList.append(float(splittedPost))
+		pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+
+	poly.paste(back,mask=poly)
+	response = HttpResponse(mimetype="image/png")
+
+	newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+	newImg.save(response, "PNG")
+
+	return response

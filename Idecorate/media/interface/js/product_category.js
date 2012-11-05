@@ -58,11 +58,11 @@ function browse_categories(elm_id){
                 var id = val.pk;
                 type = val.model == 'category.categories' ? 'categories' : 'products';
                 var thumb = val.fields.thumbnail;
-                var name = val.fields.name;
-                // if (name.length > 12){
-                //     name = name.substring(0,10) + '..';
-                // }
+                var name = val.fields.name;                
                 if(type =='products'){
+                    if (name.length > 12){
+                        name = name.substring(0,10) + '..';
+                    }
                     thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
                     items += '<a _uid="'+id+'" class="hidden thumb draggable ' + type + '" id="'+id+'" href="#">' +

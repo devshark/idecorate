@@ -43,6 +43,8 @@ $(document).ready(function () {
                 //image source can be generated using ajax 
 
                 var _img_src = media_url+'products/';
+                var p_d_qty = 1;
+                var p_g_t = 'table';
 
                 //get image filename from DB using product_id via ajax
                 $.ajax({
@@ -57,6 +59,8 @@ $(document).ready(function () {
                         img_h       = data.original_image_h;
                         img_w_bg    = data.original_image;
                         img_wo_bg   = data.no_background;
+                        p_d_qty     = data.default_quantity;
+                        p_g_t       = data.guest_table;
                         // img_wo_bg_w = data.no_background_w;
                         // img_wo_bg_h = data.no_background_h;
 
@@ -68,7 +72,9 @@ $(document).ready(function () {
                                     _img_wo_b: img_wo_bg,
                                     _img_w_b : img_w_bg,
                                     _width   : img_w,
-                                    _height  : img_h
+                                    _height  : img_h,
+                                    _p_d_qty : p_d_qty,
+                                    _p_g_t   : p_g_t
                                 });
                     },
                     error: function(msg) {
@@ -77,7 +83,7 @@ $(document).ready(function () {
                 });
 
                 //ajax add to cart
-                add_to_cart(uid);
+                add_to_cart(uid, p_d_qty, p_g_t);
 
             }
         }
@@ -405,7 +411,7 @@ $(document).ready(function () {
     $('#customBg-btn').click(function(e){
         e.preventDefault();
         disableEventPropagation(e);
-        display_modal(MODAL_SRC.replace('0',$('.selected').attr('_uid')));
+        display_modal(MODAL_SRC.replace('0',$('.selected > img').attr('src').replace('/media/products/','')));
     });
 
     // close modal
@@ -438,6 +444,8 @@ function create_instance(options){
                 img         : this,
                 imgW        : dimensions['width'],
                 imgH        : dimensions['height'],
+                def_qty     : options._p_d_qty,
+                gst_tb      : options._p_g_t,
                 container   : $('<div />'),
                 addclass    : 'product unselected'
             });
@@ -493,6 +501,8 @@ function create_new_object(options){
     object = options.container;
     object.addClass(options.addclass);
     object.attr('_uid', options.id);
+    object.attr('def_qty', options.def_qty);
+    object.attr('gst_tb', options.gst_tb);
     object.append(options.img).width(options.imgW).height(options.imgH);
     object.find('img').width('100%').height('auto');
 
@@ -758,6 +768,15 @@ function setProductPositions() {
         error: function(msg) {
         }
     });
+}
+
+function closeModalForm() {
+    $('#close-modal').trigger('click');
+}
+
+function setSelectedImage(imgName) {
+    $('.selected > img').attr('src',imgName);
+    closeModalForm();
 }
 
 function initProductPositions() {

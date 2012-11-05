@@ -36,7 +36,7 @@
         }
 
         #sidebar #buy-tab #buy-table tbody tr td input[type="text"] {
-            width: 100%;
+            width: 79% !important;
         }
         .buyItemMeta p {
             padding-left: 5px !important;
@@ -55,7 +55,8 @@
             padding-right: 40px !important;
         }
         .category-wrap {
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
             height: 83%;
         }
 
@@ -63,11 +64,10 @@
             height: 30px;
         }
         .myorder-edit {
-            float: right;
+            position: absolute;
             font-weight: normal;
             font-size: small;
             line-height: 20px;
-            padding-right: 10px;
         }
         .myorder-edit a {
             color: #666;
@@ -86,7 +86,8 @@
             			<li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
             		</ul>
                     <div id="sidebar-form-wrap"  class="clearfix">
-                        <h3>My Order <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div></h3>
+                        <h3>My Order</h3>
+                        <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div>
                         <!-- <form action="" method="post"> -->
                             {% csrf_token %}
                             <fieldset>
@@ -229,8 +230,10 @@
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
 <!-- MENU BAR -->
+<!--
 <script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
 <script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
+-->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
 <!-- STYLEBOARD TABPANNELS -->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
