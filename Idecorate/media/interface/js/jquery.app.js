@@ -43,6 +43,8 @@ $(document).ready(function () {
                 //image source can be generated using ajax 
 
                 var _img_src = media_url+'products/';
+                var p_d_qty = 1;
+                var p_g_t = 'table';
 
                 //get image filename from DB using product_id via ajax
                 $.ajax({
@@ -81,7 +83,7 @@ $(document).ready(function () {
                 });
 
                 //ajax add to cart
-                add_to_cart(uid);
+                add_to_cart(uid, p_d_qty, p_g_t);
 
             }
         }
