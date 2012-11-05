@@ -411,7 +411,7 @@ $(document).ready(function () {
     $('#customBg-btn').click(function(e){
         e.preventDefault();
         disableEventPropagation(e);
-        display_modal(MODAL_SRC.replace('0',$('.selected').attr('_uid')));
+        display_modal(MODAL_SRC.replace('0',$('.selected > img').attr('src').replace('/media/products/','')));
     });
 
     // close modal
