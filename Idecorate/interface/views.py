@@ -20,6 +20,7 @@ from PIL import Image
 import ImageDraw
 from django.core.urlresolvers import reverse
 import re
+from admin.services import getExtensionAndFileName
 
 def home(request):
 	info = {}
@@ -292,7 +293,7 @@ def cropped(request):
 	back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
 	back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
 
-	poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT))
+	poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
 	pdraw = ImageDraw.Draw(poly)
 
 	dimensionList = []
@@ -315,6 +316,12 @@ def cropped(request):
 	response = HttpResponse(mimetype="image/png")
 
 	newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
-	newImg.save(response, "PNG")
+	
+	splittedName = getExtensionAndFileName(filename)
+
+	if splittedName[1] == '.jpg':
+		newImg.save(response, "JPEG")
+	else:	
+		newImg.save(response, "PNG")
 
 	return response
