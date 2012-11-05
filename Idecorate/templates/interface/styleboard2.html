@@ -1,0 +1,306 @@
+{% load i18n idecorate_interface %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>iDecorate Wedding</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
+        <script type="text/javascript">
+            var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
+            var category_id                 = {{ cat_id }};
+            var media_url                   = '{{ MEDIA_URL }}';
+            var STYLEBOARD_AJAX_URL         = '{% url styleboard_ajax %}';
+            var STYLEBOARD_PRODUCT_AJAX_URL = '{% url styleboard_product_ajax %}';
+            var CATEGORY_TREE_AJAX_URL      ='{% url get_category_tree_ajax %}';
+            var ADD_TO_CART_URL             = '{% url add_to_cart_ajax %}';
+            var REMOVE_TO_CART_URL          = '{% url remove_from_cart_ajax %}';
+            var UPDATE_CART                 = '{% url update_cart %}';
+            var CHECKOUT_URL                = '{% url checkout %}';
+            var MODAL_SRC                   = '{% url crop 0 %}';
+            var PRODUCT_DETAILS_URL         = '{% url get_product_details %}';
+            var SET_PRODUCT_POSITION_URL    = '{% url set_product_positions %}';
+            var PRODUCT_POSITIONS           = {{ product_positions }}; 
+        </script>
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <style type="text/css">
+        .breadcrumb-wrap {
+            height: 19px;
+        }
+
+        #sidebar #buy-tab #buy-table tbody tr td input[type="text"] {
+            width: 100%;
+        }
+        .buyItemMeta p {
+            padding-left: 5px !important;
+        }
+        .text-right {
+            text-align: right;            
+        }
+        .text-left {
+            text-align: left;
+            padding-left: 10px;
+        }
+        .pad-r20 {
+            padding-right: 20px;
+        }
+        .pad-r40 {
+            padding-right: 40px !important;
+        }
+        .category-wrap {
+            overflow: auto;
+            height: 83%;
+        }
+
+        .thumb.categories span{
+            height: 30px;
+        }
+        .myorder-edit {
+            float: right;
+            font-weight: normal;
+            font-size: small;
+            line-height: 20px;
+            padding-right: 10px;
+        }
+        .myorder-edit a {
+            color: #666;
+        }
+        </style>
+    </head>
+    <body>
+        <div id="page-wrap">
+            <header id="header" class="clearfix">
+                {% include "header.html" %}
+            </header>
+            <div id="content-wrap" class="clearfix">
+                <div id="sidebar">
+            		<ul id="sidebar-nav" class="etabs sideNav">
+            			<li class="tab"><a href="#create-tab" id="createTab">Create</a></li>
+            			<li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
+            		</ul>
+                    <div id="sidebar-form-wrap"  class="clearfix">
+                        <h3>My Order <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div></h3>
+                        <!-- <form action="" method="post"> -->
+                            {% csrf_token %}
+                            <fieldset>
+                                <div class="sidebarInputs">
+                                    <label for="guests">
+                                        <input type="text" id="guests" name="guests" placeholder="Guests" /> Guests
+                                    </label>
+                                    <label for="tables">
+                                        <input type="text" id="tables" name="tables" placeholder="Tables" /> Tables
+                                    </label>
+                                </div>
+                                <div class="sidebarTotals">
+                                    <h5>Total <span id="my-order-total">$0</span></h5>
+                                </div>
+                            </fieldset>
+                        <!-- </form> -->
+                    </div>
+                    <div id="create-tab" class="clearfix">
+                        <div id="create-tab-nav" class="clearfix">
+                            <ul class="sideNav">
+                                <li><a href="#products">Products</a></li>
+                                <li><a href="#embellishments">Embellishments</a></li>
+                                <li><a href="#templates">Templates</a></li>
+                            </ul>
+                        </div>
+                        <div id="products" style="display:none; height:100%;">
+                            <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
+                            <div class="product-list-wrap">
+                                {% include 'interface/styleboard_categories.html' %}
+                            </div> 
+                        </div>
+                        <div id="embellishments" style="display:none;"></div>
+                        <div id="templates" style="display:none;"></div>                       
+                    </div><!-- end of create -->
+                    
+                    <div id="buy-tab" style="display:none">
+                        <!-- <form action="" method="post" id="cart-form"> -->
+                            <div class="buyTableWrap">
+                                <div class="table">
+                                    <div class="thead">
+                                        <table width="100%">
+                                            <tr>
+                                                <th class="span4 text-left">Item</th>
+                                                <th class="span1">Quantity</th>
+                                                <th class="text-right pad-r40">Price</th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <div class="tbody">
+                                        <table id="buy-table">                                            
+                                            <tbody></tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tfoot">
+                                        <table width="100%">
+                                            <tr>
+                                                <th class="text-right pad-r20">Total:</th>
+                                                <th class="amount span2 pad-r40"><span id="cart-total-cur"></span><span id="cart-total-amount"></span></th>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>                                
+                            </div>
+                        <div class="checkOutWrap">                            
+                            <input id="check-button" type="button" value="Checkout" class="globalBtn checkoutButton"/>
+                        </div>
+                        <!-- </form> -->
+                    </div>
+            	</div>
+            	<div id="canvas">
+                    <div class="handles">
+                        <div class="fakeHandle"></div>
+                    </div>
+                    <div class="neMenus">
+                        <div class="imgControlWrap">
+                            <ul class="imgControl clearfix">
+                                <li><a href="#" id="remove-btn">Remove</a></li>
+                                <li><a href="#" id="flip-btn">Flip</a></li>
+                                <li><a href="#" id="flap-btn">Flap</a></li>
+                                <li><a href="#" id="clone-btn">Clone</a></li>
+                                <li><a href="#" id="forward-btn">Forward</a></li>
+                                <li><a href="#" id="backward-btn">Backward</a></li>
+                            </ul>
+                        </div>
+                        <div class="imgBgControlWrap">
+                            <ul class="imgBgControl">
+                                <li>
+                                    <a href="#" id="whiteBg-btn"></a>
+                                </li>
+                                <li>
+                                    <a href="#" id="transBg-btn"><div></div></a>
+                                </li>
+                                <li>
+                                    <a href="#" id="customBg-btn"><div></div></a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+            	</div>
+            </div> <!-- /container -->
+                
+            <footer id="footer" class="clearfix"> 
+            	{% include "footer.html" %}             
+            </footer>
+        </div>
+        <div id="remove_products_container" style="display:none">
+        </div>
+        <div id="idecorate-tooltip" class="idecorateTooltip" style="display:none">
+            <div class="container-tooltip">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr valign="top">
+                            <td width="42%">
+                                <img id="tooltip-image" alt="" src="">
+                            </td>
+                            <td>
+                                <div style="overflow: hidden; padding-left: 8px;">
+                                    <ul class="list">
+                                        <li id="tooltip-title"></li>
+                                        <li id="tooltip-price"></li>
+                                        <li id="tooltip-unit"></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="close">×</div>
+        </div>
+
+<div id="page-mask" style="display:none;"></div>
+<div id="modal-window" style="display:none;">
+    <h2 id="modal-header">
+        <a href="#" id="close-modal">&times;</a>
+    </h2>
+    <div id="iframe-wrap"></div>
+</div>       
+<script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+<!-- PYTHON CRF -->
+<script type="text/javascript" src="/media/admin/js/csrf.js"></script>
+<!-- MENU BAR -->
+<script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
+<script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
+<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
+<!-- STYLEBOARD TABPANNELS -->
+<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.change.tab.js"></script>
+<!-- PRODUCT CATEGORIES AJAX CALLS -->
+<script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/media/interface/js/product_category.js"></script>
+<script type="text/javascript">
+    $(document).ready( function() {
+        
+        $('#sidebar').easytabs({ animate:false });
+
+        $("#content-wrap").css({height: contentHeight()});
+
+        $('#create-tab').css({height: thumbWrapHeight()+'%'});
+
+        {% if category_count == 0 %}
+            populate_products();
+            $('#createTab').click(function(){
+                hideProducts();
+                $('.product-list').unbind('mousewheel');
+                manage_product_pagination();
+            });
+        {% endif %}   
+
+        $('#create-tab-nav').changeTab();
+
+    });
+
+    $(window).resize(resizedContentHeight);
+
+    function contentHeight() {
+
+        var _height = $(window).height()-
+                     $("#header").outerHeight(true)-
+                     $("#footer").outerHeight(true)-5;
+
+        return _height;
+
+    }
+
+    function resizedContentHeight(){
+
+        $("#content-wrap").css({height: contentHeight()});
+        $('#create-tab').css({height: thumbWrapHeight()+'%'});
+    }
+
+    function thumbWrapHeight(){
+
+        var _height = contentHeight()-
+                    $("#sidebar-nav").outerHeight(true)-
+                    $("#sidebar-form-wrap").outerHeight(true);
+
+        return _height/contentHeight()*100;
+    }
+
+</script>
+<!-- CART -->
+<script type="text/javascript" src="/media/interface/js/cart.js"></script>
+<!-- IDECORATE APP -->
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.draggable.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
+<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
+        
+    </body>
+</html>
+

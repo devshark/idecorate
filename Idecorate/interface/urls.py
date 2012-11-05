@@ -4,6 +4,7 @@ from django.conf import settings
 urlpatterns =  patterns('interface.views',
     url(r'^$', 'home', {}, name='home'),
     url(r'^styleboard/$', 'styleboard', {}, name='styleboard'),
+    url(r'^styleboard2/$', 'styleboard2', {}, name='styleboard2'),
     url(r'^styleboard/(?P<cat_id>\d+)$', 'styleboard', {}, name='styleboard_cat'),
     url(r'^styleboard_ajax/$', 'styleboard_ajax', {}, name='styleboard_ajax'),
     url(r'^styleboard_product_ajax/$', 'styleboard_product_ajax', {}, name='styleboard_product_ajax'),    

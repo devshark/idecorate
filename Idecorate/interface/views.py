@@ -226,3 +226,45 @@ def set_product_positions(request):
 		ret = obj_counter
 
 	return HttpResponse(ret)
+def styleboard2(request, cat_id=None):
+
+	"""
+	check if category is exist
+	"""
+	if cat_id:
+		if not get_cat(cat_id):
+			return redirect('styleboard')
+
+	"""
+	clear temporary cart
+
+	sessionid = request.session.get('cartsession',None)
+	if sessionid: 
+		clear_cart_temp(sessionid)
+		del request.session['cartsession']
+	"""
+	info = {}
+	categories = get_categories(cat_id)
+	if categories.count() > 0:
+		info['categories'] = categories
+
+	info['category_count'] = categories.count()
+
+	session_id = generate_unique_id()
+	request.session['cartsession'] = session_id
+
+	if not cat_id:
+		cat_id = 0
+	info['cat_id'] = cat_id
+
+	product_positions = request.session.get('product_positions', None)
+
+	if product_positions:
+		info['product_positions'] = mark_safe(str(product_positions))
+		#del request.session['product_positions']
+	else:
+		info['product_positions'] = mark_safe("''")
+
+	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
+
+
