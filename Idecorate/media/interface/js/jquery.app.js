@@ -57,6 +57,8 @@ $(document).ready(function () {
                         img_h       = data.original_image_h;
                         img_w_bg    = data.original_image;
                         img_wo_bg   = data.no_background;
+                        p_d_qty     = data.default_quantity;
+                        p_g_t       = data.guest_table;
                         // img_wo_bg_w = data.no_background_w;
                         // img_wo_bg_h = data.no_background_h;
 
@@ -68,7 +70,9 @@ $(document).ready(function () {
                                     _img_wo_b: img_wo_bg,
                                     _img_w_b : img_w_bg,
                                     _width   : img_w,
-                                    _height  : img_h
+                                    _height  : img_h,
+                                    _p_d_qty : p_d_qty,
+                                    _p_g_t   : p_g_t
                                 });
                     },
                     error: function(msg) {
@@ -438,6 +442,8 @@ function create_instance(options){
                 img         : this,
                 imgW        : dimensions['width'],
                 imgH        : dimensions['height'],
+                def_qty     : options._p_d_qty,
+                gst_tb      : options._p_g_t,
                 container   : $('<div />'),
                 addclass    : 'product unselected'
             });
@@ -493,6 +499,8 @@ function create_new_object(options){
     object = options.container;
     object.addClass(options.addclass);
     object.attr('_uid', options.id);
+    object.attr('def_qty', options.def_qty);
+    object.attr('gst_tb', options.gst_tb);
     object.append(options.img).width(options.imgW).height(options.imgH);
     object.find('img').width('100%').height('auto');
 
