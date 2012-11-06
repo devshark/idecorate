@@ -7,4 +7,4 @@ CREATE TABLE `idecorate_settings` (
 ;
 COMMIT;
 
-INSERT INTO `idecorate_settings` VALUES (1,1,1);
+INSERT INTO `idecorate_settings` VALUES (1,100,10);

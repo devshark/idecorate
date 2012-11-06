@@ -43,16 +43,10 @@ def styleboard(request, cat_id=None):
 
 	info = {}
 
-	cart_item = CartTemp.objects.filter(sessionid=sessionid)
 
-	if cart_item.count() == 0:
-		idecorateSettings = IdecorateSettings.objects.get(pk=1)
-		info['global_default_quantity'] = idecorateSettings.global_default_quantity
-		info['global_guest_table'] = idecorateSettings.global_table	
-	else:
-		info['global_default_quantity'] = ''
-		info['global_guest_table'] = ''
-
+	idecorateSettings = IdecorateSettings.objects.get(pk=1)
+	info['global_default_quantity'] = idecorateSettings.global_default_quantity
+	info['global_guest_table'] = idecorateSettings.global_table	
 
 	categories = get_categories(cat_id)
 	if categories.count() > 0:
