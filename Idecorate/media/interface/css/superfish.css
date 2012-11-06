@@ -43,6 +43,14 @@ ul.dropdown li li.sfHover ul {
 	left:			100%; /* match ul width */
 	top:			0;
 }
+/*to drop down towards left */
+.ddl-right li li:hover ul,
+.ddl-right li li.sfHover ul {
+	/*margin: 0 0 0 -148%;
+	text-align: right;*/
+	right: 100%;
+}
+/*to drop down towards left */
 ul.dropdown li li:hover li ul,
 ul.dropdown li li.sfHover li ul {
 	top:			-999em;

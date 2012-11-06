@@ -38,14 +38,34 @@
 		</a>
 	</div>
 	<div class="headerColumn clearfix" id="site-menu">
-		{{ "site"|getInterfaceMenus }}
+		<!-- {{ "site"|getInterfaceMenus }} -->
+		<ul class="dropdown clearfix sf-js-enabled sf-shadow ddl-right">
+			<li><span>test</span>
+				<ul style="display: none; visibility: hidden;">
+					<li>
+						<a href="#">menu item that is quite long</a>
+					</li>
+					<li>
+						<a href="#">menu item</a>
+						<ul style="display: none; visibility: hidden;">
+							<li>
+								<span>test menu</span>
+							</li>
+						</ul>
+					</li>
+					<li>
+						<a href="#">menu item long</a>
+					</li>
+				</ul>
+			</li>
+		</ul>
 	</div>
 </div>
 <div class="headerRowBottom clearfix">
 	<div class="searchWrap">
 		<div class="search clearfix">
 			<input type="image" src="/media/images/search.png" class="searchIcon" />
-			<input type="text" placeholder="Search Products" > 
+			<input type="text" id="search" placeholder="Search Products" > 
 			<input type="submit" value="Search">
 		</div>
 	</div>
