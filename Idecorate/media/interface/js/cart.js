@@ -303,7 +303,7 @@ function addToCart_submit_action(id,qty){
         url: action_url,
         type: "POST",
         dataType: 'json',
-        data: { prod_id: id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+        data: { prod_id: id, quantity: qty, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
         async:   false,
         beforeSend : function(){
             
