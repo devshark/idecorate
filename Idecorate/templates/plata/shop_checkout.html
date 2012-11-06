@@ -34,7 +34,7 @@
 							<td>
 								<p>+ $100 Shipping Fee</p>
 								<p>Total: HK$ 1100.00</p>
-								<button>Edit</button>
+								<button type="button" id="edit_button">Edit</button>
 							</td>
 						</tr>
 					</tfoot>
@@ -141,17 +141,17 @@
 			<legend>Payment Method</legend>
 			<form>
 				<div class="clearfix">
-					<input type="radio">
+					<input type="radio" name="payment_type">
 					<label>Paypal</label>
 					<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />
 				</div>
 				<div class="clearfix">
-					<input type="radio">
+					<input type="radio" name="payment_type">
 					<label>VISA/Mastercard</label>
 					<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />
 				</div>
 				<div class="clearfix">
-					<input type="radio">
+					<input type="radio" name="payment_type">
 					<label>American Express</label>
 					<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
 				</div>
@@ -169,4 +169,19 @@
 		<button>Proceed to Payment</button>
 	</div>
 </div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+
+	$(function(){
+
+		$('#edit_button').click(function(e){
+
+			window.location = '{% url styleboard %}#buy-tab';
+			
+		});
+
+	});
+
+</script>
 {% endblock %}

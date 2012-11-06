@@ -776,6 +776,14 @@ function closeModalForm() {
 
 function setSelectedImage(imgName) {
     $('.selected > img').attr('src',imgName);
+
+    var _nb = $('.selected > img').attr('_nb');
+    var _wb = $('.selected > img').attr('_wb');
+    var style = $('.selected > img').attr('style');
+
+    $('.selected').html('<img src="' + imgName + '" _nb="' + _nb + '" _wb="' + _wb + '" style="' + style + '" />');
+
+
     closeModalForm();
 }
 
