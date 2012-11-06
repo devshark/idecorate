@@ -46,7 +46,7 @@
 
           <div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <button id="edit_close2" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h3 id="myModalLabel">{% trans "Edit Default Guests/Tables" %}</h3>
             </div>
             <div class="modal-body">
@@ -183,7 +183,7 @@
       $('#gt_edit').submit();
     });
 
-    $('#edit_close').click(function(e){
+    $('#edit_close, #edit_close2').click(function(e){
 
       $('#guests').val($('#guests').attr('_def'));
       $('#tables').val($('#tables').attr('_def'));
