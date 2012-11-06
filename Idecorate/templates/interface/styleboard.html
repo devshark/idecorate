@@ -259,7 +259,7 @@
         $('#create-tab').css({height: thumbWrapHeight()+'%'});
 
         {% if category_count == 0 %}
-            populate_products();
+            setTimeout(populate_products,'500');
             $('#createTab').click(function(){
                 hideProducts();
                 $('.product-list').unbind('mousewheel');
