@@ -766,7 +766,7 @@ function setProductPositions() {
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
-        data: { buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: changesCounter, product_objects: product_objects },
+        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: changesCounter, product_objects: product_objects },
         beforeSend : function(){
             
         },
@@ -807,6 +807,8 @@ function initProductPositions() {
 
         $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
         $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
+        $('#tables').val(PRODUCT_POSITIONS['tables']);
+        $('#guests').val(PRODUCT_POSITIONS['guests']);
 
         attachEventToQty();
         manage_subtotal();
