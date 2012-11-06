@@ -131,7 +131,7 @@ function add_to_cart(prod_id,default_quantity,guest_table){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" _gs="' + data.guest_table + '" _dq="' + data.default_quantity + '" max-length="11" name="qty" value="' + qty + '" placeholder="qty"/></td>' +
+            '<td class="span1"><input class="dynamic_qty" type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" _gs="' + data.guest_table + '" _dq="' + data.default_quantity + '" max-length="11" name="qty" value="' + qty + '" placeholder="qty"/></td>' +
             '<td class="amount" id="subtotal_' + data.id + '">$' + subtotal + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);
