@@ -44,6 +44,30 @@
             </div>
           </div>
 
+          <div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">{% trans "Edit Default Guests/Tables" %}</h3>
+            </div>
+            <div class="modal-body">
+        <form class="form-inline" action="{% url edit_guests_tables %}" method="post" id="gt_edit">
+          {% csrf_token %}
+          <label class="checkbox">
+            {% trans "Guests" %}
+              <input type="text" class="input-medium" name="guests" placeholder="Number of guests" value="{{ guests }}" />
+          </label>
+          <label class="checkbox">
+            {% trans "Tables" %}
+              <input type="text" class="input-medium" name="tables" placeholder="Number of tables" value="{{ tables }}" />
+            </label>
+        </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal">Close</button>
+              <button class="btn btn-primary" id="edit_save">Save changes</button>
+            </div>
+          </div>
+
 	<h1>{% trans "Manage Products" %}</h1>
 	<div>&nbsp;</div>
 
@@ -58,7 +82,23 @@
       </div>
 
       {% endif %}
-          
+
+      {% if gt_errors  %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for gt_error in gt_errors %}
+            <li>{{ gt_error }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+
+      {% endif %} 
+      
+      <a data-toggle="modal" href="#myModal">{% trans "Set default values for number of guests/tables" %}</a>
+
       <h3 style="font-weight:normal;">{% trans "Show only products where" %}</h3>
       <hr />
 
@@ -79,7 +119,6 @@
       </form>
 
       <hr />
-
 
       <table class="table table-bordered table-hover">
         <thead>
@@ -138,6 +177,12 @@
       deleteProduct();
 
     });
+
+
+    $('#edit_save').click(function(e){
+      $('#gt_edit').submit();
+    });
+
 
   });
 </script>

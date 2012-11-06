@@ -84,7 +84,13 @@ def update_cart(request):
 
 def remove_from_cart_ajax(request):
 	if request.method == "POST":		
-		return HttpResponse(200)
+		prod_id = int(request.POST.get('prod_id'))
+		sessionid = request.session.get('cartsession',None)
+
+		if sessionid:
+			CartTemp.objects.get(sessionid=sessionid, product__id=prod_id).delete()
+
+		return HttpResponse('ok')
 	else:
 		return HttpResponseNotFound()
 
