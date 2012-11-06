@@ -5,6 +5,7 @@ var selected_prev_prod_qty = 0;
 $(document).ready(function(){
     var cart_triggered = false;
     $('.checkoutButton').click(function(){
+        setProductPositions();
         var url = $(this).parent().attr('href');
 
         var error = hasError();
