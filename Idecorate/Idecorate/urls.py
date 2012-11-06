@@ -34,6 +34,7 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_manage_product/$', 'admin_manage_product', {}, name='admin_manage_product'),
     url(r'^admin/admin_delete_product/(?P<id_delete>\d+)/$','admin_delete_product', {}, name='admin_delete_product'),
     url(r'^admin/admin_edit_product/(?P<prod_id>\d+)/$','admin_edit_product', {}, name='admin_edit_product'),
+    url(r'^admin/edit_guests_tables/$', 'edit_guests_tables', {}, name='edit_guests_tables'),
 )
 
 """

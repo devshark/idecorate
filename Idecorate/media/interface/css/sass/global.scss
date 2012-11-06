@@ -391,9 +391,14 @@ footer {
   color: #FFFFFF;
    }
   footer .copyright {
-    float: left; }
+    float: left;
+    width: 300px;
+  }
   footer .footerMenus {
-    float: right; }
+    float: right;
+    width: 694px;
+    text-align: right;
+   }
     footer .footerMenus ul li {
       padding: 2px 5px;
       display: inline-block;

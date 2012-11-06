@@ -262,14 +262,28 @@ function isNumeric(fData)
 }
 
 function remove_from_cart(prod_id){
-    var diffTotal = (parseFloat($('[_pid="' + prod_id + '"]').attr('_pr')) * parseFloat($('[_pid="' + prod_id + '"]').val())).toFixed(2)
-    total -= diffTotal;
-    $('#cart-total-amount').text(addCommas(total.toFixed(2)));
+
 
 	action_url = REMOVE_TO_CART_URL;
-	arrange_tr_class();
-    $('#prod_cart_'+prod_id).remove();
-    manage_total();
+    //alert(prod_id);
+    $.ajax({
+        url: action_url,
+        type: "POST",
+        data: { prod_id: prod_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+        async:   false,
+        success: function(response_data){
+            data = response_data;
+            var diffTotal = (parseFloat($('[_pid="' + prod_id + '"]').attr('_pr')) * parseFloat($('[_pid="' + prod_id + '"]').val())).toFixed(2)
+            total -= diffTotal;
+            $('#cart-total-amount').text(addCommas(total.toFixed(2)));
+            arrange_tr_class();
+            $('#prod_cart_'+prod_id).remove();
+            manage_total();
+        },
+        error: function(msg) {
+        }
+    });
+
 }
 
 function update_cart(elm){

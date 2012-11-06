@@ -13,7 +13,7 @@ from django.utils.safestring import mark_safe
 
 from category.services import get_categories, get_cat, category_tree_crumb
 from cart.services import get_product
-from cart.models import Product
+from cart.models import Product, CartTemp
 from cart.services import generate_unique_id, clear_cart_temp
 from django.conf import settings
 from PIL import Image
@@ -21,6 +21,7 @@ import ImageDraw
 from django.core.urlresolvers import reverse
 import re
 from admin.services import getExtensionAndFileName
+from idecorate_settings.models import IdecorateSettings
 
 def home(request):
 	info = {}
@@ -41,6 +42,12 @@ def styleboard(request, cat_id=None):
 		request.session['cartsession'] = session_id
 
 	info = {}
+
+
+	idecorateSettings = IdecorateSettings.objects.get(pk=1)
+	info['global_default_quantity'] = idecorateSettings.global_default_quantity
+	info['global_guest_table'] = idecorateSettings.global_table	
+
 	categories = get_categories(cat_id)
 	if categories.count() > 0:
 		info['categories'] = categories
