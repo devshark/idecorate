@@ -754,11 +754,19 @@ function setProductPositions() {
 
     });
 
+    var cloned_table = $('.table').clone();
+
+    $('.dynamic_qty').each(function(e){
+
+        var strInput = '<input class="dynamic_qty" type="text" _pid="' + $(this).attr('_pid') + '" _pr="' + $(this).attr('_pr') + '" _cur="' + $(this).attr('_cur') + '" _gs="' + $(this).attr('_gs') + '" _dq="' + $(this).attr('_dq') + '" max-length="' + $(this).attr('max-length') + '" name="' + $(this).attr('name') + '" value="' + $(this).val() + '" placeholder="' + $(this).attr('placeholder') + '">';
+        cloned_table.find('[_pid="' + $(this).attr('_pid') + '"]').replaceWith($(strInput));
+
+    });
 
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
-        data: { buy_table_html: $('.table').html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: changesCounter, product_objects: product_objects },
+        data: { buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: changesCounter, product_objects: product_objects },
         beforeSend : function(){
             
         },
