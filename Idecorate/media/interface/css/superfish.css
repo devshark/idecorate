@@ -46,9 +46,18 @@ ul.dropdown li li.sfHover ul {
 /*to drop down towards left */
 .ddl-right li li:hover ul,
 .ddl-right li li.sfHover ul {
-	/*margin: 0 0 0 -148%;
-	text-align: right;*/
+	margin: 0 0 0 -206%;
+	text-align: right;
 	right: 100%;
+	display: block;
+	float: none;
+	white-space: normal;
+}
+ul.ddl-right ul li {
+	background: none !important;
+}
+ul.ddl-right ul li ul {
+	width: 100%;
 }
 /*to drop down towards left */
 ul.dropdown li li:hover li ul,
@@ -67,7 +76,7 @@ ul.dropdown li li li.sfHover ul {
 	margin-bottom:	1em;
 }
 .dropdown a {
-	border-left:	1px solid #fff;
+	/* border-left:	1px solid #fff; */
 	padding: 		.75em 1em;
 	text-decoration:none;
 }
@@ -121,6 +130,7 @@ li.sfHover > a > .sf-sub-indicator {
 }
 
 /*** shadows for all but IE6 ***/
+/*
 .sf-shadow ul {
 	background:	url('../images/shadow.png') no-repeat bottom right;
 	padding: 0 8px 9px 0;
@@ -132,3 +142,4 @@ li.sfHover > a > .sf-sub-indicator {
 .sf-shadow ul.sf-shadow-off {
 	background: transparent;
 }
+*/
