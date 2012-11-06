@@ -739,7 +739,7 @@ function close_modal(){
     $('#modal-window').css({display:'none'});
 }
 
-function setProductPositions() {
+function setProductPositions(func) {
 
     var product_objects = '';
 
@@ -771,7 +771,9 @@ function setProductPositions() {
             
         },
         success: function(response_data){
-           
+            if(typeof func != "undefined") {
+                func();
+            }
         },
         error: function(msg) {
         }

@@ -2,17 +2,22 @@ var action_url = '';
 var total = 0;
 var quantity = 1;
 var selected_prev_prod_qty = 0;
+
 $(document).ready(function(){
     var cart_triggered = false;
     $('.checkoutButton').click(function(){
-        setProductPositions();
+        
         var url = $(this).parent().attr('href');
 
         var error = hasError();
 
         if ( !error ){
-            window.location.href = CHECKOUT_URL;
+            setProductPositions(function(){
+                window.location.href = CHECKOUT_URL;    
+            });
+            
         } else {
+            setProductPositions();
             if ( error == 2 )
                 alert('Quantity must not be less than 1.');
             else {
