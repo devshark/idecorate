@@ -179,6 +179,12 @@
       padding: 15px; }
       .inquiry fieldset p a {
         color: #d89b96; }
+    .inquiry fieldset ul li {
+      list-style-type: disc;
+      margin: 0 0 10px 50px; }
+    .inquiry fieldset ol li {
+      list-style-type: decimal;
+      margin: 0 0 10px 50px; }
 
 .disclaimer {
   width: 100%;
@@ -206,3 +212,9 @@
     -khtml-border-radius: 4px;
     /* for old Konqueror browsers */
     border: 0; }
+  .disclaimer ul li {
+    list-style-type: disc;
+    margin: 0 0 10px 50px; }
+  .disclaimer ol li {
+    list-style-type: decimal;
+    margin: 0 0 10px 50px; }

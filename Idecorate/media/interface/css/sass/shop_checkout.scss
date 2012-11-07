@@ -312,7 +312,21 @@
 			}
 
 		}
-	
+
+		ul {
+			li {
+				list-style-type: disc;
+				margin: 0 0 10px 50px;
+			}
+		}
+
+		ol {
+			li {
+				list-style-type: decimal;
+				margin: 0 0 10px 50px;
+			}
+		}
+
 	}
 
 }
@@ -344,6 +358,20 @@
 		border-radius: 4px; /* future proofing */
 		-khtml-border-radius: 4px; /* for old Konqueror browsers */
 		border: 0;
+	}
+
+	ul {
+		li {
+			list-style-type: disc;
+			margin: 0 0 10px 50px;
+		}
+	}
+
+	ol {
+		li {
+			list-style-type: decimal;
+			margin: 0 0 10px 50px;
+		}
 	}
 
 }
