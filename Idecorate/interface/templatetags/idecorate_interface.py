@@ -59,34 +59,41 @@ def menuInterfaceRecursion(menus):
 
 	element = ""
 	needToOpen = True
-	css_class = ""
+	#css_class = ""
 	link = ""
-	spanOpen = ""
-	spanClose = ""
+	anotherClass = ""
+	#spanOpen = ""
+	#spanClose = ""
 
 	for menu in menus:
+
+		if menus.model == type(InfoMenu()):
+			anotherClass = ""
+		else:
+			anotherClass = " ddl-right"
+
 		if menu.parent is None:
 			if needToOpen:
-				element += '<ul class="dropdown clearfix">'
+				element += '<ul class="dropdown sf-js-enabled sf-shadow%s">' % anotherClass
 				needToOpen = False
 
 		else:
 			if needToOpen:
-				element += '<ul>'
+				element += '<ul style="display: none; visibility: hidden;">'
 				needToOpen = False
 
 		if menu.link == "":
-			css_class = ' class="nonLink"'
-			link = menu.name
-			spanOpen = '<span>'
-			spanClose = '</span>'
+			#css_class = ' class="nonLink"'
+			link = '<a href="#">%s</a>' % menu.name
+			#spanOpen = '<span>'
+			#spanClose = '</span>'
 		else:
-			css_class = ''
+			#css_class = ''
 			link = '<a href="%s">%s</a>' % (menu.link, menu.name)
-			spanOpen = ''
-			spanClose = ''
+			#spanOpen = ''
+			#spanClose = ''
 
-		element += '<li%s>%s%s' % (css_class, spanOpen, link)
+		element += '<li>%s' % link
 
 		if menus.model == type(InfoMenu()):
 
@@ -97,7 +104,7 @@ def menuInterfaceRecursion(menus):
 			sub_menus = SiteMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuInterfaceRecursion(sub_menus)
 
-		element += '%s</li>' % spanClose
+		element += '</li>'
 
 	if needToOpen == False:
 		element += '</ul>'

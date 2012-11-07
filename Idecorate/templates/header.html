@@ -1,34 +1,7 @@
 {% load idecorate_interface %}
 <div class="headerRowTop clearfix">
 	<div class="headerColumn clearfix" id="info-menu">
-		<!-- {{ "info"|getInterfaceMenus }} -->
-		<ul class="dropdown sf-js-enabled sf-shadow">
-			<li>
-				<a href="#">Help</a>
-			</li>
-			<li>
-				<a href="#">About</a>
-			</li>
-			<li>
-				<a href="#">Contact Us</a>
-			</li>
-			<li>
-				<a href="#">+852-222-2222</a>
-				<ul style="display: none; visibility: hidden;">
-					<li>
-						<a href="#">menu item that is quite long</a>
-					</li>
-					<li style="border-left: none;">
-						<a href="#" class="sf-with-ul">This is a test<span class="sf-sub-indicator"> »</span></a>
-						<ul style="display: none; visibility: hidden; ">
-							<li>
-								<span>menu item</span>
-							</li>
-						</ul>
-					</li>
-				</ul>
-			</li>
-		</ul>
+		{{ "info"|getInterfaceMenus }}
 	</div>
 	<div class="headerColumn clearfix" id="logo">
 		<a href="{% url home %}">
@@ -38,44 +11,7 @@
 		</a>
 	</div>
 	<div class="headerColumn clearfix" id="site-menu">
-		<!-- {{ "site"|getInterfaceMenus }} -->
-		<ul class="dropdown clearfix sf-js-enabled sf-shadow ddl-right">
-			<li><span>test</span>
-				<ul style="display: none; visibility: hidden;">
-					<li>
-						<a href="#">menu item that is quite long</a>
-					</li>
-					<li>
-						<a href="#">menu item</a>
-						<ul style="display: none; visibility: hidden;">
-							<li>
-								<span>test menu</span>
-								<ul style="display: none; visibility: hidden;">
-									<li>
-										<span>TEst!</span>
-									</li>
-									<li>
-										<span>TEst!</span>
-									</li>
-									<li>
-										<span>TEst!</span>
-									</li>
-								</ul>
-							</li>
-							<li>
-								<span>test menu</span>
-							</li>
-							<li>
-								<span>test menu</span>
-							</li>
-						</ul>
-					</li>
-					<li>
-						<a href="#">menu item long</a>
-					</li>
-				</ul>
-			</li>
-		</ul>
+		{{ "site"|getInterfaceMenus }} 
 	</div>
 </div>
 <div class="headerRowBottom clearfix">
