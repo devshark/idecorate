@@ -8,7 +8,8 @@ var page_scroll_process = false;
 var offset = 25;
 var withloading = false;
 var total_pages;
-var mode;
+var mode_type;
+var search_keyword = '';
 $(document).ready( function() {
     $('.categories').click(function(){
         browse_categories(this.id);
@@ -139,11 +140,15 @@ function browse_categories(elm_id){
 
 function get_products(){
     var data;
+    var action = STYLEBOARD_PRODUCT_AJAX_URL ;    
+    if (mode_type == 'search'){
+        action = SEARCH_PRODUCT_URL;
+    }
     $.ajax({
-        url: STYLEBOARD_PRODUCT_AJAX_URL + '?page=' + next_page + '&offset=' + offset,
+        url: action + '?page=' + next_page + '&offset=' + offset,
         type: "POST",
         dataType: 'json',
-        data: { cat_id: category_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+        data: { cat_id: category_id, search_keyword:search_keyword, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
         async:   false,
         beforeSend : function(a){
             if ( withloading ){
@@ -197,16 +202,21 @@ function populate_products(){
     manage_product_pagination();
 }
 
-function search_products(keyword, category_id){
-    mode = 'search';
+function search_products(keyword, catid){
+    mode_type = 'search';
+    category_id = catid;
+    search_keyword = keyword
     $.ajax({
-        url: STYLEBOARD_PRODUCT_AJAX_URL + '?page=' + next_page + '&offset=' + offset,
+        url: SEARCH_PRODUCT_URL + '?page=' + next_page + '&offset=' + offset,
         type: "POST",
         dataType: 'json',
-        data: { cat_id: category_id, search_keyword:keyword, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+        data: { cat_id: catid, search_keyword:search_keyword, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
         async:   false,
         success: function(response_data){
             var data = $.parseJSON(response_data.data);
+            total_product_count = response_data.product_counts;
+            page_number = response_data.page_number;
+            num_pages = response_data.num_pages;
             var items = '';
             $.each(data,function(i, val){                            
                 var id = val.pk;

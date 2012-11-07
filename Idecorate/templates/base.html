@@ -69,32 +69,12 @@
                     selectOtherMonths: true,
                     showButtonPanel: true
                 });
-            });
+            });            
         </script>
-        <script>
-        $.widget( "custom.catcomplete", $.ui.autocomplete, {
-            _renderMenu: function( ul, items ) {
-                var that = this,
-                    currentCategory = "";
-                $.each( items, function( index, item ) {
-                    if ( item.category != currentCategory ) {
-                        ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-                        currentCategory = item.category;
-                    }
-                    console.log(item.id)
-                    that._renderItemData( ul, item );
-                });
-            }
-        });
+        <script type="text/javascript">
+        var SEARCH_SUGGESTION_URL = '{% url search_suggestions%}';
         </script>
-        <script>
-        $(function() {     
-            $( "#search" ).catcomplete({
-                delay: 0,
-                source: "{% url search_suggestions %}"
-            });
-        });
-        </script>
+        <script src="/media/interface/js/search.js"></script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
