@@ -327,6 +327,14 @@
 			}
 		}
 
+		em {
+			font-style: italic;
+		}
+
+		strong {
+			font-weight: bold;
+		}
+
 	}
 
 }
@@ -334,11 +342,11 @@
 .disclaimer{
 	width: 100%;
 	height: auto;
-	text-align: center;
 
 	p{
 		width: 600px;
 		margin: 15px auto;
+		text-align: center;
 
 		a {
 			color: #d89b96;
@@ -372,6 +380,14 @@
 			list-style-type: decimal;
 			margin: 0 0 10px 50px;
 		}
+	}
+
+	em {
+		font-style: italic;
+	}
+
+	strong {
+		font-weight: bold;
 	}
 
 }

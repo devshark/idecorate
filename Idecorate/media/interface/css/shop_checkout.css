@@ -185,14 +185,18 @@
     .inquiry fieldset ol li {
       list-style-type: decimal;
       margin: 0 0 10px 50px; }
+    .inquiry fieldset em {
+      font-style: italic; }
+    .inquiry fieldset strong {
+      font-weight: bold; }
 
 .disclaimer {
   width: 100%;
-  height: auto;
-  text-align: center; }
+  height: auto; }
   .disclaimer p {
     width: 600px;
-    margin: 15px auto; }
+    margin: 15px auto;
+    text-align: center; }
     .disclaimer p a {
       color: #d89b96; }
   .disclaimer button {
@@ -218,3 +222,7 @@
   .disclaimer ol li {
     list-style-type: decimal;
     margin: 0 0 10px 50px; }
+  .disclaimer em {
+    font-style: italic; }
+  .disclaimer strong {
+    font-weight: bold; }
