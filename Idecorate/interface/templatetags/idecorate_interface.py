@@ -169,10 +169,10 @@ def get_checkout_page_info(inf):
 	idecorate_settings = IdecorateSettings.objects.get(pk=1)
 
 	if inf == "delivery_date_note":
-		return idecorate_settings.delivery_date_note
+		return mark_safe(idecorate_settings.delivery_date_note)
 	elif inf == "any_question":
-		return idecorate_settings.any_question
+		return mark_safe(idecorate_settings.any_question)
 	elif inf == "t_and_c":
-		return idecorate_settings.t_and_c
+		return mark_safe(idecorate_settings.t_and_c)
 	else:
 		return ""

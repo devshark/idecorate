@@ -156,7 +156,7 @@
 			<form>
 				<input type="text" placeholder="Date" id="datepicker" disable="disabled" />
 			</form>
-			{{ "delivery_date_note":get_checkout_page_info }}
+			{{ "delivery_date_note"|get_checkout_page_info }}
 		</fieldset>
 		<fieldset class="paymentMethod">
 			<legend>Payment Method</legend>
@@ -182,11 +182,11 @@
 	<div class="clearfix inquiry">
 		<fieldset>
 			<legend>Any Questions?</legend>
-			<p align="justify">{{ "any_question":get_checkout_page_info }}</p>
+			<p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
 		</fieldset>
 	</div>
 	<div class="clearfix disclaimer">
-		<p align="justify">{{ "t_and_c":get_checkout_page_info }}</p>
+		<p align="justify">{{ "t_and_c"|get_checkout_page_info }}</p>
 		<button>Proceed to Payment</button>
 	</div>
 </div>
