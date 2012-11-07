@@ -3,6 +3,7 @@ from django.utils.safestring import mark_safe
 from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu
 from category.services import get_categories, category_tree_crumb, get_cat
 from django.core.urlresolvers import reverse
+from idecorate_settings.models import IdecorateSettings
 
 register = template.Library()
 
@@ -161,3 +162,17 @@ def generate_product_order_list(obj,objMain):
 		""" % (product.product.original_image_thumbnail, product.product.name, objMain.currency, "%.2f" % product.unit_price, product.quantity, objMain.currency, "%.2f" % product.discounted_subtotal)
 
 	return mark_safe(ret)
+
+@register.filter
+def get_checkout_page_info(inf):
+
+	idecorate_settings = IdecorateSettings.objects.get(pk=1)
+
+	if inf == "delivery_date_note":
+		return idecorate_settings.delivery_date_note
+	elif inf == "any_question":
+		return idecorate_settings.any_question
+	elif inf == "t_and_c":
+		return idecorate_settings.t_and_c
+	else:
+		return ""

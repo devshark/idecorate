@@ -1,0 +1,121 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+	<h1>{% trans "Manage Checkout Page" %}</h1>
+	<div>&nbsp;</div>
+
+      {% if messages %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %}
+
+      {% if form.delivery_text.errors or form.any_question_text.errors or form.tc_text.errors %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for e in form.delivery_text.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.any_question_text.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.tc_text.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+        </ol> 
+      </div>
+
+      {% endif %}
+
+    <div class="container-fluid">      
+      <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+      	{% csrf_token %}
+      <div class="row-fluid">
+        <div class="span12">
+
+          <!--
+          <h3 style="font-weight:normal;">{% trans "Product Information" %}</h3>
+          <hr />
+          -->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Delivery Help Text *</label>
+                <div class="controls" style="margin-top:9px;">
+
+                  <textarea name="delivery_text" style="height:300px;" rows="10" cols="40" class="input-xxlarge">
+                    {{ delivery_text }}
+                  </textarea>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Any Question Text *</label>
+                <div class="controls" style="margin-top:9px;">
+
+                  <textarea name="any_question_text" style="height:300px;" rows="10" cols="40" class="input-xxlarge">
+                    {{ any_question_text }}
+                  </textarea>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">T&amp;C Help Text *</label>
+                <div class="controls" style="margin-top:9px;">
+
+                  <textarea name="tc_text" style="height:300px;" rows="10" cols="40" class="input-xxlarge">
+                    {{ tc_text }}
+                  </textarea>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
+        </div><!--/span-->      
+      </div><!--/row-->
+			<div class="form-actions" style="text-align:left">
+  				<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+			</div>
+      </form>
+     </div>
+
+{% endblock %}
+{% block javascripts %}
+	<script type="text/javascript" src="/media/admin/js/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript" >
+		tinyMCE.init({
+		        mode : "textareas",
+		        theme : "simple",
+            plugins : "autolink"
+		});
+	</script >
+{% endblock %}
