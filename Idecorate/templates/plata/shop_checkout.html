@@ -156,12 +156,7 @@
 			<form>
 				<input type="text" placeholder="Date" id="datepicker" disable="disabled" />
 			</form>
-			<p>NOTES:</p>
-			<ul>
-				<li>It's ideal to schedule every 3 weeks before your wedding date</li>
-				<li>For scheduling concerns please contact us at: +852 222 222</li>
-				<li>Please see our <a href="#">returns policy</a> for more details</li>
-			</ul>
+			{{ "delivery_date_note":get_checkout_page_info }}
 		</fieldset>
 		<fieldset class="paymentMethod">
 			<legend>Payment Method</legend>
@@ -187,11 +182,11 @@
 	<div class="clearfix inquiry">
 		<fieldset>
 			<legend>Any Questions?</legend>
-			<p align="justify">Want to know more about our delivery and returns policy? Have special requests or delivery instructions? Visit our <a href="#">FAQs</a> page or call us at +852 1234 5678</p>
+			<p align="justify">{{ "any_question":get_checkout_page_info }}</p>
 		</fieldset>
 	</div>
 	<div class="clearfix disclaimer">
-		<p align="justify">By clicking "proceed to payment" I certify that I have read and understand the <a href="#">terms and conditions</a>.</p>
+		<p align="justify">{{ "t_and_c":get_checkout_page_info }}</p>
 		<button>Proceed to Payment</button>
 	</div>
 </div>
