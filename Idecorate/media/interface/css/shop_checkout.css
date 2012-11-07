@@ -148,6 +148,13 @@
         margin: 0 0 10px 15px; }
         .deliveryDetails fieldset ul li a {
           color: #d89b96; }
+    .deliveryDetails fieldset ol li {
+      list-style-type: decimal;
+      margin: 0 0 10px 45px; }
+    .deliveryDetails fieldset em {
+      font-style: italic; }
+    .deliveryDetails fieldset strong {
+      font-weight: bold; }
   .deliveryDetails .deliveryDate {
     margin: 0 20px 0 0; }
   .deliveryDetails .paymentMethod div {
@@ -192,11 +199,11 @@
 
 .disclaimer {
   width: 100%;
-  height: auto; }
+  height: auto;
+  text-align: center; }
   .disclaimer p {
     width: 600px;
-    margin: 15px auto;
-    text-align: center; }
+    margin: 15px auto; }
     .disclaimer p a {
       color: #d89b96; }
   .disclaimer button {
@@ -216,12 +223,14 @@
     -khtml-border-radius: 4px;
     /* for old Konqueror browsers */
     border: 0; }
-  .disclaimer ul li {
-    list-style-type: disc;
-    margin: 0 0 10px 50px; }
-  .disclaimer ol li {
-    list-style-type: decimal;
-    margin: 0 0 10px 50px; }
+  .disclaimer ul {
+    display: inline-block; }
+    .disclaimer ul li {
+      list-style-type: disc; }
+  .disclaimer ol {
+    display: inline-block; }
+    .disclaimer ol li {
+      list-style-type: decimal; }
   .disclaimer em {
     font-style: italic; }
   .disclaimer strong {
