@@ -262,6 +262,8 @@ def set_product_positions(request):
 		quantity = request.POST.get('quantity','')
 		selected_prev_prod_qty = request.POST.get('selected_prev_prod_qty','')
 		buy_table_html = request.POST.get('buy_table_html','')
+		tables = request.POST.get('tables','')
+		guests = request.POST.get('guests','')
 
 		request.session['product_positions'] = {
 			'obj_counter':str(obj_counter),
@@ -272,7 +274,9 @@ def set_product_positions(request):
 			'total': str(total),
 			'quantity': str(quantity),
 			'selected_prev_prod_qty': str(selected_prev_prod_qty),
-			'buy_table_html': str(buy_table_html)
+			'buy_table_html': str(buy_table_html),
+			'tables': str(tables),
+			'guests': str(guests)
 		}
 
 		ret = obj_counter

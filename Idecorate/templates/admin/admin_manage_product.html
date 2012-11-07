@@ -46,7 +46,7 @@
 
           <div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <button id="edit_close2" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
               <h3 id="myModalLabel">{% trans "Edit Default Guests/Tables" %}</h3>
             </div>
             <div class="modal-body">
@@ -54,16 +54,16 @@
           {% csrf_token %}
           <label class="checkbox">
             {% trans "Guests" %}
-              <input type="text" class="input-medium" name="guests" placeholder="Number of guests" value="{{ guests }}" />
+              <input type="text" maxlength="5" class="input-medium" _def="{{ guests }}" id="guests" name="guests" placeholder="Number of guests" value="{{ guests }}" />
           </label>
           <label class="checkbox">
             {% trans "Tables" %}
-              <input type="text" class="input-medium" name="tables" placeholder="Number of tables" value="{{ tables }}" />
+              <input type="text" maxlength="5" class="input-medium" _def="{{ tables }}" id="tables" name="tables" placeholder="Number of tables" value="{{ tables }}" />
             </label>
         </form>
             </div>
             <div class="modal-footer">
-              <button class="btn" data-dismiss="modal">Close</button>
+              <button class="btn" data-dismiss="modal" id="edit_close">Close</button>
               <button class="btn btn-primary" id="edit_save">Save changes</button>
             </div>
           </div>
@@ -181,6 +181,13 @@
 
     $('#edit_save').click(function(e){
       $('#gt_edit').submit();
+    });
+
+    $('#edit_close, #edit_close2').click(function(e){
+
+      $('#guests').val($('#guests').attr('_def'));
+      $('#tables').val($('#tables').attr('_def'));
+
     });
 
 

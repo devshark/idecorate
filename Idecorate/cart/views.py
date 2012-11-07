@@ -105,7 +105,7 @@ def checkout(request):
 	if cart_item.count() > 0:
 		for cart in cart_item:
 			order = shop.order_from_request(request, create=True)
-			order.modify_item(cart.product, relative=cart.quantity)
-			remove_from_cart_temp(cart.id)
+			order.modify_item(cart.product, absolute=cart.quantity)
+			#remove_from_cart_temp(cart.id)
 
 	return redirect('plata_shop_checkout')

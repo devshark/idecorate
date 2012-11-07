@@ -52,10 +52,23 @@
         <script type="text/javascript">
             // initialise plugins
             jQuery(function(){
-                jQuery('ul.dropdown').superfish();
-            });
+                jQuery('ul.dropdown').superfish({
+                    onBeforeShow: function(e){
+                        //alert('test');
+                    }
+                });
+            }); 
             $(function() {
-                $( "#datepicker" ).datepicker();
+                $( "#datepicker" ).datepicker({
+                    showOn: "button",
+                    buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+                    buttonImageOnly: true ,
+                    changeMonth: true,
+                    changeYear: true,
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    showButtonPanel: true
+                });
             });
         </script>
         <script>

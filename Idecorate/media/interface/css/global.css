@@ -177,7 +177,7 @@ h5 {
       #header .headerRowTop ul.dropdown li:first-child {
         border-left: none; }
       #header .headerRowTop ul.dropdown li:hover {
-        background: #F3D673;
+        /* background: #F3D673; */
         color: black;
         position: relative; }
         #header .headerRowTop ul.dropdown li:hover a {
@@ -197,10 +197,10 @@ h5 {
           color: #000;
           border-bottom: 1px solid #ccc;
           float: none;
-          padding-right: 10px; }
+          /* padding-right: 10px;  */ }
           #header .headerRowTop ul.dropdown ul li a {
             border-left: none;
-            width: 100%;
+            /* width: 100%; */
             display: inline-block; }
         #header .headerRowTop ul.dropdown ul ul {
           left: 100%;

@@ -2,16 +2,22 @@ var action_url = '';
 var total = 0;
 var quantity = 1;
 var selected_prev_prod_qty = 0;
+
 $(document).ready(function(){
     var cart_triggered = false;
     $('.checkoutButton').click(function(){
+        
         var url = $(this).parent().attr('href');
 
         var error = hasError();
 
         if ( !error ){
-            window.location.href = CHECKOUT_URL;
+            setProductPositions(function(){
+                window.location.href = CHECKOUT_URL;    
+            });
+            
         } else {
+            setProductPositions();
             if ( error == 2 )
                 alert('Quantity must not be less than 1.');
             else {
@@ -131,7 +137,7 @@ function add_to_cart(prod_id,default_quantity,guest_table){
                     '</div>' +
                 '</div>' +
             '</td>' +
-            '<td class="span1"><input type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" _gs="' + data.guest_table + '" _dq="' + data.default_quantity + '" max-length="11" name="qty" value="' + qty + '" placeholder="qty"/></td>' +
+            '<td class="span1"><input class="dynamic_qty" type="text" _pid="' + data.id + '" _pr="' + price + '" _cur="' + data.currency + '" _gs="' + data.guest_table + '" _dq="' + data.default_quantity + '" max-length="11" name="qty" value="' + qty + '" placeholder="qty"/></td>' +
             '<td class="amount" id="subtotal_' + data.id + '">$' + subtotal + '</td>'+
             '</tr>';
         $('#buy-table tbody').append(item);

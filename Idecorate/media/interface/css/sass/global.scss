@@ -199,7 +199,7 @@ h5 {
         border-left: none; 
       }
       li:hover {
-        background: #F3D673;
+        /* background: #F3D673; */
         color: black;
         position: relative; 
         a {
@@ -224,10 +224,10 @@ h5 {
           color: #000;
           border-bottom: 1px solid #ccc;
           float: none;
-          padding-right: 10px; 
+          /* padding-right: 10px;  */
           a {
             border-left: none;
-            width: 100%;
+            /* width: 100%; */
             display: inline-block; 
           }
         }
