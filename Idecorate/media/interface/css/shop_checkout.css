@@ -128,11 +128,10 @@
 
 .deliveryDetails {
   width: 100%;
-  height: auto;
   margin: 0 0 15px 0; }
   .deliveryDetails fieldset {
     width: 470px;
-    height: 145px;
+    height: 100%;
     border: 1px solid #000000;
     float: left; }
     .deliveryDetails fieldset legend {
@@ -141,12 +140,12 @@
     .deliveryDetails fieldset form {
       padding: 15px; }
     .deliveryDetails fieldset p {
-      margin: 0 0 0 15px; }
+      margin: 0 0 10px 15px; }
     .deliveryDetails fieldset ul {
       margin: 0 0 0 30px; }
       .deliveryDetails fieldset ul li {
         list-style-type: disc;
-        margin: 0 0 0 15px; }
+        margin: 0 0 10px 15px; }
         .deliveryDetails fieldset ul li a {
           color: #d89b96; }
   .deliveryDetails .deliveryDate {
@@ -170,7 +169,7 @@
   height: auto; }
   .inquiry fieldset {
     width: 470px;
-    height: 145px;
+    height: 100%;
     border: 1px solid #000000;
     float: left; }
     .inquiry fieldset legend {

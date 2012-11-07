@@ -6,7 +6,7 @@ from django.conf import settings
 class Categories(models.Model):
 	id = models.AutoField(db_column='ID', primary_key=True)
 	parent = models.ForeignKey('self',db_column='parent_id', null=True)
-	name = models.CharField(db_column='name', max_length=256, blank=True)
+	name = models.CharField(db_column='name', max_length=256, blank=True, db_index=True)
 	thumbnail = models.CharField(db_column='thumbnail', max_length=256, null=True)
 	order = models.IntegerField(db_column='order', null=True)	
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
