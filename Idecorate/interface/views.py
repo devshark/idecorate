@@ -10,10 +10,12 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
+from django.db.models import Q
 
-from category.services import get_categories, get_cat, category_tree_crumb
+from category.services import get_categories, get_cat, category_tree_crumb, search_category
+from category.models import Categories
 from cart.services import get_product
-from cart.models import Product, CartTemp
+from cart.models import Product, CartTemp, ProductPopularity
 from cart.services import generate_unique_id, clear_cart_temp
 from django.conf import settings
 from PIL import Image
@@ -27,6 +29,7 @@ def home(request):
 	info = {}
 	return render_to_response('interface/home.html',info,RequestContext(request))
 
+@csrf_exempt
 def styleboard(request, cat_id=None):
 
 	"""
@@ -43,16 +46,27 @@ def styleboard(request, cat_id=None):
 
 	info = {}
 
-
 	idecorateSettings = IdecorateSettings.objects.get(pk=1)
 	info['global_default_quantity'] = idecorateSettings.global_default_quantity
 	info['global_guest_table'] = idecorateSettings.global_table	
 
-	categories = get_categories(cat_id)
-	if categories.count() > 0:
-		info['categories'] = categories
+	info['mode'] = 'styleboard'
+	search = request.POST.get('search',None)
+	if search:
+		info['keyword'] = search
+		info['keyword_cat'] = 0
+		search_result_cat = search_category(search)
+		if search_result_cat:
+			cat_id = search_result_cat.id
+			info['keyword_cat'] = cat_id
+		info['mode'] = 'search'	
+		info['category_count'] = 0
+	else:
+		categories = get_categories(cat_id)
+		if categories.count() > 0:
+			info['categories'] = categories
 
-	info['category_count'] = categories.count()
+		info['category_count'] = categories.count()
 
 	if not cat_id:
 		cat_id = 0
@@ -97,6 +111,34 @@ def styleboard_product_ajax(request):
 		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
 	return HttpResponseNotFound()
 
+def search_product(request):
+	if request.method == "POST":
+		cat_id = request.POST.get('cat_id',None)
+
+		product_list = Product.objects.filter(categories__id=cat_id, is_active=True, is_deleted=False)
+		product_list = product_list.order_by('ordering')		
+		product_counts = product_list.count()		
+		offset = request.GET.get('offset',25)
+
+		paginator = Paginator(product_list, offset)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+
+		reponse_data = {}
+
+		json_data = serializers.serialize("json", products, fields=('id','name','original_image_thumbnail','sku'))
+		reponse_data['data'] = json_data
+		reponse_data['page_number'] = products.number
+		reponse_data['num_pages'] = products.paginator.num_pages
+		reponse_data['product_counts'] = product_counts
+
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+	return HttpResponseNotFound()
 
 def styleboard_ajax(request):
 	if request.method == "POST":
@@ -336,3 +378,29 @@ def cropped(request):
 		newImg.save(response, "PNG")
 
 	return response
+
+def search_suggestions(request):
+	if request.is_ajax():
+		keyword = request.GET['term']
+		products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
+		categories = Categories.objects.filter(name__icontains=keyword)
+
+		results = []
+
+		for prod in products:
+			prod_json = {}
+			prod_json['id'] = prod.id
+			prod_json['label'] = prod.name
+			prod_json['category'] = "Suggestion"
+			results.append(prod_json)
+
+		for cat in categories:
+			cat_json = {}
+			cat_json['id'] = cat.id
+			cat_json['label'] = cat.name
+			cat_json['category'] = "Category"
+			results.append(cat_json)
+
+		return HttpResponse(simplejson.dumps(results), mimetype="application/json")
+	else:
+		return HttpResponseNotFound()

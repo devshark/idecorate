@@ -18,7 +18,14 @@
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        
+        <style>
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 1.5;
+        }
+        </style>
     </head>
     <body>
         <div id="main-container">
@@ -63,6 +70,30 @@
                     showButtonPanel: true
                 });
             });
+        </script>
+        <script>
+        $.widget( "custom.catcomplete", $.ui.autocomplete, {
+            _renderMenu: function( ul, items ) {
+                var that = this,
+                    currentCategory = "";
+                $.each( items, function( index, item ) {
+                    if ( item.category != currentCategory ) {
+                        ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                        currentCategory = item.category;
+                    }
+                    console.log(item.id)
+                    that._renderItemData( ul, item );
+                });
+            }
+        });
+        </script>
+        <script>
+        $(function() {     
+            $( "#search" ).catcomplete({
+                delay: 0,
+                source: "{% url search_suggestions %}"
+            });
+        });
         </script>
         {% block javascripts %}{% endblock %}
     </body>

@@ -120,8 +120,17 @@
                                 <li><a href="#templates">Templates</a></li>
                             </ul>
                         </div>
-                        <div id="products" style="display:none; height:100%;">
-                            <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
+                        <div id="products" style="height:100%;">
+                            <div class="breadcrumb-wrap">
+                                {% if mode != 'search' %}
+                                {{ cat_id|get_breadcrumb }}
+                                {% else %}
+                                <ul class="breadcrumb">
+                                    <li><a href="#">All</a></li>
+                                    <li> > </li><li class="active">Search Results</li>
+                                </ul>
+                                {% endif %}
+                            </div>
                             <div class="product-list-wrap">
                                 {% include 'interface/styleboard_categories.html' %}
                             </div> 
@@ -259,12 +268,17 @@
         $('#create-tab').css({height: thumbWrapHeight()+'%'});
 
         {% if category_count == 0 %}
-            setTimeout(populate_products,'500');
+            setTimeout(populate_products,500);
             $('#createTab').click(function(){
                 hideProducts();
                 $('.product-list').unbind('mousewheel');
                 manage_product_pagination();
             });
+        {% endif %}
+
+        {% if mode != 'search' %}
+        {% else %}        
+        setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
         {% endif %}   
 
         $('#create-tab-nav').changeTab();
