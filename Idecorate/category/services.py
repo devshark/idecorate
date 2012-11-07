@@ -313,3 +313,10 @@ def get_cat(cat_id):
 	except:
 		pass
 	return cat
+
+def search_category(keyword):
+	try:
+		cat = Categories.objects.get(name=keyword)
+		return cat
+	except:
+		return None

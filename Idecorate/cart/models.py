@@ -18,10 +18,10 @@ class ProductGuestTable(models.Model):
 class Product(ProductBase):
 
     is_active = models.BooleanField(_('is active'), default=True)
-    name = models.CharField(_('name'), max_length=100)
+    name = models.CharField(_('name'), max_length=100, db_index=True)
     slug = models.SlugField(_('slug'), unique=True, max_length=201)
     ordering = models.PositiveIntegerField(_('ordering'), default=0)
-    description = models.TextField(_('description'), blank=True)
+    description = models.TextField(_('description'), blank=True, db_index=True)
     original_image = models.TextField(_('original_image'), blank=True)
     original_image_thumbnail = models.TextField(_('original_image_thumbnail'), blank=True)
     no_background = models.TextField(_('no_background'), blank=True)
@@ -66,3 +66,11 @@ class CartTemp(models.Model):
     class Meta:
         verbose_name = _('Cart Temp')
         db_table = 'cart_temps'
+
+class ProductPopularity(models.Model):    
+    product = models.OneToOneField(Product, db_column='product_id', primary_key=True)
+    dropped = models.PositiveIntegerField(db_column='dropped')
+
+    class Meta:
+        verbose_name = _('Product Popularity')
+        db_table = 'product_popularities'

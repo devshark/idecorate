@@ -44,9 +44,11 @@
 <div class="headerRowBottom clearfix">
 	<div class="searchWrap">
 		<div class="search clearfix">
+			<form action="{% url styleboard %}" method="POST">
 			<input type="image" src="/media/images/search.png" class="searchIcon" />
-			<input type="text" id="search" placeholder="Search Products" > 
+			<input type="text" name="search" id="search" placeholder="Search Products" > 
 			<input type="submit" value="Search">
+			</form>
 		</div>
 	</div>
 	<div class="socialIcons">
