@@ -207,6 +207,15 @@
 			
 		});
 
+		var deliveryDateH = $('.deliveryDate').height(),
+			paymentMethodH = $('.paymentMethod').height();
+
+		if(deliveryDateH > paymentMethodH){
+			$('.deliveryDetails').height(deliveryDateH);
+		}else{
+			$('.deliveryDetails').height(paymentMethodH);
+		}
+
 	});
 
 </script>
