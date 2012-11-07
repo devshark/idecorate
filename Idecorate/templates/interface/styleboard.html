@@ -9,6 +9,7 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/superfish.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
@@ -324,7 +325,34 @@
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
-        
+        <script src="/media/interface/js/hoverIntent.js"></script>
+        <script src="/media/interface/js/superfish.js"></script>
+    
+<script type="text/javascript">
+
+            // initialise plugins
+            jQuery(function(){
+                jQuery('ul.dropdown').superfish({
+                    onBeforeShow: function(e){
+                        //alert('test');
+                    }
+                });
+            }); 
+        $.widget( "custom.catcomplete", $.ui.autocomplete, {
+            _renderMenu: function( ul, items ) {
+                var that = this,
+                    currentCategory = "";
+                $.each( items, function( index, item ) {
+                    if ( item.category != currentCategory ) {
+                        ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                        currentCategory = item.category;
+                    }
+                    console.log(item.id)
+                    that._renderItemData( ul, item );
+                });
+            }
+        });
+</script>
     </body>
 </html>
 
