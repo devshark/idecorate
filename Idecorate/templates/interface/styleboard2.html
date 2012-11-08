@@ -299,6 +299,7 @@
 
     function styleboardH() {
 
+
         var _height     = $(window).height()-
                         $("#compact-header").outerHeight(true)-
                         $("#compact-footer").outerHeight(true)-11;
@@ -338,6 +339,11 @@
         $('#buy-tab .buyTableWrap .table .tbody').height(______height);
 
     }
+
+    $(function(e){
+        styleboardH();
+    });
+
 </script>
         
     </body>
