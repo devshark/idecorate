@@ -325,7 +325,7 @@ function manage_product_pagination(){
 }
 
 function generate_pagenation(){
-    $(".draggable").draggable("destroy");
+    //$(".draggable").draggable("_destroy");
     total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
     var left = 1, right = 5;
     if ( total_pages <= 5 ){
@@ -481,7 +481,7 @@ function populate_product_by_page(){
 function manage_product_resize(){
     var computed_height = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-40;
     $('.product-list').css('height',computed_height+'px');
-    $('.draggable').draggable('destroy');
+    //$('.draggable').draggable('_destroy');
     var elm = $('.product-list a:first');
 
     var prod_width = $('.product-list').width();

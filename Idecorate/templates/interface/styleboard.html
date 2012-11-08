@@ -245,6 +245,7 @@
     <div id="iframe-wrap"></div>
 </div>       
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
 <!-- MENU BAR -->
@@ -317,6 +318,7 @@
 <!-- CART -->
 <script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- IDECORATE APP -->
+<!--
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
@@ -324,10 +326,12 @@
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+-->
+
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="/media/interface/js/hoverIntent.js"></script>
 <script type="text/javascript" src="/media/interface/js/superfish.js"></script>    
-<script type="text/javascript" src="/media/interface/js/jquery.autocomplete.js"></script>
+
 <script type="text/javascript">
             // initialise plugins
             jQuery(function(){
@@ -336,61 +340,12 @@
                         //alert('test');
                     }
                 });
-            }); 
-        $(document).ready(function(){
-            $("#search").autocomplete(
-                "{% url search_suggestions %}",
-                {
-                    delay:0,
-                    minChars:0,
-                    matchSubset:1,
-                    matchContains:1,
-                    onItemSelect:selectItem,
-                    onFindValue:findValue,
-                    formatItem:formatItem,
-                    autoFill:false
-                }
-            );
-        });
-        function findValue(li) {
-            if( li == null ) return alert("No match!");
-
-            // if coming from an AJAX call, let's use the CityId as the value
-            if( !!li.extra ) var sValue = li.extra[0];
-
-            // otherwise, let's just display the value in the text box
-            else var sValue = li.selectValue;
-
-            alert("The value you selected was: " + sValue);
-        }
-
-        function selectItem(li) {
-            findValue(li);
-        }
-
-        function formatItem(row) {
-            $.each(row,function(i,e){
-                console.log(e)
             });
-            return row
-        }
-
-        function lookupAjax(){
-            var oSuggest = $("#CityAjax")[0].autocompleter;
-
-            oSuggest.findValue();
-
-            return false;
-        }
-
-        function lookupLocal(){
-            var oSuggest = $("#CityLocal")[0].autocompleter;
-
-            oSuggest.findValue();
-
-            return false;
-        }
 </script>
+<script type="text/javascript">
+        var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
+        </script>
+        <script src="/media/interface/js/search.js"></script>
     </body>
 </html>
 

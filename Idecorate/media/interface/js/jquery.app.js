@@ -288,7 +288,7 @@ $(document).ready(function () {
         aspectRatio: true,
         start : function(e, ui){
 
-            $(".draggable").draggable('destroy');
+            //$(".draggable").draggable('_destroy');
         },
         resize: function(e, ui){
             update_ui({
