@@ -8,7 +8,6 @@
 <div id="content" class="clearfix checkout">
 	<h3>Checkout</h3>
 	<div class="clearfix orderWrap">
-		<form>
 			<fieldset>
 				<legend>Your Order</legend>
 				<table>
@@ -40,23 +39,20 @@
 					</tfoot>
 				</table>
 			</fieldset>
-		</form>
 	</div>
+	<form method="post" action=".">
 	<div class="clearfix loginDetails">
 		<h4>Are you a returning customer?</h4>
 		<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
 		<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
-		<form>
 			<input type="text" placeholder="Email" />
 			<input type="password" placeholder="Password" />
 			<input type="submit" value="Login" class="submit" />
 			<a href="#">Forgot your password?</a>
-		</form>
 	</div>
 	<div class="clearfix information">
 		<fieldset class="personal">
 			<legend>Personal Information</legend>
-			<form>
 				<div class="clearfix">
 					<label>Salutations</label>
 					<select>
@@ -77,11 +73,9 @@
 					<label>Email</label>
 					<input type="text" />
 				</div>
-			</form>
 		</fieldset>
 		<fieldset class="delivery">
 			<legend>Delivery Address</legend>
-			<form>
 				<div class="clearfix">
 					<label>Address 1</label>
 					<input type="text" />
@@ -147,20 +141,16 @@
 					<input type="text" />
 				</div>
 				<input type="checkbox" checked="checked"> My delivery address is the same as my billing address.
-			</form>
 		</fieldset>
 	</div>
 	<div class="clearfix deliveryDetails">
 		<fieldset class="deliveryDate">
 			<legend>Delivery Date</legend>
-			<form>
 				<input type="text" placeholder="Date" id="datepicker" disable="disabled" />
-			</form>
 			{{ "delivery_date_note"|get_checkout_page_info }}
 		</fieldset>
 		<fieldset class="paymentMethod">
 			<legend>Payment Method</legend>
-			<form>
 				<div class="clearfix">
 					<input type="radio" name="payment_type">
 					<label>Paypal</label>
@@ -176,7 +166,6 @@
 					<label>American Express</label>
 					<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
 				</div>
-			</form>
 		</fieldset>
 	</div>
 	<div class="clearfix inquiry">
@@ -187,8 +176,9 @@
 	</div>
 	<div class="clearfix disclaimer">
 		<p align="justify">{{ "t_and_c"|get_checkout_page_info }}</p>
-		<button>Proceed to Payment</button>
+		<button type="submit">Proceed to Payment</button>
 	</div>
+	</form>
 </div>
 {% endblock %}
 {% block javascripts %}
