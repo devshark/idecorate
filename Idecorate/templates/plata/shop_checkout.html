@@ -8,6 +8,7 @@
 <div id="content" class="clearfix checkout">
 	<h3>Checkout</h3>
 	<div class="clearfix orderWrap">
+		<form>
 			<fieldset>
 				<legend>Your Order</legend>
 				<table>
@@ -39,207 +40,207 @@
 					</tfoot>
 				</table>
 			</fieldset>
+		</form>
 	</div>
 	<form method="post" action=".">
-	<div class="clearfix loginDetails">
-		<h4>Are you a returning customer?</h4>
-		<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
-		<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
-			<input type="text" placeholder="Email" />
-			<input type="password" placeholder="Password" />
-			<input type="submit" value="Login" class="submit" />
-			<a href="#">Forgot your password?</a>
-	</div>
-	<div class="clearfix information">
-		<fieldset class="personal">
-			<legend>Personal Information</legend>
-				<div class="clearfix">
-					<label>Salutations</label>
-					<select>
-						<option>Mr.</option>
-						<option>Mrs.</option>
-						<option>Ms.</option>
-					</select>
-				</div>
-				<div class="clearfix">
-					<label>First Name</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix">
-					<label>Last Name</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix">
-					<label>Email</label>
-					<input type="text" />
-				</div>
-		</fieldset>
-		<fieldset class="delivery">
-			<legend>Delivery Address</legend>
-				<div class="clearfix">
-					<label>Address 1</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix">
-					<label>Address 2</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix">
-					<label>State</label>
-					<select class="districtList">
-						<option>Albury</option>
-						<option>Armidale</option>
-						<option>Bathurst</option>
-						<option>Blue Mountains</option>
-						<option>Broken Hill</option>
-						<option>Campbelltown</option>
-						<option>Cessnock</option>
-						<option>Dubbo</option>
-						<option>Goulburn</option>
-						<option>Grafton</option>
-						<option>Lithgow</option>
-						<option>Liverpool</option>
-						<option>Newcastle</option>
-						<option>Orange</option>
-						<option>Parramatta</option>
-						<option>Penrith</option>
-						<option>Queanbeyan</option>
-						<option>Sydney</option>
-						<option>Tamworth</option>
-						<option>Wagga Wagga</option>
-						<option>Wollongong</option>
-					</select>
-				</div>
-				<div class="clearfix">
-					<label>City</label>
-					<select class="districtList">
-						<option>Albury</option>
-						<option>Armidale</option>
-						<option>Bathurst</option>
-						<option>Blue Mountains</option>
-						<option>Broken Hill</option>
-						<option>Campbelltown</option>
-						<option>Cessnock</option>
-						<option>Dubbo</option>
-						<option>Goulburn</option>
-						<option>Grafton</option>
-						<option>Lithgow</option>
-						<option>Liverpool</option>
-						<option>Newcastle</option>
-						<option>Orange</option>
-						<option>Parramatta</option>
-						<option>Penrith</option>
-						<option>Queanbeyan</option>
-						<option>Sydney</option>
-						<option>Tamworth</option>
-						<option>Wagga Wagga</option>
-						<option>Wollongong</option>
-					</select>
-				</div>
-				<div class="clearfix">
-					<label>Postal Code</label>
-					<input type="text" />
-				</div>
-				<input type="checkbox" checked="checked"> My delivery address is the same as my billing address.
-		</fieldset>
-	</div>
-	<div class="clearfix deliveryDetails">
-		<fieldset class="deliveryDate">
-			<legend>Delivery Date</legend>
-				<input type="text" placeholder="Date" id="datepicker" disable="disabled" />
-			{{ "delivery_date_note"|get_checkout_page_info }}
-		</fieldset>
-		<fieldset class="delivery paymentMethod">
-			<legend>Billing Address</legend>
-			<form>
-				<div class="clearfix">
-					<label>Address 1</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix">
-					<label>Address 2</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix">
-					<label>State</label>
-					<select class="districtList">
-						<option>Albury</option>
-						<option>Armidale</option>
-						<option>Bathurst</option>
-						<option>Blue Mountains</option>
-						<option>Broken Hill</option>
-						<option>Campbelltown</option>
-						<option>Cessnock</option>
-						<option>Dubbo</option>
-						<option>Goulburn</option>
-						<option>Grafton</option>
-						<option>Lithgow</option>
-						<option>Liverpool</option>
-						<option>Newcastle</option>
-						<option>Orange</option>
-						<option>Parramatta</option>
-						<option>Penrith</option>
-						<option>Queanbeyan</option>
-						<option>Sydney</option>
-						<option>Tamworth</option>
-						<option>Wagga Wagga</option>
-						<option>Wollongong</option>
-					</select>
-				</div>
-				<div class="clearfix">
-					<label>City</label>
-					<select class="districtList">
-						<option>Albury</option>
-						<option>Armidale</option>
-						<option>Bathurst</option>
-						<option>Blue Mountains</option>
-						<option>Broken Hill</option>
-						<option>Campbelltown</option>
-						<option>Cessnock</option>
-						<option>Dubbo</option>
-						<option>Goulburn</option>
-						<option>Grafton</option>
-						<option>Lithgow</option>
-						<option>Liverpool</option>
-						<option>Newcastle</option>
-						<option>Orange</option>
-						<option>Parramatta</option>
-						<option>Penrith</option>
-						<option>Queanbeyan</option>
-						<option>Sydney</option>
-						<option>Tamworth</option>
-						<option>Wagga Wagga</option>
-						<option>Wollongong</option>
-					</select>
-				</div>
-				<div class="clearfix">
-					<label>Postal Code</label>
-					<input type="text" />
-				</div>
-				<input type="checkbox" checked="checked"> My delivery address is the same as my billing address.
-			</form>
-		</fieldset>
-		<!--
-		<fieldset class="paymentMethod">
-			<legend>Payment Method</legend>
-				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>Paypal</label>
-					<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />
-				</div>
-				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>VISA/Mastercard</label>
-					<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />
-				</div>
-				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>American Express</label>
-					<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
-				</div>
-		</fieldset>
-		-->
-	</div>
+		<div class="clearfix loginDetails">
+			<h4>Are you a returning customer?</h4>
+			<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
+			<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
+				<input type="text" placeholder="Email" />
+				<input type="password" placeholder="Password" />
+				<input type="submit" value="Login" class="submit" />
+				<a href="#">Forgot your password?</a>
+		</div>
+		<div class="clearfix information">
+			<fieldset class="personal">
+				<legend>Personal Information</legend>
+					<div class="clearfix">
+						<label>Salutations</label>
+						<select>
+							<option>Mr.</option>
+							<option>Mrs.</option>
+							<option>Ms.</option>
+						</select>
+					</div>
+					<div class="clearfix">
+						<label>First Name</label>
+						<input type="text" />
+					</div>
+					<div class="clearfix">
+						<label>Last Name</label>
+						<input type="text" />
+					</div>
+					<div class="clearfix">
+						<label>Email</label>
+						<input type="text" />
+					</div>
+			</fieldset>
+			<fieldset class="delivery">
+				<legend>Delivery Address</legend>
+					<div class="clearfix">
+						<label>Address 1</label>
+						<input type="text" />
+					</div>
+					<div class="clearfix">
+						<label>Address 2</label>
+						<input type="text" />
+					</div>
+					<div class="clearfix">
+						<label>State</label>
+						<select class="districtList">
+							<option>Albury</option>
+							<option>Armidale</option>
+							<option>Bathurst</option>
+							<option>Blue Mountains</option>
+							<option>Broken Hill</option>
+							<option>Campbelltown</option>
+							<option>Cessnock</option>
+							<option>Dubbo</option>
+							<option>Goulburn</option>
+							<option>Grafton</option>
+							<option>Lithgow</option>
+							<option>Liverpool</option>
+							<option>Newcastle</option>
+							<option>Orange</option>
+							<option>Parramatta</option>
+							<option>Penrith</option>
+							<option>Queanbeyan</option>
+							<option>Sydney</option>
+							<option>Tamworth</option>
+							<option>Wagga Wagga</option>
+							<option>Wollongong</option>
+						</select>
+					</div>
+					<div class="clearfix">
+						<label>City</label>
+						<select class="districtList">
+							<option>Albury</option>
+							<option>Armidale</option>
+							<option>Bathurst</option>
+							<option>Blue Mountains</option>
+							<option>Broken Hill</option>
+							<option>Campbelltown</option>
+							<option>Cessnock</option>
+							<option>Dubbo</option>
+							<option>Goulburn</option>
+							<option>Grafton</option>
+							<option>Lithgow</option>
+							<option>Liverpool</option>
+							<option>Newcastle</option>
+							<option>Orange</option>
+							<option>Parramatta</option>
+							<option>Penrith</option>
+							<option>Queanbeyan</option>
+							<option>Sydney</option>
+							<option>Tamworth</option>
+							<option>Wagga Wagga</option>
+							<option>Wollongong</option>
+						</select>
+					</div>
+					<div class="clearfix">
+						<label>Postal Code</label>
+						<input type="text" />
+					</div>
+					<input type="checkbox" checked="checked"> My delivery address is the same as my billing address.
+			</fieldset>
+		</div>
+		<div class="clearfix deliveryDetails">
+			<fieldset class="deliveryDate">
+				<legend>Delivery Date</legend>
+					<input type="text" placeholder="Date" id="datepicker" disable="disabled" />
+				{{ "delivery_date_note"|get_checkout_page_info }}
+			</fieldset>
+			<fieldset class="delivery paymentMethod">
+				<legend>Billing Address</legend>
+				<form>
+					<div class="clearfix">
+						<label>Address 1</label>
+						<input type="text" />
+					</div>
+					<div class="clearfix">
+						<label>Address 2</label>
+						<input type="text" />
+					</div>
+					<div class="clearfix">
+						<label>State</label>
+						<select class="districtList">
+							<option>Albury</option>
+							<option>Armidale</option>
+							<option>Bathurst</option>
+							<option>Blue Mountains</option>
+							<option>Broken Hill</option>
+							<option>Campbelltown</option>
+							<option>Cessnock</option>
+							<option>Dubbo</option>
+							<option>Goulburn</option>
+							<option>Grafton</option>
+							<option>Lithgow</option>
+							<option>Liverpool</option>
+							<option>Newcastle</option>
+							<option>Orange</option>
+							<option>Parramatta</option>
+							<option>Penrith</option>
+							<option>Queanbeyan</option>
+							<option>Sydney</option>
+							<option>Tamworth</option>
+							<option>Wagga Wagga</option>
+							<option>Wollongong</option>
+						</select>
+					</div>
+					<div class="clearfix">
+						<label>City</label>
+						<select class="districtList">
+							<option>Albury</option>
+							<option>Armidale</option>
+							<option>Bathurst</option>
+							<option>Blue Mountains</option>
+							<option>Broken Hill</option>
+							<option>Campbelltown</option>
+							<option>Cessnock</option>
+							<option>Dubbo</option>
+							<option>Goulburn</option>
+							<option>Grafton</option>
+							<option>Lithgow</option>
+							<option>Liverpool</option>
+							<option>Newcastle</option>
+							<option>Orange</option>
+							<option>Parramatta</option>
+							<option>Penrith</option>
+							<option>Queanbeyan</option>
+							<option>Sydney</option>
+							<option>Tamworth</option>
+							<option>Wagga Wagga</option>
+							<option>Wollongong</option>
+						</select>
+					</div>
+					<div class="clearfix">
+						<label>Postal Code</label>
+						<input type="text" />
+					</div>
+					<input type="checkbox" checked="checked"> My delivery address is the same as my billing address.
+			</fieldset>
+			<!--
+			<fieldset class="paymentMethod">
+				<legend>Payment Method</legend>
+					<div class="clearfix">
+						<input type="radio" name="payment_type">
+						<label>Paypal</label>
+						<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />
+					</div>
+					<div class="clearfix">
+						<input type="radio" name="payment_type">
+						<label>VISA/Mastercard</label>
+						<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />
+					</div>
+					<div class="clearfix">
+						<input type="radio" name="payment_type">
+						<label>American Express</label>
+						<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
+					</div>
+			</fieldset>
+			-->
+		</div>
 	<div class="clearfix inquiry">
 		<fieldset class="question">
 			<legend>Any Questions?</legend>
@@ -247,7 +248,6 @@
 		</fieldset>
 		<fieldset class="paymentMethod2">
 			<legend>Payment Method</legend>
-			<form>
 				<div class="clearfix">
 					<input type="radio" name="payment_type">
 					<label>Paypal</label>
@@ -263,7 +263,6 @@
 					<label>American Express</label>
 					<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
 				</div>
-			</form>
 		</fieldset>
 	</div>
 	<div class="clearfix disclaimer">
@@ -290,15 +289,15 @@
 			questionH = $('.question').height();
 
 		if(deliveryDateH > paymentMethodH){
-			$('.deliveryDetails').height(deliveryDateH);
+			$('.paymentMethod').height(deliveryDateH);
 		}else{
-			$('.deliveryDetails').height(paymentMethodH);
+			$('.deliveryDate').height(paymentMethodH);
 		}
 
 		if(questionH > paymentMethodH2){
 			$('.paymentMethod2').height(questionH);
 		}else{
-			$('.paymentMethod2').height(paymentMethodH2);
+			$('.question').height(paymentMethodH2);
 		}
 
 	});
