@@ -65,13 +65,25 @@ def menuInterfaceRecursion(menus):
 	anotherClass = ""
 	#spanOpen = ""
 	#spanClose = ""
+	arrow = ""
 
 	for menu in menus:
 
 		if menus.model == type(InfoMenu()):
 			anotherClass = ""
+
+			if InfoMenu.objects.filter(parent__id=menu.id).count() > 0:
+				arrow = ' <img src="/media/images/arrow.png" alt="" />'
+			else:
+				arrow = ''
+
 		else:
 			anotherClass = " ddl-right"
+
+			if SiteMenu.objects.filter(parent__id=menu.id).count() > 0:
+				arrow = ' <img src="/media/images/arrow.png" alt="" />'
+			else:
+				arrow = ''
 
 		if menu.parent is None:
 			if needToOpen:
@@ -85,12 +97,12 @@ def menuInterfaceRecursion(menus):
 
 		if menu.link == "":
 			#css_class = ' class="nonLink"'
-			link = '<span>%s</span>' % menu.name
+			link = '<span>%s%s</span>' % (menu.name, arrow)
 			#spanOpen = '<span>'
 			#spanClose = '</span>'
 		else:
 			#css_class = ''
-			link = '<a href="%s">%s</a>' % (menu.link, menu.name)
+			link = '<a href="%s">%s%s</a>' % (menu.link, menu.name, arrow)
 			#spanOpen = ''
 			#spanClose = ''
 
