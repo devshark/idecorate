@@ -67,19 +67,6 @@ $(document).ready(function(){
         if(!$('.myorder-edit a').hasClass('hidden'))
             $('.myorder-edit a').addClass('hidden');
     });
-
-    buy_tab_resize();
-    $(window).resize(function(){
-        buy_tab_resize();
-        var cnt = $('#sidebar-form-wrap').offset();
-        $('.myorder-edit').css({'top':(cnt.top+5)+'px', 'left':($('#sidebar-form-wrap').width()-($('.myorder-edit').outerWidth(true)))+'px'});
-    });
-    $('#buyTab').click(function(){
-        buy_tab_resize();
-    });
-
-    var cnt = $('#sidebar-form-wrap').offset();
-    $('.myorder-edit').css({'top':(cnt.top+5)+'px', 'left':($('#sidebar-form-wrap').width()-($('.myorder-edit').width()))+'px'});
 });
 
 function hasError(){
