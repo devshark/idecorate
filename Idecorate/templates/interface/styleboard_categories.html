@@ -1,6 +1,6 @@
 {% load idecorate_interface %}
 {% if categories %}
-<div class="category-wrap">
+<div class="category-wrap clearfix">
 	{% for cat in categories %}
 	<div id="{{ cat.id }}" class="thumb categories">
 		<img src="/{{ MEDIA_URL }}{{ cat.thumbnail }}" alt="{{ cat.name }}" />

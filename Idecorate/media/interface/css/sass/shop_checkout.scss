@@ -26,6 +26,7 @@
 
 			legend{
 				margin: 0 0 0 20px;
+				padding: 0 5px;
 				font-size: 14px;
 				color: #000000;
 			}
@@ -158,6 +159,7 @@
 
 		legend{
 			margin: 0 0 0 20px;
+			padding: 0 5px;
 			font-size: 14px;
 		}
 
@@ -229,6 +231,7 @@
 
 		legend{
 			margin: 0 0 0 20px;
+			padding: 0 5px;
 			font-size: 14px;
 		}
 		
@@ -301,12 +304,36 @@
 		}
 	
 	}
+
+	.delivery{
+
+		div {
+			margin-bottom: 5px;
+		
+			label {
+				display: block;
+				width: 70px;
+				height: auto;
+				padding-top: 10px;
+				float: left;
+			}
+
+			input {
+				width: 350px;
+			}
+
+			select {
+				width: 355px;
+			}
+
+		}
+		
+	}
 	
 }
 
 .inquiry{
 	width: 100%;
-	height: auto;
 
 	fieldset{
 		width: 470px;
@@ -316,6 +343,7 @@
 
 		legend{
 			margin: 0 0 0 20px;
+			padding: 0 5px;
 			font-size: 14px;
 		}
 
@@ -350,6 +378,41 @@
 			font-weight: bold;
 		}
 
+		form{
+			padding: 15px;
+		}
+
+	}
+
+	.question {
+		margin: 0 20px 0 0;
+
+	}
+
+	.paymentMethod2 {
+
+		div {
+			margin-bottom: 15px;
+			
+			input {
+				float: left;
+				margin-top: 5px;
+			}
+
+			label {
+				display: block;
+				width: 110px;
+				height: auto;
+				padding-top: 8px;
+				float: left;
+			}
+
+			img {
+				float: left;
+			}
+
+		}
+	
 	}
 
 }

@@ -28,6 +28,13 @@ $(document).ready( function() {
     $('#buyTab').click(function(){
         $('#idecorate-tooltip').hide();
     });
+
+    $(document).on('click',function(e){
+        var click =  $.contains($('#idecorate-tooltip')[0],e.target) ? true : $(e.target).is('#idecorate-tooltip');
+        if(!click){
+            $('#idecorate-tooltip').hide();
+        }
+    });
 });
 
 function product_list_wrap_resize(){
@@ -82,9 +89,9 @@ function browse_categories(elm_id){
             if(type =='products'){
                 category_id = elm_id;
                 total_product_count = response_data.product_counts;
-                items = '<div class="product-list">' + items + '</div>';
+                items = '<div class="product-list clearfix">' + items + '</div>';
             } else {
-                items = '<div class="category-wrap">' + items + '</div>';                
+                items = '<div class="category-wrap clearfix">' + items + '</div>';                
             }
 
             var breadcrumb_tree = '';
@@ -197,7 +204,7 @@ function populate_products(){
                 '<span>' + name + '</span>' +
             '</a>';
     });
-    items = '<div class="product-list">' + items + '</div>';
+    items = '<div class="product-list clearfix">' + items + '</div>';
     $('.product-list-wrap').html(items);
     manage_product_pagination();
 }
@@ -388,12 +395,14 @@ function generate_pagenation(){
     // $('.product-list a').bind('click',function(){
     //     get_product_details(this);
     // });
-    $('.product-list a').live('click', function(e){
-        get_product_details(this);
+    $('.product-list').on('click', 'a', function(e){
+        get_product_details($(this), e);
+        e.preventDefault();
+        disableEventPropagation(e);
     });
 }
 var prev_clicked_id = 0;
-function get_product_details(elm){
+function get_product_details(elm, e){
     $('#idecorate-tooltip .close').unbind('click');
     var pid = $(elm).attr('_uid');
     if (pid != prev_clicked_id){
@@ -419,8 +428,8 @@ function get_product_details(elm){
                 $('#tooltip-title').text(name);
                 $('#tooltip-price').text('$'+price);
                 $('#tooltip-unit').text(default_quantity+'/'+guest_table);
-                var elm_offset = $(elm).offset();
-                $('#idecorate-tooltip').css({'top':elm_offset.top+'px','left':(elm_offset.left+$(elm).outerWidth(true)+5)+'px'});
+                $('#idecorate-tooltip').css({'top':e.pageY,'left':e.pageX});
+
                 $('#idecorate-tooltip').show(function(){
                     $(this).addClass('ticked-tooltip');
                 });

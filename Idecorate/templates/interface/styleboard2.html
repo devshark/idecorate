@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard2.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <script type="text/javascript">
@@ -32,7 +32,191 @@
         <![endif]-->
     </head>
     <body>
-        
+        <div id="compact-header">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <thead class="headWrap">
+                    <tr class="headWraptop">
+                        <td id="info-menu"><!--{{ "info"|getInterfaceMenus }}--></td>
+                        <td id="logo">
+                            <a href="{% url home %}">
+                                <img width="193px" height="43px" src="/media/images/idecorate_wedding.jpg" title="logo" />
+                            </a>
+                        </td>
+                        <td id="site-menu"><!--{{ "site"|getInterfaceMenus }}--></td>
+                    </tr>
+                    <tr class="headWrapBottom">
+                        <td colspan="3">
+                            <div class="searchWrap">
+                                <div class="search clearfix">
+                                    <input type="image" src="/media/images/search.png" class="searchIcon" />
+                                    <input type="text" placeholder="Search Products" > 
+                                    <input type="submit" value="Search">
+                                </div>
+                            </div>
+                            <div class="socialIcons">
+                                <a href="#" id="email"></a>
+                                <a href="#" id="arrow"></a>
+                                <a href="#" id="facebook"></a>
+                                <a href="#" id="pinterest"></a>
+                                <a href="#" id="instagram"></a>
+                                <a href="#" id="twitter"></a>
+                                <a href="#" id="youtube"></a>
+                            </div>
+                        </td>
+                    </tr>
+                </thead>
+            </table>
+        </div>
+        <table id="styleboard" cellpadding="0" cellspacing="5">
+            <tbody class="bodyWrap">
+                <tr valign="top" height="100%">
+                    <td id="sidebar-wrap">
+                        <ul id="sidebar-nav" class="etabs sideNav clearfix">
+                            <li class="tab"><a href="#create-tab" id="createTab">Create</a></li>
+                            <li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
+                        </ul>
+                        <div id="sidebar">
+                            <div id="sidebar-form-wrap"  class="clearfix">
+                                <h3>My Order <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div></h3>
+                                {% csrf_token %}
+                                <fieldset>
+                                    <div class="sidebarInputs">
+                                        <label for="guests">
+                                            <input type="text" id="guests" name="guests" placeholder="Guests" /> Guests
+                                        </label>
+                                        <label for="tables">
+                                            <input type="text" id="tables" name="tables" placeholder="Tables" /> Tables
+                                        </label>
+                                    </div>
+                                    <div class="sidebarTotals">
+                                        <h5>Total: <span id="my-order-total">$0</span></h5>
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div id="create-tab">
+                                <div id="create-tab-nav">
+                                    <ul class="sideNav">
+                                        <li><a href="#products">Products</a> /</li>
+                                        <li><a href="#embellishments">Embellishments</a> /</li>
+                                        <li><a href="#templates">Templates</a></li>
+                                    </ul>
+                                </div>
+                                <div id="products" style="display:none;">
+                                    <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
+                                    <div class="product-list-wrap">
+                                        {% include 'interface/styleboard_categories.html' %}
+                                    </div> 
+                                </div>
+                                <div id="embellishments" style="display:none;"></div>
+                                <div id="templates" style="display:none;"></div>                       
+                            </div>
+                            <!-- end of create -->
+                            <div id="buy-tab" style="display:none">
+                                <div class="buyTableWrap">
+                                    <div class="table">
+                                        <div class="thead">
+                                            <table width="100%">
+                                                <tr>
+                                                    <th>Item</th>
+                                                    <th>Quantity</th>
+                                                    <th>Price</th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="tbody">
+                                            <table id="buy-table">                                            
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tfoot">
+                                            <table width="100%">
+                                                <tr>
+                                                    <th>Total: <span id="cart-total-cur"></span><span id="cart-total-amount"></span></th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>                                
+                                </div>
+                                <div class="checkOutWrap">                            
+                                    <input id="update-button" type="button" value="Update" class="globalBtn updateBtn"/> <input id="check-button" type="button" value="Checkout" class="globalBtn checkoutButton"/>
+                                </div>
+                            </div>
+                            <!-- end of buy -->
+                        </div>
+                    </td>
+                    <td id="canvas-wrap">
+                        <div id="canvas">
+                            <div class="handles">
+                                <div class="fakeHandle"></div>
+                            </div>
+                            <div class="neMenus">
+                                <div class="imgControlWrap">
+                                    <ul class="imgControl clearfix">
+                                        <li><a href="#" id="remove-btn">Remove</a></li>
+                                        <li><a href="#" id="flip-btn">Flip</a></li>
+                                        <li><a href="#" id="flap-btn">Flap</a></li>
+                                        <li><a href="#" id="clone-btn">Clone</a></li>
+                                        <li><a href="#" id="forward-btn">Forward</a></li>
+                                        <li><a href="#" id="backward-btn">Backward</a></li>
+                                    </ul>
+                                </div>
+                                <div class="imgBgControlWrap">
+                                    <ul class="imgBgControl">
+                                        <li>
+                                            <a href="#" id="whiteBg-btn"></a>
+                                        </li>
+                                        <li>
+                                            <a href="#" id="transBg-btn"><div></div></a>
+                                        </li>
+                                        <li>
+                                            <a href="#" id="customBg-btn"><div></div></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> <!-- end of canvas-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div id="compact-footer">
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tfoot class="footWrap">
+                    <tr>
+                        <td class="clearfix">
+                            <div class="copyright">{{ "footer"|get_interface_info }}</div>
+                            <div class="footerMenus">
+                                <ul>{{ "footer_menu"|get_interface_info }}</ul>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+        <div id="remove_products_container" style="display:none"></div>
+        <div id="idecorate-tooltip" class="idecorateTooltip" style="display:none">
+            <div class="container-tooltip">
+                <table cellspacing="0" cellpadding="0">
+                    <tbody>
+                        <tr valign="top">
+                            <td width="42%">
+                                <img id="tooltip-image" alt="" src="">
+                            </td>
+                            <td>
+                                <div style="overflow: hidden; padding-left: 8px;">
+                                    <ul class="list">
+                                        <li id="tooltip-title"></li>
+                                        <li id="tooltip-price"></li>
+                                        <li id="tooltip-unit"></li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="close">×</div>
+        </div>
 
         <div id="page-mask" style="display:none;"></div>
         <div id="modal-window" style="display:none;">
@@ -44,26 +228,16 @@
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
-<!-- MENU BAR -->
+<!-- MENU BAR 
 <script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
-<script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
-<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>-->
 <!-- STYLEBOARD TABPANNELS -->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.change.tab.js"></script>
-<!-- PRODUCT CATEGORIES AJAX CALLS -->
-<script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
-<script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="/media/interface/js/product_category.js"></script>
 <script type="text/javascript">
     $(document).ready( function() {
-        
-        $('#sidebar').easytabs({ animate:false });
-
-        $("#content-wrap").css({height: contentHeight()});
-
-        $('#create-tab').css({height: thumbWrapHeight()+'%'});
-
+        styleboardH();
         {% if category_count == 0 %}
             populate_products();
             $('#createTab').click(function(){
@@ -71,40 +245,40 @@
                 $('.product-list').unbind('mousewheel');
                 manage_product_pagination();
             });
-        {% endif %}   
-
+        {% endif %}
+        
         $('#create-tab-nav').changeTab();
+        
+        $('#sidebar-wrap').easytabs({ animate:false }); 
+
+        $('.etabs .tab a').click(function(e){
+            styleboardH();
+        });
+
+        $('.myorder-edit a').click(function(e){
+            styleboardH();
+        });
 
     });
 
-    $(window).resize(resizedContentHeight);
+    function disableEventPropagation(event) {
 
-    function contentHeight() {
-
-        var _height = $(window).height()-
-                     $("#header").outerHeight(true)-
-                     $("#footer").outerHeight(true)-5;
-
-        return _height;
-
+        if (event.stopPropagation) {
+        // this code is for Mozilla and Opera
+            event.stopPropagation();
+        } else if (window.event) {
+            alert('test');
+        // this code is for IE
+            window.event.cancelBubble = true;
+        }
     }
 
-    function resizedContentHeight(){
-
-        $("#content-wrap").css({height: contentHeight()});
-        $('#create-tab').css({height: thumbWrapHeight()+'%'});
-    }
-
-    function thumbWrapHeight(){
-
-        var _height = contentHeight()-
-                    $("#sidebar-nav").outerHeight(true)-
-                    $("#sidebar-form-wrap").outerHeight(true);
-
-        return _height/contentHeight()*100;
-    }
 
 </script>
+<!-- PRODUCT CATEGORIES AJAX CALLS -->
+<script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/media/interface/js/product_category.js"></script>
 <!-- CART -->
 <script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- IDECORATE APP -->
@@ -116,6 +290,52 @@
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
+<script type="text/javascript">
+
+    $(window).resize(styleboardH);
+
+    function styleboardH() {
+
+        var _height     = $(window).height()-
+                        $("#compact-header").outerHeight(true)-
+                        $("#compact-footer").outerHeight(true)-11;
+
+        var __height    = _height-
+                        $("#sidebar-nav").outerHeight(true)-
+                        $("#sidebar-form-wrap").outerHeight(true)-
+                        $("#create-tab-nav").outerHeight(true)-
+                        $("#create-tab .breadcrumb").outerHeight(true);
+
+        var ___height   = __height-
+                        $("#create-tab .product-list-wrap .pagination").outerHeight(true)-1;
+
+        var ____height  = $('.thumb.products').outerHeight(true)+10;
+
+        var _____height = _height-
+                        $("#sidebar-nav").outerHeight(true)-
+                        $("#sidebar-form-wrap").outerHeight(true);
+
+        var ______height= _height-
+                        $("#sidebar-nav").outerHeight(true)-
+                        $("#sidebar-form-wrap").outerHeight(true)-
+                        $('#buy-tab .buyTableWrap .thead').outerHeight(true)-
+                        $('#buy-tab .buyTableWrap .tfoot').outerHeight(true)-
+                        $('#buy-tab .checkOutWrap').outerHeight(true);
+
+        var height_     = $('#buy-tab .buyTableWrap .thead').outerHeight(true)+
+                        $('#buy-tab .buyTableWrap .tfoot').outerHeight(true)+
+                        $('#buy-tab .checkOutWrap').outerHeight(true);
+
+        
+        $('#styleboard').height(_height); 
+        $('#canvas').height(_height-1); 
+        $('#create-tab .category-wrap, #embellishments, #templates').height(__height);
+        $('#create-tab .product-list-wrap .product-list').height(___height).css({minHeight:____height});
+        $('#buy-tab').height(_____height).css({minHeight:height_});
+        $('#buy-tab .buyTableWrap .table .tbody').height(______height);
+
+    }
+</script>
         
     </body>
 </html>

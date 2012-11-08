@@ -17,6 +17,7 @@
   padding: 10px; }
   .orderWrap form fieldset legend {
     margin: 0 0 0 20px;
+    padding: 0 5px;
     font-size: 14px;
     color: #000000; }
   .orderWrap form fieldset table {
@@ -98,6 +99,7 @@
     float: left; }
     .information fieldset legend {
       margin: 0 0 0 20px;
+      padding: 0 5px;
       font-size: 14px; }
     .information fieldset form {
       padding: 15px; }
@@ -136,6 +138,7 @@
     float: left; }
     .deliveryDetails fieldset legend {
       margin: 0 0 0 20px;
+      padding: 0 5px;
       font-size: 14px; }
     .deliveryDetails fieldset form {
       padding: 15px; }
@@ -170,10 +173,21 @@
       float: left; }
     .deliveryDetails .paymentMethod div img {
       float: left; }
+  .deliveryDetails .delivery div {
+    margin-bottom: 5px; }
+    .deliveryDetails .delivery div label {
+      display: block;
+      width: 70px;
+      height: auto;
+      padding-top: 10px;
+      float: left; }
+    .deliveryDetails .delivery div input {
+      width: 350px; }
+    .deliveryDetails .delivery div select {
+      width: 355px; }
 
 .inquiry {
-  width: 100%;
-  height: auto; }
+  width: 100%; }
   .inquiry fieldset {
     width: 470px;
     height: 100%;
@@ -181,6 +195,7 @@
     float: left; }
     .inquiry fieldset legend {
       margin: 0 0 0 20px;
+      padding: 0 5px;
       font-size: 14px; }
     .inquiry fieldset p {
       padding: 15px; }
@@ -196,6 +211,23 @@
       font-style: italic; }
     .inquiry fieldset strong {
       font-weight: bold; }
+    .inquiry fieldset form {
+      padding: 15px; }
+  .inquiry .question {
+    margin: 0 20px 0 0; }
+  .inquiry .paymentMethod2 div {
+    margin-bottom: 15px; }
+    .inquiry .paymentMethod2 div input {
+      float: left;
+      margin-top: 5px; }
+    .inquiry .paymentMethod2 div label {
+      display: block;
+      width: 110px;
+      height: auto;
+      padding-top: 8px;
+      float: left; }
+    .inquiry .paymentMethod2 div img {
+      float: left; }
 
 .disclaimer {
   width: 100%;

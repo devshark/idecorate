@@ -25,7 +25,7 @@ $(document).ready(function(){
             }
         }
         return false;
-    });    
+    });
     $('#guests').keyup(function(){
         var val = $(this).val();
         val = val.replace(/[^0-9]/g,'');
@@ -81,11 +81,6 @@ $(document).ready(function(){
     var cnt = $('#sidebar-form-wrap').offset();
     $('.myorder-edit').css({'top':(cnt.top+5)+'px', 'left':($('#sidebar-form-wrap').width()-($('.myorder-edit').width()))+'px'});
 });
-
-function buy_tab_resize(){
-    var ph = $('#sidebar').height()-$('#sidebar-nav').outerHeight(true)-$('#sidebar-form-wrap').height()-$('#buy-tab .buyTableWrap .table .thead').outerHeight(true)-$('#buy-tab .buyTableWrap .table .tfoot').height()-$('#buy-tab .checkOutWrap').outerHeight(true)-20;
-    $('#buy-tab .buyTableWrap .table .tbody').css('height',ph+'px')
-}
 
 function hasError(){
     var c = false;
