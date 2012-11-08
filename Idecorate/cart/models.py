@@ -6,6 +6,7 @@ from plata.product.models import ProductBase
 from plata.shop.models import PriceBase
 from category.models import Categories
 from plata.shop.models import Order
+from plata.fields import CurrencyField
 
 class ProductGuestTable(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
@@ -96,3 +97,41 @@ class GuestTable(models.Model):
     class Meta:
         verbose_name = _('Guest and Tables')
         db_table = 'guest_tables'
+
+class Contact(models.Model):
+    ADDRESS_FIELDS = ['first_name', 'last_name', 'address',
+        'zip_code', 'city']
+
+    user = models.OneToOneField(User, verbose_name=_('user'),
+        related_name='contact_user')
+    #currency = CurrencyField(help_text=_('Preferred currency.'))
+
+    first_name = models.CharField(_('first name'), max_length=100)
+    last_name = models.CharField(_('last name'), max_length=100)
+    address = models.TextField(_('address'))
+    address2 = models.TextField(_('address2'))
+    state = models.CharField(_('state'), max_length=100)
+    zip_code = models.CharField(_('ZIP code'), max_length=50)
+    city = models.CharField(_('city'), max_length=100)
+    shipping_same_as_billing = models.BooleanField(_('shipping address equals billing address'),default=True)
+    currency = CurrencyField(help_text=_('Preferred currency.'))
+
+    def __unicode__(self):
+        return unicode(self.user)
+
+    def update_from_order(self, order, request=None):
+
+        self.currency = order.currency
+        self.shipping_same_as_billing = order.shipping_same_as_billing
+        
+        for field in self.ADDRESS_FIELDS:
+
+            f = 'shipping_' + field
+
+            if hasattr(order, f):
+                setattr(self, f, getattr(order, f))
+
+            f = 'billing_' + field
+
+            if hasattr(order, f):
+                setattr(self, field, getattr(order, f))

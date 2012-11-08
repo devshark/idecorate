@@ -117,7 +117,7 @@ def menuInterfaceRecursion(menus):
 			sub_menus = SiteMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuInterfaceRecursion(sub_menus)
 
-		element += '</li>'
+		element += '</li>'		
 
 	if needToOpen == False:
 		element += '</ul>'

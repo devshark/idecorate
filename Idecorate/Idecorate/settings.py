@@ -195,6 +195,7 @@ PAYPAL = {
 PLATA_REPORTING_ADDRESSLINE = 'Example Corp. - 3. Example Street - 1234 Example'
 
 PLATA_SHOP_PRODUCT = 'cart.Product'
+PLATA_SHOP_CONTACT = 'cart.Contact'
 CURRENCIES = ('USD',)
 #End of Plata Settings
 

@@ -12,15 +12,46 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 
-from cart.models import Product, ProductPrice, CartTemp, GuestTableTemp, GuestTable
+from cart.models import Product, ProductPrice, CartTemp, GuestTableTemp, GuestTable, Contact
 from cart.services import get_product, generate_unique_id, remove_from_cart_temp
 
 import plata
-from plata.contact.models import Contact
+#from plata.contact.models import Contact
 from plata.discount.models import Discount
 from plata.shop.models import Order
 from plata.shop.views import Shop
+from plata.shop import forms as shop_forms
+from django import forms
 
+
+class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
+    class Meta:
+        fields = ['email'] + ['billing_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_%s' % f for f in Contact.ADDRESS_FIELDS]
+        model = Order
+
+    def __init__(self, *args, **kwargs):
+        shop = kwargs.get('shop')
+        request = kwargs.get('request')
+        contact = shop.contact_from_user(request.user)
+
+        if contact:
+            initial = {}
+            for f in contact.ADDRESS_FIELDS:
+                initial['billing_%s' % f] = getattr(contact, f)
+                kwargs['initial'] = initial
+
+            for f in contact.ADDRESS_FIELDS:
+                initial['shipping_%s' % f] = getattr(contact, f)
+                kwargs['initial'] = initial
+
+            initial['email'] = contact.user.email
+
+        super(IdecorateCheckoutForm, self).__init__(*args, **kwargs)
+
+        if not contact:
+            self.fields['create_account'] = forms.BooleanField(
+                label=_('create account'),
+                required=False, initial=True)
 
 class IdecorateShop(Shop):
 
@@ -48,6 +79,9 @@ class IdecorateShop(Shop):
 	def render_checkout(self, request, context):
 		context.update({'guest_table': self.guest_table})
 		return self.render(request, 'plata/shop_checkout.html', self.get_context(request, context))
+	
+	def checkout_form(self, request, order):
+		return IdecorateCheckoutForm
 
 shop = IdecorateShop(
 	contact_model=Contact,

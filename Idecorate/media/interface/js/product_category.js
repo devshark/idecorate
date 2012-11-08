@@ -45,7 +45,7 @@ function product_list_wrap_resize(){
         ph = ph + ($('#create-tab').outerHeight(true)-computed);        
     }
 
-    console.log(computed, $('#create-tab').outerHeight(true), ph) 
+    //console.log(computed, $('#create-tab').outerHeight(true), ph) 
     $('#create-tab .product-list-wrap').css('height',ph+'px')
 }
 
@@ -143,6 +143,7 @@ function browse_categories(elm_id){
         error: function(msg) {
         }
     });
+    styleboardH();
 }
 
 function get_products(){
@@ -207,6 +208,7 @@ function populate_products(){
     items = '<div class="product-list clearfix">' + items + '</div>';
     $('.product-list-wrap').html(items);
     manage_product_pagination();
+    styleboardH();
 }
 
 function search_products(keyword, catid){
