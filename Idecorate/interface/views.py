@@ -80,7 +80,7 @@ def styleboard(request, cat_id=None):
 	else:
 		info['product_positions'] = mark_safe("''")
 
-	return render_to_response('interface/styleboard.html', info,RequestContext(request))
+	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
 def styleboard_product_ajax(request):
 	if request.method == "POST":
