@@ -299,7 +299,7 @@ function update_cart(elm){
         url: UPDATE_CART,
         type: "POST",
         dataType: 'json',
-        data: { prod_id: pid, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), quantity:qty }
+        data: { prod_id: pid, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), quantity:qty, guests: $('#guests').val(), tables: $('#tables').val() }
     });
 }
 
@@ -309,7 +309,7 @@ function addToCart_submit_action(id,qty){
         url: action_url,
         type: "POST",
         dataType: 'json',
-        data: { prod_id: id, quantity: qty, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+        data: { prod_id: id, quantity: qty, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), guests: $('#guests').val(), tables: $('#tables').val() },
         async:   false,
         beforeSend : function(){
             

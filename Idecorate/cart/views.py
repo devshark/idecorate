@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 
-from cart.models import Product, ProductPrice, CartTemp
+from cart.models import Product, ProductPrice, CartTemp, GuestTableTemp, GuestTable
 from cart.services import get_product, generate_unique_id, remove_from_cart_temp
 
 import plata
@@ -21,7 +21,35 @@ from plata.discount.models import Discount
 from plata.shop.models import Order
 from plata.shop.views import Shop
 
-shop = Shop(
+
+class IdecorateShop(Shop):
+
+	def modify_guest_table(self, request, guests, tables, order):
+
+		if 'cartsession' in request.session:
+			sessionid = request.session.get('cartsession')
+			
+			if GuestTableTemp.objects.filter(sessionid=sessionid).exists():
+
+				if GuestTable.objects.filter(order=order).exists():
+					guestTable = GuestTable.objects.get(order=order)
+					guestTable.guests = guests
+					guestTable.tables = tables
+					guestTable.save()
+				else:
+					guestTable = GuestTable()
+					guestTable.order = order
+					guestTable.guests = guests
+					guestTable.tables = tables
+					guestTable.save()
+
+				self.guest_table = guestTable
+
+	def render_checkout(self, request, context):
+		context.update({'guest_table': self.guest_table})
+		return self.render(request, 'plata/shop_checkout.html', self.get_context(request, context))
+
+shop = IdecorateShop(
 	contact_model=Contact,
 	order_model=Order,
 	discount_model=Discount,
@@ -31,13 +59,16 @@ def add_to_cart_ajax(request):
 	if request.method == "POST":
 		product_id = request.POST.get('prod_id')
 		quantity = request.POST.get('quantity',1)
+		guests = request.POST.get('guests', 1)
+		tables = request.POST.get('tables', 1)
 		product = get_product(product_id)
 		sessionid = request.session.get('cartsession',None)
 		if not sessionid:
 			sessionid = generate_unique_id()
 			request.session['cartsession'] = sessionid
 
-		exists = CartTemp.objects.filter(product=product.product,sessionid=sessionid).exists()			
+		exists = CartTemp.objects.filter(product=product.product,sessionid=sessionid).exists()
+		existsGT = GuestTableTemp.objects.filter(sessionid=sessionid).exists()		
 
 		if not exists:
 			cartTemp = CartTemp()
@@ -45,6 +76,13 @@ def add_to_cart_ajax(request):
 			cartTemp.quantity = quantity
 			cartTemp.sessionid = sessionid
 			cartTemp.save()
+
+		if not existsGT:
+			guestTable = GuestTableTemp()
+			guestTable.guests = guests
+			guestTable.tables = tables
+			guestTable.sessionid = sessionid
+			guestTable.save()
 
 		reponse_data = {}
 		reponse_data['id'] = product.product.id
@@ -69,6 +107,8 @@ def update_cart(request):
 	if request.method == "POST":
 		product_id = request.POST.get('prod_id')
 		quantity = request.POST.get('quantity',1)
+		guests = request.POST.get('guests', 1)
+		tables = request.POST.get('tables', 1)
 		sessionid = request.session.get('cartsession',None)
 		reponse_data = {}
 		try:
@@ -76,6 +116,12 @@ def update_cart(request):
 			cartTemp = CartTemp.objects.get(product=product.product, sessionid=sessionid)
 			cartTemp.quantity = quantity
 			cartTemp.save()
+
+			guestTable = GuestTableTemp.objects.get(sessionid=sessionid)
+			guestTable.guests = guests
+			guestTable.tables = tables
+			guestTable.save()
+
 		except:
 			return HttpResponse(0)
 		return HttpResponse(1)
@@ -89,6 +135,7 @@ def remove_from_cart_ajax(request):
 
 		if sessionid:
 			CartTemp.objects.get(sessionid=sessionid, product__id=prod_id).delete()
+			GuestTableTemp.objects.get(sessionid=sessionid).delete()
 
 		return HttpResponse('ok')
 	else:
@@ -100,12 +147,14 @@ def checkout(request):
 		sessionid = generate_unique_id()
 		request.session['cartsession'] = sessionid
 	cart_item = CartTemp.objects.filter(sessionid=sessionid)
-	print cart_item
+
+	guest_table = GuestTableTemp.objects.get(sessionid=sessionid)
 
 	if cart_item.count() > 0:
 		for cart in cart_item:
 			order = shop.order_from_request(request, create=True)
 			order.modify_item(cart.product, absolute=cart.quantity)
 			#remove_from_cart_temp(cart.id)
+		shop.modify_guest_table(request, guest_table.guests, guest_table.tables, order)
 
 	return redirect('plata_shop_checkout')

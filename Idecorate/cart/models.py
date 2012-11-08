@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase
 from category.models import Categories
+from plata.shop.models import Order
 
 class ProductGuestTable(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
@@ -74,3 +75,24 @@ class ProductPopularity(models.Model):
     class Meta:
         verbose_name = _('Product Popularity')
         db_table = 'product_popularities'
+
+class GuestTableTemp(models.Model):
+
+    id = models.AutoField(db_column='id', primary_key=True)
+    guests = models.PositiveIntegerField(_('guests'), default=1)
+    tables = models.PositiveIntegerField(_('tables'), default=1)
+    sessionid = models.CharField(db_column='session_key', max_length=200, null=True)
+
+    class Meta:
+        verbose_name = _('Temporary Guest and Tables')
+        db_table = 'guest_tables_temps'
+
+class GuestTable(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    guests = models.PositiveIntegerField(_('guests'), default=1)
+    tables = models.PositiveIntegerField(_('tables'), default=1)
+    order = models.ForeignKey(Order, db_column='order_id')
+
+    class Meta:
+        verbose_name = _('Guest and Tables')
+        db_table = 'guest_tables'
