@@ -794,7 +794,6 @@ function initProductPositions() {
 
         $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
         $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
-        styleboardH();
         $('#tables').val(PRODUCT_POSITIONS['tables']);
         $('#guests').val(PRODUCT_POSITIONS['guests']);
 

@@ -9,6 +9,8 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard2.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/superfish.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
@@ -24,6 +26,7 @@
             var MODAL_SRC                   = '{% url crop 0 %}';
             var PRODUCT_DETAILS_URL         = '{% url get_product_details %}';
             var SET_PRODUCT_POSITION_URL    = '{% url set_product_positions %}';
+            var SEARCH_PRODUCT_URL          = '{% url search_products %}';
             var PRODUCT_POSITIONS           = {{ product_positions }}; 
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -49,7 +52,7 @@
                             <div class="searchWrap">
                                 <div class="search clearfix">
                                     <input type="image" src="/media/images/search.png" class="searchIcon" />
-                                    <input type="text" placeholder="Search Products" > 
+                                    <input id="search" type="text" placeholder="Search Products" > 
                                     <input type="submit" value="Search">
                                 </div>
                             </div>
@@ -82,10 +85,10 @@
                                 <fieldset>
                                     <div class="sidebarInputs">
                                         <label for="guests">
-                                            <input type="text" id="guests" name="guests" placeholder="Guests" /> Guests
+                                            <input type="text" id="guests" name="guests" placeholder="Guests" value="{{ global_default_quantity }}" /> Guests
                                         </label>
                                         <label for="tables">
-                                            <input type="text" id="tables" name="tables" placeholder="Tables" /> Tables
+                                            <input type="text" id="tables" name="tables" placeholder="Tables" value="{{ global_guest_table }}" /> Tables
                                         </label>
                                     </div>
                                     <div class="sidebarTotals">
@@ -226,18 +229,29 @@
             <div id="iframe-wrap"></div>
         </div>       
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
-<!-- MENU BAR 
-<script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
-<script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>-->
+<!-- CART -->
+<script type="text/javascript" src="/media/interface/js/cart.js"></script>
+<!-- MENU BAR -->
+<script type="text/javascript" src="/media/interface/js/hoverIntent.js"></script>
+<script type="text/javascript" src="/media/interface/js/superfish.js"></script> 
 <!-- STYLEBOARD TABPANNELS -->
-<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.change.tab.js"></script>
+<!-- PRODUCT CATEGORIES AJAX CALLS -->
+<script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
+<script type="text/javascript" src="/media/interface/js/product_category.js"></script>
+<!-- IDECORATE APP -->
+<script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript">
+
     $(document).ready( function() {
         styleboardH();
+        
         {% if category_count == 0 %}
             populate_products();
             $('#createTab').click(function(){
@@ -251,15 +265,25 @@
         
         $('#sidebar-wrap').easytabs({ animate:false }); 
 
-        $('.etabs .tab a').click(function(e){
+        $('.etabs .tab a, .myorder-edit a').click(function(e){
             styleboardH();
         });
 
-        $('.myorder-edit a').click(function(e){
-            styleboardH();
+        $('ul.dropdown').superfish({
+            onBeforeShow: function(e){
+                //alert('test');
+            }
         });
-
     });
+
+
+    var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
+
+</script>
+<script src="/media/interface/js/search.js"></script>
+<script type="text/javascript">
+
+    $(window).resize(styleboardH);
 
     function disableEventPropagation(event) {
 
@@ -272,27 +296,6 @@
             window.event.cancelBubble = true;
         }
     }
-
-
-</script>
-<!-- PRODUCT CATEGORIES AJAX CALLS -->
-<script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
-<script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
-<script type="text/javascript" src="/media/interface/js/product_category.js"></script>
-<!-- CART -->
-<script type="text/javascript" src="/media/interface/js/cart.js"></script>
-<!-- IDECORATE APP -->
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.draggable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
-<script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
-<script type="text/javascript">
-
-    $(window).resize(styleboardH);
 
     function styleboardH() {
 
