@@ -262,23 +262,34 @@ def styleboard2(request, cat_id=None):
 		if not get_cat(cat_id):
 			return redirect('styleboard')
 
-	"""
-	clear temporary cart
-
 	sessionid = request.session.get('cartsession',None)
-	if sessionid: 
-		clear_cart_temp(sessionid)
-		del request.session['cartsession']
-	"""
+	if not sessionid: 
+		session_id = generate_unique_id()
+		request.session['cartsession'] = session_id
+
 	info = {}
-	categories = get_categories(cat_id)
-	if categories.count() > 0:
-		info['categories'] = categories
 
-	info['category_count'] = categories.count()
+	idecorateSettings = IdecorateSettings.objects.get(pk=1)
+	info['global_default_quantity'] = idecorateSettings.global_default_quantity
+	info['global_guest_table'] = idecorateSettings.global_table	
 
-	session_id = generate_unique_id()
-	request.session['cartsession'] = session_id
+	info['mode'] = 'styleboard'
+	search = request.POST.get('search',None)
+	if search:
+		info['keyword'] = search
+		info['keyword_cat'] = 0
+		search_result_cat = search_category(search)
+		if search_result_cat:
+			cat_id = search_result_cat.id
+			info['keyword_cat'] = cat_id
+		info['mode'] = 'search'	
+		info['category_count'] = 0
+	else:
+		categories = get_categories(cat_id)
+		if categories.count() > 0:
+			info['categories'] = categories
+
+		info['category_count'] = categories.count()
 
 	if not cat_id:
 		cat_id = 0
