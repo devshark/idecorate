@@ -158,6 +158,77 @@
 			</form>
 			{{ "delivery_date_note"|get_checkout_page_info }}
 		</fieldset>
+		<fieldset class="delivery paymentMethod">
+			<legend>Billing Address</legend>
+			<form>
+				<div class="clearfix">
+					<label>Address 1</label>
+					<input type="text" />
+				</div>
+				<div class="clearfix">
+					<label>Address 2</label>
+					<input type="text" />
+				</div>
+				<div class="clearfix">
+					<label>State</label>
+					<select class="districtList">
+						<option>Albury</option>
+						<option>Armidale</option>
+						<option>Bathurst</option>
+						<option>Blue Mountains</option>
+						<option>Broken Hill</option>
+						<option>Campbelltown</option>
+						<option>Cessnock</option>
+						<option>Dubbo</option>
+						<option>Goulburn</option>
+						<option>Grafton</option>
+						<option>Lithgow</option>
+						<option>Liverpool</option>
+						<option>Newcastle</option>
+						<option>Orange</option>
+						<option>Parramatta</option>
+						<option>Penrith</option>
+						<option>Queanbeyan</option>
+						<option>Sydney</option>
+						<option>Tamworth</option>
+						<option>Wagga Wagga</option>
+						<option>Wollongong</option>
+					</select>
+				</div>
+				<div class="clearfix">
+					<label>City</label>
+					<select class="districtList">
+						<option>Albury</option>
+						<option>Armidale</option>
+						<option>Bathurst</option>
+						<option>Blue Mountains</option>
+						<option>Broken Hill</option>
+						<option>Campbelltown</option>
+						<option>Cessnock</option>
+						<option>Dubbo</option>
+						<option>Goulburn</option>
+						<option>Grafton</option>
+						<option>Lithgow</option>
+						<option>Liverpool</option>
+						<option>Newcastle</option>
+						<option>Orange</option>
+						<option>Parramatta</option>
+						<option>Penrith</option>
+						<option>Queanbeyan</option>
+						<option>Sydney</option>
+						<option>Tamworth</option>
+						<option>Wagga Wagga</option>
+						<option>Wollongong</option>
+					</select>
+				</div>
+				<div class="clearfix">
+					<label>Postal Code</label>
+					<input type="text" />
+				</div>
+				<input type="checkbox" checked="checked"> My delivery address is the same as my billing address.
+			</form>
+		</fieldset>
+		<!--
 		<fieldset class="paymentMethod">
 			<legend>Payment Method</legend>
 			<form>
@@ -178,11 +249,32 @@
 				</div>
 			</form>
 		</fieldset>
+		-->
 	</div>
 	<div class="clearfix inquiry">
-		<fieldset>
+		<fieldset class="question">
 			<legend>Any Questions?</legend>
 			<p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
+		</fieldset>
+		<fieldset class="paymentMethod2">
+			<legend>Payment Method</legend>
+			<form>
+				<div class="clearfix">
+					<input type="radio" name="payment_type">
+					<label>Paypal</label>
+					<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />
+				</div>
+				<div class="clearfix">
+					<input type="radio" name="payment_type">
+					<label>VISA/Mastercard</label>
+					<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />
+				</div>
+				<div class="clearfix">
+					<input type="radio" name="payment_type">
+					<label>American Express</label>
+					<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
+				</div>
+			</form>
 		</fieldset>
 	</div>
 	<div class="clearfix disclaimer">
@@ -203,12 +295,20 @@
 		});
 
 		var deliveryDateH = $('.deliveryDate').height(),
-			paymentMethodH = $('.paymentMethod').height();
+			paymentMethodH = $('.paymentMethod').height(),
+			paymentMethodH2 = $('.paymentMethod2').height(),
+			questionH = $('.question').height();
 
 		if(deliveryDateH > paymentMethodH){
 			$('.deliveryDetails').height(deliveryDateH);
 		}else{
 			$('.deliveryDetails').height(paymentMethodH);
+		}
+
+		if(questionH > paymentMethodH2){
+			$('.paymentMethod2').height(questionH);
+		}else{
+			$('.paymentMethod2').height(paymentMethodH2);
 		}
 
 	});
