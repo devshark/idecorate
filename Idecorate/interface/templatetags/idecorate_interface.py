@@ -84,7 +84,7 @@ def menuInterfaceRecursion(menus):
 
 		if menu.link == "":
 			#css_class = ' class="nonLink"'
-			link = '<a href="#">%s</a>' % menu.name
+			link = '<span>%s</span>' % menu.name
 			#spanOpen = '<span>'
 			#spanClose = '</span>'
 		else:

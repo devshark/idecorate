@@ -4,6 +4,7 @@
 	margin:			0;
 	padding:		0;
 	list-style:		none;
+	color: 			#000000 !important;
 }
 .dropdown {
 	line-height:	1.0;
@@ -14,29 +15,51 @@
 	/*width:			10em;   left offset of submenus need to match (see below) */
 }
 .dropdown ul li {
-	width:			100%;
+	width:			100%;;
 	white-space:	nowrap;
 }
 .dropdown li:hover {
 	visibility:		inherit; /* fixes IE7 'sticky bug' */
+	z-index: 100;
 }
 .dropdown li {
 	float:			left;
 	position:		relative;
+	border-right: 	1px solid #999;
+	text-align: 	center;
 }
 .dropdown a {
 	display:		block;
 	position:		relative;
 }
+.dropdown span {
+	display: 		block;
+	padding: 		4px 10px;
+	font-size: 		1.2em;
+}
 .dropdown li:hover ul,
 .dropdown li.sfHover ul {
 	left:			0;
-	top:			2.5em; /* match top ul list item height */
+	top:			1.8em; /* match top ul list item height */
 	z-index:		99;
+	background: 	#F6F6F6;
+	z-index: 		1;
+}
+.dropdown li:hover ul a:hover,
+.dropdown li.sfHover ul a:hover {
+	text-decoration: underline !important;
+}
+.dropdown li:hover ul li,
+.dropdown li.sfHover ul li {
+	border-right: none;
+	z-index: 3;
 }
 ul.dropdown li:hover li ul,
 ul.dropdown li.sfHover li ul {
 	top:			-999em;
+	z-index: 		100;
+	background: 	#F6F6F6;
+	z-index: 		1;
 }
 ul.dropdown li li:hover ul,
 ul.dropdown li li.sfHover ul {
@@ -44,6 +67,12 @@ ul.dropdown li li.sfHover ul {
 	top:			0;
 }
 /*to drop down towards left */
+.ddl-right * {
+	color: #ffffff !important;
+}
+.ddl-right li {
+	border-right: 1px solid #fff !important;
+}
 .ddl-right li li:hover ul,
 .ddl-right li li.sfHover ul {
 	margin: 0 0 0 -206%;
@@ -53,8 +82,13 @@ ul.dropdown li li.sfHover ul {
 	float: none;
 	white-space: normal;
 }
+.ddl-right li li:hover ul a:hover,
+.ddl-right li li.sfHover ul a:hover {
+	text-decoration: underline !important;
+}
 ul.ddl-right ul li {
-	background: none !important;
+	background: #99A237 !important;
+	border: 1px solid #ccc !important;
 }
 ul.ddl-right ul li ul {
 	width: 100%;
@@ -73,15 +107,16 @@ ul.dropdown li li li.sfHover ul {
 /*** DEMO SKIN ***/
 .dropdown {
 	float:			left;
-	margin-bottom:	1em;
+	margin-bottom:	.2em;
 }
 .dropdown a {
 	/* border-left:	1px solid #fff; */
-	padding: 		.75em 1em;
+	/* padding: 		.75em 1em; */
+	padding: 4px 10px;
 	text-decoration:none;
 }
 .dropdown a, .dropdown a:visited  { /* visited pseudo selector so IE6 applies text colour*/
-	color:			#13a;
+	color:			#000000;
 }
 .dropdown li:hover, .dropdown li.sfHover,
 .dropdown a:focus, .dropdown a:hover, .dropdown a:active {
@@ -90,7 +125,7 @@ ul.dropdown li li li.sfHover ul {
 
 /*** arrows **/
 .dropdown a.sf-with-ul {
-	padding-right: 	2.25em;
+	/* padding-right: 	2.25em; */
 	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
 }
 .sf-sub-indicator {
