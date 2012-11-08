@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n plata_tags idecorate_interface %}
+{% load i18n plata_tags idecorate_interface humanize %}
 {% block title %}iDecorate Wedding{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
@@ -28,12 +28,12 @@
 							<td></td>
 							<td></td>
 							<td>
-								<p>100 Guests</p>
-								<p>10 tables</p>
+								<p>{{ guest_table.guests }} Guests</p>
+								<p>{{ guest_table.tables }} tables</p>
 							</td>
 							<td>
-								<p>+ $100 Shipping Fee</p>
-								<p>Total: HK$ 1100.00</p>
+								<p><!-- + $100 Shipping Fee -->&nbsp;</p>
+								<p>Total: ${{ order.total|floatformat:2|intcomma }}</p>
 								<button type="button" id="edit_button">Edit</button>
 							</td>
 						</tr>

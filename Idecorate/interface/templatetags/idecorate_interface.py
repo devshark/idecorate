@@ -4,6 +4,7 @@ from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu
 from category.services import get_categories, category_tree_crumb, get_cat
 from django.core.urlresolvers import reverse
 from idecorate_settings.models import IdecorateSettings
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 register = template.Library()
 
@@ -148,25 +149,27 @@ def generate_product_order_list(obj,objMain):
 	products = obj.filter()
 	ret = ""
 
+	print dir(objMain)
+
 	for product in products:
 
 		ret += """
 						<tr>
 							<td>
 								<img src="/media/products/%s" align="left" />
-								<span>%s</span>
+								<span>%s/%s</span>
 							</td>
 							<td valign="middle" class="productPricing">
-								%s %s
+								%s%s
 							</td>
 							<td valign="middle" class="productPricing">
 								%s
 							</td>
 							<td valign="middle" class="productPricing">
-								%s %s
+								%s%s
 							</td>
 						</tr>
-		""" % (product.product.original_image_thumbnail, product.product.name, objMain.currency, "%.2f" % product.unit_price, product.quantity, objMain.currency, "%.2f" % product.discounted_subtotal)
+		""" % (product.product.original_image_thumbnail, product.product.sku, product.product.name, "$", intcomma("%.2f" % product.unit_price), product.quantity, "$", intcomma("%.2f" % product.discounted_subtotal))
 
 	return mark_safe(ret)
 
