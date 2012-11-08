@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase
 from category.models import Categories
+from plata.shop.models import Order
 
 class ProductGuestTable(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
@@ -18,10 +19,10 @@ class ProductGuestTable(models.Model):
 class Product(ProductBase):
 
     is_active = models.BooleanField(_('is active'), default=True)
-    name = models.CharField(_('name'), max_length=100)
+    name = models.CharField(_('name'), max_length=100, db_index=True)
     slug = models.SlugField(_('slug'), unique=True, max_length=201)
     ordering = models.PositiveIntegerField(_('ordering'), default=0)
-    description = models.TextField(_('description'), blank=True)
+    description = models.TextField(_('description'), blank=True, db_index=True)
     original_image = models.TextField(_('original_image'), blank=True)
     original_image_thumbnail = models.TextField(_('original_image_thumbnail'), blank=True)
     no_background = models.TextField(_('no_background'), blank=True)
@@ -66,3 +67,32 @@ class CartTemp(models.Model):
     class Meta:
         verbose_name = _('Cart Temp')
         db_table = 'cart_temps'
+
+class ProductPopularity(models.Model):    
+    product = models.OneToOneField(Product, db_column='product_id', primary_key=True)
+    dropped = models.PositiveIntegerField(db_column='dropped')
+
+    class Meta:
+        verbose_name = _('Product Popularity')
+        db_table = 'product_popularities'
+
+class GuestTableTemp(models.Model):
+
+    id = models.AutoField(db_column='id', primary_key=True)
+    guests = models.PositiveIntegerField(_('guests'), default=1)
+    tables = models.PositiveIntegerField(_('tables'), default=1)
+    sessionid = models.CharField(db_column='session_key', max_length=200, null=True)
+
+    class Meta:
+        verbose_name = _('Temporary Guest and Tables')
+        db_table = 'guest_tables_temps'
+
+class GuestTable(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    guests = models.PositiveIntegerField(_('guests'), default=1)
+    tables = models.PositiveIntegerField(_('tables'), default=1)
+    order = models.ForeignKey(Order, db_column='order_id')
+
+    class Meta:
+        verbose_name = _('Guest and Tables')
+        db_table = 'guest_tables'

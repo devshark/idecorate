@@ -9,7 +9,9 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/superfish.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
             var category_id                 = {{ cat_id }};
@@ -24,6 +26,7 @@
             var MODAL_SRC                   = '{% url crop 0 %}';
             var PRODUCT_DETAILS_URL         = '{% url get_product_details %}';
             var SET_PRODUCT_POSITION_URL    = '{% url set_product_positions %}';
+            var SEARCH_PRODUCT_URL          = '{% url search_products %}';
             var PRODUCT_POSITIONS           = {{ product_positions }}; 
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -36,7 +39,7 @@
         }
 
         #sidebar #buy-tab #buy-table tbody tr td input[type="text"] {
-            width: 100%;
+            width: 79% !important;
         }
         .buyItemMeta p {
             padding-left: 5px !important;
@@ -55,7 +58,8 @@
             padding-right: 40px !important;
         }
         .category-wrap {
-            overflow: auto;
+            overflow-y: auto;
+            overflow-x: hidden;
             height: 83%;
         }
 
@@ -63,14 +67,29 @@
             height: 30px;
         }
         .myorder-edit {
-            float: right;
+            position: absolute;
             font-weight: normal;
             font-size: small;
             line-height: 20px;
-            padding-right: 10px;
         }
         .myorder-edit a {
             color: #666;
+        }
+
+        #buy-table{
+            *width: 94% !important;
+        }
+        .pad-r40 {
+            *padding-right: 60px !important;
+        }
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 1.5;
+        }
+        .ui-widget {
+            font-size: 12px;
         }
         </style>
     </head>
@@ -86,16 +105,17 @@
             			<li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
             		</ul>
                     <div id="sidebar-form-wrap"  class="clearfix">
-                        <h3>My Order <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div></h3>
+                        <h3>My Order</h3>
+                        <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div>
                         <!-- <form action="" method="post"> -->
                             {% csrf_token %}
                             <fieldset>
                                 <div class="sidebarInputs">
                                     <label for="guests">
-                                        <input type="text" id="guests" name="guests" placeholder="Guests" /> Guests
+                                        <input type="text" id="guests" name="guests" placeholder="Guests" value="{{ global_default_quantity }}" /> Guests
                                     </label>
                                     <label for="tables">
-                                        <input type="text" id="tables" name="tables" placeholder="Tables" /> Tables
+                                        <input type="text" id="tables" name="tables" placeholder="Tables" value="{{ global_guest_table }}" /> Tables
                                     </label>
                                 </div>
                                 <div class="sidebarTotals">
@@ -112,8 +132,17 @@
                                 <li><a href="#templates">Templates</a></li>
                             </ul>
                         </div>
-                        <div id="products" style="display:none; height:100%;">
-                            <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
+                        <div id="products" style="height:100%;">
+                            <div class="breadcrumb-wrap">
+                                {% if mode != 'search' %}
+                                {{ cat_id|get_breadcrumb }}
+                                {% else %}
+                                <ul class="breadcrumb">
+                                    <li><a href="#">All</a></li>
+                                    <li> > </li><li class="active">Search Results</li>
+                                </ul>
+                                {% endif %}
+                            </div>
                             <div class="product-list-wrap">
                                 {% include 'interface/styleboard_categories.html' %}
                             </div> 
@@ -225,11 +254,14 @@
     <div id="iframe-wrap"></div>
 </div>       
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
 <!-- MENU BAR -->
+<!--
 <script type="text/javascript" src="/media/interface/js/dropdown/hoverIntent.js"></script>
 <script type="text/javascript" src="/media/interface/js/dropdown/jquery.dropdown.js"></script>
+-->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
 <!-- STYLEBOARD TABPANNELS -->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
@@ -248,14 +280,18 @@
         $('#create-tab').css({height: thumbWrapHeight()+'%'});
 
         {% if category_count == 0 %}
-            populate_products();
+            {% if mode != 'search' %}
+            setTimeout(populate_products,500);
+            {% else %}        
+            setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
+            {% endif %}   
+
             $('#createTab').click(function(){
                 hideProducts();
                 $('.product-list').unbind('mousewheel');
                 manage_product_pagination();
             });
-        {% endif %}   
-
+        {% endif %}
         $('#create-tab-nav').changeTab();
 
     });
@@ -291,6 +327,7 @@
 <!-- CART -->
 <script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- IDECORATE APP -->
+<!--
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
@@ -298,8 +335,26 @@
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+-->
+
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
-        
+<script type="text/javascript" src="/media/interface/js/hoverIntent.js"></script>
+<script type="text/javascript" src="/media/interface/js/superfish.js"></script>    
+
+<script type="text/javascript">
+            // initialise plugins
+            jQuery(function(){
+                jQuery('ul.dropdown').superfish({
+                    onBeforeShow: function(e){
+                        //alert('test');
+                    }
+                });
+            });
+</script>
+<script type="text/javascript">
+        var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
+        </script>
+        <script src="/media/interface/js/search.js"></script>
     </body>
 </html>
 

@@ -127,6 +127,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'django.contrib.humanize',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -148,6 +149,7 @@ INSTALLED_APPS = (
     'plata.product',
     'plata.shop',
     'bootstrap-pagination',
+    'idecorate_settings',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -175,7 +177,7 @@ CATEGORY_THUMBNAIL_HEIGHT = 100
 PRODUCT_THUMBNAIL_WIDTH = 100
 PRODUCT_THUMBNAIL_HEIGHT = 100
 PRODUCT_WIDTH = 400
-PRODUCT_HEIGHT = 320
+PRODUCT_HEIGHT = 400
 
 #Plata Settings
 POSTFINANCE = {
@@ -225,7 +227,7 @@ LOGGING = {
     }
 }
 
-INTERNAL_IPS = ('127.0.0.1',)
+#INTERNAL_IPS = ('127.0.0.1',)
 
 try:
     from localsettings import *

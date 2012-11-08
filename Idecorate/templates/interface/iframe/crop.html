@@ -1,7 +1,7 @@
 {% load i18n %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
+<!DOCTYPE HTML>
+<html>
+  <head>
         <meta charset="utf-8">
         <title>iDecorate Wedding Crop</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -39,16 +39,25 @@
                 border: 1px solid #9C9898;
             }
 
+
             #myCanvas2 {
                 background-image: url('/media/images/checkerboard.png');
             }
 
             #canvas_container{
-                background-image: url('/media/images/checkerboard.png');
-                background-repeat: repeat;
                 width: 400px;
                 height: 400px;
-                border: 1px solid #CCC;
+
+            }
+
+            .crop_handles {
+
+                width: 7px;
+                height: 7px;
+                background-color: #DDD;
+                border: 1px solid black;
+                position:absolute;
+                z-index:4;
             }
 
             #modal-footer{margin-top: 5px;}
@@ -58,17 +67,27 @@
             #modal-footer span{float: right};
 
         </style>
+        <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
+        <!--[if IE]><script type="text/javascript" src="/media/interface/js/excanvas/excanvas.js"></script><![endif]-->
+        <script type="text/javascript">
+
+        PIC_FILENAME = '{{ filename }}';
+        BASE_FILENAME = '{{ file_only }}';
+        CROP_URL = '{% url cropped %}';
+        
+        </script>
+        <script type="text/javascript" src="/media/interface/js/crop.js"></script>
     </head>
     <body>
         <div id="page-wrap">
             <h3>Custom Crop Tool</h3>
             <h4>
-                <a href="#">Pen Tool</a> | 
-                <a href="#">Rectangular Tool</a>
+                <a href="#" id="pen">Pen Tool</a> | 
+                <a href="#" id="rect">Rectangular Tool</a>
             </h4>
             <div id="canvas_container"><div id="main"></div></div>
             <div id="formpic"></div>
-            <div id="modal-footer"><a href="#">Clear</a> <span class="clearfix"><input type="button" name="submit" value="Ok" /> <input type="button" name="cancel" value="Cancel" /></span></div>
+            <div id="modal-footer"><a href="#" class="cstyle">Clear</a> <span class="clearfix"><input type="button" name="submit" value="Ok" id="crop_it" /> <input type="button" name="cancel" value="Cancel" id="cancel_crop" /></span></div>
         </div>
     </body>
 </html>

@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -25,6 +25,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.core.urlresolvers import reverse
 from django.http import QueryDict
 import urllib #urlencode
+from idecorate_settings.models import IdecorateSettings
 
 @staff_member_required
 def admin(request):
@@ -622,6 +623,15 @@ def admin_manage_product(request, params = None):
     form = SearchProductForm()
     initial_form = {}
 
+    idecorate_settings = IdecorateSettings.objects.get(pk=1)
+
+    info['guests'] = idecorate_settings.global_default_quantity
+    info['tables'] = idecorate_settings.global_table
+
+    if 'gt_errors' in request.session:
+    	info['gt_errors'] = request.session.get('gt_errors')
+    	del request.session['gt_errors']
+
     order_by = request.GET.get('order_by','sku')
     sort_type = request.GET.get('sort_type','asc')
     s_type = order_by
@@ -781,3 +791,46 @@ def admin_manage_product(request, params = None):
     info['form'] = form
     info['products'] = products
     return render_to_response('admin/admin_manage_product.html',info,RequestContext(request))
+
+@staff_member_required
+def edit_guests_tables(request):
+
+	if request.method == "POST":
+		form = EditGuestTableForm(request.POST)
+
+		if form.is_valid():
+
+			idecorate_settings = IdecorateSettings.objects.get(pk=1)
+			idecorate_settings.global_default_quantity = form.cleaned_data['guests']
+			idecorate_settings.global_table = form.cleaned_data['tables']
+			idecorate_settings.save()
+			messages.success(request, _('Data saved.'))
+		else:
+			request.session['gt_errors'] = form['guests'].errors + form['tables'].errors
+
+	return redirect('admin_manage_product')
+
+@staff_member_required
+def admin_manage_checkout(request):
+    info = {}
+
+    idecorate_settings = IdecorateSettings.objects.get(pk=1)
+
+    form = EditCheckoutPage()
+
+    if request.method == "POST":
+    	form = EditCheckoutPage(request.POST)
+
+    	if form.is_valid():
+    		idecorate_settings.delivery_date_note = form.cleaned_data['delivery_text']
+    		idecorate_settings.any_question = form.cleaned_data['any_question_text']
+    		idecorate_settings.t_and_c = form.cleaned_data['tc_text']
+    		idecorate_settings.save()
+    		messages.success(request, _('Data saved.'))
+    		redirect('admin_manage_checkout')
+
+    info['delivery_text'] = idecorate_settings.delivery_date_note
+    info['any_question_text'] = idecorate_settings.any_question
+    info['tc_text'] = idecorate_settings.t_and_c
+    info['form'] = form
+    return render_to_response('admin/admin_manage_checkout.html',info,RequestContext(request))

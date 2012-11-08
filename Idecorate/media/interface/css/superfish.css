@@ -1,0 +1,180 @@
+
+/*** ESSENTIAL STYLES ***/
+.dropdown, .dropdown * {
+	margin:			0;
+	padding:		0;
+	list-style:		none;
+	color: 			#000000 !important;
+}
+.dropdown {
+	line-height:	1.0;
+}
+.dropdown ul {
+	position:		absolute;
+	top:			-999em;
+	/*width:			10em;   left offset of submenus need to match (see below) */
+}
+.dropdown ul li {
+	width:			100%;;
+	white-space:	nowrap;
+}
+.dropdown li:hover {
+	visibility:		inherit; /* fixes IE7 'sticky bug' */
+	z-index: 100;
+}
+.dropdown li {
+	float:			left;
+	position:		relative;
+	border-right: 	1px solid #999;
+	text-align: 	center;
+}
+.dropdown a {
+	display:		block;
+	position:		relative;
+}
+.dropdown span {
+	display: 		block;
+	padding: 		4px 10px;
+	font-size: 		1.2em;
+}
+.dropdown li:hover ul,
+.dropdown li.sfHover ul {
+	left:			0;
+	top:			1.8em; /* match top ul list item height */
+	z-index:		99;
+	background: 	#F6F6F6;
+	z-index: 		1;
+}
+.dropdown li:hover ul a:hover,
+.dropdown li.sfHover ul a:hover {
+	text-decoration: underline !important;
+}
+.dropdown li:hover ul li,
+.dropdown li.sfHover ul li {
+	border-right: none;
+	z-index: 3;
+}
+ul.dropdown li:hover li ul,
+ul.dropdown li.sfHover li ul {
+	top:			-999em;
+	z-index: 		100;
+	background: 	#F6F6F6;
+	z-index: 		1;
+}
+ul.dropdown li li:hover ul,
+ul.dropdown li li.sfHover ul {
+	left:			100%; /* match ul width */
+	top:			0;
+}
+/*to drop down towards left */
+.ddl-right * {
+	color: #ffffff !important;
+}
+.ddl-right li {
+	border-right: 1px solid #fff !important;
+}
+.ddl-right li li:hover ul,
+.ddl-right li li.sfHover ul {
+	margin: 0 0 0 -206%;
+	text-align: right;
+	right: 100%;
+	display: block;
+	float: none;
+	white-space: normal;
+}
+.ddl-right li li:hover ul a:hover,
+.ddl-right li li.sfHover ul a:hover {
+	text-decoration: underline !important;
+}
+ul.ddl-right ul li {
+	background: #99A237 !important;
+	border: 1px solid #ccc !important;
+}
+ul.ddl-right ul li ul {
+	width: 100%;
+}
+/*to drop down towards left */
+ul.dropdown li li:hover li ul,
+ul.dropdown li li.sfHover li ul {
+	top:			-999em;
+}
+ul.dropdown li li li:hover ul,
+ul.dropdown li li li.sfHover ul {
+	left:			10em; /* match ul width */
+	top:			0;
+}
+
+/*** DEMO SKIN ***/
+.dropdown {
+	float:			left;
+	margin-bottom:	.2em;
+}
+.dropdown a {
+	/* border-left:	1px solid #fff; */
+	/* padding: 		.75em 1em; */
+	padding: 4px 10px;
+	text-decoration:none;
+}
+.dropdown a, .dropdown a:visited  { /* visited pseudo selector so IE6 applies text colour*/
+	color:			#000000;
+}
+.dropdown li:hover, .dropdown li.sfHover,
+.dropdown a:focus, .dropdown a:hover, .dropdown a:active {
+	outline:		0;
+}
+
+/*** arrows **/
+.dropdown a.sf-with-ul {
+	/* padding-right: 	2.25em; */
+	min-width:		1px; /* trigger IE7 hasLayout so spans position accurately */
+}
+.sf-sub-indicator {
+	position:		absolute;
+	display:		block;
+	right:			.75em;
+	top:			1.05em; /* IE6 only */
+	width:			10px;
+	height:			10px;
+	text-indent: 	-999em;
+	overflow:		hidden;
+	background:		url('../images/arrows-ffffff.png') no-repeat -10px -100px; /* 8-bit indexed alpha png. IE6 gets solid image only */
+}
+a > .sf-sub-indicator {  /* give all except IE6 the correct values */
+	top:			.8em;
+	background-position: 0 -100px; /* use translucent arrow for modern browsers*/
+}
+/* apply hovers to modern browsers */
+a:focus > .sf-sub-indicator,
+a:hover > .sf-sub-indicator,
+a:active > .sf-sub-indicator,
+li:hover > a > .sf-sub-indicator,
+li.sfHover > a > .sf-sub-indicator {
+	background-position: -10px -100px; /* arrow hovers for modern browsers*/
+}
+
+/* point right for anchors in subs */
+.dropdown ul .sf-sub-indicator { background-position:  -10px 0; }
+.dropdown ul a > .sf-sub-indicator { background-position:  0 0; }
+/* apply hovers to modern browsers */
+.dropdown ul a:focus > .sf-sub-indicator,
+.dropdown ul a:hover > .sf-sub-indicator,
+.dropdown ul a:active > .sf-sub-indicator,
+.dropdown ul li:hover > a > .sf-sub-indicator,
+.dropdown ul li.sfHover > a > .sf-sub-indicator {
+	background-position: -10px 0; /* arrow hovers for modern browsers*/
+}
+
+/*** shadows for all but IE6 ***/
+/*
+.sf-shadow ul {
+	background:	url('../images/shadow.png') no-repeat bottom right;
+	padding: 0 8px 9px 0;
+	-moz-border-radius-bottomleft: 17px;
+	-moz-border-radius-topright: 17px;
+	-webkit-border-top-right-radius: 17px;
+	-webkit-border-bottom-left-radius: 17px;
+}
+.sf-shadow ul.sf-shadow-off {
+	background: transparent;
+}
+*/

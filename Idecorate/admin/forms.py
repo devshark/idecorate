@@ -127,3 +127,14 @@ class EditProductForm(forms.Form):
 			raise forms.ValidationError(_("Product Name must be no more than 60 characters."))			
 
 		return name
+
+class EditGuestTableForm(forms.Form):
+
+	guests = forms.IntegerField(min_value=1,label=_("Guests"),required=True,initial=1,error_messages={'invalid':_('Enter a whole number in Guests field.'),'min_value':_('Ensure that Guests is greater than or equal to %(limit_value)s.'), 'required':_('Guests is a required field.')})
+	tables = forms.IntegerField(min_value=1,label=_("Tables"),required=True,initial=1,error_messages={'invalid':_('Enter a whole number in Tables field.'),'min_value':_('Ensure that Tables is greater than or equal to %(limit_value)s.'), 'required':_('Tables is a required field.')})
+
+class EditCheckoutPage(forms.Form):
+
+	delivery_text = forms.CharField(label=_("Delivery Help Text"), required=True,widget=forms.Textarea, help_text="", error_messages={'required':_('Delivery Help Text is a required field.')})
+	any_question_text = forms.CharField(label=_("Any Question Text"), required=True,widget=forms.Textarea, help_text="", error_messages={'required':_('Any Question Text is a required field.')})
+	tc_text = forms.CharField(label=_("T&C Help Text"), required=True,widget=forms.Textarea, help_text="", error_messages={'required':_('T&C Help Text is a required field.')})

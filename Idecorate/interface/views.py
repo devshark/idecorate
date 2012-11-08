@@ -10,18 +10,26 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
+from django.db.models import Q
 
-from category.services import get_categories, get_cat, category_tree_crumb
+from category.services import get_categories, get_cat, category_tree_crumb, search_category
+from category.models import Categories
 from cart.services import get_product
-from cart.models import Product
+from cart.models import Product, CartTemp, ProductPopularity
 from cart.services import generate_unique_id, clear_cart_temp
 from django.conf import settings
 from PIL import Image
+import ImageDraw
+from django.core.urlresolvers import reverse
+import re
+from admin.services import getExtensionAndFileName
+from idecorate_settings.models import IdecorateSettings
 
 def home(request):
 	info = {}
 	return render_to_response('interface/home.html',info,RequestContext(request))
 
+@csrf_exempt
 def styleboard(request, cat_id=None):
 
 	"""
@@ -31,23 +39,34 @@ def styleboard(request, cat_id=None):
 		if not get_cat(cat_id):
 			return redirect('styleboard')
 
-	"""
-	clear temporary cart
-
 	sessionid = request.session.get('cartsession',None)
-	if sessionid: 
-		clear_cart_temp(sessionid)
-		del request.session['cartsession']
-	"""
+	if not sessionid: 
+		session_id = generate_unique_id()
+		request.session['cartsession'] = session_id
+
 	info = {}
-	categories = get_categories(cat_id)
-	if categories.count() > 0:
-		info['categories'] = categories
 
-	info['category_count'] = categories.count()
+	idecorateSettings = IdecorateSettings.objects.get(pk=1)
+	info['global_default_quantity'] = idecorateSettings.global_default_quantity
+	info['global_guest_table'] = idecorateSettings.global_table	
 
-	session_id = generate_unique_id()
-	request.session['cartsession'] = session_id
+	info['mode'] = 'styleboard'
+	search = request.POST.get('search',None)
+	if search:
+		info['keyword'] = search
+		info['keyword_cat'] = 0
+		search_result_cat = search_category(search)
+		if search_result_cat:
+			cat_id = search_result_cat.id
+			info['keyword_cat'] = cat_id
+		info['mode'] = 'search'	
+		info['category_count'] = 0
+	else:
+		categories = get_categories(cat_id)
+		if categories.count() > 0:
+			info['categories'] = categories
+
+		info['category_count'] = categories.count()
 
 	if not cat_id:
 		cat_id = 0
@@ -91,7 +110,6 @@ def styleboard_product_ajax(request):
 
 		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
 	return HttpResponseNotFound()
-
 
 def styleboard_ajax(request):
 	if request.method == "POST":
@@ -171,6 +189,10 @@ def get_product_original_image(request):
 
 def crop(request, id):
 	info = {}
+
+	info['filename'] = "%s?filename=%s" % (reverse('crop_view'), re.sub(r'\?[0-9].*','', str(id)))
+	info['file_only'] = re.sub(r'\?[0-9].*','', str(id))
+
 	return render_to_response('interface/iframe/crop.html', info,RequestContext(request))
 
 def get_product_details(request):
@@ -211,6 +233,8 @@ def set_product_positions(request):
 		quantity = request.POST.get('quantity','')
 		selected_prev_prod_qty = request.POST.get('selected_prev_prod_qty','')
 		buy_table_html = request.POST.get('buy_table_html','')
+		tables = request.POST.get('tables','')
+		guests = request.POST.get('guests','')
 
 		request.session['product_positions'] = {
 			'obj_counter':str(obj_counter),
@@ -221,7 +245,9 @@ def set_product_positions(request):
 			'total': str(total),
 			'quantity': str(quantity),
 			'selected_prev_prod_qty': str(selected_prev_prod_qty),
-			'buy_table_html': str(buy_table_html)
+			'buy_table_html': str(buy_table_html),
+			'tables': str(tables),
+			'guests': str(guests)
 		}
 
 		ret = obj_counter
@@ -268,4 +294,159 @@ def styleboard2(request, cat_id=None):
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
+def crop_view(request):
 
+	filename = request.GET.get('filename','')
+
+	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", filename))
+	imgBackground = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+	imgBackground.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+	#newImg = imgBackground.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+
+	response = HttpResponse(mimetype="image/png")
+	#newImg.save(response, "PNG")
+	imgBackground.save(response, "PNG")
+	return response
+
+
+def cropped(request):
+
+	filename = request.GET.get('filename')
+
+	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", filename))
+	back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+	back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+	poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
+	pdraw = ImageDraw.Draw(poly)
+
+	dimensionList = []
+	splittedPosts = request.GET.get('dimensions').split(',')
+
+	if request.GET.get('task') == 'poly':
+		for splittedPost in splittedPosts:
+			spl = splittedPost.split(':')
+			dimensionList.append((float(spl[0]),float(spl[1])))
+
+		pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+	elif request.GET.get('task') == 'rect':
+		for splittedPost in splittedPosts:
+			dimensionList.append(float(splittedPost))
+		pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+
+	poly.paste(back,mask=poly)
+	response = HttpResponse(mimetype="image/png")
+
+	newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+	
+	splittedName = getExtensionAndFileName(filename)
+
+	if splittedName[1] == '.jpg':
+		newImg.save(response, "JPEG")
+	else:	
+		newImg.save(response, "PNG")
+
+	return response
+
+def search_suggestions(request):
+	if request.is_ajax():
+		keyword = request.GET.get('term',None)
+		if keyword:
+			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
+			categories = Categories.objects.filter(name__icontains=keyword)
+
+			results = []
+
+			for prod in products:
+				prod_json = {}
+				prod_json['id'] = prod.id
+				prod_json['label'] = prod.name
+				prod_json['category'] = "Suggestion"
+				results.append(prod_json)
+
+			for cat in categories:
+				cat_json = {}
+				cat_json['id'] = cat.id
+				cat_json['label'] = cat.name
+				cat_json['category'] = "Category"
+				results.append(cat_json)
+
+			return HttpResponse(simplejson.dumps(results), mimetype="application/json")
+		else:
+			keyword = request.GET.get('q',None)
+			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
+			categories = Categories.objects.filter(name__icontains=keyword)
+			data = "";
+			c = products.count()			
+			if c > 0:				
+				for prod in products:
+					data += prod.name + "|"
+
+			cc = categories.count()
+			if cc > 0:
+				i=1
+				for cat in categories:
+					data += cat.name + "|"
+
+			return HttpResponse(data)
+		
+	else:
+		return HttpResponseNotFound()
+
+def get_cat_ids(cat_id, cat_ids = []):
+	cat = get_categories(cat_id)
+	if cat.count()>0:
+		for c in cat:			
+			subcat = get_categories(c.id)
+			if subcat.count() > 0:
+				sub = get_cat_ids(c.id,cat_ids)
+			else:
+				cat_ids.append(c.id)
+	else:
+		cat_ids.append(cat_id)	
+	return cat_ids
+
+def search_products(request):
+	if request.method == "POST":
+		cat_id = request.POST.get('cat_id',None)
+		search_keyword = request.POST.get('search_keyword',None)
+
+		if cat_id != '0':
+			cat_ids = get_cat_ids(cat_id)
+			product_list = Product.objects.filter(categories__id__in=cat_ids, is_active=True, is_deleted=False)			
+			product_list = product_list.order_by('ordering')		
+		else:
+			keywords = search_keyword.split(' ')
+
+			q = None
+			for k in keywords:
+				if q is not None:
+					q.add(Q(name__icontains=k), Q.OR)
+				else:
+					q = Q(name__icontains=k)
+
+			product_list = Product.objects.filter(q)
+		product_counts = product_list.count()		
+		offset = request.GET.get('offset',25)
+
+		paginator = Paginator(product_list, offset)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+
+		reponse_data = {}
+
+		json_data = serializers.serialize("json", products, fields=('id','name','original_image_thumbnail','sku'))
+		reponse_data['data'] = json_data
+		reponse_data['page_number'] = products.number
+		reponse_data['num_pages'] = products.paginator.num_pages
+		reponse_data['product_counts'] = product_counts
+
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+	return HttpResponseNotFound()

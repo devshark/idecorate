@@ -17,6 +17,7 @@
   padding: 10px; }
   .orderWrap form fieldset legend {
     margin: 0 0 0 20px;
+    padding: 0 5px;
     font-size: 14px;
     color: #000000; }
   .orderWrap form fieldset table {
@@ -76,6 +77,7 @@
       /* for webkit browsers */
       background: -moz-linear-gradient(top, white, #da9b94);
       /* for firefox 3.6+ */
+      background: -o-linear-gradient(top, white, #da9b94);
       -moz-border-radius: 4px;
       -webkit-border-radius: 4px;
       border-radius: 4px;
@@ -97,6 +99,7 @@
     float: left; }
     .information fieldset legend {
       margin: 0 0 0 20px;
+      padding: 0 5px;
       font-size: 14px; }
     .information fieldset form {
       padding: 15px; }
@@ -113,7 +116,7 @@
       .information .personal div input {
         width: 350px; }
   .information .delivery div {
-    margin-bottom: 15px; }
+    margin-bottom: 5px; }
     .information .delivery div label {
       display: block;
       width: 70px;
@@ -127,27 +130,34 @@
 
 .deliveryDetails {
   width: 100%;
-  height: auto;
   margin: 0 0 15px 0; }
   .deliveryDetails fieldset {
     width: 470px;
-    height: 145px;
+    height: 100%;
     border: 1px solid #000000;
     float: left; }
     .deliveryDetails fieldset legend {
       margin: 0 0 0 20px;
+      padding: 0 5px;
       font-size: 14px; }
     .deliveryDetails fieldset form {
       padding: 15px; }
     .deliveryDetails fieldset p {
-      margin: 0 0 0 15px; }
+      margin: 0 0 10px 15px; }
     .deliveryDetails fieldset ul {
       margin: 0 0 0 30px; }
       .deliveryDetails fieldset ul li {
         list-style-type: disc;
-        margin: 0 0 0 15px; }
+        margin: 0 0 10px 15px; }
         .deliveryDetails fieldset ul li a {
           color: #d89b96; }
+    .deliveryDetails fieldset ol li {
+      list-style-type: decimal;
+      margin: 0 0 10px 45px; }
+    .deliveryDetails fieldset em {
+      font-style: italic; }
+    .deliveryDetails fieldset strong {
+      font-weight: bold; }
   .deliveryDetails .deliveryDate {
     margin: 0 20px 0 0; }
   .deliveryDetails .paymentMethod div {
@@ -163,22 +173,61 @@
       float: left; }
     .deliveryDetails .paymentMethod div img {
       float: left; }
+  .deliveryDetails .delivery div {
+    margin-bottom: 5px; }
+    .deliveryDetails .delivery div label {
+      display: block;
+      width: 70px;
+      height: auto;
+      padding-top: 10px;
+      float: left; }
+    .deliveryDetails .delivery div input {
+      width: 350px; }
+    .deliveryDetails .delivery div select {
+      width: 355px; }
 
 .inquiry {
-  width: 100%;
-  height: auto; }
+  width: 100%; }
   .inquiry fieldset {
     width: 470px;
-    height: 145px;
+    height: 100%;
     border: 1px solid #000000;
     float: left; }
     .inquiry fieldset legend {
       margin: 0 0 0 20px;
+      padding: 0 5px;
       font-size: 14px; }
     .inquiry fieldset p {
       padding: 15px; }
       .inquiry fieldset p a {
         color: #d89b96; }
+    .inquiry fieldset ul li {
+      list-style-type: disc;
+      margin: 0 0 10px 50px; }
+    .inquiry fieldset ol li {
+      list-style-type: decimal;
+      margin: 0 0 10px 50px; }
+    .inquiry fieldset em {
+      font-style: italic; }
+    .inquiry fieldset strong {
+      font-weight: bold; }
+    .inquiry fieldset form {
+      padding: 15px; }
+  .inquiry .question {
+    margin: 0 20px 0 0; }
+  .inquiry .paymentMethod2 div {
+    margin-bottom: 15px; }
+    .inquiry .paymentMethod2 div input {
+      float: left;
+      margin-top: 5px; }
+    .inquiry .paymentMethod2 div label {
+      display: block;
+      width: 110px;
+      height: auto;
+      padding-top: 8px;
+      float: left; }
+    .inquiry .paymentMethod2 div img {
+      float: left; }
 
 .disclaimer {
   width: 100%;
@@ -198,6 +247,7 @@
     /* for webkit browsers */
     background: -moz-linear-gradient(top, white, #da9b94);
     /* for firefox 3.6+ */
+    background: -o-linear-gradient(top, white, #da9b94);
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
@@ -205,3 +255,15 @@
     -khtml-border-radius: 4px;
     /* for old Konqueror browsers */
     border: 0; }
+  .disclaimer ul {
+    display: inline-block; }
+    .disclaimer ul li {
+      list-style-type: disc; }
+  .disclaimer ol {
+    display: inline-block; }
+    .disclaimer ol li {
+      list-style-type: decimal; }
+  .disclaimer em {
+    font-style: italic; }
+  .disclaimer strong {
+    font-weight: bold; }

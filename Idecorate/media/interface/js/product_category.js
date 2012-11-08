@@ -8,6 +8,8 @@ var page_scroll_process = false;
 var offset = 25;
 var withloading = false;
 var total_pages;
+var mode_type;
+var search_keyword = '';
 $(document).ready( function() {
     $('.categories').click(function(){
         browse_categories(this.id);
@@ -65,11 +67,11 @@ function browse_categories(elm_id){
                 var id = val.pk;
                 type = val.model == 'category.categories' ? 'categories' : 'products';
                 var thumb = val.fields.thumbnail;
-                var name = val.fields.name;
-                // if (name.length > 12){
-                //     name = name.substring(0,10) + '..';
-                // }
+                var name = val.fields.name;                
                 if(type =='products'){
+                    if (name.length > 12){
+                        name = name.substring(0,10) + '..';
+                    }
                     thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
                     items += '<a _uid="'+id+'" class="hidden thumb draggable ' + type + '" id="'+id+'" href="#">' +
@@ -145,11 +147,15 @@ function browse_categories(elm_id){
 
 function get_products(){
     var data;
+    var action = STYLEBOARD_PRODUCT_AJAX_URL ;    
+    if (mode_type == 'search'){
+        action = SEARCH_PRODUCT_URL;
+    }
     $.ajax({
-        url: STYLEBOARD_PRODUCT_AJAX_URL + '?page=' + next_page + '&offset=' + offset,
+        url: action + '?page=' + next_page + '&offset=' + offset,
         type: "POST",
         dataType: 'json',
-        data: { cat_id: category_id, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+        data: { cat_id: category_id, search_keyword:search_keyword, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
         async:   false,
         beforeSend : function(a){
             if ( withloading ){
@@ -201,6 +207,45 @@ function populate_products(){
     items = '<div class="product-list clearfix">' + items + '</div>';
     $('.product-list-wrap').html(items);
     manage_product_pagination();
+}
+
+function search_products(keyword, catid){
+    mode_type = 'search';
+    category_id = catid;
+    search_keyword = keyword
+    $.ajax({
+        url: SEARCH_PRODUCT_URL + '?page=' + next_page + '&offset=' + offset,
+        type: "POST",
+        dataType: 'json',
+        data: { cat_id: catid, search_keyword:search_keyword, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val() },
+        async:   false,
+        success: function(response_data){
+            var data = $.parseJSON(response_data.data);
+            total_product_count = response_data.product_counts;
+            page_number = response_data.page_number;
+            num_pages = response_data.num_pages;
+            var items = '';
+            $.each(data,function(i, val){                            
+                var id = val.pk;
+                type = val.model == 'category.categories' ? 'categories' : 'products';
+                var name = val.fields.name;
+                if (name.length > 12){
+                    name = name.substring(0,10) + '..';
+                }
+                var thumb = val.fields.original_image_thumbnail;
+                thumb = 'products/' + thumb;
+                items += '<a _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                        '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                        '<span>' + name + '</span>' +
+                    '</a>';
+            });
+            items = '<div class="product-list">' + items + '</div>';
+            $('.product-list-wrap').html(items);
+            manage_product_pagination();
+        },
+        error: function(msg) {
+        }
+    });
 }
 
 function hideProducts(){
@@ -287,7 +332,7 @@ function manage_product_pagination(){
 }
 
 function generate_pagenation(){
-    $(".draggable").draggable("destroy");
+    //$(".draggable").draggable("_destroy");
     total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
     var left = 1, right = 5;
     if ( total_pages <= 5 ){
@@ -445,7 +490,7 @@ function populate_product_by_page(){
 function manage_product_resize(){
     var computed_height = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-40;
     $('.product-list').css('height',computed_height+'px');
-    $('.draggable').draggable('destroy');
+    //$('.draggable').draggable('_destroy');
     var elm = $('.product-list a:first');
 
     var prod_width = $('.product-list').width();

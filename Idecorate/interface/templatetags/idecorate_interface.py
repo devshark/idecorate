@@ -3,6 +3,8 @@ from django.utils.safestring import mark_safe
 from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu
 from category.services import get_categories, category_tree_crumb, get_cat
 from django.core.urlresolvers import reverse
+from idecorate_settings.models import IdecorateSettings
+from django.contrib.humanize.templatetags.humanize import intcomma
 
 register = template.Library()
 
@@ -58,34 +60,53 @@ def menuInterfaceRecursion(menus):
 
 	element = ""
 	needToOpen = True
-	css_class = ""
+	#css_class = ""
 	link = ""
-	spanOpen = ""
-	spanClose = ""
+	anotherClass = ""
+	#spanOpen = ""
+	#spanClose = ""
+	arrow = ""
 
 	for menu in menus:
+
+		if menus.model == type(InfoMenu()):
+			anotherClass = ""
+
+			if InfoMenu.objects.filter(parent__id=menu.id).count() > 0:
+				arrow = ' <img src="/media/images/arrow.png" alt="" />'
+			else:
+				arrow = ''
+
+		else:
+			anotherClass = " ddl-right"
+
+			if SiteMenu.objects.filter(parent__id=menu.id).count() > 0:
+				arrow = ' <img src="/media/images/arrow.png" alt="" />'
+			else:
+				arrow = ''
+
 		if menu.parent is None:
 			if needToOpen:
-				element += '<ul class="dropdown clearfix">'
+				element += '<ul class="dropdown sf-js-enabled sf-shadow%s">' % anotherClass
 				needToOpen = False
 
 		else:
 			if needToOpen:
-				element += '<ul>'
+				element += '<ul style="display: none; visibility: hidden;">'
 				needToOpen = False
 
 		if menu.link == "":
-			css_class = ' class="nonLink"'
-			link = menu.name
-			spanOpen = '<span>'
-			spanClose = '</span>'
+			#css_class = ' class="nonLink"'
+			link = '<span>%s%s</span>' % (menu.name, arrow)
+			#spanOpen = '<span>'
+			#spanClose = '</span>'
 		else:
-			css_class = ''
-			link = '<a href="%s">%s</a>' % (menu.link, menu.name)
-			spanOpen = ''
-			spanClose = ''
+			#css_class = ''
+			link = '<a href="%s">%s%s</a>' % (menu.link, menu.name, arrow)
+			#spanOpen = ''
+			#spanClose = ''
 
-		element += '<li%s>%s%s' % (css_class, spanOpen, link)
+		element += '<li>%s' % link
 
 		if menus.model == type(InfoMenu()):
 
@@ -96,7 +117,7 @@ def menuInterfaceRecursion(menus):
 			sub_menus = SiteMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuInterfaceRecursion(sub_menus)
 
-		element += '%s</li>' % spanClose
+		element += '</li>'
 
 	if needToOpen == False:
 		element += '</ul>'
@@ -140,24 +161,40 @@ def generate_product_order_list(obj,objMain):
 	products = obj.filter()
 	ret = ""
 
+	print dir(objMain)
+
 	for product in products:
 
 		ret += """
 						<tr>
 							<td>
 								<img src="/media/products/%s" align="left" />
-								<span>%s</span>
+								<span>%s/%s</span>
 							</td>
 							<td valign="middle" class="productPricing">
-								%s %s
+								%s%s
 							</td>
 							<td valign="middle" class="productPricing">
 								%s
 							</td>
 							<td valign="middle" class="productPricing">
-								%s %s
+								%s%s
 							</td>
 						</tr>
-		""" % (product.product.original_image_thumbnail, product.product.name, objMain.currency, "%.2f" % product.unit_price, product.quantity, objMain.currency, "%.2f" % product.discounted_subtotal)
+		""" % (product.product.original_image_thumbnail, product.product.sku, product.product.name, "$", intcomma("%.2f" % product.unit_price), product.quantity, "$", intcomma("%.2f" % product.discounted_subtotal))
 
 	return mark_safe(ret)
+
+@register.filter
+def get_checkout_page_info(inf):
+
+	idecorate_settings = IdecorateSettings.objects.get(pk=1)
+
+	if inf == "delivery_date_note":
+		return mark_safe(idecorate_settings.delivery_date_note)
+	elif inf == "any_question":
+		return mark_safe(idecorate_settings.any_question)
+	elif inf == "t_and_c":
+		return mark_safe(idecorate_settings.t_and_c)
+	else:
+		return ""
