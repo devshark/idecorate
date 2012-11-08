@@ -396,15 +396,16 @@ def search_suggestions(request):
 		return HttpResponseNotFound()
 
 def get_cat_ids(cat_id, cat_ids = []):
-	cat = get_categories(cat_id)	
-	for c in cat:
-		subcat = get_categories(c.id)
-		if subcat.count() > 0:
-			sub = get_cat_ids(c.id,cat_ids)
-		else:
-			cat_ids.append(c.id)
-
-	print cat_ids
+	cat = get_categories(cat_id)
+	if cat.count()>0:
+		for c in cat:			
+			subcat = get_categories(c.id)
+			if subcat.count() > 0:
+				sub = get_cat_ids(c.id,cat_ids)
+			else:
+				cat_ids.append(c.id)
+	else:
+		cat_ids.append(cat_id)	
 	return cat_ids
 
 def search_products(request):

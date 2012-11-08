@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/superfish.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
             var category_id                 = {{ cat_id }};
@@ -80,6 +81,15 @@
         }
         .pad-r40 {
             *padding-right: 60px !important;
+        }
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 1.5;
+        }
+        .ui-widget {
+            font-size: 12px;
         }
         </style>
     </head>
