@@ -128,11 +128,10 @@
 
 .deliveryDetails {
   width: 100%;
-  height: auto;
   margin: 0 0 15px 0; }
   .deliveryDetails fieldset {
     width: 470px;
-    height: 145px;
+    height: 100%;
     border: 1px solid #000000;
     float: left; }
     .deliveryDetails fieldset legend {
@@ -141,14 +140,21 @@
     .deliveryDetails fieldset form {
       padding: 15px; }
     .deliveryDetails fieldset p {
-      margin: 0 0 0 15px; }
+      margin: 0 0 10px 15px; }
     .deliveryDetails fieldset ul {
       margin: 0 0 0 30px; }
       .deliveryDetails fieldset ul li {
         list-style-type: disc;
-        margin: 0 0 0 15px; }
+        margin: 0 0 10px 15px; }
         .deliveryDetails fieldset ul li a {
           color: #d89b96; }
+    .deliveryDetails fieldset ol li {
+      list-style-type: decimal;
+      margin: 0 0 10px 45px; }
+    .deliveryDetails fieldset em {
+      font-style: italic; }
+    .deliveryDetails fieldset strong {
+      font-weight: bold; }
   .deliveryDetails .deliveryDate {
     margin: 0 20px 0 0; }
   .deliveryDetails .paymentMethod div {
@@ -170,7 +176,7 @@
   height: auto; }
   .inquiry fieldset {
     width: 470px;
-    height: 145px;
+    height: 100%;
     border: 1px solid #000000;
     float: left; }
     .inquiry fieldset legend {
@@ -180,6 +186,16 @@
       padding: 15px; }
       .inquiry fieldset p a {
         color: #d89b96; }
+    .inquiry fieldset ul li {
+      list-style-type: disc;
+      margin: 0 0 10px 50px; }
+    .inquiry fieldset ol li {
+      list-style-type: decimal;
+      margin: 0 0 10px 50px; }
+    .inquiry fieldset em {
+      font-style: italic; }
+    .inquiry fieldset strong {
+      font-weight: bold; }
 
 .disclaimer {
   width: 100%;
@@ -207,3 +223,15 @@
     -khtml-border-radius: 4px;
     /* for old Konqueror browsers */
     border: 0; }
+  .disclaimer ul {
+    display: inline-block; }
+    .disclaimer ul li {
+      list-style-type: disc; }
+  .disclaimer ol {
+    display: inline-block; }
+    .disclaimer ol li {
+      list-style-type: decimal; }
+  .disclaimer em {
+    font-style: italic; }
+  .disclaimer strong {
+    font-weight: bold; }

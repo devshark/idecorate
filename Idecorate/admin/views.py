@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -809,3 +809,28 @@ def edit_guests_tables(request):
 			request.session['gt_errors'] = form['guests'].errors + form['tables'].errors
 
 	return redirect('admin_manage_product')
+
+@staff_member_required
+def admin_manage_checkout(request):
+    info = {}
+
+    idecorate_settings = IdecorateSettings.objects.get(pk=1)
+
+    form = EditCheckoutPage()
+
+    if request.method == "POST":
+    	form = EditCheckoutPage(request.POST)
+
+    	if form.is_valid():
+    		idecorate_settings.delivery_date_note = form.cleaned_data['delivery_text']
+    		idecorate_settings.any_question = form.cleaned_data['any_question_text']
+    		idecorate_settings.t_and_c = form.cleaned_data['tc_text']
+    		idecorate_settings.save()
+    		messages.success(request, _('Data saved.'))
+    		redirect('admin_manage_checkout')
+
+    info['delivery_text'] = idecorate_settings.delivery_date_note
+    info['any_question_text'] = idecorate_settings.any_question
+    info['tc_text'] = idecorate_settings.t_and_c
+    info['form'] = form
+    return render_to_response('admin/admin_manage_checkout.html',info,RequestContext(request))

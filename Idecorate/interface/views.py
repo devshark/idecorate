@@ -352,27 +352,46 @@ def cropped(request):
 
 def search_suggestions(request):
 	if request.is_ajax():
-		keyword = request.GET['term']
-		products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
-		categories = Categories.objects.filter(name__icontains=keyword)
+		keyword = request.GET.get('term',None)
+		if keyword:
+			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
+			categories = Categories.objects.filter(name__icontains=keyword)
 
-		results = []
+			results = []
 
-		for prod in products:
-			prod_json = {}
-			prod_json['id'] = prod.id
-			prod_json['label'] = prod.name
-			prod_json['category'] = "Suggestion"
-			results.append(prod_json)
+			for prod in products:
+				prod_json = {}
+				prod_json['id'] = prod.id
+				prod_json['label'] = prod.name
+				prod_json['category'] = "Suggestion"
+				results.append(prod_json)
 
-		for cat in categories:
-			cat_json = {}
-			cat_json['id'] = cat.id
-			cat_json['label'] = cat.name
-			cat_json['category'] = "Category"
-			results.append(cat_json)
+			for cat in categories:
+				cat_json = {}
+				cat_json['id'] = cat.id
+				cat_json['label'] = cat.name
+				cat_json['category'] = "Category"
+				results.append(cat_json)
 
-		return HttpResponse(simplejson.dumps(results), mimetype="application/json")
+			return HttpResponse(simplejson.dumps(results), mimetype="application/json")
+		else:
+			keyword = request.GET.get('q',None)
+			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
+			categories = Categories.objects.filter(name__icontains=keyword)
+			data = "";
+			c = products.count()			
+			if c > 0:				
+				for prod in products:
+					data += prod.name + "|"
+
+			cc = categories.count()
+			if cc > 0:
+				i=1
+				for cat in categories:
+					data += cat.name + "|"
+
+			return HttpResponse(data)
+		
 	else:
 		return HttpResponseNotFound()
 
