@@ -111,35 +111,6 @@ def styleboard_product_ajax(request):
 		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
 	return HttpResponseNotFound()
 
-def search_product(request):
-	if request.method == "POST":
-		cat_id = request.POST.get('cat_id',None)
-
-		product_list = Product.objects.filter(categories__id=cat_id, is_active=True, is_deleted=False)
-		product_list = product_list.order_by('ordering')		
-		product_counts = product_list.count()		
-		offset = request.GET.get('offset',25)
-
-		paginator = Paginator(product_list, offset)
-		page = request.GET.get('page')
-		try:
-			products = paginator.page(page)
-		except PageNotAnInteger:
-			products = paginator.page(1)
-		except EmptyPage:
-			products = paginator.page(paginator.num_pages)
-
-		reponse_data = {}
-
-		json_data = serializers.serialize("json", products, fields=('id','name','original_image_thumbnail','sku'))
-		reponse_data['data'] = json_data
-		reponse_data['page_number'] = products.number
-		reponse_data['num_pages'] = products.paginator.num_pages
-		reponse_data['product_counts'] = product_counts
-
-		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
-	return HttpResponseNotFound()
-
 def styleboard_ajax(request):
 	if request.method == "POST":
 		cat_id = request.POST.get('cat_id',None)
@@ -381,26 +352,101 @@ def cropped(request):
 
 def search_suggestions(request):
 	if request.is_ajax():
-		keyword = request.GET['term']
-		products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
-		categories = Categories.objects.filter(name__icontains=keyword)
+		keyword = request.GET.get('term',None)
+		if keyword:
+			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
+			categories = Categories.objects.filter(name__icontains=keyword)
 
-		results = []
+			results = []
 
-		for prod in products:
-			prod_json = {}
-			prod_json['id'] = prod.id
-			prod_json['label'] = prod.name
-			prod_json['category'] = "Suggestion"
-			results.append(prod_json)
+			for prod in products:
+				prod_json = {}
+				prod_json['id'] = prod.id
+				prod_json['label'] = prod.name
+				prod_json['category'] = "Suggestion"
+				results.append(prod_json)
 
-		for cat in categories:
-			cat_json = {}
-			cat_json['id'] = cat.id
-			cat_json['label'] = cat.name
-			cat_json['category'] = "Category"
-			results.append(cat_json)
+			for cat in categories:
+				cat_json = {}
+				cat_json['id'] = cat.id
+				cat_json['label'] = cat.name
+				cat_json['category'] = "Category"
+				results.append(cat_json)
 
-		return HttpResponse(simplejson.dumps(results), mimetype="application/json")
+			return HttpResponse(simplejson.dumps(results), mimetype="application/json")
+		else:
+			keyword = request.GET.get('q',None)
+			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
+			categories = Categories.objects.filter(name__icontains=keyword)
+			data = "";
+			c = products.count()			
+			if c > 0:				
+				for prod in products:
+					data += prod.name + "|"
+
+			cc = categories.count()
+			if cc > 0:
+				i=1
+				for cat in categories:
+					data += cat.name + "|"
+
+			return HttpResponse(data)
+		
 	else:
 		return HttpResponseNotFound()
+
+def get_cat_ids(cat_id, cat_ids = []):
+	cat = get_categories(cat_id)
+	if cat.count()>0:
+		for c in cat:			
+			subcat = get_categories(c.id)
+			if subcat.count() > 0:
+				sub = get_cat_ids(c.id,cat_ids)
+			else:
+				cat_ids.append(c.id)
+	else:
+		cat_ids.append(cat_id)	
+	return cat_ids
+
+def search_products(request):
+	if request.method == "POST":
+		cat_id = request.POST.get('cat_id',None)
+		search_keyword = request.POST.get('search_keyword',None)
+
+		if cat_id != '0':
+			cat_ids = get_cat_ids(cat_id)
+			product_list = Product.objects.filter(categories__id__in=cat_ids, is_active=True, is_deleted=False)			
+			product_list = product_list.order_by('ordering')		
+		else:
+			keywords = search_keyword.split(' ')
+
+			q = None
+			for k in keywords:
+				if q is not None:
+					q.add(Q(name__icontains=k), Q.OR)
+				else:
+					q = Q(name__icontains=k)
+
+			product_list = Product.objects.filter(q)
+		product_counts = product_list.count()		
+		offset = request.GET.get('offset',25)
+
+		paginator = Paginator(product_list, offset)
+		page = request.GET.get('page')
+		try:
+			products = paginator.page(page)
+		except PageNotAnInteger:
+			products = paginator.page(1)
+		except EmptyPage:
+			products = paginator.page(paginator.num_pages)
+
+		reponse_data = {}
+
+		json_data = serializers.serialize("json", products, fields=('id','name','original_image_thumbnail','sku'))
+		reponse_data['data'] = json_data
+		reponse_data['page_number'] = products.number
+		reponse_data['num_pages'] = products.paginator.num_pages
+		reponse_data['product_counts'] = product_counts
+
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+	return HttpResponseNotFound()

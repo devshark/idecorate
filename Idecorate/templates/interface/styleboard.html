@@ -11,6 +11,7 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/superfish.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
             var category_id                 = {{ cat_id }};
@@ -25,6 +26,7 @@
             var MODAL_SRC                   = '{% url crop 0 %}';
             var PRODUCT_DETAILS_URL         = '{% url get_product_details %}';
             var SET_PRODUCT_POSITION_URL    = '{% url set_product_positions %}';
+            var SEARCH_PRODUCT_URL          = '{% url search_products %}';
             var PRODUCT_POSITIONS           = {{ product_positions }}; 
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -79,6 +81,15 @@
         }
         .pad-r40 {
             *padding-right: 60px !important;
+        }
+        .ui-autocomplete-category {
+            font-weight: bold;
+            padding: .2em .4em;
+            margin: .8em 0 .2em;
+            line-height: 1.5;
+        }
+        .ui-widget {
+            font-size: 12px;
         }
         </style>
     </head>
@@ -244,6 +255,7 @@
     <div id="iframe-wrap"></div>
 </div>       
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
 <!-- MENU BAR -->
@@ -269,19 +281,18 @@
         $('#create-tab').css({height: thumbWrapHeight()+'%'});
 
         {% if category_count == 0 %}
+            {% if mode != 'search' %}
             setTimeout(populate_products,500);
+            {% else %}        
+            setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
+            {% endif %}   
+
             $('#createTab').click(function(){
                 hideProducts();
                 $('.product-list').unbind('mousewheel');
                 manage_product_pagination();
             });
         {% endif %}
-
-        {% if mode != 'search' %}
-        {% else %}        
-        setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
-        {% endif %}   
-
         $('#create-tab-nav').changeTab();
 
     });
@@ -317,6 +328,7 @@
 <!-- CART -->
 <script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- IDECORATE APP -->
+<!--
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
@@ -324,12 +336,13 @@
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
-<script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
-        <script src="/media/interface/js/hoverIntent.js"></script>
-        <script src="/media/interface/js/superfish.js"></script>
-    
-<script type="text/javascript">
+-->
 
+<script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
+<script type="text/javascript" src="/media/interface/js/hoverIntent.js"></script>
+<script type="text/javascript" src="/media/interface/js/superfish.js"></script>    
+
+<script type="text/javascript">
             // initialise plugins
             jQuery(function(){
                 jQuery('ul.dropdown').superfish({
@@ -337,22 +350,12 @@
                         //alert('test');
                     }
                 });
-            }); 
-        $.widget( "custom.catcomplete", $.ui.autocomplete, {
-            _renderMenu: function( ul, items ) {
-                var that = this,
-                    currentCategory = "";
-                $.each( items, function( index, item ) {
-                    if ( item.category != currentCategory ) {
-                        ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
-                        currentCategory = item.category;
-                    }
-                    console.log(item.id)
-                    that._renderItemData( ul, item );
-                });
-            }
-        });
+            });
 </script>
+<script type="text/javascript">
+        var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
+        </script>
+        <script src="/media/interface/js/search.js"></script>
     </body>
 </html>
 

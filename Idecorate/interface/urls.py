@@ -16,4 +16,5 @@ urlpatterns =  patterns('interface.views',
     url(r'^cropped/$', 'cropped', {}, name='cropped'),
     url(r'^set_product_positions/$', 'set_product_positions', {}, name='set_product_positions'),
     url(r'^search_suggestions/$', 'search_suggestions', {}, name='search_suggestions'),
+    url(r'^search_products/$', 'search_products', {}, name='search_products'),
 )
