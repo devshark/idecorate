@@ -428,8 +428,9 @@ def search_products(request):
 
 		if cat_id != '0':
 			cat_ids = get_cat_ids(cat_id)
+			print cat_ids
 			product_list = Product.objects.filter(categories__id__in=cat_ids, is_active=True, is_deleted=False)	
-			print product_list.query		
+			print product_list.query
 			product_list = product_list.order_by('ordering')		
 		else:
 			keywords = search_keyword.split(' ')
