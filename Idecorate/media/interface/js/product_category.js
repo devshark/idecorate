@@ -40,12 +40,12 @@ $(document).ready( function() {
 function product_list_wrap_resize(){
     var ph = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-10;
     var computed = ph+$('.breadcrumb-wrap').outerHeight(true)+$('#create-tab-nav').outerHeight(true);
-    console.log(ph) 
+    
     if (computed < $('#create-tab').outerHeight(true)){
         ph = ph + ($('#create-tab').outerHeight(true)-computed);        
     }
 
-    //console.log(computed, $('#create-tab').outerHeight(true), ph) 
+    
     $('#create-tab .product-list-wrap').css('height',ph+'px')
 }
 
@@ -521,7 +521,6 @@ function manage_product_resize(){
         count_by_height = count_by_height - 1;
 
     product_per_page = count_by_width*count_by_height;
-    console.log(product_per_page)
 
     var page = 1;    
     var counter = 1;
