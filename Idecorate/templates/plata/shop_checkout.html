@@ -19,39 +19,37 @@
 				<li>error5</li>
 			</ol>
 		</div>
-		<form>
-			<fieldset>
-				<legend>Your Order</legend>
-				<table>
-					<thead>
-						<tr>
-							<th></th>
-							<th>Unit Cost</th>
-							<th>Quantity</th>
-							<th>Total Cost</th>
-						</th>
-					</thead>
-					<tbody>
-						{{ order.items|generate_product_order_list:order }}
-					</tbody>
-					<tfoot>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>
-								<p>{{ guest_table.guests }} Guests</p>
-								<p>{{ guest_table.tables }} Tables</p>
-							</td>
-							<td>
-								<p><!-- + $100 Shipping Fee -->&nbsp;</p>
-								<p>Total: ${{ order.total|floatformat:2|intcomma }}</p>
-								<button type="button" id="edit_button">Edit</button>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</fieldset>
-		</form>
+		<fieldset>
+			<legend>Your Order</legend>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Unit Cost</th>
+						<th>Quantity</th>
+						<th>Total Cost</th>
+					</th>
+				</thead>
+				<tbody>
+					{{ order.items|generate_product_order_list:order }}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>
+							<p>{{ guest_table.guests }} Guests</p>
+							<p>{{ guest_table.tables }} Tables</p>
+						</td>
+						<td>
+							<p><!-- + $100 Shipping Fee -->&nbsp;</p>
+							<p>Total: ${{ order.total|floatformat:2|intcomma }}</p>
+							<button type="button" id="edit_button">Edit</button>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</fieldset>
 	</div>
 	<form method="post" action=".">
 		{% csrf_token %}
