@@ -1003,7 +1003,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
   	-moz-opacity: 0.6;
   	-khtml-opacity: 0.6;
   	opacity: 0.6;
-  	outline: none;
+  	outline: none !important;
 }
 
 #canvas{
