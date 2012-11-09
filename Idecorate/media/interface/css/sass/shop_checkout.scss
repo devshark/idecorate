@@ -18,86 +18,127 @@
 
 .orderWrap {
 
-	form{
 
-		fieldset {
-			border: 1px solid #000000;
-			padding: 10px;
+	.errorBlock {
+		color: #B94A48;
+		padding: 8px 35px 8px 14px;
+		margin: 0 auto 15px auto;
+		background: #F2DEDE;
+		border: 1px solid #EED3D7;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		position: relative;
 
-			legend{
-				margin: 0 0 0 20px;
-				padding: 0 5px;
-				font-size: 14px;
-				color: #000000;
+		.closeX {
+			color: #000000;
+			line-height: 18px;
+			text-decoration: none;
+			opacity: 0.2;
+			filter:alpha(opacity=20);
+			float: right;
+			position: relative;
+			top: -2px;
+			right: -21px;
+		}
+
+		h4 {
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 18px;
+		}
+
+		ol {
+			padding-left: 30px;
+
+			li {
+				display: list-item;
+				list-style: decimal;
+				line-height: 18px;
+				text-align: -webkit-match-parent;
+			}
+		}
+	}
+
+
+	fieldset {
+		border: 1px solid #000000;
+		padding: 10px;
+
+		legend{
+			margin: 0 0 0 20px;
+			padding: 0 5px;
+			font-size: 14px;
+			color: #000000;
+		}
+
+		table{
+			width: 100%;
+			height: auto;
+
+			thead{
+
+				tr{
+					th{
+						padding: 10px;
+						color: #000000;
+						border-bottom: 2px dotted #999999;
+					}
+
+				}
+
 			}
 
-			table{
-				width: 100%;
-				height: auto;
+			tbody{
+				tr{
+					td{
+						padding: 10px;
+						margin: 0 auto;
 
-				thead{
+						img{
+							max-width: 50px;
+							max-height: 80px;
+							float: left;
+							border: 2px solid #999999;
+						}
 
-					tr{
-						th{
-							padding: 10px;
-							color: #000000;
-							border-bottom: 2px dotted #999999;
+						span{
+							width: 400px;
+							height: auto;
+							display: block;
+							margin: 20px 0 0 60px;
+							font-size: 14px;
+							font-weight: bold;
+							color: #d89b96;
 						}
 
 					}
 
-				}
-
-				tbody{
-					tr{
-						td{
-							padding: 10px;
-							margin: 0 auto;
-
-							img{
-								max-width: 50px;
-								max-height: 80px;
-								float: left;
-								border: 2px solid #999999;
-							}
-
-							span{
-								width: 400px;
-								height: auto;
-								display: block;
-								margin: 20px 0 0 60px;
-								font-size: 14px;
-								font-weight: bold;
-								color: #d89b96;
-							}
-
-						}
-
-						.productPricing {
-							text-align:center;
-							color: #000000;
-						}
-
+					.productPricing {
+						text-align:center;
+						color: #000000;
 					}
 
 				}
 
-				tfoot{
+			}
 
-					tr{
-						td{
-							padding: 10px;
-							color: #000000;
-							border-top: 2px dotted #999999;
-						}
+			tfoot{
+
+				tr{
+					td{
+						padding: 10px;
+						color: #000000;
+						border-top: 2px dotted #999999;
 					}
 				}
-
 			}
 
 		}
-	
+
 	}
+	
+	
 	
 }
 

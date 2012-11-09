@@ -8,39 +8,48 @@
 <div id="content" class="clearfix checkout">
 	<h3>Checkout</h3>
 	<div class="clearfix orderWrap">
-		<form>
-			<fieldset>
-				<legend>Your Order</legend>
-				<table>
-					<thead>
-						<tr>
-							<th></th>
-							<th>Unit Cost</th>
-							<th>Quantity</th>
-							<th>Total Cost</th>
-						</th>
-					</thead>
-					<tbody>
-						{{ order.items|generate_product_order_list:order }}
-					</tbody>
-					<tfoot>
-						<tr>
-							<td></td>
-							<td></td>
-							<td>
-								<p>{{ guest_table.guests }} Guests</p>
-								<p>{{ guest_table.tables }} Tables</p>
-							</td>
-							<td>
-								<p><!-- + $100 Shipping Fee -->&nbsp;</p>
-								<p>Total: ${{ order.total|floatformat:2|intcomma }}</p>
-								<button type="button" id="edit_button">Edit</button>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</fieldset>
-		</form>
+		<div class="clearfix errorBlock">
+			<a href="" class="closeX">X</a>
+			<h4>Please correct the following errors:</h4>
+			<ol>
+				<li>error1</li>
+				<li>error2</li>
+				<li>error3</li>
+				<li>error4</li>
+				<li>error5</li>
+			</ol>
+		</div>
+		<fieldset>
+			<legend>Your Order</legend>
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Unit Cost</th>
+						<th>Quantity</th>
+						<th>Total Cost</th>
+					</th>
+				</thead>
+				<tbody>
+					{{ order.items|generate_product_order_list:order }}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td></td>
+						<td></td>
+						<td>
+							<p>{{ guest_table.guests }} Guests</p>
+							<p>{{ guest_table.tables }} Tables</p>
+						</td>
+						<td>
+							<p><!-- + $100 Shipping Fee -->&nbsp;</p>
+							<p>Total: ${{ order.total|floatformat:2|intcomma }}</p>
+							<button type="button" id="edit_button">Edit</button>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</fieldset>
 	</div>
 	<form method="post" action=".">
 		{% csrf_token %}
@@ -280,21 +289,25 @@
 			
 		});
 
-		var deliveryDateH = $('.deliveryDate').height(),
-			paymentMethodH = $('.paymentMethod').height(),
-			paymentMethodH2 = $('.paymentMethod2').height(),
-			questionH = $('.question').height();
+		var deliveryDateH = $('.deliveryDate').outerHeight(true),
+			paymentMethodH = $('.paymentMethod').outerHeight(true),
+			paymentMethodH2 = $('.paymentMethod2').outerHeight(true),
+			questionH = $('.question').outerHeight(true);
 
 		if(deliveryDateH > paymentMethodH){
+			$('.deliveryDate').height(deliveryDateH);
 			$('.paymentMethod').height(deliveryDateH);
 		}else{
 			$('.deliveryDate').height(paymentMethodH);
+			$('.paymentMethod').height(paymentMethodH);
 		}
 
 		if(questionH > paymentMethodH2){
-			$('.paymentMethod2').height(questionH);
-		}else{
 			$('.question').height(paymentMethodH2);
+			$('.paymentMethod2').height(paymentMethodH2);
+		}else{
+			$('.paymentMethod2').height(questionH);
+			$('.question').height(questionH);
 		}
 
 	});

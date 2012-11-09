@@ -42,9 +42,9 @@
         #modal-window {
             border: 5px solid #DDD;
             position: absolute;
-            width: 800px;
-            min-height: 400px;
-            max-height: 700px;
+            width: 800px;/*
+            */
+            height: auto;
             overflow: hidden;
             background-color: white;
             box-shadow: 0 0 8px #333;
@@ -57,7 +57,9 @@
             text-align: right;
         }
         #modal-window iframe {
-        height: 480px;
+        /*height: 480px;*/
+        min-height: 250px;
+        max-height: 700px;
         width: 100%;
         }
         h2 {
