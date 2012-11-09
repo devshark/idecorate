@@ -41,6 +41,7 @@
     .orderWrap .errorBlock ol li {
       display: list-item;
       list-style: decimal;
+      line-height: 18px;
       text-align: -webkit-match-parent; }
 .orderWrap fieldset {
   border: 1px solid #000000;
