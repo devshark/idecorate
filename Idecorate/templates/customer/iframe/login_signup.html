@@ -13,6 +13,45 @@
                 background-color: #FFF;
                 background-image: none;
             }
+            .login, .signup {
+                width: 350px;
+                height: 400px;
+                float: left;
+            }
+            .login {
+                margin-left: 40px;
+                border-right: 1px solid #999999;
+            }
+            div form fieldset {
+                padding: 15px;
+            }
+            div form fieldset legend {
+                font-size: 18px;
+                color: #999999;
+            }
+            div form fieldset input {
+                width: 300px;
+                margin: 5px auto;
+            }
+            .login form fieldset .action a {
+                display: block;
+                float: left;
+                padding-top: 7px;
+                color: blue;
+            }
+            .login form fieldset .action input {
+                width: auto;
+                display: block;
+                float: right;
+                margin-right: 20px;
+            }
+            .signup form fieldset .action input {
+                width: auto;
+                display: block;
+                float: right;
+                margin-right: 20px;
+            }
+            /*
             #page-wrap{
                 background-color: #FFF;
             }
@@ -27,12 +66,41 @@
                 margin: 0 20px;
                 background: #000;
                 width: 1px;
-            }
+            }*/
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
     </head>
     <body>
+        <div class="login">
+            <form>
+                <fieldset>
+                    <legend>Login</legend>
+                    {{ form.username|attr:"placeholder:Enter email" }}
+                    {{ form.password|attr:"placeholder:Enter password" }}
+                    <div class="action">
+                        <a href="">forgot password</a>
+                        <input type="submit" value="Login" />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="signup">
+            <form>
+                <fieldset>
+                    <legend>Signup</legend>
+                    <input type="text" placeholder="Enter nickname" />
+                    {{ form.username|attr:"placeholder:Enter email" }}
+                    {{ form.password|attr:"placeholder:Enter password" }}
+                    <input type="text" placeholder="Enter password again">
+                    <div class="action">
+                        <input type="submit" value="Login" />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+<!--
         <div id="page-wrap">
+
             <table width="100%">
                 <tr>
                     <td>
@@ -65,6 +133,7 @@
                 </tr>
             </table>
         </div>
+    -->
     </body>
 </html>
 
