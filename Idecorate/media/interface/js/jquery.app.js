@@ -216,8 +216,8 @@ $(document).ready(function () {
                 }
             });
         }
-
-        disableEventPropagation(e);
+        //$(document).unbind('click');
+        cancelBubble(e);
     });
 
     //draggable handles binds style on selected obj
@@ -277,12 +277,13 @@ $(document).ready(function () {
         minWidth: 50,
         aspectRatio: true,
         start : function(e, ui){
-
-            $(".draggable").draggable('destroy');
+            
             $(".draggable").draggable({
                 revert:true, 
                 helper: 'clone'
             });
+            $(".draggable").draggable('destroy');
+            
         },
         resize: function(e, ui){
             update_ui({
@@ -816,6 +817,12 @@ function initProductPositions() {
         manage_subtotal();
         manage_total();
     }
+}
+
+function cancelBubble(e) {
+    var evt = e ? e:window.event;
+    if (evt.stopPropagation)    evt.stopPropagation();
+    if (evt.cancelBubble!=null) evt.cancelBubble = true;
 }
 
 
