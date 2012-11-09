@@ -10,9 +10,21 @@ $(document).ready(function () {
     //init lasso
     $('<div id="lasso"></div>').appendTo('#canvas');
     $('#canvas').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
+    
+    //remove edit button on buy tab
+    $(window).hashchange( function(){
+        
+        if(location.hash == '#buy-tab'){
+            $('#sidebar-form-wrap .myorder-edit').hide();
+        }else if(location.hash == '#create-tab'){
+            $('#sidebar-form-wrap .myorder-edit').show();
+        }
+    });
+    
+    $(window).hashchange();
 
     //draggable sidebar obj to canvas
-    $(".draggable").draggable({
+    $(".draggable").liveDraggable({
         revert:true, 
         helper: 'clone'
     });
@@ -206,7 +218,6 @@ $(document).ready(function () {
         }
 
         disableEventPropagation(e);
-
     });
 
     //draggable handles binds style on selected obj
@@ -267,7 +278,11 @@ $(document).ready(function () {
         aspectRatio: true,
         start : function(e, ui){
 
-            //$(".draggable").draggable('_destroy');
+            $(".draggable").draggable('destroy');
+            $(".draggable").draggable({
+                revert:true, 
+                helper: 'clone'
+            });
         },
         resize: function(e, ui){
             update_ui({
