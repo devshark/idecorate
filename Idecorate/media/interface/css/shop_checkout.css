@@ -27,6 +27,7 @@
     line-height: 18px;
     text-decoration: none;
     opacity: 0.2;
+    filter: alpha(opacity=20);
     float: right;
     position: relative;
     top: -2px;
