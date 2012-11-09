@@ -12,7 +12,7 @@ $(document).ready(function () {
     $('#canvas').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
 
     //draggable sidebar obj to canvas
-    $(".draggable").draggable({
+    $(".draggable").liveDraggable({
         revert:true, 
         helper: 'clone'
     });

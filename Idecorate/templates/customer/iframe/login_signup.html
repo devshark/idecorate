@@ -28,6 +28,7 @@
                 background: #000;
                 width: 1px;
             }
+            .pad
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
     </head>
@@ -36,28 +37,37 @@
             <table width="100%">
                 <tr>
                     <td>
-                        <form>
+                        <form method="post">
+                        {% csrf_token %}
                         <h2>Login</h2>
                         <table width="100%">
                             <tr>
-                                <td>{{ form.username|attr:"placeholder:Enter Email" }}</td>
+                                <td colspan="2">{{ login_form.username|attr:"placeholder:Enter Email" }}</td>
                             </tr>
                             <tr>
-                                <td>{{ form.password|attr:"placeholder:Enter Password" }}</td>
+                                <td colspan="2">{{ login_form.password|attr:"placeholder:Enter Password" }}</td>
+                            </tr>
+                            <tr>
+                                <td><a href="#">forgot password</a></td>
+                                <td><input type="submit" name="btnSubmit" value="Login" /></td>
                             </tr>
                         </table>
                         </form>
                     </td>
                     <td class="v-spacer"></td>
                     <td>
-                        <form>
+                        <form method="post">
+                        {% csrf_token %}
                         <h2>Signup</h2>
                         <table width="100%">
                             <tr>
-                                <td>{{ form.username|attr:"placeholder:Enter Email" }}</td>
+                                <td>{{ login_form.username|attr:"placeholder:Enter Email" }}</td>
                             </tr>
                             <tr>
-                                <td>{{ form.password|attr:"placeholder:Enter Password" }}</td>
+                                <td>{{ login_form.password|attr:"placeholder:Enter Password" }}</td>
+                            </tr>
+                            <tr>
+                                <td><input type="submit" name="btnSubmit" value="Signup" /></td>
                             </tr>
                         </table>
                     </form>
