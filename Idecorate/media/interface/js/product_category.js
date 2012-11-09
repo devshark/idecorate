@@ -294,7 +294,7 @@ function manage_product_pagination(){
                     $(this).removeClass('hidden');
                 }
                 if (counter > product_per_page){
-                    $(this).remove();
+                    //$(this).remove();
                 }
                     
                 counter++;
@@ -334,11 +334,11 @@ function manage_product_pagination(){
 
 function generate_pagenation(){
 
-    $(".draggable").draggable({
-        revert: true,
-        helper: 'clone'
-    });
-    $(".draggable").draggable("destroy");
+    // $(".draggable").draggable({
+    //     revert: true,
+    //     helper: 'clone'
+    // });
+    // $(".draggable").draggable("destroy");
     
     total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
     var left = 1, right = 5;
