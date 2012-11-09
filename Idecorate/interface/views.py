@@ -416,8 +416,8 @@ def get_cat_ids(cat_id, cat_ids = []):
 			subcat = get_categories(c.id)
 			if subcat.count() > 0:
 				sub = get_cat_ids(c.id,cat_ids)
-			else:
-				cat_ids.append(c.id)
+			# else:
+			# 	cat_ids.append(c.id)
 	else:
 		cat_ids.append(cat_id)	
 	return cat_ids
