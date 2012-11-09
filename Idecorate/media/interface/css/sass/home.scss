@@ -10,25 +10,20 @@ $padding15:15px;
 	box-shadow: 5px 5px 20px #DDDEE5;
 	border:1px solid #EEEEEE;
 */
-	.dummyButton{
-		width: 25px;
-		padding: 10px 0 10px 10px;
+	.BannerImg{
 		float: left;
-	}
-	.dummyBannerImg{
-		float: left;
-		width: 720px;
+		width: 100%;
 		height: 330px;
 		background-color: #000000;
 
 		img{
-			width: 720px;
+			width: 100%;
 			height: 330px;
 		}
 
 	}
 
-	.dummyBannerInfoWrap{
+	.BannerInfoWrap{
 		float: right;
 		width: 405px;
 
@@ -51,7 +46,7 @@ $padding15:15px;
 		}
 	}
 
-	.dummyBannerInfoItem{
+	.BannerInfoItem{
 		font-size: 0;
 		text-align: center;
 
