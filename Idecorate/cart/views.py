@@ -50,6 +50,8 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
 
         self.fields['billing_address2'] = forms.CharField(label=_("Billing Address2"), required=True)
         self.fields['shipping_address2'] = forms.CharField(label=_("Shipping Address2"), required=True)
+        self.fields['billing_address'] = forms.CharField(label=_("Billing Address"), required=True)
+        self.fields['shipping_address'] = forms.CharField(label=_("Shipping Address"), required=True)
         self.fields['shipping_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
         self.fields['billing_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
         self.fields['shipping_state'] = forms.ChoiceField(label=_("Shipping State"), choices=(), required=True,widget=forms.Select)

@@ -29,7 +29,7 @@
 							<td></td>
 							<td>
 								<p>{{ guest_table.guests }} Guests</p>
-								<p>{{ guest_table.tables }} tables</p>
+								<p>{{ guest_table.tables }} Tables</p>
 							</td>
 							<td>
 								<p><!-- + $100 Shipping Fee -->&nbsp;</p>
@@ -43,6 +43,8 @@
 		</form>
 	</div>
 	<form method="post" action=".">
+		{% csrf_token %}
+		<input type="hidden" name="_checkout" value="1" />
 		<div class="clearfix loginDetails">
 			<h4>Are you a returning customer?</h4>
 			<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
@@ -57,34 +59,30 @@
 				<legend>Personal Information</legend>
 					<div class="clearfix">
 						<label>Salutations</label>
-						<select>
-							<option>Mr.</option>
-							<option>Mrs.</option>
-							<option>Ms.</option>
-						</select>
+						{{ orderform.billing_salutation }}
 					</div>
 					<div class="clearfix">
 						<label>First Name</label>
-						<input type="text" />
+						{{ orderform.billing_first_name }}
 					</div>
 					<div class="clearfix">
 						<label>Last Name</label>
-						<input type="text" />
+						{{ orderform.billing_last_name }}
 					</div>
 					<div class="clearfix">
 						<label>Email</label>
-						<input type="text" />
+						{{ orderform.email }}
 					</div>
 			</fieldset>
 			<fieldset class="delivery">
 				<legend>Delivery Address</legend>
 					<div class="clearfix">
 						<label>Address 1</label>
-						<input type="text" />
+						{{ orderform.shipping_address }}
 					</div>
 					<div class="clearfix">
 						<label>Address 2</label>
-						<input type="text" />
+						{{ orderform.shipping_address2 }}
 					</div>
 					<div class="clearfix">
 						<label>State</label>
@@ -218,7 +216,6 @@
 						<label>Postal Code</label>
 						<input type="text" />
 					</div>
-					<input type="checkbox" checked="checked"> My delivery address is the same as my billing address.
 			</fieldset>
 			<!--
 			<fieldset class="paymentMethod">
