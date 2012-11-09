@@ -409,6 +409,7 @@ def search_suggestions(request):
 
 def get_cat_ids(cat_id, cat_ids = []):
 	cat = get_categories(cat_id)
+	print cat.query
 	print cat.count()
 	if cat.count()>0:
 		for c in cat:			
