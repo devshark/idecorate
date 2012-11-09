@@ -287,7 +287,6 @@
 
         $('ul.dropdown').superfish({
             onBeforeShow: function(e){
-                //alert('test');
             }
         });
     });
@@ -307,7 +306,6 @@
         // this code is for Mozilla and Opera
             event.stopPropagation();
         } else if (window.event) {
-            alert('test');
         // this code is for IE
             window.event.cancelBubble = true;
         }
@@ -327,8 +325,7 @@
                         $("#create-tab .breadcrumb").outerHeight(true);
 
         var ___height   = __height-
-                        $("#create-tab .product-list-wrap .pagination").outerHeight(true)-
-                        $("#create-tab .breadcrumb").outerHeight(true)-1;
+                        $("#create-tab .product-list-wrap .pagination").outerHeight(true)-1;
 
         var ____height  = $('.thumb.products').outerHeight(true)+10;
 

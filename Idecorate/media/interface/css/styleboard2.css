@@ -251,7 +251,7 @@ h5 {
         float: left; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a {
           display: block;
-          background-color: #EEEEEE;
+          background: #EEEEEE;
           font-size: 0.875em;
           color: #000;
           position: relative;
@@ -373,7 +373,8 @@ h5 {
             margin: 0; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul li {
               display: inline;
-              color: #000; }
+              color: #000;
+              vertical-align: middle; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul li a {
                 font-size: 0.875em;
                 margin: 7px 0;

@@ -61,7 +61,7 @@ function browse_categories(elm_id){
         success: function(response_data){
             var items = '';
             var breadcrumb = '';
-            //$(".draggable").draggable("destroy");
+            $(".draggable").draggable();$(".draggable").draggable("destroy");
             var data = $.parseJSON(response_data.data);                                            
             $.each(data,function(i, val){                            
                 var id = val.pk;
@@ -74,7 +74,7 @@ function browse_categories(elm_id){
                     }
                     thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
-                    items += '<a _uid="'+id+'" class="hidden thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                    items += '<a _pid="'+id+'" _uid="'+id+'" class="hidden thumb draggable ' + type + '" id="'+id+'" href="#">' +
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                             '<span>' + name + '</span>' +
                         '</a>';
@@ -186,7 +186,7 @@ function populate_products(){
     var response_data = get_products();
     var items = '';
     var breadcrumb = '';
-    //$(".draggable").draggable("destroy");
+    $(".draggable").draggable();$(".draggable").draggable("destroy");
     var data = $.parseJSON(response_data.data);
     total_product_count = response_data.product_counts;
     page_number = response_data.page_number;
@@ -200,7 +200,7 @@ function populate_products(){
         }
         var thumb = val.fields.original_image_thumbnail;
         thumb = 'products/' + thumb;
-        items += '<a _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
+        items += '<a _pid="'+id+'" _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
                 '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                 '<span>' + name + '</span>' +
             '</a>';
@@ -236,7 +236,7 @@ function search_products(keyword, catid){
                 }
                 var thumb = val.fields.original_image_thumbnail;
                 thumb = 'products/' + thumb;
-                items += '<a _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                items += '<a _pid="'+id+'" _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
                         '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                         '<span>' + name + '</span>' +
                     '</a>';
@@ -335,7 +335,7 @@ function manage_product_pagination(){
 }
 
 function generate_pagenation(){
-    //$(".draggable").draggable("_destroy");
+    $(".draggable").draggable();$(".draggable").draggable("destroy");
     total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
     var left = 1, right = 5;
     if ( total_pages <= 5 ){
@@ -482,7 +482,7 @@ function populate_product_by_page(){
         }
         var thumb = val.fields.original_image_thumbnail;
         thumb = 'products/' + thumb;
-        var items = '<a _uid="'+id+'"  class="thumb draggable products" id="'+id+'" href="#">' +
+        var items = '<a _pid="'+id+'" _uid="'+id+'"  class="thumb draggable products" id="'+id+'" href="#">' +
                 '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                 '<span>' + name + '</span>' +
             '</a>';
@@ -493,7 +493,7 @@ function populate_product_by_page(){
 function manage_product_resize(){
     var computed_height = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-40;
     $('.product-list').css('height',computed_height+'px');
-    //$('.draggable').draggable('_destroy');
+    $('.draggable').draggable('destroy');
     var elm = $('.product-list a:first');
 
     var prod_width = $('.product-list').width();
@@ -561,7 +561,7 @@ function manage_product_resize(){
                     }
                     var thumb = val.fields.original_image_thumbnail;
                     thumb = 'products/' + thumb;
-                    item = '<a _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                    item = '<a _pid="'+id+'" _uid="'+id+'" class="thumb draggable ' + type + '" id="'+id+'" href="#">' +
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                             '<span>' + name + '</span>' +
                         '</a>';
