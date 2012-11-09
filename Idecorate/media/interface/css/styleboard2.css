@@ -450,18 +450,19 @@ h5 {
               color: #666; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products:hover {
             outline: 2px solid #333; }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .pagination {
+        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .pagination {
           text-align: center;
           padding: 5px 0;
-          font-size: 0; }
-          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .pagination span {
+          font-size: 0;
+          height: 20px; }
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .pagination span {
             font-size: 12px;
             display: inline-block;
             zoom: 1;
             *display: inline;
             cursor: pointer;
             padding: 4px 6px; }
-          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .pagination span.cur-page {
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .pagination span.cur-page {
             background-color: #ccc;
             cursor: default;
             font-weight: bold;
