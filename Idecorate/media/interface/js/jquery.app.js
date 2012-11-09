@@ -24,7 +24,7 @@ $(document).ready(function () {
     $(window).hashchange();
 
     //draggable sidebar obj to canvas
-    $(".draggable").draggable({
+    $(".draggable").liveDraggable({
         revert:true, 
         helper: 'clone'
     });
