@@ -290,7 +290,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 						a{
 							display:block;
-							background-color: #EEEEEE;
+							background: #EEEEEE;
 							font-size: 14em/$default_font_size;
 							color:#000;
 							position:relative;
@@ -438,6 +438,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								li{
 									display:inline;
 									color:#000;
+									vertical-align: middle;
 
 									a{	
 										font-size: 14em/$default_font_size;
