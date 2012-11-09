@@ -137,7 +137,10 @@ function browse_categories(elm_id){
             });
 
             if(type =='products'){
+                $('.pagination').show();
                 manage_product_pagination();
+            } else {
+                $('.pagination').hide();
             }
         },
         error: function(msg) {
