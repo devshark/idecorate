@@ -186,6 +186,7 @@ function get_products(){
 }
 
 function populate_products(){
+    $('.pagination').show();
     var response_data = get_products();
     var items = '';
     var breadcrumb = '';

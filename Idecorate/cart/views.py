@@ -192,13 +192,15 @@ def checkout(request):
 	if not sessionid:
 		sessionid = generate_unique_id()
 		request.session['cartsession'] = sessionid
-	cart_item = CartTemp.objects.filter(sessionid=sessionid)
+	cart_item = CartTemp.objects.filter(sessionid=sessionid).order_by('-id')
 
 	guest_table = GuestTableTemp.objects.get(sessionid=sessionid)
 
+	order = shop.order_from_request(request, create=True)
+	order.items.filter().delete()
+
 	if cart_item.count() > 0:
 		for cart in cart_item:
-			order = shop.order_from_request(request, create=True)
 			order.modify_item(cart.product, absolute=cart.quantity)
 			#remove_from_cart_temp(cart.id)
 		shop.modify_guest_table(request, guest_table.guests, guest_table.tables, order)
