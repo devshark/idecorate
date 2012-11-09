@@ -264,7 +264,9 @@
         styleboardH();
 
         {% if mode != 'search' %}
+        {% if category_count == 0 %}
         setTimeout(populate_products,500);
+        {% endif %}
         {% else %}        
         setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
         {% endif %}

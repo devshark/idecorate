@@ -26,7 +26,7 @@
             line-height: 1.5;
         }
         #page-mask {
-        position: fixed;
+            position: fixed;
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
             filter: alpha(opacity=50);
             -moz-opacity: 0.5;
@@ -42,7 +42,7 @@
         #modal-window {
             border: 5px solid #DDD;
             position: absolute;
-            width: 500px;
+            width: 800px;
             min-height: 400px;
             max-height: 700px;
             overflow: hidden;
@@ -57,8 +57,8 @@
             text-align: right;
         }
         #modal-window iframe {
-        width: 402px;
         height: 480px;
+        width: 100%;
         }
         h2 {
             font-size: 156.25%;
@@ -117,6 +117,9 @@
                     showButtonPanel: true
                 });
                 $('#close-modal').click(closed_modal);
+
+                $('#site-menu ul').append('<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>');
+                $('#site-menu ul a#lnk-login-signup').on('click',popup_login);
             });
             function closed_modal(){
                 $('#page-mask').hide();
@@ -126,10 +129,10 @@
                 var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':"{% url login_signup %}"});
                 var modal   = $('#modal-window'),
                     _left   = $(window).width()/2-modal.width()/2;
-                    frame   = $('#iframe-wrap').append(iframe);
+                    frame   = $('#iframe-wrap').html(iframe);
 
                 $('#page-mask').css({display:'block'});
-                modal.append(frame).css({display:'block',left:_left});
+                modal.css({display:'block',left:_left});
             }
         </script>
         <script type="text/javascript">
