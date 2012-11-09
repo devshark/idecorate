@@ -28,7 +28,37 @@
     </head>
     <body>
         <div id="page-wrap">
-            {{ form }}
+            <table width="100%">
+                <tr>
+                    <td>
+                        <form>
+                        <h2>Login</h2>
+                        <table width="100%">
+                            <tr>
+                                <td>{{ form.username|attr:"placeholder:Enter Email" }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.password|attr:"placeholder:Enter Password" }}</td>
+                            </tr>
+                        </table>
+                        </form>
+                    </td>
+                    <td></td>
+                    <td>
+                        <form>
+                        <h2>Signup</h2>
+                        <table width="100%">
+                            <tr>
+                                <td>{{ form.username|attr:"placeholder:Enter Email" }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.password|attr:"placeholder:Enter Password" }}</td>
+                            </tr>
+                        </table>
+                    </form>
+                    </td>
+                </tr>
+            </table>
         </div>
     </body>
 </html>

@@ -123,7 +123,7 @@
                 $('#modal-window').hide();
             }
             function popup_login(){
-                var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':""});
+                var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':"{% url login_signup %}"});
                 var modal   = $('#modal-window'),
                     _left   = $(window).width()/2-modal.width()/2;
                     frame   = $('#iframe-wrap').append(iframe);
