@@ -18,6 +18,46 @@
 
 .orderWrap {
 
+
+	.errorBlock {
+		color: #B94A48;
+		padding: 8px 35px 8px 14px;
+		margin: 0 auto 15px auto;
+		background: #F2DEDE;
+		border: 1px solid #EED3D7;
+		-webkit-border-radius: 4px;
+		-moz-border-radius: 4px;
+		border-radius: 4px;
+		position: relative;
+
+		.closeX {
+			color: #000000;
+			line-height: 18px;
+			text-decoration: none;
+			opacity: 0.2;
+			float: right;
+			position: relative;
+			top: -2px;
+			right: -21px;
+		}
+
+		h4 {
+			font-size: 14px;
+			font-weight: bold;
+			line-height: 18px;
+		}
+
+		ol {
+			padding-left: 30px;
+			
+			li {
+				display: list-item;
+				list-style: decimal;
+				text-align: -webkit-match-parent;
+			}
+		}
+	}
+
 	form{
 
 		fieldset {
