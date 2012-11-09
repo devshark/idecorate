@@ -59,8 +59,8 @@
             <form>
                 <fieldset>
                     <legend>Login</legend>
-                    {{ form.username|attr:"placeholder:Enter email" }}
-                    {{ form.password|attr:"placeholder:Enter password" }}
+                    {{ login_form.username|attr:"placeholder:Enter email" }}
+                    {{ login_form.password|attr:"placeholder:Enter password" }}
                     <div class="action">
                         <a href="">forgot password</a>
                         <input type="submit" value="Login" />
@@ -73,8 +73,8 @@
                 <fieldset>
                     <legend>Signup</legend>
                     <input type="text" placeholder="Enter nickname" />
-                    {{ form.username|attr:"placeholder:Enter email" }}
-                    {{ form.password|attr:"placeholder:Enter password" }}
+                    {{ login_form.username|attr:"placeholder:Enter email" }}
+                    {{ login_form.password|attr:"placeholder:Enter password" }}
                     <input type="text" placeholder="Enter password again">
                     <div class="action">
                         <input type="submit" value="Login" />
