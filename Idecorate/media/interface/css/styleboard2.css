@@ -756,7 +756,7 @@ h5 {
   -moz-opacity: 0.6;
   -khtml-opacity: 0.6;
   opacity: 0.6;
-  outline: none; }
+  outline: none !important; }
 
 #canvas .handles {
   width: 50px;
