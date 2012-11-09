@@ -316,17 +316,6 @@
 
     $(window).resize(styleboardH);
 
-    function disableEventPropagation(event) {
-
-        if (event.stopPropagation) {
-        // this code is for Mozilla and Opera
-            event.stopPropagation();
-        } else if (window.event) {
-        // this code is for IE
-            window.event.cancelBubble = true;
-        }
-    }
-
     function styleboardH() {
 
 
