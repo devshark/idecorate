@@ -49,7 +49,7 @@
 
 		ol {
 			padding-left: 30px;
-			
+
 			li {
 				display: list-item;
 				list-style: decimal;
@@ -58,86 +58,85 @@
 		}
 	}
 
-	form{
 
-		fieldset {
-			border: 1px solid #000000;
-			padding: 10px;
+	fieldset {
+		border: 1px solid #000000;
+		padding: 10px;
 
-			legend{
-				margin: 0 0 0 20px;
-				padding: 0 5px;
-				font-size: 14px;
-				color: #000000;
+		legend{
+			margin: 0 0 0 20px;
+			padding: 0 5px;
+			font-size: 14px;
+			color: #000000;
+		}
+
+		table{
+			width: 100%;
+			height: auto;
+
+			thead{
+
+				tr{
+					th{
+						padding: 10px;
+						color: #000000;
+						border-bottom: 2px dotted #999999;
+					}
+
+				}
+
 			}
 
-			table{
-				width: 100%;
-				height: auto;
+			tbody{
+				tr{
+					td{
+						padding: 10px;
+						margin: 0 auto;
 
-				thead{
+						img{
+							max-width: 50px;
+							max-height: 80px;
+							float: left;
+							border: 2px solid #999999;
+						}
 
-					tr{
-						th{
-							padding: 10px;
-							color: #000000;
-							border-bottom: 2px dotted #999999;
+						span{
+							width: 400px;
+							height: auto;
+							display: block;
+							margin: 20px 0 0 60px;
+							font-size: 14px;
+							font-weight: bold;
+							color: #d89b96;
 						}
 
 					}
 
-				}
-
-				tbody{
-					tr{
-						td{
-							padding: 10px;
-							margin: 0 auto;
-
-							img{
-								max-width: 50px;
-								max-height: 80px;
-								float: left;
-								border: 2px solid #999999;
-							}
-
-							span{
-								width: 400px;
-								height: auto;
-								display: block;
-								margin: 20px 0 0 60px;
-								font-size: 14px;
-								font-weight: bold;
-								color: #d89b96;
-							}
-
-						}
-
-						.productPricing {
-							text-align:center;
-							color: #000000;
-						}
-
+					.productPricing {
+						text-align:center;
+						color: #000000;
 					}
 
 				}
 
-				tfoot{
+			}
 
-					tr{
-						td{
-							padding: 10px;
-							color: #000000;
-							border-top: 2px dotted #999999;
-						}
+			tfoot{
+
+				tr{
+					td{
+						padding: 10px;
+						color: #000000;
+						border-top: 2px dotted #999999;
 					}
 				}
-
 			}
 
 		}
-	
+
 	}
+	
+	
 	
 }
 

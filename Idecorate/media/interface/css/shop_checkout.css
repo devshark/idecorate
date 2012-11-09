@@ -41,30 +41,30 @@
       display: list-item;
       list-style: decimal;
       text-align: -webkit-match-parent; }
-.orderWrap form fieldset {
+.orderWrap fieldset {
   border: 1px solid #000000;
   padding: 10px; }
-  .orderWrap form fieldset legend {
+  .orderWrap fieldset legend {
     margin: 0 0 0 20px;
     padding: 0 5px;
     font-size: 14px;
     color: #000000; }
-  .orderWrap form fieldset table {
+  .orderWrap fieldset table {
     width: 100%;
     height: auto; }
-    .orderWrap form fieldset table thead tr th {
+    .orderWrap fieldset table thead tr th {
       padding: 10px;
       color: #000000;
       border-bottom: 2px dotted #999999; }
-    .orderWrap form fieldset table tbody tr td {
+    .orderWrap fieldset table tbody tr td {
       padding: 10px;
       margin: 0 auto; }
-      .orderWrap form fieldset table tbody tr td img {
+      .orderWrap fieldset table tbody tr td img {
         max-width: 50px;
         max-height: 80px;
         float: left;
         border: 2px solid #999999; }
-      .orderWrap form fieldset table tbody tr td span {
+      .orderWrap fieldset table tbody tr td span {
         width: 400px;
         height: auto;
         display: block;
@@ -72,10 +72,10 @@
         font-size: 14px;
         font-weight: bold;
         color: #d89b96; }
-    .orderWrap form fieldset table tbody tr .productPricing {
+    .orderWrap fieldset table tbody tr .productPricing {
       text-align: center;
       color: #000000; }
-    .orderWrap form fieldset table tfoot tr td {
+    .orderWrap fieldset table tfoot tr td {
       padding: 10px;
       color: #000000;
       border-top: 2px dotted #999999; }
