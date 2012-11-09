@@ -158,10 +158,12 @@ def get_breadcrumb(parent_id):
 
 @register.filter
 def generate_product_order_list(obj,objMain):
-	products = obj.filter()
-	ret = ""
+	products = obj.filter().order_by('-id')
 
-	print dir(objMain)
+	for product in products:
+		print str(product.id) + ' : ' + str(product.name) 
+
+	ret = ""
 
 	for product in products:
 
