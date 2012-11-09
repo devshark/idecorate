@@ -491,7 +491,7 @@ h5 {
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td {
               color: #000;
               width: 40%;
-              text-align: center;
+              text-align: left;
               padding: 4px 0; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg div {
                 vertical-align: top;
@@ -511,11 +511,13 @@ h5 {
                   color: #000; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td {
               width: 20%;
-              min-width: 50px; }
+              min-width: 50px;
+              text-align: center; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td input {
                 width: 80%; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td + td {
-              width: 40%; }
+              width: 40%;
+              text-align: center; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tfoot {
           border-top: 2px dotted #000;
           margin: 0 5px;
@@ -533,26 +535,6 @@ h5 {
             -webkit-border-radius: 3px;
             -moz-border-radius: 3px;
             border-radius: 3px; }
-          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .checkOutWrap input#update-button {
-            cursor: pointer;
-            vertical-align: top;
-            border: 0;
-            margin: 0;
-            background-color: #da9b94;
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#CCCCCC');
-            /* for IE */
-            background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#cccccc));
-            /* for webkit browsers */
-            background: -moz-linear-gradient(top, #eeeeee, #cccccc);
-            /* for firefox 3.6+ */
-            border: 1px solid #DDDDDD; }
-          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .checkOutWrap input#update-button:hover {
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#DDDDDD', endColorstr='#999999');
-            /* for IE */
-            background: -webkit-gradient(linear, left top, left bottom, from(#dddddd), to(#999999));
-            /* for webkit browsers */
-            background: -moz-linear-gradient(top, #dddddd, #999999);
-            /* for firefox 3.6+ */ }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .checkOutWrap input#check-button {
             cursor: pointer;
             vertical-align: top;

@@ -118,6 +118,7 @@ def styleboard_ajax(request):
 			cat_id = None
 		items = None
 		categories = get_categories(cat_id)
+		print categories.count()
 		reponse_data = {}
 		if categories.count() > 0:
 			categories = categories.order_by('order')
