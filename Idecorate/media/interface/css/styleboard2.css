@@ -332,6 +332,8 @@ h5 {
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit a:hover {
             font-style: italic;
             border-bottom: 1px dotted #000; }
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit a.hidden {
+            display: none; }
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset {
         margin: 5px;
         padding: 5px;

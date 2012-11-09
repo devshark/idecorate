@@ -52,6 +52,7 @@ $(document).ready(function(){
             $(this).val($(this).val().substring(0,5));
         }
     });
+
     $('#createTab').click(function(){
         if($('input[name="qty"]').length>0){
             if($('.myorder-edit a').hasClass('hidden'))
@@ -84,6 +85,7 @@ function hasError(){
 }
 
 function add_to_cart(prod_id,default_quantity,guest_table){
+    
     if ($('#prod_cart_' + prod_id).length == 0){
         action_url = ADD_TO_CART_URL;
         var qty = 1;
