@@ -244,6 +244,7 @@ function search_products(keyword, catid){
             items = '<div class="product-list">' + items + '</div>';
             $('.product-list-wrap').html(items);
             manage_product_pagination();
+            styleboardH();
         },
         error: function(msg) {
         }

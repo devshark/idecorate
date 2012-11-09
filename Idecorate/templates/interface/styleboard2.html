@@ -51,9 +51,11 @@
                         <td colspan="3">
                             <div class="searchWrap">
                                 <div class="search clearfix">
-                                    <input type="image" src="/media/images/search.png" class="searchIcon" />
-                                    <input id="search" type="text" placeholder="Search Products" > 
-                                    <input type="submit" value="Search">
+                                    <form action="{% url styleboard %}" method="POST">
+                                        <input type="image" src="/media/images/search.png" class="searchIcon" />
+                                        <input id="search" name="search" type="text" placeholder="Search Products" > 
+                                        <input type="submit" value="Search">
+                                    </form>
                                 </div>
                             </div>
                             <div class="socialIcons">
@@ -105,7 +107,16 @@
                                     </ul>
                                 </div>
                                 <div id="products" style="display:none;">
-                                    <div class="breadcrumb-wrap">{{ cat_id|get_breadcrumb }}</div>
+                                    <div class="breadcrumb-wrap">
+                                        {% if mode != 'search' %}
+                                        {{ cat_id|get_breadcrumb }}
+                                        {% else %}
+                                        <ul class="breadcrumb">
+                                            <li><a href="#">All</a></li>
+                                            <li> > </li><li class="active">Search Results</li>
+                                        </ul>
+                                        {% endif %}
+                                    </div>
                                     <div class="product-list-wrap">
                                         {% include 'interface/styleboard_categories.html' %}
                                     </div> 
@@ -251,14 +262,20 @@
 
     $(document).ready( function() {
         styleboardH();
+
+        {% if mode != 'search' %}
         {% if category_count == 0 %}
-            populate_products();
-            $('#createTab').click(function(){
-                hideProducts();
-                $('.product-list').unbind('mousewheel');
-                manage_product_pagination();
-            });
+        setTimeout(populate_products,500);
         {% endif %}
+        {% else %}        
+        setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
+        {% endif %}
+
+        $('#createTab').click(function(){
+            hideProducts();
+            $('.product-list').unbind('mousewheel');
+            manage_product_pagination();
+        });
         
         $('#create-tab-nav').changeTab();
         

@@ -23,12 +23,47 @@
                 font-weight: bold;
                 margin-bottom: 5px;
             }
+            .v-spacer {
+                margin: 0 20px;
+                background: #000;
+                width: 1px;
+            }
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
     </head>
     <body>
         <div id="page-wrap">
-            {{ form }}
+            <table width="100%">
+                <tr>
+                    <td>
+                        <form>
+                        <h2>Login</h2>
+                        <table width="100%">
+                            <tr>
+                                <td>{{ form.username|attr:"placeholder:Enter Email" }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.password|attr:"placeholder:Enter Password" }}</td>
+                            </tr>
+                        </table>
+                        </form>
+                    </td>
+                    <td class="v-spacer"></td>
+                    <td>
+                        <form>
+                        <h2>Signup</h2>
+                        <table width="100%">
+                            <tr>
+                                <td>{{ form.username|attr:"placeholder:Enter Email" }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.password|attr:"placeholder:Enter Password" }}</td>
+                            </tr>
+                        </table>
+                    </form>
+                    </td>
+                </tr>
+            </table>
         </div>
     </body>
 </html>

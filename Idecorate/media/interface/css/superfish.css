@@ -22,10 +22,14 @@
 	visibility:		inherit; /* fixes IE7 'sticky bug' */
 	z-index: 100;
 }
+
+.dropdown li:first-child{
+	border: none;	
+}
 .dropdown li {
 	float:			left;
 	position:		relative;
-	border-right: 	1px solid #999;
+	border-left: 	1px solid #999;
 	text-align: 	center;
 }
 .dropdown a {
@@ -34,7 +38,7 @@
 }
 .dropdown span {
 	display: 		block;
-	padding: 		4px 10px;
+	padding: 		2px 10px;
 	font-size: 		1.2em;
 }
 .dropdown li:hover ul,
@@ -70,8 +74,11 @@ ul.dropdown li li.sfHover ul {
 .ddl-right * {
 	color: #ffffff !important;
 }
+.ddl-right li:first-child {
+	border: none !important;
+}
 .ddl-right li {
-	border-right: 1px solid #fff !important;
+	border-left: 1px solid #fff !important;
 }
 .ddl-right li li:hover ul,
 .ddl-right li li.sfHover ul {
@@ -112,7 +119,7 @@ ul.dropdown li li li.sfHover ul {
 .dropdown a {
 	/* border-left:	1px solid #fff; */
 	/* padding: 		.75em 1em; */
-	padding: 4px 10px;
+	padding: 2px 10px;
 	text-decoration:none;
 }
 .dropdown a, .dropdown a:visited  { /* visited pseudo selector so IE6 applies text colour*/
