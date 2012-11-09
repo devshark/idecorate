@@ -250,9 +250,11 @@ p {
 #sidebar {
   float: left;
   width: 240px;
-  padding: 40px 10px;
-  height: 250px;
+  height: 310px;
+  padding: 0 10px;
   overflow: auto;
+  border-top: 10px solid #000;
+  border-bottom: 10px solid #000;
   background-color: #000000; }
 
 #sidebar ul li {
