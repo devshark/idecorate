@@ -280,21 +280,25 @@
 			
 		});
 
-		var deliveryDateH = $('.deliveryDate').height(),
-			paymentMethodH = $('.paymentMethod').height(),
-			paymentMethodH2 = $('.paymentMethod2').height(),
-			questionH = $('.question').height();
+		var deliveryDateH = $('.deliveryDate').outerHeight(true),
+			paymentMethodH = $('.paymentMethod').outerHeight(true),
+			paymentMethodH2 = $('.paymentMethod2').outerHeight(true),
+			questionH = $('.question').outerHeight(true);
 
 		if(deliveryDateH > paymentMethodH){
+			$('.deliveryDate').height(deliveryDateH);
 			$('.paymentMethod').height(deliveryDateH);
 		}else{
 			$('.deliveryDate').height(paymentMethodH);
+			$('.paymentMethod').height(paymentMethodH);
 		}
 
 		if(questionH > paymentMethodH2){
-			$('.paymentMethod2').height(questionH);
-		}else{
 			$('.question').height(paymentMethodH2);
+			$('.paymentMethod2').height(paymentMethodH2);
+		}else{
+			$('.paymentMethod2').height(questionH);
+			$('.question').height(questionH);
 		}
 
 	});
