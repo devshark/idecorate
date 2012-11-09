@@ -244,7 +244,7 @@ function search_products(keyword, catid){
                         '<span>' + name + '</span>' +
                     '</a>';
             });
-            items = '<div class="product-list">' + items + '</div>';
+            items = '<div class="product-list">' + items + '</div>';            
             $('.product-list-wrap').html(items);
             manage_product_pagination();
             styleboardH();
@@ -266,7 +266,8 @@ function manage_product_pagination(){
         getHeight($(this),function(h){
             var elm = $('.product-list a:first');
 
-            var prod_width = $('.product-list').width();
+            var prod_width = $('.product-list').width(); 
+            console.log(prod_width)           
             var prod_item_width = $(elm).outerWidth(true);
             var count_by_width = Math.round(prod_width/prod_item_width);
             var prod_per_width = prod_item_width*count_by_width;
@@ -297,7 +298,7 @@ function manage_product_pagination(){
                     $(this).removeClass('hidden');
                 }
                 if (counter > product_per_page){
-                    //$(this).remove();
+                    $(this).remove();
                 }
                     
                 counter++;

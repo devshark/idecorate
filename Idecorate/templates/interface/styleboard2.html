@@ -272,19 +272,28 @@
     $(document).ready( function() {
         styleboardH();
 
-        {% if mode != 'search' %}
-        {% if category_count == 0 %}
-        setTimeout(populate_products,500);
-        {% endif %}
-        {% else %}        
-        setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
-        {% endif %}
-
-        $('#createTab').click(function(){
-            hideProducts();
-            $('.product-list').unbind('mousewheel');
-            manage_product_pagination();
+        $(window).hashchange(function(){
+            if (location.hash != '' && location.hash == '#create-tab'){
+                {% if mode != 'search' %}
+                    {% if category_count == 0 %}
+                    setTimeout(populate_products,500);
+                    {% endif %}
+                {% else %}        
+                    setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
+                {% endif %}
+            } else if (location.hash == '#buy-tab') {
+                //do nothing
+            }  else {
+                {% if mode != 'search' %}
+                {% if category_count == 0 %}
+                setTimeout(populate_products,500);
+                {% endif %}
+                {% else %}        
+                setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
+                {% endif %}
+            }        
         });
+        $(window).hashchange();
         
         $('#create-tab-nav').changeTab();
         
