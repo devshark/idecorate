@@ -179,7 +179,7 @@ def remove_from_cart_ajax(request):
 		if sessionid:
 			CartTemp.objects.get(sessionid=sessionid, product__id=prod_id).delete()
 
-			if CartTemp.objects.filter(sessionid=sessionid).count() > 0:
+			if CartTemp.objects.filter(sessionid=sessionid).count() == 0:
 
 				GuestTableTemp.objects.get(sessionid=sessionid).delete()
 
