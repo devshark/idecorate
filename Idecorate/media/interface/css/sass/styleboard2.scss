@@ -553,11 +553,12 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									outline:2px solid #333;
 								}
 							}
-
-							.pagination {
+						}
+						.pagination {
 							    text-align: center;
 							    padding: 5px 0;
 							    font-size: 0;
+							    height: 20px;
 
 							    span{
 							    	font-size: 12px;
@@ -578,7 +579,6 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								    -webkit-border-radius: 3px;    
 								}
 							}
-						}
 					}
 					
 					#buy-tab{
