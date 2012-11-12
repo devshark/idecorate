@@ -56,6 +56,7 @@ function set_category_label_height(){
             }
         } else {
             $('.product-list-wrap .category-wrap .thumb.categories span').height(max_h);
+            $('.category-wrap .thumb.categories').removeClass('hidden');
         }
     }
 }
@@ -212,34 +213,36 @@ function get_products(){
     return data;
 }
 
-function populate_products(){
-    $('.pagination').show();
-    var response_data = get_products();
-    var items = '';
-    var breadcrumb = '';
+function populate_products(){    
+    if (sub_category_count == 0){
+        $('.pagination').show();
+        var response_data = get_products();
+        var items = '';
+        var breadcrumb = '';
 
-    var data = $.parseJSON(response_data.data);
-    total_product_count = response_data.product_counts;
-    page_number = response_data.page_number;
-    num_pages = response_data.num_pages;
-    $.each(data,function(i, val){                            
-        var id = val.pk;
-        type = val.model == 'category.categories' ? 'categories' : 'products';
-        var name = val.fields.name;
-        if (name.length > 12){
-            name = name.substring(0,10) + '..';
-        }
-        var thumb = val.fields.original_image_thumbnail;
-        thumb = 'products/' + thumb;
-        items += '<a _pid="'+id+'" _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
-                '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
-                '<span>' + name + '</span>' +
-            '</a>';
-    });
-    items = '<div class="product-list clearfix">' + items + '</div>';
-    $('.product-list-wrap').html(items);
-    styleboardH();
-    manage_product_pagination();    
+        var data = $.parseJSON(response_data.data);
+        total_product_count = response_data.product_counts;
+        page_number = response_data.page_number;
+        num_pages = response_data.num_pages;
+        $.each(data,function(i, val){                            
+            var id = val.pk;
+            type = val.model == 'category.categories' ? 'categories' : 'products';
+            var name = val.fields.name;
+            if (name.length > 12){
+                name = name.substring(0,10) + '..';
+            }
+            var thumb = val.fields.original_image_thumbnail;
+            thumb = 'products/' + thumb;
+            items += '<a _pid="'+id+'" _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                    '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                    '<span>' + name + '</span>' +
+                '</a>';
+        });
+        items = '<div class="product-list clearfix">' + items + '</div>';
+        $('.product-list-wrap').html(items);
+        styleboardH();
+        manage_product_pagination();
+    }
 }
 
 function search_products(keyword, catid){

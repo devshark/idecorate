@@ -281,7 +281,7 @@
 
         $(window).hashchange(function(){
             if (location.hash != '' && location.hash == '#create-tab'){
-                styleboardH();                
+                styleboardH();                               
                 if ( !has_change_mode ){
                     {% if mode != 'search' %}
                         {% if category_count == 0 %}
@@ -293,6 +293,7 @@
                 }
             } else if (location.hash == '#buy-tab') {
                 setTimeout(styleboardH,50);
+                $('.category-wrap .thumb.categories').addClass('hidden');
                 //do nothing
             }  else {
                 styleboardH();
@@ -313,17 +314,7 @@
         
         $('#sidebar-wrap').easytabs({ animate:false }).bind('easytabs:after',function(){
             recur = false;
-            if (location.hash=="#create-tab"){
-                styleboardH();
-                setTimeout(set_category_label_height,500);
-                if (styleboard_mode_type != 'search' && sub_category_count > 0 )
-                    setTimeout(populate_products,500);
-                else if (styleboard_mode_type == 'search')
-                    setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
-
-            } else if (location.hash == '#buy-tab') {
-                setTimeout(styleboardH,50);
-            }
+            setTimeout(set_category_label_height,500);
         }); 
 
         $('ul.dropdown').superfish({
