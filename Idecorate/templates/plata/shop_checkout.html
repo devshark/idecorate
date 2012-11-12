@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n plata_tags idecorate_interface humanize %}
+{% load i18n plata_tags idecorate_interface humanize widget_tweaks %}
 {% block title %}iDecorate Wedding{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
@@ -12,6 +12,7 @@
 			<a href="" class="closeX">X</a>
 			<h4>Please correct the following errors:</h4>
 			<ol>
+				<li>{{ orderform.errors }}</li>
 				<li>error1</li>
 				<li>error2</li>
 				<li>error3</li>
@@ -95,55 +96,11 @@
 					</div>
 					<div class="clearfix">
 						<label>State</label>
-						<select class="districtList">
-							<option>Albury</option>
-							<option>Armidale</option>
-							<option>Bathurst</option>
-							<option>Blue Mountains</option>
-							<option>Broken Hill</option>
-							<option>Campbelltown</option>
-							<option>Cessnock</option>
-							<option>Dubbo</option>
-							<option>Goulburn</option>
-							<option>Grafton</option>
-							<option>Lithgow</option>
-							<option>Liverpool</option>
-							<option>Newcastle</option>
-							<option>Orange</option>
-							<option>Parramatta</option>
-							<option>Penrith</option>
-							<option>Queanbeyan</option>
-							<option>Sydney</option>
-							<option>Tamworth</option>
-							<option>Wagga Wagga</option>
-							<option>Wollongong</option>
-						</select>
+						{{ orderform.shipping_state|add_class:"districtList" }}
 					</div>
 					<div class="clearfix">
 						<label>City</label>
-						<select class="districtList">
-							<option>Albury</option>
-							<option>Armidale</option>
-							<option>Bathurst</option>
-							<option>Blue Mountains</option>
-							<option>Broken Hill</option>
-							<option>Campbelltown</option>
-							<option>Cessnock</option>
-							<option>Dubbo</option>
-							<option>Goulburn</option>
-							<option>Grafton</option>
-							<option>Lithgow</option>
-							<option>Liverpool</option>
-							<option>Newcastle</option>
-							<option>Orange</option>
-							<option>Parramatta</option>
-							<option>Penrith</option>
-							<option>Queanbeyan</option>
-							<option>Sydney</option>
-							<option>Tamworth</option>
-							<option>Wagga Wagga</option>
-							<option>Wollongong</option>
-						</select>
+						{{ orderform.shipping_city|add_class:"districtList" }}
 					</div>
 					<div class="clearfix">
 						<label>Postal Code</label>
@@ -171,55 +128,11 @@
 					</div>
 					<div class="clearfix">
 						<label>State</label>
-						<select class="districtList">
-							<option>Albury</option>
-							<option>Armidale</option>
-							<option>Bathurst</option>
-							<option>Blue Mountains</option>
-							<option>Broken Hill</option>
-							<option>Campbelltown</option>
-							<option>Cessnock</option>
-							<option>Dubbo</option>
-							<option>Goulburn</option>
-							<option>Grafton</option>
-							<option>Lithgow</option>
-							<option>Liverpool</option>
-							<option>Newcastle</option>
-							<option>Orange</option>
-							<option>Parramatta</option>
-							<option>Penrith</option>
-							<option>Queanbeyan</option>
-							<option>Sydney</option>
-							<option>Tamworth</option>
-							<option>Wagga Wagga</option>
-							<option>Wollongong</option>
-						</select>
+						{{ orderform.billing_state|add_class:"districtList" }}
 					</div>
 					<div class="clearfix">
 						<label>City</label>
-						<select class="districtList">
-							<option>Albury</option>
-							<option>Armidale</option>
-							<option>Bathurst</option>
-							<option>Blue Mountains</option>
-							<option>Broken Hill</option>
-							<option>Campbelltown</option>
-							<option>Cessnock</option>
-							<option>Dubbo</option>
-							<option>Goulburn</option>
-							<option>Grafton</option>
-							<option>Lithgow</option>
-							<option>Liverpool</option>
-							<option>Newcastle</option>
-							<option>Orange</option>
-							<option>Parramatta</option>
-							<option>Penrith</option>
-							<option>Queanbeyan</option>
-							<option>Sydney</option>
-							<option>Tamworth</option>
-							<option>Wagga Wagga</option>
-							<option>Wollongong</option>
-						</select>
+						{{ orderform.billing_city|add_class:"districtList" }}
 					</div>
 					<div class="clearfix">
 						<label>Postal Code</label>
