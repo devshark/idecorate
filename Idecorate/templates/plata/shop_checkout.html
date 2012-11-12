@@ -8,18 +8,39 @@
 <div id="content" class="clearfix checkout">
 	<h3>Checkout</h3>
 	<div class="clearfix orderWrap">
+		
+		{% if orderform.errors %}
 		<div class="clearfix errorBlock">
 			<a href="" class="closeX">X</a>
 			<h4>Please correct the following errors:</h4>
 			<ol>
-				<li>{{ orderform.errors }}</li>
-				<li>error1</li>
-				<li>error2</li>
-				<li>error3</li>
-				<li>error4</li>
-				<li>error5</li>
+	          {% for e in orderform.billing_first_name.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
+	          {% for e in orderform.billing_last_name.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
+	          {% for e in orderform.email.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
+	          {% for e in orderform.shipping_address.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
+	          {% for e in orderform.shipping_zip_code.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
+	          {% for e in orderform.billing_address.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
+	          {% for e in orderform.billing_zip_code.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
+	          {% for e in orderform.shipping_date.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
 			</ol>
 		</div>
+		{% endif %}
 		<fieldset>
 			<legend>Your Order</legend>
 			<table>
@@ -95,8 +116,8 @@
 						{{ orderform.shipping_address2 }}
 					</div>
 					<div class="clearfix">
-						<label>State</label>
 						{{ orderform.shipping_state|add_class:"districtList" }}
+						<label>State</label>
 					</div>
 					<div class="clearfix">
 						<label>City</label>
@@ -104,27 +125,27 @@
 					</div>
 					<div class="clearfix">
 						<label>Postal Code</label>
-						<input type="text" />
+						{{ orderform.shipping_zip_code }}
 					</div>
-					<input type="checkbox" checked="checked"> My delivery address is the same as my billing address.
+					{{ orderform.shipping_same_as_billing }} My delivery address is the same as my billing address.
 			</fieldset>
 		</div>
 		<div class="clearfix deliveryDetails">
 			<fieldset class="deliveryDate">
 				<legend>Delivery Date</legend>
-					<input type="text" placeholder="Date" id="datepicker" disable="disabled" />
+					{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
 				{{ "delivery_date_note"|get_checkout_page_info }}
 			</fieldset>
-			<fieldset class="delivery paymentMethod">
+			<fieldset class="delivery paymentMethod" id="billing_orig">
 				<legend>Billing Address</legend>
 				<form>
 					<div class="clearfix">
 						<label>Address 1</label>
-						<input type="text" />
+						{{ orderform.billing_address }}
 					</div>
 					<div class="clearfix">
 						<label>Address 2</label>
-						<input type="text" />
+						{{ orderform.billing_address2 }}
 					</div>
 					<div class="clearfix">
 						<label>State</label>
@@ -136,7 +157,7 @@
 					</div>
 					<div class="clearfix">
 						<label>Postal Code</label>
-						<input type="text" />
+						{{ orderform.billing_zip_code }}
 					</div>
 			</fieldset>
 			<!--
@@ -165,7 +186,7 @@
 			<legend>Any Questions?</legend>
 			<p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
 		</fieldset>
-		<fieldset class="paymentMethod2">
+		<fieldset class="paymentMethod2" id="payment_orig">
 			<legend>Payment Method</legend>
 				<div class="clearfix">
 					<input type="radio" name="payment_type">
@@ -193,6 +214,8 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
+BILLING = '';
+PAYMENT = '';
 
 	$(function(){
 
@@ -202,6 +225,20 @@
 			
 		});
 
+		$('#id_order-shipping_same_as_billing').click(function(e){
+
+			elementChangePosition()
+
+		});
+
+		BILLING = $('#billing_orig').html();
+		PAYMENT = $('#payment_orig').html();
+
+		resizeInfos();
+		elementChangePosition();
+	});
+
+	function resizeInfos() {
 		var deliveryDateH = $('.deliveryDate').outerHeight(true),
 			paymentMethodH = $('.paymentMethod').outerHeight(true),
 			paymentMethodH2 = $('.paymentMethod2').outerHeight(true),
@@ -222,8 +259,30 @@
 			$('.paymentMethod2').height(questionH);
 			$('.question').height(questionH);
 		}
+	}
 
-	});
+	function elementChangePosition() {
+
+		if($('input[name="order-shipping_same_as_billing"]:checked').val() == 'on') {
+			$('#payment_orig').html('');
+			$('#payment_orig').css('display','none');
+			$('#billing_orig').html(PAYMENT);
+			$('#billing_orig legend').text('Payment Method');
+			$('#billing_orig').removeClass('delivery');
+			$('#billing_orig').removeClass('paymentMethod');
+			$('#billing_orig').addClass('paymentMethod2');
+		} else {
+			$('#payment_orig').html(PAYMENT);
+			$('#billing_orig').html(BILLING);
+			$('#billing_orig').removeClass('paymentMethod2');
+			$('#billing_orig').addClass('delivery');
+			$('#billing_orig').addClass('paymentMethod');
+			$('#billing_orig legend').text('Billing Address');
+			$('#payment_orig').show();
+		}
+
+		//resizeInfos();
+	}
 
 </script>
 {% endblock %}

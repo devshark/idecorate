@@ -534,7 +534,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									display: block;
 									float: left;
 									width: 140%/768*100;
-									outline:1px solid #CCC;
+									border:1px solid #CCC;
 									padding: 1px;
 									margin: 6px 0 0 6px;  
 									font-size: 0;
@@ -554,7 +554,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								}
 
 								.thumb.products:hover{
-									outline:2px solid #333;
+									border:2px solid #333;
+									margin: 5px -1px -1px 5px;
 								}
 							}
 						}

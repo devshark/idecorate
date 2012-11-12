@@ -48,16 +48,33 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
 
         super(IdecorateCheckoutForm, self).__init__(*args, **kwargs)
 
-        self.fields['billing_address2'] = forms.CharField(label=_("Billing Address2"), required=True)
-        self.fields['shipping_address2'] = forms.CharField(label=_("Shipping Address2"), required=True)
-        self.fields['billing_address'] = forms.CharField(label=_("Billing Address"), required=True)
-        self.fields['shipping_address'] = forms.CharField(label=_("Shipping Address"), required=True)
-        self.fields['shipping_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
+        self.fields['shipping_address2'] = forms.CharField(max_length=200, label=_("Shipping Address2"), required=False)
+        self.fields['shipping_address'] = forms.CharField(max_length=200, label=_("Shipping Address"), required=True, error_messages={'required':_('Delivery Address is a required field.')})
+        self.fields['shipping_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=False,widget=forms.Select, error_messages={'required':_('Salutation is a required field.')})
         self.fields['billing_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
         self.fields['shipping_state'] = forms.ChoiceField(label=_("Shipping State"), choices=(('Australian Territory','Australian Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory')), required=True,widget=forms.Select)
-        self.fields['billing_state'] = forms.ChoiceField(label=_("Billing State"), choices=(('Australian Territory','Australian Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory')), required=True,widget=forms.Select)
         self.fields['shipping_city'] = forms.ChoiceField(label=_("Shipping City"), choices=(('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), ('Tamworth','Tamworth'), ('Wagga','Wagga')), required=True,widget=forms.Select)
-        self.fields['billing_city'] = forms.ChoiceField(label=_("Billing City"), choices=(('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), ('Tamworth','Tamworth'), ('Wagga','Wagga')), required=True,widget=forms.Select)
+        self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
+        self.fields['shipping_date'] = forms.CharField(label=_("Shipping Date"), required=True, error_messages={'required':_('Delivery Date is a required field.')})
+        self.fields['shipping_zip_code'] = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
+        self.fields['email'] = forms.CharField(label=_("Email"), required=True, error_messages={'required':_('Email is a required field.')})
+        self.fields['billing_last_name'] = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Lastname is a required field.')})
+        self.fields['billing_first_name'] = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('Firstname is a required field.')})
+
+        shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
+        
+        if shipping_same_as_billing:
+	        self.fields['billing_zip_code'] = forms.CharField(label=_("Billing Zip Code"), required=False, error_messages={'required':_('Billing Zip Code is a required field.')})
+	        self.fields['billing_address'] = forms.CharField(max_length=200, label=_("Billing Address"), required=False, error_messages={'required':_('Billing Address is a required field.')})
+	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
+	        self.fields['billing_state'] = forms.ChoiceField(label=_("Billing State"), choices=(('Australian Territory','Australian Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory')), required=False,widget=forms.Select)
+	        self.fields['billing_city'] = forms.ChoiceField(label=_("Billing City"), choices=(('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), ('Tamworth','Tamworth'), ('Wagga','Wagga')), required=False,widget=forms.Select)
+        else:
+	        self.fields['billing_zip_code'] = forms.CharField(label=_("Billing Zip Code"), required=True, error_messages={'required':_('Billing Zip Code is a required field.')})
+	        self.fields['billing_address'] = forms.CharField(max_length=200, label=_("Billing Address"), required=True, error_messages={'required':_('Billing Address is a required field.')})
+	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
+	        self.fields['billing_state'] = forms.ChoiceField(label=_("Billing State"), choices=(('Australian Territory','Australian Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory')), required=True,widget=forms.Select)
+	        self.fields['billing_city'] = forms.ChoiceField(label=_("Billing City"), choices=(('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), ('Tamworth','Tamworth'), ('Wagga','Wagga')), required=True,widget=forms.Select)
 
         if not contact:
             self.fields['create_account'] = forms.BooleanField(

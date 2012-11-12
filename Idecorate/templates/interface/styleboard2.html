@@ -27,7 +27,8 @@
             var PRODUCT_DETAILS_URL         = '{% url get_product_details %}';
             var SET_PRODUCT_POSITION_URL    = '{% url set_product_positions %}';
             var SEARCH_PRODUCT_URL          = '{% url search_products %}';
-            var PRODUCT_POSITIONS           = {{ product_positions }}; 
+            var PRODUCT_POSITIONS           = {{ product_positions }};
+            var has_change_mode             = false;
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -241,6 +242,7 @@
             <div id="iframe-wrap"></div>
         </div>       
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+<script src="/media/interface/js/jquery.placeholder.js"></script>
 
 <!-- <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
@@ -270,29 +272,36 @@
 <script type="text/javascript">
 
     $(document).ready( function() {
+        
+        $(':input[placeholder]').placeholder();
+
         styleboardH();
 
         $(window).hashchange(function(){
             if (location.hash != '' && location.hash == '#create-tab'){
                 styleboardH();
-                {% if mode != 'search' %}
-                    {% if category_count == 0 %}
-                    setTimeout(populate_products,500);
+                if ( !has_change_mode ){
+                    {% if mode != 'search' %}
+                        {% if category_count == 0 %}
+                        setTimeout(populate_products,500);
+                        {% endif %}
+                    {% else %}        
+                        setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
                     {% endif %}
-                {% else %}        
-                    setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
-                {% endif %}
+                }
             } else if (location.hash == '#buy-tab') {
                 setTimeout(styleboardH,50);
                 //do nothing
             }  else {
-                {% if mode != 'search' %}
-                {% if category_count == 0 %}
-                setTimeout(populate_products,500);
-                {% endif %}
-                {% else %}        
-                setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
-                {% endif %}
+                if ( !has_change_mode ){
+                    {% if mode != 'search' %}
+                        {% if category_count == 0 %}
+                        setTimeout(populate_products,500);
+                        {% endif %}
+                    {% else %}        
+                        setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
+                    {% endif %}
+                }
             }        
         });
         $(window).hashchange();
