@@ -151,6 +151,7 @@ function browse_categories(elm_id){
 
             if(type =='products'){
                 $('.pagination').show();
+                styleboardH();
                 manage_product_pagination();
             } else {
                 set_category_label_height();
@@ -159,12 +160,6 @@ function browse_categories(elm_id){
         },
         error: function(msg) {
         }
-    });
-
-    var max_h = 0;
-    console.log('here')
-    $('.product-list .thumb.categories span').each(function(){
-        console.log($(this).height());
     });
 
     styleboardH();
@@ -232,8 +227,8 @@ function populate_products(){
     });
     items = '<div class="product-list clearfix">' + items + '</div>';
     $('.product-list-wrap').html(items);
-    manage_product_pagination();
     styleboardH();
+    manage_product_pagination();    
 }
 
 function search_products(keyword, catid){
@@ -306,8 +301,6 @@ function manage_product_pagination(){
 
             var count_by_height = Math.round(prod_height/prod_item_height);
             var prod_per_height = prod_item_height*count_by_height;
-
-            //alert($('.product-list').css('height'))
             //if($.browser.chrome)
             //prod_height = prod_height + 5;
 
