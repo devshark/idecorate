@@ -410,7 +410,7 @@ function generate_pagenation(){
     $('.product-list').on('click', 'a', function(e){
         get_product_details($(this), e);
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
     });
 }
 var prev_clicked_id = 0;
