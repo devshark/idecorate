@@ -279,7 +279,7 @@ function manage_product_pagination(){
             var prod_item_height = $(elm).outerHeight(true);
 
             if (prod_item_height > prod_height){
-                prod_height = prod_item_height+20;
+                //prod_height = prod_item_height+20;
                 //$('.product-list').css('min-height',prod_height);
             }
 

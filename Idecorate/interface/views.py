@@ -375,7 +375,7 @@ def search_suggestions(request):
 				prod_json = {}
 				prod_json['id'] = prod.id
 				prod_json['label'] = prod.name
-				prod_json['category'] = "Suggestion"
+				prod_json['category'] = "Products"
 				results.append(prod_json)
 
 			for cat in categories:
