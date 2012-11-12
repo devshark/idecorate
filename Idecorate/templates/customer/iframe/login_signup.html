@@ -23,7 +23,7 @@
             }
             .login, .signup {
                 width: 330px;
-                height: 200px;
+                height: 320px;
                 float: left;
             }
             .login {
@@ -102,7 +102,9 @@
                         <fieldset>
                             <legend>Login</legend>
                             {{ login_form.username|attr:"placeholder:Enter email" }}
+                            <p class="error">Enter a valid Email Address.</p>
                             {{ login_form.password|attr:"placeholder:Enter password" }}
+                            <p class="error">Incorrect password.</p>
                             <div class="action">
                                 <a href="">forgot password</a>
                                 <input type="submit" value="Login" />
@@ -115,9 +117,13 @@
                         <fieldset>
                             <legend>Signup</legend>
                             <input type="text" placeholder="Enter nickname" />
+                            <p class="error">Nickname already exist.</p>
                             {{ login_form.username|attr:"placeholder:Enter email" }}
+                            <p class="error">Enter a valid Email Address.</p>
                             {{ login_form.password|attr:"placeholder:Enter password" }}
+                            <p class="error">Your password is invalid.</p>
                             <input type="text" placeholder="Enter password again">
+                            <p class="error">Passwords do not match.</p>
                             <div class="action">
                                 <input type="submit" value="Sign up" />
                             </div>
@@ -126,7 +132,6 @@
                 </div>
             </div>
             <div class="clearfix errorBlock">
-                <a href="" class="closeX">X</a>
                 <h4>Please correct the following errors:</h4>
                 <ol>
                     <li>{{ orderform.errors }}</li>

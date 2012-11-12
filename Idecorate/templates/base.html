@@ -58,7 +58,7 @@
         }
         #modal-window iframe {
         /*height: 480px;*/
-        min-height: 280px;
+        min-height: 320px;
         max-height: 700px;
         width: 100%;
         }
@@ -94,6 +94,7 @@
         </div>  
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
         <script src="/media/interface/js/jquery-ui.js"></script>
+        <script src="/media/interface/js/jquery.placeholder.js"></script>
         <!-- <script src="/media/interface/js/dropdown/hoverIntent.js"></script>
         <script src="/media/interface/js/dropdown/jquery.dropdown.js"></script> -->
         <script src="/media/interface/js/hoverIntent.js"></script>
@@ -122,6 +123,8 @@
 
                 $('#site-menu ul').append('<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>');
                 $('#site-menu ul a#lnk-login-signup').on('click',popup_login);
+
+                $(':input[placeholder]').placeholder();
             });
             function closed_modal(){
                 $('#page-mask').hide();

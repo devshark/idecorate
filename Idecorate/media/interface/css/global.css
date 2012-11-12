@@ -303,3 +303,6 @@ footer .footerMenus ul li a {
 
 footer .footerMenus ul li:first-child {
   border-left: none; }
+
+.error {
+  color: #B94A48; }
