@@ -427,7 +427,7 @@ def search_products(request):
 		if cat_id != '0':
 			cat_ids = get_cat_ids(cat_id)
 			product_list = Product.objects.filter(categories__id__in=cat_ids, is_active=True, is_deleted=False)
-			product_list = product_list.order_by('ordering')		
+			product_list = product_list.order_by('ordering').distinct()	
 		else:
 			keywords = search_keyword.split(' ')
 
@@ -447,7 +447,7 @@ def search_products(request):
 					cats_ids += get_cat_ids(cat.id)
 				q.add(Q(categories__id__in=cats_ids), Q.OR)
 
-			product_list = Product.objects.filter(q)
+			product_list = Product.objects.filter(q).distinct()
 			print product_list.query
 		product_counts = product_list.count()		
 		offset = request.GET.get('offset',25)
