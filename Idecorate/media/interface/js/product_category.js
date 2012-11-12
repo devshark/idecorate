@@ -13,10 +13,12 @@ var search_keyword = '';
 $(document).ready( function() {
     $('.categories').click(function(){
         browse_categories(this.id);
+        has_change_mode = true;
         return false;
     });
     $('.breadcrumb a').click(function(){
         browse_categories(this.rel);
+        has_change_mode = true;
         return false;
     });
 
@@ -35,7 +37,19 @@ $(document).ready( function() {
             $('#idecorate-tooltip').hide();
         }
     });
+    
+    setTimeout("set_category_label_height()",0);
+      
 });
+
+function set_category_label_height(){
+    var max_h = 0;
+    $('.product-list-wrap .category-wrap .thumb.categories span').each(function(){        
+        if ($(this).height()>max_h)
+            max_h = $(this).height();
+    });
+    $('.product-list-wrap .category-wrap .thumb.categories span').height(max_h);
+}
 
 function product_list_wrap_resize(){
     var ph = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-10;
@@ -83,6 +97,7 @@ function browse_categories(elm_id){
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                             '<span>' + name + '</span>' +
                         '</div>';
+
                 }
             });
 
@@ -138,14 +153,17 @@ function browse_categories(elm_id){
 
             if(type =='products'){
                 $('.pagination').show();
+                styleboardH();
                 manage_product_pagination();
             } else {
+                set_category_label_height();
                 $('.pagination').hide();
             }
         },
         error: function(msg) {
         }
     });
+
     styleboardH();
 }
 
@@ -211,8 +229,8 @@ function populate_products(){
     });
     items = '<div class="product-list clearfix">' + items + '</div>';
     $('.product-list-wrap').html(items);
-    manage_product_pagination();
     styleboardH();
+    manage_product_pagination();    
 }
 
 function search_products(keyword, catid){
@@ -248,8 +266,8 @@ function search_products(keyword, catid){
             });
             items = '<div class="product-list">' + items + '</div>';            
             $('.product-list-wrap').html(items);
-            manage_product_pagination();
             styleboardH();
+            manage_product_pagination();            
         },
         error: function(msg) {
         }
@@ -266,10 +284,10 @@ function hideProducts(){
 function manage_product_pagination(){
     $('.product-list a:first img').each(function(){
         getHeight($(this),function(h){
-            var elm = $('.product-list a:first');
+            var elm = $('.product-list a:first');            
 
             var prod_width = $('.product-list').width();                     
-            var prod_item_width = $(elm).outerWidth(true);
+            var prod_item_width = $(elm).outerWidth(true);            
             var count_by_width = Math.round(prod_width/prod_item_width);
             var prod_per_width = prod_item_width*count_by_width;
             if (prod_per_width > prod_width)
@@ -279,14 +297,14 @@ function manage_product_pagination(){
             var prod_item_height = $(elm).outerHeight(true);
 
             if (prod_item_height > prod_height){
-                prod_height = prod_item_height+20;
+                //prod_height = prod_item_height+20;
                 //$('.product-list').css('min-height',prod_height);
             }
 
             var count_by_height = Math.round(prod_height/prod_item_height);
             var prod_per_height = prod_item_height*count_by_height;
             //if($.browser.chrome)
-            prod_height = prod_height + 5;
+            //prod_height = prod_height + 5;
 
             if (prod_per_height > prod_height)
                 count_by_height = count_by_height - 1;
@@ -410,7 +428,7 @@ function generate_pagenation(){
     $('.product-list').on('click', 'a', function(e){
         get_product_details($(this), e);
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
     });
 }
 var prev_clicked_id = 0;
