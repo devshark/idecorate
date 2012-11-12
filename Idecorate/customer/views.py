@@ -15,12 +15,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
-from forms import LoginForm
+from forms import LoginForm, SignupForm
 
 def login_signup(request):
 
 	info = {}
 	login_form = LoginForm()
+	signup_form = SignupForm()
 
 	if request.method=="POST":
 		action = request.POST['btnSubmit']
@@ -31,7 +32,10 @@ def login_signup(request):
 				if user is not None:
 					login(request, user)
 				else:
-					messages.warning(request, _('Sorry we could not verify your email and password.'))					
+					messages.warning(request, _('Sorry we could not verify your email and password.'))
+		else:
+			login_form = SignupForm(request.POST)
 
 	info['login_form'] = login_form
+	info['signup_form'] = signup_form
 	return render_to_response('customer/iframe/login_signup.html', info, RequestContext(request))
