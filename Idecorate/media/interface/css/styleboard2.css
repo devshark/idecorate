@@ -533,7 +533,17 @@ h5 {
               min-width: 50px;
               text-align: center; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td input {
-                width: 80%; }
+                width: 80%;
+                border: 1px solid #CCC;
+                padding: 5px;
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+                /* future proofing */
+                -khtml-border-radius: 3px;
+                /* for old Konqueror browsers */ }
+              #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td input.input-error {
+                border: 1px solid red; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td + td {
               width: 40%;
               text-align: center; }

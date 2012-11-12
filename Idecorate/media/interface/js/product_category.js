@@ -357,12 +357,6 @@ function manage_product_pagination(){
 
 function generate_pagenation(){
 
-    // $(".draggable").draggable({
-    //     revert: true,
-    //     helper: 'clone'
-    // });
-    // $(".draggable").draggable("destroy");
-    
     total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
     var left = 1, right = 5;
     if ( total_pages <= 5 ){
