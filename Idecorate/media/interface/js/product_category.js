@@ -294,7 +294,6 @@ function hideProducts(){
 }
 
 function manage_product_pagination(){
-    console.log(1)
     $('.product-list a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('.product-list a:first');            
