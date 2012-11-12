@@ -437,9 +437,13 @@ def search_products(request):
 				else:
 					q = Q(name__icontains=k)
 
+			for k in keywords:
 				q.add(Q(description__icontains=k), Q.OR)
 
+			categories = Categories.objects.filter(name__icontains=search_keyword)
+
 			product_list = Product.objects.filter(q)
+			print product_list.query
 		product_counts = product_list.count()		
 		offset = request.GET.get('offset',25)
 

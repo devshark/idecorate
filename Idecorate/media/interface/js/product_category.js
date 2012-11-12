@@ -286,7 +286,7 @@ function manage_product_pagination(){
             var count_by_height = Math.round(prod_height/prod_item_height);
             var prod_per_height = prod_item_height*count_by_height;
             //if($.browser.chrome)
-            prod_height = prod_height + 5;
+            //prod_height = prod_height + 5;
 
             if (prod_per_height > prod_height)
                 count_by_height = count_by_height - 1;
