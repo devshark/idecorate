@@ -366,8 +366,8 @@ def search_suggestions(request):
 	if request.is_ajax():
 		keyword = request.GET.get('term',None)
 		if keyword:
-			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
-			categories = Categories.objects.filter(name__icontains=keyword).order_by('-created')[:7]
+			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword), is_active=True, is_deleted=False).order_by('-id')[:7]
+			categories = Categories.objects.filter(name__icontains=keyword, is_deleted=False).order_by('-created')[:7]
 
 			results = []
 
