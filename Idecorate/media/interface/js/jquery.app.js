@@ -29,6 +29,10 @@ $(document).ready(function () {
         helper: 'clone'
     });
 
+
+    //get the maxheight sidebar name <span> and set as global
+    //height for all name container <span> on the sidebar
+    
     //set dropable area for the draggable sidebar objects
     $("#canvas").droppable({
 
@@ -198,27 +202,104 @@ $(document).ready(function () {
     });
 
     //onmouse down show handles for selected product
-    $('#canvas').on('mousedown','.product',function(e){
+    if($.browser.msie){
+        var handled = false;
+        $('#canvas').on('mousedown','.product',function(e){
 
-        update_menu($(this).find('img'));
+            update_menu($(this).find('img'));
 
-        if(!$(this).hasClass('selected')){
+            if(!$(this).hasClass('selected')){
 
-            $(this).addClass('selected').siblings().removeClass('selected');
+                $(this).addClass('selected').siblings().removeClass('selected');
 
-            update_ui({
-                styles:{
-                    display: 'block',
-                    top: $('.selected').css('top'),
-                    left: $('.selected').css('left'),
-                    width: $('.selected').css('width'),
-                    height: $('.selected').css('height')
-                }
-            });
-        }
-        //$(document).unbind('click');
-        cancelBubble(e);
-    });
+                update_ui({
+                    styles:{
+                        display: 'block',
+                        top: $('.selected').css('top'),
+                        left: $('.selected').css('left'),
+                        width: $('.selected').css('width'),
+                        height: $('.selected').css('height')
+                    }
+                });
+            }
+            
+            handled = true; 
+            $(document).unbind('click');
+
+        }).mouseup(function(e){
+            if(!handled){
+                $(document).click(function(e){
+                    var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
+                
+                    if(!click){
+                        remove_handles(e);
+                        eventTracker(e.target, 'unselect');
+                    }
+                });
+            }else{
+                setTimeout(function(){
+                    $(document).click(function(e){
+                        var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
+                        if(!click){
+                            remove_handles(e);
+                            eventTracker(e.target, 'unselect');
+                        }
+                    });
+                }, 300)
+            }
+            handled = false;
+        });
+
+        $($handles).on('mousedown','.ui-resizable-handle',function(e){
+            handled = true; 
+            $(document).unbind('click');
+        }).mouseup(function(e){
+            if(!handled){
+                $(document).click(function(e){
+                    var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
+                
+                    if(!click){
+                        remove_handles(e);
+                        eventTracker(e.target, 'unselect');
+                    }
+                });
+            }else{
+                setTimeout(function(){
+                    $(document).click(function(e){
+                        var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
+                        if(!click){
+                            remove_handles(e);
+                            eventTracker(e.target, 'unselect');
+                        }
+                    });
+                }, 300)
+            }
+            handled = false;
+        });
+
+    }else{
+        $('#canvas').on('mousedown','.product',function(e){
+
+            update_menu($(this).find('img'));
+
+            if(!$(this).hasClass('selected')){
+
+                $(this).addClass('selected').siblings().removeClass('selected');
+
+                update_ui({
+                    styles:{
+                        display: 'block',
+                        top: $('.selected').css('top'),
+                        left: $('.selected').css('left'),
+                        width: $('.selected').css('width'),
+                        height: $('.selected').css('height')
+                    }
+                });
+            }
+            cancelBubble(e);
+        });
+    }
+    
 
     //draggable handles binds style on selected obj
     $handles.draggable({
@@ -278,6 +359,7 @@ $(document).ready(function () {
         aspectRatio: true,
         start : function(e, ui){
             
+
             $(".draggable").draggable({
                 revert:true, 
                 helper: 'clone'
@@ -308,11 +390,9 @@ $(document).ready(function () {
 
         }
     });
-
     //hide handles and menus
     $(document).click(function(e){
-
-        var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
+        var click =  $.contains($('#canvas .handles, #canvas .handles .handle')[0],e.target) ? true : e.target == $('#canvas .handles');
         
         if(!click){
             remove_handles(e);
@@ -354,7 +434,7 @@ $(document).ready(function () {
     //forward selected obj
     $('#forward-btn').click(function(e){
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
         obj = $('.selected');
         moveNext(obj);
     });
@@ -362,7 +442,7 @@ $(document).ready(function () {
     //backward selected obj
     $('#backward-btn').click(function(e){
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
         obj = $('.selected');
         moveBack(obj);
     });
@@ -370,7 +450,7 @@ $(document).ready(function () {
     //clone selected obj
     $('#clone-btn').click(function(e){
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
         obj = $('.selected');
         cloneObj(obj);
     });
@@ -378,7 +458,7 @@ $(document).ready(function () {
     //make selected product image PNG
     $('#transBg-btn').click(function(e){
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
         if($('.selected').length == 1){change_img($('.selected'),false);}
 
     });
@@ -386,7 +466,7 @@ $(document).ready(function () {
     //make selected product image JPG
     $('#whiteBg-btn').click(function(e){
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
 
         if($('.selected').length == 1){change_img($('.selected'),true);}
 
@@ -395,20 +475,20 @@ $(document).ready(function () {
     // create custom image crop
     $('#customBg-btn').click(function(e){
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
         display_modal(MODAL_SRC.replace('0',$('.selected > img').attr('src').replace('/media/products/','')));
     });
 
     // close modal
     $('#close-modal').click(function(e){
         e.preventDefault();
-        disableEventPropagation(e);
+        cancelBubble(e);
         close_modal();
     });
 
     //dont remove handles and selected object when modal window is displayed
     $('#modal-window, #page-mask').click(function(e){
-        disableEventPropagation(e);
+        cancelBubble(e);
     });
 
     initProductPositions();
@@ -607,7 +687,7 @@ function update_ui(options) {
     return defaults.update_obj;
 }
 
-// function disableEventPropagation(event) {
+// function disableasEventPropagations(event) {
 
 //     if (event.stopPropagation) {
 //     // this code is for Mozilla and Opera
@@ -824,7 +904,6 @@ function cancelBubble(e) {
     if (evt.stopPropagation)    evt.stopPropagation();
     if (evt.cancelBubble!=null) evt.cancelBubble = true;
 }
-
 
 (function ($) {
    $.fn.liveDraggable = function (opts) {
