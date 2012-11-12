@@ -253,11 +253,11 @@ PAYMENT = '';
 		}
 
 		if(questionH > paymentMethodH2){
-			$('.question').height(paymentMethodH2);
-			$('.paymentMethod2').height(paymentMethodH2);
-		}else{
-			$('.paymentMethod2').height(questionH);
 			$('.question').height(questionH);
+			$('.paymentMethod2').height(questionH);
+		}else{
+			$('.paymentMethod2').height(paymentMethodH2);
+			$('.question').height(paymentMethodH2);
 		}
 	}
 
