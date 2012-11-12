@@ -242,6 +242,10 @@ function populate_products(){
         $('.product-list-wrap').html(items);
         styleboardH();
         manage_product_pagination();
+        
+        if($.browser.msie && $.browser.version == 7.0){
+            populate_product_by_page();
+        }
     }
 }
 
