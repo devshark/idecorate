@@ -677,6 +677,16 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 												input{
 													width: 80%;
+													border: 1px solid #CCC;
+													padding: 5px;
+													-moz-border-radius: 3px;
+													-webkit-border-radius:3px;
+													border-radius:3px; /* future proofing */
+													-khtml-border-radius:3px; /* for old Konqueror browsers */
+												}
+
+												input.input-error{
+													border: 1px solid red;
 												}
 											}
 
