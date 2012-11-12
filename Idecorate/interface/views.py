@@ -366,8 +366,7 @@ def search_suggestions(request):
 	if request.is_ajax():
 		keyword = request.GET.get('term',None)
 		if keyword:
-			products = Product.objects.filter(Q(name__icontains=keyword) | Q(description__icontains=keyword), is_active=True, is_deleted=False).order_by('-id')[:7]
-			print products.query
+			products = Product.objects.filter(Q(name__icontains=keyword) | Q(description__icontains=keyword), is_active=True, is_deleted=False).order_by('-id')[:7]			
 			categories = Categories.objects.filter(name__icontains=keyword, deleted=False).order_by('-created')[:7]
 
 			results = []
@@ -386,25 +385,7 @@ def search_suggestions(request):
 				cat_json['category'] = "Category"
 				results.append(cat_json)
 
-			return HttpResponse(simplejson.dumps(results), mimetype="application/json")
-		else:
-			keyword = request.GET.get('q',None)
-			products = Product.objects.filter(Q(name__icontains=keyword) | Q(description__icontains=keyword)).order_by('-id')[:7]
-			categories = Categories.objects.filter(name__icontains=keyword)
-			data = "";
-			c = products.count()			
-			if c > 0:				
-				for prod in products:
-					data += prod.name + "|"
-
-			cc = categories.count()
-			if cc > 0:
-				i=1
-				for cat in categories:
-					data += cat.name + "|"
-
-			return HttpResponse(data)
-		
+			return HttpResponse(simplejson.dumps(results), mimetype="application/json")		
 	else:
 		return HttpResponseNotFound()
 
