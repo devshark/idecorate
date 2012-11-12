@@ -813,3 +813,6 @@ h5 {
 
 .ui-widget {
   font-size: 12px !important; }
+
+.hidden {
+  visibility: hidden; }
