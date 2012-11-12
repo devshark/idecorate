@@ -227,27 +227,30 @@ $(document).ready(function () {
             $(document).unbind('click');
 
         }).mouseup(function(e){
-            if(!handled){
-                $(document).click(function(e){
-                    var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
-                
-                    if(!click){
-                        remove_handles(e);
-                        eventTracker(e.target, 'unselect');
-                    }
-                });
-            }else{
-                setTimeout(function(){
+            if($.browser.version != 9.0){
+                if(!handled){
                     $(document).click(function(e){
                         var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
+                    
                         if(!click){
                             remove_handles(e);
                             eventTracker(e.target, 'unselect');
                         }
                     });
-                }, 300)
+                }else{
+                    setTimeout(function(){
+                        $(document).click(function(e){
+                            var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
+                            if(!click){
+                                remove_handles(e);
+                                eventTracker(e.target, 'unselect');
+                            }
+                        });
+                    }, 300)
+                }
+                handled = false;
             }
-            handled = false;
+            
         });
 
         $($handles).on('mousedown','.ui-resizable-handle',function(e){
