@@ -95,6 +95,7 @@ function browse_categories(elm_id){
                             '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
                             '<span>' + name + '</span>' +
                         '</div>';
+
                 }
             });
 

@@ -13,27 +13,31 @@
                 background-color: #FFF;
                 background-image: none;
             }
-            #modal-window {
-                height: 300px !important;
-                top: 20%;
+            #modal-window iframe {
+                height: 450px;
+            }
+            .loginWrapper {
+                width: auto;
+                height: 100%;
+                padding: 10px;
             }
             .login, .signup {
-                width: 350px;
+                width: 330px;
                 height: 200px;
                 float: left;
             }
             .login {
-                margin-left: 40px;
+                margin-left: 45px;
+                padding-right: 5px;
                 border-right: 1px solid #999999;
             }
-            div form fieldset {
+            .login fieldset, .signup fieldset {
                 padding: 15px;
             }
-            div form fieldset legend {
-                font-size: 18px;
-                color: #999999;
+            .login legend, .signup legend {
+                padding: 10px;
             }
-            div form fieldset input {
+            .login input, .signup input {
                 width: 300px;
                 margin: 5px auto;
             }
@@ -43,48 +47,96 @@
                 padding-top: 7px;
                 color: blue;
             }
-            .login form fieldset .action input {
+            .login form fieldset .action input, .signup form fieldset .action input {
                 width: auto;
                 display: block;
                 float: right;
-                margin-right: 20px;
             }
-            .signup form fieldset .action input {
-                width: auto;
-                display: block;
+            .errorBlock {
+                width: 590px;
+                color: #B94A48;
+                padding: 8px 35px 8px 14px;
+                margin: 0 auto 15px auto;
+                background: #F2DEDE;
+                border: 1px solid #EED3D7;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 4px;
+                position: relative;
+            }
+            .errorBlock .closeX {
+                color: #000000;
+                line-height: 18px;
+                text-decoration: none;
+                opacity: 0.2;
+                filter:alpha(opacity=20);
                 float: right;
-                margin-right: 20px;
+                position: relative;
+                top: -2px;
+                right: -21px;
+            }
+
+            .errorBlock h4 {
+                font-size: 14px;
+                font-weight: bold;
+                line-height: 18px;
+            }
+
+            .errorBlock ol {
+                padding-left: 30px;
+            }
+            .errorBlock li {
+                display: list-item;
+                list-style: decimal;
+                line-height: 18px;
+                text-align: -webkit-match-parent;
             }
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
     </head>
     <body>
-        <div class="login">
-            <form>
-                <fieldset>
-                    <legend>Login</legend>
-                    {{ login_form.username|attr:"placeholder:Enter email" }}
-                    {{ login_form.password|attr:"placeholder:Enter password" }}
-                    <div class="action">
-                        <a href="">forgot password</a>
-                        <input type="submit" value="Login" />
-                    </div>
-                </fieldset>
-            </form>
-        </div>
-        <div class="signup">
-            <form>
-                <fieldset>
-                    <legend>Signup</legend>
-                    <input type="text" placeholder="Enter nickname" />
-                    {{ login_form.username|attr:"placeholder:Enter email" }}
-                    {{ login_form.password|attr:"placeholder:Enter password" }}
-                    <input type="text" placeholder="Enter password again">
-                    <div class="action">
-                        <input type="submit" value="Login" />
-                    </div>
-                </fieldset>
-            </form>
+        <div id="login">
+            <div class="clearfix loginWrapper">
+                <div class="login">
+                    <form>
+                        <fieldset>
+                            <legend>Login</legend>
+                            {{ login_form.username|attr:"placeholder:Enter email" }}
+                            {{ login_form.password|attr:"placeholder:Enter password" }}
+                            <div class="action">
+                                <a href="">forgot password</a>
+                                <input type="submit" value="Login" />
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="signup">
+                    <form>
+                        <fieldset>
+                            <legend>Signup</legend>
+                            <input type="text" placeholder="Enter nickname" />
+                            {{ login_form.username|attr:"placeholder:Enter email" }}
+                            {{ login_form.password|attr:"placeholder:Enter password" }}
+                            <input type="text" placeholder="Enter password again">
+                            <div class="action">
+                                <input type="submit" value="Sign up" />
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+            <div class="clearfix errorBlock">
+                <a href="" class="closeX">X</a>
+                <h4>Please correct the following errors:</h4>
+                <ol>
+                    <li>{{ orderform.errors }}</li>
+                    <li>error1</li>
+                    <li>error2</li>
+                    <li>error3</li>
+                    <li>error4</li>
+                    <li>error5</li>
+                </ol>
+            </div>
         </div>
     </body>
 </html>
