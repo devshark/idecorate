@@ -440,7 +440,7 @@ def search_products(request):
 			for k in keywords:
 				q.add(Q(description__icontains=k), Q.OR)
 			cats_ids = []
-			categories = Categories.objects.filter(name__icontains=search_keyword)
+			categories = Categories.objects.filter(name__icontains=search_keyword, is_deleted=False)
 			if categories.count() > 0:
 				for cat in categories:
 					cats_ids += get_cat_ids(cat.id)
