@@ -13,10 +13,12 @@ var search_keyword = '';
 $(document).ready( function() {
     $('.categories').click(function(){
         browse_categories(this.id);
+        has_change_mode = true;
         return false;
     });
     $('.breadcrumb a').click(function(){
         browse_categories(this.rel);
+        has_change_mode = true;
         return false;
     });
 
