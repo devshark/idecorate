@@ -35,7 +35,19 @@ $(document).ready( function() {
             $('#idecorate-tooltip').hide();
         }
     });
+    
+    setTimeout("set_category_label_height()",0);
+      
 });
+
+function set_category_label_height(){
+    var max_h = 0;
+    $('.product-list-wrap .category-wrap .thumb.categories span').each(function(){        
+        if ($(this).height()>max_h)
+            max_h = $(this).height();
+    });
+    $('.product-list-wrap .category-wrap .thumb.categories span').height(max_h);
+}
 
 function product_list_wrap_resize(){
     var ph = $('#create-tab').outerHeight(true)-$('#create-tab-nav').outerHeight(true)-$('.breadcrumb-wrap').outerHeight(true)-10;
@@ -140,12 +152,20 @@ function browse_categories(elm_id){
                 $('.pagination').show();
                 manage_product_pagination();
             } else {
+                set_category_label_height();
                 $('.pagination').hide();
             }
         },
         error: function(msg) {
         }
     });
+
+    var max_h = 0;
+    console.log('here')
+    $('.product-list .thumb.categories span').each(function(){
+        console.log($(this).height());
+    });
+
     styleboardH();
 }
 
@@ -248,8 +268,8 @@ function search_products(keyword, catid){
             });
             items = '<div class="product-list">' + items + '</div>';            
             $('.product-list-wrap').html(items);
-            manage_product_pagination();
             styleboardH();
+            manage_product_pagination();            
         },
         error: function(msg) {
         }
@@ -266,10 +286,10 @@ function hideProducts(){
 function manage_product_pagination(){
     $('.product-list a:first img').each(function(){
         getHeight($(this),function(h){
-            var elm = $('.product-list a:first');
+            var elm = $('.product-list a:first');            
 
             var prod_width = $('.product-list').width();                     
-            var prod_item_width = $(elm).outerWidth(true);
+            var prod_item_width = $(elm).outerWidth(true);            
             var count_by_width = Math.round(prod_width/prod_item_width);
             var prod_per_width = prod_item_width*count_by_width;
             if (prod_per_width > prod_width)
@@ -285,6 +305,8 @@ function manage_product_pagination(){
 
             var count_by_height = Math.round(prod_height/prod_item_height);
             var prod_per_height = prod_item_height*count_by_height;
+
+            alert($('.product-list').css('height'))
             //if($.browser.chrome)
             //prod_height = prod_height + 5;
 
