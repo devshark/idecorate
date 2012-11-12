@@ -366,8 +366,9 @@ def search_suggestions(request):
 	if request.is_ajax():
 		keyword = request.GET.get('term',None)
 		if keyword:
-			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword), is_active=True, is_deleted=False).order_by('-id')[:7]
-			categories = Categories.objects.filter(name__icontains=keyword, is_deleted=False).order_by('-created')[:7]
+			products = Product.objects.filter(Q(name__icontains=keyword) | Q(description__icontains=keyword)).order_by('-id')[:7]
+			print products.query
+			categories = Categories.objects.filter(name__icontains=keyword, deleted=False).order_by('-created')[:7]
 
 			results = []
 
@@ -388,7 +389,7 @@ def search_suggestions(request):
 			return HttpResponse(simplejson.dumps(results), mimetype="application/json")
 		else:
 			keyword = request.GET.get('q',None)
-			products = Product.objects.filter(name__icontains=keyword or Q(description__icontains=keyword)).order_by('-id')[:7]
+			products = Product.objects.filter(Q(name__icontains=keyword) | Q(description__icontains=keyword)).order_by('-id')[:7]
 			categories = Categories.objects.filter(name__icontains=keyword)
 			data = "";
 			c = products.count()			
@@ -440,7 +441,7 @@ def search_products(request):
 			for k in keywords:
 				q.add(Q(description__icontains=k), Q.OR)
 			cats_ids = []
-			categories = Categories.objects.filter(name__icontains=search_keyword, is_deleted=False)
+			categories = Categories.objects.filter(name__icontains=search_keyword, deleted=False)
 			if categories.count() > 0:
 				for cat in categories:
 					cats_ids += get_cat_ids(cat.id)
