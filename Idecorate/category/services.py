@@ -172,21 +172,21 @@ def delete_category(category_id):
 		category.deleted = 1
 		category.save()
 		return True
-	except Exception as e:
+	except Exception as e:		
 		return False
 
 def delete_sub_category(parent_id):
 	try:
 		sub_categories = Categories.objects.get(parent__id=parent_id)
-		for cat in sub_categories:
-			has_sub_cat = Categories.objects.filter(parent__id=cat.id).count()
-			if has_sub_cat > 0:
-				delete_sub_category(cat.id)
+		has_sub_cat = Categories.objects.filter(parent__id=sub_categories.id).count()
+		if has_sub_cat > 0:
+			delete_sub_category(sub_categories.id)
 
 		sub_categories.deleted = 1
 		sub_categories.save()
 
 	except Exception as e:
+		print e
 		pass
 
 def update_order(data):

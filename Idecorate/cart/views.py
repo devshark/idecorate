@@ -54,8 +54,10 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         self.fields['shipping_address'] = forms.CharField(label=_("Shipping Address"), required=True)
         self.fields['shipping_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
         self.fields['billing_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
-        self.fields['shipping_state'] = forms.ChoiceField(label=_("Shipping State"), choices=(), required=True,widget=forms.Select)
-        self.fields['billing_state'] = forms.ChoiceField(label=_("Billing State"), choices=(), required=True,widget=forms.Select)
+        self.fields['shipping_state'] = forms.ChoiceField(label=_("Shipping State"), choices=(('Australian Territory','Australian Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory')), required=True,widget=forms.Select)
+        self.fields['billing_state'] = forms.ChoiceField(label=_("Billing State"), choices=(('Australian Territory','Australian Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory')), required=True,widget=forms.Select)
+        self.fields['shipping_city'] = forms.ChoiceField(label=_("Shipping City"), choices=(('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), ('Tamworth','Tamworth'), ('Wagga','Wagga')), required=True,widget=forms.Select)
+        self.fields['billing_city'] = forms.ChoiceField(label=_("Billing City"), choices=(('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), ('Tamworth','Tamworth'), ('Wagga','Wagga')), required=True,widget=forms.Select)
 
         if not contact:
             self.fields['create_account'] = forms.BooleanField(
@@ -90,6 +92,7 @@ class IdecorateShop(Shop):
 		return self.render(request, 'plata/shop_checkout.html', self.get_context(request, context))
 	
 	def checkout_form(self, request, order):
+		print request.method
 		return IdecorateCheckoutForm
 
 shop = IdecorateShop(
