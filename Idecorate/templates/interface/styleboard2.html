@@ -29,6 +29,8 @@
             var SEARCH_PRODUCT_URL          = '{% url search_products %}';
             var PRODUCT_POSITIONS           = {{ product_positions }};
             var has_change_mode             = false;
+            var styleboard_mode_type        = '{{ mode }}';
+            var sub_category_count          = {{ category_count }};
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -270,7 +272,7 @@
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript">
-
+    
     $(document).ready( function() {
         
         $(':input[placeholder]').placeholder();
@@ -279,13 +281,13 @@
 
         $(window).hashchange(function(){
             if (location.hash != '' && location.hash == '#create-tab'){
-                styleboardH();
+                styleboardH();                
                 if ( !has_change_mode ){
                     {% if mode != 'search' %}
                         {% if category_count == 0 %}
                         setTimeout(populate_products,500);
                         {% endif %}
-                    {% else %}        
+                    {% else %}
                         setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
                     {% endif %}
                 }
@@ -293,6 +295,7 @@
                 setTimeout(styleboardH,50);
                 //do nothing
             }  else {
+                styleboardH();
                 if ( !has_change_mode ){
                     {% if mode != 'search' %}
                         {% if category_count == 0 %}
@@ -308,7 +311,20 @@
         
         $('#create-tab-nav').changeTab();
         
-        $('#sidebar-wrap').easytabs({ animate:false }); 
+        $('#sidebar-wrap').easytabs({ animate:false }).bind('easytabs:after',function(){
+            recur = false;
+            if (location.hash=="#create-tab"){
+                styleboardH();
+                setTimeout(set_category_label_height,500);
+                if (styleboard_mode_type != 'search' && sub_category_count > 0 )
+                    setTimeout(populate_products,500);
+                else if (styleboard_mode_type == 'search')
+                    setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
+
+            } else if (location.hash == '#buy-tab') {
+                setTimeout(styleboardH,50);
+            }
+        }); 
 
         $('ul.dropdown').superfish({
             onBeforeShow: function(e){

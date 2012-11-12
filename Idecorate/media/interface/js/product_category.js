@@ -41,14 +41,23 @@ $(document).ready( function() {
     setTimeout("set_category_label_height()",0);
       
 });
-
-function set_category_label_height(){
-    var max_h = 0;
-    $('.product-list-wrap .category-wrap .thumb.categories span').each(function(){        
-        if ($(this).height()>max_h)
-            max_h = $(this).height();
-    });
-    $('.product-list-wrap .category-wrap .thumb.categories span').height(max_h);
+var recur = false;
+function set_category_label_height(){    
+    if ($('.product-list-wrap .category-wrap .thumb.categories span').length >0){
+        var max_h = 0;
+        $('.product-list-wrap .category-wrap .thumb.categories span').each(function(){
+            if ($(this).height()>max_h)
+                max_h = $(this).height();
+        });        
+        if (max_h <= 0){
+            if (!recur){
+                recur = true;
+                set_category_label_height();                
+            }
+        } else {
+            $('.product-list-wrap .category-wrap .thumb.categories span').height(max_h);
+        }
+    }
 }
 
 function product_list_wrap_resize(){
@@ -282,6 +291,7 @@ function hideProducts(){
 }
 
 function manage_product_pagination(){
+    console.log(1)
     $('.product-list a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('.product-list a:first');            
@@ -317,7 +327,7 @@ function manage_product_pagination(){
                     $(this).removeClass('hidden');
                 }
                 if (counter > product_per_page){
-                    $(this).remove();
+                    //$(this).remove();
                 }
                     
                 counter++;

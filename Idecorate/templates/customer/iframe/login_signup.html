@@ -23,7 +23,7 @@
             }
             .login, .signup {
                 width: 330px;
-                height: 255px;
+                height: 275px;
                 float: left;
             }
             .login {
@@ -98,45 +98,74 @@
         <div id="login">
             <div class="clearfix loginWrapper">
                 <div class="login">
-                    <form>
+                    <form method="post">
+                        {% csrf_token %}
                         <fieldset>
                             <legend>Login</legend>
-                            {{ login_form.username|attr:"placeholder:Enter email" }}
-                            <p class="error">Enter a valid Email Address.</p>
+                            {{ login_form.username|attr:"placeholder:Enter Email" }}
+                            {% if login_form.username.errors %}
+                            {% for e in login_form.username.errors %}
+                            <p class="error">{{ e }}</p>
+                            {% endfor %}
+                            {% endif %}
                             {{ login_form.password|attr:"placeholder:Enter password" }}
-                            <p class="error">Incorrect password.</p>
+                            {% if login_form.password.errors %}
+                            {% for e in login_form.password.errors %}
+                            <p class="error">{{ e }}</p>
+                            {% endfor %}
+                            {% endif %}
                             <div class="action">
                                 <a href="">forgot password</a>
-                                <input type="submit" value="Login" />
+                                <input type="submit" name="btnSubmit" value="Login" />
                             </div>
                         </fieldset>
                     </form>
                 </div>
                 <div class="signup">
-                    <form>
+                    <form method="post">
+                        {% csrf_token %}
                         <fieldset>
                             <legend>Signup</legend>
-                            <input type="text" placeholder="Enter nickname" />
-                            <p class="error">Nickname already exist.</p>
-                            {{ login_form.username|attr:"placeholder:Enter email" }}
-                            <p class="error">Enter a valid Email Address.</p>
-                            {{ login_form.password|attr:"placeholder:Enter password" }}
-                            <p class="error">Your password is invalid.</p>
-                            <input type="text" placeholder="Enter password again">
-                            <p class="error">Passwords do not match.</p>
+                            {{ signup_form.nickname|attr:"placeholder:Enter nickname" }}
+                            {% if signup_form.nickname.errors %}
+                            {% for e in signup_form.nickname.errors %}
+                            <p class="error">{{ e }}</p>
+                            {% endfor %}
+                            {% endif %}
+                            {{ signup_form.email|attr:"placeholder:Enter Email" }}
+                            {% if signup_form.email.errors %}
+                            {% for e in signup_form.email.errors %}
+                            <p class="error">{{ e }}</p>
+                            {% endfor %}
+                            {% endif %}
+                            {{ signup_form.password|attr:"placeholder:Enter password" }}
+                            {% if signup_form.password.errors %}
+                            {% for e in signup_form.password.errors %}
+                            <p class="error">{{ e }}</p>
+                            {% endfor %}
+                            {% endif %}
+                            {{ signup_form.confirm_password|attr:"placeholder:Enter Password Again" }}
+                            {% if signup_form.confirm_password.errors %}
+                            {% for e in signup_form.confirm_password.errors %}
+                            <p class="error">{{ e }}</p>
+                            {% endfor %}
+                            {% endif %}
                             <div class="action">
-                                <input type="submit" value="Sign up" />
+                                <input type="submit" name="btnSubmit" value="Sign up" />
                             </div>
                         </fieldset>
                     </form>
                 </div>
             </div>
+            {% if messages %}
             <div class="clearfix errorBlock">
-                <h4>Please correct the following errors:</h4>
-                <ol>
-                    <li>{{ orderform.errors }}</li>
+                <ol>                    
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}                    
                 </ol>
             </div>
+            {% endif %}
         </div>
     </body>
 </html>
