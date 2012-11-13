@@ -109,6 +109,29 @@
                 });
             }); 
             $(function() {
+
+                var dateToday = new Date();
+                var dates = $("#datepicker").datepicker({
+                    defaultDate: "+1w",
+                    changeMonth: true,
+                    numberOfMonths: 1,
+                    minDate: dateToday,
+                    showOn: "button",
+                    buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+                    buttonImageOnly: true ,
+                    changeYear: true,
+                    showOtherMonths: true,
+                    selectOtherMonths: true,
+                    showButtonPanel: true,
+                    onSelect: function(selectedDate) {
+                        var option = this.id == "from" ? "minDate" : "maxDate",
+                            instance = $(this).data("datepicker"),
+                            date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
+                        dates.not(this).datepicker("option", option, date);
+                    }
+                });
+
+                /**
                 $( "#datepicker" ).datepicker({
                     showOn: "button",
                     buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
@@ -119,6 +142,8 @@
                     selectOtherMonths: true,
                     showButtonPanel: true
                 });
+                **/
+
                 $('#close-modal').click(closed_modal);
 
                 $('#site-menu ul').append('<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>');
