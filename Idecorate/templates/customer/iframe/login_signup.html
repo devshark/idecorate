@@ -1,7 +1,7 @@
 {% load i18n widget_tweaks %}
 <!DOCTYPE HTML>
 <html>
-  <head>
+    <head>
         <meta charset="utf-8">
         <title>iDecorate Login/Signup</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -87,9 +87,9 @@
             }
             .errorBlock li {
                 display: list-item;
-                list-style: decimal;
                 line-height: 18px;
                 text-align: -webkit-match-parent;
+                text-align: center;
             }
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
@@ -132,9 +132,9 @@
                             <p class="error">{{ e }}</p>
                             {% endfor %}
                             {% endif %}
-                            {{ signup_form.email|attr:"placeholder:Enter Email" }}
-                            {% if signup_form.email.errors %}
-                            {% for e in signup_form.email.errors %}
+                            {{ signup_form.username|attr:"placeholder:Enter Email" }}
+                            {% if signup_form.username.errors %}
+                            {% for e in signup_form.username.errors %}
                             <p class="error">{{ e }}</p>
                             {% endfor %}
                             {% endif %}
@@ -159,13 +159,17 @@
             </div>
             {% if messages %}
             <div class="clearfix errorBlock">
-                <ol>                    
+                <ul>                    
                     {% for message in messages %}
                     <li>{{ message }}</li>
                     {% endfor %}                    
-                </ol>
+                </ul>
             </div>
             {% endif %}
         </div>
+        <script src="/media/interface/js/jquery.placeholder.js"></script>
+        <script type="text/javascript">
+        $(':input[placeholder]').placeholder();
+        </script>
     </body>
 </html>

@@ -242,11 +242,13 @@ function populate_products(){
         $('.product-list-wrap').html(items);
         styleboardH();
         manage_product_pagination();
-        
-        if($.browser.msie && $.browser.version == 7.0){
-            populate_product_by_page();
-        }
     }
+}
+
+function reset_product(){
+    var items = $('.product-list').html();
+    clear_products();
+    $('.product-list').append(items);
 }
 
 function search_products(keyword, catid){
@@ -369,6 +371,9 @@ function manage_product_pagination(){
             generate_pagenation();
         });
     });
+    if($.browser.msie && $.browser.version == 7.0){
+        reset_product();
+    }
 }
 
 function generate_pagenation(){

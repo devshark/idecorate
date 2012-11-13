@@ -56,6 +56,10 @@
             padding: 0;
             text-align: right;
         }
+        #modal-window a#close-modal{
+            text-decoration: none;
+            color: #666;
+        }
         #modal-window iframe {
         /*height: 480px;*/
         min-height: 375px;
@@ -145,9 +149,12 @@
                 **/
 
                 $('#close-modal').click(closed_modal);
-
+                {% if user.is_authenticated %}
+                $('#site-menu ul').append('<li><a href="" id="logged_as">{{ user.username }}</a></li><li><a href="{% url logout %}">Logout</a></li>');                
+                {% else %}
                 $('#site-menu ul').append('<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>');
                 $('#site-menu ul a#lnk-login-signup').on('click',popup_login);
+                {% endif %}
 
                 $(':input[placeholder]').placeholder();
             });
@@ -156,13 +163,18 @@
                 $('#modal-window').hide();
             }
             function popup_login(){
-                var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':"{% url login_signup %}"});
+                var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':"{% url login_signup %}",'frameborder':'0'});
                 var modal   = $('#modal-window'),
                     _left   = $(window).width()/2-modal.width()/2;
                     frame   = $('#iframe-wrap').html(iframe);
 
                 $('#page-mask').css({display:'block'});
                 modal.css({display:'block',left:_left});
+            }
+            function logged(val){                
+                $('#lnk-login-signup').parent().remove();
+                $('#site-menu ul').append('<li><a href="#" id="logged_as">'+val+'</a><li><a href="{% url logout %}">Logout</a></li></li>');
+                closed_modal();
             }
         </script>
         <script type="text/javascript">
