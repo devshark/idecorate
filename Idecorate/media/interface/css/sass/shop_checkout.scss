@@ -193,7 +193,6 @@
 
     fieldset{
         width: 449px;
-        height: 200px;
         border: 1px solid #000000;
         float: left !important;
         padding: 10px;
@@ -231,7 +230,7 @@
     .delivery{
 
         div {
-            margin-bottom: 5px;
+            margin-bottom: 15px;
         
             label {
                 display: block;
@@ -255,14 +254,13 @@
 
 }
 
-.leftPannel, .rightPannel {
+div.leftPannel, div.rightPannel {
 	width: 470px;
 	height: 100%;
 	float: left;
 
-	fieldset{
+	.deliveryDate, .question, .paymentMethod, .paymentMethod2 {
         width: 449px;
-        height: 100%;
         border: 1px solid #000000;
         float: left;
         padding: 10px;
@@ -279,7 +277,7 @@
         }
 
         ul{
-            margin: 0 0 0 30px;
+            margin: 10px 0 0 30px;
 
             li{
                 list-style-type: disc;
@@ -294,6 +292,8 @@
         }
 
         ol {
+        	margin: 10px 0 0 30px;
+
             li {
                 list-style-type: decimal;
                 margin: 0 0 10px 45px;
@@ -310,51 +310,68 @@
 
     }
 
+    .deliveryDate {
+
+    	input {
+    		margin-bottom: 15px;
+
+    	}
+    	
+    }
+
+	.paymentMethod {
+
+		label {
+	        display: block;
+	        width: 70px;
+	        height: auto;
+	        padding-top: 10px;
+	        float: left;
+	    }
+
+	    div {
+	    	margin-bottom: 15px;
+	    }
+
+	    input {
+	        width: 350px;
+	    }
+
+	    select {
+	        width: 355px;
+	    }
+	}
+
+	.paymentMethod2 {
+
+	    div {
+	        margin-bottom: 15px;
+	        
+	        input {
+	            float: left;
+	            margin-top: 5px;
+	        }
+
+	        label {
+	            display: block;
+	            width: 110px;
+	            height: auto;
+	            padding-top: 8px;
+	            float: left;
+	        }
+
+	        img {
+	            float: left;
+	        }
+
+	    }
+
+	}
+
 }
+
 .leftPannel {
 	margin-right: 20px;
-}
-.paymentMethod {
-	label {
-        display: block;
-        width: 70px;
-        height: auto;
-        padding-top: 10px;
-        float: left;
-    }
-
-    input {
-        width: 350px;
-    }
-
-    select {
-        width: 355px;
-    }
-}
-.paymentMethod2 {
-
-    div {
-        margin-bottom: 15px;
-        
-        input {
-            float: left;
-            margin-top: 5px;
-        }
-
-        label {
-            display: block;
-            width: 110px;
-            height: auto;
-            padding-top: 8px;
-            float: left;
-        }
-
-        img {
-            float: left;
-        }
-
-    }
-
 }
 
 .disclaimer{

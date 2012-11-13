@@ -136,10 +136,10 @@
 
 	<div class="clearfix">
 		<div class="leftPannel">
-			<fieldset class="clearfix deliveryDate">
+			<fieldset class="deliveryDate">
 	            <legend>Delivery Date</legend>
 	                {{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
-	            {{ "delivery_date_note"|get_checkout_page_info }}
+	             	{{ "delivery_date_note"|get_checkout_page_info }}
 	        </fieldset>
 	        <fieldset class="question">
 	            <legend>Any Questions?</legend>
@@ -147,7 +147,7 @@
 	        </fieldset>
 		</div>
 		<div class="rightPannel">
-            <fieldset class="clearfix delivery paymentMethod" id="billing_orig">
+            <fieldset class="delivery paymentMethod" id="billing_orig">
                 <legend>Billing Address</legend>
                 <form>
                     <div class="clearfix">
@@ -216,6 +216,17 @@ QUESTION_ORIGINAL_SIZE = 0;
 		resizeInfos();
 		hideBilling()
 	});
+
+		var deliveryH = $('.delivery').height(),
+			personalH = $('.personal').height();
+
+		if(personalH < deliveryH) {
+			$('.delivery').height(deliveryH);
+			$('.personal').height(deliveryH);
+		} else {
+			$('.delivery').height(personalH);
+			$('.personal').height(personalH);
+		}
 
 	function resizeInfos() {
 		var deliveryDateH = $('.deliveryDate').height(),
