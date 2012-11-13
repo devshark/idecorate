@@ -195,10 +195,11 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
-BILLING = '';
-PAYMENT = '';
+QUESTION_ORIGINAL_SIZE = 0;
 
 	$(function(){
+
+		QUESTION_ORIGINAL_SIZE = $('.question').height();
 
 		$('#edit_button').click(function(e){
 
@@ -208,61 +209,58 @@ PAYMENT = '';
 
 		$('#id_order-shipping_same_as_billing').click(function(e){
 
-			elementChangePosition()
+			hideBilling()
 
 		});
 
-		BILLING = $('#billing_orig').html();
-		PAYMENT = $('#payment_orig').html();
-
 		resizeInfos();
-		elementChangePosition();
+		hideBilling()
 	});
 
 	function resizeInfos() {
-		var deliveryDateH = $('.deliveryDate').outerHeight(true),
-			paymentMethodH = $('.paymentMethod').outerHeight(true),
-			paymentMethodH2 = $('.paymentMethod2').outerHeight(true),
-			questionH = $('.question').outerHeight(true);
+		var deliveryDateH = $('.deliveryDate').height(),
+			paymentMethodH = $('.paymentMethod').height(),
+			paymentMethodH2 = $('.paymentMethod2').height(),
+			questionH = $('.question').height();
 
-		if(deliveryDateH > paymentMethodH){
-			$('.deliveryDate').height(deliveryDateH);
-			$('.paymentMethod').height(deliveryDateH);
-		}else{
-			$('.deliveryDate').height(paymentMethodH);
-			$('.paymentMethod').height(paymentMethodH);
-		}
+		if($('input[name="order-shipping_same_as_billing"]:checked').val() == 'on') {
+			if(deliveryDateH > paymentMethodH2){
+				$('.deliveryDate').height(deliveryDateH);
+				$('.paymentMethod2').height(deliveryDateH);
+			}else{
+				$('.deliveryDate').height(paymentMethodH2);
+				$('.paymentMethod2').height(paymentMethodH2);
+			}
 
-		if(questionH > paymentMethodH2){
-			$('.question').height(questionH);
-			$('.paymentMethod2').height(questionH);
-		}else{
-			$('.paymentMethod2').height(paymentMethodH2);
-			$('.question').height(paymentMethodH2);
+			$('.question').height(QUESTION_ORIGINAL_SIZE);
+		} else {
+
+			if(deliveryDateH > paymentMethodH){
+				$('.deliveryDate').height(deliveryDateH);
+				$('.paymentMethod').height(deliveryDateH);
+			}else{
+				$('.deliveryDate').height(paymentMethodH);
+				$('.paymentMethod').height(paymentMethodH);
+			}
+
+			if(questionH > paymentMethodH2){
+				$('.question').height(questionH);
+				$('.paymentMethod2').height(questionH);
+			}else{
+				$('.paymentMethod2').height(paymentMethodH2);
+				$('.question').height(paymentMethodH2);
+			}
 		}
 	}
 
-	function elementChangePosition() {
-
+	function hideBilling() {
 		if($('input[name="order-shipping_same_as_billing"]:checked').val() == 'on') {
-			$('#payment_orig').html('');
-			$('#payment_orig').css('display','none');
-			$('#billing_orig').html(PAYMENT);
-			$('#billing_orig legend').text('Payment Method');
-			$('#billing_orig').removeClass('delivery');
-			$('#billing_orig').removeClass('paymentMethod');
-			$('#billing_orig').addClass('paymentMethod2');
+			$('#billing_orig').hide();
 		} else {
-			$('#payment_orig').html(PAYMENT);
-			$('#billing_orig').html(BILLING);
-			$('#billing_orig').removeClass('paymentMethod2');
-			$('#billing_orig').addClass('delivery');
-			$('#billing_orig').addClass('paymentMethod');
-			$('#billing_orig legend').text('Billing Address');
-			$('#payment_orig').show();
+			$('#billing_orig').show();
 		}
 
-		//resizeInfos();
+		resizeInfos();
 	}
 
 </script>
