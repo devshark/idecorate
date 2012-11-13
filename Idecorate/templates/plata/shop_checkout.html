@@ -38,6 +38,9 @@
 	          {% for e in orderform.shipping_date.errors %}
 	            <li>{{ e }}</li>
 	          {% endfor %}
+	          {% for e in orderform.payment_method.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
 			</ol>
 		</div>
 		{% endif %}
@@ -188,21 +191,15 @@
 		</fieldset>
 		<fieldset class="paymentMethod2" id="payment_orig">
 			<legend>Payment Method</legend>
+
+                {% for choice in orderform.payment_method.field.choices %}
 				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>Paypal</label>
-					<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />
+					<input type="radio" name="order-payment_method" value="{{ choice.0 }}" {% if orderform.payment_method.data == choice.0 %}checked="checked" {% endif %}/>
+					<label>{{choice.1}}</label>
+					{{ choice.0|getImagePaymentMethod }}
 				</div>
-				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>VISA/Mastercard</label>
-					<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />
-				</div>
-				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>American Express</label>
-					<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
-				</div>
+                {% endfor %}
+
 		</fieldset>
 	</div>
 	<div class="clearfix disclaimer">
