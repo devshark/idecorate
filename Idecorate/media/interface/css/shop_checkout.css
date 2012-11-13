@@ -124,10 +124,10 @@
   height: auto;
   margin: 0 0 15px 0; }
   .information fieldset {
-    width: 450px;
+    width: 449px;
     height: 200px;
     border: 1px solid #000000;
-    float: left;
+    float: left !important;
     padding: 10px; }
     .information fieldset legend {
       margin: 0 0 0 20px;
@@ -163,7 +163,7 @@
   height: 100%;
   float: left; }
   .leftPannel fieldset, .rightPannel fieldset {
-    width: 450px;
+    width: 449px;
     height: 100%;
     border: 1px solid #000000;
     float: left;
