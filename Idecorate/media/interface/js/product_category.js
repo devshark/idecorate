@@ -10,6 +10,7 @@ var withloading = false;
 var total_pages;
 var mode_type;
 var search_keyword = '';
+var ie8_last_action_id;
 $(document).ready( function() {
     $('.categories').click(function(){
         browse_categories(this.id);
@@ -162,6 +163,7 @@ function browse_categories(elm_id){
             });
 
             if(type =='products'){
+		ie8_last_action_id = elm_id;
                 $('.pagination').show();
                 styleboardH();
                 manage_product_pagination();
@@ -300,6 +302,35 @@ function hideProducts(){
 }
 
 function manage_product_pagination(){
+if(mode_toggle_tab){
+	category_id = ie8_last_action_id;
+	$('.pagination').show();
+        var response_data = get_products();
+        var items = '';
+        var breadcrumb = '';
+
+        var data = $.parseJSON(response_data.data);
+        total_product_count = response_data.product_counts;
+        page_number = response_data.page_number;
+        num_pages = response_data.num_pages;
+        $.each(data,function(i, val){                            
+            var id = val.pk;
+            type = val.model == 'category.categories' ? 'categories' : 'products';
+            var name = val.fields.name;
+            if (name.length > 12){
+                name = name.substring(0,10) + '..';
+            }
+            var thumb = val.fields.original_image_thumbnail;
+            thumb = 'products/' + thumb;
+            items += '<a _pid="'+id+'" _uid="'+id+'" class="hidden  thumb draggable ' + type + '" id="'+id+'" href="#">' +
+                    '<img src="/' + media_url + thumb + '" alt="' + name + '" />' +
+                    '<span>' + name + '</span>' +
+                '</a>';
+        });
+        items = '<div class="product-list clearfix">' + items + '</div>';
+        $('.product-list-wrap').html(items);
+        styleboardH();
+}
     $('.product-list a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('.product-list a:first');            
@@ -372,7 +403,7 @@ function manage_product_pagination(){
         });
     });
     if($.browser.msie && $.browser.version == 7.0){
-        reset_product();
+        setTimeout(reset_product,0);
     }
 }
 

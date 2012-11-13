@@ -31,6 +31,7 @@
             var has_change_mode             = false;
             var styleboard_mode_type        = '{{ mode }}';
             var sub_category_count          = {{ category_count }};
+var mode_toggle_tab = false;
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -321,12 +322,19 @@
                 if ( !has_change_mode ){
                     {% if mode != 'search' %}
                         {% if category_count == 0 %}
-                        setTimeout(populate_products,500);
+                        setTimeout(populate_products,1000);
                         {% endif %}
                     {% else %}
                         setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
                     {% endif %}
-                }
+                } else {
+			if($.browser.msie && ($.browser.version == 7.0 || $.browser.version == 8.0)){
+				if ($.browser.version == 8.0)
+					mode_toggle_tab = true;
+				setTimeout(manage_product_pagination,0);
+			    }
+			
+		}
             } else if (location.hash == '#buy-tab') {
                 setTimeout(styleboardH,50);
                 $('.category-wrap .thumb.categories').addClass('hidden');
@@ -340,7 +348,14 @@
                     {% else %}        
                         setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
                     {% endif %}
-                }
+                } else {
+			if($.browser.msie && ($.browser.version == 7.0 || $.browser.version == 8.0)){
+				if ($.browser.version == 8.0)
+					mode_toggle_tab = true;
+				setTimeout(manage_product_pagination,0);
+			    }
+			
+		}
             }        
         });
         $(window).hashchange();
