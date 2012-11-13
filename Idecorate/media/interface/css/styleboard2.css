@@ -487,6 +487,35 @@ h5 {
             -ms-border-radius: 3px;
             -moz-border-radius: 3px;
             -webkit-border-radius: 3px; }
+        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments {
+          overflow: auto; }
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap {
+            margin: 10px; }
+            #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap #upload-embel fieldset {
+              border: 1px solid #000;
+              padding: 5px 5px 8px 5px; }
+              #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap #upload-embel fieldset legend {
+                margin: 0 10px;
+                color: #000;
+                font-family: Times New Roman, serif; }
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em {
+            display: block;
+            float: left;
+            width: 18.229%;
+            margin: 6px 0 0 6px;
+            font-size: 0;
+            min-width: 76px; }
+            #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em img {
+              width: 100%;
+              outline: 1px solid #CCC; }
+            #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em span {
+              display: block;
+              font-size: 10px;
+              margin: 10px 0 5px 0;
+              text-align: center;
+              color: #666; }
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em:hover img {
+            outline: 2px solid #000; }
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab {
         background-color: #f0ebe5; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .thead {
