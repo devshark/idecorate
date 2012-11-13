@@ -38,6 +38,9 @@
 	          {% for e in orderform.shipping_date.errors %}
 	            <li>{{ e }}</li>
 	          {% endfor %}
+	          {% for e in orderform.payment_method.errors %}
+	            <li>{{ e }}</li>
+	          {% endfor %}
 			</ol>
 		</div>
 		{% endif %}
@@ -116,8 +119,8 @@
 						{{ orderform.shipping_address2 }}
 					</div>
 					<div class="clearfix">
-						{{ orderform.shipping_state|add_class:"districtList" }}
 						<label>State</label>
+						{{ orderform.shipping_state|add_class:"districtList" }}
 					</div>
 					<div class="clearfix">
 						<label>City</label>
@@ -130,81 +133,59 @@
 					{{ orderform.shipping_same_as_billing }} My delivery address is the same as my billing address.
 			</fieldset>
 		</div>
-		<div class="clearfix deliveryDetails">
-			<fieldset class="deliveryDate">
-				<legend>Delivery Date</legend>
-					{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
-				{{ "delivery_date_note"|get_checkout_page_info }}
-			</fieldset>
-			<fieldset class="delivery paymentMethod" id="billing_orig">
-				<legend>Billing Address</legend>
-				<form>
-					<div class="clearfix">
-						<label>Address 1</label>
-						{{ orderform.billing_address }}
-					</div>
-					<div class="clearfix">
-						<label>Address 2</label>
-						{{ orderform.billing_address2 }}
-					</div>
-					<div class="clearfix">
-						<label>State</label>
-						{{ orderform.billing_state|add_class:"districtList" }}
-					</div>
-					<div class="clearfix">
-						<label>City</label>
-						{{ orderform.billing_city|add_class:"districtList" }}
-					</div>
-					<div class="clearfix">
-						<label>Postal Code</label>
-						{{ orderform.billing_zip_code }}
-					</div>
-			</fieldset>
-			<!--
-			<fieldset class="paymentMethod">
-				<legend>Payment Method</legend>
-					<div class="clearfix">
-						<input type="radio" name="payment_type">
-						<label>Paypal</label>
-						<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />
-					</div>
-					<div class="clearfix">
-						<input type="radio" name="payment_type">
-						<label>VISA/Mastercard</label>
-						<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />
-					</div>
-					<div class="clearfix">
-						<input type="radio" name="payment_type">
-						<label>American Express</label>
-						<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
-					</div>
-			</fieldset>
-			-->
+
+	<div class="clearfix">
+		<div class="leftPannel">
+			<fieldset class="clearfix deliveryDate">
+	            <legend>Delivery Date</legend>
+	                {{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
+	            {{ "delivery_date_note"|get_checkout_page_info }}
+	        </fieldset>
+	        <fieldset class="question">
+	            <legend>Any Questions?</legend>
+	            <p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
+	        </fieldset>
 		</div>
-	<div class="clearfix inquiry">
-		<fieldset class="question">
-			<legend>Any Questions?</legend>
-			<p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
-		</fieldset>
-		<fieldset class="paymentMethod2" id="payment_orig">
-			<legend>Payment Method</legend>
-				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>Paypal</label>
-					<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />
-				</div>
-				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>VISA/Mastercard</label>
-					<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />
-				</div>
-				<div class="clearfix">
-					<input type="radio" name="payment_type">
-					<label>American Express</label>
-					<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />
-				</div>
-		</fieldset>
+		<div class="rightPannel">
+            <fieldset class="clearfix delivery paymentMethod" id="billing_orig">
+                <legend>Billing Address</legend>
+                <form>
+                    <div class="clearfix">
+                        <label>Address 1</label>
+                        {{ orderform.billing_address }}
+                    </div>
+                    <div class="clearfix">
+                        <label>Address 2</label>
+                        {{ orderform.billing_address2 }}
+                    </div>
+                    <div class="clearfix">
+                        <label>State</label>
+                        {{ orderform.billing_state|add_class:"districtList" }}
+                    </div>
+                    <div class="clearfix">
+                        <label>City</label>
+                        {{ orderform.billing_city|add_class:"districtList" }}
+                    </div>
+                    <div class="clearfix">
+                        <label>Postal Code</label>
+                        {{ orderform.billing_zip_code }}
+                    </div>
+            </fieldset>
+	        <fieldset class="paymentMethod2" id="payment_orig">
+	            <legend>Payment Method</legend>
+
+	                {% for choice in orderform.payment_method.field.choices %}
+	                <div class="clearfix">
+	                    <input type="radio" name="order-payment_method" value="{{ choice.0 }}" {% if orderform.payment_method.data == choice.0 %}checked="checked" {% endif %}/>
+	                    <label>{{choice.1}}</label>
+	                    {{ choice.0|getImagePaymentMethod }}
+	                </div>
+	                {% endfor %}
+
+	        </fieldset>
+		</div>
 	</div>
+
 	<div class="clearfix disclaimer">
 		<p align="justify">{{ "t_and_c"|get_checkout_page_info }}</p>
 		<button type="submit">Proceed to Payment</button>
@@ -214,10 +195,11 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
-BILLING = '';
-PAYMENT = '';
+QUESTION_ORIGINAL_SIZE = 0;
 
 	$(function(){
+
+		QUESTION_ORIGINAL_SIZE = $('.question').height();
 
 		$('#edit_button').click(function(e){
 
@@ -227,61 +209,58 @@ PAYMENT = '';
 
 		$('#id_order-shipping_same_as_billing').click(function(e){
 
-			elementChangePosition()
+			hideBilling()
 
 		});
 
-		BILLING = $('#billing_orig').html();
-		PAYMENT = $('#payment_orig').html();
-
 		resizeInfos();
-		elementChangePosition();
+		hideBilling()
 	});
 
 	function resizeInfos() {
-		var deliveryDateH = $('.deliveryDate').outerHeight(true),
-			paymentMethodH = $('.paymentMethod').outerHeight(true),
-			paymentMethodH2 = $('.paymentMethod2').outerHeight(true),
-			questionH = $('.question').outerHeight(true);
+		var deliveryDateH = $('.deliveryDate').height(),
+			paymentMethodH = $('.paymentMethod').height(),
+			paymentMethodH2 = $('.paymentMethod2').height(),
+			questionH = $('.question').height();
 
-		if(deliveryDateH > paymentMethodH){
-			$('.deliveryDate').height(deliveryDateH);
-			$('.paymentMethod').height(deliveryDateH);
-		}else{
-			$('.deliveryDate').height(paymentMethodH);
-			$('.paymentMethod').height(paymentMethodH);
-		}
+		if($('input[name="order-shipping_same_as_billing"]:checked').val() == 'on') {
+			if(deliveryDateH > paymentMethodH2){
+				$('.deliveryDate').height(deliveryDateH);
+				$('.paymentMethod2').height(deliveryDateH);
+			}else{
+				$('.deliveryDate').height(paymentMethodH2);
+				$('.paymentMethod2').height(paymentMethodH2);
+			}
 
-		if(questionH > paymentMethodH2){
-			$('.question').height(questionH);
-			$('.paymentMethod2').height(questionH);
-		}else{
-			$('.paymentMethod2').height(paymentMethodH2);
-			$('.question').height(paymentMethodH2);
+			$('.question').height(QUESTION_ORIGINAL_SIZE);
+		} else {
+
+			if(deliveryDateH > paymentMethodH){
+				$('.deliveryDate').height(deliveryDateH);
+				$('.paymentMethod').height(deliveryDateH);
+			}else{
+				$('.deliveryDate').height(paymentMethodH);
+				$('.paymentMethod').height(paymentMethodH);
+			}
+
+			if(questionH > paymentMethodH2){
+				$('.question').height(questionH);
+				$('.paymentMethod2').height(questionH);
+			}else{
+				$('.paymentMethod2').height(paymentMethodH2);
+				$('.question').height(paymentMethodH2);
+			}
 		}
 	}
 
-	function elementChangePosition() {
-
+	function hideBilling() {
 		if($('input[name="order-shipping_same_as_billing"]:checked').val() == 'on') {
-			$('#payment_orig').html('');
-			$('#payment_orig').css('display','none');
-			$('#billing_orig').html(PAYMENT);
-			$('#billing_orig legend').text('Payment Method');
-			$('#billing_orig').removeClass('delivery');
-			$('#billing_orig').removeClass('paymentMethod');
-			$('#billing_orig').addClass('paymentMethod2');
+			$('#billing_orig').hide();
 		} else {
-			$('#payment_orig').html(PAYMENT);
-			$('#billing_orig').html(BILLING);
-			$('#billing_orig').removeClass('paymentMethod2');
-			$('#billing_orig').addClass('delivery');
-			$('#billing_orig').addClass('paymentMethod');
-			$('#billing_orig legend').text('Billing Address');
-			$('#payment_orig').show();
+			$('#billing_orig').show();
 		}
 
-		//resizeInfos();
+		resizeInfos();
 	}
 
 </script>

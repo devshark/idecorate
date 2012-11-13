@@ -201,3 +201,15 @@ def get_checkout_page_info(inf):
 		return mark_safe(idecorate_settings.t_and_c)
 	else:
 		return ""
+
+@register.filter
+def getImagePaymentMethod(met):
+	ret = ""
+
+	if met == "Paypal":
+		ret = mark_safe('<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />')
+	elif met == "Visa_Mastercard":
+		ret = mark_safe('<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />')
+	else:
+		ret = mark_safe('<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />')
+	return ret

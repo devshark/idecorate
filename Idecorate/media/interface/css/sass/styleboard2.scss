@@ -86,6 +86,7 @@ $doc_width 				: 1920;/*px*/
 $default_font_size		: 16;/*px*/ 
 $grey_ligh_brown		: #C2BDBD;
 $grey 					: #666666;
+$timenewroman			: Times New Roman,serif;
 
 html{
 	height: 100%;
@@ -597,6 +598,53 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								    -webkit-border-radius: 3px;    
 								}
 							}
+
+						#embellishments{
+							overflow: auto;
+							.formWrap{
+								margin: 10px;
+								#upload-embel{
+									fieldset{
+										border: 1px solid #000;
+										padding: 5px 5px 8px 5px;
+										legend{
+											margin: 0 10px;
+											color: #000;
+											font-family: $timenewroman;
+										}
+									}
+								}
+							}
+							#embelishments-list-wrap{
+								a.em{
+									display: block;
+									float: left;
+									width: 140%/768*100;
+									margin: 6px 0 0 6px;  
+									font-size: 0;
+									min-width:76px;
+
+									img{
+										width: 100%;
+										outline:1px solid #CCC;
+									}
+
+									span {
+							            display: block;
+							            font-size: 10px;
+										margin: 10px 0 5px 0;
+							            text-align: center;
+							            color: #666;
+							        }
+								}
+
+								a.em:hover{
+									img{
+										outline:2px solid #000;
+									}
+								}
+							}
+						}
 					}
 					
 					#buy-tab{

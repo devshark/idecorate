@@ -187,267 +187,173 @@
 }
 
 .information{
-	width: 100%;
-	height: auto;
-	margin: 0 0 15px 0;
+    width: 100%;
+    height: auto;
+    margin: 0 0 15px 0;
 
-	fieldset{
-		width: 450px;
-		height: 200px;
-		border: 1px solid #000000;
-		float: left;
-		padding: 10px;
+    fieldset{
+        width: 449px;
+        height: 200px;
+        border: 1px solid #000000;
+        float: left !important;
+        padding: 10px;
 
-		legend{
-			margin: 0 0 0 20px;
-			padding: 0 5px;
-			font-size: 14px;
-		}
+        legend{
+            margin: 0 0 0 20px;
+            padding: 0 5px;
+            font-size: 14px;
+        }
 
-	}
+    }
 
-	.personal{
-		margin: 0 20px 0 0;
+    .personal{
+        margin: 0 20px 0 0;
 
-		div {
-			margin-bottom: 15px;
-		
-			label {
-				display: block;
-				width: 70px;
-				height: auto;
-				padding-top: 10px;
-				float: left;
-			}
+        div {
+            margin-bottom: 15px;
+        
+            label {
+                display: block;
+                width: 70px;
+                height: auto;
+                padding-top: 10px;
+                float: left;
+            }
 
-			input {
-				width: 350px;
-			}
+            input {
+                width: 350px;
+            }
 
-		}
+        }
 
-	}
+    }
 
-	.delivery{
+    .delivery{
 
-		div {
-			margin-bottom: 5px;
-		
-			label {
-				display: block;
-				width: 70px;
-				height: auto;
-				padding-top: 10px;
-				float: left;
-			}
+        div {
+            margin-bottom: 5px;
+        
+            label {
+                display: block;
+                width: 70px;
+                height: auto;
+                padding-top: 10px;
+                float: left;
+            }
 
-			input {
-				width: 350px;
-			}
+            input {
+                width: 350px;
+            }
 
-			select {
-				width: 355px;
-			}
+            select {
+                width: 355px;
+            }
 
-		}
-		
-	}
+        }
+        
+    }
 
 }
 
-.deliveryDetails{
-	width: 100%;
-	margin: 0 0 15px 0;
+.leftPannel, .rightPannel {
+	width: 470px;
+	height: 100%;
+	float: left;
 
 	fieldset{
-		width: 450px;
-		height: 100%;
-		padding: 10px;
-		border: 1px solid #000000;
-		float: left;
+        width: 449px;
+        height: 100%;
+        border: 1px solid #000000;
+        float: left;
+        padding: 10px;
+    	margin: 0 0 15px 0;
 
-		legend{
-			margin: 0 0 0 20px;
-			padding: 0 5px;
-			font-size: 14px;
-		}
+        legend{
+            margin: 0 0 0 20px;
+            padding: 0 5px;
+            font-size: 14px;
+        }
 
-		p{
-			margin: 0 0 10px 15px;
-		}
+        p{
+            margin: 0 0 10px 15px;
+        }
 
-		ul{
-			margin: 0 0 0 30px;
+        ul{
+            margin: 0 0 0 30px;
 
-			li{
-				list-style-type: disc;
-				margin: 0 0 10px 15px;
+            li{
+                list-style-type: disc;
+                margin: 0 0 10px 15px;
 
-				a {
-					color: #d89b96;
-				}
+                a {
+                    color: #d89b96;
+                }
 
-			}
-	
-		}
+            }
+    
+        }
 
-		ol {
-			li {
-				list-style-type: decimal;
-				margin: 0 0 10px 45px;
-			}
-		}
+        ol {
+            li {
+                list-style-type: decimal;
+                margin: 0 0 10px 45px;
+            }
+        }
 
-		em {
-			font-style: italic;
-		}
+        em {
+            font-style: italic;
+        }
 
-		strong {
-			font-weight: bold;
-		}
-	
-	}
+        strong {
+            font-weight: bold;
+        }
 
-	.deliveryDate{
-		margin: 0 20px 0 0;
-	}
+    }
 
-	.paymentMethod{
-
-		div {
-			margin-bottom: 15px;
-			
-			input {
-				float: left;
-				margin-top: 5px;
-			}
-
-			label {
-				display: block;
-				width: 110px;
-				height: auto;
-				padding-top: 8px;
-				float: left;
-			}
-
-			img {
-				float: left;
-			}
-
-		}
-	
-	}
-
-	.delivery{
-
-		div {
-			margin-bottom: 5px;
-		
-			label {
-				display: block;
-				width: 70px;
-				height: auto;
-				padding-top: 10px;
-				float: left;
-			}
-
-			input {
-				width: 350px;
-			}
-
-			select {
-				width: 355px;
-			}
-
-		}
-		
-	}
-	
 }
+.leftPannel {
+	margin-right: 20px;
+}
+.paymentMethod {
+	label {
+        display: block;
+        width: 70px;
+        height: auto;
+        padding-top: 10px;
+        float: left;
+    }
 
-.inquiry{
-	width: 100%;
+    input {
+        width: 350px;
+    }
 
-	fieldset{
-		width: 450px;
-		height: 100%;
-		padding: 10px;
-		border: 1px solid #000000;
-		float: left;
+    select {
+        width: 355px;
+    }
+}
+.paymentMethod2 {
 
-		legend{
-			margin: 0 0 0 20px;
-			padding: 0 5px;
-			font-size: 14px;
-		}
+    div {
+        margin-bottom: 15px;
+        
+        input {
+            float: left;
+            margin-top: 5px;
+        }
 
-		p{
-			padding: 15px;
+        label {
+            display: block;
+            width: 110px;
+            height: auto;
+            padding-top: 8px;
+            float: left;
+        }
 
-			a {
-				color: #d89b96;
-			}
+        img {
+            float: left;
+        }
 
-		}
-
-		ul {
-			li {
-				list-style-type: disc;
-				margin: 0 0 10px 50px;
-			}
-		}
-
-		ol {
-			li {
-				list-style-type: decimal;
-				margin: 0 0 10px 50px;
-			}
-		}
-
-		em {
-			font-style: italic;
-		}
-
-		strong {
-			font-weight: bold;
-		}
-
-		form{
-			padding: 15px;
-		}
-
-	}
-
-	.question {
-		margin: 0 20px 0 0;
-
-	}
-
-	.paymentMethod2 {
-
-		div {
-			margin-bottom: 15px;
-			
-			input {
-				float: left;
-				margin-top: 5px;
-			}
-
-			label {
-				display: block;
-				width: 110px;
-				height: auto;
-				padding-top: 8px;
-				float: left;
-			}
-
-			img {
-				float: left;
-			}
-
-		}
-	
-	}
+    }
 
 }
 
