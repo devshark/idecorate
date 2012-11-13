@@ -26,7 +26,7 @@ import re
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
-        fields = ['email'] + ['billing_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_%s' % f for f in Contact.ADDRESS_FIELDS]
+        fields = ['email'] + ['billing_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_same_as_billing']
         model = Order
 
     def __init__(self, *args, **kwargs):
@@ -140,7 +140,7 @@ class IdecorateShop(Shop):
 		return self.render(request, 'plata/shop_checkout.html', self.get_context(request, context))
 	
 	def checkout_form(self, request, order):
-		print request.method
+		#print request.method
 		return IdecorateCheckoutForm
 
 shop = IdecorateShop(
