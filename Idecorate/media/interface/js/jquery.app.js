@@ -496,8 +496,50 @@ $(document).ready(function () {
 
     initProductPositions();
 
+
+    /* embellishments
+    this is where embellishment related function
+    starts as well as with the inits,events,variables
+    */
+
+    $('#embelishments-list-wrap .em').click(function(e){
+        e.preventDefault();
+        var callajax = $(this).attr('href');
+        var to_output = callajax.split('/'),
+            to_output = to_output[1];
+
+
+    });
+
 });
 
+//embelishments functions start
+function ajax_get_by_type(url,classname){
+    $.ajax({
+        url: url,
+        type: "POST",
+        data: {},
+        async:   false,
+        success: function(data){
+            var result_data = {
+                            object: $('a'),
+                            obj_id: data.obj_id,
+                            obj_class: 'emType thumb draggable '+classname,
+                            obj_uid: data.obj,
+                            obj_title : data.name
+                        }
+            return result_data;
+        },
+        error: function(msg) {
+
+        }
+    });
+}
+
+//embelishments functions end
+
+
+//product functions start
 function create_instance(options){
     var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b}).hide().load(function () {
         var imgWidth    = options._width;
@@ -689,17 +731,6 @@ function update_ui(options) {
 
     return defaults.update_obj;
 }
-
-// function disableasEventPropagations(event) {
-
-//     if (event.stopPropagation) {
-//     // this code is for Mozilla and Opera
-//         event.stopPropagation();
-//     } else if (window.event) {
-//     // this code is for IE
-//         window.event.cancelBubble = true;
-//     }
-// }
 
 function moveNext(obj) {
         
@@ -936,3 +967,5 @@ function cancelBubble(e) {
       }
   }
 }(jQuery));
+
+//product functions end
