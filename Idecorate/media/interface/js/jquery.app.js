@@ -403,12 +403,26 @@ $(document).ready(function () {
         }
 
     }).keydown(function(e){
-        //console.log(e.keyCode);
-        if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
-            //alert('test');
-            e.preventDefault();
-            $('#remove-btn').trigger('click');
+        
+        if(!$.browser.mozilla) {
+            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
+                e.preventDefault();
+                $('#remove-btn').trigger('click');
+            }
         }
+    });
+
+    //REMOVE PRODUCT IN FIREFOX
+    $('html').keypress(function(e){
+
+        if($.browser.mozilla) {
+            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
+                e.preventDefault();
+                $('#remove-btn').trigger('click');
+                return false;
+            }
+        }
+
     });
 
     //remove selected obj
