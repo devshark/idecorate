@@ -22,7 +22,7 @@ from plata.shop.models import Order
 from plata.shop.views import Shop
 from plata.shop import forms as shop_forms
 from django import forms
-
+import re
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
@@ -34,8 +34,8 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         request = kwargs.get('request')
         contact = shop.contact_from_user(request.user)
 
-        states = (('Australian Capital Territory','Australian Capital Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory'))
-        cities = (
+        states = tuple(sorted((('Australian Capital Territory','Australian Capital Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory'))))
+        cities = tuple(sorted((
         	('Canberra','Canberra'),('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), 
         	('Tamworth','Tamworth'), ('Wagga','Wagga'),('City of Bankstown','City of Bankstown'), ('City of Blacktown','City of Blacktown'), ('City of Botany Bay','City of Botany Bay'), ('City of Canada Bay','City of Canada Bay'), ('City of Canterbury','City of Canterbury'), ('City of Coffs Harbour','City of Coff Harbour'), ('City of Fairfield','City of Fairfield'), ('City of Gosford','City of Gosford'), ('City of Greater Taree','City of Greater Taree'), ('City of Griffith','City of Griffith'), 
         	('City of Hawkesbury','City of Hawkesbury'), ('City of Holroyd','City of Holroyd'), ('City of Hurtsville','City of Hurtsville'), ('City of Lake Macquarie','City of Lake Macquarie'), ('City of Lismore','City of Lismore'), ('City of Lithgow','City of Lithgow'), ('City of Maitland','City of Maitland'), ('City of Randwick','City of Randwick'), ('City of Rockdale','City of Rockdale'), ('City of Ryde','City of Ryde'), ('City of Shellharbour','City of Shellharbour'), ('City 		f Shoalhaven','City of Shoalhaven'), 
@@ -44,7 +44,7 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         	('Hobart','Hobart'), ('Burnie','Burnie'), ('Devonport','Devonport'), ('Launceston','Launceston'), ('Melbourne','Melbourne'), ('Ararat','Ararat'), ('Bairnsdale','Bairnsdale'), ('Benalla','Benalla'), ('Ballarat','Ballarat'), ('Bendigo','Bendigo'), ('Dandenong','Dandenong'), ('Frankston','Frankston'), ('Geelong','Geelong'), ('Hamilton','Hamilton'), ('Horsham','Horsham'), ('Melton','Melton'), ('Moe','Moe'), ('Morwell','Morwell'), ('Mildura','Mildura'), ('Mildura','Mildura'), ('Sale','Sale'), ('Shepparton','Shepparton'), ('Swan Hill','Swan Hill'), 
         	('Traralgon','Traralgon'), ('Wangaratta','Wangaratta'), ('Warrnambool','Warrnambool'), ('Wodonga','Wodonga'), ('Perth','Perth'), ('Albany','Albany'), ('Bunbury','Bunbury'), ('Busselton','Busselton'), ('Fremantle','Fremantle'), ('Geraldton','Geraldton'), ('Joondalup','Joondalup'), ('Kalgoorlie','Kalgoorlie'), ('Mandurah','Mandurah'), ('Rockingham','Rockingham'), ('City of Armadale','City of Armadale'), ('City of Bayswater','City of Bayswater'), ('City of Canning','City of Canning'), ('City of Cockburn','City of Cockburn'), ('City of Gosnells','City of Gosnells'), 
         	('City of Melville','City of Melville'), ('City of Nedlands','City of Nedlands'), ('City of South Perth','City of South Perth'), ('City of Stirling','City of Stirling'), ('City of Subiaco','City of Subiaco'), ('City of Swan','City of Swan'), ('City of Wanneroo','City of Wanneroo')
-        )
+        )))
 
         if contact:
             initial = {}
@@ -93,6 +93,24 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
             self.fields['create_account'] = forms.BooleanField(
                 label=_('create account'),
                 required=False, initial=True)
+
+    def clean_shipping_zip_code(self):
+
+		shipping_zip_code = self.cleaned_data['shipping_zip_code']
+
+		if not re.search("(^[0-9]{1,}$)",shipping_zip_code,re.IGNORECASE):
+			raise forms.ValidationError(_("Invalid Delivery Postal Code"))			
+
+		return shipping_zip_code
+
+    def clean_billing_zip_code(self):
+
+		billing_zip_code = self.cleaned_data['billing_zip_code']
+		if self.fields['billing_zip_code'].required: 
+			if not re.search("(^[0-9]{1,}$)",billing_zip_code,re.IGNORECASE):
+				raise forms.ValidationError(_("Invalid Billing Postal Code"))			
+
+		return billing_zip_code
 
 class IdecorateShop(Shop):
 
