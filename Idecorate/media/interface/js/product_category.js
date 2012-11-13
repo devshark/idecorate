@@ -244,9 +244,15 @@ function populate_products(){
         manage_product_pagination();
         
         if($.browser.msie && $.browser.version == 7.0){
-            setTimeout(populate_product_by_page,1000);
+            reset_product();
         }
     }
+}
+
+function reset_product(){
+    var items = $('.product-list').html();
+    clear_products();
+    $('.product-list').append(items);
 }
 
 function search_products(keyword, catid){
