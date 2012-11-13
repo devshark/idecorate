@@ -507,8 +507,9 @@ $(document).ready(function () {
         var callajax = $(this).attr('href');
         var to_output = callajax.split('/'),
             to_output = to_output[1];
+        var this_container = $('#em-common-wrap');
 
-
+        this_container.append(ajax_get_by_type(callajax,to_output));
     });
 
 });
@@ -525,8 +526,7 @@ function ajax_get_by_type(url,classname){
                             object: $('a'),
                             obj_id: data.obj_id,
                             obj_class: 'emType thumb draggable '+classname,
-                            obj_uid: data.obj,
-                            obj_title : data.name
+                            obj_uid: data.obj
                         }
             return result_data;
         },
