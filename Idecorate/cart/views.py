@@ -69,9 +69,9 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
         self.fields['shipping_date'] = forms.CharField(label=_("Shipping Date"), required=True, error_messages={'required':_('Delivery Date is a required field.')})
         self.fields['shipping_zip_code'] = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
-        self.fields['email'] = forms.CharField(label=_("Email"), required=True, error_messages={'required':_('Email is a required field.')})
-        self.fields['billing_last_name'] = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Lastname is a required field.')})
-        self.fields['billing_first_name'] = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('Firstname is a required field.')})
+        self.fields['email'] = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
+        self.fields['billing_last_name'] = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
+        self.fields['billing_first_name'] = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
         self.fields['payment_method'] = forms.ChoiceField(label=_("Payment Method"), choices=(('Paypal','Paypal'),('Visa_Mastercard','Visa/Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
 
         shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
