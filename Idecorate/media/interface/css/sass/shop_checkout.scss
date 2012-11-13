@@ -316,7 +316,7 @@ div.leftPannel, div.rightPannel {
     		margin-bottom: 15px;
 
     	}
-    	
+
     }
 
 	.paymentMethod {
@@ -403,28 +403,42 @@ div.leftPannel, div.rightPannel {
 		border: 0;
 	}
 
-	ul {
-		display: inline-block;
+	ul{
+        margin: 10px 0 0 30px;
 
-		li {
-			list-style-type: disc;
-		}
-	}
+        li{
+            list-style-type: disc;
+            margin: 0 0 10px 15px;
 
-	ol {
-		display: inline-block;
-		
-		li {
-			list-style-type: decimal;
-		}
-	}
+            a {
+                color: #d89b96;
+            }
 
-	em {
-		font-style: italic;
-	}
+        }
 
-	strong {
-		font-weight: bold;
-	}
+    }
+
+    ol {
+    	margin: 10px 0 0 30px;
+
+        li {
+            list-style-type: decimal;
+            margin: 0 0 10px 45px;
+
+            a {
+                color: #d89b96;
+            }
+            
+        }
+    }
+
+    em {
+        font-style: italic;
+    }
+
+    strong {
+        font-weight: bold;
+    }
+
 
 }

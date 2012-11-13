@@ -42,13 +42,20 @@
             <table border="0" cellpadding="0" cellspacing="0">
                 <thead class="headWrap">
                     <tr class="headWraptop">
-                        <td id="info-menu">{{ "info"|getInterfaceMenus }}</td>
+                        <td id="info-menu">
+                            <div class="headerColumn clearfix" id="info-menu">
+                                {{ "info"|getInterfaceMenus }}
+                            </div>
+                            <!-- {{ "info"|getInterfaceMenus }} -->
+                        </td>
                         <td id="logo">
                             <a href="{% url home %}">
                                 <img width="193px" height="43px" src="/media/images/idecorate_wedding.jpg" title="logo" />
                             </a>
                         </td>
-                        <td id="site-menu">{{ "site"|getInterfaceMenus }}</td>
+                        <td id="site-menu">
+                            {{ "site"|getInterfaceMenus }}    
+                        </td>
                     </tr>
                     <tr class="headWrapBottom">
                         <td colspan="3">

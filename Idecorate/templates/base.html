@@ -150,7 +150,7 @@
 
                 $('#close-modal').click(closed_modal);
                 {% if user.is_authenticated %}
-                $('#site-menu ul').append('<li><a href="" id="logged_as">{{ user.username }}</a></li><li><a href="{% url logout %}">Logout</a></li>');                
+                $('#site-menu ul.dropdown').append('<li><a href="" id="logged_as">{{ user.username }}</a></li><li><a href="{% url logout %}">Logout</a></li>');                
                 {% else %}
                 $('#site-menu ul').append('<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>');
                 $('#site-menu ul a#lnk-login-signup').on('click',popup_login);
