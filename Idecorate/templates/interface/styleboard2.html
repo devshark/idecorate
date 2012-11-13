@@ -37,6 +37,35 @@ var mode_toggle_tab = false;
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        <style type="text/css">
+        #modal-login-signup-window {
+            border: 5px solid #DDD;
+            position: fixed;
+            width: 800px;/*
+            */
+            height: auto;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 0 8px #333;
+            z-index: 99999;
+            top: 10%;
+        }
+        #modal-login-signup-window h2 {
+            margin: 0 5px 0 0;
+            padding: 0;
+            text-align: right;
+        }
+        #modal-login-signup-window a#close-login-signup-modal{
+            text-decoration: none;
+            color: #666;
+        }
+        #modal-login-signup-window iframe {
+        /*height: 480px;*/
+        min-height: 375px;
+        max-height: 700px;
+        width: 100%;
+        }
+        </style>
     </head>
     <body>
         <div id="compact-header">
@@ -286,7 +315,15 @@ var mode_toggle_tab = false;
                 <a href="#" id="close-modal">&times;</a>
             </h2>
             <div id="iframe-wrap"></div>
-        </div>       
+        </div>
+
+        <!-- login. signup modal -->
+        <div id="modal-login-signup-window" style="display:none;">
+            <h2 id="modal-login-signup-header">
+                <a href="#" id="close-login-signup-modal">&times;</a>
+            </h2>
+            <div id="iframe-login-signup-wrap"></div>
+        </div>
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <script src="/media/interface/js/jquery.placeholder.js"></script>
 
@@ -434,8 +471,51 @@ var mode_toggle_tab = false;
 
     $(function(e){
         styleboardH();
-    });
 
+        $('#close-login-signup-modal').click(closed_modal);
+        generate_user_nav();
+    });
+    function generate_user_nav(){
+        var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
+        '<li><a id="lnk-logout" href="#">Logout</a></li>' + 
+        '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
+        $('#site-menu ul.dropdown').append(navs);
+        $('#lnk-logout').bind('click',logmeout);
+        $('#site-menu ul a#lnk-login-signup').bind('click',popup_login);
+        {% if user.is_authenticated %}        
+        $('#lnk-login-signup').parent().hide();
+        {% else %}
+        $('#logged_as').parent().hide();
+        $('#lnk-logout').parent().hide();
+        {% endif %}
+    }    
+    function logged(val){
+        $('#logged_as').text(val);
+        $('#lnk-login-signup').parent().hide();
+        $('#logged_as').parent().show();
+        $('#lnk-logout').parent().show();
+        closed_modal();
+    }
+    function logmeout(){
+        $.get('{% url logout %}');
+        $('#lnk-login-signup').parent().show();
+        $('#logged_as').parent().hide();
+        $('#lnk-logout').parent().hide();
+        return false;
+    }
+    function closed_modal(){
+        $('#page-mask').hide();
+        $('#modal-login-signup-window').hide();
+    }
+    function popup_login(){
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':"{% url login_signup %}",'frameborder':'0'});
+        var modal   = $('#modal-login-signup-window'),
+            _left   = $(window).width()/2-modal.width()/2;
+            frame   = $('#iframe-login-signup-wrap').html(iframe);
+
+        $('#page-mask').css({display:'block'});
+        modal.css({display:'block',left:_left});
+    }
 </script>
         
     </body>

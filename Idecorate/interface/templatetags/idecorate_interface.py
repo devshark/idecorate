@@ -6,6 +6,8 @@ from django.core.urlresolvers import reverse
 from idecorate_settings.models import IdecorateSettings
 from django.contrib.humanize.templatetags.humanize import intcomma
 
+from customer.services import customer_profile
+
 register = template.Library()
 
 @register.filter
@@ -213,3 +215,11 @@ def getImagePaymentMethod(met):
 	else:
 		ret = mark_safe('<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />')
 	return ret
+
+@register.filter
+def get_nickname(user):
+	try:
+		profile = customer_profile(user)
+		return profile['nickname']
+	except:
+		return ""

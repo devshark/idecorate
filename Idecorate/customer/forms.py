@@ -7,13 +7,13 @@ from services import is_registered
 
 class LoginForm(forms.Form):	
 	username = forms.EmailField(label=_("Enter Email"), error_messages={'required':_('Enter a valid e-mail address.')})
-	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid Password.')})
+	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid password.')})
 
 class SignupForm(forms.Form):
-	nickname = forms.CharField( label=_("Enter Nickname"))
+	nickname = forms.CharField( label=_("Enter Nickname"), error_messages={'required':_('Enter your nickname.')})
 	username = forms.EmailField(label=_("Enter Email"), error_messages={'required':_('Enter a valid e-mail address.')})
-	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid Password.')})
-	confirm_password = forms.CharField( label=_("Enter Password Again"), widget=forms.PasswordInput, error_messages={'required':_('Re-Enter Password.')})
+	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid password.')})
+	confirm_password = forms.CharField( label=_("Enter Password Again"), widget=forms.PasswordInput, error_messages={'required':_('Re-enter password.')})
 
 	def clean_nickname(self):
 		try:
@@ -39,9 +39,9 @@ class SignupForm(forms.Form):
 		try:
 			username = self.cleaned_data['username']
 			if is_registered(username):
-				raise forms.ValidationError(_("E-mail already taken."))
+				raise forms.ValidationError(_("E-mail address already taken."))
 			if len(username)>80:
-				raise forms.ValidationError(_("E-mail entered should be maximum of 80 chars."))
+				raise forms.ValidationError(_("E-mail address entered should be maximum of 80 chars."))
 			return username
 		except MultiValueDictKeyError as e:
 			return ""
@@ -52,7 +52,7 @@ class SignupForm(forms.Form):
 			confirm_password = self.cleaned_data['confirm_password']            
 			if password:
 				if password != confirm_password:
-					raise forms.ValidationError(_("Confirm Password not match to Password."))
+					raise forms.ValidationError(_("Confirm password not match to password."))
 			return confirm_password
 		except MultiValueDictKeyError as e:
 			return ""

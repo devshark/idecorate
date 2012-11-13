@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
 from forms import LoginForm, SignupForm
-from services import register_user
+from services import register_user, customer_profile
 
 def login_signup(request):
 
@@ -31,21 +31,27 @@ def login_signup(request):
 			if login_form.is_valid():
 				user = authenticate(username=login_form.cleaned_data['username'], password=login_form.cleaned_data['password'])
 				if user is not None:
-					login(request, user)
-					info['username'] = user.username
-					return render_to_response('customer/iframe/success.html', info)
+					if user.is_active:
+						login(request, user)
+						profile = customer_profile(user)
+						info['username'] = profile['nickname']
+						return render_to_response('customer/iframe/success.html', info)
+					else:
+						messages.warning(request, _('Sorry we could not verify your e-mail address and password.'))
 				else:
-					messages.warning(request, _('Sorry we could not verify your email and password.'))
+					messages.warning(request, _('Sorry we could not verify your e-mail address and password.'))
 		else:
 			signup_form = SignupForm(request.POST)
 			if signup_form.is_valid():
 				user = register_user(signup_form.cleaned_data)
 				if user:
+					user = authenticate(username=signup_form.cleaned_data['username'], password=signup_form.cleaned_data['password'])
 					login(request, user)
-					info['username'] = user.username
+					profile = customer_profile(user)
+					info['username'] = profile['nickname']
 					return render_to_response('customer/iframe/success.html', info)
 				else:
-					messages.warning(request, _('Sorry we could not verify your email and password.'))
+					messages.warning(request, _('Sorry you could not register at the moment. Please try again later.'))
 
 	info['login_form'] = login_form
 	info['signup_form'] = signup_form
@@ -54,4 +60,10 @@ def login_signup(request):
 def customer_logout(request):
 	if request.user.is_authenticated():
 		logout(request)
-	return redirect('home')
+	if request.is_ajax():
+		return HttpResponse('ok')
+	else:
+		return redirect('home')
+
+def forgot_password(request):
+	return HttpResponse('<h1>Under Constraction.</h1>')
