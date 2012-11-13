@@ -16,6 +16,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 
 from forms import LoginForm, SignupForm
+from services import register_user
 
 def login_signup(request):
 
@@ -31,11 +32,26 @@ def login_signup(request):
 				user = authenticate(username=login_form.cleaned_data['username'], password=login_form.cleaned_data['password'])
 				if user is not None:
 					login(request, user)
+					info['username'] = user.username
+					return render_to_response('customer/iframe/success.html', info)
 				else:
 					messages.warning(request, _('Sorry we could not verify your email and password.'))
 		else:
-			login_form = SignupForm(request.POST)
+			signup_form = SignupForm(request.POST)
+			if signup_form.is_valid():
+				user = register_user(signup_form.cleaned_data)
+				if user:
+					login(request, user)
+					info['username'] = user.username
+					return render_to_response('customer/iframe/success.html', info)
+				else:
+					messages.warning(request, _('Sorry we could not verify your email and password.'))
 
 	info['login_form'] = login_form
 	info['signup_form'] = signup_form
 	return render_to_response('customer/iframe/login_signup.html', info, RequestContext(request))
+
+def customer_logout(request):
+	if request.user.is_authenticated():
+		logout(request)
+	return redirect('home')
