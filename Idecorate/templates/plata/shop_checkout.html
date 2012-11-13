@@ -91,6 +91,7 @@
 		<div class="clearfix information">
 			<fieldset class="personal">
 				<legend>Personal Information</legend>
+				<br />
 					<div class="clearfix">
 						<label>Salutations</label>
 						{{ orderform.billing_salutation }}
@@ -110,6 +111,7 @@
 			</fieldset>
 			<fieldset class="delivery">
 				<legend>Delivery Address</legend>
+				<br />
 					<div class="clearfix">
 						<label>Address 1</label>
 						{{ orderform.shipping_address }}
@@ -136,19 +138,22 @@
 
 	<div class="clearfix">
 		<div class="leftPannel">
-			<fieldset class="clearfix deliveryDate">
+			<fieldset class="deliveryDate">
 	            <legend>Delivery Date</legend>
+				<br />
 	                {{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
-	            {{ "delivery_date_note"|get_checkout_page_info }}
+	             	{{ "delivery_date_note"|get_checkout_page_info }}
 	        </fieldset>
 	        <fieldset class="question">
 	            <legend>Any Questions?</legend>
+				<br />
 	            <p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
 	        </fieldset>
 		</div>
 		<div class="rightPannel">
-            <fieldset class="clearfix delivery paymentMethod" id="billing_orig">
+            <fieldset class="delivery paymentMethod" id="billing_orig">
                 <legend>Billing Address</legend>
+				<br />
                 <form>
                     <div class="clearfix">
                         <label>Address 1</label>
@@ -173,6 +178,7 @@
             </fieldset>
 	        <fieldset class="paymentMethod2" id="payment_orig">
 	            <legend>Payment Method</legend>
+				<br />
 
 	                {% for choice in orderform.payment_method.field.choices %}
 	                <div class="clearfix">
@@ -216,6 +222,17 @@ QUESTION_ORIGINAL_SIZE = 0;
 		resizeInfos();
 		hideBilling()
 	});
+
+		var deliveryH = $('.delivery').height(),
+			personalH = $('.personal').height();
+
+		if(personalH < deliveryH) {
+			$('.delivery').height(deliveryH);
+			$('.personal').height(deliveryH);
+		} else {
+			$('.delivery').height(personalH);
+			$('.personal').height(personalH);
+		}
 
 	function resizeInfos() {
 		var deliveryDateH = $('.deliveryDate').height(),
