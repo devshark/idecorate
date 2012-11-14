@@ -10,7 +10,13 @@ var withloading = false;
 var total_pages;
 var mode_type;
 var search_keyword = '';
+var ie8_last_action_id;
+var ie8_current_page = 1;
+var window_height;
+var window_width;
 $(document).ready( function() {
+	window_height = $(window).height();
+	window_width = $(window).width();
     $('.categories').click(function(){
         browse_categories(this.id);
         has_change_mode = true;
@@ -23,10 +29,16 @@ $(document).ready( function() {
     });
 
     $(window).resize(function(){
-        manage_product_resize();
-        //product_list_wrap_resize();
+	if($.browser.msie && $.browser.version == 8.0){
+		if ( $(window).height() != window_height && $(window).width() != window_width ) {
+			window_height = $(window).height();
+			window_width = $(window).width();
+			manage_product_resize();
+		}
+	} else {
+		manage_product_resize();
+	}
     });
-    //product_list_wrap_resize();
     $('#buyTab').click(function(){
         $('#idecorate-tooltip').hide();
     });
@@ -162,6 +174,7 @@ function browse_categories(elm_id){
             });
 
             if(type =='products'){
+		ie8_last_action_id = elm_id;
                 $('.pagination').show();
                 styleboardH();
                 manage_product_pagination();
@@ -242,10 +255,6 @@ function populate_products(){
         $('.product-list-wrap').html(items);
         styleboardH();
         manage_product_pagination();
-        
-        if($.browser.msie && $.browser.version == 7.0){
-            reset_product();
-        }
     }
 }
 
@@ -347,7 +356,8 @@ function manage_product_pagination(){
 
             total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
 
-            $('.product-list').bind('mousewheel', function(event, delta) {                
+            $('.product-list').on('mousewheel', function(event, delta) {
+		          
                 mode = 1;
                 page_scroll_process = true;
                 offset = product_per_page;
@@ -375,6 +385,9 @@ function manage_product_pagination(){
             generate_pagenation();
         });
     });
+    if($.browser.msie && $.browser.version == 7.0){
+        setTimeout(reset_product,0);
+    }
 }
 
 function generate_pagenation(){
@@ -534,7 +547,6 @@ function populate_product_by_page(){
 }
 
 function manage_product_resize(){
-    
     var elm = $('.product-list a:first');
 
     var prod_width = $('.product-list').width();

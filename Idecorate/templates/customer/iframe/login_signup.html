@@ -9,10 +9,6 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
         <style type="text/css">
-            body{
-                background-color: #FFF;
-                background-image: none;
-            }
             #modal-window iframe {
                 height: 450px;
             }
@@ -35,7 +31,8 @@
                 padding: 15px;
             }
             .login legend, .signup legend {
-                padding: 10px;
+                padding: 0 0 10px 0;
+                font-size: 19px;
             }
             .login input, .signup input {
                 width: 300px;
@@ -102,20 +99,20 @@
                         {% csrf_token %}
                         <fieldset>
                             <legend>Login</legend>
-                            {{ login_form.username|attr:"placeholder:Enter Email" }}
+                            {{ login_form.username|attr:"placeholder:Enter E-mail Address" }}
                             {% if login_form.username.errors %}
                             {% for e in login_form.username.errors %}
                             <p class="error">{{ e }}</p>
                             {% endfor %}
                             {% endif %}
-                            {{ login_form.password|attr:"placeholder:Enter password" }}
+                            {{ login_form.password|attr:"placeholder:Enter Password" }}
                             {% if login_form.password.errors %}
                             {% for e in login_form.password.errors %}
                             <p class="error">{{ e }}</p>
                             {% endfor %}
                             {% endif %}
                             <div class="action">
-                                <a href="">forgot password</a>
+                                <a href="{% url forgot_password %}">forgot password</a>
                                 <input type="submit" name="btnSubmit" value="Login" />
                             </div>
                         </fieldset>
@@ -126,19 +123,19 @@
                         {% csrf_token %}
                         <fieldset>
                             <legend>Signup</legend>
-                            {{ signup_form.nickname|attr:"placeholder:Enter nickname" }}
+                            {{ signup_form.nickname|attr:"placeholder:Enter Nickname" }}
                             {% if signup_form.nickname.errors %}
                             {% for e in signup_form.nickname.errors %}
                             <p class="error">{{ e }}</p>
                             {% endfor %}
                             {% endif %}
-                            {{ signup_form.username|attr:"placeholder:Enter Email" }}
+                            {{ signup_form.username|attr:"placeholder:Enter E-mail Address" }}
                             {% if signup_form.username.errors %}
                             {% for e in signup_form.username.errors %}
                             <p class="error">{{ e }}</p>
                             {% endfor %}
                             {% endif %}
-                            {{ signup_form.password|attr:"placeholder:Enter password" }}
+                            {{ signup_form.password|attr:"placeholder:Enter Password" }}
                             {% if signup_form.password.errors %}
                             {% for e in signup_form.password.errors %}
                             <p class="error">{{ e }}</p>

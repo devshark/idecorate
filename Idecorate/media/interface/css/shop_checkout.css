@@ -125,7 +125,6 @@
   margin: 0 0 15px 0; }
   .information fieldset {
     width: 449px;
-    height: 200px;
     border: 1px solid #000000;
     float: left !important;
     padding: 10px; }
@@ -146,7 +145,7 @@
       .information .personal div input {
         width: 350px; }
   .information .delivery div {
-    margin-bottom: 5px; }
+    margin-bottom: 15px; }
     .information .delivery div label {
       display: block;
       width: 70px;
@@ -158,65 +157,68 @@
     .information .delivery div select {
       width: 355px; }
 
-.leftPannel, .rightPannel {
+div.leftPannel, div.rightPannel {
   width: 470px;
   height: 100%;
   float: left; }
-  .leftPannel fieldset, .rightPannel fieldset {
+  div.leftPannel .deliveryDate, div.leftPannel .question, div.leftPannel .paymentMethod, div.leftPannel .paymentMethod2, div.rightPannel .deliveryDate, div.rightPannel .question, div.rightPannel .paymentMethod, div.rightPannel .paymentMethod2 {
     width: 449px;
-    height: 100%;
     border: 1px solid #000000;
     float: left;
     padding: 10px;
     margin: 0 0 15px 0; }
-    .leftPannel fieldset legend, .rightPannel fieldset legend {
+    div.leftPannel .deliveryDate legend, div.leftPannel .question legend, div.leftPannel .paymentMethod legend, div.leftPannel .paymentMethod2 legend, div.rightPannel .deliveryDate legend, div.rightPannel .question legend, div.rightPannel .paymentMethod legend, div.rightPannel .paymentMethod2 legend {
       margin: 0 0 0 20px;
       padding: 0 5px;
       font-size: 14px; }
-    .leftPannel fieldset p, .rightPannel fieldset p {
+    div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p {
       margin: 0 0 10px 15px; }
-    .leftPannel fieldset ul, .rightPannel fieldset ul {
-      margin: 0 0 0 30px; }
-      .leftPannel fieldset ul li, .rightPannel fieldset ul li {
+    div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul {
+      margin: 10px 0 0 30px; }
+      div.leftPannel .deliveryDate ul li, div.leftPannel .question ul li, div.leftPannel .paymentMethod ul li, div.leftPannel .paymentMethod2 ul li, div.rightPannel .deliveryDate ul li, div.rightPannel .question ul li, div.rightPannel .paymentMethod ul li, div.rightPannel .paymentMethod2 ul li {
         list-style-type: disc;
         margin: 0 0 10px 15px; }
-        .leftPannel fieldset ul li a, .rightPannel fieldset ul li a {
+        div.leftPannel .deliveryDate ul li a, div.leftPannel .question ul li a, div.leftPannel .paymentMethod ul li a, div.leftPannel .paymentMethod2 ul li a, div.rightPannel .deliveryDate ul li a, div.rightPannel .question ul li a, div.rightPannel .paymentMethod ul li a, div.rightPannel .paymentMethod2 ul li a {
           color: #d89b96; }
-    .leftPannel fieldset ol li, .rightPannel fieldset ol li {
-      list-style-type: decimal;
-      margin: 0 0 10px 45px; }
-    .leftPannel fieldset em, .rightPannel fieldset em {
+    div.leftPannel .deliveryDate ol, div.leftPannel .question ol, div.leftPannel .paymentMethod ol, div.leftPannel .paymentMethod2 ol, div.rightPannel .deliveryDate ol, div.rightPannel .question ol, div.rightPannel .paymentMethod ol, div.rightPannel .paymentMethod2 ol {
+      margin: 10px 0 0 30px; }
+      div.leftPannel .deliveryDate ol li, div.leftPannel .question ol li, div.leftPannel .paymentMethod ol li, div.leftPannel .paymentMethod2 ol li, div.rightPannel .deliveryDate ol li, div.rightPannel .question ol li, div.rightPannel .paymentMethod ol li, div.rightPannel .paymentMethod2 ol li {
+        list-style-type: decimal;
+        margin: 0 0 10px 45px; }
+    div.leftPannel .deliveryDate em, div.leftPannel .question em, div.leftPannel .paymentMethod em, div.leftPannel .paymentMethod2 em, div.rightPannel .deliveryDate em, div.rightPannel .question em, div.rightPannel .paymentMethod em, div.rightPannel .paymentMethod2 em {
       font-style: italic; }
-    .leftPannel fieldset strong, .rightPannel fieldset strong {
+    div.leftPannel .deliveryDate strong, div.leftPannel .question strong, div.leftPannel .paymentMethod strong, div.leftPannel .paymentMethod2 strong, div.rightPannel .deliveryDate strong, div.rightPannel .question strong, div.rightPannel .paymentMethod strong, div.rightPannel .paymentMethod2 strong {
       font-weight: bold; }
+  div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
+    margin-bottom: 15px; }
+  div.leftPannel .paymentMethod label, div.rightPannel .paymentMethod label {
+    display: block;
+    width: 70px;
+    height: auto;
+    padding-top: 10px;
+    float: left; }
+  div.leftPannel .paymentMethod div, div.rightPannel .paymentMethod div {
+    margin-bottom: 15px; }
+  div.leftPannel .paymentMethod input, div.rightPannel .paymentMethod input {
+    width: 350px; }
+  div.leftPannel .paymentMethod select, div.rightPannel .paymentMethod select {
+    width: 355px; }
+  div.leftPannel .paymentMethod2 div, div.rightPannel .paymentMethod2 div {
+    margin-bottom: 15px; }
+    div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {
+      float: left;
+      margin-top: 5px; }
+    div.leftPannel .paymentMethod2 div label, div.rightPannel .paymentMethod2 div label {
+      display: block;
+      width: 110px;
+      height: auto;
+      padding-top: 8px;
+      float: left; }
+    div.leftPannel .paymentMethod2 div img, div.rightPannel .paymentMethod2 div img {
+      float: left; }
 
 .leftPannel {
   margin-right: 20px; }
-
-.paymentMethod label {
-  display: block;
-  width: 70px;
-  height: auto;
-  padding-top: 10px;
-  float: left; }
-.paymentMethod input {
-  width: 350px; }
-.paymentMethod select {
-  width: 355px; }
-
-.paymentMethod2 div {
-  margin-bottom: 15px; }
-  .paymentMethod2 div input {
-    float: left;
-    margin-top: 5px; }
-  .paymentMethod2 div label {
-    display: block;
-    width: 110px;
-    height: auto;
-    padding-top: 8px;
-    float: left; }
-  .paymentMethod2 div img {
-    float: left; }
 
 .disclaimer {
   width: 100%;
@@ -245,13 +247,19 @@
     /* for old Konqueror browsers */
     border: 0; }
   .disclaimer ul {
-    display: inline-block; }
+    margin: 10px 0 0 30px; }
     .disclaimer ul li {
-      list-style-type: disc; }
+      list-style-type: disc;
+      margin: 0 0 10px 15px; }
+      .disclaimer ul li a {
+        color: #d89b96; }
   .disclaimer ol {
-    display: inline-block; }
+    margin: 10px 0 0 30px; }
     .disclaimer ol li {
-      list-style-type: decimal; }
+      list-style-type: decimal;
+      margin: 0 0 10px 45px; }
+      .disclaimer ol li a {
+        color: #d89b96; }
   .disclaimer em {
     font-style: italic; }
   .disclaimer strong {
