@@ -218,11 +218,13 @@ QUESTION_ORIGINAL_SIZE = 0;
 			hideBilling()
 
 		});
-
+		resizeUpperInfos();
 		resizeInfos();
 		hideBilling()
+		
 	});
 
+	function resizeUpperInfos() {
 		var deliveryH = $('.delivery').height(),
 			personalH = $('.personal').height();
 
@@ -233,12 +235,15 @@ QUESTION_ORIGINAL_SIZE = 0;
 			$('.delivery').height(personalH);
 			$('.personal').height(personalH);
 		}
-
+	}
+		
 	function resizeInfos() {
+
 		var deliveryDateH = $('.deliveryDate').height(),
 			paymentMethodH = $('.paymentMethod').height(),
 			paymentMethodH2 = $('.paymentMethod2').height(),
 			questionH = $('.question').height();
+
 
 		if($('input[name="order-shipping_same_as_billing"]:checked').val() == 'on') {
 			if(deliveryDateH > paymentMethodH2){
