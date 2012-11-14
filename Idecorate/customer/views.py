@@ -14,9 +14,11 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
+from datetime import datetime, timedelta
 
 from forms import LoginForm, SignupForm
-from services import register_user, customer_profile
+from services import register_user, customer_profile, get_client_ip
+from admin.models import LoginLog
 
 def login_signup(request):
 
@@ -28,6 +30,12 @@ def login_signup(request):
 		action = request.POST['btnSubmit']
 		if action=='Login':			
 			login_form = LoginForm(request.POST)
+			ip = get_client_ip(request)
+			loginLog = LoginLog.objects.filter(created__gte=(datetime.now() - timedelta(minutes=5)), ip_address=ip)
+			if loginLog.count() >= 5:
+				messages.error(request, _('You have failed to login 5 consecutive times. Please try to login after 5 minutes'))
+				return redirect('login_signup')
+
 			if login_form.is_valid():
 				user = authenticate(username=login_form.cleaned_data['username'], password=login_form.cleaned_data['password'])
 				if user is not None:
@@ -35,10 +43,16 @@ def login_signup(request):
 						login(request, user)
 						profile = customer_profile(user)
 						info['username'] = profile['nickname']
+						#Successfull login, delete all the log attempts
+						LoginLog.objects.filter(ip_address=ip).delete()
 						return render_to_response('customer/iframe/success.html', info)
 					else:
 						messages.warning(request, _('Sorry we could not verify your e-mail address and password.'))
 				else:
+					loginLog = LoginLog()
+					loginLog.created = datetime.now()
+					loginLog.ip_address = ip
+					loginLog.save()
 					messages.warning(request, _('Sorry we could not verify your e-mail address and password.'))
 		else:
 			signup_form = SignupForm(request.POST)
