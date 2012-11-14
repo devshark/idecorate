@@ -826,13 +826,34 @@ h5 {
   #canvas .handles .ui-resizable-handle {
     background-color: #CCC;
     border: 1px solid #333; }
-#canvas .selected {
-  	/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-    	filter: alpha(opacity=80);*/
-  -moz-opacity: 0.8;
-  -khtml-opacity: 0.8;
-  opacity: 0.8;
-  z-index: 1; }
+  #canvas .handles .ui-rotatable-handle {
+    position: absolute;
+    width: 1px;
+    background-color: #666;
+    height: 30px;
+    top: -30px;
+    left: 50%;
+    z-index: 1000; }
+    #canvas .handles .ui-rotatable-handle .ui-rotatable-handle-tip {
+      background: #CCC;
+      border: 1px solid #333;
+      border-radius: 4px;
+      -moz-border-radius: 4px;
+      -o-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      cursor: pointer;
+      height: 9px;
+      width: 9px;
+      margin-left: -5px; }
+  #canvas .handles .ui-rotatable-handle.ui-draggable-dragging {
+    visibility: hidden; }
+  #canvas .handles .selected {
+    	/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+      	filter: alpha(opacity=80);*/
+    -moz-opacity: 0.8;
+    -khtml-opacity: 0.8;
+    opacity: 0.8;
+    z-index: 1; }
 
 .ui-autocomplete-category {
   font-weight: bold;

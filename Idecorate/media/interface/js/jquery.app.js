@@ -218,7 +218,9 @@ $(document).ready(function () {
                         top: $('.selected').css('top'),
                         left: $('.selected').css('left'),
                         width: $('.selected').css('width'),
-                        height: $('.selected').css('height')
+                        height: $('.selected').css('height'),
+                        'filter'           : $('.selected').css('filter'),
+                        '-ms-filter'       : $('.selected').css('-ms-filter')
                     }
                 });
             }
@@ -295,7 +297,12 @@ $(document).ready(function () {
                         top: $('.selected').css('top'),
                         left: $('.selected').css('left'),
                         width: $('.selected').css('width'),
-                        height: $('.selected').css('height')
+                        height: $('.selected').css('height'),
+                        '-moz-transform'   : $('.selected').css('-moz-transform'),
+                        '-o-transform'     : $('.selected').css('-o-transform'),
+                        '-webkit-transform': $('.selected').css('-webkit-transform'),
+                        '-ms-transform'    : $('.selected').css('-ms-transform'),
+                        'transform'        : $('.selected').css('transform')
                     }
                 });
             }
@@ -392,7 +399,8 @@ $(document).ready(function () {
             eventTracker($('.selected'),'resize');
 
         }
-    });
+    }).rotatable({rotateAlso:'.selected'});
+
     //hide handles and menus
     $(document).click(function(e){
         var click =  $.contains($('#canvas .handles, #canvas .handles .handle')[0],e.target) ? true : e.target == $('#canvas .handles');
@@ -510,28 +518,30 @@ $(document).ready(function () {
         var this_container = $('#em-common-wrap');
 
         this_container.append(ajax_get_by_type(callajax,to_output));
+
     });
 
 });
 
 //embelishments functions start
 function ajax_get_by_type(url,classname){
+
+    var result_data;
+    
     $.ajax({
         url: url,
         type: "POST",
         data: {},
+        dataType: 'json',
         async:   false,
         success: function(data){
-            var result_data = {
-                            object: $('a'),
-                            obj_id: data.obj_id,
-                            obj_class: 'emType thumb draggable '+classname,
-                            obj_uid: data.obj
-                        }
+            $.each(data, function(key, value){
+                result_data += $('a').attr({'id':value.obj_id,'this_uid':value.obj_uid, 'class':'emType thumb draggable '+classname});
+            });
             return result_data;
         },
         error: function(msg) {
-
+            // return error if needed
         }
     });
 }

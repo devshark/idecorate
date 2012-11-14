@@ -14,11 +14,14 @@
 	
 		// Default Values
 		var defaults = {
- 			rotatorClass: 'ui-rotatable-handle',
- 			mtx:          [1, 0, 0, 1]
-  		},  opts        = $.extend(defaults, options),
-  		    _this       = this,
-  		    _rotator;      
+             			rotatorClass: 'ui-rotatable-handle',
+             			mtx: [1, 0, 0, 1],
+                        rotateAlso : ''
+  		                },
+
+        opts        = $.extend(defaults, options),
+	    _this       = this,
+	    _rotator;      
   		  
   		// Initialization 
   		this.intialize = function() {
@@ -33,7 +36,8 @@
         
         // Create Rotation Handler
         this.createHandler = function() {
-        	_rotator = $('<div class="'+ opts.rotatorClass+ '"></div>');
+        	_rotator = $('<div class="'+opts.rotatorClass+'-tip"></div>');
+            _rotator = $('<div class="'+opts.rotatorClass+'"></div>').append(_rotator);
   			_this.append(_rotator);
   			
   			this.bindRotation();
@@ -52,140 +56,77 @@
 	        		e.stopPropagation();
 	        	});
 	        }
-			
-        	_rotator.draggable({
-                opacity: 0.001,
-				handle: _rotator.wrap('<div class="ui-rotatable-handle-wrap" />'),
-				helper: 'clone',
-				revert: false,
-				start:  function(e) {
-        			e.stopPropagation();
-        			e.stopImmediatePropagation();
-        			
-        			// TL Corner Coords
-        			tl_coords = {
-        				'x': parseInt(_this.parent().css('left')),
-						'y': parseInt(_this.parent().css('top'))
-        			};
-        			
-        			// Element Width & Height()
-        			dims = {
-        				'w': _this.width(),
-        				'h': _this.height()
-        			};
-					
-					// Center Coords
-					center_coords = {
-						'x': _this.offset().left + _this.width()  * 0.5,
-						'y': _this.offset().top  + _this.height() * 0.5
-					};
-				},
-				drag:  function(e) {
-        			e.stopPropagation();
-        			e.stopImmediatePropagation();
-        			
-					// Mouse Coords
-					mouse_coords = {
-						'x': e.pageX,
-						'y': e.pageY
-					};	
-					
-					angle = _this.radToDeg(_this.getAngle(mouse_coords, center_coords)) - 90;
+
+            _rotator.on({
+                mousedown:function(e){
+                    e.stopPropagation();
+                    e.stopImmediatePropagation();
+                    $rotatable = $(this).addClass('ui-rotating');
                     
-
-                    // setting handles cursor depending on angle.
-                    if($.browser.msie){
-                        angle = -angle;
-                    }
-
-                    cursoring = angle+90;
-
-                    if($.browser.msie){
-                        cursoring = -cursoring;
-                    }
-
-
+                    // TL Corner Coords
+                    tl_coords = {
+                        'x': parseInt(_this.parent().css('left')),
+                        'y': parseInt(_this.parent().css('top'))
+                    };
                     
-                    if (cursoring >= 67.5 && cursoring <= 112.5) {
-                        _this.repositionHandle($('.ui-resizable-n', _this),'ui-resizable-n', 'ui-resizable-nw', 'bottom|right');
-                        _this.repositionHandle($('.ui-resizable-e', _this),'ui-resizable-e', 'ui-resizable-ne', 'bottom|left');
-                        _this.repositionHandle($('.ui-resizable-s', _this),'ui-resizable-s', 'ui-resizable-se', 'top|left');
-                        _this.repositionHandle($('.ui-resizable-w', _this),'ui-resizable-w', 'ui-resizable-sw', 'top|right');
-                    }else if(cursoring >= 112.5 && cursoring <= 157.5){ 
-                        _this.repositionHandle($('.ui-resizable-nw', _this),'ui-resizable-nw', 'ui-resizable-w', 'bottom|right');
-                        _this.repositionHandle($('.ui-resizable-ne', _this),'ui-resizable-ne', 'ui-resizable-n', 'bottom|left');
-                        _this.repositionHandle($('.ui-resizable-se', _this),'ui-resizable-se', 'ui-resizable-e', 'top|left');
-                        _this.repositionHandle($('.ui-resizable-sw', _this),'ui-resizable-sw', 'ui-resizable-s', 'top|right');
-                     }else if(cursoring >= 157.5 && cursoring <= 202.5){
-                        _this.repositionHandle($('.ui-resizable-w', _this),'ui-resizable-w', 'ui-resizable-sw', 'bottom|right');
-                        _this.repositionHandle($('.ui-resizable-n', _this),'ui-resizable-n', 'ui-resizable-nw', 'bottom|left');
-                        _this.repositionHandle($('.ui-resizable-e', _this),'ui-resizable-e', 'ui-resizable-ne', 'top|left');
-                        _this.repositionHandle($('.ui-resizable-s', _this),'ui-resizable-s', 'ui-resizable-se', 'top|right');
-                    }else if(cursoring >= 202.5 && cursoring <= 247.5){
-                        _this.repositionHandle($('.ui-resizable-sw', _this),'ui-resizable-sw', 'ui-resizable-s', 'bottom|right');
-                        _this.repositionHandle($('.ui-resizable-nw', _this),'ui-resizable-nw', 'ui-resizable-w', 'bottom|left');
-                        _this.repositionHandle($('.ui-resizable-ne', _this),'ui-resizable-ne', 'ui-resizable-n', 'top|left');
-                        _this.repositionHandle($('.ui-resizable-se', _this),'ui-resizable-se', 'ui-resizable-e', 'top|right');
-                    }else if(cursoring >= 247.5 && cursoring <= 292.5){
-                        _this.repositionHandle($('.ui-resizable-s', _this),'ui-resizable-s', 'ui-resizable-se', 'bottom|right');
-                        _this.repositionHandle($('.ui-resizable-w', _this),'ui-resizable-w', 'ui-resizable-sw', 'bottom|left');
-                        _this.repositionHandle($('.ui-resizable-n', _this),'ui-resizable-n', 'ui-resizable-nw', 'top|left');
-                        _this.repositionHandle($('.ui-resizable-e', _this),'ui-resizable-e', 'ui-resizable-ne', 'top|right');
-                    }else if(cursoring >= 292.5 && cursoring <= 337.5){
-                        _this.repositionHandle($('.ui-resizable-se', _this),'ui-resizable-se', 'ui-resizable-e', 'bottom|right');
-                        _this.repositionHandle($('.ui-resizable-sw', _this),'ui-resizable-sw', 'ui-resizable-s', 'bottom|left');
-                        _this.repositionHandle($('.ui-resizable-nw', _this),'ui-resizable-nw', 'ui-resizable-w', 'top|left');
-                        _this.repositionHandle($('.ui-resizable-ne', _this),'ui-resizable-ne', 'ui-resizable-n', 'top|right');
-                    }else if(cursoring >= 337.5 && cursoring >= 360 || cursoring >= 0 && cursoring <= 22.5){
-                        _this.repositionHandle($('.ui-resizable-e', _this),'ui-resizable-e', 'ui-resizable-ne', 'bottom|right');
-                        _this.repositionHandle($('.ui-resizable-s', _this),'ui-resizable-s', 'ui-resizable-se', 'bottom|left');
-                        _this.repositionHandle($('.ui-resizable-w', _this),'ui-resizable-w', 'ui-resizable-sw', 'top|left');
-                        _this.repositionHandle($('.ui-resizable-n', _this),'ui-resizable-n', 'ui-resizable-nw', 'top|right');
-                    }else if(cursoring >= 22.5 && cursoring <= 67.5){
-                        _this.repositionHandle($('.ui-resizable-ne', _this),'ui-resizable-ne', 'ui-resizable-n', 'bottom|right');
-                        _this.repositionHandle($('.ui-resizable-se', _this),'ui-resizable-se', 'ui-resizable-e', 'bottom|left');
-                        _this.repositionHandle($('.ui-resizable-sw', _this),'ui-resizable-sw', 'ui-resizable-s', 'top|left');
-                        _this.repositionHandle($('.ui-resizable-nw', _this),'ui-resizable-nw', 'ui-resizable-w', 'top|right');
-                    }
-                    return _this.rotate(angle);
+                    // Element Width & Height()
+                    dims = {
+                        'w': _this.width(),
+                        'h': _this.height()
+                    };
+                    
+                    // Center Coords
+                    center_coords = {
+                        'x': _this.offset().left + _this.width()  * 0.5,
+                        'y': _this.offset().top  + _this.height() * 0.5
+                    };
+                    console.log(center_coords);
+                    $rotatable.parents().on({
+                        mousemove:function(e){
+                            e.stopPropagation();
+                            e.stopImmediatePropagation();
 
-					if($.browser.msie){
-                        return _this.rotate(-angle);
-                    }
-				}
-        	});
-        };
+                            // Mouse Coords
+                            mouse_coords = {
+                                'x': e.pageX,
+                                'y': e.pageY
+                            };  
+                            
+                            angle = _this.getAngle(mouse_coords, center_coords)-90;
+                            
+                            if($.browser.msie) {
+                                angle = -angle;
+                            }
 
-        this.repositionHandle = function(handle, remove_class, add_class , auto ){
-            jsonStyle = {};
-            var pos = new Array('top','bottom','left','right'),
-                with_auto = auto.split('|');
-                
-                for(x=0; x < pos.length; x++) {
-                    if(pos[x] == with_auto[0] || pos[x] == with_auto[1]) {
-                        jsonStyle[pos[x]] = 'auto';
-                    } else {
-                        jsonStyle[pos[x]] = '-5px';
-                    }
+                            return _this.rotate(angle);
+                        },
+                        mouseup:function(e){
+                            $rotatable.removeClass('ui-rotating');
+                            $rotatable.parents().off('mousemove');
+                        }
+                    });
+                },mouseup:function(e){
+                    $rotatable.removeClass('ui-rotating');
                 }
-
-            handle.removeClass(remove_class).addClass(add_class).css(jsonStyle);
-        }
-
+            });
+        };
+        
         // Get Angle
         this.getAngle = function(ms, ctr) {
-        	var x     = ms.x - ctr.x,
-        	    y     = - ms.y + ctr.y,
-        	    hyp   = Math.sqrt(Math.pow(x, 2) + Math.pow(y, 2)),
-        	    angle = Math.acos(x / hyp);
-        	
-        	if (y < 0) {    
-        		angle = 2 * Math.PI - angle;
-        	}
+            var x     = ms.x - ctr.x,
+                y     = - ms.y + ctr.y,
+                rad   = Math.atan(y/x),
+                angle = rad * (180 / Math.PI);
+
+                if (x < 0){
+                    angle = angle+180;
+                }else if(y < 0){
+                    angle = angle+360;
+                }
         	
 		    return angle;
         };
-        
+
         // Convert from Degrees to Radians
         this.degToRad = function(d) {
         	return (d * (Math.PI / 180));
@@ -232,26 +173,40 @@
 				'filter'           : ie_matrix,
 				'-ms-filter'       : '"' + ie_matrix + '"'
 			});
+
+            if(opts.rotateAlso != ''){
+                $(opts.rotateAlso).css({
+                    '-moz-transform'   : matrix,
+                    '-o-transform'     : matrix,
+                    '-webkit-transform': matrix,
+                    '-ms-transform'    : matrix,
+                    'transform'        : matrix,
+                    'filter'           : ie_matrix,
+                    '-ms-filter'       : '"' + ie_matrix + '"'
+                });
+            }
+            
         	
         	// IE Fix
-        	// if($.browser.msie) {
-        	// 	var	coef    = dims.w / dims.h,
-	        // 	    _height = _this.parent().parent().height()
-	        // 	    _width  = coef * _height,
-	        // 	    _top    = (dims.h - _height) / 2,
-	        // 	    _left   = (dims.w - _width) / 2;
+        	if($.browser.msie) {
+        		var	coef    = dims.w / dims.h,
+	        	    _height = _this.parent().parent().height()
+	        	    _width  = coef * _height,
+	        	    _top    = (dims.h - _height) / 2,
+	        	    _left   = (dims.w - _width) / 2;
 	        	
-	        // 	_this.parent().parent().css({
-	        // 		'width'      : _width
-	        // 	});
+	        	_this.parent().parent().css({
+	        		'width'      : _width
+	        	});
 	        	
-	        // 	_this.parent().css({
-	        // 		'left': _left,
-	        // 		'top' : _top
-	        // 	});
-        	// }
+	        	_this.parent().css({
+	        		'left': _left,
+	        		'top' : _top
+	        	});
+        	}
         };
         
         return this.intialize();  		
 	}
 })(jQuery);
+

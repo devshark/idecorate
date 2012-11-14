@@ -283,7 +283,7 @@ function search_products(keyword, catid){
             items = '<div class="product-list">' + items + '</div>';            
             $('.product-list-wrap').html(items);
             styleboardH();
-            manage_product_pagination();            
+            manage_product_pagination();          
         },
         error: function(msg) {
         }
