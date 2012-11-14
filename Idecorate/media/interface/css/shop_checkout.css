@@ -9,6 +9,14 @@
     border-bottom: 2px solid #000000;
     color: #000000; }
 
+input, select {
+  border: 1px solid #CCC;
+  padding: 5px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  -khtml-border-radius: 3px; }
+
 .checkout {
   background: #FFFFFF; }
 
@@ -155,7 +163,7 @@
     .information .delivery div input {
       width: 350px; }
     .information .delivery div select {
-      width: 355px; }
+      width: 365px; }
 
 div.leftPannel, div.rightPannel {
   width: 470px;
