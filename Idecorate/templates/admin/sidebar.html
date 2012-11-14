@@ -10,6 +10,11 @@
                   <li><a href="{% url admin_create_product %}">{% trans "Create Product" %}</a></li>
                 </ul>
               </li>
+              <li><a href="#">{% trans "Manage Embellishments" %}</a>
+                <ul>
+                  <li><a href="{% url admin_upload_embellishment %}">{% trans "Upload Embellishment" %}</a></li>
+                </ul>
+              </li>
               <li><a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a></li>
               
               <li><a href="{% url admin_logout %}">{% trans "Logout" %}</a></li>

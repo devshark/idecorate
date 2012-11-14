@@ -138,3 +138,10 @@ class EditCheckoutPage(forms.Form):
 	delivery_text = forms.CharField(label=_("Delivery Help Text"), required=True,widget=forms.Textarea, help_text="", error_messages={'required':_('Delivery Help Text is a required field.')})
 	any_question_text = forms.CharField(label=_("Any Question Text"), required=True,widget=forms.Textarea, help_text="", error_messages={'required':_('Any Question Text is a required field.')})
 	tc_text = forms.CharField(label=_("T&C Help Text"), required=True,widget=forms.Textarea, help_text="", error_messages={'required':_('T&C Help Text is a required field.')})
+
+class UploadEmbellishmentForm(forms.Form):
+
+	embellishment_status = forms.ChoiceField(label=_("Status"), choices=(('1','Active'),('0','Inactive'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Status is a required field.')})
+	embellishment_description = forms.CharField(max_length=100,label=_("Description"), required=True, help_text=_(mark_safe('Enter a short or long description of this embellishment.')), error_messages={'required':_('Description is a required field.')})
+	embellishment_image = forms.CharField(label=_("Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Image is a required field.')})
+	embellishment_type = forms.ChoiceField(label=_("Type"), choices=(('1','Image'),('2','Texture'),('3','Pattern'),('2','Shape'),), required=True,widget=forms.Select, error_messages={'required':_('Type is a required field.')})

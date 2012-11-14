@@ -18,6 +18,23 @@
     -webkit-border-radius: 3px;
     border-radius: 3px;
     -khtml-border-radius: 3px; }
+  .checkout #edit_button {
+    padding: 4px 8px;
+    cursor: pointer;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, white, #da9b94);
+    /* for firefox 3.6+ */
+    background: -o-linear-gradient(top, white, #da9b94);
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    /* future proofing */
+    -khtml-border-radius: 4px;
+    /* for old Konqueror browsers */
+    border: 0; }
 
 .orderWrap .errorBlock {
   color: #B94A48;
@@ -209,7 +226,7 @@ div.leftPannel, div.rightPannel {
   div.leftPannel .paymentMethod input, div.rightPannel .paymentMethod input {
     width: 350px; }
   div.leftPannel .paymentMethod select, div.rightPannel .paymentMethod select {
-    width: 355px; }
+    width: 365px; }
   div.leftPannel .paymentMethod2 div, div.rightPannel .paymentMethod2 div {
     margin-bottom: 15px; }
     div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {

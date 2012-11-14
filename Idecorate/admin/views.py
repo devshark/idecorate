@@ -3,10 +3,10 @@ from django.shortcuts import HttpResponse, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
-from admin.models import LoginLog
+from admin.models import LoginLog, EmbellishmentsType, Embellishments
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -834,3 +834,91 @@ def admin_manage_checkout(request):
     info['tc_text'] = idecorate_settings.t_and_c
     info['form'] = form
     return render_to_response('admin/admin_manage_checkout.html',info,RequestContext(request))
+
+@staff_member_required
+def admin_upload_embellishment(request):
+    info = {}
+    form = UploadEmbellishmentForm()
+
+    if request.method == "POST":
+    	form = UploadEmbellishmentForm(request.POST)
+
+    	if form.is_valid():
+
+    		directoryName = ''
+
+    		if int(form.cleaned_data['embellishment_type']) == 1:
+    			directoryName = 'images'
+    		elif int(form.cleaned_data['embellishment_type']) == 2:
+    			directoryName = 'textures'
+    		elif int(form.cleaned_data['embellishment_type']) == 3:
+    			directoryName = 'patterns'
+    		elif int(form.cleaned_data['embellishment_type']) == 4:
+    			directoryName = 'shapes' 
+
+    		imgSize = (settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT)
+    		
+    		splittedName = getExtensionAndFileName(form.cleaned_data['embellishment_image'])
+    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+
+    		#CREATE THUMBNAIL
+    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+    		img.thumbnail(imgSize,Image.ANTIALIAS)
+    		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
+    		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
+    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryName, thumbName))
+
+    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+	    	img.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryName, form.cleaned_data['embellishment_image']))
+
+	    	embellishmentType = EmbellishmentsType.objects.get(id=int(form.cleaned_data['embellishment_type']))
+	    	embellishment = Embellishments()
+
+	    	embellishment.is_active = bool(int(form.cleaned_data['embellishment_status']))
+	    	embellishment.description = form.cleaned_data['embellishment_description']
+	    	embellishment.e_type = embellishmentType
+	    	embellishment.image = form.cleaned_data['embellishment_image']
+	    	embellishment.image_thumb = thumbName
+	    	embellishment.save()
+
+	    	#REMOVE FILES
+	    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+
+	    	messages.success(request, _('Embellishment Saved.'))
+	    	return redirect('admin_upload_embellishment')
+
+    info['form'] = form
+    return render_to_response('admin/admin_upload_embellishment.html',info,RequestContext(request))
+
+@csrf_exempt
+def admin_upload_embellishment_image(request):
+
+	if request.method == "POST":
+
+		uploaded = request.FILES['image']
+		content_type = uploaded.content_type.split('/')[0]
+
+		if content_type in settings.CONTENT_TYPES:
+			if int(uploaded.size) > int(settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE):
+				return HttpResponse(_('notok:Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE), filesizeformat(uploaded.size)))
+			else:
+				splittedName = getExtensionAndFileName(uploaded.name)
+				newFileName = "%s-%s%s" % (splittedName[0],datetime.now().strftime('%b-%d-%I%M%s%p-%G'),splittedName[1])
+
+				destination = open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", newFileName), 'wb+')
+				for chunk in uploaded.chunks():
+					destination.write(chunk)
+
+				destination.close()
+
+				if uploaded.content_type == "image/tiff" or uploaded.content_type == "image/pjpeg" or uploaded.content_type == "image/jpeg":
+					img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", newFileName))
+
+					splittedName = getExtensionAndFileName(newFileName)
+					os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", newFileName))
+					newFileName = "%s%s" % (splittedName[0], ".jpg")
+					img.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", newFileName))
+
+				return HttpResponse('ok:%s' % newFileName)
+		else:
+			return HttpResponse(_('notok:File type is not supported').encode('utf-8'))
