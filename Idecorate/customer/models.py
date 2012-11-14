@@ -16,14 +16,17 @@ class CustomerProfile(models.Model):
 
 class StyleboardItems(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
+	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 
 	class Meta:
-		db_table = 'styleboard_itemss'
+		db_table = 'styleboard_items'
 		verbose_name = _("Styleboard Items")
 
 class CustomerStyleBoard(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
 	user = models.ForeignKey(User, db_column='user_id')
+	styleboard_item = models.ForeignKey(StyleboardItems, db_column='styleboard_item_id', blank=True)
+	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 
 	class Meta:
 		db_table = 'customer_styleboards'
