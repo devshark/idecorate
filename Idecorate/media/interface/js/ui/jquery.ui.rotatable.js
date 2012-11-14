@@ -26,11 +26,6 @@
   		// Initialization 
   		this.intialize = function() {
         	this.createHandler();
-        	
-        	dims = {
-				'w': _this.width(),
-				'h': _this.height()
-			};
         	this.updateRotationMatrix(opts.mtx);
         };
         
@@ -69,18 +64,13 @@
                         'y': parseInt(_this.parent().css('top'))
                     };
                     
-                    // Element Width & Height()
-                    dims = {
-                        'w': _this.width(),
-                        'h': _this.height()
-                    };
-                    
                     // Center Coords
-                    center_coords = {
-                        'x': _this.offset().left + _this.width()  * 0.5,
-                        'y': _this.offset().top  + _this.height() * 0.5
-                    };
-                    console.log(center_coords);
+                    center_coords = $.parseJSON(_this.attr('ctr'));
+                    // center_coords = {
+                    //     'x': raw_ctr.x,
+                    //     'y': raw_ctr.y
+                    // };
+
                     $rotatable.parents().on({
                         mousemove:function(e){
                             e.stopPropagation();
@@ -186,24 +176,6 @@
                 });
             }
             
-        	
-        	// IE Fix
-        	if($.browser.msie) {
-        		var	coef    = dims.w / dims.h,
-	        	    _height = _this.parent().parent().height()
-	        	    _width  = coef * _height,
-	        	    _top    = (dims.h - _height) / 2,
-	        	    _left   = (dims.w - _width) / 2;
-	        	
-	        	_this.parent().parent().css({
-	        		'width'      : _width
-	        	});
-	        	
-	        	_this.parent().css({
-	        		'left': _left,
-	        		'top' : _top
-	        	});
-        	}
         };
         
         return this.intialize();  		

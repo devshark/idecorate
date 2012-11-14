@@ -73,8 +73,6 @@ $(document).ready(function () {
                         img_wo_bg   = data.no_background;
                         p_d_qty     = data.default_quantity;
                         p_g_t       = data.guest_table;
-                        // img_wo_bg_w = data.no_background_w;
-                        // img_wo_bg_h = data.no_background_h;
 
                         //create new image using image object
                         var newObj = create_instance({
@@ -133,8 +131,6 @@ $(document).ready(function () {
         }
 
     }).mousedown(function(e){
-        //e.preventDefault();
-        //remove_handles(e);
         if($('.selected').length == 0) {
 
             var x = e.pageX - $(this).offset().left;
@@ -145,8 +141,6 @@ $(document).ready(function () {
         }
 
     }).mouseup(function(e){
-        //console.log('up');
-        //e.preventDefault();
         lassoStart = false;
         var x = e.pageX - $(this).offset().left;
         var y = e.pageY - $(this).offset().top;
@@ -156,7 +150,6 @@ $(document).ready(function () {
         $('#lasso').height(0);
         $('#lasso').css('display', 'none');
     }).change(function(e){
-        //console.log('changed');
     });
 
     //drag the selected product together with its handle on the fly
@@ -164,37 +157,19 @@ $(document).ready(function () {
         helper: 'original',
         cursor: 'move',
         start : function(e, ui){
-            update_ui({
-                styles:{
-                    display: 'block',
-                    top: $(this).css('top'),
-                    left: $(this).css('left'),
-                    width: $(this).css('width'),
-                    height: $(this).css('height')
-                }
-            });
+            
+            transform($(this));
         },
         drag : function(e, ui){
-            update_ui({
-                styles:{
-                    display: 'block',
-                    top: $(this).css('top'),
-                    left: $(this).css('left'),
-                    width: $(this).css('width'),
-                    height: $(this).css('height')
-                }
-            });
+            
+            transform($(this));
         },
         stop : function(e, ui){
-            update_ui({
-                styles:{
-                    display: 'block',
-                    top: $(this).css('top'),
-                    left: $(this).css('left'),
-                    width: $(this).css('width'),
-                    height: $(this).css('height')
-                }
-            });
+            
+            transform($(this));
+
+            //set center coordinated for rotate plugin
+            set_ctr_attr($(this));
 
 
             //track event
@@ -214,17 +189,10 @@ $(document).ready(function () {
 
                 $(this).addClass('selected').siblings().removeClass('selected');
 
-                update_ui({
-                    styles:{
-                        display: 'block',
-                        top: $('.selected').css('top'),
-                        left: $('.selected').css('left'),
-                        width: $('.selected').css('width'),
-                        height: $('.selected').css('height'),
-                        'filter'           : $('.selected').css('filter'),
-                        '-ms-filter'       : $('.selected').css('-ms-filter')
-                    }
-                });
+                transform($(this));
+
+                //set center coordinated for rotate plugin
+                set_ctr_attr($('.selected'));
             }
             
             handled = true; 
@@ -257,7 +225,7 @@ $(document).ready(function () {
             
         });
 
-        $($handles).on('mousedown','.ui-resizable-handle',function(e){
+        $handles.on('mousedown','.ui-resizable-handle, ui-rotatable-handle',function(e){
             handled = true; 
             $(document).unbind('click');
         }).mouseup(function(e){
@@ -293,22 +261,13 @@ $(document).ready(function () {
 
                 $(this).addClass('selected').siblings().removeClass('selected');
 
-                update_ui({
-                    styles:{
-                        display: 'block',
-                        top: $('.selected').css('top'),
-                        left: $('.selected').css('left'),
-                        width: $('.selected').css('width'),
-                        height: $('.selected').css('height'),
-                        '-moz-transform'   : $('.selected').css('-moz-transform'),
-                        '-o-transform'     : $('.selected').css('-o-transform'),
-                        '-webkit-transform': $('.selected').css('-webkit-transform'),
-                        '-ms-transform'    : $('.selected').css('-ms-transform'),
-                        'transform'        : $('.selected').css('transform')
-                    }
-                });
+                transform($('.selected'));
+                
+                //set center coordinated for rotate plugin
+                set_ctr_attr($('.selected'));
             }
             cancelBubble(e);
+
         });
     }
     
@@ -319,50 +278,22 @@ $(document).ready(function () {
         cursor: 'move',
         start: function(e, ui){
 
-            update_ui({
-                styles:{
-                    display: 'block',
-                    top: $(this).css('top'),
-                    left: $(this).css('left'),
-                    width: $(this).css('width'),
-                    height: $(this).css('height')
-                },
-                update_obj : $('.selected')
-            });
+            transform($(this));
 
         },
         drag: function(e, ui){
 
-            update_ui({
-                styles:{
-                    display: 'block',
-                    top: $(this).css('top'),
-                    left: $(this).css('left'),
-                    width: $(this).css('width'),
-                    height: $(this).css('height')
-                },
-                update_obj : $('.selected')
-            });
+            transform($(this));
 
         },
         stop: function(e, ui){
 
-            update_ui({
-                styles:{
-                    display: 'block',
-                    top: $(this).css('top'),
-                    left: $(this).css('left'),
-                    width: $(this).css('width'),
-                    height: $(this).css('height')
-                },
-                update_obj : $('.selected')
-            });
+            transform($(this));
             //track event
             eventTracker($('.selected'),'move');
 
-            //track event
-            //eventTracker($(this),'move');
-
+            //set center coordinated for rotate plugin
+            set_ctr_attr($(this));
         }
     }).resizable({
 
@@ -380,15 +311,8 @@ $(document).ready(function () {
             
         },
         resize: function(e, ui){
-            update_ui({
-                styles:{
-                    top: $(this).css('top'),
-                    left: $(this).css('left'),
-                    width: $(this).css('width'),
-                    height: $(this).css('height')
-                },
-                update_obj : $('.selected, .selected img')
-            });
+            
+            transform($(this));
         },
         stop : function(e, ui){
 
@@ -396,6 +320,9 @@ $(document).ready(function () {
                 revert:true, 
                 helper: 'clone'
             });
+
+            //set center coordinated for rotate plugin
+            set_ctr_attr($(this));
 
             //track event
             eventTracker($('.selected'),'resize');
@@ -588,38 +515,14 @@ function create_instance(options){
 
         //show menus
         update_menu($(this));
-
-        //display handles based on the dropped position of created instance
-        update_ui({
-            styles:{
-                display: 'block',
-                top: imgTop,
-                left: imgLeft,
-                width: dimensions['width'],
-                height: dimensions['height']
-            }
-        });
-
-        update_ui({
-            styles:{
-                width               : dimensions['width'],
-                height              : dimensions['height'],
-                top                 : '',
-                left                : '',
-                '-moz-transform'    : '',
-                '-o-transform'      : '',
-                '-webkit-transform' : '',
-                '-ms-transform'     : '',
-                'transform'         : '',
-                'filter'            : '',
-                '-ms-filter'        : ''
-            },
-            update_obj: $('.fakeHandle')
-        });
         
+        $('.selected').removeClass('selected');
+        var fakeObj = $('<div/>').css({top:imgTop,left:imgLeft,width:dimensions['width'],height:dimensions['height']})
+        transform(fakeObj);
+
         //append to canvas the newly created instance
         setTimeout(function(){
-            append_to_canvas(options._event,object,objCounter);
+            append_to_canvas(options._event,object,objCounter,imgTop,imgLeft);
         },500);
 
         //GLOBAL var objCounter is for setting z-index for each created instance
@@ -647,16 +550,30 @@ function create_new_object(options){
     return object;
 }
 
-function append_to_canvas(event, obj, index){
+function set_ctr_attr(obj){
+
+    x = obj.offset().left + obj.width() * 0.5;
+    y = obj.offset().top + obj.height() * 0.5;
+
+    $handles.attr({'ctr':'{"x":'+x+',"y":'+y+'}'});
+    //$('.selected').attr({'ctr':'{"x":'+x+',"y":'+y+'}'});
+}
+
+function append_to_canvas(event, obj, index, top, left){
 
     object = obj;
     object.appendTo('#canvas');
-    object_top = event.pageY-$('#canvas').offset().top-object.height()/2;
-    object_left = event.pageX-$('#canvas').offset().left-object.width()/2;
+    object_top = top;
+    object_left = left;
     object.css({top : object_top, left: object_left, zIndex: index });
-    object.attr('object_id',uniqueIdentifier);
+    object.attr({'object_id':uniqueIdentifier});
+    
     uniqueIdentifier++;
-    if(object.hasClass('selected')){object.siblings('.unselected').removeClass('selected');}
+    if(object.hasClass('selected')){
+        object.siblings('.unselected').removeClass('selected');
+
+        set_ctr_attr(object);
+    }
 
     //track event
     //eventTracker(object,'create');
@@ -690,12 +607,7 @@ function remove_handles(event){
 
 function update_menu(obj){
     
-    update_ui({
-        styles : {
-            display : 'block'
-        },
-        update_obj : $img_menus
-    });
+    $img_menus.show();
 
     var _src        = '/'+media_url+'products/';
     var wo_bg_img   = obj.attr('_nb');
@@ -724,38 +636,24 @@ function update_menu(obj){
 
 }
 
-function update_ui(options) {
-
-    var defaults = {   
-            styles :{
-                display: '',
-                top : 0,
-                left: 0,
-                //zIndex: '',
-                width: '',
-                height: '',
-                '-moz-transform'   : 'none',
-                '-o-transform'     : 'none',
-                '-webkit-transform': 'none',
-                '-ms-transform'    : 'none',
-                'transform'        : 'none',
-                'filter'           : 'none',
-                '-ms-filter'       : 'none'
-
-            },
-            update_obj : $handles
-        }
-        for (var key in defaults.styles) {
-          if (options.styles.hasOwnProperty(key)) {
-            defaults.styles[key] = options.styles[key];
-          }
-        }
-
-    defaults.update_obj = options.update_obj == null ? defaults.update_obj : options.update_obj;
-
-    defaults.update_obj.css(defaults.styles);
-
-    return defaults.update_obj;
+function transform(obj) {
+    selected_zIndex = $('.selected').css('z-index');
+    $('.selected').attr('style',obj.attr('style')).css('z-index',selected_zIndex);
+    $handles.attr('style',obj.attr('style')).css({'z-index':'','display':'block'});
+    $('.fakeHandle').attr('style',obj.attr('style')).css({
+        zIndex:'',
+        top: '', 
+        left: '',
+        display: '',
+        position: '',
+        '-moz-transform'   : '',
+        '-o-transform'     : '',
+        '-webkit-transform': '',
+        '-ms-transform'    : '',
+        'transform'        : '',
+        'filter'           : '',
+        '-ms-filter'       : ''
+    });
 }
 
 function moveNext(obj) {
@@ -827,22 +725,13 @@ function cloneObj(obj) {
 
     update_menu(cloned_obj.find('img'));
 
-    update_ui({
-        styles:{
-            display: 'block',
-            top: cloned_obj.css('top'),
-            left: cloned_obj.css('left'),
-            width: cloned_obj.css('width'),
-            height: cloned_obj.css('height')
-        }
-    });
+    transform(cloned_obj);
 
     //track event
     eventTracker(cloned_obj, 'clone');
 }
 
 function eventTracker(currentObject, eventType) {
-    //console.log(eventType);
     if(eventType != 'unselect' && eventType != 'undo' && eventType != 'redo') {
 
         var product_objects = '';
@@ -910,11 +799,8 @@ function setProductPositions(func) {
 
     var clonedObject = $('.product.unselected').clone();
 
-    //clonedObject.;
-
     clonedObject.each(function(e){
         $(this).removeClass('selected');
-        //$(this).removeClass('selected');
         product_objects += $(this).prop('outerHTML');
 
     });
@@ -1002,8 +888,7 @@ function initProductPositions() {
     });
 
     changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects });
-    //changesCounter++;
-
+    
 }
 
 function changeProductPositions(pos) {
@@ -1047,7 +932,6 @@ function undo_styleboard() {
 
 
         $(clonedTable).find('.dynamic_qty').each(function(e){
-            //alert($(this).val());
             add_to_cart($(this).attr('_pid'), $(this).attr('_dq'), $(this).attr('_gs'));
         });
 

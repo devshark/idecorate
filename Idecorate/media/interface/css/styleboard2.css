@@ -622,7 +622,8 @@ h5 {
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .product {
         position: absolute;
         font-size: 0;
-        background: url("../images/fake_bg.png") 0 0 repeat; }
+        background: transparent;
+        /*background: url('../images/fake_bg.png') 0 0  repeat;*/ }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .product:hover {
         outline: 1px solid #DDD; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus {
@@ -821,7 +822,8 @@ h5 {
   display: none;
   position: absolute;
   z-index: 1000;
-  background: url("../images/fake_bg.png") 0 0 repeat; }
+  background: transparent;
+  /*background: url('../images/fake_bg.png') 0 0  repeat;*/ }
   #canvas .handles .ui-resizable-handle {
     background-color: #CCC;
     border: 1px solid #333; }
@@ -844,8 +846,6 @@ h5 {
       height: 9px;
       width: 9px;
       margin-left: -5px; }
-  #canvas .handles .ui-rotatable-handle.ui-draggable-dragging {
-    visibility: hidden; }
   #canvas .handles .selected {
     	/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
       	filter: alpha(opacity=80);*/
