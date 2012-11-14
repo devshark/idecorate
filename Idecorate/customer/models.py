@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 class CustomerProfile(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
 	nickname = models.CharField(db_column='nickname', max_length=256, db_index=True)
+	picture = 	models.CharField(db_column='picture', max_length=256, null=True)
 
 	class Meta:
 		db_table = 'customer_profiles'
