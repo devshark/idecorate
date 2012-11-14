@@ -626,6 +626,39 @@ h5 {
         /*background: url('../images/fake_bg.png') 0 0  repeat;*/ }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .product:hover {
         outline: 1px solid #DDD; }
+      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus {
+        float: left;
+        margin-top: 5px;
+        margin-left: 5px; }
+        #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl li a {
+          display: block;
+          width: 80px;
+          font-size: 14px;
+          padding: 7px 0;
+          text-align: center;
+          *background-color: #EEEEEE;
+          color: #999;
+          border-left: 1px solid #CCC;
+          border-bottom: 1px solid #CCC;
+          border-right: 1px solid #CCC;
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#DDDDDD',GradientType=0 );
+          /* for IE */
+          background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#dddddd));
+          /* for webkit browsers */
+          background: -moz-linear-gradient(top, #eeeeee, #dddddd);
+          /* for firefox 3.6+ */
+          background: -o-linear-gradient(top, #eeeeee, #dddddd); }
+        #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl li a#save {
+          border: 1px solid #727629;
+          color: #FFF;
+          *background-color: #c3c97d;
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c3c97d', endColorstr='#98a138',GradientType=0 );
+          /* for IE */
+          background: -webkit-gradient(linear, left top, left bottom, from(#c3c97d), to(#98a138));
+          /* for webkit browsers */
+          background: -moz-linear-gradient(top, #c3c97d, #98a138);
+          /* for firefox 3.6+ */
+          background: -o-linear-gradient(top, #c3c97d, #98a138); }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus {
         float: right;
         margin-top: 5px;
