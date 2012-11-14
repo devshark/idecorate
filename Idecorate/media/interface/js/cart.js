@@ -100,7 +100,6 @@ function add_to_cart(prod_id,default_quantity,guest_table){
                 qty = guests*default_quantity;
             }            
         }   
-
         var data = addToCart_submit_action(prod_id,qty);    
         var img_src = media_url+'products/';
         var price = data.price;
@@ -276,6 +275,22 @@ function remove_from_cart(prod_id){
 
 }
 
+function remove_all_cart(){
+
+    $.ajax({
+        url: REMOVE_ALL_CART_URL,
+        type: "POST",
+        data: { command:'delete' },
+        async:   false,
+        success: function(response_data){
+            data = response_data;
+        },
+        error: function(msg) {
+        }
+    });
+
+}
+
 function update_cart(elm){
     var pid = $(elm).attr('_pid');
     var qty = $(elm).val();
@@ -299,7 +314,7 @@ function addToCart_submit_action(id,qty){
             
         },
         success: function(response_data){
-            data = response_data
+            data = response_data;
         },
         error: function(msg) {
         }

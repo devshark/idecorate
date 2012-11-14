@@ -150,6 +150,7 @@ INSTALLED_APPS = (
     'plata.shop',
     'bootstrap-pagination',
     'idecorate_settings',
+    'customer',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
