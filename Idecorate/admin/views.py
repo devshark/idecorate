@@ -3,10 +3,10 @@ from django.shortcuts import HttpResponse, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
-from admin.models import LoginLog, EmbellishmentsType, Embellishments
+from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -17,7 +17,7 @@ from services import getExtensionAndFileName
 from cart.models import Product, ProductPrice, ProductGuestTable
 from plata.shop.models import TaxClass
 import shutil
-from PIL import Image
+from PIL import Image, ImageDraw, ImageFont
 import os
 from category.models import Categories
 from django.db.models import Q
@@ -922,3 +922,89 @@ def admin_upload_embellishment_image(request):
 				return HttpResponse('ok:%s' % newFileName)
 		else:
 			return HttpResponse(_('notok:File type is not supported').encode('utf-8'))
+
+
+@staff_member_required
+def admin_manage_text_font(request):
+    info = {}
+
+    form = UploadFontForm()
+
+    if request.method == "POST":
+    	form = UploadFontForm(request.POST)
+
+    	if form.is_valid():
+    		textFont = TextFonts()
+    		textFont.is_active = bool(int(form.cleaned_data['font_status']))
+    		textFont.description = form.cleaned_data['font_description']
+    		textFont.font = form.cleaned_data['font_file']
+    		textFont.save()
+
+	    	#MOVE FONT
+	    	shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "fonts/temp/", form.cleaned_data['font_file']), "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", form.cleaned_data['font_file']))
+
+	    	messages.success(request, _('Font Saved.'))
+	    	return redirect('admin_manage_text_font')
+
+    info['form'] = form
+    return render_to_response('admin/admin_manage_text_font.html',info,RequestContext(request))
+
+
+@csrf_exempt
+def admin_upload_font(request):
+
+	if request.method == "POST":
+
+		uploaded = request.FILES['font']
+		content_type = uploaded.content_type
+
+		print "The content type is: %s" % content_type
+
+		if content_type in settings.FONT_TYPES:
+			if int(uploaded.size) > int(settings.MAX_UPLOAD_FONT_SIZE):
+				return HttpResponse(_('notok:Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_FONT_SIZE), filesizeformat(uploaded.size)))
+			else:
+				splittedName = getExtensionAndFileName(uploaded.name)
+				newFileName = "%s-%s%s" % (splittedName[0],datetime.now().strftime('%b-%d-%I%M%s%p-%G'),splittedName[1])
+
+				destination = open("%s%s%s" % (settings.MEDIA_ROOT, "fonts/temp/", newFileName), 'wb+')
+				for chunk in uploaded.chunks():
+					destination.write(chunk)
+
+				destination.close()
+
+				return HttpResponse('ok:%s' % newFileName)
+		else:
+			return HttpResponse(_('notok:File type is not supported').encode('utf-8'))
+
+def admin_generate_text_thumbnail(request):
+	#parameters
+	font_size = 100
+	image_text = request.GET.get('font_text','')
+	font_name = request.GET.get('font_name','')
+	font_color = request.GET.get('font_color','')
+
+	font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+	#load font with size
+	font = ImageFont.truetype("%s%s%s" % (settings.MEDIA_ROOT, "fonts/temp/", font_name), font_size)
+	
+	#get the text size first
+	textSize = font.getsize(image_text)
+
+	#image with background transparent
+	img = Image.new("RGBA", textSize, (255,255,255, 0))
+
+	#create draw object	
+	draw = ImageDraw.Draw(img)
+
+	#draw text with black font color
+	draw.text((0,0), image_text, font_color, font=font)
+
+	#create thumbnail
+	img.thumbnail((100,100),Image.ANTIALIAS)
+	bgImg = Image.new('RGBA', (100,100), (255, 255, 255, 0))
+	bgImg.paste(img,((100 - img.size[0]) / 2, (100 - img.size[1]) / 2))
+
+	response = HttpResponse(mimetype="image/jpg")
+	bgImg.save(response, "JPEG")
+	return response
