@@ -48,6 +48,11 @@
 	z-index:		99;
 	background: 	#F6F6F6;
 	z-index: 		1;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+    -khtml-border-radius: 4px;
+	padding: 		2px 5px;
 }
 .dropdown li:hover ul a:hover,
 .dropdown li.sfHover ul a:hover {
@@ -67,8 +72,20 @@ ul.dropdown li.sfHover li ul {
 }
 ul.dropdown li li:hover ul,
 ul.dropdown li li.sfHover ul {
-	left:			auto; /* match ul width */
+	left:			100%; /* match ul width */
+	right:			auto;
+	display: 		block;
+	float: 			none;
+	white-space: 	normal;
+	text-align: 	right;
 	top:			0;
+}
+ul.dropdown li li:hover ul,
+ul.dropdown li li.sfHover ul {
+	left:			100%; /* match ul width */
+	right:			auto;
+	top:			1.8em;
+	padding: 		2px 5px;
 }
 /*to drop down towards left */
 .ddl-right * {
@@ -80,13 +97,18 @@ ul.dropdown li li.sfHover ul {
 .ddl-right li {
 	border-left: 1px solid #fff !important;
 }
+.ddl-right li:hover ul,
+.ddl-right li.sfHover ul {
+	top:			1.8em !important;
+}
 .ddl-right li li:hover ul,
 .ddl-right li li.sfHover ul {
-	text-align: right;
-	right: 100%;
-	display: block;
-	float: none;
-	white-space: normal;
+	left:			auto !important;
+	text-align: 	right;
+	right: 			95% !important;
+	display: 		block;
+	float: 			none;
+	white-space: 	normal;
 }
 .ddl-right li li:hover ul a:hover,
 .ddl-right li li.sfHover ul a:hover {
