@@ -12,17 +12,18 @@
 	}
 
 }
-input, select {
-  border: 1px solid #CCC;
-  padding: 5px;
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  -khtml-border-radius: 3px;
-}
 
 .checkout{
 	background: #FFFFFF;
+	
+	input, select {
+	  border: 1px solid #CCC;
+	  padding: 5px;
+	  -moz-border-radius: 3px;
+	  -webkit-border-radius: 3px;
+	  border-radius: 3px;
+	  -khtml-border-radius: 3px;
+	}
 }
 
 .orderWrap {
