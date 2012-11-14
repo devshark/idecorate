@@ -108,15 +108,14 @@
         <script src="/media/interface/js/superfish.js"></script>
         <script type="text/javascript">
             // initialise plugins
-            jQuery(function(){
-                jQuery('ul.dropdown').superfish({
+            $(function(){
+                $('ul.dropdown').superfish({
                     onBeforeShow: function(e){
                         //alert('test');
                     }
                 });
             }); 
             $(function() {
-
                 var dateToday = new Date();
                 var dates = $("#datepicker").datepicker({
                     defaultDate: "+1w",
@@ -153,7 +152,7 @@
 
                 $('#close-login-signup-modal').click(closed_modal);
                 generate_user_nav();
-                $(':input[placeholder]').placeholder();
+                $('input[type="text"]').placeholder();
             });
             function generate_user_nav(){
                 var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
