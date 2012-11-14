@@ -354,7 +354,7 @@ $(document).ready(function () {
             eventTracker($('.selected'),'move');
 
             //track event
-            eventTracker($(this),'move');
+            //eventTracker($(this),'move');
 
         }
     }).resizable({
@@ -832,7 +832,7 @@ function cloneObj(obj) {
 }
 
 function eventTracker(currentObject, eventType) {
-
+    //console.log(eventType);
     if(eventType != 'unselect' && eventType != 'undo' && eventType != 'redo') {
 
         var product_objects = '';
