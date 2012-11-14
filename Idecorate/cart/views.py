@@ -238,6 +238,19 @@ def remove_from_cart_ajax(request):
 	else:
 		return HttpResponseNotFound()
 
+def remove_all_cart_ajax(request):
+	if request.method == "POST":		
+		sessionid = request.session.get('cartsession',None)
+
+		if sessionid:
+			CartTemp.objects.filter(sessionid=sessionid).delete()
+			GuestTableTemp.objects.filter(sessionid=sessionid).delete()
+
+		return HttpResponse('ok')
+
+	else:
+		return HttpResponseNotFound()
+
 def checkout(request):
 	sessionid = request.session.get('cartsession',None)
 	if not sessionid:

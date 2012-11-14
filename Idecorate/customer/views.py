@@ -81,3 +81,7 @@ def customer_logout(request):
 
 def forgot_password(request):
 	return HttpResponse('<h1>Under Constraction.</h1>')
+
+def profile(request):
+	info = {}
+	return render_to_response('customer/profile.html', info, RequestContext(request))
