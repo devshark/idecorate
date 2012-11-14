@@ -28,6 +28,8 @@ def is_registered(uname):
 
 def customer_profile(user):
 	profile = {}
+	picture = None
+	description = None
 	try:
 		customer = CustomerProfile.objects.get(user=user)
 		nickname = customer.nickname
@@ -35,6 +37,8 @@ def customer_profile(user):
 		first_name = customer.user.first_name
 		last_name = customer.user.last_name
 		email = customer.user.email
+		picture = customer.picture
+		description = customer.description
 	except:
 		nickname = user.username
 		username = nickname
@@ -47,6 +51,8 @@ def customer_profile(user):
 	profile['first_name'] = first_name
 	profile['last_name'] = last_name
 	profile['email'] = email
+	profile['picture'] = picture
+	profile['description'] = description
 
 	return profile
 
