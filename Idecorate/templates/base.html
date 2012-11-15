@@ -160,6 +160,7 @@
                 '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
                 $('#site-menu ul.dropdown').append(navs);
                 $('#lnk-logout').bind('click',logmeout);
+                $('#logged_as').bind('click',goto_profile);
                 $('#site-menu ul a#lnk-login-signup').bind('click',popup_login);
                 {% if user.is_authenticated %}        
                 $('#lnk-login-signup').parent().hide();
@@ -167,7 +168,10 @@
                 $('#logged_as').parent().hide();
                 $('#lnk-logout').parent().hide();
                 {% endif %}
-            }    
+            }
+            function goto_profile(){
+                window.location.href = '{% url profile %}';
+            }
             function logged(val){
                 $('#logged_as').text(val);
                 $('#lnk-login-signup').parent().hide();
@@ -175,11 +179,17 @@
                 $('#lnk-logout').parent().show();
                 closed_modal();
             }
+            var currentUrl = '{{ currentUrl }}';
             function logmeout(){
-                $.get('{% url logout %}');
-                $('#lnk-login-signup').parent().show();
-                $('#logged_as').parent().hide();
-                $('#lnk-logout').parent().hide();
+                $.get('{% url logout %}',function(){
+                    if ( currentUrl == '/profile' ){
+                        window.location.href = '{% url home %}';
+                    } else {
+                        $('#lnk-login-signup').parent().show();
+                        $('#logged_as').parent().hide();
+                        $('#lnk-logout').parent().hide();
+                    }
+                });                             
                 return false;
             }
             function closed_modal(){

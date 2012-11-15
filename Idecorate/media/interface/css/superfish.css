@@ -84,7 +84,7 @@ ul.dropdown li li:hover ul,
 ul.dropdown li li.sfHover ul {
 	left:			100%; /* match ul width */
 	right:			auto;
-	top:			1.8em;
+	top:			0;
 	padding: 		2px 5px;
 }
 /*to drop down towards left */
@@ -97,9 +97,13 @@ ul.dropdown li li.sfHover ul {
 .ddl-right li {
 	border-left: 1px solid #fff !important;
 }
+.ddl-right li:hover ul:first-child,
+.ddl-right li.sfHover ul:first-child {
+	top: 0 !important;
+}
 .ddl-right li:hover ul,
 .ddl-right li.sfHover ul {
-	top:			1.8em !important;
+	top: 1.8em;
 }
 .ddl-right li li:hover ul,
 .ddl-right li li.sfHover ul {

@@ -1,8 +1,23 @@
+<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 {% extends "base.html" %}
 {% load i18n plata_tags idecorate_interface humanize widget_tweaks %}
 {% block title %}iDecorate Wedding{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
+<style type="text/css">
+	@-moz-document url-prefix() {
+		.calendarWrapper img {
+			right: 10px !important;
+		}
+	}
+</style>
+<!--[if lt IE 9]>
+	<style type="text/css">
+		.calendarWrapper input {
+			width: 170px;
+		}
+	</style>
+<![endif]-->
 {% endblock %}
 {% block content %}
 <div id="content" class="clearfix checkout">
@@ -136,12 +151,14 @@
 			</fieldset>
 		</div>
 
-	<div class="clearfix">
+	<div class="clearfix" style="width: 100%; height: auto;">
 		<div class="leftPannel">
 			<fieldset class="deliveryDate">
 	            <legend>Delivery Date</legend>
 				<br />
-	                {{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
+					<div class="clearfix calendarWrapper">
+	                	{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
+	                </div>
 	             	{{ "delivery_date_note"|get_checkout_page_info }}
 	        </fieldset>
 	        <fieldset class="question">
@@ -191,8 +208,7 @@
 	        </fieldset>
 		</div>
 	</div>
-
-	<div class="clearfix disclaimer">
+	<div class="clearfix disclaimer" style="clear: both;">
 		<p align="justify">{{ "t_and_c"|get_checkout_page_info }}</p>
 		<button type="submit">Proceed to Payment</button>
 	</div>

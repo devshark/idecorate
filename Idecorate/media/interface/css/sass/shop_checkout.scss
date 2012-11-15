@@ -220,6 +220,7 @@
         border: 1px solid #000000;
         float: left !important;
         padding: 10px;
+        display: block;
 
         legend{
             margin: 0 0 0 20px;
@@ -269,7 +270,7 @@
             }
 
             select {
-                width: 365px;
+                width: 350px;
             }
 
         }
@@ -280,7 +281,7 @@
 
 div.leftPannel, div.rightPannel {
 	width: 470px;
-	height: 100%;
+	height: auto;
 	float: left;
 
 	.deliveryDate, .question, .paymentMethod, .paymentMethod2 {
@@ -289,6 +290,7 @@ div.leftPannel, div.rightPannel {
         float: left;
         padding: 10px;
     	margin: 0 0 15px 0;
+        display: block;
 
         legend{
             margin: 0 0 0 20px;
@@ -336,6 +338,19 @@ div.leftPannel, div.rightPannel {
 
     .deliveryDate {
 
+		.calendarWrapper {
+    		width: 220px;
+    		height: 40px;
+    		position: relative;
+
+    		img {
+    			position: absolute;
+    			top: 7px;
+    			right: 15px;
+    		}
+
+    	}
+
     	input {
     		margin-bottom: 15px;
 
@@ -362,7 +377,7 @@ div.leftPannel, div.rightPannel {
 	    }
 
 	    select {
-	        width: 365px;
+	        width: 350px;
 	    }
 	}
 
@@ -405,12 +420,16 @@ div.leftPannel, div.rightPannel {
 
 	p{
 		width: 600px;
-		margin: 15px auto;
+		margin: 0 auto;
 
 		a {
 			color: #d89b96;
 		}
 
+	}
+
+	p:first-child {
+		margin: 15px auto;
 	}
 
 	button {

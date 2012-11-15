@@ -16,6 +16,8 @@ class CustomerProfile(models.Model):
 
 class StyleboardItems(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
+	item = models.TextField(db_column='item', null=True)
+	deleted = models.IntegerField(db_column='deleted', default=0)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 
 	class Meta:
