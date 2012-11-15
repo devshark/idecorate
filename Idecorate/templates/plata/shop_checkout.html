@@ -1,4 +1,3 @@
-<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 {% extends "base.html" %}
 {% load i18n plata_tags idecorate_interface humanize widget_tweaks %}
 {% block title %}iDecorate Wedding{% endblock %}
@@ -164,7 +163,6 @@
             <fieldset class="delivery paymentMethod" id="billing_orig">
                 <legend>Billing Address</legend>
 				<br />
-                <form>
                     <div class="clearfix">
                         <label>Address 1</label>
                         {{ orderform.billing_address }}

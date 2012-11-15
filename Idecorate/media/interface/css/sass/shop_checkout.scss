@@ -13,6 +13,19 @@
 
 }
 
+.calendarWrapper {
+	width: 220px;
+	height: 40px;
+	position: relative;
+
+	img {
+		position: absolute;
+		top: 7px;
+		right: 5%;
+	}
+
+}
+
 .checkout{
 	background: #FFFFFF;
 
@@ -348,19 +361,6 @@ div.leftPannel, div.rightPannel {
     }
 
     .deliveryDate {
-
-		.calendarWrapper {
-    		width: 220px;
-    		height: 40px;
-    		position: relative;
-
-    		img {
-    			position: absolute;
-    			top: 7px;
-    			right: 5%;
-    		}
-
-    	}
 
     	input {
     		margin-bottom: 15px;
