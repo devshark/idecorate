@@ -1,5 +1,5 @@
 3.3.0.alpha.3 (Bleeding Edge)
-8b781fb3c8dc3a4607d8e1a5faa5cbdf37527b9a
+2f6fe37f9ffa80a9b711d5b164be5175a50fdba9
 o:Sass::Tree::RootNode
 :@template"‚ #content {
 	padding: 15px;
@@ -295,7 +295,7 @@
             }
 
             select {
-                width: 350px;
+                width: 360px;
             }
 
 
@@ -396,7 +396,7 @@ div.leftPannel, div.rightPannel {
 	    }
 
 	    select {
-	        width: 350px;
+	        width: 360px;
 	    }
 	}
 
@@ -697,7 +697,7 @@ width;i#;;;	[ ;i ;@;o;;; ;@;"
 ;["select;o;;" ;i&;[o;;[o;
 ;o;;{ ;@◊;i&;[o;!	;@◊;["select;i&;"0;0;i&;T;	[o;;["
 width;i';;;	[ ;i ;@;o;;; ;@;"
-350px;i ;@;i ;@o;
+360px;i ;@;i ;@o;
 ;[".checkbox;o;;" ;i-;[o;;[o;
 ;o;;{ ;@Ì;i-;[o;#;@Ì;["checkbox;i-;0;i-;T;	[o;;["border;i.;;;	[ ;i ;@;o;;; ;@;"none !important;i ;@;i ;@;i ;@o;
 ;["$div.leftPannel, div.rightPannel;o;;" ;i5;[o;;[o;
@@ -762,7 +762,7 @@ width;ià;;;	[ ;i ;@;o;;; ;@;"
 ;["select;o;;" ;iã;[o;;[o;
 ;o;;{ ;@˝;iã;[o;!	;@˝;["select;iã;"0;0;iã;T;	[o;;["
 width;iå;;;	[ ;i ;@;o;;; ;@;"
-350px;i ;@;i ;@o;
+360px;i ;@;i ;@o;
 ;[".paymentMethod2;o;;" ;iê;[o;;[o;
 ;o;;{ ;@	;iê;[o;#;@	;["paymentMethod2;iê;0;iê;T;	[o;
 ;["div;o;;" ;ií;[o;;[o;
