@@ -4,13 +4,6 @@
 {% block title %}iDecorate Wedding{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
-	<!--[if lt IE 9]>
-<style type="text/css">	
-		.calendarWrapper input {
-			width: 180px;
-		}
-</style>
-	<![endif]-->
 {% endblock %}
 {% block content %}
 <div id="content" class="clearfix checkout">
@@ -149,9 +142,9 @@
 			<fieldset class="deliveryDate">
 	            <legend>Delivery Date</legend>
 				<br />
-				<div class="calendarWrapper">
+				<!-- <div class="calendarWrapper"> -->
 	                {{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
-	            </div>
+	            <!-- </div> -->
 	             	{{ "delivery_date_note"|get_checkout_page_info }}
 	        </fieldset>
 	        <fieldset class="question">

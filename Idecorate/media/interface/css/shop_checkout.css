@@ -190,15 +190,21 @@ div.leftPannel, div.rightPannel {
     border: 1px solid #000000;
     float: left;
     padding: 10px;
-    margin: 0 0 15px 0; }
-    div.leftPannel .deliveryDate .calendarWrapper, div.leftPannel .question .calendarWrapper, div.leftPannel .paymentMethod .calendarWrapper, div.leftPannel .paymentMethod2 .calendarWrapper, div.rightPannel .deliveryDate .calendarWrapper, div.rightPannel .question .calendarWrapper, div.rightPannel .paymentMethod .calendarWrapper, div.rightPannel .paymentMethod2 .calendarWrapper {
-      width: 220px;
-      height: 40px;
-      position: relative; }
-      div.leftPannel .deliveryDate .calendarWrapper img, div.leftPannel .question .calendarWrapper img, div.leftPannel .paymentMethod .calendarWrapper img, div.leftPannel .paymentMethod2 .calendarWrapper img, div.rightPannel .deliveryDate .calendarWrapper img, div.rightPannel .question .calendarWrapper img, div.rightPannel .paymentMethod .calendarWrapper img, div.rightPannel .paymentMethod2 .calendarWrapper img {
-        position: absolute;
-        top: 7px;
-        right: 5px; }
+    margin: 0 0 15px 0;
+    /*
+        	.calendarWrapper {
+        		width: 220px;
+        		height: 40px;
+        		position: relative;
+    
+        		img {
+        			position: absolute;
+        			top: 7px;
+        			right: 5px;
+        		}
+    
+        	}
+    */ }
     div.leftPannel .deliveryDate legend, div.leftPannel .question legend, div.leftPannel .paymentMethod legend, div.leftPannel .paymentMethod2 legend, div.rightPannel .deliveryDate legend, div.rightPannel .question legend, div.rightPannel .paymentMethod legend, div.rightPannel .paymentMethod2 legend {
       margin: 0 0 0 20px;
       padding: 0 5px;
