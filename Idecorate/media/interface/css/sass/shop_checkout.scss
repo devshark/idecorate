@@ -295,6 +295,11 @@
                 width: 350px;
             }
 
+
+        }
+
+        .checkbox {
+        	border: none !important;
         }
         
     }
@@ -400,6 +405,7 @@ div.leftPannel, div.rightPannel {
 	        input {
 	            float: left;
 	            margin-top: 5px;
+	            border: none;
 	        }
 
 	        label {

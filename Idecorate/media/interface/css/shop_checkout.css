@@ -197,6 +197,8 @@
       width: 350px; }
     .information .delivery div select {
       width: 350px; }
+  .information .delivery .checkbox {
+    border: none !important; }
 
 div.leftPannel, div.rightPannel {
   width: 470px;
@@ -251,7 +253,8 @@ div.leftPannel, div.rightPannel {
     margin-bottom: 15px; }
     div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {
       float: left;
-      margin-top: 5px; }
+      margin-top: 5px;
+      border: none; }
     div.leftPannel .paymentMethod2 div label, div.rightPannel .paymentMethod2 div label {
       display: block;
       width: 110px;
