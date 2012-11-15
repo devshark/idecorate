@@ -25,7 +25,6 @@
 
                 $('a',this).click(function(ev){
                     ev.preventDefault();
-
                     for (var i=0; i < pannels.length; i++) {
                         if(pannels[i] == $(this).attr('href')){
                             $(pannels[i]).css('display','block');
