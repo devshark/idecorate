@@ -414,13 +414,19 @@ def search_products(request):
 
 			q = None
 			for k in keywords:
-				if q is not None:
-					q.add(Q(name__icontains=k), Q.OR)
-				else:
-					q = Q(name__icontains=k)
 
-			for k in keywords:
-				q.add(Q(description__icontains=k), Q.OR)
+				if k.strip() != "":
+					if q is not None:
+						q.add(Q(name__icontains=k), Q.OR)
+					else:
+						q = Q(name__icontains=k)
+
+			for l in keywords:
+				if l.strip() != "":
+					if q is not None:
+						q.add(Q(description__icontains=l), Q.OR)
+					else:
+						q = Q(description__icontains=l)
 			cats_ids = []
 			categories = Categories.objects.filter(name__icontains=search_keyword, deleted=False)
 			if categories.count() > 0:
