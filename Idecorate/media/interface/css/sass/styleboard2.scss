@@ -821,6 +821,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						margin-top: 5px;
 						margin-left: 5px;
 						.canvasControl{
+								position: relative;
+								z-index: 99999;
 							li{
 								a{
 									display: block;
@@ -1126,6 +1128,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		position: absolute;
 		z-index: 1000;
 		background: transparent;
+		overflow: visible;
 		/*background: url('../images/fake_bg.png') 0 0  repeat;*/
 
 		.ui-resizable-handle{

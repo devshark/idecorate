@@ -153,28 +153,47 @@
         this.updateRotationMatrix = function(m) {
         	var matrix = 'matrix('+ m[0] +', '+ m[1] +', '+ m[2] +', '+ m[3] +', 0, 0)',
         	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m[0]+"', M12='"+m[1]+"', M21='"+m[2]+"', M22='"+m[3]+"', sizingMethod='auto expand')";        	
-        	  
-        	_this.css({
-				'-moz-transform'   : matrix,
-				'-o-transform'     : matrix,
-        		'-webkit-transform': matrix,
-        		'-ms-transform'    : matrix,
-				'transform'        : matrix,
-				'filter'           : ie_matrix,
-				'-ms-filter'       : '"' + ie_matrix + '"'
-			});
+        	
+            if($.browser.msie) {
+                _this.css({
+                    '-ms-transform'    : matrix
+                });
 
-            if(opts.rotateAlso != ''){
-                $(opts.rotateAlso).css({
-                    '-moz-transform'   : matrix,
-                    '-o-transform'     : matrix,
-                    '-webkit-transform': matrix,
-                    '-ms-transform'    : matrix,
-                    'transform'        : matrix,
+                if(opts.rotateAlso != ''){
+                    $(opts.rotateAlso).css({
+                        '-ms-transform'    : matrix
+                    });
+                }
+            }else if($.browser.msie && $.browser.version < 9.0){
+                _this.css({
                     'filter'           : ie_matrix,
                     '-ms-filter'       : '"' + ie_matrix + '"'
                 });
-            }
+
+                if(opts.rotateAlso != ''){
+                    $(opts.rotateAlso).css({
+                        'filter'           : ie_matrix,
+                        '-ms-filter'       : '"' + ie_matrix + '"'
+                    });
+                }
+            }else{
+                _this.css({
+                    '-moz-transform'   : matrix,
+                    '-o-transform'     : matrix,
+                    '-webkit-transform': matrix,
+                    'transform'        : matrix
+                });
+
+                if(opts.rotateAlso != ''){
+                    $(opts.rotateAlso).css({
+                    '-moz-transform'   : matrix,
+                    '-o-transform'     : matrix,
+                    '-webkit-transform': matrix,
+                    'transform'        : matrix
+                    });
+                }
+            } 
+        	
             
         };
         

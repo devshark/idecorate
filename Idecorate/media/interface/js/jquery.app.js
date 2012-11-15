@@ -468,6 +468,7 @@ $(document).ready(function () {
         e.preventDefault();
         redo_styleboard();
     });
+    
     $('#undo').click(function(e){
         e.preventDefault();
         undo_styleboard();

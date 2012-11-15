@@ -1,1 +1,4 @@
-ALTER TABLE `styleboard_items` ADD `deleted` integer;
+ALTER TABLE `styleboard_items` ADD (
+	`deleted` integer,
+	`item` longtext
+	)
