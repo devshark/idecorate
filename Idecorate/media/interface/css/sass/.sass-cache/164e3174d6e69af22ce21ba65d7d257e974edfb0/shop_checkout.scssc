@@ -1,7 +1,7 @@
 3.3.0.alpha.3 (Bleeding Edge)
-db6e183754b7d28473b30d80d5f0fb5745f2985f
+af3def94737f3f2d15d9720970ab7fef61bc1a00
 o:Sass::Tree::RootNode
-:@template"¶ #content {
+:@template"´ #content {
 	padding: 15px;
 	background: #FFFFFF;
 
@@ -360,7 +360,7 @@ div.leftPannel, div.rightPannel {
     		img {
     			position: absolute;
     			top: 7px;
-    			right: 35px;
+    			right: 5%;
     		}
 
     	}
@@ -731,7 +731,7 @@ width;ia;;;	[ ;i ;@;o;;; ;@;"
 220pxo;;["height;ib;;;	[ ;i ;@;o;;; ;@;"	40pxo;;["position;ic;;;	[ ;i ;@;o;;; ;@;"relativeo;
 ;["img;o;;" ;ie;[o;;[o;
 ;o;;{ ;@E;ie;[o;!	;@E;["img;ie;"0;0;ie;T;	[o;;["position;if;;;	[ ;i ;@;o;;; ;@;"absoluteo;;["top;ig;;;	[ ;i ;@;o;;; ;@;"7pxo;;["
-right;ih;;;	[ ;i ;@;o;;; ;@;"	35px;i ;@;i ;@o;
+right;ih;;;	[ ;i ;@;o;;; ;@;"5%;i ;@;i ;@o;
 ;["
 input;o;;" ;im;[o;;[o;
 ;o;;{ ;@g;im;[o;!	;@g;["

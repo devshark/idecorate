@@ -231,7 +231,7 @@ div.leftPannel, div.rightPannel {
     div.leftPannel .deliveryDate .calendarWrapper img, div.rightPannel .deliveryDate .calendarWrapper img {
       position: absolute;
       top: 7px;
-      right: 35px; }
+      right: 5%; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
   div.leftPannel .paymentMethod label, div.rightPannel .paymentMethod label {
