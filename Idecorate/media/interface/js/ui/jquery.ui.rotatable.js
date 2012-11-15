@@ -154,7 +154,7 @@
         	var matrix = 'matrix('+ m[0] +', '+ m[1] +', '+ m[2] +', '+ m[3] +', 0, 0)',
         	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m[0]+"', M12='"+m[1]+"', M21='"+m[2]+"', M22='"+m[3]+"', sizingMethod='auto expand')";        	
         	
-            if($.browser.msie) {
+            if($.browser.msie && $.browser.version == 9.0) {
                 _this.css({
                     '-ms-transform'    : matrix
                 });
