@@ -196,7 +196,9 @@
     .information .delivery div input {
       width: 350px; }
     .information .delivery div select {
-      width: 350px; }
+      width: 360px; }
+  .information .delivery .checkbox {
+    border: none !important; }
 
 div.leftPannel, div.rightPannel {
   width: 470px;
@@ -246,12 +248,13 @@ div.leftPannel, div.rightPannel {
   div.leftPannel .paymentMethod input, div.rightPannel .paymentMethod input {
     width: 350px; }
   div.leftPannel .paymentMethod select, div.rightPannel .paymentMethod select {
-    width: 350px; }
+    width: 360px; }
   div.leftPannel .paymentMethod2 div, div.rightPannel .paymentMethod2 div {
     margin-bottom: 15px; }
     div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {
       float: left;
-      margin-top: 5px; }
+      margin-top: 5px;
+      border: none; }
     div.leftPannel .paymentMethod2 div label, div.rightPannel .paymentMethod2 div label {
       display: block;
       width: 110px;

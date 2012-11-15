@@ -3,10 +3,13 @@
 {% block title %}iDecorate Wedding{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
-<!--[if lt IE 9]>
+<!--[if lte IE 9]>
 	<style type="text/css">
 		.calendarWrapper input {
 			width: 170px;
+		}
+		.delivery select, .paymentMethod select {
+			width: 360px !important;
 		}
 	</style>
 <![endif]-->
@@ -139,7 +142,7 @@
 						<label>Postal Code</label>
 						{{ orderform.shipping_zip_code }}
 					</div>
-					{{ orderform.shipping_same_as_billing }} My delivery address is the same as my billing address.
+					{{ orderform.shipping_same_as_billing|attr:"class:checkbox" }} My delivery address is the same as my billing address.
 			</fieldset>
 		</div>
 

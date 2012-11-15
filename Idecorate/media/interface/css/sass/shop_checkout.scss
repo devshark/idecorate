@@ -292,9 +292,14 @@
             }
 
             select {
-                width: 350px;
+                width: 360px;
             }
 
+
+        }
+
+        .checkbox {
+        	border: none !important;
         }
         
     }
@@ -388,7 +393,7 @@ div.leftPannel, div.rightPannel {
 	    }
 
 	    select {
-	        width: 350px;
+	        width: 360px;
 	    }
 	}
 
@@ -400,6 +405,7 @@ div.leftPannel, div.rightPannel {
 	        input {
 	            float: left;
 	            margin-top: 5px;
+	            border: none;
 	        }
 
 	        label {
