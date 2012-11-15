@@ -200,14 +200,16 @@ div.leftPannel, div.rightPannel {
     div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p {
       margin: 0 0 10px 15px; }
     div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul {
-      margin: 10px 0 0 30px; }
+      margin: 10px 0 0 30px;
+      list-style-position: inside; }
       div.leftPannel .deliveryDate ul li, div.leftPannel .question ul li, div.leftPannel .paymentMethod ul li, div.leftPannel .paymentMethod2 ul li, div.rightPannel .deliveryDate ul li, div.rightPannel .question ul li, div.rightPannel .paymentMethod ul li, div.rightPannel .paymentMethod2 ul li {
         list-style-type: disc;
         margin: 0 0 10px 15px; }
         div.leftPannel .deliveryDate ul li a, div.leftPannel .question ul li a, div.leftPannel .paymentMethod ul li a, div.leftPannel .paymentMethod2 ul li a, div.rightPannel .deliveryDate ul li a, div.rightPannel .question ul li a, div.rightPannel .paymentMethod ul li a, div.rightPannel .paymentMethod2 ul li a {
           color: #d89b96; }
     div.leftPannel .deliveryDate ol, div.leftPannel .question ol, div.leftPannel .paymentMethod ol, div.leftPannel .paymentMethod2 ol, div.rightPannel .deliveryDate ol, div.rightPannel .question ol, div.rightPannel .paymentMethod ol, div.rightPannel .paymentMethod2 ol {
-      margin: 10px 0 0 30px; }
+      margin: 10px 0 0 30px;
+      list-style-position: inside; }
       div.leftPannel .deliveryDate ol li, div.leftPannel .question ol li, div.leftPannel .paymentMethod ol li, div.leftPannel .paymentMethod2 ol li, div.rightPannel .deliveryDate ol li, div.rightPannel .question ol li, div.rightPannel .paymentMethod ol li, div.rightPannel .paymentMethod2 ol li {
         list-style-type: decimal;
         margin: 0 0 10px 45px; }
@@ -283,14 +285,16 @@ div.leftPannel, div.rightPannel {
     /* for old Konqueror browsers */
     border: 0; }
   .disclaimer ul {
-    margin: 10px 0 0 30px; }
+    margin: 10px 0 0 30px;
+    list-style-position: inside; }
     .disclaimer ul li {
       list-style-type: disc;
       margin: 0 0 10px 15px; }
       .disclaimer ul li a {
         color: #d89b96; }
   .disclaimer ol {
-    margin: 10px 0 0 30px; }
+    margin: 10px 0 0 30px;
+    list-style-position: inside; }
     .disclaimer ol li {
       list-style-type: decimal;
       margin: 0 0 10px 45px; }
