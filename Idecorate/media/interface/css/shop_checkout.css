@@ -11,9 +11,16 @@
 
 .checkout {
   background: #FFFFFF; }
-  .checkout input, .checkout select {
+  .checkout input {
     border: 1px solid #CCC;
     padding: 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -khtml-border-radius: 3px; }
+  .checkout select {
+    border: 1px solid #CCC;
+    padding: 2px 5px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -224,7 +231,7 @@ div.leftPannel, div.rightPannel {
     div.leftPannel .deliveryDate .calendarWrapper img, div.rightPannel .deliveryDate .calendarWrapper img {
       position: absolute;
       top: 7px;
-      right: 15px; }
+      right: 35px; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
   div.leftPannel .paymentMethod label, div.rightPannel .paymentMethod label {

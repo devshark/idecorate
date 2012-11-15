@@ -16,9 +16,18 @@
 .checkout{
 	background: #FFFFFF;
 
-	input, select {
+	input {
 	  border: 1px solid #CCC;
 	  padding: 5px;
+	  -moz-border-radius: 3px;
+	  -webkit-border-radius: 3px;
+	  border-radius: 3px;
+	  -khtml-border-radius: 3px;
+	}
+
+	select {
+	  border: 1px solid #CCC;
+	  padding: 2px 5px;
 	  -moz-border-radius: 3px;
 	  -webkit-border-radius: 3px;
 	  border-radius: 3px;
@@ -348,7 +357,7 @@ div.leftPannel, div.rightPannel {
     		img {
     			position: absolute;
     			top: 7px;
-    			right: 15px;
+    			right: 35px;
     		}
 
     	}
