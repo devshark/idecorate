@@ -486,6 +486,7 @@ var mode_toggle_tab = false;
         '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
         $('#site-menu ul.dropdown').append(navs);
         $('#lnk-logout').bind('click',logmeout);
+        $('#logged_as').bind('click',goto_profile);
         $('#site-menu ul a#lnk-login-signup').bind('click',popup_login);
         {% if user.is_authenticated %}        
         $('#lnk-login-signup').parent().hide();
@@ -493,7 +494,10 @@ var mode_toggle_tab = false;
         $('#logged_as').parent().hide();
         $('#lnk-logout').parent().hide();
         {% endif %}
-    }    
+    }
+    function goto_profile(){
+        window.location.href = '{% url profile %}';
+    }
     function logged(val){
         $('#logged_as').text(val);
         $('#lnk-login-signup').parent().hide();
