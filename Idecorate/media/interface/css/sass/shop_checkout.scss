@@ -304,6 +304,7 @@ div.leftPannel, div.rightPannel {
 
         ul{
             margin: 10px 0 0 30px;
+            list-style-position: inside;
 
             li{
                 list-style-type: disc;
@@ -319,6 +320,7 @@ div.leftPannel, div.rightPannel {
 
         ol {
         	margin: 10px 0 0 30px;
+        	list-style-position: inside;
 
             li {
                 list-style-type: decimal;
@@ -448,6 +450,7 @@ div.leftPannel, div.rightPannel {
 
 	ul{
         margin: 10px 0 0 30px;
+		list-style-position: inside;
 
         li{
             list-style-type: disc;
@@ -463,6 +466,7 @@ div.leftPannel, div.rightPannel {
 
     ol {
     	margin: 10px 0 0 30px;
+		list-style-position: inside;
 
         li {
             list-style-type: decimal;
