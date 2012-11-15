@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
-from models import CustomerProfile
+from models import CustomerProfile, CustomerStyleBoard
 
 @transaction.commit_manually
 def register_user(data):
@@ -63,3 +63,7 @@ def get_client_ip(request):
 	else:
 		ip = request.META.get('REMOTE_ADDR')
 	return ip
+
+def get_user_styleboard(user):
+	styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
+	return styleboards

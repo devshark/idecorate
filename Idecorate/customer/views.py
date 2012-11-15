@@ -17,7 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 
 from forms import LoginForm, SignupForm
-from services import register_user, customer_profile, get_client_ip
+from services import register_user, customer_profile, get_client_ip, get_user_styleboard
 from admin.models import LoginLog
 
 def login_signup(request):
@@ -80,8 +80,15 @@ def customer_logout(request):
 		return redirect('home')
 
 def forgot_password(request):
-	return HttpResponse('<h1>Under Constraction.</h1>')
+	return HttpResponse('<h1>Under Construction.</h1>')
 
 def profile(request):
+	if not request.user.is_authenticated():
+		return redirect('home')
 	info = {}
+	user_profile = customer_profile(request.user)
+	info['user_profile'] = user_profile
+	info['currentUrl'] = request.get_full_path()
+	user_styleboard = get_user_styleboard(request.user)
+	info['user_styleboard'] = user_styleboard
 	return render_to_response('customer/profile.html', info, RequestContext(request))
