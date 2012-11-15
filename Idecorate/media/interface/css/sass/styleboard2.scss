@@ -809,13 +809,47 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 					.product{
 						position: absolute;
 						font-size: 0;
-						background: url('../images/fake_bg.png') 0 0  repeat;
+						background: transparent;
+						/*background: url('../images/fake_bg.png') 0 0  repeat;*/
 					}
 
 					.product:hover{
 						outline:1px solid #DDD;
 					}
-
+					.nwMenus{
+						float: left;
+						margin-top: 5px;
+						margin-left: 5px;
+						.canvasControl{
+							li{
+								a{
+									display: block;
+									width:  80px;
+									font-size: 14px;
+									padding: 7px 0;
+									text-align: center;
+									*background-color: #EEEEEE;
+									color: #999;
+									border-left:1px solid #CCC;
+									border-bottom:1px solid #CCC;
+									border-right:1px solid #CCC;
+									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#DDDDDD',GradientType=0 ); /* for IE */
+									background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#DDDDDD)); /* for webkit browsers */
+									background: -moz-linear-gradient(top,  #EEEEEE,  #DDDDDD); /* for firefox 3.6+ */
+									background: -o-linear-gradient(top,  #EEEEEE,  #DDDDDD);
+								}
+								a#save{
+									border:1px solid #727629;
+									color: #FFF;
+									*background-color: #c3c97d;
+									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c3c97d', endColorstr='#98a138',GradientType=0 ); /* for IE */
+									background: -webkit-gradient(linear, left top, left bottom, from(#c3c97d), to(#98a138)); /* for webkit browsers */
+									background: -moz-linear-gradient(top,  #c3c97d,  #98a138); /* for firefox 3.6+ */
+									background: -o-linear-gradient(top,  #c3c97d,  #98a138);
+								}
+							}
+						}
+					}
 					.neMenus{
 						float: right;
 						margin-top: 5px;
@@ -1082,6 +1116,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 }
 
 #canvas{
+
 	.handles{
 		width: 50px;
 		height: 50px;
@@ -1090,7 +1125,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		display: none;
 		position: absolute;
 		z-index: 1000;
-		background: url('../images/fake_bg.png') 0 0  repeat;
+		background: transparent;
+		/*background: url('../images/fake_bg.png') 0 0  repeat;*/
 
 		.ui-resizable-handle{
 			background-color: #CCC;
@@ -1117,10 +1153,6 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 				width: 9px;
 				margin-left: -5px;
 			}
-		}
-
-		.ui-rotatable-handle.ui-draggable-dragging {
-			visibility:  hidden;
 		}
 		
 		

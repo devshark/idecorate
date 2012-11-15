@@ -37,6 +37,11 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_edit_product/(?P<prod_id>\d+)/$','admin_edit_product', {}, name='admin_edit_product'),
     url(r'^admin/edit_guests_tables/$', 'edit_guests_tables', {}, name='edit_guests_tables'),
     url(r'^admin/admin_manage_checkout/$', 'admin_manage_checkout', {}, name='admin_manage_checkout'),
+    url(r'^admin/admin_upload_embellishment/$', 'admin_upload_embellishment', {}, name='admin_upload_embellishment'),
+    url(r'^admin/admin_upload_embellishment_image/$', 'admin_upload_embellishment_image', {}, name='admin_upload_embellishment_image'),
+    url(r'^admin/admin_manage_text_font/$', 'admin_manage_text_font', {}, name='admin_manage_text_font'),
+    url(r'^admin/admin_generate_text_thumbnail/$', 'admin_generate_text_thumbnail', {}, name='admin_generate_text_thumbnail'),
+    url(r'^admin/admin_upload_font/$', 'admin_upload_font', {}, name='admin_upload_font'),
 )
 
 """
