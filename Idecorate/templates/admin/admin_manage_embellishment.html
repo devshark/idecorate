@@ -1,0 +1,75 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin bootstrap_pagination %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<style type="text/css"></style>
+{% endblock %}
+
+{% block content %}
+
+	<h1>{% trans "Manage Embellishments" %}</h1>
+	<div>&nbsp;</div>
+
+      {% if messages %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %}
+
+      <h3 style="font-weight:normal;">{% trans "Show only embellishments where" %}</h3>
+      <hr />
+
+      <form class="form-inline" action="{% url admin_manage_embellishment %}" method="post">
+        {% csrf_token %}
+        <label class="checkbox">
+            <input name="embellishment_description" maxlength="100" placeholder="Description" type="text" class="input-large"/> 
+        </label>
+        <label class="checkbox">
+            {% trans "Status: " %}
+            <select name="embellishment_status" class="input-large">
+            <option value="any">Any</option>
+            <option value="1">Active</option>
+            <option value="0">Inactive</option>
+            </select>            
+        </label>
+        <label class="checkbox">
+            {% trans "Type: " %}
+            <select name="embellishment_type" class="input-large">
+            <option value="any">Any</option>
+            </select>            
+        </label>
+          <button type="submit" class="btn btn-primary">Apply</button>
+      </form>
+
+      <hr />
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <th><span class="tbtitle">Description</span> <span class="tbsorter"><a href="#">Δ</a><a href="#">∇</a></span></th>
+          <th style="width:100px;">Image</th>
+          <th>Type</th>
+          <th style="width:100px;"><span class="tbtitle">Status</span> <span class="tbsorter"><a href="#">Δ</a><a href="#">∇</a></span></th>
+          <th style="width:80px;">Operations</th>
+        </thead>
+
+        <!-- tbody here -->
+      </table>
+
+      <!-- bootstrap paginate here -->
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+</script>
+{% endblock %}
