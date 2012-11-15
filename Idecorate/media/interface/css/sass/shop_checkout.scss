@@ -290,6 +290,19 @@ div.leftPannel, div.rightPannel {
         padding: 10px;
     	margin: 0 0 15px 0;
 
+    	.calendarWrapper {
+    		width: 220px;
+    		height: 40px;
+    		position: relative;
+
+    		img {
+    			position: absolute;
+    			top: 7px;
+    			right: 5px;
+    		}
+
+    	}
+
         legend{
             margin: 0 0 0 20px;
             padding: 0 5px;
