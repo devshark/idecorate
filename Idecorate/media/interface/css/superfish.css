@@ -43,7 +43,7 @@
 }
 .dropdown li:hover ul,
 .dropdown li.sfHover ul {
-	left:			0;
+	left:			100%;
 	top:			1.8em; /* match top ul list item height */
 	z-index:		99;
 	background: 	#F6F6F6;
