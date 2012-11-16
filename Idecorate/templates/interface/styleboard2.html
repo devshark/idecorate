@@ -32,17 +32,32 @@
             var has_change_mode             = false;
             var styleboard_mode_type        = '{{ mode }}';
             var sub_category_count          = {{ category_count }};
-var mode_toggle_tab = false;
+            var mode_toggle_tab             = false;
+            var save_styleboard_action      = false;
+            var logined                     = {% if user.is_authenticated %}true{% else %}false{% endif %};
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <style type="text/css">
-        #modal-login-signup-window, #modal-save-styleboard-window {
+        #modal-login-signup-window {
             border: 5px solid #DDD;
             position: fixed;
-            width: 800px;/*
+            width: 800px;
+            height: auto;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 0 8px #333;
+            z-index: 99999;
+            top: 10%;
+            background-image: url(/media/images/idecorate_pattern.jpg);
+            background-repeat: repeat;
+        }
+        #modal-save-styleboard-window {
+            border: 5px solid #DDD;
+            position: fixed;
+            width: 405px;/*
             */
             height: auto;
             overflow: hidden;
@@ -52,6 +67,7 @@ var mode_toggle_tab = false;
             top: 10%;
             background-image: url(/media/images/idecorate_pattern.jpg);
             background-repeat: repeat;
+
         }
         #modal-login-signup-window h2, #modal-save-styleboard-window h2 {
             margin: 0 5px 0 0;
@@ -345,7 +361,7 @@ var mode_toggle_tab = false;
             <h2 id="modal-save-styleboard-header">
                 <a href="#" id="close-save-styleboard-modal" class="close-modal-btn">&times;</a>
             </h2>
-            <div id="iframe-save-styleboard-wrap">asdasdasd</div>
+            <div id="iframe-save-styleboard-wrap"></div>
         </div>
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <script src="/media/interface/js/jquery.placeholder.js"></script>
@@ -503,7 +519,6 @@ var mode_toggle_tab = false;
         });
         generate_user_nav();
         $('#save').click(function(){
-            $('#modal-save-styleboard-window').show();
             pop_save_styleboard();
         });
     });
@@ -526,11 +541,16 @@ var mode_toggle_tab = false;
         window.location.href = '{% url profile %}';
     }
     function logged(val){
+        logined = true;
         $('#logged_as').text(val);
         $('#lnk-login-signup').parent().hide();
         $('#logged_as').parent().show();
         $('#lnk-logout').parent().show();
         closed_modal();
+        if (save_styleboard_action){
+            save_styleboard_action = false;
+            save_styleboard_modal();
+        }
     }
     function logmeout(){
         $.get('{% url logout %}');
@@ -553,6 +573,13 @@ var mode_toggle_tab = false;
         modal.css({display:'block',left:_left});
     }
     function pop_save_styleboard(){
+        save_styleboard_action = true;
+        if (logined)
+            save_styleboard_modal();
+        else
+            popup_login();
+    }
+    function save_styleboard_modal(){
         var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-save-styleboard-iframe','src':"{% url save_styleboard %}",'frameborder':'0'});
         var modal   = $('#modal-save-styleboard-window'),
             _left   = $(window).width()/2-modal.width()/2;

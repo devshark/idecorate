@@ -370,3 +370,13 @@ def getEmbellishmentThumbnail(embellishment):
 def getEmbellishmentStatus(embellishment):
 
 	return 'Active' if embellishment.is_active else 'Inactive'
+
+@register.filter
+def getFontPreview(font):
+
+	return mark_safe('<img src="%s?font_size=100&font_text=Abc&font_color=000000000&font_id=%s&font_thumbnail=1" alt="" />' % (reverse('generate_text'),font.id))
+
+@register.filter
+def getFontStatus(font):
+
+	return 'Active' if font.is_active else 'Inactive'

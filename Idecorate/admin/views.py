@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -1237,4 +1237,171 @@ def admin_edit_embellishment(request, e_id):
 
     info['current_directory'] = "%s%s" % (str(embellishment.e_type.name).lower(), "s")
     info['form'] = form
-    return render_to_response('admin/admin_edit_embellishment.html',info,RequestContext(request)) 
+    return render_to_response('admin/admin_edit_embellishment.html',info,RequestContext(request))
+
+
+@staff_member_required
+def admin_manage_font(request):
+    info = {}
+
+    form = SearchFontForm()
+    initial_form = {}
+
+    order_by = request.GET.get('order_by','description')
+    sort_type = request.GET.get('sort_type','asc')
+    s_type = order_by
+
+    if order_by == 'is_active':
+    	if sort_type == 'asc':
+    		s_type = "-%s" % order_by
+    else:
+
+	    if sort_type == 'desc':
+	    	s_type = "-%s" % order_by
+
+    fonts = TextFonts.objects.filter(is_deleted=False).order_by(s_type)
+
+    other_params_dict = {}
+
+    if request.method == "POST":
+
+    	form = SearchFontForm(request.POST)
+
+    	font_description = request.POST.get('font_description','')
+    	font_status = request.POST.get('font_status','')
+
+    else:
+    	font_description = request.GET.get('font_description','')
+    	font_status = request.GET.get('font_status','')
+
+    	if font_description:
+    		initial_form.update({'font_description':font_description})
+
+    	if font_status:
+    		initial_form.update({'font_status':font_status})
+
+    	form = SearchFontForm(initial=initial_form)
+
+    q = None
+    if font_description:
+
+    	other_params_dict.update({'font_description':font_description})
+
+    	if q is not None:
+    		q.add(Q(description__icontains=font_description), Q.AND)
+    	else:
+    		q = Q(description__icontains=font_description)
+
+    if font_status:
+    	if font_status != "any":
+    		other_params_dict.update({'font_status':font_status})
+    		if q is not None:
+    			q.add(Q(is_active=bool(int(font_status))), Q.AND)
+    		else:
+    			q = Q(is_active=bool(int(font_status)))
+
+    if q is not None:
+    	fonts = fonts.filter(q).order_by(s_type)
+
+    other_params_dict.update({'order_by':order_by, 'sort_type':sort_type})
+    other_params = QueryDict(urllib.urlencode(other_params_dict))
+
+    paginator = Paginator(fonts, 25)
+    page = request.GET.get('page','')
+
+    request.session['manage_font_redirect'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+
+    other_params_dict['order_by'] = 'description'
+    other_params_dict['sort_type'] = 'asc'
+    info['description_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    other_params_dict['sort_type'] = 'desc'
+    info['description_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))  
+
+    #status ascending link
+    other_params_dict['order_by'] = 'is_active'
+    other_params_dict['sort_type'] = 'asc'
+    info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    #status descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+
+    try:
+        fonts = paginator.page(page)
+    except PageNotAnInteger:
+        fonts = paginator.page(1)
+    except EmptyPage:
+        fonts = paginator.page(paginator.num_pages)
+
+    info['other_params'] = other_params
+    info['form'] = form
+    info['fonts'] = fonts
+
+    return render_to_response('admin/admin_manage_font.html',info,RequestContext(request))
+
+@staff_member_required
+def admin_delete_font(request,id_delete):
+	
+	font = TextFonts.objects.get(id=int(id_delete))
+
+	font.is_deleted = True
+	font.is_active = False
+	font.save()
+
+	messages.success(request, _('Font deleted.'))
+
+	if request.session.get('manage_font_redirect', False):
+		return redirect(reverse('admin_manage_font') + request.session['manage_font_redirect'])
+	else:
+		return redirect('admin_manage_font')
+
+
+@staff_member_required
+def admin_edit_font(request, t_id):
+    info = {}
+
+    font = TextFonts.objects.get(id=int(t_id))
+    info['font'] = font
+
+    info['initial_form_data'] = {
+    	'font_status':str(int(font.is_active)),
+    	'font_description':font.description,
+    	'font_file': font.font
+    }
+
+    form = EditFontForm(initial=info['initial_form_data'])
+
+    if request.method == "POST":
+
+    	form = EditFontForm(request.POST)
+
+    	if form.is_valid():
+
+	    	font.is_active = bool(int(form.cleaned_data['font_status']))
+	    	font.description = form.cleaned_data['font_description']  	
+
+    		if font.font != form.cleaned_data['font_file']:
+    			#font changed
+
+	    		#MOVE FONT
+	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "fonts/temp/", form.cleaned_data['font_file']), "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", form.cleaned_data['font_file']))
+
+		    	#REMOVE FILES
+		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", font.font))
+
+		    	font.font = form.cleaned_data['font_file']
+
+    		font.save()
+
+    		messages.success(request, _('Font Saved.'))
+
+    		if request.session.get('manage_font_redirect', False):
+    			return redirect(reverse('admin_manage_font') + request.session['manage_font_redirect'])
+    		else:
+    			return redirect('admin_manage_font')
+
+    info['form'] = form
+    return render_to_response('admin/admin_edit_font.html',info,RequestContext(request))

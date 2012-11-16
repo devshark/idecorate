@@ -3,7 +3,7 @@
 <style type="text/css">
 section .user-profile {
 	padding: 10px;
-	height: 150px;
+	height: auto;
 	background: #F0EBE5;
 	box-shadow: 5px 5px 5px #CCC;	
 	width: 800px;
@@ -18,17 +18,29 @@ section .no-image {
 }
 section .user-profile .picture-wrap, section .user-profile .description-wrap {
 	display: inline-block;
+	*display: inline;
+	zoom: 1;
+}
+section .user-profile .picture-wrap {
+	width: 150px;
 }
 section .user-profile .picture-wrap img {
-	width: 150px;
-	height: 150px;
+	width: 148px;
+	height: 148px;
+	border: 1px solid #ccc;
 }
 section .user-profile .description-wrap {
+	width: 630px;
 	margin: 10px;
+	margin-right: 0;
 	vertical-align: top;
 }
-section .user-profile .description-wrap h3 {
+section .user-profile .description-wrap .title {
+	font-weight: bold;
 	margin-bottom: 10px;
+}
+section .user-profile .description-wrap .desc {
+	font-size: 11px;
 }
 section .create-wrap {
 	margin-bottom: 20px;
@@ -40,24 +52,24 @@ section .create-wrap {
 	<div class="user-profile">
 		<div class="picture-wrap">
 			{% if user_profile.picture %}
-			<img src="media/{{ user_profile.picture }}" alt="" />
+			<img src="/media/{{ user_profile.picture }}" alt="" />
 			{% else %}
-			<div class="no-image"></div>
+			<img src="/media/images/nopic.jpg" alt="" />
 			{% endif %}	
 		</div>
 		<div class="description-wrap">
-			<h3>
+			<p class="title">
 				{% if user_profile.first_name != "" and user_profile.last_name != "" %}
 				{{ user_profile.first_name }} {{ user_profile.last_name }} 
 				{% else %}
-				{{ user_profile.nickname }}
+				{{ user_profile.nickname }} 
 				{% endif %}
-			</h3>
-			<div>
+			</>
+			<p class="desc">
 				{% if user_profile.description %}
 				{{ user_profile.description }}
 				{% endif %}
-			</div>
+			</p>
 		</div>
 	</div>	
 	<h2>My Style Boards</h2>
@@ -128,7 +140,7 @@ section .create-wrap {
 	</div>
 	{% else %}
 	<div class="create-wrap">
-		<a href="{% url styleboard %}">Create</a>
+		<a href="{% url styleboard %}">Create New Style Board</a>
 	</div>	
 	{% endif %}
 </section>
