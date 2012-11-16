@@ -96,7 +96,7 @@ var mode_toggle_tab = false;
                                 <div class="search clearfix">
                                     <form action="{% url styleboard %}" method="POST">
                                         <input type="image" src="/media/images/search.png" class="searchIcon" />
-                                        <input id="search" name="search" type="text" placeholder="Search Products" > 
+                                        <input id="search" name="search" type="text" value="{{ keyword }}" placeholder="Search Products" > 
                                         <input type="submit" value="Search">
                                     </form>
                                 </div>
