@@ -162,3 +162,11 @@ class SearchEmbellishmentForm(forms.Form):
 
 class EditEmbellishmentForm(UploadEmbellishmentForm):
 	pass
+
+class SearchFontForm(forms.Form):
+
+	font_status = forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('1','Active'),('0','Inactive'),), required=False,widget=forms.Select)
+	font_description = forms.CharField(max_length=100,label=_("Description"), required=False)
+
+class EditFontForm(UploadFontForm):
+	pass
