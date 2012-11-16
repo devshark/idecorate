@@ -22,6 +22,11 @@
                 width: 375px;
                 border: 1px solid #ccc;
             }
+            @-moz-document url-prefix() {
+                textarea {
+                    width: 380px;
+                }
+            }
             fieldset {
                 padding: 10px;
             }
@@ -70,12 +75,14 @@
                 text-align: center;
             }
             .action {
-                width: 100%;
+                width: 382px;
                 height: 35px;
+                margin-top: 10px;
             }
             .action input {
                 width: auto;
                 float: right;
+                cursor: pointer;
                 background: -webkit-gradient(linear, left top, left bottom, from(white), to(#DA9B94));
                 background: -moz-linear-gradient(top, white, #DA9B94);
                 background: -o-linear-gradient(top, white, #DA9B94);
@@ -83,7 +90,12 @@
                 -webkit-border-radius: 4px;
                 border-radius: 4px;
                 -khtml-border-radius: 4px;
-                border: 0;
+                border: 1px solid #FFC5C3;
+            }
+            .action input:hover {
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E'); /* for IE */
+                background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */
+                background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
             }
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>

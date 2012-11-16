@@ -209,11 +209,11 @@ def getImagePaymentMethod(met):
 	ret = ""
 
 	if met == "Paypal":
-		ret = mark_safe('<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />')
+		ret = mark_safe('<img src="/media/images/paypal.jpg" align="bottom" />')
 	elif met == "Visa_Mastercard":
-		ret = mark_safe('<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />')
+		ret = mark_safe('<img src="/media/images/visa_master.jpg" />')
 	else:
-		ret = mark_safe('<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />')
+		ret = mark_safe('<img src="/media/images/american_express.jpg" />')
 	return ret
 
 @register.filter
