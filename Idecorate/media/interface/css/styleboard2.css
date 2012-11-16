@@ -884,6 +884,8 @@ h5 {
       height: 9px;
       width: 9px;
       margin-left: -5px; }
+  #canvas .handles .ui-rotatable-handle.ui-draggable-dragging {
+    visibility: hidden; }
 #canvas .selected {
   	/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
     	filter: alpha(opacity=80);*/
