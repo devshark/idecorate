@@ -159,3 +159,6 @@ class SearchEmbellishmentForm(forms.Form):
 	embellishment_status = forms.ChoiceField(label=_("Status"),widget=forms.Select, required=False, choices=(('any','Any'),('1','Active'),('0','Inactive'),))
 	embellishment_description = forms.CharField(max_length=100,label=_("Description"), required=False)
 	embellishment_type = forms.ChoiceField(label=_("Type"), choices=(('any','Any'),('1','Image'),('2','Texture'),('3','Pattern'),('4','Shape'),('5','Border'),), required=False,widget=forms.Select)
+
+class EditEmbellishmentForm(UploadEmbellishmentForm):
+	pass

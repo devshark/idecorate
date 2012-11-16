@@ -1,7 +1,7 @@
 3.3.0.alpha.3 (Bleeding Edge)
-2f6fe37f9ffa80a9b711d5b164be5175a50fdba9
+50761e409ebe0648cce68c830f533ccd91703a81
 o:Sass::Tree::RootNode
-:@template"â #content {
+:@template"ã #content {
 	padding: 15px;
 	background: #FFFFFF;
 
@@ -24,7 +24,7 @@
 	img {
 		position: absolute;
 		top: 7px;
-		right: 5%;
+		right: 17%;
 	}
 
 }
@@ -528,7 +528,7 @@ width;i;;;	[ ;i ;@;o;;; ;@;"
 220pxo;;["height;i;;;	[ ;i ;@;o;;; ;@;"	40pxo;;["position;i;;;	[ ;i ;@;o;;; ;@;"relativeo;
 ;["img;o;;" ;i;[o;;[o;
 ;o;;{ ;@;i;[o;!	;@;["img;i;"0;0;i;T;	[o;;["position;i;;;	[ ;i ;@;o;;; ;@;"absoluteo;;["top;i;;;	[ ;i ;@;o;;; ;@;"7pxo;;["
-right;i;;;	[ ;i ;@;o;;; ;@;"5%;i ;@;i ;@o;
+right;i;;;	[ ;i ;@;o;;; ;@;"17%;i ;@;i ;@o;
 ;[".checkout;o;;" ;i";[o;;[o;
 ;o;;{ ;@œ;i";[o;#;@œ;["checkout;i";0;i";T;	[	o;;["background;i#;;;	[ ;i ;@;o;;; ;@;"#FFFFFFo;
 ;["
