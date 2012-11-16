@@ -9,11 +9,27 @@
     border-bottom: 2px solid #000000;
     color: #000000; }
 
+.calendarWrapper {
+  width: 220px;
+  height: 40px;
+  position: relative; }
+  .calendarWrapper img {
+    position: absolute;
+    top: 7px;
+    right: 5%; }
+
 .checkout {
   background: #FFFFFF; }
-  .checkout input, .checkout select {
+  .checkout input {
     border: 1px solid #CCC;
     padding: 5px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    border-radius: 3px;
+    -khtml-border-radius: 3px; }
+  .checkout select {
+    border: 1px solid #CCC;
+    padding: 2px 5px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
@@ -180,7 +196,9 @@
     .information .delivery div input {
       width: 350px; }
     .information .delivery div select {
-      width: 350px; }
+      width: 360px; }
+  .information .delivery .checkbox {
+    border: none !important; }
 
 div.leftPannel, div.rightPannel {
   width: 470px;
@@ -217,14 +235,6 @@ div.leftPannel, div.rightPannel {
       font-style: italic; }
     div.leftPannel .deliveryDate strong, div.leftPannel .question strong, div.leftPannel .paymentMethod strong, div.leftPannel .paymentMethod2 strong, div.rightPannel .deliveryDate strong, div.rightPannel .question strong, div.rightPannel .paymentMethod strong, div.rightPannel .paymentMethod2 strong {
       font-weight: bold; }
-  div.leftPannel .deliveryDate .calendarWrapper, div.rightPannel .deliveryDate .calendarWrapper {
-    width: 220px;
-    height: 40px;
-    position: relative; }
-    div.leftPannel .deliveryDate .calendarWrapper img, div.rightPannel .deliveryDate .calendarWrapper img {
-      position: absolute;
-      top: 7px;
-      right: 15px; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
   div.leftPannel .paymentMethod label, div.rightPannel .paymentMethod label {
@@ -238,12 +248,13 @@ div.leftPannel, div.rightPannel {
   div.leftPannel .paymentMethod input, div.rightPannel .paymentMethod input {
     width: 350px; }
   div.leftPannel .paymentMethod select, div.rightPannel .paymentMethod select {
-    width: 350px; }
+    width: 360px; }
   div.leftPannel .paymentMethod2 div, div.rightPannel .paymentMethod2 div {
     margin-bottom: 15px; }
     div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {
       float: left;
-      margin-top: 5px; }
+      margin-top: 5px;
+      border: none; }
     div.leftPannel .paymentMethod2 div label, div.rightPannel .paymentMethod2 div label {
       display: block;
       width: 110px;

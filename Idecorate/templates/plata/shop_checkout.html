@@ -1,20 +1,15 @@
-<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 {% extends "base.html" %}
 {% load i18n plata_tags idecorate_interface humanize widget_tweaks %}
 {% block title %}iDecorate Wedding{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
-<style type="text/css">
-	@-moz-document url-prefix() {
-		.calendarWrapper img {
-			right: 10px !important;
-		}
-	}
-</style>
-<!--[if lt IE 9]>
+<!--[if lte IE 9]>
 	<style type="text/css">
 		.calendarWrapper input {
 			width: 170px;
+		}
+		.delivery select, .paymentMethod select {
+			width: 360px !important;
 		}
 	</style>
 <![endif]-->
@@ -147,7 +142,7 @@
 						<label>Postal Code</label>
 						{{ orderform.shipping_zip_code }}
 					</div>
-					{{ orderform.shipping_same_as_billing }} My delivery address is the same as my billing address.
+					{{ orderform.shipping_same_as_billing|attr:"class:checkbox" }} My delivery address is the same as my billing address.
 			</fieldset>
 		</div>
 
@@ -171,7 +166,6 @@
             <fieldset class="delivery paymentMethod" id="billing_orig">
                 <legend>Billing Address</legend>
 				<br />
-                <form>
                     <div class="clearfix">
                         <label>Address 1</label>
                         {{ orderform.billing_address }}

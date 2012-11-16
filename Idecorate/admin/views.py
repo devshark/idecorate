@@ -854,7 +854,9 @@ def admin_upload_embellishment(request):
     		elif int(form.cleaned_data['embellishment_type']) == 3:
     			directoryName = 'patterns'
     		elif int(form.cleaned_data['embellishment_type']) == 4:
-    			directoryName = 'shapes' 
+    			directoryName = 'shapes'
+    		elif int(form.cleaned_data['embellishment_type']) == 5:
+    			directoryName = 'borders' 
 
     		imgSize = (settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT)
     		
@@ -1008,3 +1010,9 @@ def admin_generate_text_thumbnail(request):
 	response = HttpResponse(mimetype="image/jpg")
 	bgImg.save(response, "JPEG")
 	return response
+
+@staff_member_required
+def admin_manage_embellishment(request):
+    info = {}
+
+    return render_to_response('admin/admin_manage_embellishment.html',info,RequestContext(request))

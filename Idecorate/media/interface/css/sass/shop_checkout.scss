@@ -13,12 +13,34 @@
 
 }
 
+.calendarWrapper {
+	width: 220px;
+	height: 40px;
+	position: relative;
+
+	img {
+		position: absolute;
+		top: 7px;
+		right: 5%;
+	}
+
+}
+
 .checkout{
 	background: #FFFFFF;
 
-	input, select {
+	input {
 	  border: 1px solid #CCC;
 	  padding: 5px;
+	  -moz-border-radius: 3px;
+	  -webkit-border-radius: 3px;
+	  border-radius: 3px;
+	  -khtml-border-radius: 3px;
+	}
+
+	select {
+	  border: 1px solid #CCC;
+	  padding: 2px 5px;
 	  -moz-border-radius: 3px;
 	  -webkit-border-radius: 3px;
 	  border-radius: 3px;
@@ -270,9 +292,14 @@
             }
 
             select {
-                width: 350px;
+                width: 360px;
             }
 
+
+        }
+
+        .checkbox {
+        	border: none !important;
         }
         
     }
@@ -340,19 +367,6 @@ div.leftPannel, div.rightPannel {
 
     .deliveryDate {
 
-		.calendarWrapper {
-    		width: 220px;
-    		height: 40px;
-    		position: relative;
-
-    		img {
-    			position: absolute;
-    			top: 7px;
-    			right: 15px;
-    		}
-
-    	}
-
     	input {
     		margin-bottom: 15px;
 
@@ -379,7 +393,7 @@ div.leftPannel, div.rightPannel {
 	    }
 
 	    select {
-	        width: 350px;
+	        width: 360px;
 	    }
 	}
 
@@ -391,6 +405,7 @@ div.leftPannel, div.rightPannel {
 	        input {
 	            float: left;
 	            margin-top: 5px;
+	            border: none;
 	        }
 
 	        label {
