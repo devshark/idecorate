@@ -23,7 +23,7 @@ class Product(ProductBase):
     name = models.CharField(_('name'), max_length=100, db_index=True)
     slug = models.SlugField(_('slug'), unique=True, max_length=201)
     ordering = models.PositiveIntegerField(_('ordering'), default=0)
-    description = models.TextField(_('description'), blank=True, db_index=True)
+    description = models.TextField(_('description'), blank=True)
     original_image = models.TextField(_('original_image'), blank=True)
     original_image_thumbnail = models.TextField(_('original_image_thumbnail'), blank=True)
     no_background = models.TextField(_('no_background'), blank=True)

@@ -1,0 +1,1 @@
+INSERT INTO `footer_copyright` VALUES (1,'2012-09-25','&copy; iDecorate');
