@@ -129,7 +129,6 @@ $(document).ready(function () {
             $('#lasso').width(lassoWidth);
             $('#lasso').height(lassoHeight);
         }
-
     }).mousedown(function(e){
         if($('.selected').length == 0) {
 
@@ -139,7 +138,6 @@ $(document).ready(function () {
             lassoCoordinate.startY = y;
             lassoStart = true;   
         }
-
     }).mouseup(function(e){
         lassoStart = false;
         var x = e.pageX - $(this).offset().left;
@@ -199,53 +197,36 @@ $(document).ready(function () {
             $(document).unbind('click');
 
         }).mouseup(function(e){
-            if($.browser.version != 9.0){
-                if(!handled){
+            if(!handled){
+                $(document).click(function(e){
+                    remove_handles(e);
+                    eventTracker(e.target, 'unselect');
+                });
+            }else{
+                setTimeout(function(){
                     $(document).click(function(e){
-                        var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
-                    
-                        if(!click){
-                            remove_handles(e);
-                            eventTracker(e.target, 'unselect');
-                        }
+                        remove_handles(e);
+                        eventTracker(e.target, 'unselect');
                     });
-                }else{
-                    setTimeout(function(){
-                        $(document).click(function(e){
-                            var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
-                            if(!click){
-                                remove_handles(e);
-                                eventTracker(e.target, 'unselect');
-                            }
-                        });
-                    }, 300)
-                }
-                handled = false;
+                }, 300)
             }
-            
+            handled = false;
         });
 
-        $handles.on('mousedown','.ui-resizable-handle, ui-rotatable-handle',function(e){
+        $handles.on('click mousedown','.ui-resizable-handle, ui-rotatable-handle, .ui-rotatable-handle-tip',function(e){
             handled = true; 
             $(document).unbind('click');
         }).mouseup(function(e){
             if(!handled){
                 $(document).click(function(e){
-                    var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
-                
-                    if(!click){
-                        remove_handles(e);
-                        eventTracker(e.target, 'unselect');
-                    }
+                    remove_handles(e);
+                    eventTracker(e.target, 'unselect');
                 });
             }else{
                 setTimeout(function(){
                     $(document).click(function(e){
-                        var click =  $.contains($('#canvas .handles')[0],e.target) ? true : e.target == $('#canvas .handles');
-                        if(!click){
-                            remove_handles(e);
-                            eventTracker(e.target, 'unselect');
-                        }
+                        remove_handles(e);
+                        eventTracker(e.target, 'unselect');
                     });
                 }, 300)
             }
@@ -385,6 +366,18 @@ $(document).ready(function () {
 
     });
 
+    $('#flip-btn').click(function(e){
+        e.preventDefault();
+        cancelBubble(e);
+        flip($('.selected'));
+    });
+
+    $('#flap-btn').click(function(e){
+        e.preventDefault();
+        cancelBubble(e);
+        flap($('.selected'));
+    });
+
     //forward selected obj
     $('#forward-btn').click(function(e){
         e.preventDefault();
@@ -468,7 +461,7 @@ $(document).ready(function () {
         e.preventDefault();
         redo_styleboard();
     });
-    
+
     $('#undo').click(function(e){
         e.preventDefault();
         undo_styleboard();
@@ -560,11 +553,66 @@ function create_new_object(options){
     return object;
 }
 
+function flip(obj){
+    m = $.parseJSON(obj.attr('_matrix'));
+    var matrix = 'matrix('+ (m.a*-1) +', '+m.b +', '+ m.c +', '+ (m.d*-1) +', 0, 0)',
+        ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+(m.a*-1)+"', M12='"+m.b+"', M21='"+m.c+"', M22='"+(m.d*-1)+"', sizingMethod='auto expand')";         
+
+    if($.browser.msie && $.browser.version == 9.0) {
+        $('.handles, .selected').css({
+            '-ms-transform'    : matrix
+        });
+    }else if($.browser.msie && $.browser.version < 9.0){
+        $('.handles, .selected').css({
+            'filter'           : ie_matrix,
+            '-ms-filter'       : '"' + ie_matrix + '"'
+        });
+    }else{
+        $('.handles, .selected').css({
+            '-moz-transform'   : matrix,
+            '-o-transform'     : matrix,
+            '-webkit-transform': matrix,
+            'transform'        : matrix
+        });
+    }
+
+    obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+'}');
+}
+
+
+function flap(obj){
+    m = $.parseJSON(obj.attr('_matrix'));
+    var matrix = 'matrix('+ m.a +', '+(m.b*-1) +', '+ (m.c*-1) +', '+ m.d +', 0, 0)',
+        ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m.a+"', M12='"+(m.b*-1)+"', M21='"+(m.c*-1)+"', M22='"+m.d+"', sizingMethod='auto expand')";         
+
+    if($.browser.msie && $.browser.version == 9.0) {
+        $('.handles, .selected').css({
+            '-ms-transform'    : matrix
+        });
+    }else if($.browser.msie && $.browser.version < 9.0){
+        $('.handles, .selected').css({
+            'filter'           : ie_matrix,
+            '-ms-filter'       : '"' + ie_matrix + '"'
+        });
+    }else{
+        $('.handles, .selected').css({
+            '-moz-transform'   : matrix,
+            '-o-transform'     : matrix,
+            '-webkit-transform': matrix,
+            'transform'        : matrix
+        });
+    }
+
+    obj.attr('_matrix','{"a":'+m.a+',"b":'+(m.b*-1)+',"c":'+(m.c*-1)+',"d":'+m.d+'}');
+}
+
 function set_ctr_attr(obj){
 
-    x = obj.offset().left + obj.width() * 0.5;
-    y = obj.offset().top + obj.height() * 0.5;
+    x = parseFloat(parseFloat(obj.offset().left + obj.width() * 0.5));
+    y = parseFloat(parseFloat(obj.offset().top + obj.height() * 0.5));
+    if($.browser.msie && $.browser.version < 9.0){
 
+    }
     $handles.attr({'ctr':'{"x":'+x+',"y":'+y+'}'});
     //$('.selected').attr({'ctr':'{"x":'+x+',"y":'+y+'}'});
 }
@@ -581,7 +629,7 @@ function append_to_canvas(event, obj, index, top, left){
     uniqueIdentifier++;
     if(object.hasClass('selected')){
         object.siblings('.unselected').removeClass('selected');
-
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1}')
         set_ctr_attr(object);
     }
 
