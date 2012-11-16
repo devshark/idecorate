@@ -32,7 +32,9 @@
             var has_change_mode             = false;
             var styleboard_mode_type        = '{{ mode }}';
             var sub_category_count          = {{ category_count }};
-var mode_toggle_tab = false;
+            var mode_toggle_tab             = false;
+            var save_styleboard_action      = false;
+            var logined                     = {% if user.is_authenticated %}true{% else %}false{% endif %};
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -503,7 +505,6 @@ var mode_toggle_tab = false;
         });
         generate_user_nav();
         $('#save').click(function(){
-            $('#modal-save-styleboard-window').show();
             pop_save_styleboard();
         });
     });
@@ -526,11 +527,16 @@ var mode_toggle_tab = false;
         window.location.href = '{% url profile %}';
     }
     function logged(val){
+        logined = true;
         $('#logged_as').text(val);
         $('#lnk-login-signup').parent().hide();
         $('#logged_as').parent().show();
         $('#lnk-logout').parent().show();
         closed_modal();
+        if (save_styleboard_action){
+            save_styleboard_action = false;
+            save_styleboard_modal();
+        }
     }
     function logmeout(){
         $.get('{% url logout %}');
@@ -553,6 +559,13 @@ var mode_toggle_tab = false;
         modal.css({display:'block',left:_left});
     }
     function pop_save_styleboard(){
+        save_styleboard_action = true;
+        if (logined)
+            save_styleboard_modal();
+        else
+            popup_login();
+    }
+    function save_styleboard_modal(){
         var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-save-styleboard-iframe','src':"{% url save_styleboard %}",'frameborder':'0'});
         var modal   = $('#modal-save-styleboard-window'),
             _left   = $(window).width()/2-modal.width()/2;

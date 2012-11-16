@@ -40,24 +40,15 @@
                 
         // Bind Rotation to Handler
         this.bindRotation = function() {
-        
-        	// IE Fix
-        	if($.browser.msie) {
-	        	_rotator.mousedown(function(e) {
-	        		e.stopPropagation();
-	        	});
-	        
-	        	_rotator.mouseup(function(e) {
-	        		e.stopPropagation();
-	        	});
-	        }
 
-            _rotator.on({
-                mousedown:function(e){
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
+            _rotator.draggable({
+                helper: 'clone',
+                revert: false,
+                start: function(e,ui){
+                    cancelBubble(e);
+
                     $rotatable = $(this).addClass('ui-rotating');
-                    
+
                     // TL Corner Coords
                     tl_coords = {
                         'x': parseInt(_this.parent().css('left')),
@@ -71,31 +62,26 @@
                     //     'y': raw_ctr.y
                     // };
 
-                    $rotatable.parents().on({
-                        mousemove:function(e){
-                            e.stopPropagation();
-                            e.stopImmediatePropagation();
+                },
+                drag: function(e,ui){
+                    cancelBubble(e);
+                    // Mouse Coords
+                    mouse_coords = {
+                        'x': e.pageX,
+                        'y': e.pageY
+                    };  
+                    
+                    angle = _this.getAngle(mouse_coords, center_coords)-90;
+                    
+                    if($.browser.msie && $.browser.version < 9.0) {
+                        angle = -angle;
+                    }
 
-                            // Mouse Coords
-                            mouse_coords = {
-                                'x': e.pageX,
-                                'y': e.pageY
-                            };  
-                            
-                            angle = _this.getAngle(mouse_coords, center_coords)-90;
-                            
-                            if($.browser.msie && $.browser.version < 9.0) {
-                                angle = -angle;
-                            }
+                    return _this.rotate(angle);
 
-                            return _this.rotate(angle);
-                        },
-                        mouseup:function(e){
-                            $rotatable.removeClass('ui-rotating');
-                            $rotatable.parents().off('mousemove');
-                        }
-                    });
-                },mouseup:function(e){
+                },
+                stop: function(e,ui){
+                    cancelBubble(e);
                     $rotatable.removeClass('ui-rotating');
                 }
             });
@@ -151,6 +137,20 @@
         
         // Update CSS Transform Matrix (transform: matrix)
         this.updateRotationMatrix = function(m) {
+
+            if($('.selected').attr('_matrix')){
+                // flipflap = $.parseJSON($('.selected').attr('_matrix'));
+                // var a = flipflap.a,
+                //     b = flipflap.b,
+                //     c = flipflap.c,
+                //     d = flipflap.d; 
+
+                // m[0] = a<0 || a>0 ? (m[0]*-1) : m[0];
+                // m[1] = a<0 || a>0 ? (m[1]*-1) : m[1];
+                // m[2] = d<0 || d>0 ? (m[2]*-1) : m[2];
+                // m[3] = d<0 || d>0 ? (m[3]*-1) : m[3];
+            }
+
         	var matrix = 'matrix('+ m[0] +', '+ m[1] +', '+ m[2] +', '+ m[3] +', 0, 0)',
         	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m[0]+"', M12='"+m[1]+"', M21='"+m[2]+"', M22='"+m[3]+"', sizingMethod='auto expand')";        	
             if($.browser.msie && $.browser.version == 9.0) {
