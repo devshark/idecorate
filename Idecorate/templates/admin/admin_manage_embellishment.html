@@ -12,6 +12,20 @@
 
 {% block content %}
 
+          <div id="myModal1" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">Delete Embellishment</h3>
+            </div>
+            <div class="modal-body">
+              <p>Do you want to delete this?</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal">Close</button>
+              <button class="btn btn-primary" id="delete_embellishment">Delete</button>
+            </div>
+          </div>
+
 	<h1>{% trans "Manage Embellishments" %}</h1>
 	<div>&nbsp;</div>
 
@@ -33,21 +47,15 @@
       <form class="form-inline" action="{% url admin_manage_embellishment %}" method="post">
         {% csrf_token %}
         <label class="checkbox">
-            <input name="embellishment_description" maxlength="100" placeholder="Description" type="text" class="input-large"/> 
+            {{ form.embellishment_description|add_class:"input-large"|attr:"placeholder:Description" }}
         </label>
         <label class="checkbox">
             {% trans "Status: " %}
-            <select name="embellishment_status" class="input-large">
-            <option value="any">Any</option>
-            <option value="1">Active</option>
-            <option value="0">Inactive</option>
-            </select>            
+            {{ form.embellishment_status|add_class:"input-large" }}          
         </label>
         <label class="checkbox">
             {% trans "Type: " %}
-            <select name="embellishment_type" class="input-large">
-            <option value="any">Any</option>
-            </select>            
+            {{ form.embellishment_type|add_class:"input-large" }}            
         </label>
           <button type="submit" class="btn btn-primary">Apply</button>
       </form>
@@ -56,20 +64,56 @@
 
       <table class="table table-bordered table-hover">
         <thead>
-          <th><span class="tbtitle">Description</span> <span class="tbsorter"><a href="#">Δ</a><a href="#">∇</a></span></th>
+          <th><span class="tbtitle">Description</span> <span class="tbsorter"><a href="{% url admin_manage_embellishment %}{{ description_asc_link }}">Δ</a><a href="{% url admin_manage_embellishment %}{{ description_desc_link }}">∇</a></span></th>
           <th style="width:100px;">Image</th>
           <th>Type</th>
-          <th style="width:100px;"><span class="tbtitle">Status</span> <span class="tbsorter"><a href="#">Δ</a><a href="#">∇</a></span></th>
+          <th style="width:100px;"><span class="tbtitle">Status</span> <span class="tbsorter"><a href="{% url admin_manage_embellishment %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_embellishment %}{{ status_desc_link }}">∇</a></span></th>
           <th style="width:80px;">Operations</th>
         </thead>
 
-        <!-- tbody here -->
+        {% if embellishments %}
+        <tbody>
+          {% for embellishment in embellishments %}
+          <tr>
+            <td>{{ embellishment.description }}</td>
+            <td>{{ embellishment|getEmbellishmentThumbnail }}</td>
+            <td>{{ embellishment.e_type.name }}</td>
+            <td>{{ embellishment|getEmbellishmentStatus }}</td>
+            <td><a href="#">Edit</a> | <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_embellishment embellishment.id %}')">Delete</a></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        {% endif %}
+
       </table>
 
-      <!-- bootstrap paginate here -->
+      {% bootstrap_paginate embellishments url_get_params=other_params %}
 
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
+
+  globalUrl = "";
+
+  function deleteEmbellishment() {
+
+    document.location = globalURL;
+    
+  }
+
+  function setGlobalURL(url) {
+    globalURL = url;
+  }
+
+  $(function(e){
+
+    $('#delete_embellishment').click(function(e){
+
+      deleteEmbellishment();
+
+    });
+
+
+  });
 </script>
 {% endblock %}

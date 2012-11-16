@@ -152,3 +152,10 @@ class UploadFontForm(forms.Form):
 	font_status = forms.ChoiceField(label=_("Status"), choices=(('1','Active'),('0','Inactive'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Status is a required field.')})
 	font_description = forms.CharField(max_length=100,label=_("Description"), required=True, help_text=_(mark_safe('Enter a short or long description of this embellishment.')), error_messages={'required':_('Description is a required field.')})
 	font_file = forms.CharField(label=_("Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Font is a required field.')})
+
+
+class SearchEmbellishmentForm(forms.Form):
+
+	embellishment_status = forms.ChoiceField(label=_("Status"),widget=forms.Select, required=False, choices=(('any','Any'),('1','Active'),('0','Inactive'),))
+	embellishment_description = forms.CharField(max_length=100,label=_("Description"), required=False)
+	embellishment_type = forms.ChoiceField(label=_("Type"), choices=(('any','Any'),('1','Image'),('2','Texture'),('3','Pattern'),('4','Shape'),('5','Border'),), required=False,widget=forms.Select)
