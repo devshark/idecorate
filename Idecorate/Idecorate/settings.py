@@ -159,7 +159,7 @@ INSTALLED_APPS = (
 
 # Add to your settings file
 CONTENT_TYPES = ['image']
-FONT_TYPES = ['font/ttf', 'font/truetype','application/x-font-ttf']
+FONT_TYPES = ['font/ttf', 'font/truetype','application/x-font-ttf','application/octet-stream']
 ALLOWED_CATEGORY_IMAGES = ['png','gif','jpeg','jpg','pjpeg']
 # 2MB - 2097152
 # 2.5MB - 2621440
