@@ -79,7 +79,7 @@
             <td>{{ embellishment|getEmbellishmentThumbnail }}</td>
             <td>{{ embellishment.e_type.name }}</td>
             <td>{{ embellishment|getEmbellishmentStatus }}</td>
-            <td><a href="#">Edit</a> | <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_embellishment embellishment.id %}')">Delete</a></td>
+            <td><a href="{% url admin_edit_embellishment embellishment.id %}">Edit</a> | <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_embellishment embellishment.id %}')">Delete</a></td>
           </tr>
           {% endfor %}
         </tbody>
