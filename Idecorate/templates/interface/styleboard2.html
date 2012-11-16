@@ -366,15 +366,13 @@
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <script src="/media/interface/js/jquery.placeholder.js"></script>
 
-<!-- <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.draggable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script> -->
 <script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+<!--[if lt IE 9]>
+    <script type="text/javascript" src="/media/interface/js/ui/ie-jquery.ui.rotatable.js"></script>
+<![endif]-->
+<![if !IE]>
+    <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+<![endif]>
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
 <!-- CART -->
