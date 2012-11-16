@@ -322,8 +322,7 @@ def search_category(keyword):
 		return None
 
 def get_last_cat_id(cat_id):
-	cat = get_categories(cat_id)
-	print cat.query
+	cat = get_categories(cat_id)	
 	lid = None
 	if cat.count()>0:
 		for c in cat:
@@ -332,7 +331,6 @@ def get_last_cat_id(cat_id):
 				get_last_cat_id(c.id)
 
 	return cat_id
-
 
 def get_cat_ids(cat_id, cat_ids=[]):
 	cat = get_categories(cat_id)
