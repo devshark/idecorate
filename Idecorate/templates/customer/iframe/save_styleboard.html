@@ -22,6 +22,11 @@
                 width: 375px;
                 border: 1px solid #ccc;
             }
+            @-moz-document url-prefix() {
+                textarea {
+                    width: 380px;
+                }
+            }
             fieldset {
                 padding: 10px;
             }
@@ -70,12 +75,14 @@
                 text-align: center;
             }
             .action {
-                width: 100%;
+                width: 382px;
                 height: 35px;
+                margin-top: 10px;
             }
             .action input {
                 width: auto;
                 float: right;
+                cursor: pointer;
                 background: -webkit-gradient(linear, left top, left bottom, from(white), to(#DA9B94));
                 background: -moz-linear-gradient(top, white, #DA9B94);
                 background: -o-linear-gradient(top, white, #DA9B94);
