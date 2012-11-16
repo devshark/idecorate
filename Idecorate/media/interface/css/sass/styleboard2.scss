@@ -1158,6 +1158,9 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 				margin-left: -5px;
 			}
 		}
+		.ui-rotatable-handle.ui-draggable-dragging {
+			visibility:  hidden;
+		}
 	}
 	.selected{
 		/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";

@@ -97,7 +97,9 @@ $(document).ready(function () {
 
             }
         }
-    }).mousemove(function(e){
+    });
+
+    $("#canvas").mousemove(function(e){
         e.preventDefault();
         if(lassoStart && $('.selected').length == 0) {
             var x = e.pageX - $(this).offset().left;
@@ -147,7 +149,6 @@ $(document).ready(function () {
         $('#lasso').width(0);
         $('#lasso').height(0);
         $('#lasso').css('display', 'none');
-    }).change(function(e){
     });
 
     //drag the selected product together with its handle on the fly
@@ -555,7 +556,8 @@ function create_new_object(options){
 
 function flip(obj){
     m = $.parseJSON(obj.attr('_matrix'));
-    var matrix = 'matrix('+ (m.a*-1) +', '+m.b +', '+ m.c +', '+ (m.d*-1) +', 0, 0)',
+    m.b = m.b>0 || m.b<0 ? (m.b*-1) : m.b;
+    var matrix = 'matrix('+ m.a +', '+m.b+', '+ m.c +', '+ (m.d*-1) +', 0, 0)',
         ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+(m.a*-1)+"', M12='"+m.b+"', M21='"+m.c+"', M22='"+(m.d*-1)+"', sizingMethod='auto expand')";         
 
     if($.browser.msie && $.browser.version == 9.0) {
@@ -576,13 +578,14 @@ function flip(obj){
         });
     }
 
-    obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+'}');
+    obj.attr('_matrix','{"a":'+m.a+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+'}');
 }
 
 
 function flap(obj){
     m = $.parseJSON(obj.attr('_matrix'));
-    var matrix = 'matrix('+ m.a +', '+(m.b*-1) +', '+ (m.c*-1) +', '+ m.d +', 0, 0)',
+    m.c = m.c<0 || m.c>0? (m.c*-1) : m.c;
+    var matrix = 'matrix('+(m.a*-1)+', '+m.b +', '+m.c+', '+ m.d +', 0, 0)',
         ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m.a+"', M12='"+(m.b*-1)+"', M21='"+(m.c*-1)+"', M22='"+m.d+"', sizingMethod='auto expand')";         
 
     if($.browser.msie && $.browser.version == 9.0) {
@@ -603,7 +606,7 @@ function flap(obj){
         });
     }
 
-    obj.attr('_matrix','{"a":'+m.a+',"b":'+(m.b*-1)+',"c":'+(m.c*-1)+',"d":'+m.d+'}');
+    obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+m.d+'}');
 }
 
 function set_ctr_attr(obj){
