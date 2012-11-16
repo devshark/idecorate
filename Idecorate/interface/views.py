@@ -420,7 +420,7 @@ def search_products(request):
 			categories = Categories.objects.filter(name__icontains=search_keyword, deleted=False)
 			if categories.count() > 0:
 				for cat in categories:
-					cats_ids += get_cat_ids(cat.id,[])
+					cats_ids += get_cat_ids(cat.id)
 				q.add(Q(categories__id__in=cats_ids), Q.OR)
 
 			product_list = Product.objects.filter(q).distinct()

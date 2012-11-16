@@ -332,7 +332,8 @@ def get_last_cat_id(cat_id):
 
 	return cat_id
 
-def get_cat_ids(cat_id, cat_ids=[]):
+def get_cat_ids(cat_id):
+	cat_ids=[]
 	cat = get_categories(cat_id)
 	cat_ids.append(get_last_cat_id(cat_id))	
 	return cat_ids
