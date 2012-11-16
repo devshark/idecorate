@@ -18,6 +18,8 @@ section .no-image {
 }
 section .user-profile .picture-wrap, section .user-profile .description-wrap {
 	display: inline-block;
+	*display: inline;
+	zoom: 1;
 }
 section .user-profile .picture-wrap {
 	width: 150px;
@@ -137,7 +139,7 @@ section .create-wrap {
 	</div>
 	{% else %}
 	<div class="create-wrap">
-		<a href="{% url styleboard %}">Create</a>
+		<a href="{% url styleboard %}">Create New Style Board</a>
 	</div>	
 	{% endif %}
 </section>
