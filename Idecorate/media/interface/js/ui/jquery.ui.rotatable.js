@@ -84,7 +84,7 @@
                             
                             angle = _this.getAngle(mouse_coords, center_coords)-90;
                             
-                            if($.browser.msie) {
+                            if($.browser.msie && $.browser.version < 9.0) {
                                 angle = -angle;
                             }
 
@@ -129,8 +129,8 @@
         
         // Rotate Element to the Given Degree
         this.rotate = function(degree) {
-        	var cos = Math.cos(_this.degToRad(-degree)),
-        	    sin = Math.sin(_this.degToRad(-degree)),
+        	var cos = parseFloat(parseFloat(Math.cos(_this.degToRad(-degree)))),
+        	    sin = parseFloat(parseFloat(Math.sin(_this.degToRad(-degree)))),
         	    mtx = [cos, sin, (-sin), cos];
         	    
         	this.updateRotationMatrix(mtx);
@@ -153,7 +153,6 @@
         this.updateRotationMatrix = function(m) {
         	var matrix = 'matrix('+ m[0] +', '+ m[1] +', '+ m[2] +', '+ m[3] +', 0, 0)',
         	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m[0]+"', M12='"+m[1]+"', M21='"+m[2]+"', M22='"+m[3]+"', sizingMethod='auto expand')";        	
-        	
             if($.browser.msie && $.browser.version == 9.0) {
                 _this.css({
                     '-ms-transform'    : matrix
@@ -193,10 +192,9 @@
                     });
                 }
             } 
-        	
-            
+        	$(opts.rotateAlso).attr('_matrix','{"a":'+m[0]+',"b":'+m[1]+',"c":'+m[2]+',"d":'+m[3]+'}');
         };
-        
+
         return this.intialize();  		
 	}
 })(jQuery);
