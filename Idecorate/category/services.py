@@ -321,16 +321,20 @@ def search_category(keyword):
 	except:
 		return None
 
-def get_cat_ids(cat_id, cat_ids=[]):
-	# if not recur:
-	# 	cat_ids = []
+def get_last_cat_id(cat_id):
 	cat = get_categories(cat_id)
+	print cat.query
+	lid = None
 	if cat.count()>0:
-		for c in cat:			
+		for c in cat:
 			subcat = get_categories(c.id)
 			if subcat.count() > 0:
-				sub = get_cat_ids(c.id,cat_ids)
-	else:
-		cat_ids.append(cat_id)	
-	
+				get_last_cat_id(c.id)
+
+	return cat_id
+
+
+def get_cat_ids(cat_id, cat_ids=[]):
+	cat = get_categories(cat_id)
+	cat_ids.append(get_last_cat_id(cat_id))	
 	return cat_ids
