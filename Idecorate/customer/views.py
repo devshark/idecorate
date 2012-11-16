@@ -100,4 +100,7 @@ def save_styleboard(request):
 	form = SaveStyleboardForm()
 	if request.method == "POST":
 		form = SaveStyleboardForm(request.POST)
+		if form.is_valid():
+			pass
+	info['form'] = form
 	return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
