@@ -1,0 +1,47 @@
+
+@font-face {
+    font-family: "adobe_garamond_proregular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/media/interface/css/fonts/agaramondpro-regular-webfont.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/agaramondpro-regular-webfont.woff") format("woff"), 
+    url("/media/interface/css/fonts/agaramondpro-regular-webfont.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/agaramondpro-regular-webfont.svg#adobe_garamond_proregular") format("svg");
+}
+@font-face {
+    font-family: "adobe_garamond_probold";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/media/interface/css/fonts/agaramondpro-semibold-webfont.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/agaramondpro-semibold-webfont.woff") format("woff"), 
+    url("/media/interface/css/fonts/agaramondpro-semibold-webfont.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/agaramondpro-semibold-webfont.svg#adobe_garamond_probold") format("svg");
+}
+@font-face {
+    font-family: "adobe_garamond_probold_italic";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/media/interface/css/fonts/agaramondpro-semibolditalic-webfont.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/agaramondpro-semibolditalic-webfont.woff") format("woff"), 
+    url("/media/interface/css/fonts/agaramondpro-semibolditalic-webfont.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/agaramondpro-semibolditalic-webfont.svg#adobe_garamond_probold_italic") format("svg");
+}
+@font-face {
+    font-family: "futura_std_bookregular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/media/interface/css/fonts/futurastd-book-webfont.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/futurastd-book-webfont.woff") format("woff"), 
+    url("/media/interface/css/fonts/futurastd-book-webfont.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/futurastd-book-webfont.svg#futura_std_bookregular") format("svg");
+}
+@font-face {
+    font-family: "futura_std_lightregular";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/media/interface/css/fonts/futurastd-light-webfont.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/futurastd-light-webfont.woff") format("woff"), 
+    url("/media/interface/css/fonts/futurastd-light-webfont.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/futurastd-light-webfont.svg#futura_std_lightregular") format("svg");
+}
+

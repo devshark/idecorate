@@ -252,7 +252,6 @@ $(document).ready(function () {
 
         });
     }
-    
 
     //draggable handles binds style on selected obj
     $handles.draggable({
@@ -284,25 +283,12 @@ $(document).ready(function () {
         aspectRatio: true,
         start : function(e, ui){
             
-
-            $(".draggable").draggable({
-                revert:true, 
-                helper: 'clone'
-            });
-            $(".draggable").draggable('destroy');
-            
         },
         resize: function(e, ui){
             
             transform($(this));
         },
         stop : function(e, ui){
-
-            $(".draggable").draggable({
-                revert:true, 
-                helper: 'clone'
-            });
-
             //set center coordinated for rotate plugin
             set_ctr_attr($(this));
 
