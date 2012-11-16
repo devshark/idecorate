@@ -138,17 +138,24 @@
         // Update CSS Transform Matrix (transform: matrix)
         this.updateRotationMatrix = function(m) {
 
-            if($('.selected').attr('_matrix')){
-                // flipflap = $.parseJSON($('.selected').attr('_matrix'));
-                // var a = flipflap.a,
-                //     b = flipflap.b,
-                //     c = flipflap.c,
-                //     d = flipflap.d; 
 
-                // m[0] = a<0 || a>0 ? (m[0]*-1) : m[0];
-                // m[1] = a<0 || a>0 ? (m[1]*-1) : m[1];
-                // m[2] = d<0 || d>0 ? (m[2]*-1) : m[2];
-                // m[3] = d<0 || d>0 ? (m[3]*-1) : m[3];
+            if($('.selected').attr('_matrix')){
+                flipflap = $.parseJSON($('.selected').attr('_matrix'));
+                var a = flipflap.a,
+                    b = flipflap.b,
+                    c = flipflap.c,
+                    d = flipflap.d,
+                    e = flipflap.e; 
+                    f = flipflap.f; 
+
+                if(e){
+                    m[0] = (m[0]*-1);
+                    m[1] = c<0 || c>0 ? (m[1]*-1) : m[2];
+                }
+                if(f){
+                    m[0] = a<0 || a>0 ? (m[0]*-1) : m[0];
+                    m[1] = (m[1]*-1);
+                }
             }
 
         	var matrix = 'matrix('+ m[0] +', '+ m[1] +', '+ m[2] +', '+ m[3] +', 0, 0)',
@@ -191,8 +198,11 @@
                     'transform'        : matrix
                     });
                 }
-            } 
-        	$(opts.rotateAlso).attr('_matrix','{"a":'+m[0]+',"b":'+m[1]+',"c":'+m[2]+',"d":'+m[3]+'}');
+            }
+
+            if($('.selected').attr('_matrix')){
+        	   $(opts.rotateAlso).attr('_matrix','{"a":'+m[0]+',"b":'+m[1]+',"c":'+m[2]+',"d":'+m[3]+',"e":'+e+',"f":'+f+'}');
+            }
         };
 
         return this.intialize();  		
