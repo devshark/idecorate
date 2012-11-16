@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.db.models import Q
 
-from category.services import get_categories, get_cat, category_tree_crumb, search_category
+from category.services import get_categories, get_cat, category_tree_crumb, search_category, get_cat_ids
 from category.models import Categories
 from cart.services import get_product
 from cart.models import Product, CartTemp, ProductPopularity
@@ -389,24 +389,13 @@ def search_suggestions(request):
 	else:
 		return HttpResponseNotFound()
 
-def get_cat_ids(cat_id, cat_ids = []):
-	cat = get_categories(cat_id)
-	if cat.count()>0:
-		for c in cat:			
-			subcat = get_categories(c.id)
-			if subcat.count() > 0:
-				sub = get_cat_ids(c.id,cat_ids)
-	else:
-		cat_ids.append(cat_id)	
-	return cat_ids
-
 def search_products(request):
 	if request.method == "POST":
 		cat_id = request.POST.get('cat_id',None)
 		search_keyword = request.POST.get('search_keyword',None)
 
 		if cat_id != '0':
-			cat_ids = get_cat_ids(cat_id)
+			cat_ids = get_cat_ids(cat_id)			
 			product_list = Product.objects.filter(categories__id__in=cat_ids, is_active=True, is_deleted=False, categories__deleted=0)
 			product_list = product_list.order_by('ordering').distinct()	
 		else:

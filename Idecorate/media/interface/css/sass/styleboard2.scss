@@ -162,6 +162,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						padding: 10px;
 						background: #000000;
 						float: left;
+						*width: 240px;
 
 						.search{
 							vertical-align: top;
@@ -1157,16 +1158,14 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 				margin-left: -5px;
 			}
 		}
-		
-		
-		.selected{
-			/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
-		  	filter: alpha(opacity=80);*/
-		  	-moz-opacity: 0.8;
-		  	-khtml-opacity: 0.8;
-		  	opacity: 0.8;
-		  	z-index: 1;
-		}
+	}
+	.selected{
+		/*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+	  	filter: alpha(opacity=80);*/
+	  	-moz-opacity: 0.8;
+	  	-khtml-opacity: 0.8;
+	  	opacity: 0.8;
+	  	z-index: 1;
 	}
 }
 
