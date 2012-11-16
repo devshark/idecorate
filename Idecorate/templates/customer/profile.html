@@ -25,8 +25,9 @@ section .user-profile .picture-wrap {
 	width: 150px;
 }
 section .user-profile .picture-wrap img {
-	width: 150px;
-	height: 150px;
+	width: 148px;
+	height: 148px;
+	border: 1px solid #ccc;
 }
 section .user-profile .description-wrap {
 	width: 637px;
@@ -51,9 +52,9 @@ section .create-wrap {
 	<div class="user-profile">
 		<div class="picture-wrap">
 			{% if user_profile.picture %}
-			<img src="media/{{ user_profile.picture }}" alt="" />
+			<img src="/media/{{ user_profile.picture }}" alt="" />
 			{% else %}
-			<div class="no-image"></div>
+			<img src="/media/images/nopic.png" alt="" />
 			{% endif %}	
 		</div>
 		<div class="description-wrap">
