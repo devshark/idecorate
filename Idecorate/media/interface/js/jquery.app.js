@@ -554,7 +554,7 @@ function create_new_object(options){
     return object;
 }
 
-function flip(obj){
+function flip(obj){ //e
     m = $.parseJSON(obj.attr('_matrix'));
     m.b = m.b>0 || m.b<0 ? (m.b*-1) : m.b;
     var matrix = 'matrix('+ m.a +', '+m.b+', '+ m.c +', '+ (m.d*-1) +', 0, 0)',
@@ -578,11 +578,11 @@ function flip(obj){
         });
     }
 
-    obj.attr('_matrix','{"a":'+m.a+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+'}');
+    obj.attr('_matrix','{"a":'+m.a+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+',"e":'+!m.e+',"f":'+m.f+'}');
 }
 
 
-function flap(obj){
+function flap(obj){ //f
     m = $.parseJSON(obj.attr('_matrix'));
     m.c = m.c<0 || m.c>0? (m.c*-1) : m.c;
     var matrix = 'matrix('+(m.a*-1)+', '+m.b +', '+m.c+', '+ m.d +', 0, 0)',
@@ -606,7 +606,7 @@ function flap(obj){
         });
     }
 
-    obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+m.d+'}');
+    obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+m.d+',"e":'+m.e+',"f":'+!m.f+'}');
 }
 
 function set_ctr_attr(obj){
@@ -632,7 +632,7 @@ function append_to_canvas(event, obj, index, top, left){
     uniqueIdentifier++;
     if(object.hasClass('selected')){
         object.siblings('.unselected').removeClass('selected');
-        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1}')
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}')
         set_ctr_attr(object);
     }
 
