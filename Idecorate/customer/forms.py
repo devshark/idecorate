@@ -56,3 +56,7 @@ class SignupForm(forms.Form):
 			return confirm_password
 		except MultiValueDictKeyError as e:
 			return ""
+
+class SaveStyleboardForm(forms.Form):
+	name = forms.CharField( label=_("Name your style board."), error_messages={'required':_('Enter styleboard name.')})
+	description = forms.CharField( label=_("Name your style board."), widget=forms.Textarea, error_messages={'required':_('Enter a short description of your styleboard.')})

@@ -18,12 +18,12 @@ from cart.services import get_product
 from cart.models import Product, CartTemp, ProductPopularity
 from cart.services import generate_unique_id, clear_cart_temp
 from django.conf import settings
-from PIL import Image
-import ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 from django.core.urlresolvers import reverse
 import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
+from admin.models import TextFonts
 
 def home(request):
 	info = {}
@@ -395,7 +395,7 @@ def search_products(request):
 		search_keyword = request.POST.get('search_keyword',None)
 
 		if cat_id != '0':
-			cat_ids = get_cat_ids(cat_id)
+			cat_ids = get_cat_ids(cat_id)			
 			product_list = Product.objects.filter(categories__id__in=cat_ids, is_active=True, is_deleted=False, categories__deleted=0)
 			product_list = product_list.order_by('ordering').distinct()	
 		else:
@@ -448,3 +448,45 @@ def search_products(request):
 
 		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
 	return HttpResponseNotFound()
+
+def generate_text(request):
+	#parameters
+	font_size = request.GET.get('font_size','')
+	image_text = request.GET.get('font_text','')
+	font_color = request.GET.get('font_color','')
+	font_thumbnail = request.GET.get('font_thumbnail','0')
+	font_id = request.GET.get('font_id','')
+
+	fontObj = TextFonts.objects.get(id=int(font_id))
+
+	font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+	#load font with size
+	font = ImageFont.truetype("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font), int(font_size))
+	
+	#get the text size first
+	textSize = font.getsize(image_text)
+
+	#image with background transparent
+	img = Image.new("RGBA", textSize, (255,255,255, 0))
+
+	#create draw object	
+	draw = ImageDraw.Draw(img)
+
+	#draw text with black font color
+	draw.text((0,0), image_text, font_color, font=font)
+
+	if font_thumbnail == "0":
+		#not thumbnail
+		response = HttpResponse(mimetype="image/png")
+		img.save(response, "PNG")
+	else:
+		#create thumbnail
+		print 
+		img.thumbnail((int(font_size),int(font_size)),Image.ANTIALIAS)
+		bgImg = Image.new('RGBA', (int(font_size),int(font_size)), (255, 255, 255, 0))
+		bgImg.paste(img,((int(font_size) - img.size[0]) / 2, (int(font_size) - img.size[1]) / 2))
+
+		response = HttpResponse(mimetype="image/jpg")
+		bgImg.save(response, "JPEG")
+
+	return response

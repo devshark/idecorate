@@ -8,7 +8,7 @@ class CustomerProfile(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
 	nickname = models.CharField(db_column='nickname', max_length=256, db_index=True)
 	picture = models.CharField(db_column='picture', max_length=256, null=True)
-	description = models.TextField(db_column='description', max_length=256, null=True)
+	description = models.TextField(db_column='description', null=True)
 
 	class Meta:
 		db_table = 'customer_profiles'
@@ -16,6 +16,8 @@ class CustomerProfile(models.Model):
 
 class StyleboardItems(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
+	name = models.CharField(db_column="name", max_length=256, null=True)
+	description = models.TextField(db_column='description', null=True)
 	item = models.TextField(db_column='item', null=True)
 	deleted = models.IntegerField(db_column='deleted', default=0)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)

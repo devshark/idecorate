@@ -18,9 +18,11 @@ $(function(){
         $('ul:first',this).css('visibility', 'hidden');
     }
 
-    $("ul.dropdown li").hoverIntent(config);
+    $("ul.dropdown1 li").hoverIntent(config);
+    $("ul.dropdown2 li").hoverIntent(config);
     
     //$("ul.dropdown li ul li:has(ul)").find("a:first").append(" &raquo; ");
-    $("ul.dropdown li:has(ul)").find("a:first, span:first").append(" &raquo; ");
+    $("ul.dropdown1 li:has(ul)").find("a:first, span:first").append(" &raquo; ");
+    $("ul.dropdown2 li:has(ul)").find("a:first, span:first").append(" &raquo; ");
 
 });

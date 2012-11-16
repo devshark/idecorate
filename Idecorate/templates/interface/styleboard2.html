@@ -39,7 +39,7 @@ var mode_toggle_tab = false;
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <style type="text/css">
-        #modal-login-signup-window {
+        #modal-login-signup-window, #modal-save-styleboard-window {
             border: 5px solid #DDD;
             position: fixed;
             width: 800px;/*
@@ -53,16 +53,22 @@ var mode_toggle_tab = false;
             background-image: url(/media/images/idecorate_pattern.jpg);
             background-repeat: repeat;
         }
-        #modal-login-signup-window h2 {
+        #modal-login-signup-window h2, #modal-save-styleboard-window h2 {
             margin: 0 5px 0 0;
             padding: 0;
             text-align: right;
         }
-        #modal-login-signup-window a#close-login-signup-modal{
+        #modal-login-signup-window a#close-login-signup-modal, #modal-save-styleboard-window a.close-modal-btn{
             text-decoration: none;
             color: #666;
         }
         #modal-login-signup-window iframe {
+        /*height: 480px;*/
+        min-height: 375px;
+        max-height: 700px;
+        width: 100%;
+        }
+        #modal-save-styleboard-window iframe {
         /*height: 480px;*/
         min-height: 375px;
         max-height: 700px;
@@ -96,7 +102,7 @@ var mode_toggle_tab = false;
                                 <div class="search clearfix">
                                     <form action="{% url styleboard %}" method="POST">
                                         <input type="image" src="/media/images/search.png" class="searchIcon" />
-                                        <input id="search" name="search" type="text" placeholder="Search Products" > 
+                                        <input id="search" name="search" type="text" value="{{ keyword }}" placeholder="Search Products" > 
                                         <input type="submit" value="Search">
                                     </form>
                                 </div>
@@ -330,9 +336,16 @@ var mode_toggle_tab = false;
         <!-- login. signup modal -->
         <div id="modal-login-signup-window" style="display:none;">
             <h2 id="modal-login-signup-header">
-                <a href="#" id="close-login-signup-modal">&times;</a>
+                <a href="#" id="close-login-signup-modal" class="close-modal-btn">&times;</a>
             </h2>
             <div id="iframe-login-signup-wrap"></div>
+        </div>
+
+        <div id="modal-save-styleboard-window" style="display:none;">
+            <h2 id="modal-save-styleboard-header">
+                <a href="#" id="close-save-styleboard-modal" class="close-modal-btn">&times;</a>
+            </h2>
+            <div id="iframe-save-styleboard-wrap">asdasdasd</div>
         </div>
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <script src="/media/interface/js/jquery.placeholder.js"></script>
@@ -484,8 +497,15 @@ var mode_toggle_tab = false;
     $(function(e){
         styleboardH();
 
-        $('#close-login-signup-modal').click(closed_modal);
+        $('.close-modal-btn').click(function(){
+            $('#page-mask').hide();
+            $(this).parent().parent().hide();
+        });
         generate_user_nav();
+        $('#save').click(function(){
+            $('#modal-save-styleboard-window').show();
+            pop_save_styleboard();
+        });
     });
     function generate_user_nav(){
         var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
@@ -528,6 +548,15 @@ var mode_toggle_tab = false;
         var modal   = $('#modal-login-signup-window'),
             _left   = $(window).width()/2-modal.width()/2;
             frame   = $('#iframe-login-signup-wrap').html(iframe);
+
+        $('#page-mask').css({display:'block'});
+        modal.css({display:'block',left:_left});
+    }
+    function pop_save_styleboard(){
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-save-styleboard-iframe','src':"{% url save_styleboard %}",'frameborder':'0'});
+        var modal   = $('#modal-save-styleboard-window'),
+            _left   = $(window).width()/2-modal.width()/2;
+            frame   = $('#iframe-save-styleboard-wrap').html(iframe);
 
         $('#page-mask').css({display:'block'});
         modal.css({display:'block',left:_left});

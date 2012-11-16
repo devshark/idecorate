@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
-from models import CustomerProfile, CustomerStyleBoard
+from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard
 
 @transaction.commit_manually
 def register_user(data):
@@ -67,3 +67,6 @@ def get_client_ip(request):
 def get_user_styleboard(user):
 	styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
 	return styleboards
+
+def save_styleboard_item(data):
+	StyleboardItems

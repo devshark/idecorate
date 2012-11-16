@@ -125,7 +125,6 @@ h5 {
   font-size: 100%; }
 
 /*16px/16px*100*/
-@media screen and (max-width:800px) {}
 #compact-header {
   width: 100%;
   min-width: 800px; }
@@ -136,7 +135,7 @@ h5 {
       #compact-header table thead.headWrap tr.headWraptop td {
         padding-top: 5px; }
       #compact-header table thead.headWrap tr.headWraptop td#info-menu {
-        width: 41.927%;
+        width: 41.92708%;
         padding-left: 5px; }
       #compact-header table thead.headWrap tr.headWraptop td#logo {
         width: 15.625%; }
@@ -145,7 +144,7 @@ h5 {
           width: 193px;
           height: 43px; }
       #compact-header table thead.headWrap tr.headWraptop td#site-menu {
-        width: 41.927%;
+        width: 62.76042%;
         padding-right: 5px; }
       #compact-header table thead.headWrap tr.headWrapBottom td {
         padding: 5px; }
@@ -358,7 +357,7 @@ h5 {
             display: block;
             margin-top: 5px;
             color: #666;
-            font-size: 1.063em; }
+            font-size: 1.0625em; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs input[type="text"] {
             width: 40%;
             border: 1px solid #CCC;
@@ -428,7 +427,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             outline: 1px solid #CCC;
             margin: 6px 0 0 6px;
             font-size: 0;
@@ -449,7 +448,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             border: 1px solid #CCC;
             padding: 1px;
             margin: 6px 0 0 6px;
@@ -501,7 +500,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em {
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             margin: 6px 0 0 6px;
             font-size: 0;
             min-width: 76px; }

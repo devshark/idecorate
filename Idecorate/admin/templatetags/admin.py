@@ -346,3 +346,27 @@ def getCategoryTreeParentOnly(categories, req):
 		element += '</ul>'
 
 	return mark_safe(element)
+
+@register.filter
+def getEmbellishmentThumbnail(embellishment):
+
+	eDirectory = ""
+
+	if embellishment.e_type.id == 1:
+		eDirectory = "images"
+	elif embellishment.e_type.id == 2:
+		eDirectory = "textures"
+	elif embellishment.e_type.id == 3:
+		eDirectory = "patterns"
+	elif embellishment.e_type.id == 4:
+		eDirectory = "shapes"
+	elif embellishment.e_type.id == 5:
+		eDirectory = "borders"
+
+
+	return mark_safe('<img src="/media/embellishments/%s/%s" alt="" />' % (eDirectory,embellishment.image_thumb))
+
+@register.filter
+def getEmbellishmentStatus(embellishment):
+
+	return 'Active' if embellishment.is_active else 'Inactive'
