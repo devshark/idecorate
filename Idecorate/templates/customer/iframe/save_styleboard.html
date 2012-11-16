@@ -1,0 +1,87 @@
+{% load i18n widget_tweaks %}
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>iDecorate Login/Signup</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
+        <style type="text/css">            
+            .error {
+                padding-left: 5px;
+            }
+            .errorBlock {
+                width: 590px;
+                color: #B94A48;
+                padding: 8px 35px 8px 14px;
+                margin: 0 auto 15px auto;
+                background: #F2DEDE;
+                border: 1px solid #EED3D7;
+                -webkit-border-radius: 4px;
+                -moz-border-radius: 4px;
+                border-radius: 4px;
+                position: relative;
+            }
+            .errorBlock .closeX {
+                color: #000000;
+                line-height: 18px;
+                text-decoration: none;
+                opacity: 0.2;
+                filter:alpha(opacity=20);
+                float: right;
+                position: relative;
+                top: -2px;
+                right: -21px;
+            }
+            .errorBlock h4 {
+                font-size: 14px;
+                font-weight: bold;
+                line-height: 18px;
+            }
+            .errorBlock ol {
+                padding-left: 30px;
+            }
+            .errorBlock li {
+                display: list-item;
+                line-height: 18px;
+                text-align: -webkit-match-parent;
+                text-align: center;
+            }
+            .action {
+                width: 100%;
+                height: 35px;
+            }
+        </style>
+        <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
+    </head>
+    <body>
+        <div id="login">
+            <div class="clearfix formWrapper">
+                <form method="post">
+                    {% csrf_token %}
+                    <fieldset>
+                        <legend>Save my Style Board</legend>                            
+                        <div class="action">
+                            <input type="submit" name="btnSubmit" value="Login" />
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            {% if messages %}
+            <div class="clearfix errorBlock">
+                <ul>                    
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}                    
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+        <script src="/media/interface/js/jquery.placeholder.js"></script>
+        <script type="text/javascript">
+        $(':input[placeholder]').placeholder();
+        </script>
+    </body>
+</html>
