@@ -1,0 +1,1 @@
+INSERT INTO `footer_menu` VALUES (1,NULL,'Terms of Service','#',1,'2012-09-24',0),(2,NULL,'Returns Policy','#',1,'2012-09-24',0),(3,NULL,'Privacy Policy','#',1,'2012-09-24',0),(4,NULL,'Copyright','#',1,'2012-09-24',0);

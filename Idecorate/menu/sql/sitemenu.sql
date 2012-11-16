@@ -1,0 +1,1 @@
+INSERT INTO `site_menu` VALUES (1,NULL,'Ideas','#',1,'2012-09-24',0);
