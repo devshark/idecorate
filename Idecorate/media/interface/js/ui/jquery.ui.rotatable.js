@@ -71,12 +71,17 @@
                         'y': e.pageY
                     };  
                     
+                    raw_angle = _this.getAngle(mouse_coords, center_coords);
+
+                    _this.rotate_resizable_handles(raw_angle);
+
                     angle = _this.getAngle(mouse_coords, center_coords)-90;
                     
                     if($.browser.msie && $.browser.version < 9.0) {
                         angle = -angle;
                     }
 
+                    console.log(Math.abs(raw_angle));
                     return _this.rotate(angle);
 
                 },
@@ -86,6 +91,86 @@
                 }
             });
         };
+
+        this.rotate_resizable_handles = function(angle){
+            var direction = [];
+            var position = ['{"top":"-5px","left":"-5px"}',
+                            '{"bottom":"-5px","left":"-5px"}',
+                            '{"bottom":"-5px","right":"-5px"}',
+                            '{"top":"-5px","right":"-5px"}'];
+
+            if (_this.between(angle, 67, 112)) {//1
+                direction = ['nw','sw','se','ne'];
+                $.each(direction, function(index,value){
+                    $.each(position, function(i,val){
+                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
+                    });
+                });
+                $('ui-resizable-n,ui-resizable-e,ui-resizable-s,ui-resizable-w').css({'visibility':'hidden'});
+            }else if(_this.between(angle, 113,157)){//2
+                direction = ['w','s','e','n'];
+                $.each(direction, function(index,value){
+                    $.each(position, function(i,val){
+                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
+                    });
+                });
+                $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
+            }else if(_this.between(angle, 158,202)){//3
+                direction = ['sw','se','ne','nw'];
+                $.each(direction, function(index,value){
+                    $.each(position, function(i,val){
+                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
+                    });
+                });
+                $('ui-resizable-n,ui-resizable-e,ui-resizable-s,ui-resizable-w').css({'visibility':'hidden'});
+            }else if(_this.between(angle, 203,247)){//4
+                direction = ['s','e','n','w'];
+                $.each(direction, function(index,value){
+                    $.each(position, function(i,val){
+                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
+                    });
+                });
+                $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
+            }else if(_this.between(angle, 248,292)){//5
+                direction = ['se','ne','nw','sw'];
+                $.each(direction, function(index,value){
+                    $.each(position, function(i,val){
+                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
+                    });
+                });
+                $('ui-resizable-n,ui-resizable-e,ui-resizable-s,ui-resizable-w').css({'visibility':'hidden'});
+            }else if(_this.between(angle, 293,337)){//6
+                direction = ['e','n','w','s'];
+                $.each(direction, function(index,value){
+                    $.each(position, function(i,val){
+                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
+                    });
+                });
+                $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
+            }else if(_this.between(angle, 338,360)|| _this.between(angle, 1,22)){//7
+                direction = ['ne','nw','sw','se'];
+                $.each(direction, function(index,value){
+                    $.each(position, function(i,val){
+                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
+                    });
+                });
+                $('ui-resizable-n,ui-resizable-e,ui-resizable-s,ui-resizable-w').css({'visibility':'hidden'});
+            }else if(_this.between(angle, 23,66)){//8
+                direction = ['n','w','s','e'];
+                $.each(direction, function(index,value){
+                    $.each(position, function(i,val){
+                        $('ui-resizable'+value).css($.parseJSON(val)).css({'visibility':'visible'});
+                    });
+                });
+                $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
+            }
+        }
+
+        this.between = function(value, min, max){
+            console.log(min < value && value < max);
+            return min < value && value < max;
+              //return value >= min && value <= max;
+        }
         
         // Get Angle
         this.getAngle = function(ms, ctr) {

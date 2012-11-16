@@ -278,7 +278,7 @@ $(document).ready(function () {
         }
     }).resizable({
 
-        handles: 'ne,se,nw,sw',
+        handles: 'ne,se,nw,sw,n,e,s,w',
         minWidth: 50,
         aspectRatio: true,
         start : function(e, ui){

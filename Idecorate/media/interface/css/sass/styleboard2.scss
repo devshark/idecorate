@@ -1,8 +1,4 @@
-/* http://meyerweb.com/eric/tools/css/reset/
-   v2.0 | 20110126
-   License: none (public domain)
-*/
-
+@import url("/media/interface/css/idecorate.fontface.css");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -86,14 +82,14 @@ $doc_width 				: 1920;/*px*/
 $default_font_size		: 16;/*px*/ 
 $grey_ligh_brown		: #C2BDBD;
 $grey 					: #666666;
-$timenewroman			: Times New Roman,serif;
+$timenewroman			: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
 
 html{
 	height: 100%;
 }
 
 body {
-	font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+  	font-family: 'futura_std_lightregular',Arial,Helvetica,sans-serif;
 	font-size: 100%;
 	background-color: $grey_ligh_brown;
 	color: $grey;
@@ -375,7 +371,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							margin: 5px;
 							position:relative;
 							color: #000;
-							font-family: Times New Roman,serif;
+							font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
 							font-size: 21px;
 
 							.myorder-edit{
@@ -461,7 +457,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										font-size: 14em/$default_font_size;
 										margin: 7px 0;
 										color: #333;
-										font-family: Times New Roman,serif;
+										font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
 										display: inline-block;
 										*display: inline;
 										zoom:1;
@@ -658,7 +654,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									margin: 0 5px;
 									padding: 7px 0;
 									color: #000;
-									font-family: Times New Roman,serif;
+									font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
 									border-bottom: 2px dotted #000;
 
 									table{
