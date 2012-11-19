@@ -161,14 +161,16 @@
                     $.each(position, function(i,val){
                         $('ui-resizable'+value).css($.parseJSON(val)).css({'visibility':'visible'});
                     });
+
                 });
                 $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
             }
+
+            console.log(direction);
         }
 
         this.between = function(value, min, max){
-            console.log(min < value && value < max);
-            return min < value && value < max;
+            return value > min && value < max;
               //return value >= min && value <= max;
         }
         
