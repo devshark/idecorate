@@ -861,7 +861,7 @@ def admin_upload_embellishment(request):
     		imgSize = (settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT)
     		
     		splittedName = getExtensionAndFileName(form.cleaned_data['embellishment_image'])
-    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.png')
 
     		#CREATE THUMBNAIL
     		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
@@ -1206,7 +1206,7 @@ def admin_edit_embellishment(request, e_id):
 	    		imgSize = (settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT)
 	    		
 	    		splittedName = getExtensionAndFileName(form.cleaned_data['embellishment_image'])
-	    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+	    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.png')
 
 	    		#CREATE THUMBNAIL
 	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
