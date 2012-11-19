@@ -1112,6 +1112,15 @@ def admin_manage_embellishment(request):
     other_params_dict['sort_type'] = 'desc'
     info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
 
+    #status ascending type
+    other_params_dict['order_by'] = 'e_type__name'
+    other_params_dict['sort_type'] = 'asc'
+    info['type_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    #status descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['type_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
 
     try:
         embellishments = paginator.page(page)
