@@ -107,6 +107,8 @@
             <div class="clearfix formWrapper">
                 <form method="post">
                     {% csrf_token %}
+                    {{ form.browser }}
+                    {{ form.item }}
                     <fieldset>
                         <legend>Save my Style Board</legend>
                         <div class="clearfix">{{ form.name|attr:"placeholder:Name your style board" }}</div>
@@ -144,9 +146,20 @@
             if (window.parent){
                 var json_data = window.parent.get_product_object_json();
                 var djsn = JSON.stringify(json_data);
-                var djson = $.parseJSON(djsn);
-                alert(djson[0].style)
-                $('#id_description').val(JSON.stringify(djson));
+                var bwsr = '';
+                if ($.browser.mozilla){
+                    bwsr = 'moz';
+                } else if ($.browser.opera) {
+                    bwsr = 'ope';
+                } else if ($.browser.safari) {
+                    bwsr = 'saf';
+                } else if ($.browser.msie) {
+                    bwsr = 'ie';
+                } else if ($.browser.chrome) {
+                    bwsr = 'chm';
+                }
+                $('#id_browser').val(bwsr);
+                $('#id_item').val(djsn);
             }
         });
         </script>

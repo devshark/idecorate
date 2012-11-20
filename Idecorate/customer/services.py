@@ -68,5 +68,23 @@ def get_user_styleboard(user):
 	styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
 	return styleboards
 
-def save_styleboard_item(data):
-	StyleboardItems
+@transaction.commit_manually
+def save_styleboard_item(data, user):
+	try:
+		st = StyleboardItems()
+		st.name = data['name']
+		st.description = data['description']
+		st.item = data['item']
+		st.browser = data['browser']
+		st.save()
+
+		csb = CustomerStyleBoard()
+		csb.user = user
+		csb.styleboard_item = st
+		csb.save()
+		transaction.commit()
+		return True
+	except Exception as e:
+		print e
+		transaction.rollback()
+		return False
