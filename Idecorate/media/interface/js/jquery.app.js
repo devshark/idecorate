@@ -265,6 +265,7 @@ $(document).ready(function () {
         drag: function(e, ui){
 
             transform($(this));
+            //$('.ui-draggable-dragging').css('position','relative');
 
         },
         stop: function(e, ui){

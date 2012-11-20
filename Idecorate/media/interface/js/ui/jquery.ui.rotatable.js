@@ -25,8 +25,9 @@
   		  
   		// Initialization 
   		this.intialize = function() {
-        	this.createHandler();
+            this.createHandler();
         	this.updateRotationMatrix(opts.mtx);
+            $('.ui-resizable-n, .ui-resizable-e, .ui-resizable-s, .ui-resizable-w').hide();
         };
         
         // Create Rotation Handler
@@ -80,98 +81,82 @@
                     if($.browser.msie && $.browser.version < 9.0) {
                         angle = -angle;
                     }
-
-                    console.log(Math.abs(raw_angle));
                     return _this.rotate(angle);
 
                 },
                 stop: function(e,ui){
                     cancelBubble(e);
                     $rotatable.removeClass('ui-rotating');
+
                 }
             });
         };
 
         this.rotate_resizable_handles = function(angle){
-            var direction = [];
-            var position = ['{"top":"-5px","left":"-5px"}',
-                            '{"bottom":"-5px","left":"-5px"}',
-                            '{"bottom":"-5px","right":"-5px"}',
-                            '{"top":"-5px","right":"-5px"}'];
-
+            var direction = {
+                        'nw': 'nw-resize',
+                        'w': 'w-resize',
+                        'sw':'sw-resize',
+                        's': 's-resize',
+                        'se': 'se-resize',
+                        'e': 'e-resize',
+                        'ne': 'ne-resize',
+                        'n': 'n-resize'
+                        };
+           
             if (_this.between(angle, 67, 112)) {//1
-                direction = ['nw','sw','se','ne'];
-                $.each(direction, function(index,value){
-                    $.each(position, function(i,val){
-                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
-                    });
-                });
-                $('ui-resizable-n,ui-resizable-e,ui-resizable-s,ui-resizable-w').css({'visibility':'hidden'});
+                direction = ['nw','sw','se','ne','w','s','e','n'];
+                this.change_cursor(direction);
+                
             }else if(_this.between(angle, 113,157)){//2
-                direction = ['w','s','e','n'];
-                $.each(direction, function(index,value){
-                    $.each(position, function(i,val){
-                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
-                    });
-                });
-                $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
+                direction = ['w','s','e','n','ne','nw','sw','se'];
+                this.change_cursor(direction);
+
             }else if(_this.between(angle, 158,202)){//3
-                direction = ['sw','se','ne','nw'];
-                $.each(direction, function(index,value){
-                    $.each(position, function(i,val){
-                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
-                    });
-                });
-                $('ui-resizable-n,ui-resizable-e,ui-resizable-s,ui-resizable-w').css({'visibility':'hidden'});
+                direction = ['sw','se','ne','nw','w','s','e','n'];
+                this.change_cursor(direction);
+                
             }else if(_this.between(angle, 203,247)){//4
-                direction = ['s','e','n','w'];
-                $.each(direction, function(index,value){
-                    $.each(position, function(i,val){
-                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
-                    });
-                });
-                $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
+                direction = ['s','e','n','w','ne','nw','sw','se'];
+                this.change_cursor(direction);
+
             }else if(_this.between(angle, 248,292)){//5
-                direction = ['se','ne','nw','sw'];
-                $.each(direction, function(index,value){
-                    $.each(position, function(i,val){
-                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
-                    });
-                });
-                $('ui-resizable-n,ui-resizable-e,ui-resizable-s,ui-resizable-w').css({'visibility':'hidden'});
+                direction = ['se','ne','nw','sw','w','s','e','n'];
+                this.change_cursor(direction);
+                
             }else if(_this.between(angle, 293,337)){//6
-                direction = ['e','n','w','s'];
-                $.each(direction, function(index,value){
-                    $.each(position, function(i,val){
-                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
-                    });
-                });
-                $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
+                direction = ['e','n','w','s','ne','nw','sw','se'];
+                this.change_cursor(direction);
+
             }else if(_this.between(angle, 338,360)|| _this.between(angle, 1,22)){//7
-                direction = ['ne','nw','sw','se'];
-                $.each(direction, function(index,value){
-                    $.each(position, function(i,val){
-                        $('ui-resizable-'+value).css($.parseJSON(val)).css({'visibility':'visible'});
-                    });
-                });
-                $('ui-resizable-n,ui-resizable-e,ui-resizable-s,ui-resizable-w').css({'visibility':'hidden'});
+                direction = ['ne','nw','sw','se','w','s','e','n'];
+                this.change_cursor(direction);
+                
             }else if(_this.between(angle, 23,66)){//8
-                direction = ['n','w','s','e'];
-                $.each(direction, function(index,value){
-                    $.each(position, function(i,val){
-                        $('ui-resizable'+value).css($.parseJSON(val)).css({'visibility':'visible'});
-                    });
-
-                });
-                $('ui-resizable-nw,ui-resizable-ne,ui-resizable-sw,ui-resizable-se').css({'visibility':'hidden'});
+                direction = ['n','w','s','e','ne','nw','sw','se'];
+                this.change_cursor(direction);
             }
+        }
 
-            console.log(direction);
+        this.change_cursor = function(option){
+            var position = [{"top":"-5px","left":"-5px","bottom":"auto","right":"auto","display":"block"},
+                            {"top":"auto","left":"-5px","bottom":"-5px","right":"auto","display":"block"},
+                            {"top":"auto","left":"auto","bottom":"-5px","right":"-5px","display":"block"},
+                            {"top":"-5px","left":"auto","bottom":"auto","right":"-5px","display":"block"},
+                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"}
+            ];
+            var newObj;
+            $.each(option, function(index, value){
+                newObj = $('.ui-resizable-'+value);
+                newObj.css(position[index]);
+            });
         }
 
         this.between = function(value, min, max){
             return value > min && value < max;
-              //return value >= min && value <= max;
         }
         
         // Get Angle
