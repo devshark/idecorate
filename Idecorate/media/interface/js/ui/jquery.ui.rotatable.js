@@ -81,10 +81,11 @@
                     if($.browser.msie && $.browser.version < 9.0) {
                         angle = -angle;
                     }
+
+                    if(opts.rotateAlso){
+                        $(opts.rotateAlso).attr('_angle', angle);
+                    }
                     return _this.rotate(angle);
-
-                    console.log(angle);
-
                 },
                 stop: function(e,ui){
                     cancelBubble(e);
@@ -105,38 +106,51 @@
                         'ne': 'ne-resize',
                         'n': 'n-resize'
                         };
-           
+            var $selected;
+
+           if(opts.rotateAlso){
+                $selected = $(opts.rotateAlso);
+            }
+
             if (_this.between(angle, 67, 112)) {//1
                 direction = ['nw','sw','se','ne','w','s','e','n'];
                 this.change_cursor(direction);
+                $selected.attr('_handle',['nw','sw','se','ne']);
                 
             }else if(_this.between(angle, 113,157)){//2
                 direction = ['w','s','e','n','ne','nw','sw','se'];
                 this.change_cursor(direction);
+                $selected.attr('_handle',['w','s','e','n']);
 
             }else if(_this.between(angle, 158,202)){//3
                 direction = ['sw','se','ne','nw','w','s','e','n'];
                 this.change_cursor(direction);
+                $selected.attr('_handle',['sw','se','ne','nw']);
                 
             }else if(_this.between(angle, 203,247)){//4
                 direction = ['s','e','n','w','ne','nw','sw','se'];
                 this.change_cursor(direction);
+                $selected.attr('_handle',['s','e','n','w',]);
 
             }else if(_this.between(angle, 248,292)){//5
                 direction = ['se','ne','nw','sw','w','s','e','n'];
                 this.change_cursor(direction);
+                $selected.attr('_handle',['se','ne','nw','sw']);
                 
             }else if(_this.between(angle, 293,337)){//6
                 direction = ['e','n','w','s','ne','nw','sw','se'];
                 this.change_cursor(direction);
+                $selected.attr('_handle',['e','n','w','s']);
 
             }else if(_this.between(angle, 338,360)|| _this.between(angle, 1,22)){//7
                 direction = ['ne','nw','sw','se','w','s','e','n'];
                 this.change_cursor(direction);
+                $selected.attr('_handle',['ne','nw','sw','se']);
                 
             }else if(_this.between(angle, 23,66)){//8
                 direction = ['n','w','s','e','ne','nw','sw','se'];
                 this.change_cursor(direction);
+                $selected.attr('_handle',['n','w','s','e']);
             }
         }
 
