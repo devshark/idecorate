@@ -858,8 +858,16 @@ function get_product_objects(){
         var elm_left = elm_offset.left;
         var elm_top = elm_offset.top;
         var product_left = Math.round(elm_left-canvas_left);
-        var product_top = Math.round(elm_top-canvas_top);        
-        product_objects.push({left:product_left,top:product_top});
+        var product_top = Math.round(elm_top-canvas_top);
+        var style = $(this).attr('style');
+        var _matrix = $(this).attr('_matrix');
+        var _img = [];
+        var elm_img = $(this).find('img');
+        var _src = $(elm_img).attr('src');
+        var _nb = $(elm_img).attr('_nb');
+        var _wb = $(elm_img).attr('_wb');
+        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
+        product_objects.push({left:product_left,top:product_top,style:style,matrix:_matrix,img:_img});
     });
     return product_objects;
 }
