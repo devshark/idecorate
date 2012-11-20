@@ -83,6 +83,8 @@
                     }
                     return _this.rotate(angle);
 
+                    console.log(angle);
+
                 },
                 stop: function(e,ui){
                     cancelBubble(e);
