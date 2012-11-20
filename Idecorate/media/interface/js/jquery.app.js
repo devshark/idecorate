@@ -571,6 +571,8 @@ function flip(obj){ //e
     }
 
     obj.attr('_matrix','{"a":'+m.a+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+',"e":'+!m.e+',"f":'+m.f+'}');
+
+    obj.attr('_handle',change_cursor(obj.attr('_handle')));
 }
 
 
@@ -599,6 +601,8 @@ function flap(obj){ //f
     }
 
     obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+m.d+',"e":'+m.e+',"f":'+!m.f+'}');
+    
+    obj.attr('_handle',change_cursor(obj.attr('_handle')));
 }
 
 function set_ctr_attr(obj){
@@ -625,7 +629,7 @@ function append_to_canvas(event, obj, index, top, left){
     if(object.hasClass('selected')){
         object.siblings('.unselected').removeClass('selected');
         object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
-        object.attr('_handle', ['nw','sw','se','ne']);
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
         set_ctr_attr(object);
     }
 
@@ -1048,6 +1052,30 @@ function redo_styleboard() {
 
         eventTracker($('#canvas'),'redo');
     }
+}
+
+function change_cursor(option){
+
+    var type = $.parseJSON($('.selected').attr('_matrix'));
+    var handles = [];
+    var options = option.split(',');
+    handles = options;
+    
+    var position = [{"top":"-5px","left":"-5px","bottom":"auto","right":"auto","display":"block"},
+                    {"top":"auto","left":"-5px","bottom":"-5px","right":"auto","display":"block"},
+                    {"top":"auto","left":"auto","bottom":"-5px","right":"-5px","display":"block"},
+                    {"top":"-5px","left":"auto","bottom":"auto","right":"-5px","display":"block"},
+                    {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                    {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                    {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                    {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"}];
+    var newObj;
+    $.each(handles, function(index, value){
+        newObj = $('.ui-resizable-'+value);
+        newObj.css(position[index]);
+    });
+
+    return handles;
 }
 
 (function ($) {
