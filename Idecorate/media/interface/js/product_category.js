@@ -29,15 +29,15 @@ $(document).ready( function() {
     });
 
     $(window).resize(function(){
-	if($.browser.msie && $.browser.version == 8.0){
-		if ( $(window).height() != window_height && $(window).width() != window_width ) {
-			window_height = $(window).height();
-			window_width = $(window).width();
-			manage_product_resize();
-		}
-	} else {
-		manage_product_resize();
-	}
+    	if($.browser.msie && $.browser.version == 8.0){
+    		if ( $(window).height() != window_height && $(window).width() != window_width ) {
+    			window_height = $(window).height();
+    			window_width = $(window).width();
+    			manage_product_resize();
+    		}
+    	} else {
+    		manage_product_resize();
+    	}
     });
     $('#buyTab').click(function(){
         $('#idecorate-tooltip').hide();
