@@ -2699,7 +2699,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 
 				//TODO : What's going on here?
 				if ('se' == handle) {
-					axis.addClass('ui-icon ui-icon-gripsmall-diagonal-se');
+					//axis.addClass('ui-icon ui-icon-gripsmall-diagonal-se');
 				};
 
 				//Insert into internal handles object and append to element

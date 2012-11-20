@@ -265,6 +265,7 @@ $(document).ready(function () {
         drag: function(e, ui){
 
             transform($(this));
+            //$('.ui-draggable-dragging').css('position','relative');
 
         },
         stop: function(e, ui){
@@ -838,6 +839,23 @@ function close_modal(){
     $('#page-mask').css({display:'none'});
     $('#modal-window iframe').remove();
     $('#modal-window').css({display:'none'});
+}
+
+function get_product_objects(){
+    var product_objects = [];
+    var canvas_offset = $('#canvas').offset();
+    var canvas_left = canvas_offset.left;
+    var canvas_top = canvas_offset.top;
+    $('.product.unselected').each(function(e){
+        var elm = $(this);
+        var elm_offset = elm.offset();
+        var elm_left = elm_offset.left;
+        var elm_top = elm_offset.top;
+        var product_left = Math.round(elm_left-canvas_left);
+        var product_top = Math.round(elm_top-canvas_top);        
+        product_objects.push({left:product_left,top:product_top});
+    });
+    return product_objects;
 }
 
 function setProductPositions(func) {

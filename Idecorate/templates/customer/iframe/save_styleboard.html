@@ -19,12 +19,13 @@
               -khtml-border-radius: 3px;
             }
             textarea {
-                width: 375px;
+                width: 370px;
                 border: 1px solid #ccc;
+                padding: 5px;
             }
             @-moz-document url-prefix() {
                 textarea {
-                    width: 380px;
+                    width: 370px;
                 }
             }
             fieldset {
@@ -108,8 +109,18 @@
                     {% csrf_token %}
                     <fieldset>
                         <legend>Save my Style Board</legend>
-                        <div class="clearfix">{{ form.name }}</div>
-                        <div class="clearfix">{{ form.description }}</div>
+                        <div class="clearfix">{{ form.name|attr:"placeholder:Name your style board" }}</div>
+                        {% if form.name.errors %}
+                        {% for e in form.name.errors %}
+                        <p class="error">{{ e }}</p>
+                        {% endfor %}
+                        {% endif %}
+                        <div class="clearfix">{{ form.description|attr:"placeholder:Enter a short description" }}</div>
+                        {% if form.description.errors %}
+                        {% for e in form.description.errors %}
+                        <p class="error">{{ e }}</p>
+                        {% endfor %}
+                        {% endif %}
                         <div class="action">
                             <input type="submit" name="btnSubmit" class="btnSubmit" value="Save" />
                         </div>
@@ -129,6 +140,11 @@
         <script src="/media/interface/js/jquery.placeholder.js"></script>
         <script type="text/javascript">
         $(':input[placeholder]').placeholder();
+        $(document).ready(function(){
+            if (window.parent){
+                $('#login').append(window.parent.get_product_objects());
+            }
+        });
         </script>
     </body>
 </html>
