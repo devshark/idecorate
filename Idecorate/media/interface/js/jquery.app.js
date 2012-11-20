@@ -254,6 +254,12 @@ $(document).ready(function () {
     }
 
     //draggable handles binds style on selected obj
+
+    var handlesIE = 'ne,se,nw,sw,n,e,s,w';
+    if($.browser.msie && $.browser.version < 9.0){
+        handlesIE = 'ne,se,nw,sw';
+    }
+
     $handles.draggable({
         helper: 'original',
         cursor: 'move',
@@ -278,7 +284,7 @@ $(document).ready(function () {
         }
     }).resizable({
 
-        handles: 'ne,se,nw,sw,n,e,s,w',
+        handles: handlesIE,
         minWidth: 50,
         aspectRatio: true,
         start : function(e, ui){
@@ -618,7 +624,8 @@ function append_to_canvas(event, obj, index, top, left){
     uniqueIdentifier++;
     if(object.hasClass('selected')){
         object.siblings('.unselected').removeClass('selected');
-        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}')
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne']);
         set_ctr_attr(object);
     }
 
@@ -685,7 +692,7 @@ function update_menu(obj){
 
 function transform(obj) {
     selected_zIndex = $('.selected').css('z-index');
-    $('.selected').attr('style',obj.attr('style')).css('z-index',selected_zIndex);
+    $('.selected').attr('style',obj.attr('style')).css({'z-index':selected_zIndex});
     $handles.attr('style',obj.attr('style')).css({'z-index':'','display':'block'});
     $('.fakeHandle').attr('style',obj.attr('style')).css({
         zIndex:'',
