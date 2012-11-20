@@ -861,7 +861,7 @@ def admin_upload_embellishment(request):
     		imgSize = (settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT)
     		
     		splittedName = getExtensionAndFileName(form.cleaned_data['embellishment_image'])
-    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.png')
 
     		#CREATE THUMBNAIL
     		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
@@ -1112,6 +1112,15 @@ def admin_manage_embellishment(request):
     other_params_dict['sort_type'] = 'desc'
     info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
 
+    #status ascending type
+    other_params_dict['order_by'] = 'e_type__name'
+    other_params_dict['sort_type'] = 'asc'
+    info['type_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    #status descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['type_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
 
     try:
         embellishments = paginator.page(page)
@@ -1206,7 +1215,7 @@ def admin_edit_embellishment(request, e_id):
 	    		imgSize = (settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT)
 	    		
 	    		splittedName = getExtensionAndFileName(form.cleaned_data['embellishment_image'])
-	    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+	    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.png')
 
 	    		#CREATE THUMBNAIL
 	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
