@@ -1,34 +1,7 @@
 {% load idecorate_interface %}
 <div class="headerRowTop clearfix">
 	<div class="headerColumn clearfix" id="info-menu">
-		<!-- {{ "info"|getInterfaceMenus }} -->
-		<ul class="dropdown1">
-			<li>
-				<a href="#">Help</a>
-				<ul>
-					<li><a href="#">Test long text 1</a></li>
-					<li><a href="#">Test 2</a></li>
-					<li>
-						<a href="#">Test long text again 3</a>
-						<ul>
-							<li>
-								<a href="#">Test 1</a>
-								<ul>
-									<li><a href="#">Test 1</a></li>
-									<li>Test 2</li>
-									<li><a href="#">Test 3</a></li>
-								</ul>
-							</li>
-							<li><a href="#">Test 2</a></li>
-							<li>Test 3</li>
-						</ul>
-					</li>
-				</ul>
-			</li>
-			<li><a href="#">About</a></li>
-			<li><a href="#">Contact Us</a></li>
-			<li>+852-222-2222</li>
-		</ul>
+		{{ "info"|getInterfaceMenus }}
 	</div>
 	<div class="headerColumn clearfix" id="logo">
 		<a href="{% url home %}">
@@ -38,32 +11,7 @@
 		</a>
 	</div>
 	<div class="headerColumn clearfix" id="site-menu">
-		<!-- {{ "site"|getInterfaceMenus }} -->
-		<ul class="dropdown2">
-			<li>
-				<a href="#">Ideas</a>
-				<ul>
-					<li>
-						<a href="#">Test long text 1</a>
-						<ul>
-							<li>
-								<a href="#">Long Test text 1</a>
-								<ul>
-									<li><a href="#">Test1</a></li>
-									<li>Test Test</li>
-									<li>End</li>
-								</ul>
-							</li>
-							<li>Test Test</li>
-							<li>End</li>
-						</ul>
-					</li>
-					<li>Test Test</li>
-					<li>End</li>
-				</ul>
-			</li>
-			<!-- <li><a href="#">Login/Signup</a></li> -->
-		</ul>
+		{{ "site"|getInterfaceMenus }}
 	</div>
 </div>
 <div class="headerRowBottom clearfix">
