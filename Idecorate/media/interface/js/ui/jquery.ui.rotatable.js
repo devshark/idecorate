@@ -25,8 +25,9 @@
   		  
   		// Initialization 
   		this.intialize = function() {
-        	this.createHandler();
+            this.createHandler();
         	this.updateRotationMatrix(opts.mtx);
+            $('.ui-resizable-n, .ui-resizable-e, .ui-resizable-s, .ui-resizable-w').hide();
         };
         
         // Create Rotation Handler
@@ -40,24 +41,15 @@
                 
         // Bind Rotation to Handler
         this.bindRotation = function() {
-        
-        	// IE Fix
-        	if($.browser.msie) {
-	        	_rotator.mousedown(function(e) {
-	        		e.stopPropagation();
-	        	});
-	        
-	        	_rotator.mouseup(function(e) {
-	        		e.stopPropagation();
-	        	});
-	        }
 
-            _rotator.on({
-                mousedown:function(e){
-                    e.stopPropagation();
-                    e.stopImmediatePropagation();
+            _rotator.draggable({
+                helper: 'clone',
+                revert: false,
+                start: function(e,ui){
+                    cancelBubble(e);
+
                     $rotatable = $(this).addClass('ui-rotating');
-                    
+
                     // TL Corner Coords
                     tl_coords = {
                         'x': parseInt(_this.parent().css('left')),
@@ -71,35 +63,117 @@
                     //     'y': raw_ctr.y
                     // };
 
-                    $rotatable.parents().on({
-                        mousemove:function(e){
-                            e.stopPropagation();
-                            e.stopImmediatePropagation();
+                },
+                drag: function(e,ui){
+                    cancelBubble(e);
+                    // Mouse Coords
+                    mouse_coords = {
+                        'x': e.pageX,
+                        'y': e.pageY
+                    };  
+                    
+                    raw_angle = _this.getAngle(mouse_coords, center_coords);
 
-                            // Mouse Coords
-                            mouse_coords = {
-                                'x': e.pageX,
-                                'y': e.pageY
-                            };  
-                            
-                            angle = _this.getAngle(mouse_coords, center_coords)-90;
-                            
-                            if($.browser.msie && $.browser.version < 9.0) {
-                                angle = -angle;
-                            }
+                    _this.rotate_resizable_handles(raw_angle);
 
-                            return _this.rotate(angle);
-                        },
-                        mouseup:function(e){
-                            $rotatable.removeClass('ui-rotating');
-                            $rotatable.parents().off('mousemove');
-                        }
-                    });
-                },mouseup:function(e){
+                    angle = _this.getAngle(mouse_coords, center_coords)-90;
+                    
+                    if($.browser.msie && $.browser.version < 9.0) {
+                        angle = -angle;
+                    }
+
+                    if(opts.rotateAlso){
+                        $(opts.rotateAlso).attr('_angle', angle);
+                    }
+                    return _this.rotate(angle);
+                },
+                stop: function(e,ui){
+                    cancelBubble(e);
                     $rotatable.removeClass('ui-rotating');
+
                 }
             });
         };
+
+        this.rotate_resizable_handles = function(angle){
+            var direction = {
+                        'nw': 'nw-resize',
+                        'w': 'w-resize',
+                        'sw':'sw-resize',
+                        's': 's-resize',
+                        'se': 'se-resize',
+                        'e': 'e-resize',
+                        'ne': 'ne-resize',
+                        'n': 'n-resize'
+                        };
+            var $selected;
+
+           if(opts.rotateAlso){
+                $selected = $(opts.rotateAlso);
+            }
+
+            if (_this.between(angle, 67, 112)) {//1
+                direction = ['nw','sw','se','ne','w','s','e','n'];
+                this.change_cursor(direction);
+                $selected.attr('_handle',['nw','sw','se','ne']);
+                
+            }else if(_this.between(angle, 113,157)){//2
+                direction = ['w','s','e','n','ne','nw','sw','se'];
+                this.change_cursor(direction);
+                $selected.attr('_handle',['w','s','e','n']);
+
+            }else if(_this.between(angle, 158,202)){//3
+                direction = ['sw','se','ne','nw','w','s','e','n'];
+                this.change_cursor(direction);
+                $selected.attr('_handle',['sw','se','ne','nw']);
+                
+            }else if(_this.between(angle, 203,247)){//4
+                direction = ['s','e','n','w','ne','nw','sw','se'];
+                this.change_cursor(direction);
+                $selected.attr('_handle',['s','e','n','w',]);
+
+            }else if(_this.between(angle, 248,292)){//5
+                direction = ['se','ne','nw','sw','w','s','e','n'];
+                this.change_cursor(direction);
+                $selected.attr('_handle',['se','ne','nw','sw']);
+                
+            }else if(_this.between(angle, 293,337)){//6
+                direction = ['e','n','w','s','ne','nw','sw','se'];
+                this.change_cursor(direction);
+                $selected.attr('_handle',['e','n','w','s']);
+
+            }else if(_this.between(angle, 338,360)|| _this.between(angle, 1,22)){//7
+                direction = ['ne','nw','sw','se','w','s','e','n'];
+                this.change_cursor(direction);
+                $selected.attr('_handle',['ne','nw','sw','se']);
+                
+            }else if(_this.between(angle, 23,66)){//8
+                direction = ['n','w','s','e','ne','nw','sw','se'];
+                this.change_cursor(direction);
+                $selected.attr('_handle',['n','w','s','e']);
+            }
+        }
+
+        this.change_cursor = function(option){
+            var position = [{"top":"-5px","left":"-5px","bottom":"auto","right":"auto","display":"block"},
+                            {"top":"auto","left":"-5px","bottom":"-5px","right":"auto","display":"block"},
+                            {"top":"auto","left":"auto","bottom":"-5px","right":"-5px","display":"block"},
+                            {"top":"-5px","left":"auto","bottom":"auto","right":"-5px","display":"block"},
+                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"}
+            ];
+            var newObj;
+            $.each(option, function(index, value){
+                newObj = $('.ui-resizable-'+value);
+                newObj.css(position[index]);
+            });
+        }
+
+        this.between = function(value, min, max){
+            return value > min && value < max;
+        }
         
         // Get Angle
         this.getAngle = function(ms, ctr) {
@@ -151,6 +225,27 @@
         
         // Update CSS Transform Matrix (transform: matrix)
         this.updateRotationMatrix = function(m) {
+
+
+            if($('.selected').attr('_matrix')){
+                flipflap = $.parseJSON($('.selected').attr('_matrix'));
+                var a = flipflap.a,
+                    b = flipflap.b,
+                    c = flipflap.c,
+                    d = flipflap.d,
+                    e = flipflap.e; 
+                    f = flipflap.f; 
+
+                if(e){
+                    m[0] = (m[0]*-1);
+                    m[1] = c<0 || c>0 ? (m[1]*-1) : m[2];
+                }
+                if(f){
+                    m[0] = a<0 || a>0 ? (m[0]*-1) : m[0];
+                    m[1] = (m[1]*-1);
+                }
+            }
+
         	var matrix = 'matrix('+ m[0] +', '+ m[1] +', '+ m[2] +', '+ m[3] +', 0, 0)',
         	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m[0]+"', M12='"+m[1]+"', M21='"+m[2]+"', M22='"+m[3]+"', sizingMethod='auto expand')";        	
             if($.browser.msie && $.browser.version == 9.0) {
@@ -191,8 +286,11 @@
                     'transform'        : matrix
                     });
                 }
-            } 
-        	$(opts.rotateAlso).attr('_matrix','{"a":'+m[0]+',"b":'+m[1]+',"c":'+m[2]+',"d":'+m[3]+'}');
+            }
+
+            if($('.selected').attr('_matrix')){
+        	   $(opts.rotateAlso).attr('_matrix','{"a":'+m[0]+',"b":'+m[1]+',"c":'+m[2]+',"d":'+m[3]+',"e":'+e+',"f":'+f+'}');
+            }
         };
 
         return this.intialize();  		

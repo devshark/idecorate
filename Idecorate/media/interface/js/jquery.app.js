@@ -97,7 +97,9 @@ $(document).ready(function () {
 
             }
         }
-    }).mousemove(function(e){
+    });
+
+    $("#canvas").mousemove(function(e){
         e.preventDefault();
         if(lassoStart && $('.selected').length == 0) {
             var x = e.pageX - $(this).offset().left;
@@ -147,7 +149,6 @@ $(document).ready(function () {
         $('#lasso').width(0);
         $('#lasso').height(0);
         $('#lasso').css('display', 'none');
-    }).change(function(e){
     });
 
     //drag the selected product together with its handle on the fly
@@ -251,9 +252,14 @@ $(document).ready(function () {
 
         });
     }
-    
 
     //draggable handles binds style on selected obj
+
+    var handlesIE = 'ne,se,nw,sw,n,e,s,w';
+    if($.browser.msie && $.browser.version < 9.0){
+        handlesIE = 'ne,se,nw,sw';
+    }
+
     $handles.draggable({
         helper: 'original',
         cursor: 'move',
@@ -278,17 +284,10 @@ $(document).ready(function () {
         }
     }).resizable({
 
-        handles: 'ne,se,nw,sw',
+        handles: handlesIE,
         minWidth: 50,
         aspectRatio: true,
         start : function(e, ui){
-            
-
-            $(".draggable").draggable({
-                revert:true, 
-                helper: 'clone'
-            });
-            $(".draggable").draggable('destroy');
             
         },
         resize: function(e, ui){
@@ -296,12 +295,6 @@ $(document).ready(function () {
             transform($(this));
         },
         stop : function(e, ui){
-
-            $(".draggable").draggable({
-                revert:true, 
-                helper: 'clone'
-            });
-
             //set center coordinated for rotate plugin
             set_ctr_attr($(this));
 
@@ -553,9 +546,10 @@ function create_new_object(options){
     return object;
 }
 
-function flip(obj){
+function flip(obj){ //e
     m = $.parseJSON(obj.attr('_matrix'));
-    var matrix = 'matrix('+ (m.a*-1) +', '+m.b +', '+ m.c +', '+ (m.d*-1) +', 0, 0)',
+    m.b = m.b>0 || m.b<0 ? (m.b*-1) : m.b;
+    var matrix = 'matrix('+ m.a +', '+m.b+', '+ m.c +', '+ (m.d*-1) +', 0, 0)',
         ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+(m.a*-1)+"', M12='"+m.b+"', M21='"+m.c+"', M22='"+(m.d*-1)+"', sizingMethod='auto expand')";         
 
     if($.browser.msie && $.browser.version == 9.0) {
@@ -576,13 +570,14 @@ function flip(obj){
         });
     }
 
-    obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+'}');
+    obj.attr('_matrix','{"a":'+m.a+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+',"e":'+!m.e+',"f":'+m.f+'}');
 }
 
 
-function flap(obj){
+function flap(obj){ //f
     m = $.parseJSON(obj.attr('_matrix'));
-    var matrix = 'matrix('+ m.a +', '+(m.b*-1) +', '+ (m.c*-1) +', '+ m.d +', 0, 0)',
+    m.c = m.c<0 || m.c>0? (m.c*-1) : m.c;
+    var matrix = 'matrix('+(m.a*-1)+', '+m.b +', '+m.c+', '+ m.d +', 0, 0)',
         ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m.a+"', M12='"+(m.b*-1)+"', M21='"+(m.c*-1)+"', M22='"+m.d+"', sizingMethod='auto expand')";         
 
     if($.browser.msie && $.browser.version == 9.0) {
@@ -603,7 +598,7 @@ function flap(obj){
         });
     }
 
-    obj.attr('_matrix','{"a":'+m.a+',"b":'+(m.b*-1)+',"c":'+(m.c*-1)+',"d":'+m.d+'}');
+    obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+m.d+',"e":'+m.e+',"f":'+!m.f+'}');
 }
 
 function set_ctr_attr(obj){
@@ -629,7 +624,8 @@ function append_to_canvas(event, obj, index, top, left){
     uniqueIdentifier++;
     if(object.hasClass('selected')){
         object.siblings('.unselected').removeClass('selected');
-        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1}')
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne']);
         set_ctr_attr(object);
     }
 
@@ -696,7 +692,7 @@ function update_menu(obj){
 
 function transform(obj) {
     selected_zIndex = $('.selected').css('z-index');
-    $('.selected').attr('style',obj.attr('style')).css('z-index',selected_zIndex);
+    $('.selected').attr('style',obj.attr('style')).css({'z-index':selected_zIndex});
     $handles.attr('style',obj.attr('style')).css({'z-index':'','display':'block'});
     $('.fakeHandle').attr('style',obj.attr('style')).css({
         zIndex:'',
@@ -849,6 +845,31 @@ function close_modal(){
     $('#page-mask').css({display:'none'});
     $('#modal-window iframe').remove();
     $('#modal-window').css({display:'none'});
+}
+
+function get_product_objects(){
+    var product_objects = [];
+    var canvas_offset = $('#canvas').offset();
+    var canvas_left = canvas_offset.left;
+    var canvas_top = canvas_offset.top;
+    $('.product.unselected').each(function(e){
+        var elm = $(this);
+        var elm_offset = elm.offset();
+        var elm_left = elm_offset.left;
+        var elm_top = elm_offset.top;
+        var product_left = Math.round(elm_left-canvas_left);
+        var product_top = Math.round(elm_top-canvas_top);
+        var style = $(this).attr('style');
+        var _matrix = $(this).attr('_matrix');
+        var _img = [];
+        var elm_img = $(this).find('img');
+        var _src = $(elm_img).attr('src');
+        var _nb = $(elm_img).attr('_nb');
+        var _wb = $(elm_img).attr('_wb');
+        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
+        product_objects.push({left:product_left,top:product_top,style:style,matrix:_matrix,img:_img});
+    });
+    return product_objects;
 }
 
 function setProductPositions(func) {

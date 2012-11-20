@@ -6,4 +6,5 @@ urlpatterns =  patterns('customer.views',
     url(r'^logout/$', 'customer_logout', {}, name='logout'),
     url(r'^forgot/$', 'forgot_password', {}, name='forgot_password'),
     url(r'^profile/$', 'profile', {}, name='profile'),
+    url(r'^styleboard/save/$', 'save_styleboard', {}, name='save_styleboard'),    
 )

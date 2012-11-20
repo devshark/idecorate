@@ -16,7 +16,7 @@
   .calendarWrapper img {
     position: absolute;
     top: 7px;
-    right: 5%; }
+    right: 17%; }
 
 .checkout {
   background: #FFFFFF; }
@@ -50,7 +50,14 @@
     /* future proofing */
     -khtml-border-radius: 4px;
     /* for old Konqueror browsers */
-    border: 0; }
+    border: 1px solid #FFC5C3; }
+  .checkout #edit_button:hover {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
+    /* for firefox 3.6+ */ }
 
 .orderWrap .errorBlock {
   color: #B94A48;
@@ -155,7 +162,14 @@
     /* future proofing */
     -khtml-border-radius: 4px;
     /* for old Konqueror browsers */
-    border: 0; }
+    border: 1px solid #FFC5C3; }
+  .loginDetails .submit:hover {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
+    /* for firefox 3.6+ */ }
   .loginDetails a {
     color: #d89b96; }
 
@@ -294,7 +308,14 @@ div.leftPannel, div.rightPannel {
     /* future proofing */
     -khtml-border-radius: 4px;
     /* for old Konqueror browsers */
-    border: 0; }
+    border: 1px solid #FFC5C3; }
+  .disclaimer button:hover {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
+    /* for firefox 3.6+ */ }
   .disclaimer ul {
     margin: 10px 0 0 30px;
     list-style-position: inside; }

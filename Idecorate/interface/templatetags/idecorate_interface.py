@@ -68,11 +68,13 @@ def menuInterfaceRecursion(menus):
 	#spanOpen = ""
 	#spanClose = ""
 	arrow = ""
+	clss = ""
 
 	for menu in menus:
 
 		if menus.model == type(InfoMenu()):
 			anotherClass = ""
+			clss = "dropdown1"
 
 			if InfoMenu.objects.filter(parent__id=menu.id).count() > 0:
 				arrow = ' <img src="/media/images/arrow.png" alt="" />'
@@ -81,6 +83,7 @@ def menuInterfaceRecursion(menus):
 
 		else:
 			anotherClass = " ddl-right"
+			clss = "dropdown2"
 
 			if SiteMenu.objects.filter(parent__id=menu.id).count() > 0:
 				arrow = ' <img src="/media/images/arrow.png" alt="" />'
@@ -89,22 +92,22 @@ def menuInterfaceRecursion(menus):
 
 		if menu.parent is None:
 			if needToOpen:
-				element += '<ul class="dropdown sf-js-enabled sf-shadow%s">' % anotherClass
+				element += '<ul class="%s">' % clss
 				needToOpen = False
 
 		else:
 			if needToOpen:
-				element += '<ul style="display: none; visibility: hidden;">'
+				element += '<ul>'
 				needToOpen = False
 
 		if menu.link == "":
 			#css_class = ' class="nonLink"'
-			link = '<span>%s%s</span>' % (menu.name, arrow)
+			link = '%s' % (menu.name)
 			#spanOpen = '<span>'
 			#spanClose = '</span>'
 		else:
 			#css_class = ''
-			link = '<a href="%s">%s%s</a>' % (menu.link, menu.name, arrow)
+			link = '<a href="%s">%s</a>' % (menu.link, menu.name)
 			#spanOpen = ''
 			#spanClose = ''
 
@@ -209,11 +212,11 @@ def getImagePaymentMethod(met):
 	ret = ""
 
 	if met == "Paypal":
-		ret = mark_safe('<img src="http://sgentrepreneurs.com/wp-content/uploads/2012/02/paypal.jpg" width="80" align="bottom" />')
+		ret = mark_safe('<img src="/media/images/paypal.jpg" align="bottom" />')
 	elif met == "Visa_Mastercard":
-		ret = mark_safe('<img src="http://www.ramps-to-runway.com/MasterCard-Visa.jpeg" width="80" />')
+		ret = mark_safe('<img src="/media/images/visa_master.jpg" />')
 	else:
-		ret = mark_safe('<img src="http://mfwasia.com/wp-content/uploads/2011/03/mfw_americanexpress.jpg" width="40" />')
+		ret = mark_safe('<img src="/media/images/american_express.jpg" />')
 	return ret
 
 @register.filter

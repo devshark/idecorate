@@ -9,7 +9,7 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard2.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/superfish.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <script type="text/javascript">
@@ -32,7 +32,9 @@
             var has_change_mode             = false;
             var styleboard_mode_type        = '{{ mode }}';
             var sub_category_count          = {{ category_count }};
-var mode_toggle_tab = false;
+            var mode_toggle_tab             = false;
+            var save_styleboard_action      = false;
+            var logined                     = {% if user.is_authenticated %}true{% else %}false{% endif %};
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -42,8 +44,7 @@ var mode_toggle_tab = false;
         #modal-login-signup-window {
             border: 5px solid #DDD;
             position: fixed;
-            width: 800px;/*
-            */
+            width: 800px;
             height: auto;
             overflow: hidden;
             background-color: white;
@@ -53,16 +54,37 @@ var mode_toggle_tab = false;
             background-image: url(/media/images/idecorate_pattern.jpg);
             background-repeat: repeat;
         }
-        #modal-login-signup-window h2 {
+        #modal-save-styleboard-window {
+            border: 5px solid #DDD;
+            position: fixed;
+            width: 405px;/*
+            */
+            height: auto;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 0 8px #333;
+            z-index: 99999;
+            top: 10%;
+            background-image: url(/media/images/idecorate_pattern.jpg);
+            background-repeat: repeat;
+
+        }
+        #modal-login-signup-window h2, #modal-save-styleboard-window h2 {
             margin: 0 5px 0 0;
             padding: 0;
             text-align: right;
         }
-        #modal-login-signup-window a#close-login-signup-modal{
+        #modal-login-signup-window a#close-login-signup-modal, #modal-save-styleboard-window a.close-modal-btn{
             text-decoration: none;
             color: #666;
         }
         #modal-login-signup-window iframe {
+        /*height: 480px;*/
+        min-height: 375px;
+        max-height: 700px;
+        width: 100%;
+        }
+        #modal-save-styleboard-window iframe {
         /*height: 480px;*/
         min-height: 375px;
         max-height: 700px;
@@ -96,7 +118,7 @@ var mode_toggle_tab = false;
                                 <div class="search clearfix">
                                     <form action="{% url styleboard %}" method="POST">
                                         <input type="image" src="/media/images/search.png" class="searchIcon" />
-                                        <input id="search" name="search" type="text" placeholder="Search Products" > 
+                                        <input id="search" name="search" type="text" value="{{ keyword }}" placeholder="Search Products" > 
                                         <input type="submit" value="Search">
                                     </form>
                                 </div>
@@ -176,27 +198,27 @@ var mode_toggle_tab = false;
                                     </div>
                                     <div id="embelishments-list-wrap" class="clearfix">
                                         <a href="controller/image" class="image em">
-                                            <img src="/media/products/img_default_11-Nov-11-07541352685274PM-2012_thumbnail.jpg" />
+                                            <img src="http://images.encyclopedia.com/utility/image.aspx?id=2801408&imagetype=Hero" />
                                             <span>Image</span>
                                         </a>
                                         <a href="controller/text" class="text em">
-                                            <img src="/media/products/img_default_11-Nov-11-07541352685274PM-2012_thumbnail.jpg" />
+                                            <img src="http://zoomzum.com/wp-content/uploads/2012/02/font-free.jpg" />
                                             <span>Text</span>
                                         </a>
                                         <a href="controller/border" class="border em">
-                                            <img src="/media/products/img_default_11-Nov-11-07541352685274PM-2012_thumbnail.jpg" />
+                                            <img src="http://openclipart.org/people/ryanlerch/ryanlerch_worldlabel.com_border_bw_4x3.3.svg" />
                                             <span>Border</span>
                                         </a>
                                         <a href="controller/shape" class="shape em">
-                                            <img src="/media/products/img_default_11-Nov-11-07541352685274PM-2012_thumbnail.jpg" />
+                                            <img src="http://1.bp.blogspot.com/-MwMWf1FESTE/UJq3AqFKtVI/AAAAAAAADAI/apaw17q0szY/s1600/phantom_shapes.gif" />
                                             <span>Shapes</span>
                                         </a>
                                         <a href="controller/texture" class="texture em">
-                                            <img src="/media/products/img_default_11-Nov-11-07541352685274PM-2012_thumbnail.jpg" />
+                                            <img src="http://lenscanvas.com/wp-content/uploads/2012/08/rerto_colorful_background.jpg" />
                                             <span>Textures</span>
                                         </a>
                                         <a href="controller/pattern" class="pattern em">
-                                            <img src="/media/products/img_default_11-Nov-11-07541352685274PM-2012_thumbnail.jpg" />
+                                            <img src="http://myaccidentalmuse.files.wordpress.com/2011/07/1-pattern.jpg" />
                                             <span>Patterns</span>
                                         </a>
                                     </div>
@@ -330,22 +352,30 @@ var mode_toggle_tab = false;
         <!-- login. signup modal -->
         <div id="modal-login-signup-window" style="display:none;">
             <h2 id="modal-login-signup-header">
-                <a href="#" id="close-login-signup-modal">&times;</a>
+                <a href="#" id="close-login-signup-modal" class="close-modal-btn">&times;</a>
             </h2>
             <div id="iframe-login-signup-wrap"></div>
+        </div>
+
+        <div id="modal-save-styleboard-window" style="display:none;">
+            <h2 id="modal-save-styleboard-header">
+                <a href="#" id="close-save-styleboard-modal" class="close-modal-btn">&times;</a>
+            </h2>
+            <div id="iframe-save-styleboard-wrap"></div>
         </div>
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <script src="/media/interface/js/jquery.placeholder.js"></script>
 
-<!-- <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.core.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.widget.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.mouse.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.draggable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.droppable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.resizable.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script> -->
 <script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
-<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+<!--[if lt IE 9]>
+    <script type="text/javascript" src="/media/interface/js/ui/ie-jquery.ui.rotatable.js"></script>
+<![endif]-->
+<![if !IE]>
+    <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+<![endif]>
+<!--[if IE 9]>
+    <script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+<![endif]-->
 <!-- PYTHON CRF -->
 <script type="text/javascript" src="/media/admin/js/csrf.js"></script>
 <!-- CART -->
@@ -484,17 +514,35 @@ var mode_toggle_tab = false;
     $(function(e){
         styleboardH();
 
-        $('#close-login-signup-modal').click(closed_modal);
+        $('.close-modal-btn').click(function(){
+            $('#page-mask').hide();
+            $(this).parent().parent().hide();
+        });
         generate_user_nav();
+        $('#save').click(function(e){
+            if ($('#canvas-wrap .product').length>0)
+                pop_save_styleboard();
+
+            e.preventDefault();
+        });
     });
     function generate_user_nav(){
         var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
-        '<li><a id="lnk-logout" href="#">Logout</a></li>' + 
+        '<li style="border:0"><a id="lnk-logout" href="#">Logout</a></li>' + 
         '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
-        $('#site-menu ul.dropdown').append(navs);
-        $('#lnk-logout').bind('click',logmeout);
-        $('#logged_as').bind('click',goto_profile);
-        $('#site-menu ul a#lnk-login-signup').bind('click',popup_login);
+        $('#site-menu ul.dropdown2').append(navs);
+        $('#lnk-logout').bind('click',function(e){
+            logmeout();
+            e.preventDefault();
+        });
+        $('#logged_as').bind('click',function(e){
+            goto_profile();
+            e.preventDefault();
+        });
+        $('#site-menu ul a#lnk-login-signup').bind('click',function(e){
+            popup_login();
+            e.preventDefault();
+        });
         {% if user.is_authenticated %}        
         $('#lnk-login-signup').parent().hide();
         {% else %}
@@ -506,17 +554,23 @@ var mode_toggle_tab = false;
         window.location.href = '{% url profile %}';
     }
     function logged(val){
+        logined = true;
         $('#logged_as').text(val);
         $('#lnk-login-signup').parent().hide();
         $('#logged_as').parent().show();
         $('#lnk-logout').parent().show();
         closed_modal();
+        if (save_styleboard_action){
+            save_styleboard_action = false;
+            save_styleboard_modal();
+        }
     }
     function logmeout(){
         $.get('{% url logout %}');
         $('#lnk-login-signup').parent().show();
         $('#logged_as').parent().hide();
         $('#lnk-logout').parent().hide();
+        logined = false;
         return false;
     }
     function closed_modal(){
@@ -528,6 +582,22 @@ var mode_toggle_tab = false;
         var modal   = $('#modal-login-signup-window'),
             _left   = $(window).width()/2-modal.width()/2;
             frame   = $('#iframe-login-signup-wrap').html(iframe);
+
+        $('#page-mask').css({display:'block'});
+        modal.css({display:'block',left:_left});
+    }
+    function pop_save_styleboard(){
+        save_styleboard_action = true;
+        if (logined)
+            save_styleboard_modal();
+        else
+            popup_login();
+    }
+    function save_styleboard_modal(){
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-save-styleboard-iframe','src':"{% url save_styleboard %}",'frameborder':'0'});
+        var modal   = $('#modal-save-styleboard-window'),
+            _left   = $(window).width()/2-modal.width()/2;
+            frame   = $('#iframe-save-styleboard-wrap').html(iframe);
 
         $('#page-mask').css({display:'block'});
         modal.css({display:'block',left:_left});

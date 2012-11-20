@@ -1,3 +1,4 @@
+@import url("/media/interface/css/idecorate.fontface.css");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -81,7 +82,7 @@ a:hover, a:active {
 	Main Styles
 =========================================*/
 body {
-  font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+  font-family: 'futura_std_lightregular',Arial,Helvetica,sans-serif;
   font-size: 12px;
   background-color: #c2bdbd;
   color: #666666;
@@ -120,8 +121,7 @@ h5 {
       vertical-align: top; }
       #header .headerRowTop .headerColumn a {
         text-decoration: none;
-        color: #333333;
-        font-size: 1.2em; }
+        color: #333333; }
     #header .headerRowTop #info-menu, #header .headerRowTop #site-menu {
       width: 400px; }
     #header .headerRowTop #info-menu {

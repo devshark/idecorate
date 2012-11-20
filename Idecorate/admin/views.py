@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -861,7 +861,7 @@ def admin_upload_embellishment(request):
     		imgSize = (settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT)
     		
     		splittedName = getExtensionAndFileName(form.cleaned_data['embellishment_image'])
-    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
+    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.png')
 
     		#CREATE THUMBNAIL
     		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
@@ -1015,4 +1015,402 @@ def admin_generate_text_thumbnail(request):
 def admin_manage_embellishment(request):
     info = {}
 
+    form = SearchEmbellishmentForm()
+    initial_form = {}
+
+    order_by = request.GET.get('order_by','description')
+    sort_type = request.GET.get('sort_type','asc')
+    s_type = order_by
+
+    if order_by == 'is_active':
+    	if sort_type == 'asc':
+    		s_type = "-%s" % order_by
+    else:
+
+	    if sort_type == 'desc':
+	    	s_type = "-%s" % order_by
+
+    embellishments = Embellishments.objects.filter(is_deleted=False).order_by(s_type)
+
+    other_params_dict = {}
+
+    if request.method == "POST":
+
+    	form = SearchEmbellishmentForm(request.POST)
+
+    	embellishment_description = request.POST.get('embellishment_description','')
+    	embellishment_status = request.POST.get('embellishment_status','')
+    	embellishment_type = request.POST.get('embellishment_type','')
+
+    else:
+    	embellishment_description = request.GET.get('embellishment_description','')
+    	embellishment_status = request.GET.get('embellishment_status','')
+    	embellishment_type = request.GET.get('embellishment_type','')
+
+    	if embellishment_description:
+    		initial_form.update({'embellishment_description':embellishment_description})
+
+    	if embellishment_status:
+    		initial_form.update({'embellishment_status':embellishment_status})
+
+    	if embellishment_type:
+    		initial_form.update({'embellishment_type':embellishment_type})
+
+    	form = SearchEmbellishmentForm(initial=initial_form)
+
+    q = None
+    if embellishment_description:
+
+    	other_params_dict.update({'embellishment_description':embellishment_description})
+
+    	if q is not None:
+    		q.add(Q(description__icontains=embellishment_description), Q.AND)
+    	else:
+    		q = Q(description__icontains=embellishment_description)
+
+    if embellishment_status:
+    	if embellishment_status != "any":
+    		other_params_dict.update({'embellishment_status':embellishment_status})
+    		if q is not None:
+    			q.add(Q(is_active=bool(int(embellishment_status))), Q.AND)
+    		else:
+    			q = Q(is_active=bool(int(embellishment_status)))
+
+    if embellishment_type:
+    	if embellishment_type != "any":
+    		other_params_dict.update({'embellishment_type':embellishment_type})
+    		if q is not None:
+    			q.add(Q(e_type=int(embellishment_type)), Q.AND)
+    		else:
+    			q = Q(e_type=int(embellishment_type))
+
+    if q is not None:
+    	embellishments = embellishments.filter(q).order_by(s_type)
+
+    other_params_dict.update({'order_by':order_by, 'sort_type':sort_type})
+    other_params = QueryDict(urllib.urlencode(other_params_dict))
+
+    paginator = Paginator(embellishments, 25)
+    page = request.GET.get('page','')
+
+    request.session['manage_embellishment_redirect'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+
+    other_params_dict['order_by'] = 'description'
+    other_params_dict['sort_type'] = 'asc'
+    info['description_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    other_params_dict['sort_type'] = 'desc'
+    info['description_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))  
+
+    #status ascending link
+    other_params_dict['order_by'] = 'is_active'
+    other_params_dict['sort_type'] = 'asc'
+    info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    #status descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    #status ascending type
+    other_params_dict['order_by'] = 'e_type__name'
+    other_params_dict['sort_type'] = 'asc'
+    info['type_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    #status descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['type_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+
+    try:
+        embellishments = paginator.page(page)
+    except PageNotAnInteger:
+        embellishments = paginator.page(1)
+    except EmptyPage:
+        embellishments = paginator.page(paginator.num_pages)
+
+    info['other_params'] = other_params
+    info['form'] = form
+    info['embellishments'] = embellishments
+
     return render_to_response('admin/admin_manage_embellishment.html',info,RequestContext(request))
+
+
+@staff_member_required
+def admin_delete_embellishment(request,id_delete):
+	
+	embellishment = Embellishments.objects.get(id=int(id_delete))
+
+	embellishment.is_deleted = True
+	embellishment.is_active = False
+	embellishment.save()
+
+	messages.success(request, _('Embellishment deleted.'))
+
+	if request.session.get('manage_embellishment_redirect', False):
+		return redirect(reverse('admin_manage_embellishment') + request.session['manage_embellishment_redirect'])
+	else:
+		return redirect('admin_manage_embellishment')
+
+
+@staff_member_required
+def admin_edit_embellishment(request, e_id):
+    info = {}
+
+    embellishment = Embellishments.objects.get(id=int(e_id))
+    info['embellishment'] = embellishment
+
+    info['initial_form_data'] = {
+    	'embellishment_status':str(int(embellishment.is_active)),
+    	'embellishment_description':embellishment.description,
+    	'embellishment_image': embellishment.image,
+    	'embellishment_type':str(int(embellishment.e_type.id)),
+    }
+
+    form = EditEmbellishmentForm(initial=info['initial_form_data'])
+
+    if request.method == "POST":
+
+    	form = EditEmbellishmentForm(request.POST)
+
+    	if form.is_valid():
+
+    		directoryOld = ''
+
+    		if embellishment.e_type.id == 1:
+    			directoryOld = 'images'
+    		elif embellishment.e_type.id == 2:
+    			directoryOld = 'textures'
+    		elif embellishment.e_type.id == 3:
+    			directoryOld = 'patterns'
+    		elif embellishment.e_type.id == 4:
+    			directoryOld = 'shapes'
+    		elif embellishment.e_type.id == 5:
+    			directoryOld = 'borders'
+
+    		directoryNew = ''
+
+    		if int(form.cleaned_data['embellishment_type']) == 1:
+    			directoryNew = 'images'
+    		elif int(form.cleaned_data['embellishment_type']) == 2:
+    			directoryNew = 'textures'
+    		elif int(form.cleaned_data['embellishment_type']) == 3:
+    			directoryNew = 'patterns'
+    		elif int(form.cleaned_data['embellishment_type']) == 4:
+    			directoryNew = 'shapes'
+    		elif int(form.cleaned_data['embellishment_type']) == 5:
+    			directoryNew = 'borders' 
+
+	    	embellishment.is_active = bool(int(form.cleaned_data['embellishment_status']))
+	    	embellishment.description = form.cleaned_data['embellishment_description']
+	    	embellishment.e_type = EmbellishmentsType.objects.get(id=int(form.cleaned_data['embellishment_type']))
+
+	    	#move the file first if the type is changed
+	    	if directoryOld != directoryNew:
+				shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryOld, embellishment.image), "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, embellishment.image))
+				shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryOld, embellishment.image_thumb), "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, embellishment.image_thumb))	    	
+
+    		if embellishment.image != form.cleaned_data['embellishment_image']:
+    			#image changed
+	    		imgSize = (settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT)
+	    		
+	    		splittedName = getExtensionAndFileName(form.cleaned_data['embellishment_image'])
+	    		thumbName = "%s%s" % (splittedName[0], '_thumbnail.png')
+
+	    		#CREATE THUMBNAIL
+	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+	    		img.thumbnail(imgSize,Image.ANTIALIAS)
+	    		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
+	    		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
+	    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, thumbName))
+
+	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+		    	img.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, form.cleaned_data['embellishment_image']))
+
+		    	#REMOVE FILES
+		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, embellishment.image))
+		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, embellishment.image_thumb))
+
+		    	embellishment.image = form.cleaned_data['embellishment_image']
+		    	embellishment.image_thumb = thumbName
+
+    		embellishment.save()
+
+    		messages.success(request, _('Embellishment Saved.'))
+
+    		if request.session.get('manage_embellishment_redirect', False):
+    			return redirect(reverse('admin_manage_embellishment') + request.session['manage_embellishment_redirect'])
+    		else:
+    			return redirect('admin_manage_embellishment')
+
+    info['current_directory'] = "%s%s" % (str(embellishment.e_type.name).lower(), "s")
+    info['form'] = form
+    return render_to_response('admin/admin_edit_embellishment.html',info,RequestContext(request))
+
+
+@staff_member_required
+def admin_manage_font(request):
+    info = {}
+
+    form = SearchFontForm()
+    initial_form = {}
+
+    order_by = request.GET.get('order_by','description')
+    sort_type = request.GET.get('sort_type','asc')
+    s_type = order_by
+
+    if order_by == 'is_active':
+    	if sort_type == 'asc':
+    		s_type = "-%s" % order_by
+    else:
+
+	    if sort_type == 'desc':
+	    	s_type = "-%s" % order_by
+
+    fonts = TextFonts.objects.filter(is_deleted=False).order_by(s_type)
+
+    other_params_dict = {}
+
+    if request.method == "POST":
+
+    	form = SearchFontForm(request.POST)
+
+    	font_description = request.POST.get('font_description','')
+    	font_status = request.POST.get('font_status','')
+
+    else:
+    	font_description = request.GET.get('font_description','')
+    	font_status = request.GET.get('font_status','')
+
+    	if font_description:
+    		initial_form.update({'font_description':font_description})
+
+    	if font_status:
+    		initial_form.update({'font_status':font_status})
+
+    	form = SearchFontForm(initial=initial_form)
+
+    q = None
+    if font_description:
+
+    	other_params_dict.update({'font_description':font_description})
+
+    	if q is not None:
+    		q.add(Q(description__icontains=font_description), Q.AND)
+    	else:
+    		q = Q(description__icontains=font_description)
+
+    if font_status:
+    	if font_status != "any":
+    		other_params_dict.update({'font_status':font_status})
+    		if q is not None:
+    			q.add(Q(is_active=bool(int(font_status))), Q.AND)
+    		else:
+    			q = Q(is_active=bool(int(font_status)))
+
+    if q is not None:
+    	fonts = fonts.filter(q).order_by(s_type)
+
+    other_params_dict.update({'order_by':order_by, 'sort_type':sort_type})
+    other_params = QueryDict(urllib.urlencode(other_params_dict))
+
+    paginator = Paginator(fonts, 25)
+    page = request.GET.get('page','')
+
+    request.session['manage_font_redirect'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+
+    other_params_dict['order_by'] = 'description'
+    other_params_dict['sort_type'] = 'asc'
+    info['description_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    other_params_dict['sort_type'] = 'desc'
+    info['description_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))  
+
+    #status ascending link
+    other_params_dict['order_by'] = 'is_active'
+    other_params_dict['sort_type'] = 'asc'
+    info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+    #status descending link
+    other_params_dict['sort_type'] = 'desc'
+    info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+
+    try:
+        fonts = paginator.page(page)
+    except PageNotAnInteger:
+        fonts = paginator.page(1)
+    except EmptyPage:
+        fonts = paginator.page(paginator.num_pages)
+
+    info['other_params'] = other_params
+    info['form'] = form
+    info['fonts'] = fonts
+
+    return render_to_response('admin/admin_manage_font.html',info,RequestContext(request))
+
+@staff_member_required
+def admin_delete_font(request,id_delete):
+	
+	font = TextFonts.objects.get(id=int(id_delete))
+
+	font.is_deleted = True
+	font.is_active = False
+	font.save()
+
+	messages.success(request, _('Font deleted.'))
+
+	if request.session.get('manage_font_redirect', False):
+		return redirect(reverse('admin_manage_font') + request.session['manage_font_redirect'])
+	else:
+		return redirect('admin_manage_font')
+
+
+@staff_member_required
+def admin_edit_font(request, t_id):
+    info = {}
+
+    font = TextFonts.objects.get(id=int(t_id))
+    info['font'] = font
+
+    info['initial_form_data'] = {
+    	'font_status':str(int(font.is_active)),
+    	'font_description':font.description,
+    	'font_file': font.font
+    }
+
+    form = EditFontForm(initial=info['initial_form_data'])
+
+    if request.method == "POST":
+
+    	form = EditFontForm(request.POST)
+
+    	if form.is_valid():
+
+	    	font.is_active = bool(int(form.cleaned_data['font_status']))
+	    	font.description = form.cleaned_data['font_description']  	
+
+    		if font.font != form.cleaned_data['font_file']:
+    			#font changed
+
+	    		#MOVE FONT
+	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "fonts/temp/", form.cleaned_data['font_file']), "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", form.cleaned_data['font_file']))
+
+		    	#REMOVE FILES
+		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", font.font))
+
+		    	font.font = form.cleaned_data['font_file']
+
+    		font.save()
+
+    		messages.success(request, _('Font Saved.'))
+
+    		if request.session.get('manage_font_redirect', False):
+    			return redirect(reverse('admin_manage_font') + request.session['manage_font_redirect'])
+    		else:
+    			return redirect('admin_manage_font')
+
+    info['form'] = form
+    return render_to_response('admin/admin_edit_font.html',info,RequestContext(request))

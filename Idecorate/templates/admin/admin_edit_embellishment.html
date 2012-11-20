@@ -1,0 +1,215 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<style type="text/css">
+
+  .preview {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border: 2px dotted #CCC;
+    margin-right: 16px;
+  }
+
+  div.preview.loading { 
+    background: url(/media/admin/images/loading.gif) no-repeat 39px 40px; 
+  }
+
+  div.preview.loading img {
+    display: none; 
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+	<h1>{% trans "Edit Embellishment" %}</h1>
+	<div>&nbsp;</div> 
+
+      {% if form.errors %}
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for e in form.embellishment_status.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.embellishment_description.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.embellishment_type.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.embellishment_image.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+        </ol> 
+      </div>
+      {% endif %}
+
+      {% if messages  %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %}
+
+    <div class="container-fluid">      
+      <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+      	{% csrf_token %}
+      <div class="row-fluid">
+        <div class="span12">
+
+          <h3 style="font-weight:normal;">{% trans "Embellishment Information" %}</h3>
+          <hr />
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.embellishment_status.label }}</label>
+                <div class="controls">
+                {% for choice in form.embellishment_status.field.choices %}
+                  <label class="radio inline">
+                      <input type="radio" name="embellishment_status" value="{{choice.0}}" {% if form.embellishment_status.data == choice.0 or initial_form_data.embellishment_status == choice.0 %}checked="checked" {% endif %}/> {{choice.1}}
+                  </label>
+                {% endfor %}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.embellishment_description.label }} *</label>
+                <div class="controls">
+                  {{ form.embellishment_description|add_class:"input-xlarge"|attr:"placeholder:Description" }}
+                  <!--
+                  <span class="help-block"></span>
+                  -->
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{% trans "Type" %}</label>
+                <div class="controls">
+                  {{ form.embellishment_type }}
+                  <!--
+                  <span class="help-block"></span>
+                  -->
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{% trans "Image" %}:</label>
+                <div class="controls">
+                  <div class="preview" id="preview1" style="text-align:center;">
+                    <img id="thumb_original" style="position:relative;max-height:100px;max-width:100px" src="/media/admin/images/bg_transparent.png" alt="" />
+                  </div>
+                  {{ form.embellishment_image }}
+                  <a href="#" id="btn_orginal_image" class="btn btn-primary">{% trans "Browse ..." %}</a>
+                  <span class="help-block">{% trans "Accepted files: JPG, PNG, GIF, TIFF. Max filesize 2MB." %}</span>
+                  <div id="error_1" style="color:red">&nbsp;</div>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+
+        </div><!--/span-->      
+      </div><!--/row-->
+			<div class="form-actions" style="text-align:left">
+  				<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+			</div>
+      </form>
+     </div>
+
+{% endblock %}
+{% block javascripts %}
+
+  <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
+	<script type="text/javascript" >
+
+    function initThumbnail() {
+      var thumb_original = $('img#thumb_original');
+      thumb_original.load(function(){
+
+        if($('#thumb_original').height() < 100) {
+            $('#thumb_original').css('top',((100 - $('#thumb_original').height()) / 2) + 'px');
+        } else {
+            $('#thumb_original').css('top','0px');
+        }
+
+        thumb_original.unbind();
+
+      });
+
+      thumb_original.attr('src', '/media/embellishments/{{ current_directory }}/' + $('#id_embellishment_image').val());
+    }
+
+    $(function(e){
+
+
+      initThumbnail();
+
+      var thumb_original = $('img#thumb_original');
+      new AjaxUpload('btn_orginal_image', {
+        name: 'image',
+        action: '{% url admin_upload_embellishment_image %}',
+        onSubmit: function(file, extension) {
+          $('div#preview1').addClass('loading');
+        },
+        onComplete: function(file, response){                        
+
+          var splittedResponse = response.split(':')
+
+          if (splittedResponse[0] == 'notok') {
+            $('#error_1').text(splittedResponse[1]);
+          } else {
+            thumb_original.load(function(){
+
+              if($('#thumb_original').height() < 100) {
+                $('#thumb_original').css('top',((100 - $('#thumb_original').height()) / 2) + 'px');
+              } else {
+                $('#thumb_original').css('top','0px');
+              }
+
+              thumb_original.unbind();
+            });
+
+            thumb_original.attr('src', '/media/embellishments/temp/' + splittedResponse[1]);
+            $('#error_1').text('');
+            $('#id_embellishment_image').val(splittedResponse[1]);
+
+          }
+
+          $('div#preview1').removeClass('loading');
+
+        }
+      });
+
+
+
+    });
+
+	</script >
+{% endblock %}

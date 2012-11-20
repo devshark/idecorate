@@ -31,6 +31,7 @@ class Embellishments(models.Model):
 	image = models.CharField(db_column='image', max_length=256, blank=True)
 	image_thumb = models.CharField(db_column='image_thumb', max_length=256, blank=True)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	is_deleted = models.BooleanField(db_column='is_deleted', default=False)
 	
 	class Meta:
 		db_table = 'embellishments'
@@ -44,6 +45,7 @@ class TextFonts(models.Model):
 	description = models.CharField(db_column='description', max_length=256, blank=True)
 	font = models.CharField(db_column='font', max_length=256, blank=True)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	is_deleted = models.BooleanField(db_column='is_deleted', default=False)
 	
 	class Meta:
 		db_table = 'text_fonts'

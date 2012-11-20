@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 
-from forms import LoginForm, SignupForm
+from forms import LoginForm, SignupForm, SaveStyleboardForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard
 from admin.models import LoginLog
 
@@ -92,3 +92,15 @@ def profile(request):
 	user_styleboard = get_user_styleboard(request.user)
 	info['user_styleboard'] = user_styleboard
 	return render_to_response('customer/profile.html', info, RequestContext(request))
+
+def save_styleboard(request):
+	if not request.user.is_authenticated():
+		return redirect('styleboard')
+	info = {}
+	form = SaveStyleboardForm()
+	if request.method == "POST":
+		form = SaveStyleboardForm(request.POST)
+		if form.is_valid():
+			pass
+	info['form'] = form
+	return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
