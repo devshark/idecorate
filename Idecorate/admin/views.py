@@ -272,6 +272,7 @@ def admin_delete_product(request,id_delete):
 def admin_login(request):
 
 	if request.method == 'POST':
+		logout(request)
 
 		loginLog = LoginLog.objects.filter(created__gte=(datetime.now() - timedelta(minutes=5)), ip_address=request.META['REMOTE_ADDR'])
 
