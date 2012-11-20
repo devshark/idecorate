@@ -142,7 +142,11 @@
         $(':input[placeholder]').placeholder();
         $(document).ready(function(){
             if (window.parent){
-                $('#login').append(window.parent.get_product_objects());
+                var json_data = window.parent.get_product_object_json();
+                var djsn = JSON.stringify(json_data);
+                var djson = $.parseJSON(djsn);
+                alert(djson[0].style)
+                $('#id_description').val(JSON.stringify(djson));
             }
         });
         </script>

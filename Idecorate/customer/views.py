@@ -104,3 +104,7 @@ def save_styleboard(request):
 			pass
 	info['form'] = form
 	return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
+
+def styleboard_view(request):
+	info = {}
+	return render_to_response('customer/styleboard_view.html', info, RequestContext(request))

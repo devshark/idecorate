@@ -272,6 +272,7 @@ def admin_delete_product(request,id_delete):
 def admin_login(request):
 
 	if request.method == 'POST':
+		logout(request)
 
 		loginLog = LoginLog.objects.filter(created__gte=(datetime.now() - timedelta(minutes=5)), ip_address=request.META['REMOTE_ADDR'])
 
@@ -294,7 +295,7 @@ def admin_login(request):
 
 		if user is not None:
 
-			if user.is_active:
+			if user.is_active and user.is_staff:
 				login(request, user)
 				del request.session['admin_username']
 				del request.session['admin_password']

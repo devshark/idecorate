@@ -19,6 +19,7 @@ class StyleboardItems(models.Model):
 	name = models.CharField(db_column="name", max_length=256, null=True)
 	description = models.TextField(db_column='description', null=True)
 	item = models.TextField(db_column='item', null=True)
+	browser = models.CharField(db_column='browser', max_length=100, null=True)
 	deleted = models.IntegerField(db_column='deleted', default=0)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 

@@ -851,7 +851,7 @@ function close_modal(){
     $('#modal-window').css({display:'none'});
 }
 
-function get_product_objects(){
+function get_product_object_json(){
     var product_objects = [];
     var canvas_offset = $('#canvas').offset();
     var canvas_left = canvas_offset.left;
@@ -864,6 +864,7 @@ function get_product_objects(){
         var product_left = Math.round(elm_left-canvas_left);
         var product_top = Math.round(elm_top-canvas_top);
         var style = $(this).attr('style');
+        var zIndex = $(this).css('z-index');
         var _matrix = $(this).attr('_matrix');
         var _img = [];
         var elm_img = $(this).find('img');
@@ -871,7 +872,7 @@ function get_product_objects(){
         var _nb = $(elm_img).attr('_nb');
         var _wb = $(elm_img).attr('_wb');
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
-        product_objects.push({left:product_left,top:product_top,style:style,matrix:_matrix,img:_img});
+        product_objects.push({left:product_left,top:product_top,style:style,matrix:_matrix, zindex:zIndex, img:_img});
     });
     return product_objects;
 }

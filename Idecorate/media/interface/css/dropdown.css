@@ -11,7 +11,7 @@ ul.dropdown1 li {
   float: left;
   zoom: 1;
   border-right: 1px solid #333;
-  font-size: 1.2em; }
+  font-size: 12px; }
 
 ul.dropdown1 a:hover {
   color: #222; }
@@ -68,7 +68,7 @@ ul.dropdown1 ul li {
   color: #222;
   border: none;
   float: none;
-  font-size: 1.2em !important; }
+  font-size: 12px !important; }
 
 /* IE 6 & 7 Needs Inline Block */
 ul.dropdown1 ul li a {
@@ -163,7 +163,7 @@ ul.dropdown2 ul li {
   font-weight: normal;
   color: #fff;
   float: none;
-  font-size: 1.2em !important;
+  font-size: 1em !important;
   border: none; }
 
 /* IE 6 & 7 Needs Inline Block */
@@ -187,7 +187,8 @@ ul.dropdown2 ul ul {
   top: 0; }
 
 ul.dropdown2 ul ul li {
-  padding: 4px 8px; }
+  padding: 4px 8px;
+  font-size: 12px; }
 
 ul.dropdown2 li:hover > ul {
   visibility: visible; }
