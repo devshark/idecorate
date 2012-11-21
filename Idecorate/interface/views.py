@@ -23,7 +23,7 @@ from django.core.urlresolvers import reverse
 import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
-from admin.models import TextFonts
+from admin.models import TextFonts, Embellishments
 
 def home(request):
 	info = {}
@@ -480,13 +480,64 @@ def generate_text(request):
 		response = HttpResponse(mimetype="image/png")
 		img.save(response, "PNG")
 	else:
-		#create thumbnail
-		print 
+		#create thumbnail 
 		img.thumbnail((int(font_size),int(font_size)),Image.ANTIALIAS)
 		bgImg = Image.new('RGBA', (int(font_size),int(font_size)), (255, 255, 255, 0))
 		bgImg.paste(img,((int(font_size) - img.size[0]) / 2, (int(font_size) - img.size[1]) / 2))
 
 		response = HttpResponse(mimetype="image/jpg")
 		bgImg.save(response, "JPEG")
+
+	return response
+
+def generate_embellishment(request):
+
+	embellishment_id = request.GET.get('embellishment_id',0)
+	embellishment_color = request.GET.get('embellishment_color','')
+	embellishment_thumbnail = request.GET.get('embellishment_thumbnail','0')
+	embellishment_size = request.GET.get('embellishment_size','')
+
+	embellishment_color = (int(embellishment_color[0:3]), int(embellishment_color[3:6]), int(embellishment_color[6:9]))
+
+	directory = ""
+	retImage = None
+
+	embObj = Embellishments.objects.get(id=int(embellishment_id))
+
+	if embObj.e_type.id == 1:
+		directory = "images"
+	elif embObj.e_type.id == 2:
+		directory = "textures"
+	elif embObj.e_type.id == 3:
+		directory = "patterns"
+	elif embObj.e_type.id == 4:
+		directory = "shapes"
+	elif embObj.e_type.id == 5:
+		directory = "borders"
+
+	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)).convert("RGBA")
+	newImg = Image.new("RGBA", img.size, embellishment_color)
+	r, g, b, alpha = img.split()
+
+	response = HttpResponse(mimetype="image/png")
+
+	if embObj.e_type.id == 1 or embObj.e_type.id == 5:
+		retImage = img
+	elif embObj.e_type.id == 3:
+		newImg.paste(img, mask=b)
+		retImage = newImg
+	elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
+		img.paste(newImg, mask=alpha)
+		retImage = img 
+
+	if embellishment_thumbnail == "0":
+		#not thumbnail
+		retImage.save(response, "PNG")
+	else:
+		#return thumbnail
+		retImage.thumbnail((int(embellishment_size),int(embellishment_size)),Image.ANTIALIAS)
+		bgImg = Image.new('RGBA', (int(embellishment_size),int(embellishment_size)), (255, 255, 255, 0))
+		bgImg.paste(retImage,((int(embellishment_size) - retImage.size[0]) / 2, (int(embellishment_size) - retImage.size[1]) / 2))
+		bgImg.save(response, "PNG")
 
 	return response
