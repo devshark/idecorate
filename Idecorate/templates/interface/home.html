@@ -81,3 +81,39 @@
 	</div>
 </section>
 {% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+$(function(){
+	var windowH = $(window).height();
+		headerH = $('#header').outerHeight(true);
+		contentH = $('#feature-wrap').outerHeight(true);
+		footerH = $('#footer').outerHeight(true);
+
+		totalContent = headerH + contentH + footerH;
+		
+		if(totalContent < windowH) {
+			newHeight = windowH - headerH -footerH - 360;
+
+			$('#feature-wrap').height(newHeight);
+
+		}
+
+		$(window).resize(function(){
+
+			var windowH = $(window).height();
+				headerH = $('#header').outerHeight(true);
+				contentH = $('#feature-wrap').outerHeight(true);
+				footerH = $('#footer').outerHeight(true);
+		
+			if(totalContent < windowH) {
+				newHeight = windowH - headerH -footerH -360;
+
+				$('#feature-wrap').height(newHeight);
+
+			}
+
+		});
+
+});
+</script>
+{% endblock %}
