@@ -8,7 +8,6 @@
         <meta name="description" content="">
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
 
@@ -77,6 +76,16 @@
         </style>
     </head>
     <body>
+        <div id="fb-root"></div>
+        <script>
+          (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=284021491694031";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+        </script>
         <div id="main-container">
             <header id="header">
                 {% include "header.html" %}
@@ -209,6 +218,12 @@
         var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
         </script>
         <script src="/media/interface/js/search.js"></script>
+        <script src="http://platform.tumblr.com/v1/share.js"></script>
+        <script type="text/javascript">
+            var tumblr_link_url = "http://www.example.com/permalink/my-article";
+            var tumblr_link_name = "My Awesome Article";
+            var tumblr_link_description = "Lorem ipsum...";
+        </script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>
