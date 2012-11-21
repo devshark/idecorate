@@ -265,6 +265,7 @@ $(document).ready(function () {
     $handles.draggable({
         helper: 'original',
         cursor: 'move',
+        containment:'#canvas',
         start: function(e, ui){
 
             transform($(this));
@@ -359,6 +360,8 @@ $(document).ready(function () {
 
         eventTracker(removedElement,'remove');
 
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
     });
 
     $('#flip-btn').click(function(e){
@@ -395,6 +398,8 @@ $(document).ready(function () {
         cancelBubble(e);
         obj = $('.selected');
         cloneObj(obj);
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
     });
 
     //make selected product image PNG
@@ -433,24 +438,14 @@ $(document).ready(function () {
         cancelBubble(e);
     });
 
-    initProductPositions();
-
-
-    /* embellishments
-    this is where embellishment related function
-    starts as well as with the inits,events,variables
-    */
-
-    $('#embelishments-list-wrap .em').click(function(e){
+    //create new canvas remove session and products
+    $('#new').click(function(e){
         e.preventDefault();
-        var callajax = $(this).attr('href');
-        var to_output = callajax.split('/'),
-            to_output = to_output[1];
-        var this_container = $('#em-common-wrap');
-
-        this_container.append(ajax_get_by_type(callajax,to_output));
-
+        cancelBubble(e);
+        new_canvas($(this).attr('href'));
     });
+
+    initProductPositions();
 
     $('#redo').click(function(e){
         e.preventDefault();
@@ -461,6 +456,9 @@ $(document).ready(function () {
         e.preventDefault();
         undo_styleboard();
     });
+
+    //show or hide upper left menu of canvas;
+    hide_canvas_menu();
 
 });
 
@@ -637,6 +635,9 @@ function append_to_canvas(event, obj, index, top, left){
 
     //track event
     //eventTracker(object,'create');
+
+    //show or hide upper left menu of canvas;
+    hide_canvas_menu();
 
     return object;
 }
@@ -1091,6 +1092,35 @@ function change_cursor(option){
     });
 
     return handles;
+}
+
+function new_canvas(url){
+    var r = confirm("Are you sure you want to discard your changes?");
+    if (r){
+        window.location = url;
+    }else{
+        return false;
+    }
+}
+
+function hide_canvas_menu(){
+    var warning = 'WARNING!!! Object inside the canvas exceed the 50 item limit: '+objCounter+' items.';
+    if(objCounter < 1){
+        $('.nwMenus').hide();
+    }else if(objCounter > 50){
+        $('#object-counter').text(warning).show();
+        $('.nwMenus').show();
+        $('#save').unbind('click');
+    }else{
+        $('#save').bind('click',function(e){
+            if ($('#canvas-wrap .product').length>0){
+                pop_save_styleboard();
+            }
+            e.preventDefault();
+        });
+        $('#object-counter').hide();
+        $('.nwMenus').show();
+    }
 }
 
 (function ($) {

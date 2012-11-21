@@ -942,6 +942,20 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						}
 					}
 
+					#object-counter{
+						background-color:#DA9B94;
+						position: absolute;
+						bottom:0;
+						left: 0;
+						width: 100%;
+						padding:5px;
+					  	background-color: #EEE\9;
+					  	background-color: rgba(225, 225, 225, 0.7);
+						z-index: 99999;
+						font-size: 12px;
+						color: red;
+					}
+
 					#lasso {
 				      position: relative;
 				      display: none;

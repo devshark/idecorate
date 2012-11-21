@@ -104,7 +104,7 @@ aside {
   h2 {
     width: 98%;
     font-weight: bold;
-    padding: 10px 0 10px 5px;
+    padding: 10px 0 0 5px;
   }
   
   form {
@@ -114,10 +114,10 @@ aside {
 
       table {
         width: 100%;
+        border-top: 1px solid #000;
+        border-bottom: 1px solid #000;
 
-        tbody.tbody {
-          border-top: 1px solid #000;
-          border-bottom: 1px solid #000;
+        tbody {
 
           tr {
 
@@ -130,6 +130,7 @@ aside {
               }
 
               P {
+                max-width: 120px;
                 margin: 5px 0;
 
               }
@@ -140,31 +141,26 @@ aside {
 
         }
 
-        tfoot {
-          
-          tr {
-            
-            td {
-              padding: 10px 0 0 0;
-
-              .buyItem {
-                cursor: pointer;
-                float: right;
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
-                background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
-                background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
-                background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
-                border: 1px solid #FFC5C3;
-                box-shadow: 2px 2px 2px #999999;
-              }
-            }
-
-          }
-
-        }
-
       }
     
+    }
+
+    .total {
+      width: 92%%;
+      text-align: right;
+      padding-right: 20px;
+    }
+
+    .buyItem {
+      margin: 10px 20px 10px 0;
+      cursor: pointer;
+      float: right;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
+      background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
+      background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
+      background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
+      border: 1px solid #FFC5C3;
+      box-shadow: 2px 2px 2px #999999;      
     }
 
   }

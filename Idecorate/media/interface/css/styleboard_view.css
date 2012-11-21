@@ -76,35 +76,38 @@ aside {
   aside h2 {
     width: 98%;
     font-weight: bold;
-    padding: 10px 0 10px 5px; }
+    padding: 10px 0 0 5px; }
   aside form div {
     padding: 10px 0; }
     aside form div table {
-      width: 100%; }
-      aside form div table tbody.tbody {
-        border-top: 1px solid #000;
-        border-bottom: 1px solid #000; }
-        aside form div table tbody.tbody tr .productTD {
-          padding: 10px 0;
-          vertical-align: middle !important; }
-          aside form div table tbody.tbody tr .productTD img {
-            width: 70px; }
-          aside form div table tbody.tbody tr .productTD P {
-            margin: 5px 0; }
-      aside form div table tfoot tr td {
-        padding: 10px 0 0 0; }
-        aside form div table tfoot tr td .buyItem {
-          cursor: pointer;
-          float: right;
-          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
-          /* for IE */
-          background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
-          /* for webkit browsers */
-          background: -moz-linear-gradient(top, white, #da9b94);
-          /* for firefox 3.6+ */
-          background: -o-linear-gradient(top, white, #da9b94);
-          border: 1px solid #FFC5C3;
-          box-shadow: 2px 2px 2px #999999; }
+      width: 100%;
+      border-top: 1px solid #000;
+      border-bottom: 1px solid #000; }
+      aside form div table tbody tr .productTD {
+        padding: 10px 0;
+        vertical-align: middle !important; }
+        aside form div table tbody tr .productTD img {
+          width: 70px; }
+        aside form div table tbody tr .productTD P {
+          max-width: 120px;
+          margin: 5px 0; }
+  aside form .total {
+    width: 92%%;
+    text-align: right;
+    padding-right: 20px; }
+  aside form .buyItem {
+    margin: 10px 20px 10px 0;
+    cursor: pointer;
+    float: right;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, white, #da9b94);
+    /* for firefox 3.6+ */
+    background: -o-linear-gradient(top, white, #da9b94);
+    border: 1px solid #FFC5C3;
+    box-shadow: 2px 2px 2px #999999; }
 
 section {
   width: 69%;
