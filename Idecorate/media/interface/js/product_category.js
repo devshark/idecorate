@@ -22,7 +22,7 @@ $(document).ready( function() {
         has_change_mode = true;
         return false;
     });
-    $('.breadcrumb a').click(function(){
+    $('#products .breadcrumb a').click(function(){
         browse_categories(this.rel);
         has_change_mode = true;
         return false;
@@ -175,12 +175,12 @@ function browse_categories(elm_id){
 
             if(type =='products'){
 		ie8_last_action_id = elm_id;
-                $('.pagination').show();
+                $('#products .pagination').show();
                 styleboardH();
                 manage_product_pagination();
             } else {
                 set_category_label_height();
-                $('.pagination').hide();
+                $('#products .pagination').hide();
             }
         },
         error: function(msg) {
@@ -228,7 +228,7 @@ function get_products(){
 
 function populate_products(){    
     if (sub_category_count == 0){
-        $('.pagination').show();
+        $('#products .pagination').show();
         var response_data = get_products();
         var items = '';
         var breadcrumb = '';
@@ -265,7 +265,7 @@ function reset_product(){
 }
 
 function search_products(keyword, catid){
-    $('.pagination').show();
+    $('#products .pagination').show();
     mode_type = 'search';
     category_id = catid;
     search_keyword = keyword
@@ -429,9 +429,9 @@ function generate_pagenation(){
     }
     //$('.pagination').remove();
     //var pagination = '<div class="pagination">' + paginator + '</div>';
-    $('.pagination').html(paginator);
+    $('#products .pagination').html(paginator);
 
-    $('.pagination span').each(function(){
+    $('#products .pagination span').each(function(){
         $(this).bind('click', function(){                    
             current_page = parseInt($(this).text());
             offset = product_per_page;
