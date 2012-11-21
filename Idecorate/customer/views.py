@@ -26,7 +26,7 @@ def login_signup(request):
 	info = {}
 	login_form = LoginForm()
 	signup_form = SignupForm()
-
+	info['action'] = 'login_signup'
 	if request.method=="POST":
 		action = request.POST['btnSubmit']
 		if action=='Login':			
@@ -63,8 +63,7 @@ def login_signup(request):
 					user = authenticate(username=signup_form.cleaned_data['username'], password=signup_form.cleaned_data['password'])
 					login(request, user)
 					profile = customer_profile(user)
-					info['username'] = profile['nickname']
-					info['action'] = 'login_signup'
+					info['username'] = profile['nickname']					
 					return render_to_response('customer/iframe/success.html', info)
 				else:
 					messages.warning(request, _('Sorry you could not register at the moment. Please try again later.'))

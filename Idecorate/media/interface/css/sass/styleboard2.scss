@@ -823,6 +823,9 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								zoom: 1;
 								//filter: alpha(opacity=80);
 								opacity: 0.8;
+								*margin: 0;
+								*padding: 0;
+								font-size: 0;
 							li{
 								a{
 									display: block;
