@@ -723,6 +723,18 @@ h5 {
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgBgControlWrap .imgBgControl li + li,
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgBgControlWrap .imgBgControl li + li + li {
             padding-top: 0; }
+      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas #object-counter {
+        background-color: #DA9B94;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        padding: 5px;
+        background-color: #EEE\9;
+        background-color: rgba(225, 225, 225, 0.7);
+        z-index: 99999;
+        font-size: 12px;
+        color: red; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas #lasso {
         position: relative;
         display: none;

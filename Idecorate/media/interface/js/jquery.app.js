@@ -265,6 +265,7 @@ $(document).ready(function () {
     $handles.draggable({
         helper: 'original',
         cursor: 'move',
+        containment:'#canvas',
         start: function(e, ui){
 
             transform($(this));
@@ -471,6 +472,9 @@ $(document).ready(function () {
         undo_styleboard();
     });
 
+    //show or hide upper left menu of canvas;
+    hide_canvas_menu();
+
 });
 
 //embelishments functions start
@@ -649,7 +653,7 @@ function append_to_canvas(event, obj, index, top, left){
 
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
-    
+
     return object;
 }
 
@@ -1115,9 +1119,14 @@ function new_canvas(url){
 }
 
 function hide_canvas_menu(){
+    var warning = 'WARNING!!! Object inside the canvas exceed the 50 item limit: '+objCounter+' items.';
     if(objCounter < 1){
         $('.nwMenus').hide();
+    }else if(objCounter > 50){
+        $('#object-counter').text(warning).show();
+        $('.nwMenus').show();
     }else{
+        $('#object-counter').hide();
         $('.nwMenus').show();
     }
 }
