@@ -4,7 +4,7 @@ aside, section {
 }
 
 aside {
-  width: 30%;
+  width: 33%;
 
   h1 {
     width: 98%;
@@ -171,7 +171,7 @@ aside {
 }
 
 section {
-  width: 69%;
+  width: 65%;
   height: 100%;
   margin-left: 10px;
 
@@ -197,6 +197,7 @@ section {
         overflow: hidden;
         float: left;
         margin-left: 5px;
+        position: relative;
       }
 
       .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {
