@@ -396,10 +396,10 @@ $(document).ready(function () {
     $('#clone-btn').click(function(e){
         e.preventDefault();
         cancelBubble(e);
-        obj = $('.selected');
-        cloneObj(obj);
         //show or hide upper left menu of canvas;
         hide_canvas_menu();
+        obj = $('.selected');
+        cloneObj(obj);
     });
 
     //make selected product image PNG
@@ -449,11 +449,15 @@ $(document).ready(function () {
 
     $('#redo').click(function(e){
         e.preventDefault();
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
         redo_styleboard();
     });
 
     $('#undo').click(function(e){
         e.preventDefault();
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
         undo_styleboard();
     });
 
