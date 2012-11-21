@@ -1,3 +1,3 @@
 ALTER TABLE `styleboard_items` ADD (
-	`browser` integer
+	`browser` varchar(100)
 	);
