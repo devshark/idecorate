@@ -17,7 +17,7 @@
 		<div class="clearfix memberName">
 			<div>
 				<img src="/media/images/man.1.jpg" />
-				<div>by <a href="#">Member Name</a> </div>
+				<div>by <a href="#">Member Name</a></div>
 			</div>
 			<div class="personalizeWrapper">
 				<a href="#" class="personalize">Personalize!</a>
@@ -41,54 +41,51 @@
 				</a>
 			</div>
 			<div class="googleShare">
-				<!-- Place this tag where you want the +1 button to render. -->
 				<div class="g-plusone" data-size="medium" data-annotation="none" data-href="http://www.idecorateweddings.com/"></div>
-				<!-- Place this tag after the last +1 button tag. -->
-				
 			</div>
 			<div class="email">
 				<img src="/media/images/email.jpg" />
 			</div>
-		</div>
-		<div class="clearfix styleboardDesc">
-			<p align="justify">
-				Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dapibus sollicitudin velit sed consectetur. In vel felis vel felis viverra ullamcorper a sed nibh. Quisque nec turpis at neque volutpat ultricies sed in sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam consequat porta tortor, at posuere leo ullamcorper at. Proin ut risus ipsum. Donec lorem mi, malesuada id accumsan at, suscipit nec dolor. Sed tincidunt faucibus convallis. Aliquam eget ligula elit, vel scelerisque velit. Nullam sagittis laoreet sagittis. In hac habitasse platea dictumst. Nulla eu sem risus, quis tristique risus. Nunc tempus eros non mi placerat accumsan. Etiam porta eleifend velit in dapibus. Nulla id orci eget tellus mattis elementum. Integer interdum accumsan est vel vehicula.
-			</p>
-		</div>
-		<h2>In this Styleboard</h2>
-		<form>
-			<div class="clearfix">
-				<table>
-					<tbody class="tbody">
-						<tr>
-							<td class="productTD">
-								<center>
-									<img src="/media/images/no_image.jpg" />
-								</center>
-							</td>
-							<td class="productTD">
-								<p>Product Name</p>
-								<p>$100.00</p>
-							</td>
-							<td class="productTD">
-								x5
-							</td>
-							<td class="productTD">
-								$500.00
-							</td>
-						</tr>
-					</tbody>
-				</table>
+			<div class="clearfix styleboardDesc">
+				<p align="justify">
+					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras dapibus sollicitudin velit sed consectetur. In vel felis vel felis viverra ullamcorper a sed nibh. Quisque nec turpis at neque volutpat ultricies sed in sem. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Etiam consequat porta tortor, at posuere leo ullamcorper at. Proin ut risus ipsum. Donec lorem mi, malesuada id accumsan at, suscipit nec dolor. Sed tincidunt faucibus convallis. Aliquam eget ligula elit, vel scelerisque velit. Nullam sagittis laoreet sagittis. In hac habitasse platea dictumst. Nulla eu sem risus, quis tristique risus. Nunc tempus eros non mi placerat accumsan. Etiam porta eleifend velit in dapibus. Nulla id orci eget tellus mattis elementum. Integer interdum accumsan est vel vehicula.
+				</p>
 			</div>
-			<p class="total">Total: $10,000.00</p>
-			<input type="button" value="Buy!" class="buyItem" />
-		</form>
+			<h2>In this Styleboard</h2>
+			<form>
+				<div class="clearfix">
+					<table>
+						<tbody class="tbody">
+							<tr>
+								<td class="productTD">
+									<center>
+										<img src="/media/images/no_image.jpg" />
+									</center>
+								</td>
+								<td class="productTD">
+									<p>Product Name</p>
+									<p>$100.00</p>
+								</td>
+								<td class="productTD">
+									x5
+								</td>
+								<td class="productTD">
+									$500.00
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<p class="clearfix total">Total: $10,000.00</p>
+				<input type="button" value="Buy!" class="buyItem" />
+			</form>
+		</div>
 	</aside>
 	<section>
 		<div class="clearfix canvass">
 		</div>
 		<div class="clearfix socialMediaWrapper">
-			<div class="socialMedia">
+			<div class="clearfix socialMedia">
 				<div class="facebookLike">
 					<div class="fb-like" data-href="http://www.idecorateweddings.com/" data-send="true" data-width="450" data-show-faces="false"></div>
 				</div>
@@ -119,10 +116,25 @@
 {% endblock %}
 {% block javascripts %}
 		<script type="text/javascript">
-			/*var windowSize = $(window).height();
-				bodySize = windowSize - $('#header').height() - 80;
+		$(function(){
+		var windowSize = $(window).height();
+			headerSize = $('#header').outerHeight(true);
+			footerSize = $('#footer').outerHeight(true);
+			bodySize = windowSize - headerSize - footerSize - 15;
 
-			$('.viewWrapper').height(bodySize); */
+			$(window).resize(function(){
+
+				var windowSize = $(window).height();
+					headerSize = $('#header').height();
+					footerSize = $('#footer').height();
+					bodySize = windowSize - headerSize - footerSize;
+
+					$('.viewWrapper').height(bodySize);			
+			});
+
+		$('.viewWrapper').height(bodySize);
+		});
+			
 		</script>
         <!-- Social Media Buttons -->
         <script src="http://platform.tumblr.com/v1/share.js"></script>

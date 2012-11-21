@@ -13,5 +13,4 @@ $(function(){
     //     this_container.append(ajax_get_by_type(callajax,to_output));
 
     // });
-    $
 });

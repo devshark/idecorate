@@ -7,6 +7,8 @@ uniqueIdentifier = 1;
 changesCounter = 0;
 changesArray = [];
 changesCurrentPosition = 0;
+var handles = 'ne,se,nw,sw,n,e,s,w';
+var aspectR = true;
 
 $(document).ready(function () {
     //init lasso
@@ -50,51 +52,57 @@ $(document).ready(function () {
                 //set this oject to jquery
                 Obj = $(Obj);
 
-                //custom attribute uid is a refference to populate new image 
-                var uid = Obj.attr('_uid');
+                if(Obj.hasClass('products')){
+                    //custom attribute uid is a refference to populate new image 
+                    var uid = Obj.attr('_uid');
 
-                //image source can be generated using ajax 
+                    //image source can be generated using ajax 
 
-                var _img_src = media_url+'products/';
-                var p_d_qty = 1;
-                var p_g_t = 'table';
+                    var _img_src = media_url+'products/';
+                    var p_d_qty = 1;
+                    var p_g_t = 'table';
 
-                //get image filename from DB using product_id via ajax
-                $.ajax({
-                    url: PRODUCT_IMAGE_URL,
-                    type: "POST",
-                    data: { product_id: uid},
-                    async:   false,
-                    success: function(data){
-                        //original
-                        img_src     = '/'+_img_src+data.original_image;
-                        img_w       = data.original_image_w;
-                        img_h       = data.original_image_h;
-                        img_w_bg    = data.original_image;
-                        img_wo_bg   = data.no_background;
-                        p_d_qty     = data.default_quantity;
-                        p_g_t       = data.guest_table;
+                    //get image filename from DB using product_id via ajax
+                    $.ajax({
+                        url: PRODUCT_IMAGE_URL,
+                        type: "POST",
+                        data: { product_id: uid},
+                        async:   false,
+                        success: function(data){
+                            //original
+                            img_src     = '/'+_img_src+data.original_image;
+                            img_w       = data.original_image_w;
+                            img_h       = data.original_image_h;
+                            img_w_bg    = data.original_image;
+                            img_wo_bg   = data.no_background;
+                            p_d_qty     = data.default_quantity;
+                            p_g_t       = data.guest_table;
 
-                        //create new image using image object
-                        var newObj = create_instance({
-                                    _uid     : uid,
-                                    _event   : e,
-                                    _src     : img_src,
-                                    _img_wo_b: img_wo_bg,
-                                    _img_w_b : img_w_bg,
-                                    _width   : img_w,
-                                    _height  : img_h,
-                                    _p_d_qty : p_d_qty,
-                                    _p_g_t   : p_g_t
-                                });
-                    },
-                    error: function(msg) {
-                        alert(msg);
-                    }
-                });
+                            //create new image using image object
+                            var newObj = create_instance({
+                                        _uid     : uid,
+                                        _event   : e,
+                                        _src     : img_src,
+                                        _img_wo_b: img_wo_bg,
+                                        _img_w_b : img_w_bg,
+                                        _width   : img_w,
+                                        _height  : img_h,
+                                        _p_d_qty : p_d_qty,
+                                        _p_g_t   : p_g_t
+                                    });
+                        },
+                        error: function(msg) {
+                            alert(msg);
+                        }
+                    });
 
-                //ajax add to cart
-                add_to_cart(uid, p_d_qty, p_g_t);
+                    //ajax add to cart
+                    add_to_cart(uid, p_d_qty, p_g_t);
+                }else if(Obj.hasClass('em')){
+                    alert('this is embelishments');
+                    $('#canvas').obj.clone();
+                    //DROP EMBELLISHMENTS FUNCTIONALITY HERE
+                }
 
             }
         }
@@ -256,10 +264,8 @@ $(document).ready(function () {
     }
 
     //draggable handles binds style on selected obj
-
-    var handlesIE = 'ne,se,nw,sw,n,e,s,w';
-    if($.browser.msie && $.browser.version < 9.0){
-        handlesIE = 'ne,se,nw,sw';
+    if($.browser.msie && $.browser.version < 9.0){//while IE is not yet supported
+        handles = 'ne,se,nw,sw';
     }
 
     $handles.draggable({
@@ -287,9 +293,9 @@ $(document).ready(function () {
         }
     }).resizable({
 
-        handles: handlesIE,
+        handles: handles,
         minWidth: 50,
-        aspectRatio: true,
+        aspectRatio: aspectR,
         start : function(e, ui){
             
         },
@@ -396,10 +402,10 @@ $(document).ready(function () {
     $('#clone-btn').click(function(e){
         e.preventDefault();
         cancelBubble(e);
-        obj = $('.selected');
-        cloneObj(obj);
         //show or hide upper left menu of canvas;
         hide_canvas_menu();
+        obj = $('.selected');
+        cloneObj(obj);
     });
 
     //make selected product image PNG
@@ -449,11 +455,15 @@ $(document).ready(function () {
 
     $('#redo').click(function(e){
         e.preventDefault();
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
         redo_styleboard();
     });
 
     $('#undo').click(function(e){
         e.preventDefault();
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
         undo_styleboard();
     });
 
@@ -461,6 +471,25 @@ $(document).ready(function () {
     hide_canvas_menu();
 
 });
+
+/*  
+    embellishments
+    this is where embellishment related function
+    starts as well as with the inits,events,variables
+*/
+
+/* 
+$('#embelishments-list-wrap .em').click(function(e){
+    e.preventDefault();
+    var callajax = $(this).attr('href');
+    var to_output = callajax.split('/'),
+        to_output = to_output[1];
+    var this_container = $('#em-common-wrap');
+
+    this_container.append(ajax_get_by_type(callajax,to_output));
+
+});
+*/
 
 //embelishments functions start
 function ajax_get_by_type(url,classname){
@@ -1107,11 +1136,14 @@ function hide_canvas_menu(){
     var warning = 'WARNING!!! Object inside the canvas exceed the 50 item limit: '+objCounter+' items.';
     if(objCounter < 1){
         $('.nwMenus').hide();
+        $('#canvas').css('background-image','url(/media/images/canvasbg.jpg)');
     }else if(objCounter > 50){
+        $('#canvas').css('background-image','url()');
         $('#object-counter').text(warning).show();
         $('.nwMenus').show();
         $('#save').unbind('click');
     }else{
+        $('#canvas').css('background-image','url()');
         $('#save').bind('click',function(e){
             if ($('#canvas-wrap .product').length>0){
                 pop_save_styleboard();
