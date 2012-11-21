@@ -398,6 +398,8 @@ $(document).ready(function () {
         cancelBubble(e);
         obj = $('.selected');
         cloneObj(obj);
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
     });
 
     //make selected product image PNG
@@ -444,23 +446,6 @@ $(document).ready(function () {
     });
 
     initProductPositions();
-
-
-    /* embellishments
-    this is where embellishment related function
-    starts as well as with the inits,events,variables
-    */
-
-    $('#embelishments-list-wrap .em').click(function(e){
-        e.preventDefault();
-        var callajax = $(this).attr('href');
-        var to_output = callajax.split('/'),
-            to_output = to_output[1];
-        var this_container = $('#em-common-wrap');
-
-        this_container.append(ajax_get_by_type(callajax,to_output));
-
-    });
 
     $('#redo').click(function(e){
         e.preventDefault();
@@ -1125,7 +1110,14 @@ function hide_canvas_menu(){
     }else if(objCounter > 50){
         $('#object-counter').text(warning).show();
         $('.nwMenus').show();
+        $('#save').unbind('click');
     }else{
+        $('#save').bind('click',function(e){
+            if ($('#canvas-wrap .product').length>0){
+                pop_save_styleboard();
+            }
+            e.preventDefault();
+        });
         $('#object-counter').hide();
         $('.nwMenus').show();
     }
