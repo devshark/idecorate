@@ -547,4 +547,15 @@ def new_styleboard(request):
 		del request.session['customer_styleboard']
 	except:
 		pass
+
+	try:
+		del request.session['cartsession']
+	except:
+		pass
+
+	try:
+		del request.session['product_positions']
+	except:
+		pass
+
 	return redirect('styleboard')
