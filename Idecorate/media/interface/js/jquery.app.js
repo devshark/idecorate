@@ -359,6 +359,8 @@ $(document).ready(function () {
 
         eventTracker(removedElement,'remove');
 
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
     });
 
     $('#flip-btn').click(function(e){
@@ -645,6 +647,9 @@ function append_to_canvas(event, obj, index, top, left){
     //track event
     //eventTracker(object,'create');
 
+    //show or hide upper left menu of canvas;
+    hide_canvas_menu();
+    
     return object;
 }
 
@@ -1106,6 +1111,14 @@ function new_canvas(url){
         window.location = url;
     }else{
         return false;
+    }
+}
+
+function hide_canvas_menu(){
+    if(objCounter < 1){
+        $('.nwMenus').hide();
+    }else{
+        $('.nwMenus').show();
     }
 }
 
