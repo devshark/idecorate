@@ -603,6 +603,11 @@
         $('#page-mask').css({display:'block'});
         modal.css({display:'block',left:_left});
     }
+    function save_styleboard_success(msg){
+        $('#page-mask').hide();
+        $('#modal-save-styleboard-window').hide();
+        alert(msg);
+    }
 </script>
         
     </body>
