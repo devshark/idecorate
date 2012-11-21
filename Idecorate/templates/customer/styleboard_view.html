@@ -119,10 +119,12 @@
 {% endblock %}
 {% block javascripts %}
 		<script type="text/javascript">
-			/*var windowSize = $(window).height();
-				bodySize = windowSize - $('#header').height() - 80;
+			var windowSize = $(window).height();
+				headerSize = $('#header').outerHeight(true);
+				footerSize = $('#footer').outerHeight(true);
 
-			$('.viewWrapper').height(bodySize); */
+			bodySize = windowSize - headerSize - footerSize - 15;
+			$('.viewWrapper').height(bodySize);
 		</script>
         <!-- Social Media Buttons -->
         <script src="http://platform.tumblr.com/v1/share.js"></script>
