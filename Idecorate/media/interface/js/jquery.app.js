@@ -433,6 +433,13 @@ $(document).ready(function () {
         cancelBubble(e);
     });
 
+    //create new canvas remove session and products
+    $('#new').click(function(e){
+        e.preventDefault();
+        cancelBubble(e);
+        new_canvas($(this).attr('href'));
+    });
+
     initProductPositions();
 
 
@@ -1091,6 +1098,15 @@ function change_cursor(option){
     });
 
     return handles;
+}
+
+function new_canvas(url){
+    var r = confirm("Are you sure you want to discard your changes?");
+    if (r){
+        window.location = url;
+    }else{
+        return false;
+    }
 }
 
 (function ($) {
