@@ -559,3 +559,50 @@ def new_styleboard(request):
 		pass
 
 	return redirect('styleboard')
+
+def get_embellishment_items(request):
+	if request.is_ajax():
+		typ = request.POST['type']
+		offset = request.GET.get('offset',25)
+		page = request.GET.get('page')
+		if typ != 'text':
+			embellishment_items = Embellishments.objects.filter(e_type__id=typ, is_active=True, is_deleted=False)
+
+			item_counts = embellishment_items.count()
+			paginator = Paginator(embellishment_items, offset)			
+			try:
+				embellishments = paginator.page(page)
+			except PageNotAnInteger:
+				embellishments = paginator.page(1)
+			except EmptyPage:
+				embellishments = paginator.page(paginator.num_pages)
+
+			json_embellishments = serializers.serialize("json", embellishments, fields=('id','description'))
+			reponse_data = {}
+			reponse_data['data'] = json_embellishments
+			reponse_data['page_number'] = embellishments.number
+			reponse_data['num_pages'] = embellishments.paginator.num_pages
+			reponse_data['product_counts'] = item_counts
+		else:
+			text_items = TextFonts.objects.filter(is_active=True, is_deleted=False)			
+			text_counts = text_items.count()
+			paginator = Paginator(text_items, offset)
+			page = request.GET.get('page')
+			try:
+				texts = paginator.page(page)
+			except PageNotAnInteger:
+				texts = paginator.page(1)
+			except EmptyPage:
+				texts = paginator.page(paginator.num_pages)
+
+			json_data = serializers.serialize("json", texts, fields=('id','description'))
+			reponse_data = {}
+			reponse_data['data'] = json_data
+			reponse_data['page_number'] = texts.number
+			reponse_data['num_pages'] = texts.paginator.num_pages
+			reponse_data['product_counts'] = text_counts
+
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+
+	else:
+		return HttpResponseNotFound()
