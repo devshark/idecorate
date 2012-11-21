@@ -59,15 +59,15 @@
 		<form>
 			<div class="clearfix">
 				<table>
-					<tbody>
+					<tbody class="tbody">
 						<tr>
 							<td class="productTD">
 								<center>
-									<img src="http://www2.multithread.co.uk/linitx.com/products/blank_product.jpg" />
+									<img src="/media/images/no_image.jpg" />
 								</center>
 							</td>
 							<td class="productTD">
-								<p><a href="#">Product Name</a></p>
+								<p>Product Name</p>
 								<p>$100.00</p>
 							</td>
 							<td class="productTD">
@@ -80,11 +80,11 @@
 						<tr>
 							<td class="productTD">
 								<center>
-									<img src="http://www2.multithread.co.uk/linitx.com/products/blank_product.jpg" />
+									<img src="/media/images/no_image.jpg" />
 								</center>
 							</td>
 							<td class="productTD">
-								<p><a href="#">Product Name</a></p>
+								<p>Product Name</p>
 								<p>$100.00</p>
 							</td>
 							<td class="productTD">
@@ -97,11 +97,11 @@
 						<tr>
 							<td class="productTD">
 								<center>
-									<img src="http://www2.multithread.co.uk/linitx.com/products/blank_product.jpg" />
+									<img src="/media/images/no_image.jpg" />
 								</center>
 							</td>
 							<td class="productTD">
-								<p><a href="#">Product Name</a></p>
+								<p>Product Name</p>
 								<p>$100.00</p>
 							</td>
 							<td class="productTD">
@@ -167,6 +167,12 @@
 {% endblock %}
 {% block javascripts %}
         <!-- Social Media Buttons -->
+        <script src="http://platform.tumblr.com/v1/share.js"></script>
+        <script type="text/javascript">
+            var tumblr_link_url = "http://www.example.com/permalink/my-article";
+            var tumblr_link_name = "My Awesome Article";
+            var tumblr_link_description = "Lorem ipsum...";
+        </script>
         <script type="text/javascript">
             var tumblr_button = document.createElement("a");
             tumblr_button.setAttribute("href", "http://www.tumblr.com/share/link?url=" + encodeURIComponent(tumblr_link_url) + "&name=" + encodeURIComponent(tumblr_link_name) + "&description=" + encodeURIComponent(tumblr_link_description));

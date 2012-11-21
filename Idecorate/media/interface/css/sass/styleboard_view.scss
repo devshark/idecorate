@@ -115,7 +115,7 @@ aside {
       table {
         width: 100%;
 
-        tbody {
+        tbody.tbody {
           border-top: 1px solid #000;
           border-bottom: 1px solid #000;
 
@@ -145,7 +145,7 @@ aside {
           tr {
             
             td {
-              padding: 10px 0;
+              padding: 10px 0 0 0;
 
               .buyItem {
                 cursor: pointer;
