@@ -198,27 +198,27 @@
                                     </div>
                                     <div id="embelishments-list-wrap" class="clearfix">
                                         <a href="controller/image" class="image em">
-                                            <img src="http://images.encyclopedia.com/utility/image.aspx?id=2801408&imagetype=Hero" />
+                                            <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg" />
                                             <span>Image</span>
                                         </a>
                                         <a href="controller/text" class="text em">
-                                            <img src="http://zoomzum.com/wp-content/uploads/2012/02/font-free.jpg" />
+                                            <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/text.png" />
                                             <span>Text</span>
                                         </a>
                                         <a href="controller/border" class="border em">
-                                            <img src="http://openclipart.org/people/ryanlerch/ryanlerch_worldlabel.com_border_bw_4x3.3.svg" />
+                                            <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/border.png" />
                                             <span>Border</span>
                                         </a>
                                         <a href="controller/shape" class="shape em">
-                                            <img src="http://1.bp.blogspot.com/-MwMWf1FESTE/UJq3AqFKtVI/AAAAAAAADAI/apaw17q0szY/s1600/phantom_shapes.gif" />
+                                            <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/shape.gif" />
                                             <span>Shapes</span>
                                         </a>
                                         <a href="controller/texture" class="texture em">
-                                            <img src="http://lenscanvas.com/wp-content/uploads/2012/08/rerto_colorful_background.jpg" />
+                                            <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg" />
                                             <span>Textures</span>
                                         </a>
                                         <a href="controller/pattern" class="pattern em">
-                                            <img src="http://myaccidentalmuse.files.wordpress.com/2011/07/1-pattern.jpg" />
+                                            <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg" />
                                             <span>Patterns</span>
                                         </a>
                                     </div>
@@ -277,7 +277,7 @@
                                     <ul class="imgControl clearfix">
                                         <li><a href="#" id="remove-btn">Remove</a></li>
                                         <li><a href="#" id="flip-btn">Flip</a></li>
-                                        <li><a href="#" id="flap-btn">Flap</a></li>
+                                        <li><a href="#" id="flap-btn">Flop</a></li>
                                         <li><a href="#" id="clone-btn">Clone</a></li>
                                         <li><a href="#" id="forward-btn">Forward</a></li>
                                         <li><a href="#" id="backward-btn">Backward</a></li>
@@ -504,7 +504,8 @@
         
         $('#styleboard').height(_height); 
         $('#canvas').height(_height-1); 
-        $('#create-tab .category-wrap, #embellishments, #templates').height(__height);
+        $('#create-tab .category-wrap, #templates').height(__height);
+        $('#embellishments').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
         $('#create-tab .product-list-wrap .product-list').height(___height).css({minHeight:____height});
         $('#buy-tab').height(_____height).css({minHeight:height_});
         $('#buy-tab .buyTableWrap .table .tbody').height(______height);
