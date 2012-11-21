@@ -69,9 +69,15 @@ def get_user_styleboard(user):
 	return styleboards
 
 @transaction.commit_manually
-def save_styleboard_item(data, user):
+def save_styleboard_item(data):
 	try:
-		st = StyleboardItems()
+		customer_styleboard = data['customer_styleboard']
+		if customer_styleboard:
+			st = customer_styleboard.styleboard_item
+			csb = customer_styleboard
+		else:
+			st = StyleboardItems()
+			csb = CustomerStyleBoard()
 		st.name = data['name']
 		st.description = data['description']
 		st.item = data['item']
@@ -79,12 +85,16 @@ def save_styleboard_item(data, user):
 		st.save()
 
 		csb = CustomerStyleBoard()
-		csb.user = user
+		csb.user = data['user']
 		csb.styleboard_item = st
 		csb.save()
 		transaction.commit()
-		return True
+		return csb
 	except Exception as e:
 		print e
 		transaction.rollback()
 		return False
+
+def get_customer_styleboard_item(customer_styleboard):
+	return CustomerStyleBoard.objects.get(id=customer_styleboard.id)
+

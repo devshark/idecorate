@@ -17,7 +17,8 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm
-from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item
+from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
+	get_customer_styleboard_item
 from admin.models import LoginLog
 
 def login_signup(request):
@@ -97,11 +98,21 @@ def save_styleboard(request):
 	if not request.user.is_authenticated():
 		return redirect('styleboard')
 	info = {}
-	form = SaveStyleboardForm()
+	customer_styleboard = None
+	try:		
+		customer_styleboard = request.session['customer_styleboard']	
+		form = SaveStyleboardForm(initial={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description})
+	except Exception as e:
+		print e
+		form = SaveStyleboardForm()
 	if request.method == "POST":
 		form = SaveStyleboardForm(request.POST)		
 		if form.is_valid():
-			res = save_styleboard_item(form.cleaned_data, request.user)
+			cleaned_datas = form.cleaned_data
+			cleaned_datas['user'] = request.user
+			cleaned_datas['customer_styleboard'] = customer_styleboard				
+			res = save_styleboard_item(cleaned_datas)
+			request.session['customer_styleboard'] = res
 	info['form'] = form
 	return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
 
