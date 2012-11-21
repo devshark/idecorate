@@ -51,7 +51,7 @@
             box-shadow: 0 0 8px #333;
             z-index: 99999;
             top: 10%;
-            background-image: url(/media/images/idecorate_pattern.jpg);
+            background-image: url('/media/images/idecorate_pattern.jpg');
             background-repeat: repeat;
         }
         #modal-save-styleboard-window {
@@ -65,7 +65,7 @@
             box-shadow: 0 0 8px #333;
             z-index: 99999;
             top: 10%;
-            background-image: url(/media/images/idecorate_pattern.jpg);
+            background-image: url('/media/images/idecorate_pattern.jpg');
             background-repeat: repeat;
 
         }
@@ -197,7 +197,7 @@
                                         </form>
                                     </div>
                                     <div id="embelishments-list-wrap" class="clearfix">
-                                        <a href="controller/image" class="image em">
+                                        <!-- <a href="controller/image" class="image em">
                                             <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg" />
                                             <span>Image</span>
                                         </a>
@@ -220,6 +220,12 @@
                                         <a href="controller/pattern" class="pattern em">
                                             <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg" />
                                             <span>Patterns</span>
+                                        </a> -->
+                                        <a href="controller/pattern" class="pattern em">
+                                            <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg" />
+                                        </a>
+                                        <a href="controller/texture" class="texture em">
+                                            <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg" />
                                         </a>
                                     </div>
                                     <div id="em-common-wrap" style="display:none;"></div>
@@ -268,7 +274,7 @@
                             <div class="nwMenus">
                                 <ul class="canvasControl">
                                     <li><a href="#" id="save">Save</a></li>
-                                    <li><a href="#" id="new">New</a></li>
+                                    <li><a href="{% url new_styleboard %}" id="new">New</a></li>
                                     <li class="do"><a href="#" id="undo">Undo</a><a href="#" id="redo">Redo</a></li>
                                 </ul>
                             </div>
