@@ -28,7 +28,8 @@ $(document).ready(function () {
     //draggable sidebar obj to canvas
     $(".draggable").liveDraggable({
         revert:true, 
-        helper: 'clone'
+        helper: 'clone',
+        containment: 'body'
     });
 
 
@@ -155,6 +156,7 @@ $(document).ready(function () {
     $('.product').liveDraggable({
         helper: 'original',
         cursor: 'move',
+        containment: '#canvas',
         start : function(e, ui){
             
             transform($(this));
