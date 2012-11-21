@@ -3,7 +3,7 @@ aside, section {
   float: left !important; }
 
 aside {
-  width: 33%; }
+  width: 30%; }
   aside h1 {
     width: 98%;
     font-weight: bold;
@@ -37,6 +37,7 @@ aside {
       height: auto;
       padding: 3px;
       margin: 5px 0 0 75px;
+      *margin: 5px 0 0 65px;
       color: #666666;
       text-decoration: none;
       cursor: pointer;
@@ -106,7 +107,7 @@ aside {
           box-shadow: 2px 2px 2px #999999; }
 
 section {
-  width: 65%;
+  width: 69%;
   height: 100%;
   margin-left: 10px; }
   section .canvass {

@@ -4,7 +4,7 @@ aside, section {
 }
 
 aside {
-  width: 33%;
+  width: 30%;
 
   h1 {
     width: 98%;
@@ -52,6 +52,7 @@ aside {
       height: auto;
       padding: 3px;
       margin: 5px 0 0 75px;
+      *margin: 5px 0 0 65px;
       color: #666666;
       text-decoration: none;
       cursor: pointer;
@@ -171,7 +172,7 @@ aside {
 }
 
 section {
-  width: 65%;
+  width: 69%;
   height: 100%;
   margin-left: 10px;
 
