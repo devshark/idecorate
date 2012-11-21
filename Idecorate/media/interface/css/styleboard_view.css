@@ -89,6 +89,7 @@ aside {
         aside form div table tbody tr .productTD img {
           width: 70px; }
         aside form div table tbody tr .productTD P {
+          max-width: 120px;
           margin: 5px 0; }
   aside form .total {
     width: 92%%;
