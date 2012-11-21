@@ -76,6 +76,7 @@ aside {
       overflow: hidden;
       float: left;
       margin-left: 5px;
+      position: relative;
     }
 
     .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {
@@ -144,6 +145,17 @@ aside {
             
             td {
               padding: 10px 0;
+
+              .buyItem {
+                cursor: pointer;
+                float: right;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
+                background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
+                background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
+                background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
+                border: 1px solid #FFC5C3;
+                box-shadow: 2px 2px 2px #999999;
+              }
             }
 
           }
@@ -160,6 +172,7 @@ aside {
 
 section {
   width: 69%;
+  height: 100%;
   margin-left: 10px;
 
   .canvass {
@@ -173,7 +186,7 @@ section {
     width: 100%;
     
     .socialMedia {
-      width: 285px;
+      width: 315px;
       height: 28px;
       float: right;
       text-align: center;

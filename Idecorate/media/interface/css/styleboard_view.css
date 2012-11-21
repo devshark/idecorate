@@ -58,7 +58,8 @@ aside {
       width: 110px;
       overflow: hidden;
       float: left;
-      margin-left: 5px; }
+      margin-left: 5px;
+      position: relative; }
     aside .socialMedia .tumblerShare, aside .socialMedia .twitterShare, aside .socialMedia .pinterestShare, aside .socialMedia .googleShare, aside .socialMedia .email {
       width: auto;
       float: left;
@@ -91,9 +92,22 @@ aside {
             margin: 5px 0; }
       aside form div table tfoot tr td {
         padding: 10px 0; }
+        aside form div table tfoot tr td .buyItem {
+          cursor: pointer;
+          float: right;
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+          /* for IE */
+          background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+          /* for webkit browsers */
+          background: -moz-linear-gradient(top, white, #da9b94);
+          /* for firefox 3.6+ */
+          background: -o-linear-gradient(top, white, #da9b94);
+          border: 1px solid #FFC5C3;
+          box-shadow: 2px 2px 2px #999999; }
 
 section {
   width: 69%;
+  height: 100%;
   margin-left: 10px; }
   section .canvass {
     width: 100%;
@@ -102,7 +116,7 @@ section {
   section .socialMediaWrapper {
     width: 100%; }
     section .socialMediaWrapper .socialMedia {
-      width: 285px;
+      width: 315px;
       height: 28px;
       float: right;
       text-align: center;
