@@ -8,7 +8,14 @@
         <meta name="author" content="">
         <script type="text/javascript">
         if(window.parent){
-        	parent.logged('{{ username }}');
+            {% if action == "login_signup" %}
+        	   parent.logged('{{ username }}');
+            {% else %}
+                {% if action == "save_styleboard" %}
+                    var msg = '{{ msg }}';                    
+                    parent.save_styleboard_success(msg);
+                {% endif %}
+            {% endif %}
         }
         </script>
 	</head>

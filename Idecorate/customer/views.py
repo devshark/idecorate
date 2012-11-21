@@ -64,6 +64,7 @@ def login_signup(request):
 					login(request, user)
 					profile = customer_profile(user)
 					info['username'] = profile['nickname']
+					info['action'] = 'login_signup'
 					return render_to_response('customer/iframe/success.html', info)
 				else:
 					messages.warning(request, _('Sorry you could not register at the moment. Please try again later.'))
@@ -113,6 +114,9 @@ def save_styleboard(request):
 			cleaned_datas['customer_styleboard'] = customer_styleboard				
 			res = save_styleboard_item(cleaned_datas)
 			request.session['customer_styleboard'] = res
+			info['action'] = 'save_styleboard'
+			info['msg'] =  _('Style board saved.')
+			return render_to_response('customer/iframe/success.html', info)
 	info['form'] = form
 	return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
 
