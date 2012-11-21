@@ -271,7 +271,8 @@ h5 {
           background: -moz-linear-gradient(top, #c3c97d, #98a138);
           /* for firefox 3.6+ */
           background: -o-linear-gradient(top, #c3c97d, #98a138); }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a#createTab:hover {
+        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li test
+        a#createTab:hover {
           *background-color: #727629;
           filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99a237', endColorstr='#727629',GradientType=0 );
           /* for IE */
@@ -508,7 +509,7 @@ h5 {
               font-size: 10px;
               margin: 10px 0 5px 0;
               text-align: center;
-              color: #000; }
+              color: #666; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em:hover img {
             outline: 2px solid #000; }
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab {
@@ -614,8 +615,7 @@ h5 {
       position: relative;
       overflow: hidden;
       border: 1px solid #FFF;
-      background-color: #FFF;
-      background: url("/media/images/canvasbg.jpg") center center no-repeat; }
+      background-color: #FFF; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .product {
         position: absolute;
         font-size: 0;
@@ -629,9 +629,7 @@ h5 {
         margin-left: 5px; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl {
           position: relative;
-          z-index: 99999;
-          zoom: 1;
-          opacity: 0.8; }
+          z-index: 99999; }
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl li a {
             display: block;
             width: 80px;
