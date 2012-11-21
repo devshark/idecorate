@@ -19,4 +19,5 @@ urlpatterns =  patterns('interface.views',
     url(r'^search_products/$', 'search_products', {}, name='search_products'),
     url(r'^generate_text/$', 'generate_text', {}, name='generate_text'),
     url(r'^generate_embellishment/$', 'generate_embellishment', {}, name='generate_embellishment'),
+    url(r'^styleboard/new$', 'new_styleboard', {}, name='new_styleboard'),
 )
