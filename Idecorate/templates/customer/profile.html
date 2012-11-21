@@ -52,7 +52,7 @@ section .create-wrap {
 {% endblock %}
 {% block content %}
 <section id="feature-wrap" class="clearfix">
-	<div class="user-profile">
+	<div class="clearfix user-profile">
 		<div class="picture-wrap">
 			{% if user_profile.picture %}
 			<img src="/media/{{ user_profile.picture }}" alt="" />
@@ -142,7 +142,7 @@ section .create-wrap {
 		</div>
 	</div>
 	{% else %}
-	<div class="create-wrap">
+	<div class="clearfix create-wrap">
 		<a href="{% url styleboard %}">Create New Style Board</a>
 	</div>	
 	{% endif %}
@@ -165,7 +165,7 @@ $(function(){
 			newHeight = windowH - headerH - footerH - 35;
 
 		$('#feature-wrap').height(newHeight);
-		
+
 	});
 
 	$('#feature-wrap').height(newHeight);

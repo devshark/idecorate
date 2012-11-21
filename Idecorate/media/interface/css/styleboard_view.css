@@ -73,6 +73,8 @@ aside {
     width: 90%;
     height: auto;
     padding: 15px; }
+    aside .styleboardDesc p {
+      margin: 10px 0; }
   aside h2 {
     width: 98%;
     font-weight: bold;
