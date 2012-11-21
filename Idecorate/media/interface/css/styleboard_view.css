@@ -92,7 +92,7 @@ aside {
           aside form div table tbody.tbody tr .productTD P {
             margin: 5px 0; }
       aside form div table tfoot tr td {
-        padding: 10px 0; }
+        padding: 10px 0 0 0; }
         aside form div table tfoot tr td .buyItem {
           cursor: pointer;
           float: right;
