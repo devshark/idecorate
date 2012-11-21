@@ -52,6 +52,7 @@ aside {
       height: auto;
       padding: 3px;
       margin: 5px 0 0 75px;
+      *margin: 5px 0 0 65px;
       color: #666666;
       text-decoration: none;
       cursor: pointer;
@@ -197,6 +198,7 @@ section {
         overflow: hidden;
         float: left;
         margin-left: 5px;
+        position: relative;
       }
 
       .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {

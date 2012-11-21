@@ -37,6 +37,7 @@ aside {
       height: auto;
       padding: 3px;
       margin: 5px 0 0 75px;
+      *margin: 5px 0 0 65px;
       color: #666666;
       text-decoration: none;
       cursor: pointer;
@@ -125,7 +126,8 @@ section {
         width: 110px;
         overflow: hidden;
         float: left;
-        margin-left: 5px; }
+        margin-left: 5px;
+        position: relative; }
       section .socialMediaWrapper .socialMedia .tumblerShare, section .socialMediaWrapper .socialMedia .twitterShare, section .socialMediaWrapper .socialMedia .pinterestShare, section .socialMediaWrapper .socialMedia .googleShare, section .socialMediaWrapper .socialMedia .email {
         width: auto;
         float: left;
