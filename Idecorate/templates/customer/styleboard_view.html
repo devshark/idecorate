@@ -119,12 +119,25 @@
 {% endblock %}
 {% block javascripts %}
 		<script type="text/javascript">
-			var windowSize = $(window).height();
-				headerSize = $('#header').outerHeight(true);
-				footerSize = $('#footer').outerHeight(true);
-				bodySize = windowSize - headerSize - footerSize;
-				
-			$('.viewWrapper').height(bodySize);
+		$(function(){
+		var windowSize = $(window).height();
+			headerSize = $('#header').outerHeight(true);
+			footerSize = $('#footer').outerHeight(true);
+			bodySize = windowSize - headerSize - footerSize - 15;
+
+			$(window).resize(function(){
+
+				var windowSize = $(window).height();
+					headerSize = $('#header').height();
+					footerSize = $('#footer').height();
+					bodySize = windowSize - headerSize - footerSize;
+
+					$('.viewWrapper').height(bodySize);			
+			});
+
+		$('.viewWrapper').height(bodySize);
+		});
+			
 		</script>
         <!-- Social Media Buttons -->
         <script src="http://platform.tumblr.com/v1/share.js"></script>
