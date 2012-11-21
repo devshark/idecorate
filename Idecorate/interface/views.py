@@ -541,3 +541,10 @@ def generate_embellishment(request):
 		bgImg.save(response, "PNG")
 
 	return response
+
+def new_styleboard(request):
+	try:
+		del request.session['customer_styleboard']
+	except:
+		pass
+	return redirect('styleboard')
