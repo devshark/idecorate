@@ -560,6 +560,7 @@ def new_styleboard(request):
 
 	return redirect('styleboard')
 
+@csrf_exempt
 def get_embellishment_items(request):
 	if request.is_ajax():
 		typ = request.POST['type']
