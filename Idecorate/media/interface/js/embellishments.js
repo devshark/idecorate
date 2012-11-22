@@ -16,6 +16,7 @@ var emb_ie8_current_page = 1;
 $(document).ready(function(){
 	$('#embelishments-list-wrap .emCat a').click(function(e){
         var url = $(this).attr('href');
+        $('#embellishments .breadcrumb-wrap').html('<ul class="breadcrumb"><li><a href="#">All</a></a></li><li>></li><li>'+$(this).find('span').text()+'</li></ul>');
         $.post(url,{type:$(this).attr('rel')},function(response_data){
         	var data = $.parseJSON(response_data.data);
 	        emb_total_product_count = response_data.product_counts;
@@ -23,9 +24,6 @@ $(document).ready(function(){
 	        emb_num_pages = response_data.num_pages;	        
             $.each(data,function(i,v){
             	var id = v.pk;
-            	// <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
-             //        <img alt="product 003" src="/media/products/img_default_10-Nov-16-04111353060682AM-2012_thumbnail.jpg">
-             //    </a>
              	var img_src_url = v.model == 'admin.embellishments'?EMB_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
                 var a = $('<a />');
                 a.attr('id','emb-'+id);
@@ -38,6 +36,13 @@ $(document).ready(function(){
                 a.appendTo('#embelishments-list-wrap .emItem');
             });
             $('#embelishments-list-wrap .emCat').hide();
+        });
+        $('#embellishments .breadcrumb-wrap a').bind('click',function(){
+            $('#embelishments-list-wrap .emCat').show();
+            $('#embelishments-list-wrap .emItem a').each(function(){
+                $(this).remove();
+            });
+            $('#embellishments .breadcrumb-wrap').html('');
         });
         e.preventDefault();
     });
