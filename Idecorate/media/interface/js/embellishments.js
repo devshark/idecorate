@@ -250,6 +250,7 @@ function manage_embellishment_resize(){
                 count_by_height = count_by_height-1;
 
             emb_item_per_page = count_by_width*count_by_height;
+
             emb_offset = emb_item_per_page;
             
             $('#embelishments-list-wrap .emItem a').each(function(i,v){
@@ -263,10 +264,10 @@ function manage_embellishment_resize(){
             if ( emb_total_pages < emb_current_page ){
                 emb_current_page = emb_total_pages;        
             }
-            if ( emb_total_item_count > emb_item_per_page ){
+            
+            //if ( emb_total_item_count > emb_item_per_page ){
                 if ( $('#embelishments-list-wrap .emItem a').length < emb_item_per_page ){
                     emb_next_page = emb_current_page;
-                    emb_offset = emb_item_per_page;
                     var url = emb_item_url + '?page='+emb_next_page+'&offset='+emb_offset;
                     $.ajax({
                         url: url,
@@ -291,9 +292,9 @@ function manage_embellishment_resize(){
                             emb_num_pages = response_data.num_pages;
                             var item_count = $('#embelishments-list-wrap .emItem a').length;
                             $.each(data,function(i,v){
-                                var id = v.pk;
-                                if ($('#emb-'+id).length==0){
-                                    if(item_count<emb_item_per_page){                                        
+                                var id = v.pk;                                
+                                if(item_count<emb_item_per_page){                                        
+                                    if ($('#emb-'+id).length==0){
                                         var img_src_url = v.model == 'admin.embellishments'?EMB_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
                                         var a = $('<a />');
                                         a.attr('id','emb-'+id);
@@ -305,9 +306,10 @@ function manage_embellishment_resize(){
                                         img.attr('src',img_src_url);
                                         img.appendTo(a);
                                         a.appendTo('#embelishments-list-wrap .emItem');
-                                    }                                
-                                    item_count++;
+                                        item_count++;
+                                    }
                                 }
+                                
                             });
                             manage_embellishment_pagination();
                             $('#embelishments-list-wrap .emCat').hide();
@@ -317,7 +319,7 @@ function manage_embellishment_resize(){
                         }
                     });
                 }
-            }
+            //}
             
             generate_embellishment_pagination();
         });
