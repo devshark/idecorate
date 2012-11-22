@@ -1579,3 +1579,15 @@ def admin_stat_user(request,id):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
 	else:
 		return redirect('admin_manage_users')
+
+@staff_member_required
+def admin_delete_user(request,id):
+	
+	User.objects.get(id=id).delete()
+
+	messages.success(request, _('User deleted.'))
+
+	if request.session.get('manage_users_redirect', False):
+		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
+	else:
+		return redirect('admin_manage_users')
