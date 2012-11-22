@@ -170,3 +170,10 @@ class SearchFontForm(forms.Form):
 
 class EditFontForm(UploadFontForm):
 	pass
+
+class SearchUsersForm(forms.Form):
+
+	nickname = forms.CharField(max_length=100,label=_("Nickname"), required=False)
+	email = forms.CharField(max_length=100,label=_("Email"), required=False)
+	u_type = forms.ChoiceField(label=_("Type"), choices=(('any','Any'),('1','Admin'),('0','Member'),), required=False,widget=forms.Select)
+	status = forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('1','Active'),('0','Inactive'),), required=False,widget=forms.Select)
