@@ -35,6 +35,8 @@
             var mode_toggle_tab             = false;
             var save_styleboard_action      = false;
             var logined                     = {% if user.is_authenticated %}true{% else %}false{% endif %};
+            var TEXT_IMG_GEN_URL            = '{% url generate_text %}';
+            var EMB_IMG_GEN_URL             = '{% url generate_embellishment %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -196,36 +198,36 @@
                                             </fieldset>
                                         </form>
                                     </div>
-                                    <div class="breadcrumb"></div>
+                                    <div class="breadcrumb-wrap"></div>
                                     <div id="embelishments-list-wrap" class="clearfix">
                                         <div class="emCat">
-                                            <a href="controller/image" class="image em">
+                                            <a href="{% url get_embellishment_items %}" rel="1" class="image em">
                                                 <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg" />
                                                 <span>Image</span>
                                             </a>
-                                            <a href="controller/text" class="text em">
+                                            <a href="{% url get_embellishment_items %}" rel="text" class="text em">
                                                 <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/text.png" />
                                                 <span>Text</span>
                                             </a>
-                                            <a href="controller/border" class="border em">
+                                            <a href="{% url get_embellishment_items %}" rel="5" class="border em">
                                                 <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/border.png" />
                                                 <span>Border</span>
                                             </a>
-                                            <a href="controller/shape" class="shape em">
+                                            <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
                                                 <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/shape.gif" />
                                                 <span>Shapes</span>
                                             </a>
-                                            <a href="controller/texture" class="texture em">
+                                            <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
                                                 <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg" />
                                                 <span>Textures</span>
                                             </a>
-                                            <a href="controller/pattern" class="pattern em">
+                                            <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
                                                 <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg" />
                                                 <span>Patterns</span>
                                             </a>
                                         </div>
                                         <div class="emItem">
-                                            <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
+                                            <!-- <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
                                                 <img alt="product 003" src="/media/products/img_default_10-Nov-16-04111353060682AM-2012_thumbnail.jpg">
                                             </a>
                                             <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
@@ -239,7 +241,7 @@
                                             </a>
                                             <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
                                                 <img alt="product 003" src="/media/products/img_default_10-Nov-16-04111353060682AM-2012_thumbnail.jpg">
-                                            </a>
+                                            </a> -->
                                         </div>
                                     </div>
                                     <div class="pagination"></div>
@@ -412,6 +414,8 @@
 <script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/media/interface/js/product_category.js"></script>
+<!--Embellishments -->
+<script type="text/javascript" src="/media/interface/js/embellishments.js"></script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="/media/interface/js/jquery.app.em.js"></script>

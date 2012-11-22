@@ -20,4 +20,6 @@ urlpatterns =  patterns('interface.views',
     url(r'^generate_text/$', 'generate_text', {}, name='generate_text'),
     url(r'^generate_embellishment/$', 'generate_embellishment', {}, name='generate_embellishment'),
     url(r'^styleboard/new$', 'new_styleboard', {}, name='new_styleboard'),
+    url(r'^styleboard/embellishment_items$', 'get_embellishment_items', {}, name='get_embellishment_items'),
+    
 )
