@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -1423,6 +1423,7 @@ def admin_manage_users(request):
 	info = {}
 
 	form = SearchUsersForm()
+	edit_form = EditUsersForm()
 	initial_form = {}
 
 	order_by = request.GET.get('order_by','last_login')
@@ -1436,6 +1437,10 @@ def admin_manage_users(request):
 	else:
 		if sort_type == 'desc':
 			s_type = "-%s" % order_by
+
+	if 'mu_errors' in request.session:
+		info['mu_errors'] = request.session.get('mu_errors')
+		del request.session['mu_errors']
 
 	users = User.objects.filter().order_by(s_type)
 	other_params_dict = {}
@@ -1555,6 +1560,7 @@ def admin_manage_users(request):
 	info['other_params'] = other_params
 	info['form'] = form
 	info['users'] = users
+	info['edit_form'] = edit_form
 
 	return render_to_response('admin/admin_manage_users.html',info,RequestContext(request))
 
@@ -1586,6 +1592,42 @@ def admin_delete_user(request,id):
 	User.objects.get(id=id).delete()
 
 	messages.success(request, _('User deleted.'))
+
+	if request.session.get('manage_users_redirect', False):
+		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
+	else:
+		return redirect('admin_manage_users')
+
+
+@staff_member_required
+def admin_edit_user(request):
+	
+	#user = User.objects.get(id=id)
+
+	if request.method == "POST":
+		form = EditUsersForm(request.POST, user_id=request.POST.get('u_id'))
+
+		if form.is_valid():
+
+			user = User.objects.get(id=int(form.cleaned_data['u_id']))
+			user.username = form.cleaned_data['email']
+			user.is_staff = bool(int(form.cleaned_data['u_type']))
+			user.is_active = bool(int(form.cleaned_data['status']))
+			user.save()
+
+			try:
+				prof = CustomerProfile.objects.get(user=user)
+				prof.nickname = form.cleaned_data['nickname']
+				prof.save()
+			except:
+				prof = CustomerProfile()
+				prof.nickname = form.cleaned_data['nickname']
+				prof.user = user
+				prof.save()
+
+			messages.success(request, _('Changes Saved.'))
+		else:
+			request.session['mu_errors'] = form['u_id'].errors + form['nickname'].errors + form['email'].errors + form['u_type'].errors + form['status'].errors
 
 	if request.session.get('manage_users_redirect', False):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])

@@ -6,6 +6,7 @@ from django.utils.safestring import mark_safe
 from cart.models import Product
 from django.utils.html import strip_tags
 import re
+from django.contrib.auth.models import User
 
 class MenuAddForm(forms.Form):
 	menu_type = forms.CharField(label=_("Menu Type"), widget=forms.HiddenInput, required=False)
@@ -177,3 +178,32 @@ class SearchUsersForm(forms.Form):
 	email = forms.CharField(max_length=100,label=_("Email"), required=False)
 	u_type = forms.ChoiceField(label=_("Type"), choices=(('any','Any'),('1','Admin'),('0','Member'),), required=False,widget=forms.Select)
 	status = forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('1','Active'),('0','Inactive'),), required=False,widget=forms.Select)
+
+class EditUsersForm(forms.Form):
+
+	u_id = forms.CharField(label=_("ID"), widget=forms.HiddenInput, required=True, error_messages={'required':_('User ID is a required field.')})
+	nickname = forms.CharField(max_length=100,label=_("Nickname"), required=True, error_messages={'required':_('Nickname is a required field.')})
+	email = forms.EmailField(max_length=100,label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email.'),'required':_('Email is a required field.')})
+	u_type = forms.ChoiceField(label=_("Type"), choices=(('1','Admin'),('0','Member'),), required=True,widget=forms.Select, error_messages={'required':_('Type is a required field.')})
+	status = forms.ChoiceField(label=_("Status"), choices=(('1','Active'),('0','Inactive'),), required=True,widget=forms.Select, error_messages={'required':_('Status is a required field.')})
+
+	def __init__(self, *args, **kwargs):
+		self.user_id = kwargs.pop('user_id',None)
+		super(EditUsersForm, self).__init__(*args, **kwargs)
+
+	def clean_email(self):
+
+		email = self.cleaned_data['email']
+		current_user = User.objects.get(id=self.user_id)
+
+		if current_user.username != email:
+
+			try:
+				user = User.objects.get(username=email)
+			except Exception as e:
+				user = None
+
+			if user:
+				raise forms.ValidationError(_("Email must be unique."))			
+
+		return email
