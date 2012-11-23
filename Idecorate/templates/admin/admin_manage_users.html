@@ -38,16 +38,16 @@
           {% csrf_token %}
           {{ edit_form.u_id }}
               <div class="control-group">
-                <label class="control-label">{{ edit_form.nickname.label }} *</label>
+                <label class="control-label">{{ edit_form.email.label }} *</label>
                 <div class="controls">
-                  {{ edit_form.nickname|add_class:"input-large"|attr:"placeholder:Enter Nickname" }}
+                  {{ edit_form.email|add_class:"input-large"|attr:"placeholder:Enter Email" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">{{ edit_form.email.label }} *</label>
+                <label class="control-label">{{ edit_form.nickname.label }} *</label>
                 <div class="controls">
-                  {{ edit_form.email|add_class:"input-large"|attr:"placeholder:Enter Email" }}
+                  {{ edit_form.nickname|add_class:"input-large"|attr:"placeholder:Enter Nickname" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
@@ -111,10 +111,10 @@
       <form class="form-inline" action="{% url admin_manage_users %}" method="post">
         {% csrf_token %}
         <label class="checkbox">
-          {{ form.nickname|add_class:"input-large"|attr:"placeholder:Nickname" }}
+          {{ form.email|add_class:"input-large"|attr:"placeholder:Email" }}
         </label>
         <label class="checkbox">
-          {{ form.email|add_class:"input-large"|attr:"placeholder:Email" }}
+          {{ form.nickname|add_class:"input-large"|attr:"placeholder:Nickname" }}
         </label>
         <label class="checkbox">
             {% trans "Type: " %}
