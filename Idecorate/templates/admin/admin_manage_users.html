@@ -62,7 +62,7 @@
                 <label class="control-label">{{ edit_form.status.label }} *</label>
                 <div class="controls">
                   {{ edit_form.status|add_class:"input-large" }}
-                  <span class="help-block">&nbsp;</span>
+                  <span class="help-block">{% trans "Deactivated users will no longer be able to login." %}</span>
                 </div>
               </div>
         </form>

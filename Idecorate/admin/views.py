@@ -1569,17 +1569,20 @@ def admin_stat_user(request,id):
 	
 	user = User.objects.get(id=id)
 	retStat = ""
+	retStat2 = ""
 
 	if user.is_active:
 		user.is_active = False
 		retStat = "Deactivated"
+		retStat2 = " Deactivated users will no longer be able to login."
 	else:
 		user.is_active = True
 		retStat = "Activated"
+		retStat2 = ""
 
 	user.save()
 
-	messages.success(request, _('User %s.' % retStat))
+	messages.success(request, _('User %s.%s' % (retStat,retStat2)))
 
 	if request.session.get('manage_users_redirect', False):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
