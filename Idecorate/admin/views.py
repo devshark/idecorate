@@ -27,7 +27,7 @@ from django.http import QueryDict
 import urllib #urlencode
 from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
-from customer.models import CustomerProfile
+from customer.models import CustomerProfile, CustomerStyleBoard
 
 @staff_member_required
 def admin(request):
@@ -1427,7 +1427,7 @@ def admin_manage_users(request):
 	initial_form = {}
 
 	order_by = request.GET.get('order_by','last_login')
-	sort_type = request.GET.get('sort_type','asc')
+	sort_type = request.GET.get('sort_type','desc')
 	s_type = order_by
 
 
@@ -1569,17 +1569,20 @@ def admin_stat_user(request,id):
 	
 	user = User.objects.get(id=id)
 	retStat = ""
+	retStat2 = ""
 
 	if user.is_active:
 		user.is_active = False
 		retStat = "Deactivated"
+		retStat2 = " Deactivated users will no longer be able to login."
 	else:
 		user.is_active = True
 		retStat = "Activated"
+		retStat2 = ""
 
 	user.save()
 
-	messages.success(request, _('User %s.' % retStat))
+	messages.success(request, _('User %s.%s' % (retStat,retStat2)))
 
 	if request.session.get('manage_users_redirect', False):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
@@ -1588,10 +1591,18 @@ def admin_stat_user(request,id):
 
 @staff_member_required
 def admin_delete_user(request,id):
-	
-	User.objects.get(id=id).delete()
 
-	messages.success(request, _('User deleted.'))
+	try:
+		customerStyleBoard = CustomerStyleBoard.objects.get(user__id=int(id))
+	except:
+		customerStyleBoard = None
+
+	if customerStyleBoard:
+		request.session['mu_errors'] = [_('You cannot delete an active user.')]
+	else:
+		User.objects.get(id=id).delete()
+
+		messages.success(request, _('User deleted.'))
 
 	if request.session.get('manage_users_redirect', False):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])

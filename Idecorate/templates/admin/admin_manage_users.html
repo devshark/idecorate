@@ -38,16 +38,16 @@
           {% csrf_token %}
           {{ edit_form.u_id }}
               <div class="control-group">
-                <label class="control-label">{{ edit_form.nickname.label }} *</label>
+                <label class="control-label">{{ edit_form.email.label }} *</label>
                 <div class="controls">
-                  {{ edit_form.nickname|add_class:"input-large"|attr:"placeholder:Enter Nickname" }}
+                  {{ edit_form.email|add_class:"input-large"|attr:"placeholder:Enter Email" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">{{ edit_form.email.label }} *</label>
+                <label class="control-label">{{ edit_form.nickname.label }} *</label>
                 <div class="controls">
-                  {{ edit_form.email|add_class:"input-large"|attr:"placeholder:Enter Email" }}
+                  {{ edit_form.nickname|add_class:"input-large"|attr:"placeholder:Enter Nickname" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
@@ -62,7 +62,7 @@
                 <label class="control-label">{{ edit_form.status.label }} *</label>
                 <div class="controls">
                   {{ edit_form.status|add_class:"input-large" }}
-                  <span class="help-block">&nbsp;</span>
+                  <span class="help-block">{% trans "Deactivated users will no longer be able to login." %}</span>
                 </div>
               </div>
         </form>
@@ -111,10 +111,10 @@
       <form class="form-inline" action="{% url admin_manage_users %}" method="post">
         {% csrf_token %}
         <label class="checkbox">
-          {{ form.nickname|add_class:"input-large"|attr:"placeholder:Nickname" }}
+          {{ form.email|add_class:"input-large"|attr:"placeholder:Email" }}
         </label>
         <label class="checkbox">
-          {{ form.email|add_class:"input-large"|attr:"placeholder:Email" }}
+          {{ form.nickname|add_class:"input-large"|attr:"placeholder:Nickname" }}
         </label>
         <label class="checkbox">
             {% trans "Type: " %}
@@ -133,9 +133,9 @@
         <thead>
           <th><span class="tbtitle">Email</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ username_asc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ username_desc_link }}">∇</a></span></th>
           <th>Nickname</th>
-          <th><span class="tbtitle">Type</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ type_asc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ type_desc_link }}">∇</a></span></th>
+          <th><span class="tbtitle">Type</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ type_desc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ type_asc_link }}">∇</a></span></th>
           <th><span class="tbtitle">Status</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ status_desc_link }}">∇</a></span></th>
-          <th><span class="tbtitle">Last Activity</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ act_asc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ act_desc_link }}">∇</a></span></th>
+          <th><span class="tbtitle">Last Activity</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ act_desc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ act_asc_link }}">∇</a></span></th>
           <th style="width:155px;">Operations</th>
         </thead>
 
@@ -203,8 +203,14 @@
 
     $('.mod_btn').click(function(e){
 
+      var deact = ""
+
+      if($(this).text() == 'Deactivate') {
+        deact = 'Deactivated users will no longer be able to login. ';
+      }
+
       $('#myModal1Label').text($(this).text() + ' User');
-      $('.modal-body > p').text('Are you sure you want to ' + $(this).text().toLowerCase() + ' this user?');
+      $('.modal-body > p').text(deact + 'Are you sure you want to ' + $(this).text().toLowerCase() + ' this user?');
       $('#user_btn').text($(this).text());
 
     });
