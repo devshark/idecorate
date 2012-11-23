@@ -1427,7 +1427,7 @@ def admin_manage_users(request):
 	initial_form = {}
 
 	order_by = request.GET.get('order_by','last_login')
-	sort_type = request.GET.get('sort_type','asc')
+	sort_type = request.GET.get('sort_type','desc')
 	s_type = order_by
 
 
