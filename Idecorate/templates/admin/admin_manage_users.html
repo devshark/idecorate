@@ -203,8 +203,14 @@
 
     $('.mod_btn').click(function(e){
 
+      var deact = ""
+
+      if($(this).text() == 'Deactivate') {
+        deact = 'Deactivated users will no longer be able to login. ';
+      }
+
       $('#myModal1Label').text($(this).text() + ' User');
-      $('.modal-body > p').text('Are you sure you want to ' + $(this).text().toLowerCase() + ' this user?');
+      $('.modal-body > p').text(deact + 'Are you sure you want to ' + $(this).text().toLowerCase() + ' this user?');
       $('#user_btn').text($(this).text());
 
     });

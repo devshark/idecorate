@@ -27,7 +27,7 @@ from django.http import QueryDict
 import urllib #urlencode
 from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
-from customer.models import CustomerProfile
+from customer.models import CustomerProfile, CustomerStyleBoard
 
 @staff_member_required
 def admin(request):
@@ -1591,10 +1591,18 @@ def admin_stat_user(request,id):
 
 @staff_member_required
 def admin_delete_user(request,id):
-	
-	User.objects.get(id=id).delete()
 
-	messages.success(request, _('User deleted.'))
+	try:
+		customerStyleBoard = CustomerStyleBoard.objects.get(user__id=int(id))
+	except:
+		customerStyleBoard = None
+
+	if customerStyleBoard:
+		request.session['mu_errors'] = [_('You cannot delete an active user.')]
+	else:
+		User.objects.get(id=id).delete()
+
+		messages.success(request, _('User deleted.'))
 
 	if request.session.get('manage_users_redirect', False):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
