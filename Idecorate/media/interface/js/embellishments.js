@@ -20,13 +20,14 @@ $(document).ready(function(){
         $('#embellishments .pagination').show();
         emb_item_url = $(this).attr('href');
         $('#embellishments .breadcrumb-wrap').html('<ul class="breadcrumb"><li><a href="#">All</a></a></li><li>></li><li>'+$(this).find('span').text()+'</li></ul>');
-        $('#embellishments .breadcrumb-wrap a').bind('click',function(){
+        $('#embellishments .breadcrumb-wrap a').bind('click',function(e){
             $('#embelishments-list-wrap .emCat').show();
             $('#embelishments-list-wrap .emItem a').each(function(){
                 $(this).remove();
             });
             $('#embellishments .breadcrumb-wrap').html('');
             $('#embellishments .pagination').hide();
+            e.preventDefault();
         });
         emb_type = $(this).attr('rel');
         get_embellishment_items();
