@@ -180,7 +180,6 @@ $(document).ready(function () {
             //set center coordinated for rotate plugin
             set_ctr_attr($(this));
 
-
             //track event
             eventTracker($(this),'move');
 
