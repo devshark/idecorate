@@ -23,7 +23,7 @@ from django.core.urlresolvers import reverse
 import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
-from admin.models import TextFonts, Embellishments
+from admin.models import TextFonts, Embellishments, EmbellishmentsType
 
 def home(request):
 	info = {}
@@ -579,11 +579,12 @@ def get_embellishment_items(request):
 				embellishments = paginator.page(paginator.num_pages)
 
 			json_embellishments = serializers.serialize("json", embellishments, fields=('id','description'))
-			reponse_data = {}
-			reponse_data['data'] = json_embellishments
-			reponse_data['page_number'] = embellishments.number
-			reponse_data['num_pages'] = embellishments.paginator.num_pages
-			reponse_data['product_counts'] = item_counts
+			response_data = {}
+			response_data['data'] = json_embellishments
+			response_data['page_number'] = embellishments.number
+			response_data['num_pages'] = embellishments.paginator.num_pages
+			response_data['product_counts'] = item_counts
+			response_data['type'] = EmbellishmentsType.objects.get(id=typ).name
 		else:
 			text_items = TextFonts.objects.filter(is_active=True, is_deleted=False)			
 			text_counts = text_items.count()
@@ -597,13 +598,14 @@ def get_embellishment_items(request):
 				texts = paginator.page(paginator.num_pages)
 
 			json_data = serializers.serialize("json", texts, fields=('id','description'))
-			reponse_data = {}
-			reponse_data['data'] = json_data
-			reponse_data['page_number'] = texts.number
-			reponse_data['num_pages'] = texts.paginator.num_pages
-			reponse_data['product_counts'] = text_counts
+			response_data = {}
+			response_data['data'] = json_data
+			response_data['page_number'] = texts.number
+			response_data['num_pages'] = texts.paginator.num_pages
+			response_data['product_counts'] = text_counts
+			response_data['type'] = 'Text'
 
-		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+		return HttpResponse(simplejson.dumps(response_data), mimetype="application/json")
 
 	else:
 		return HttpResponseNotFound()
