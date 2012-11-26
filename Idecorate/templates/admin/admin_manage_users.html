@@ -1,0 +1,234 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin bootstrap_pagination humanize %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<style type="text/css">
+</style>
+{% endblock %}
+
+{% block content %}
+
+          <div id="myModal1" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModal1Label" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModal1Label">&nbsp;</h3>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure?</p>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal">Close</button>
+              <button class="btn btn-primary" id="user_btn">&nbsp;</button>
+            </div>
+          </div>
+
+
+          <div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button id="edit_close2" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">{% trans "Edit User" %}</h3>
+            </div>
+            <div class="modal-body">
+        <form class="form-horizontal" action="{% url admin_edit_user %}" method="post" id="user_edit">
+          {% csrf_token %}
+          {{ edit_form.u_id }}
+              <div class="control-group">
+                <label class="control-label">{{ edit_form.email.label }} *</label>
+                <div class="controls">
+                  {{ edit_form.email|add_class:"input-large"|attr:"placeholder:Enter Email" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ edit_form.nickname.label }} *</label>
+                <div class="controls">
+                  {{ edit_form.nickname|add_class:"input-large"|attr:"placeholder:Enter Nickname" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ edit_form.u_type.label }} *</label>
+                <div class="controls">
+                  {{ edit_form.u_type|add_class:"input-large" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ edit_form.status.label }} *</label>
+                <div class="controls">
+                  {{ edit_form.status|add_class:"input-large" }}
+                  <span class="help-block">{% trans "Deactivated users will no longer be able to login." %}</span>
+                </div>
+              </div>
+        </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal" id="edit_close">Close</button>
+              <button class="btn btn-primary" id="edit_save">Save changes</button>
+            </div>
+          </div>
+
+	<h1>{% trans "Manage Users" %}</h1>
+	<div>&nbsp;</div>
+
+      {% if messages %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %}
+
+
+
+      {% if mu_errors  %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for mu_error in mu_errors %}
+            <li>{{ mu_error }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+
+      {% endif %} 
+
+
+      <h3 style="font-weight:normal;">{% trans "Show only users where" %}</h3>
+      <hr />
+
+      <form class="form-inline" action="{% url admin_manage_users %}" method="post">
+        {% csrf_token %}
+        <label class="checkbox">
+          {{ form.email|add_class:"input-large"|attr:"placeholder:Email" }}
+        </label>
+        <label class="checkbox">
+          {{ form.nickname|add_class:"input-large"|attr:"placeholder:Nickname" }}
+        </label>
+        <label class="checkbox">
+            {% trans "Type: " %}
+            {{ form.u_type|add_class:"input-large" }}
+        </label>
+        <label class="checkbox">
+            {% trans "Status: " %}
+            {{ form.status|add_class:"input-large" }}
+        </label>
+          <button type="submit" class="btn btn-primary">Apply</button>
+      </form>
+
+      <hr />
+
+      <table class="table table-bordered table-hover">
+        <thead>
+          <th><span class="tbtitle">Email</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ username_asc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ username_desc_link }}">∇</a></span></th>
+          <th>Nickname</th>
+          <th><span class="tbtitle">Type</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ type_desc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ type_asc_link }}">∇</a></span></th>
+          <th><span class="tbtitle">Status</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ status_desc_link }}">∇</a></span></th>
+          <th><span class="tbtitle">Last Activity</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ act_desc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ act_asc_link }}">∇</a></span></th>
+          <th style="width:155px;">Operations</th>
+        </thead>
+
+        {% if users %}
+        <tbody>
+          {% for user in users %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>{{ user|getUserNickname }}</td>
+            <td>{{ user|getUserType }}</td>
+            <td>{{ user|getUserStatus }}</td>
+            <td>{{ user|getUserActivity }}</td>
+            <td><a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.id }}','{{ user|getUserNickname }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+        {% endif %}
+      </table>
+
+      {% bootstrap_paginate users url_get_params=other_params %}
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+  globalUrl = "";
+
+
+  function setGlobalURL(url) {
+    globalURL = url;
+  }
+
+  function goToPage() {
+    document.location = globalURL;
+  }
+
+  function setEdit(id, nickname, email, type, status) {
+
+    $('#id_nickname').val(nickname);
+    $('#id_email').val(email);
+
+    if(type == 'Admin') {
+
+      $('#id_u_type [value="1"]').attr('selected',true);
+
+    } else {
+      $('#id_u_type [value="0"]').attr('selected',true);
+    }
+
+    if(status == 'Active') {
+      $('#id_status [value="1"]').attr('selected',true);
+    } else {
+      $('#id_status [value="0"]').attr('selected',true);
+    }
+
+    $('#id_u_id').val(id);
+
+  }
+
+
+  $(function(e){
+
+    $('#user_btn').click(function(e){
+      goToPage();
+    });
+
+    $('.mod_btn').click(function(e){
+
+      var deact = ""
+
+      if($(this).text() == 'Deactivate') {
+        deact = 'Deactivated users will no longer be able to login. ';
+      }
+
+      $('#myModal1Label').text($(this).text() + ' User');
+      $('.modal-body > p').text(deact + 'Are you sure you want to ' + $(this).text().toLowerCase() + ' this user?');
+      $('#user_btn').text($(this).text());
+
+    });
+
+    $('.del_btn').click(function(e){
+
+      $('#myModal1Label').text('Delete User');
+      $('.modal-body > p').text('Are you sure you want to delete this user?');
+      $('#user_btn').text('Delete');
+
+    });
+
+    $('#edit_save').click(function(e){
+
+      $('#user_edit').submit();
+
+    });
+
+  });
+</script>
+{% endblock %}

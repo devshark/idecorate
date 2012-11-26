@@ -99,6 +99,10 @@ aside {
     width: 90%;
     height: auto;
     padding: 15px;
+
+    p {
+      margin: 10px 0;
+    }
   }
 
   h2 {
@@ -169,7 +173,7 @@ aside {
 
 section {
   width: 69%;
-  height: 100%;
+  height: auto;
   margin-left: 10px;
 
   .canvass {

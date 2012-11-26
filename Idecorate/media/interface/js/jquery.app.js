@@ -914,10 +914,22 @@ function get_product_object_json(){
     for (var i in product_objects){
         var x = product_objects[i].zindex;
         //product_objects[x] = product_objects[i];
-        product_array[x] = product_objects[i];
-    }
-    product_array.sort()
+        product_array[x-1] = product_objects[i];
+    }    
+    keys(product_array).sort();
     return product_array;
+}
+
+function keys(obj){
+    var keys = [];
+    for(var key in obj)
+    {
+        if(obj.hasOwnProperty(key))
+        {
+            keys.push(key);
+        }
+    }
+    return keys;
 }
 
 function setProductPositions(func) {

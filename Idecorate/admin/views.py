@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -26,6 +26,8 @@ from django.core.urlresolvers import reverse
 from django.http import QueryDict
 import urllib #urlencode
 from idecorate_settings.models import IdecorateSettings
+from django.contrib.auth.models import User
+from customer.models import CustomerProfile, CustomerStyleBoard
 
 @staff_member_required
 def admin(request):
@@ -1415,3 +1417,230 @@ def admin_edit_font(request, t_id):
 
     info['form'] = form
     return render_to_response('admin/admin_edit_font.html',info,RequestContext(request))
+
+@staff_member_required
+def admin_manage_users(request):
+	info = {}
+
+	form = SearchUsersForm()
+	edit_form = EditUsersForm()
+	initial_form = {}
+
+	order_by = request.GET.get('order_by','last_login')
+	sort_type = request.GET.get('sort_type','desc')
+	s_type = order_by
+
+
+	if order_by == 'is_active':
+		if sort_type == 'asc':
+			s_type = "-%s" % order_by
+	else:
+		if sort_type == 'desc':
+			s_type = "-%s" % order_by
+
+	if 'mu_errors' in request.session:
+		info['mu_errors'] = request.session.get('mu_errors')
+		del request.session['mu_errors']
+
+	users = User.objects.filter().order_by(s_type)
+	other_params_dict = {}
+
+	if request.method == "POST":
+		form = SearchUsersForm(request.POST)
+		nickname = request.POST.get('nickname','')
+		email = request.POST.get('email','')
+		u_type = request.POST.get('u_type','')
+		status = request.POST.get('status','')
+
+	else:
+		nickname = request.GET.get('nickname','')
+		email = request.GET.get('email','')
+		u_type = request.GET.get('u_type','')
+		status = request.GET.get('status','')
+
+		if nickname:
+			initial_form.update({'nickname':nickname})
+
+		if email:
+			initial_form.update({'email':email})
+
+		if u_type:
+			initial_form.update({'u_type':u_type})
+
+		if status:
+			initial_form.update({'status':status})
+
+		form = SearchUsersForm(initial=initial_form)
+
+	q = None
+
+	if nickname:
+
+		other_params_dict.update({'nickname':nickname})
+		customerProfiles = CustomerProfile.objects.filter(nickname__icontains=nickname)
+		cList = [int(customerProfile.user.id) for customerProfile in customerProfiles]
+
+		if q is not None:
+			q.add(Q(id__in=cList), Q.AND)
+		else:
+			q = Q(id__in=cList)
+
+	if email:
+
+		other_params_dict.update({'email':email})
+
+		if q is not None:
+			q.add(Q(username__icontains=email), Q.AND)
+
+		else:
+			q = Q(username__icontains=email)
+
+	if u_type:
+		if u_type != "any":
+			other_params_dict.update({'u_type':u_type})
+			if q is not None:
+				q.add(Q(is_staff=bool(int(u_type))), Q.AND)
+			else:
+				q = Q(is_staff=bool(int(u_type)))
+
+	if status:
+		if status != "any":
+			other_params_dict.update({'status':status})
+			if q is not None:
+				q.add(Q(is_active=bool(int(status))), Q.AND)
+			else:
+				q = Q(is_active=bool(int(status)))
+
+	if q is not None:
+		users = users.filter(q).order_by(s_type)
+
+	other_params_dict.update({'order_by':order_by, 'sort_type':sort_type})
+	other_params = QueryDict(urllib.urlencode(other_params_dict))
+
+	paginator = Paginator(users, 25)
+	page = request.GET.get('page','')
+
+	request.session['manage_users_redirect'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	other_params_dict['order_by'] = 'username'
+	other_params_dict['sort_type'] = 'asc'
+	info['username_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	other_params_dict['sort_type'] = 'desc'
+	info['username_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	other_params_dict['order_by'] = 'is_active'
+	other_params_dict['sort_type'] = 'asc'
+	info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	other_params_dict['sort_type'] = 'desc'
+	info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	other_params_dict['order_by'] = 'is_staff'
+	other_params_dict['sort_type'] = 'asc'
+	info['type_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	other_params_dict['sort_type'] = 'desc'
+	info['type_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	other_params_dict['order_by'] = 'last_login'
+	other_params_dict['sort_type'] = 'asc'
+	info['act_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	other_params_dict['sort_type'] = 'desc'
+	info['act_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(other_params_dict))
+
+	try:
+		users = paginator.page(page)
+	except PageNotAnInteger:
+		users = paginator.page(1)
+	except EmptyPage:
+		users = paginator.page(paginator.num_pages)
+
+	info['other_params'] = other_params
+	info['form'] = form
+	info['users'] = users
+	info['edit_form'] = edit_form
+
+	return render_to_response('admin/admin_manage_users.html',info,RequestContext(request))
+
+@staff_member_required
+def admin_stat_user(request,id):
+	
+	user = User.objects.get(id=id)
+	retStat = ""
+	retStat2 = ""
+
+	if user.is_active:
+		user.is_active = False
+		retStat = "Deactivated"
+		retStat2 = " Deactivated users will no longer be able to login."
+	else:
+		user.is_active = True
+		retStat = "Activated"
+		retStat2 = ""
+
+	user.save()
+
+	messages.success(request, _('User %s.%s' % (retStat,retStat2)))
+
+	if request.session.get('manage_users_redirect', False):
+		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
+	else:
+		return redirect('admin_manage_users')
+
+@staff_member_required
+def admin_delete_user(request,id):
+
+	try:
+		customerStyleBoard = CustomerStyleBoard.objects.get(user__id=int(id))
+	except:
+		customerStyleBoard = None
+
+	if customerStyleBoard:
+		request.session['mu_errors'] = [_('You cannot delete an active user.')]
+	else:
+		User.objects.get(id=id).delete()
+
+		messages.success(request, _('User deleted.'))
+
+	if request.session.get('manage_users_redirect', False):
+		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
+	else:
+		return redirect('admin_manage_users')
+
+
+@staff_member_required
+def admin_edit_user(request):
+	
+	#user = User.objects.get(id=id)
+
+	if request.method == "POST":
+		form = EditUsersForm(request.POST, user_id=request.POST.get('u_id'))
+
+		if form.is_valid():
+
+			user = User.objects.get(id=int(form.cleaned_data['u_id']))
+			user.username = form.cleaned_data['email']
+			user.is_staff = bool(int(form.cleaned_data['u_type']))
+			user.is_active = bool(int(form.cleaned_data['status']))
+			user.save()
+
+			try:
+				prof = CustomerProfile.objects.get(user=user)
+				prof.nickname = form.cleaned_data['nickname']
+				prof.save()
+			except:
+				prof = CustomerProfile()
+				prof.nickname = form.cleaned_data['nickname']
+				prof.user = user
+				prof.save()
+
+			messages.success(request, _('Changes Saved.'))
+		else:
+			request.session['mu_errors'] = form['u_id'].errors + form['nickname'].errors + form['email'].errors + form['u_type'].errors + form['status'].errors
+
+	if request.session.get('manage_users_redirect', False):
+		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
+	else:
+		return redirect('admin_manage_users')
