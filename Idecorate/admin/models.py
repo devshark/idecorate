@@ -38,7 +38,6 @@ class Embellishments(models.Model):
 		ordering = ["id"]
 		verbose_name = _("Embellishments")
 
-
 class TextFonts(models.Model):
 	id = models.AutoField(db_column='ID', primary_key=True)
 	is_active = models.BooleanField(db_column="is_active", default=True)
