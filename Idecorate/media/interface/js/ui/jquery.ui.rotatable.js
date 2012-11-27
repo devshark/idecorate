@@ -90,7 +90,7 @@
                 stop: function(e,ui){
                     cancelBubble(e);
                     $rotatable.removeClass('ui-rotating');
-
+                    eventTracker($rotatable,'rotate');
                 }
             });
         };
