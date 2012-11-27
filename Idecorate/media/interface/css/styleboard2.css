@@ -723,6 +723,28 @@ h5 {
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgBgControlWrap .imgBgControl li + li,
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgBgControlWrap .imgBgControl li + li + li {
             padding-top: 0; }
+        #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment {
+          margin-top: 5px; }
+          #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #color-picker-wrap {
+            float: left;
+            width: 10%; }
+          #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #opacity-control-wrap {
+            float: right;
+            width: 87%;
+            margin-right: 8px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #opacity-control-wrap .opacity-control-label {
+              margin-bottom: 3px;
+              font-size: 11px;
+              color: #000000;
+              text-align: center; }
+              #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #opacity-control-wrap .opacity-control-label .subtract {
+                display: block;
+                float: left; }
+              #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #opacity-control-wrap .opacity-control-label .add {
+                display: block;
+                float: right; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #opacity-control-wrap #slider {
+              z-index: 9999; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas #object-counter {
         background-color: #DA9B94;
         position: absolute;
