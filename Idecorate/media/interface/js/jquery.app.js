@@ -211,6 +211,8 @@ $(document).ready(function () {
 
                 //set center coordinated for rotate plugin
                 set_ctr_attr($('.selected'));
+                //set handles direction 
+                change_cursor($('.selected').attr('_handle'));
             }
             
             handled = true; 
@@ -270,6 +272,8 @@ $(document).ready(function () {
                 
                 //set center coordinated for rotate plugin
                 set_ctr_attr($('.selected'));
+                //set handles direction 
+                change_cursor($('.selected').attr('_handle'));
             }
             cancelBubble(e);
 
@@ -628,6 +632,8 @@ function create_instance_embellishments(em_dbID,event,type){
         }
         slideValue = 100;
         embellishment_handle_set(slideValue);
+        //set handles direction 
+        change_cursor($('.selected').attr('_handle'));
     }
     update_menu(object,true);
     hide_canvas_menu();
@@ -735,6 +741,8 @@ function append_to_canvas(event, obj, index, top, left){
         object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
         object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
         set_ctr_attr(object);
+        //set handles direction 
+        change_cursor($('.selected').attr('_handle'));
     }
 
     //show or hide upper left menu of canvas;
@@ -1307,11 +1315,15 @@ function redo_styleboard() {
 }
 
 function change_cursor(option){
-
+    
     var type = $.parseJSON($('.selected').attr('_matrix'));
     var handles = [];
-    var options = option.split(',');
-    handles = options;
+    if($.isArray(option)){
+        handles = option;
+    }else{
+        var options = option.split(',');
+        handles = options;
+    }
     
     var position = [{"top":"-5px","left":"-5px","bottom":"auto","right":"auto","display":"block"},
                     {"top":"auto","left":"-5px","bottom":"-5px","right":"auto","display":"block"},
