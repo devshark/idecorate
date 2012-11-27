@@ -151,6 +151,11 @@ def generate_styleboard_view(request, id, w, h):
 	exec('itemList=%s' % itemString)
 
 	for iList in itemList:
+
+		imgFile = iList['img'][0]['src'].split('/')
+		imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+		imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+
 		style = iList['style']
 		splittedStyle = style.split(';')
 
@@ -165,6 +170,14 @@ def generate_styleboard_view(request, id, w, h):
 
 		w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
 		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
+
+		try:
+			imgObj = Image.open(imgFile).convert('RGBA')
+			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+			w, h = imgObj.size
+		except:
+			pass
 
 		if lowestTop is None:
 			lowestTop = int(float(iList['top']))
@@ -221,21 +234,25 @@ def generate_styleboard_view(request, id, w, h):
 
 		#try to rotate
 		try:
+			imgObj.thumbnail((w,h),Image.ANTIALIAS)
 			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
-			
-			aW = int(w * math.cos(float(iList['angle']))) + int(h * math.cos(90 - float(iList['angle'])))
-			aH = int(w * math.sin(float(iList['angle']))) + int(h * math.sin(90 - float(iList['angle'])))
-
-			imgObj.thumbnail((aW,aH),Image.ANTIALIAS)
 			"""
+			print "The width is: %s, and height is: %s" % (w,h)
+			print "The new width is: %s, and the new height is: %s" % imgObj.size
+			
+			aW = int((w / 2) * math.cos(float(iList['angle']))) + int((h / 2) * math.cos(90 - float(iList['angle'])))
+			aH = int((w / 2) * math.sin(float(iList['angle']))) + int((h / 2) * math.sin(90 - float(iList['angle'])))
+			
+			
 			imgObj.thumbnail((w,h),Image.ANTIALIAS)
 			"""
 		except:
 			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+		
 
+		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
 		#paste image
 		#mainImage.paste(imgObj, (highestWidth - (w + int(iList['left'])), highestHeight - (h + int(iList['top']))))
-		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
 
 	response = HttpResponse(mimetype="image/png")
 	
