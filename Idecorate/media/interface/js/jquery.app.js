@@ -603,6 +603,65 @@ function create_instance_embellishments(em_dbID,event,type){
     return object;
 }
 
+function create_instance_embellishment_upload(fname){
+    //GLOBAL var objCounter is for setting z-index for each created instance
+    objCounter++;
+
+    var object = $('<div/>');
+    object.attr({
+        'class': 'image embellishment unselected'
+    }).css({
+        zIndex : objCounter,
+        position: 'absolute',
+        left: '-5000px'
+    });
+
+    var obj_image   = $('<img/>');
+    var imgWidth    = 0;
+    var imgHeight   = 0;
+
+    obj_image.attr({
+        'src': '/media/embellishments/images/'+fname
+    }).css({
+        width: '100%',
+        height: 'auto'
+    });
+
+    obj_image.load(function(){
+        
+        imgWidth = obj_image.width();
+        imgHeight = obj_image.height();
+        var dimensions  = aspectratio(imgWidth, imgHeight, .60);
+
+        var imgTop      = ($('#canvas').height()/2)-(dimensions['height']/2);
+        var imgLeft     = ($('#canvas').width()/2)-(dimensions['width']/2);       
+
+        object.css({
+            left:imgLeft,
+            top:imgTop,
+            width:dimensions['width'],
+            height:dimensions['height']
+        });
+
+        set_ctr_attr(object);
+
+        transform(object);
+
+    }).appendTo(object);
+    
+    object.appendTo('#canvas');
+
+    if(!object.hasClass('selected')){
+        object.addClass('selected').siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
+    }
+    update_menu(object,true);
+    hide_canvas_menu();
+
+    return object;
+}
+
 function change_color(object,rgb){
     var selected        = object.parent()
     var default_style   = object.attr('style');

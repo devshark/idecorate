@@ -14,6 +14,8 @@ var emb_type;
 var emb_item_url;
 var emb_window_height;
 var emb_window_width;
+var emb_uploaded_filename;
+var emb_error_upload = false;
 
 $(document).ready(function(){
     emb_window_height = $(window).height();
@@ -63,28 +65,37 @@ $(document).ready(function(){
     });
 
     $('#form_submit_button').click(function(){
-        $('#X-Progress-ID').val(gen_uuid());
-        var options = {
-            dataType: 'json',
-            url: EMBELLISHMENT_UPLOAD_ACTION + '?X-Progress-ID='+$('#X-Progress-ID').val(),
-            beforeSubmit: showRequest,
-            success: showResponse
+        if (!emb_error_upload){
+            if($('#upload-emb-error').length>0)
+                $('#upload-emb-error').remove();
+            var f = $('#picture').val()
+            var extension = f.substr( (f.lastIndexOf('.') +1) ).toLowerCase();
+            if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'tif'){                
+                $('#X-Progress-ID').val(gen_uuid());
+                var options = {
+                    dataType: 'html',
+                    url: EMBELLISHMENT_UPLOAD_ACTION + '?X-Progress-ID='+$('#X-Progress-ID').val(),            
+                    success: showResponseEmbellishment
+                }
+                $('#upload-embel').ajaxSubmit(options); 
+            } else {
+                $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000; font-size:12px;"> File not supported.</span>');
+            }           
         }
-        $('#upload-embel').ajaxSubmit(options);
-        $('#upload-embel fieldset').append('<span id="uploadprogressbar"></span>');
-        var d = {
-            boxImage : '/media/images/progressbar.gif',
-            barImage : {
-                0:  '/media/images/progressbg_red.gif',
-                30: '/media/images/progressbg_orange.gif',
-                70: '/media/images/progressbg_green.gif'
-            }
-        }
-        $('#upload-embel').find('#uploadprogressbar').progressBar(d);
-        startProgressBarUpdate($('#X-Progress-ID').val());
-        hideUploadEmbellishment();
         return false;
     });
+    if(!$.browser.msie){
+        $('#picture').on('change', function() {
+            if($('#upload-emb-error').length>0)
+                $('#upload-emb-error').remove();
+            if (this.files[0].size>MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE){
+                $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000; font-size:12px;"> Please keep filesize under 2MB. Current filesize '+ (this.files[0].size/1024/1024).toFixed(2) +'MB</span>');
+                emb_error_upload = true;
+            } else {
+                emb_error_upload = false;
+            }
+        });
+    }    
 });
 function _resize_embellisment(){    
     if($.browser.msie && $.browser.version == 8.0){
@@ -369,13 +380,30 @@ function gen_uuid() {
     }
     return uuid
 }
-function showRequest(formData, jqForm, options) {
-    // do something with formData
-    return true;
-}
-function showResponse(response) {
-    // do something with response
-}
+function showResponseEmbellishment(responseText, statusText, xhr, $form) {
+    response = responseText.split('|')
+    res_code = response[0]
+    res_msg = response[1]
+    if (res_code=='f1'){
+        $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000"> '+res_msg+'</span>');
+    } else if (res_code=='f2') {
+        $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000"> '+res_msg+'</span>');
+    } else {
+        emb_uploaded_filename = res_msg;
+        $('#upload-embel fieldset').append('<span id="uploadprogressbar"></span>');
+        var d = {
+            boxImage : '/media/images/progressbar.gif',
+            barImage : {
+                0:  '/media/images/progressbg_red.gif',
+                30: '/media/images/progressbg_orange.gif',
+                70: '/media/images/progressbg_green.gif'
+            }
+        }
+        $('#upload-embel').find('#uploadprogressbar').progressBar(d);
+        startProgressBarUpdate($('#X-Progress-ID').val());
+        hideUploadEmbellishment();
+    }    
+} 
 var g_progress_intv = 1;
 function startProgressBarUpdate(upload_id) {
     $("#uploadprogressbar").fadeIn();
@@ -399,10 +427,10 @@ function hideUploadEmbellishment(){
     $('#picture').hide();
     $('#form_submit_button').hide();
 }
-function showUploadEmbellishment(){
-    alert(objCounter);
+function showUploadEmbellishment(){    
     $('#picture').val('');
     $('#picture').show();
     $('#form_submit_button').show();
     $("#uploadprogressbar").remove();
+    create_instance_embellishment_upload(emb_uploaded_filename);
 }

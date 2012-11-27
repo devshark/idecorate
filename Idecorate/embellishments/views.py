@@ -5,6 +5,8 @@ from django.utils import simplejson
 import os
 from django.conf import settings
 from cart.services import generate_unique_id
+from django.template.defaultfilters import filesizeformat
+from django.utils.translation import ugettext_lazy as _
 
 # class who handles the upload
 class ProgressUploadHandler(FileUploadHandler):
@@ -91,5 +93,18 @@ def upload_embellishment_action(request):
 			os.makedirs(outPath)
 		up = ProgressUploadHandler(request, outPath, filename)
 		request.upload_handlers.insert(0, up)
-		upload_file = request.FILES.get('file', None)		
-		return HttpResponse(up.filename)
+
+		upload_file = request.FILES.get('picture', None)
+		content_type = upload_file.content_type.split('/')[0]
+		
+		if content_type in settings.CONTENT_TYPES:		
+			if upload_file._size > settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE:
+				err =  _('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE), filesizeformat(upload_file._size))
+				res = 'f1|%s' % err.encode('utf-8')
+				return HttpResponse(res)
+			else:					
+				return HttpResponse('%s|%s'%('s',up.filename))
+		else:
+			err = _('File type is not supported')
+			res = 'f2|%s' % err.encode('utf-8')
+			return HttpResponse(res)
