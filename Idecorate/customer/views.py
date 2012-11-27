@@ -222,14 +222,14 @@ def generate_styleboard_view(request, id, w, h):
 		#try to rotate
 		try:
 			imgObj = imgObj.rotate(float(iList['angle']))
-		except:
-			pass
 
-		imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+		except:
+			imgObj.thumbnail((w,h),Image.ANTIALIAS)
 
 		#paste image
 		#mainImage.paste(imgObj, (highestWidth - (w + int(iList['left'])), highestHeight - (h + int(iList['top']))))
-		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop))
+		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
 
 	response = HttpResponse(mimetype="image/png")
 	
