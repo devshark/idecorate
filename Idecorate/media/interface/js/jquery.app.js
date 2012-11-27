@@ -99,9 +99,11 @@ $(document).ready(function () {
                     //ajax add to cart
                     add_to_cart(uid, p_d_qty, p_g_t);
                 }else if(Obj.hasClass('em')){
-                    alert('this is embelishments');
-                    $('#canvas').obj.clone();
-                    //DROP EMBELLISHMENTS FUNCTIONALITY HERE
+
+                    var em_id = Obj.attr('id');
+                    var em_dbID = em_id.split('-');
+                    
+                    create_instance_embellishments(em_dbID[1],e);
                 }
 
             }
@@ -179,7 +181,6 @@ $(document).ready(function () {
 
             //set center coordinated for rotate plugin
             set_ctr_attr($(this));
-
 
             //track event
             eventTracker($(this),'move');
@@ -474,46 +475,59 @@ $(document).ready(function () {
 
 /*  
     embellishments
-    this is where embellishment related function
+    this is where embellishment related function calls
     starts as well as with the inits,events,variables
 */
 
-/* 
-$('#embelishments-list-wrap .em').click(function(e){
-    e.preventDefault();
-    var callajax = $(this).attr('href');
-    var to_output = callajax.split('/'),
-        to_output = to_output[1];
-    var this_container = $('#em-common-wrap');
-
-    this_container.append(ajax_get_by_type(callajax,to_output));
-
-});
-*/
 
 //embelishments functions start
-function ajax_get_by_type(url,classname){
-
-    var result_data;
-    
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {},
-        dataType: 'json',
-        async:   false,
-        success: function(data){
-            $.each(data, function(key, value){
-                result_data += $('a').attr({'id':value.obj_id,'this_uid':value.obj_uid, 'class':'emType thumb draggable '+classname});
-            });
-            return result_data;
-        },
-        error: function(msg) {
-            // return error if needed
-        }
+function create_instance_embellishments(em_dbID,event){//,type
+    var object = $('<div/>');
+    object.attr({
+        '_uid': em_dbID,
+        'class': 'embellishment unselected'
+    }).css({
+        zIndex : objCounter,
+        position: 'absolute',
+        left: '-5000px'
     });
-}
 
+    var obj_image   = $('<img/>');
+    var imgWidth    = 0;
+    var imgHeight   = 0;
+
+    obj_image.attr({
+        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0'
+    }).css({
+        width: '100%',
+        height: 'auto'
+    });
+
+    obj_image.load(function(){
+        
+        imgWidth = obj_image.width();
+        imgHeight = obj_image.height();
+        var dimensions  = aspectratio(imgWidth, imgHeight, .60);
+        var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
+        var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
+
+        object.css({
+            left:imgLeft,
+            top:imgTop,
+            width:dimensions['width'],
+            height:dimensions['height']
+        });
+
+    });
+    obj_image.appendTo(object);
+    
+    object.appendTo('#canvas');
+
+    //GLOBAL var objCounter is for setting z-index for each created instance
+    objCounter++;
+
+    return object;
+}
 //embelishments functions end
 
 

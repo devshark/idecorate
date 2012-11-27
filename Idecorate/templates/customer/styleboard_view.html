@@ -10,6 +10,11 @@
     margin: 5px 0 0 55px !important;
   }
 }
+.commentsBlock {
+	width: 690px;
+	height: auto;
+	margin: 20px 0;
+}
 </style>
 <div class="clearfix viewWrapper">
 	<aside>
@@ -111,28 +116,54 @@
 			</div>
 		</div>
 		<h2>Comments</h2>
+		<div class="commentsBlock">        
+
+			<div id="disqus_thread"></div>
+	        <script type="text/javascript">
+	            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	            var disqus_shortname = 'idecoratewedding'; // required: replace example with your forum
+	            var disqus_titleshortname = 'idecorate Weddings';
+	            var disqus_developer = 1; // developer mode is on
+
+	            /* * * DON'T EDIT BELOW THIS LINE * * */
+	            (function() {
+	                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	            })();
+	        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	    </div>
 	</section>
 </div>
 {% endblock %}
 {% block javascripts %}
 		<script type="text/javascript">
 		$(function(){
-		var windowSize = $(window).height();
-			headerSize = $('#header').outerHeight(true);
-			footerSize = $('#footer').outerHeight(true);
-			bodySize = windowSize - headerSize - footerSize - 15;
+		var windowH = $(window).height();
+			headerH = $('#header').outerHeight(true);
+			footerh = $('#footer').outerHeight(true);
+			bodyh = windowH - headerH - footerh - 15;
+			totalContent = headerH + contentH + footerH;
+
+			if(totalContent > windowH) {
+				$('.viewWrapper').height(bodySize);
+			}
 
 			$(window).resize(function(){
 
-				var windowSize = $(window).height();
-					headerSize = $('#header').height();
-					footerSize = $('#footer').height();
-					bodySize = windowSize - headerSize - footerSize;
+				var windowH = $(window).height();
+					headerH = $('#header').outerHeight(true);
+					footerh = $('#footer').outerHeight(true);
+					bodyh = windowH - headerH - footerh - 15;
+					totalContent = headerH + contentH + footerH;
 
-					$('.viewWrapper').height(bodySize);			
+				if(totalContent > windowH) {
+					$('.viewWrapper').height(bodySize);
+				}
+				
 			});
 
-		$('.viewWrapper').height(bodySize);
 		});
 			
 		</script>
@@ -167,4 +198,17 @@
             var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
           })();
         </script>
+      	<script type="text/javascript">
+	        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	        var disqus_shortname = 'idecoratewedding'; // required: replace example with your forum shortname
+
+	        /* * * DON'T EDIT BELOW THIS LINE * * */
+	        (function () {
+	            var s = document.createElement('script'); s.async = true;
+	            s.type = 'text/javascript';
+	            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+	            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	        }());
+        </script>
+        
 {% endblock %}
