@@ -15,11 +15,16 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
+from PIL import Image, ImageDraw, ImageFont
+from models import StyleboardItems
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
 	get_customer_styleboard_item
 from admin.models import LoginLog
+from django.conf import settings
+import re
+import math
 
 def login_signup(request):
 
@@ -122,3 +127,123 @@ def save_styleboard(request):
 def styleboard_view(request):
 	info = {}
 	return render_to_response('customer/styleboard_view.html', info, RequestContext(request))
+
+
+def generate_styleboard_view(request, id, w, h):
+	
+	styleboardItem = StyleboardItems.objects.get(id=id)
+	itemString = str(styleboardItem.item).replace(',null','')
+	itemList = []
+	
+	imageWidth = int(w)
+	imageHeight = int(h)
+
+	lowestTop = None
+	highestTop = None
+	lowestLeft = None
+	highestLeft = None
+
+	finalHeight = 0
+	finalWidth = 0
+	widthIndex = 0
+	heightIndex = 0
+
+	exec('itemList=%s' % itemString)
+
+	for iList in itemList:
+		style = iList['style']
+		splittedStyle = style.split(';')
+
+		#find width and height index
+		ctr = 0
+		for item in splittedStyle:
+			if re.search('width', item):
+				widthIndex = ctr
+			if re.search('height', item):
+				heightIndex = ctr
+			ctr += 1
+
+		w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
+		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
+
+		if lowestTop is None:
+			lowestTop = int(float(iList['top']))
+		else:
+			if int(float(iList['top'])) < lowestTop:
+				lowestTop = int(float(iList['top']))
+
+		if highestTop is None:
+			highestTop = int(float(iList['top'])) + h
+		else:
+			if (int(float(iList['top'])) + h) > highestTop:
+				highestTop = int(float(iList['top'])) + h
+
+		if lowestLeft is None:
+			lowestLeft = int(float(iList['left']))
+		else:
+			if int(float(iList['left'])) < lowestLeft:
+				lowestLeft = int(float(iList['left']))
+
+		if highestLeft is None:
+			highestLeft = int(float(iList['left'])) + w
+		else:
+			if (int(float(iList['left'])) + w) > highestLeft:
+				highestLeft = int(float(iList['left'])) + w
+
+	finalWidth = highestLeft - lowestLeft
+	finalHeight = highestTop - lowestTop
+
+	#create main image
+	mainImage = Image.new('RGBA', (finalWidth, finalHeight), (255, 255, 255, 0))
+
+
+	for iList in itemList:
+		imgFile = iList['img'][0]['src'].split('/')
+		imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+		imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+
+		style = iList['style']
+		splittedStyle = style.split(';')
+
+		#find width and height index
+		ctr = 0
+		for item in splittedStyle:
+			if re.search('width', item):
+				widthIndex = ctr
+			if re.search('height', item):
+				heightIndex = ctr
+			ctr += 1
+
+		w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
+		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
+
+		imgObj = Image.open(imgFile).convert('RGBA')
+
+		#try to rotate
+		try:
+			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+			
+			aW = int(w * math.cos(float(iList['angle']))) + int(h * math.cos(90 - float(iList['angle'])))
+			aH = int(w * math.sin(float(iList['angle']))) + int(h * math.sin(90 - float(iList['angle'])))
+
+			imgObj.thumbnail((aW,aH),Image.ANTIALIAS)
+			"""
+			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			"""
+		except:
+			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+
+		#paste image
+		#mainImage.paste(imgObj, (highestWidth - (w + int(iList['left'])), highestHeight - (h + int(iList['top']))))
+		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
+
+	response = HttpResponse(mimetype="image/png")
+	
+	mainImage.thumbnail((imageWidth,imageHeight), Image.ANTIALIAS)
+	bgImg = Image.new('RGBA', (imageWidth, imageHeight), (255, 255, 255, 0))
+	bgImg.paste(mainImage,((imageWidth - mainImage.size[0]) / 2, (imageHeight - mainImage.size[1]) / 2))
+	bgImg.save(response, "PNG")
+	"""
+	mainImage.save(response, "PNG")
+	"""
+	return response

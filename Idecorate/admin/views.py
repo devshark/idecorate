@@ -1477,13 +1477,28 @@ def admin_manage_users(request):
 	if nickname:
 
 		other_params_dict.update({'nickname':nickname})
-		customerProfiles = CustomerProfile.objects.filter(nickname__icontains=nickname)
-		cList = [int(customerProfile.user.id) for customerProfile in customerProfiles]
 
-		if q is not None:
-			q.add(Q(id__in=cList), Q.AND)
-		else:
-			q = Q(id__in=cList)
+		splittedNicks = nickname.split(' ')
+
+		for splittedNick in splittedNicks:
+
+			customerProfiles = CustomerProfile.objects.filter(nickname__icontains=splittedNick)
+			cList = [int(customerProfile.user.id) for customerProfile in customerProfiles]
+
+			if q is not None:
+				q.add(Q(id__in=cList), Q.OR)
+			else:
+				q = Q(id__in=cList)
+
+			if q is not None:
+				q.add(Q(first_name__icontains=splittedNick), Q.OR)
+			else:
+				q = Q(first_name__icontains=splittedNick)
+
+			if q is not None:
+				q.add(Q(last_name__icontains=splittedNick), Q.OR)
+			else:
+				q = Q(last_name__icontains=splittedNick)
 
 	if email:
 
@@ -1624,6 +1639,14 @@ def admin_edit_user(request):
 			user.username = form.cleaned_data['email']
 			user.is_staff = bool(int(form.cleaned_data['u_type']))
 			user.is_active = bool(int(form.cleaned_data['status']))
+			user.first_name = form.cleaned_data['first_name']
+			user.last_name = form.cleaned_data['last_name']
+
+			passwd = form.cleaned_data['password']
+
+			if passwd:
+				user.set_password(passwd)
+
 			user.save()
 
 			try:
@@ -1638,7 +1661,7 @@ def admin_edit_user(request):
 
 			messages.success(request, _('Changes Saved.'))
 		else:
-			request.session['mu_errors'] = form['u_id'].errors + form['nickname'].errors + form['email'].errors + form['u_type'].errors + form['status'].errors
+			request.session['mu_errors'] = form['u_id'].errors + form['nickname'].errors + form['email'].errors + form['u_type'].errors + form['status'].errors + form['password'].errors + form['confirm_password'].errors
 
 	if request.session.get('manage_users_redirect', False):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])

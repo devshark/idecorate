@@ -7,5 +7,6 @@ urlpatterns =  patterns('customer.views',
     url(r'^forgot/$', 'forgot_password', {}, name='forgot_password'),
     url(r'^profile/$', 'profile', {}, name='profile'),
     url(r'^styleboard/save/$', 'save_styleboard', {}, name='save_styleboard'),
-    url(r'^styleboard/view/$', 'styleboard_view', {}, name='styleboard_view'),  
+    url(r'^styleboard/view/$', 'styleboard_view', {}, name='styleboard_view'),
+    url(r'^styleboard/generate_styleboard_view/(?P<id>\d+)/(?P<w>\d+)/(?P<h>\d+)/$','generate_styleboard_view', {}, name='generate_styleboard_view'), 
 )
