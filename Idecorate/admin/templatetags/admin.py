@@ -406,6 +406,19 @@ def getUserNickname(user):
 	return mark_safe(ret)
 
 @register.filter
+def getUserNicknameOnly(user):
+
+	ret = ""
+
+	try:
+		profile = CustomerProfile.objects.get(user=user)
+		ret = profile.nickname
+	except:
+		pass
+
+	return mark_safe(ret)
+
+@register.filter
 def getUserType(user):
 
 	return 'Admin' if user.is_staff else 'Member'

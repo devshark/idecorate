@@ -45,9 +45,37 @@
                 </div>
               </div>
               <div class="control-group">
+                <label class="control-label">{{ edit_form.password.label }} *</label>
+                <div class="controls">
+                  {{ edit_form.password|add_class:"input-large"|attr:"placeholder:Enter Password" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ edit_form.confirm_password.label }} *</label>
+                <div class="controls">
+                  {{ edit_form.confirm_password|add_class:"input-large"|attr:"placeholder:Confirm Password" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
                 <label class="control-label">{{ edit_form.nickname.label }} *</label>
                 <div class="controls">
                   {{ edit_form.nickname|add_class:"input-large"|attr:"placeholder:Enter Nickname" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ edit_form.first_name.label }} *</label>
+                <div class="controls">
+                  {{ edit_form.first_name|add_class:"input-large"|attr:"placeholder:Enter First Name" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ edit_form.last_name.label }} *</label>
+                <div class="controls">
+                  {{ edit_form.last_name|add_class:"input-large"|attr:"placeholder:Enter Last Name" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
@@ -114,7 +142,7 @@
           {{ form.email|add_class:"input-large"|attr:"placeholder:Email" }}
         </label>
         <label class="checkbox">
-          {{ form.nickname|add_class:"input-large"|attr:"placeholder:Nickname" }}
+          {{ form.nickname|add_class:"input-large"|attr:"placeholder:Name" }}
         </label>
         <label class="checkbox">
             {% trans "Type: " %}
@@ -148,7 +176,7 @@
             <td>{{ user|getUserType }}</td>
             <td>{{ user|getUserStatus }}</td>
             <td>{{ user|getUserActivity }}</td>
-            <td><a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.id }}','{{ user|getUserNickname }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
+            <td><a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.first_name }}','{{ user.last_name }}','{{ user.id }}','{{ user|getUserNicknameOnly }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -171,10 +199,12 @@
     document.location = globalURL;
   }
 
-  function setEdit(id, nickname, email, type, status) {
+  function setEdit(firstname, lastname, id, nickname, email, type, status) {
 
     $('#id_nickname').val(nickname);
     $('#id_email').val(email);
+    $('#id_first_name').val(firstname);
+    $('#id_last_name').val(lastname);
 
     if(type == 'Admin') {
 
