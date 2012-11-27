@@ -393,11 +393,15 @@ def getUserNickname(user):
 
 	ret = ""
 
-	try:
-		profile = CustomerProfile.objects.get(user=user)
-		ret = profile.nickname
-	except:
-		pass
+	if user.first_name != "" and user.last_name != "":
+		ret = "%s %s" % (user.first_name, user.last_name)
+	else:
+
+		try:
+			profile = CustomerProfile.objects.get(user=user)
+			ret = profile.nickname
+		except:
+			pass
 
 	return mark_safe(ret)
 
