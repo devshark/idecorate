@@ -221,9 +221,15 @@ def generate_styleboard_view(request, id, w, h):
 
 		#try to rotate
 		try:
-			imgObj = imgObj.rotate(float(iList['angle']))
+			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+			
+			aW = int(w * math.cos(float(iList['angle']))) + int(h * math.cos(90 - float(iList['angle'])))
+			aH = int(w * math.sin(float(iList['angle']))) + int(h * math.sin(90 - float(iList['angle'])))
 
+			imgObj.thumbnail((aW,aH),Image.ANTIALIAS)
+			"""
 			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			"""
 		except:
 			imgObj.thumbnail((w,h),Image.ANTIALIAS)
 
