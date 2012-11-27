@@ -147,6 +147,8 @@ def generate_styleboard_view(request, id, w, h):
 	finalWidth = 0
 	widthIndex = 0
 	heightIndex = 0
+	true = True
+	false = False
 
 	exec('itemList=%s' % itemString)
 
@@ -248,6 +250,17 @@ def generate_styleboard_view(request, id, w, h):
 			"""
 		except:
 			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+
+		#flip and flap
+		exec('matrix=%s' % iList['matrix'])
+
+		if matrix['e']:
+			#flip
+			imgObj = imgObj.transpose(Image.FLIP_TOP_BOTTOM)
+
+		if matrix['f']:
+			#flap
+			imgObj = imgObj.transpose(Image.FLIP_LEFT_RIGHT)
 		
 
 		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)

@@ -231,6 +231,7 @@ def set_product_positions(request):
 		unique_identifier = request.POST.get('unique_identifier','')
 		changes_counter = request.POST.get('changes_counter','')
 		product_objects = request.POST.get('product_objects','')
+		embellishment_objects = request.POST.get('embellishment_objects','')
 		action_url = request.POST.get('action_url','')
 		total = request.POST.get('total','')
 		quantity = request.POST.get('quantity','')
@@ -244,6 +245,7 @@ def set_product_positions(request):
 			'unique_identifier': str(unique_identifier),
 			'changes_counter': str(changes_counter),
 			'product_objects':str(product_objects),
+			'embellishment_objects': str(embellishment_objects),
 			'action_url': str(action_url),
 			'total': str(total),
 			'quantity': str(quantity),
