@@ -763,6 +763,8 @@ function flip(obj){ //e
     obj.attr('_matrix','{"a":'+m.a+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+',"e":'+!m.e+',"f":'+m.f+'}');
 
     obj.attr('_handle',change_cursor(obj.attr('_handle')));
+
+    eventTracker(obj,'flip');
 }
 
 
@@ -793,6 +795,8 @@ function flap(obj){ //f
     obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+m.d+',"e":'+m.e+',"f":'+!m.f+'}');
     
     obj.attr('_handle',change_cursor(obj.attr('_handle')));
+
+    eventTracker(obj,'flap');
 }
 
 function set_ctr_attr(obj){
@@ -1017,6 +1021,7 @@ function change_img(obj, background){
     var _img    = $('<img />').attr({'src':__src, 'style': _style, '_wb':_wb, '_nb':_nb});
     
     obj.html(_img);
+    eventTracker(obj,'change_background');
 }
 
 function display_modal(iframe_src){
