@@ -99,6 +99,7 @@ $(document).ready(function () {
 
                     //ajax add to cart
                     add_to_cart(uid, p_d_qty, p_g_t);
+
                 }else if(Obj.hasClass('em')){
 
                     var em_id = Obj.attr('id');
@@ -107,8 +108,6 @@ $(document).ready(function () {
 
                     object = create_instance_embellishments(em_dbID[1],e,type);
 
-                    if(object.hasClass('image')){
-                    }
                 }
 
             }
@@ -306,7 +305,6 @@ $(document).ready(function () {
             set_ctr_attr($(this));
         }
     }).resizable({
-
         handles: handles,
         minWidth: 50,
         aspectRatio: aspectR,
@@ -365,13 +363,14 @@ $(document).ready(function () {
         objCounter--;
         updateZIndex($('.selected'));
         
-        var selected_uid = $('.selected').attr('_uid');
+        var selected_uid = $('.product.selected').attr('_uid');
         var count = 0;
         $('.product.unselected').each(function(){
             if (selected_uid == $(this).attr('_uid'))
                 count++;
         });
-        if (count<=1 && $('.product.selected').length > 0)
+
+        if (count<=1 && selected_uid != undefined)
             remove_from_cart(parseInt(selected_uid,10));
 
         var removedElement = $('.selected');
@@ -511,26 +510,54 @@ $(document).ready(function () {
     $('.colorpicker').click(function(e){
         cancelBubble(e);
     });
-    $( "#slider" ).slider({
-        range: "max",
-        min: 1,
-        max: 100,
-        value: slideValue,
-        slide: function( event, ui ) {
-            $('.selected img').css({
-                'zoom': 1,
-                'opacity' : ui.value*0.01,
-                'filter': 'alpha(opacity='+ui.value+')'
-            });
-            $('.selected').attr('_opacity',ui.value);
-            eventTracker($('.selected'), 'set_opacity');
-        }
-    });
+    if(!$.browser.msie){
+        $( "#slider" ).slider({
+            range: "max",
+            min: 1,
+            max: 100,
+            value: slideValue,
+            slide: function( event, ui ) {
+                $('.selected img').css({
+                    'zoom': 1,
+                    'opacity' : ui.value*0.01,
+                    'filter': 'alpha(opacity='+ui.value+')'
+                });
+                $('.selected').attr('_opacity',ui.value);
+                eventTracker($('.selected'), 'set_opacity');
+            }
+        });
 
-    $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture', function(e){
-        slideValue = parseInt($(this).attr('_opacity'));
-        $( "#slider" ).slider({value:slideValue});
-    });
+        $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture', function(e){
+            cancelBubble(e);
+            slideValue = parseInt($(this).attr('_opacity'));
+            embellishment_handle_set(slideValue);
+        });
+    }else{
+        $('#opacity-control-wrap').hide();
+        if($.browser.version >= 9.0){
+            $( "#slider" ).slider({
+                range: "max",
+                min: 1,
+                max: 100,
+                value: slideValue,
+                slide: function( event, ui ) {
+                    $('.selected img').css({
+                        'zoom': 1,
+                        'opacity' : ui.value*0.01,
+                        'filter': 'alpha(opacity='+ui.value+')'
+                    });
+                    $('.selected').attr('_opacity',ui.value);
+                    eventTracker($('.selected'), 'set_opacity');
+                }
+            });
+
+            $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture', function(e){
+                cancelBubble(e);
+                slideValue = parseInt($(this).attr('_opacity'));
+                embellishment_handle_set(slideValue);
+            });
+        }
+    }
 
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
@@ -599,6 +626,8 @@ function create_instance_embellishments(em_dbID,event,type){
             object.attr('_opacity', 100);
             $( "#slider" ).slider({value:100});
         }
+        slideValue = 100;
+        embellishment_handle_set(slideValue);
     }
     update_menu(object,true);
     hide_canvas_menu();
@@ -619,6 +648,16 @@ function change_color(object,rgb){
     }).appendTo(selected);
 
     eventTracker(new_img, 'change_color');
+}
+
+function embellishment_handle_set(slideValue){
+    $( "#slider" ).slider({value:slideValue});
+    if($('.selected').hasClass('shape') || $('.selected').hasClass('texture') || $('.selected').hasClass('pattern') || $('.selected').hasClass('text')){
+        $handles.resizable({aspectRatio:false});
+        $('.selected img').height('100%');
+    }else{
+        $handles.resizable({aspectRatio:true});
+    }
 }
 //embelishments functions end
 
@@ -1359,6 +1398,16 @@ function hide_canvas_menu(){
         }
         return o;
     };
+
+    var oldSetOption = $.ui.resizable.prototype._setOption;
+    $.ui.resizable.prototype._setOption = function(key, value) {
+        oldSetOption.apply(this, arguments);
+        if (key === "aspectRatio") {
+            this._aspectRatio = !!value;
+        }
+    };
+
 }(jQuery));
+
 
 //product functions end

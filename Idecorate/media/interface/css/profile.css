@@ -1,0 +1,103 @@
+section {
+  min-height: 300px; }
+  section .user-profile {
+    padding: 10px;
+    height: auto;
+    background: #F0EBE5;
+    -webkit-box-shadow: 5px 5px 5px #CCC;
+    box-shadow: 5px 5px 5px #CCC;
+    -moz-box-shadow: 5px 5px 5px #CCC;
+    width: 800px;
+    margin: 0 auto;
+    margin-bottom: 30px; }
+    section .user-profile .picture-wrap, section .user-profile .description-wrap {
+      display: inline-block;
+      *display: inline;
+      zoom: 1; }
+    section .user-profile .picture-wrap {
+      width: 150px; }
+      section .user-profile .picture-wrap img {
+        width: 148px;
+        height: 148px;
+        border: 1px solid #ccc; }
+    section .user-profile .description-wrap {
+      width: 630px;
+      margin: 10px;
+      margin-right: 0;
+      vertical-align: top;
+      font-size: 1.2em;
+      line-height: 1.1; }
+      section .user-profile .description-wrap .title {
+        font-weight: bold;
+        margin-bottom: 10px; }
+      section .user-profile .description-wrap .desc {
+        font-size: 1em; }
+  section .no-image {
+    width: 150px;
+    height: 150px;
+    border: 1px solid #ccc;
+    background: #fff; }
+  section .create-wrap {
+    margin-bottom: 20px; }
+  section .featureContentWrap {
+    width: 450px;
+    float: left;
+    margin: 12px;
+    padding: 10px;
+    -webkit-box-shadow: 5px 5px 5px #CCC;
+    box-shadow: 5px 5px 5px #CCC;
+    -moz-box-shadow: 5px 5px 5px #CCC;
+    background: #F0EBE5;
+    position: relative; }
+    section .featureContentWrap .featureImg {
+      width: 100%; }
+      section .featureContentWrap .featureImg img {
+        width: 450px;
+        height: 285px; }
+    section .featureContentWrap h3 {
+      width: 440px;
+      margin: 5px 0;
+      padding: 10px 5px;
+      background: #f1ccc6; }
+    section .featureContentWrap .featureDesc {
+      width: 355px;
+      height: auto;
+      padding: 10px 0;
+      line-height: 1.4;
+      float: left; }
+    section .featureContentWrap .featurePrice {
+      width: 85px;
+      height: auto;
+      padding: 10px 0;
+      float: left;
+      text-align: right; }
+      section .featureContentWrap .featurePrice h5 {
+        font-weight: bold;
+        color: #000000;
+        text-align: center;
+        display: block; }
+      section .featureContentWrap .featurePrice p {
+        width: auto;
+        padding: 5px 0;
+        margin-top: 5px;
+        text-align: center;
+        color: #ffffff;
+        font-weight: bold;
+        background: #99a13c;
+        -moz-border-radius: 4px;
+        -webkit-border-radius: 4px;
+        border-radius: 4px;
+        -khtml-border-radius: 4px; }
+    section .featureContentWrap .featureFooter {
+      width: 440px;
+      margin: 5px 0 0 0;
+      padding: 3px 0;
+      background: #e7e0da; }
+      section .featureContentWrap .featureFooter img {
+        margin-left: 5px;
+        float: left; }
+      section .featureContentWrap .featureFooter span {
+        display: block;
+        float: left; }
+        section .featureContentWrap .featureFooter span p {
+          padding: 5px 0 0 5px; }
