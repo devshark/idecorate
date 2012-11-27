@@ -940,6 +940,36 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								}
 							}
 						}
+
+						.colorAdjustment{
+							margin-top: 5px;
+							#color-picker-wrap{
+								float: left;
+								width: 10%;
+							}
+							#opacity-control-wrap{
+								float: right;
+								width: 87%;
+								margin-right: 8px;
+								.opacity-control-label{
+									margin-bottom: 3px;
+									font-size: 11px;
+									color: #000000;
+									text-align: center;
+									.subtract{
+										display: block;
+										float: left;
+									}
+									.add{
+										display: block;
+										float: right;
+									}
+								}
+								#slider{
+									z-index: 9999;
+								}
+							}
+						}
 					}
 
 					#object-counter{
