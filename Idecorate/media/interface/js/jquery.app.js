@@ -9,6 +9,7 @@ changesArray = [];
 changesCurrentPosition = 0;
 var handles = 'ne,se,nw,sw,n,e,s,w';
 var aspectR = true;
+var slideValue = 0;
 
 $(document).ready(function () {
     //init lasso
@@ -102,8 +103,12 @@ $(document).ready(function () {
 
                     var em_id = Obj.attr('id');
                     var em_dbID = em_id.split('-');
-                    
-                    create_instance_embellishments(em_dbID[1],e);
+                    var type = Obj.attr('_type');
+
+                    object = create_instance_embellishments(em_dbID[1],e,type);
+
+                    if(object.hasClass('image')){
+                    }
                 }
 
             }
@@ -163,7 +168,7 @@ $(document).ready(function () {
     });
 
     //drag the selected product together with its handle on the fly
-    $('.product').liveDraggable({
+    $('.unselected').liveDraggable({
         helper: 'original',
         cursor: 'move',
         containment: '#canvas',
@@ -191,9 +196,13 @@ $(document).ready(function () {
     //onmouse down show handles for selected product
     if($.browser.msie){
         var handled = false;
-        $('#canvas').on('mousedown','.product',function(e){
+        $('#canvas').on('mousedown','.unselected',function(e){
 
-            update_menu($(this).find('img'));
+            if($(this).hasClass('embellishment')){
+                update_menu($(this).find('img'), true);
+            }else{
+                update_menu($(this).find('img'));
+            }
 
             if(!$(this).hasClass('selected')){
 
@@ -246,9 +255,13 @@ $(document).ready(function () {
         });
 
     }else{
-        $('#canvas').on('mousedown','.product',function(e){
+        $('#canvas').on('mousedown','.unselected',function(e){
 
-            update_menu($(this).find('img'));
+            if($(this).hasClass('embellishment')){
+                update_menu($(this).find('img'), true);
+            }else{
+                update_menu($(this).find('img'));
+            }
 
             if(!$(this).hasClass('selected')){
 
@@ -468,24 +481,73 @@ $(document).ready(function () {
         undo_styleboard();
     });
 
+    /*  
+    embellishments
+    this is where embellishment related function calls
+    starts as well as with the inits,events,variables
+    */
+
+    $('#colorPicker').ColorPicker({
+        color: '#000000',
+        onShow: function (colpkr) {
+            $(colpkr).fadeIn(500);
+            return false;
+        },
+        onHide: function (colpkr) {
+            $(colpkr).fadeOut(500);
+            return false;
+        },
+        onChange: function (hsb,hex,rgb) {
+            $('#colorPicker div').css('backgroundColor', '#' + hex);
+        },
+        onSubmit: function(hsb,hex,rgb){
+            $('.colorpicker').fadeOut(500);
+            var object = $('.selected').find('img');
+            change_color(object,rgb);
+            return false;
+        }
+    });
+
+    $('.colorpicker').click(function(e){
+        cancelBubble(e);
+    });
+    $( "#slider" ).slider({
+        range: "max",
+        min: 1,
+        max: 100,
+        value: slideValue,
+        slide: function( event, ui ) {
+            $('.selected img').css({
+                'zoom': 1,
+                'opacity' : ui.value*0.01,
+                'filter': 'alpha(opacity='+ui.value+')'
+            });
+            $('.selected').attr('_opacity',ui.value);
+        }
+    });
+
+    $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture', function(e){
+        slideValue = parseInt($(this).attr('_opacity'));
+        $( "#slider" ).slider({value:slideValue});
+    });
+
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
 });
 
-/*  
-    embellishments
-    this is where embellishment related function calls
-    starts as well as with the inits,events,variables
-*/
 
 
 //embelishments functions start
-function create_instance_embellishments(em_dbID,event){//,type
+function create_instance_embellishments(em_dbID,event,type){
+
+    //GLOBAL var objCounter is for setting z-index for each created instance
+    objCounter++;
+
     var object = $('<div/>');
     object.attr({
         '_uid': em_dbID,
-        'class': 'embellishment unselected'
+        'class': type.toLowerCase()+' embellishment unselected'
     }).css({
         zIndex : objCounter,
         position: 'absolute',
@@ -507,7 +569,7 @@ function create_instance_embellishments(em_dbID,event){//,type
         
         imgWidth = obj_image.width();
         imgHeight = obj_image.height();
-        var dimensions  = aspectratio(imgWidth, imgHeight, .60);
+        var dimensions  = aspectratio(imgWidth, imgHeight, .80);
         var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
 
@@ -518,15 +580,40 @@ function create_instance_embellishments(em_dbID,event){//,type
             height:dimensions['height']
         });
 
-    });
-    obj_image.appendTo(object);
+        set_ctr_attr(object);
+
+        transform(object);
+
+    }).appendTo(object);
     
     object.appendTo('#canvas');
 
-    //GLOBAL var objCounter is for setting z-index for each created instance
-    objCounter++;
+    if(!object.hasClass('selected')){
+        object.addClass('selected').siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
+        if(type.toLowerCase() == 'shape' || type.toLowerCase() == 'texture' || type.toLowerCase() == 'text' || type.toLowerCase() == 'pattern'){
+            object.attr('_opacity', 100);
+            $( "#slider" ).slider({value:100});
+        }
+    }
+    update_menu(object,true);
+    hide_canvas_menu();
 
     return object;
+}
+
+function change_color(object,rgb){
+    var selected        = object.parent()
+    var default_style   = object.attr('style');
+    var object_dbID     = selected.attr('_uid');
+    var new_img         = $('<img/>');
+    var new_obj_src     = '/generate_embellishment/?embellishment_id='+object_dbID+'&embellishment_color='+$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3)+'&embellishment_thumbnail=0'
+    object.remove();//remove old object
+    new_img.attr({//append new object
+        'src': new_obj_src,
+        'style': default_style
+    }).appendTo(selected);
 }
 //embelishments functions end
 
@@ -586,6 +673,29 @@ function create_new_object(options){
 
     if(!object.hasClass('selected')){object.addClass('selected');}
     
+    return object;
+}
+
+function append_to_canvas(event, obj, index, top, left){
+
+    object = obj;
+    object.appendTo('#canvas');
+    object_top = top;
+    object_left = left;
+    object.css({top : object_top, left: object_left, zIndex: index });
+    object.attr({'object_id':uniqueIdentifier});
+    
+    uniqueIdentifier++;
+    if(object.hasClass('selected')){
+        object.siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
+        set_ctr_attr(object);
+    }
+
+    //show or hide upper left menu of canvas;
+    hide_canvas_menu();
+
     return object;
 }
 
@@ -659,32 +769,6 @@ function set_ctr_attr(obj){
     //$('.selected').attr({'ctr':'{"x":'+x+',"y":'+y+'}'});
 }
 
-function append_to_canvas(event, obj, index, top, left){
-
-    object = obj;
-    object.appendTo('#canvas');
-    object_top = top;
-    object_left = left;
-    object.css({top : object_top, left: object_left, zIndex: index });
-    object.attr({'object_id':uniqueIdentifier});
-    
-    uniqueIdentifier++;
-    if(object.hasClass('selected')){
-        object.siblings('.unselected').removeClass('selected');
-        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
-        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
-        set_ctr_attr(object);
-    }
-
-    //track event
-    //eventTracker(object,'create');
-
-    //show or hide upper left menu of canvas;
-    hide_canvas_menu();
-
-    return object;
-}
-
 function aspectratio(width, height, percent){
 
     var dimension = new Array();
@@ -701,17 +785,31 @@ function remove_handles(event){
     
         $handles.css('display','none');
         $img_menus.css('display','none');
-        if($('.product').hasClass('selected')){
-            $('.product').removeClass('selected');
+        if($('.unselected').hasClass('selected')){
+            $('.unselected').removeClass('selected');
             return true;
         }
     
     }
 }
 
-function update_menu(obj){
+function update_menu(obj,img_menu){
+
+    img_menu = img_menu ? img_menu : false;
     
     $img_menus.show();
+
+    if(img_menu){
+        $('.imgBgControlWrap').hide();
+        if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
+            $('.colorAdjustment').hide();
+        }else{
+            $('.colorAdjustment').show();
+        }
+    }else{
+        $('.imgBgControlWrap').show();
+        $('.colorAdjustment').hide();
+    }
 
     var _src        = '/'+media_url+'products/';
     var wo_bg_img   = obj.attr('_nb');
@@ -768,7 +866,7 @@ function moveNext(obj) {
     if(nextIndex > objCounter) {
         //cannot move
     } else {
-        $('.product').each(function(e){
+        $('.unselected').each(function(e){
             if(parseInt($(this).css('z-index')) == nextIndex) {
                 $(this).css('z-index', (parseInt($(this).css('z-index')) - 1));
             }
@@ -788,7 +886,7 @@ function moveBack(obj) {
     if(backIndex < 1) {
         //cannot move
     } else {
-        $('.product').each(function(e){
+        $('.unselected').each(function(e){
             if(parseInt($(this).css('z-index')) == backIndex) {
                 $(this).css('z-index', (parseInt($(this).css('z-index')) + 1));
             }
@@ -804,7 +902,7 @@ function updateZIndex(obj) {
 
     var currentZIndex = parseInt(obj.css('z-index'));
 
-    $('.product').each(function(e){
+    $('.unselected').each(function(e){
         if(parseInt($(this).css('z-index')) > currentZIndex) {
             $(this).css('z-index', (parseInt($(this).css('z-index')) - 1));
         }
@@ -816,7 +914,7 @@ function cloneObj(obj) {
     var cloned_obj = obj.clone().appendTo('#canvas');
     objCounter++;
 
-    cloned_obj.siblings('.product').removeClass('selected');
+    cloned_obj.siblings('.unselected').removeClass('selected');
     cloned_obj.css({
         zIndex : objCounter,
         top : parseInt(obj.css('top'),10)+20,
@@ -827,7 +925,11 @@ function cloneObj(obj) {
 
     uniqueIdentifier++;
 
-    update_menu(cloned_obj.find('img'));
+    if(cloned_obj.hasClass('embellishment')){
+        update_menu(cloned_obj.find('img'), true);
+    }else{
+        update_menu(cloned_obj.find('img'));
+    }
 
     transform(cloned_obj);
 
@@ -923,7 +1025,7 @@ function get_product_object_json(){
         var _gst_tb = $(this).attr('gst_tb');
         var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
-        product_objects.push({uid:_uid, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angel:_angle,img:_img});
+        product_objects.push({uid:_uid, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle,img:_img});
     });
     var product_array = new Array();
     for (var i in product_objects){
@@ -1171,7 +1273,7 @@ function hide_canvas_menu(){
     }else{
         $('#canvas').css('background-image','url()');
         $('#save').bind('click',function(e){
-            if ($('#canvas-wrap .product').length>0){
+            if ($('#canvas-wrap .unselected').length>0){
                 pop_save_styleboard();
             }
             e.preventDefault();
@@ -1208,6 +1310,15 @@ function hide_canvas_menu(){
               return _old.apply(this, arguments);
       }
   }
+
+    $.strPad = function(i,l,s) {
+        var o = i.toString();
+        if (!s) { s = '0'; }
+        while (o.length < l) {
+            o = s + o;
+        }
+        return o;
+    };
 }(jQuery));
 
 //product functions end
