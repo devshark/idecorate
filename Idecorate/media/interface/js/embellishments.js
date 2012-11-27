@@ -12,8 +12,12 @@ var emb_mode_type;
 var emb_search_keyword = '';
 var emb_type;
 var emb_item_url;
+var emb_window_height;
+var emb_window_width;
 
 $(document).ready(function(){
+    emb_window_height = $(window).height();
+    emb_window_width = $(window).width();
 	$('#embelishments-list-wrap .emCat a').click(function(e){
         emb_current_page = 1;
         emb_offset = 25;
@@ -34,15 +38,7 @@ $(document).ready(function(){
         e.preventDefault();
     });
     $(window).resize(function(){
-        if($.browser.msie && $.browser.version == 8.0){
-            if ( $(window).height() != window_height && $(window).width() != window_width ) {
-                window_height = $(window).height();
-                window_width = $(window).width();
-                manage_embellishment_resize();
-            }
-        } else {
-            manage_embellishment_resize();
-        }
+        _resize_embellisment();
     });
     $('#embellishments #embelishments-list-wrap .emItem').on('mousewheel',function(event,delta){
         emb_offset = emb_item_per_page;
@@ -65,8 +61,42 @@ $(document).ready(function(){
         $('#emb-page-number-' + emb_current_page).addClass('cur-page');
         generate_embellishment_pagination();
     });
-});
 
+    $('#form_submit_button').click(function(){
+        $('#X-Progress-ID').val(gen_uuid());
+        var options = {
+            dataType: 'json',
+            url: EMBELLISHMENT_UPLOAD_ACTION + '?X-Progress-ID='+$('#X-Progress-ID').val(),
+            beforeSubmit: showRequest,
+            success: showResponse
+        }
+        $('#upload-embel').ajaxSubmit(options);
+        $('#upload-embel fieldset').append('<span id="uploadprogressbar"></span>');
+        var d = {
+            boxImage : '/media/images/progressbar.gif',
+            barImage : {
+                0:  '/media/images/progressbg_red.gif',
+                30: '/media/images/progressbg_orange.gif',
+                70: '/media/images/progressbg_green.gif'
+            }
+        }
+        $('#upload-embel').find('#uploadprogressbar').progressBar(d);
+        startProgressBarUpdate($('#X-Progress-ID').val());
+        hideUploadEmbellishment();
+        return false;
+    });
+});
+function _resize_embellisment(){    
+    if($.browser.msie && $.browser.version == 8.0){
+        if ( $(window).height() != emb_window_height && $(window).width() != emb_window_width ) {
+            emb_window_height = $(window).height();
+            emb_window_width = $(window).width();
+            manage_embellishment_resize();
+        }
+    } else {
+        manage_embellishment_resize();
+    }
+}
 function manage_embellishment_pagination(){
     $('#embelishments-list-wrap .emItem a:first img').each(function(){
         getHeight($(this),function(h){
@@ -330,4 +360,49 @@ function manage_embellishment_resize(){
 function emb_remove_overlay(){
     if( $('.embellishment-overlay').length > 0 )
         $('.embellishment-overlay').remove();
+}
+/* embellishment upload */
+function gen_uuid() {
+    var uuid = ""
+    for (var i=0; i < 32; i++) {
+        uuid += Math.floor(Math.random() * 16).toString(16); 
+    }
+    return uuid
+}
+function showRequest(formData, jqForm, options) {
+    // do something with formData
+    return true;
+}
+function showResponse(response) {
+    // do something with response
+}
+var g_progress_intv = 1;
+function startProgressBarUpdate(upload_id) {
+    $("#uploadprogressbar").fadeIn();
+    if(g_progress_intv != 0)
+        clearInterval(g_progress_intv);
+    g_progress_intv = setInterval(function() {
+        $.getJSON(UPLOAD_EMBELLISMENT_PROG+"?X-Progress-ID="+ upload_id, function(data) {
+            if (data == null) {
+                $("#uploadprogressbar").progressBar(100);
+                clearInterval(g_progress_intv);
+                g_progress_intv = 0;
+                setTimeout(showUploadEmbellishment,1000);
+                return;
+            }
+            var percentage = Math.floor(100 * parseInt(data.uploaded) / parseInt(data.length));
+            $("#uploadprogressbar").progressBar(percentage);
+        });
+    }, 1000);
+}
+function hideUploadEmbellishment(){
+    $('#picture').hide();
+    $('#form_submit_button').hide();
+}
+function showUploadEmbellishment(){
+    alert(objCounter);
+    $('#picture').val('');
+    $('#picture').show();
+    $('#form_submit_button').show();
+    $("#uploadprogressbar").remove();
 }

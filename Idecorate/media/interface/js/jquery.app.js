@@ -902,7 +902,7 @@ function get_product_object_json(){
     var canvas_offset = $('#canvas').offset();
     var canvas_left = canvas_offset.left;
     var canvas_top = canvas_offset.top;
-    $('.product.unselected').each(function(e){
+    $('.unselected').each(function(e){
         var elm = $(this);
         var elm_offset = elm.offset();
         var elm_left = elm_offset.left;
@@ -921,7 +921,7 @@ function get_product_object_json(){
         var _uid = $(this).attr('_uid');
         var _def_qty = $(this).attr('def_qty');
         var _gst_tb = $(this).attr('gst_tb');
-        var _angle = $(this).attr('_angle');
+        var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
         product_objects.push({uid:_uid, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angel:_angle,img:_img});
     });
