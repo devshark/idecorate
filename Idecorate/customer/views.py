@@ -24,6 +24,7 @@ from services import register_user, customer_profile, get_client_ip, get_user_st
 from admin.models import LoginLog
 from django.conf import settings
 import re
+import math
 
 def login_signup(request):
 
@@ -216,8 +217,16 @@ def generate_styleboard_view(request, id, w, h):
 		w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
 		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
 
-		imgObj = Image.open(imgFile)
+		imgObj = Image.open(imgFile).convert('RGBA')
+
+		#try to rotate
+		try:
+			imgObj = imgObj.rotate(float(iList['angle']))
+		except:
+			pass
+
 		imgObj.thumbnail((w,h),Image.ANTIALIAS)
+
 		#paste image
 		#mainImage.paste(imgObj, (highestWidth - (w + int(iList['left'])), highestHeight - (h + int(iList['top']))))
 		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop))
