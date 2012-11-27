@@ -367,11 +367,11 @@ $(document).ready(function () {
         
         var selected_uid = $('.selected').attr('_uid');
         var count = 0;
-        $('.unselected').each(function(){
+        $('.product.unselected').each(function(){
             if (selected_uid == $(this).attr('_uid'))
                 count++;
         });
-        if (count<=1)
+        if (count<=1 && $('.product.selected').length > 0)
             remove_from_cart(parseInt(selected_uid,10));
 
         var removedElement = $('.selected');
@@ -523,6 +523,7 @@ $(document).ready(function () {
                 'filter': 'alpha(opacity='+ui.value+')'
             });
             $('.selected').attr('_opacity',ui.value);
+            eventTracker($('.selected'), 'set_opacity');
         }
     });
 
@@ -584,6 +585,8 @@ function create_instance_embellishments(em_dbID,event,type){
 
         transform(object);
 
+        eventTracker(object, 'create_embellishment');
+
     }).appendTo(object);
     
     object.appendTo('#canvas');
@@ -614,6 +617,8 @@ function change_color(object,rgb){
         'src': new_obj_src,
         'style': default_style
     }).appendTo(selected);
+
+    eventTracker(new_img, 'change_color');
 }
 //embelishments functions end
 
@@ -942,14 +947,24 @@ function cloneObj(obj) {
 }
 
 function eventTracker(currentObject, eventType) {
+    //console.log(eventType);
     if(eventType != 'unselect' && eventType != 'undo' && eventType != 'redo') {
 
         var product_objects = '';
+        var embellishment_objects = '';
+
         var clonedObject = $('.product.unselected').clone();
+        var clonedObject2 = $('.embellishment.unselected').clone();
 
         clonedObject.each(function(e){
             $(this).removeClass('selected');
             product_objects += $(this).prop('outerHTML');
+
+        });
+
+        clonedObject2.each(function(e){
+            $(this).removeClass('selected');
+            embellishment_objects += $(this).prop('outerHTML');
 
         });
 
@@ -966,7 +981,7 @@ function eventTracker(currentObject, eventType) {
             changesArray.splice(changesCounter + 1, changesArray.length - changesCounter);
         }
 
-        changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects });
+        changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
         changesCounter++;
     }
 
@@ -1057,12 +1072,20 @@ function keys(obj){
 function setProductPositions(func) {
 
     var product_objects = '';
+    var embellishment_objects = '';
 
     var clonedObject = $('.product.unselected').clone();
+    var clonedObject2 = $('.embellishment.unselected').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
         product_objects += $(this).prop('outerHTML');
+
+    });
+
+    clonedObject2.each(function(e){
+        $(this).removeClass('selected');
+        embellishment_objects += $(this).prop('outerHTML');
 
     });
 
@@ -1078,7 +1101,7 @@ function setProductPositions(func) {
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
-        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects },
+        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects },
         beforeSend : function(){
             
         },
@@ -1121,6 +1144,8 @@ function initProductPositions() {
         selected_prev_prod_qty = parseInt(PRODUCT_POSITIONS['selected_prev_prod_qty']);
 
         $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
+        $('#canvas').append(PRODUCT_POSITIONS['embellishment_objects']);
+
         $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
         $('#tables').val(PRODUCT_POSITIONS['tables']);
         $('#guests').val(PRODUCT_POSITIONS['guests']);
@@ -1131,11 +1156,19 @@ function initProductPositions() {
     }
 
     var product_objects = '';
+    var embellishment_objects = '';
     var clonedObject = $('.product.unselected').clone();
+    var clonedObject2 = $('.embellishment.unselected').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
         product_objects += $(this).prop('outerHTML');
+
+    });
+
+    clonedObject2.each(function(e){
+        $(this).removeClass('selected');
+        embellishment_objects += $(this).prop('outerHTML');
 
     });
 
@@ -1148,7 +1181,7 @@ function initProductPositions() {
 
     });
 
-    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects });
+    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
     
 }
 
@@ -1165,7 +1198,9 @@ function changeProductPositions(pos) {
     selected_prev_prod_qty = parseInt(pos['selected_prev_prod_qty']);
 
     $('.product.unselected').remove();
+    $('.embellishment.unselected').remove();
     $('#canvas').append(pos['product_objects']);
+    $('#canvas').append(pos['embellishment_objects']);
     $('.table').html(pos['buy_table_html']);
     $('#tables').val(pos['tables']);
     $('#guests').val(pos['guests']);
