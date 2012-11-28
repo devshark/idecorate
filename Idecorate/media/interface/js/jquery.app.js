@@ -502,10 +502,14 @@ $(document).ready(function () {
         },
         onHide: function (colpkr) {
             $(colpkr).fadeOut(500);
+            var object = $('.selected').find('img');
+            change_color(object,rgb);
             return false;
         },
         onChange: function (hsb,hex,rgb) {
             $('#colorPicker div').css('backgroundColor', '#' + hex);
+            var object = $('.selected').find('img');
+            change_color(object,rgb);
         },
         onSubmit: function(hsb,hex,rgb){
             $('.colorpicker').fadeOut(500);
