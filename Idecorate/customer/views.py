@@ -21,7 +21,7 @@ from models import StyleboardItems
 from forms import LoginForm, SignupForm, SaveStyleboardForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
 	get_customer_styleboard_item, manage_styleboard_cart_items
-from admin.models import LoginLog
+from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
 import re
 import math
@@ -154,9 +154,31 @@ def generate_styleboard_view(request, id, w, h):
 
 	for iList in itemList:
 
-		imgFile = iList['img'][0]['src'].split('/')
-		imgFile = imgFile[len(imgFile) - 1].split('?')[0]
-		imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+		if re.search('/media/products/',iList['img'][0]['src']):
+
+			imgFile = iList['img'][0]['src'].split('/')
+			imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+
+		elif re.search('/generate_embellishment/', iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			directory = ""
+
+			embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
+
+			if embObj.e_type.id == 1:
+				directory = "images"
+			elif embObj.e_type.id == 2:
+				directory = "textures"
+			elif embObj.e_type.id == 3:
+				directory = "patterns"
+			elif embObj.e_type.id == 4:
+				directory = "shapes"
+			elif embObj.e_type.id == 5:
+				directory = "borders"
+
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -213,9 +235,31 @@ def generate_styleboard_view(request, id, w, h):
 
 
 	for iList in itemList:
-		imgFile = iList['img'][0]['src'].split('/')
-		imgFile = imgFile[len(imgFile) - 1].split('?')[0]
-		imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+
+		if re.search('/media/products/',iList['img'][0]['src']):
+
+			imgFile = iList['img'][0]['src'].split('/')
+			imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+		elif re.search('/generate_embellishment/', iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			directory = ""
+
+			embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
+
+			if embObj.e_type.id == 1:
+				directory = "images"
+			elif embObj.e_type.id == 2:
+				directory = "textures"
+			elif embObj.e_type.id == 3:
+				directory = "patterns"
+			elif embObj.e_type.id == 4:
+				directory = "shapes"
+			elif embObj.e_type.id == 5:
+				directory = "borders"
+
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -233,6 +277,18 @@ def generate_styleboard_view(request, id, w, h):
 		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
 
 		imgObj = Image.open(imgFile).convert('RGBA')
+
+		if re.search('/generate_embellishment/', iList['img'][0]['src']):
+			embellishment_color = eProperties[1].split('=')[1]
+			embellishment_color = (int(embellishment_color[0:3]), int(embellishment_color[3:6]), int(embellishment_color[6:9]))
+			newImg = Image.new("RGBA", imgObj.size, embellishment_color)
+			r, g, b, alpha = imgObj.split()
+
+			if embObj.e_type.id == 3:
+				newImg.paste(imgObj, mask=b)
+				imgObj = newImg
+			elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
+				imgObj.paste(newImg, mask=alpha) 
 
 		#try to rotate
 		try:
