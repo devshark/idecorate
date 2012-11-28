@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from stdimage import StdImageField
 from django.conf import settings
 from django.contrib.auth.models import User
+from cart.models import Product
 
 class CustomerProfile(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
@@ -36,3 +37,13 @@ class CustomerStyleBoard(models.Model):
 	class Meta:
 		db_table = 'customer_styleboards'
 		verbose_name = _("Customer Styleboards")
+
+class StyleBoardCartItems(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    styleboard_item = models.ForeignKey(StyleboardItems, db_column='styleboard_item_id')
+    product = models.ForeignKey(Product, db_column='product_id')
+    quantity = models.PositiveIntegerField(db_column='quantity')
+
+    class Meta:
+        verbose_name = _('Styleboard Cart Items')
+        db_table = 'styleboard_cart_items'
