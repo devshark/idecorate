@@ -106,7 +106,11 @@ $(document).ready(function () {
                     var em_dbID = em_id.split('-');
                     var type = Obj.attr('_type');
 
-                    object = create_instance_embellishments(em_dbID[1],e,type);
+                    if(type == 'Text'){
+                        object = create_instance_em_text(em_dbID[1],e,type);
+                    }else{
+                        object = create_instance_embellishments(em_dbID[1],e,type);
+                    }
 
                 }
 
@@ -571,6 +575,75 @@ $(document).ready(function () {
 
 
 //embelishments functions start
+function create_instance_em_text(em_dbID,event,type){
+    //GLOBAL var objCounter is for setting z-index for each created instance
+    objCounter++;
+
+    var object = $('<div/>');
+    object.attr({
+        '_uid': em_dbID,
+        'class': type.toLowerCase()+' embellishment unselected'
+    }).css({
+        zIndex : objCounter,
+        position: 'absolute',
+        left: '-5000px'
+    });
+
+    var obj_image   = $('<img/>');
+    var imgWidth    = 0;
+    var imgHeight   = 0;
+
+    obj_image.attr({
+        'src': '/generate_text/?font_size=50&font_text=rock%20and%20roll&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0'
+    }).css({
+        width: '100%',
+        height: 'auto'
+    });
+
+    obj_image.load(function(){
+        
+        imgWidth = obj_image.width();
+        imgHeight = obj_image.height();
+        //var dimensions  = aspectratio(imgWidth, imgHeight, .80);
+        var imgTop      = event.pageY-$('#canvas').offset().top-imgHeight;
+        var imgLeft     = event.pageX-$('#canvas').offset().left-imgWidth;
+
+        object.css({
+            left:imgLeft,
+            top:imgTop,
+            width:imgWidth,
+            height:imgHeight
+        });
+
+        set_ctr_attr(object);
+
+        transform(object);
+
+        eventTracker(object, 'create_embellishment');
+
+    }).appendTo(object);
+    
+    object.appendTo('#canvas');
+
+    if(!object.hasClass('selected')){
+        object.addClass('selected').siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
+        object.attr('_opacity', 100);
+        object.attr('_text', 'rock and roll');
+        $( "#slider" ).slider({value:100});
+        slideValue = 100;
+        embellishment_handle_set(slideValue);
+
+        //set handles direction 
+        change_cursor($('.selected').attr('_handle'));
+    }
+    update_menu(object,true);
+    hide_canvas_menu();
+
+    return object;
+}
+
 function create_instance_embellishments(em_dbID,event,type){
 
     //GLOBAL var objCounter is for setting z-index for each created instance
@@ -646,7 +719,10 @@ function change_color(object,rgb){
     var default_style   = object.attr('style');
     var object_dbID     = selected.attr('_uid');
     var new_img         = $('<img/>');
-    var new_obj_src     = '/generate_embellishment/?embellishment_id='+object_dbID+'&embellishment_color='+$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3)+'&embellishment_thumbnail=0'
+    var new_obj_src     = '/generate_embellishment/?embellishment_id='+object_dbID+'&embellishment_color='+$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3)+'&embellishment_thumbnail=0';
+    if(selected.hasClass('text')){
+        new_obj_src = '/generate_text/?font_size=50&font_text='+escape(selected.attr('_text'))+'&font_color='+$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3)+'&font_id='+object_dbID+'&font_thumbnail=0';
+    }
     object.remove();//remove old object
     new_img.attr({//append new object
         'src': new_obj_src,
@@ -658,7 +734,7 @@ function change_color(object,rgb){
 
 function embellishment_handle_set(slideValue){
     $( "#slider" ).slider({value:slideValue});
-    if($('.selected').hasClass('shape') || $('.selected').hasClass('texture') || $('.selected').hasClass('pattern') || $('.selected').hasClass('text')){
+    if($('.selected').hasClass('shape') || $('.selected').hasClass('texture') || $('.selected').hasClass('pattern')){
         $handles.resizable({aspectRatio:false});
         $('.selected img').height('100%');
     }else{
