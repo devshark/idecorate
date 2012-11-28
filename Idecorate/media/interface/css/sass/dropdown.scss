@@ -2,6 +2,9 @@ ul.dropdown {
      position: relative;
      z-index: 596;
 }
+ul.dropdown a {
+    color: #333 !important;
+}
 ul.dropdown li:last-child {
     border: none !important;
 }
@@ -24,6 +27,7 @@ ul.dropdown li {
      text-align: center;
      display: block;
      white-space: nowrap;
+     color: #333;
 }
 ul.dropdown li:hover {
      z-index: 599;
