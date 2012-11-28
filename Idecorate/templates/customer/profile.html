@@ -127,11 +127,15 @@ $(function(){
 			footerH = $('#footer').outerHeight();
 			newHeight = windowH - headerH - footerH - 35;
 
-		$('#feature-wrap').height(newHeight);
-
+		if(newHeight < windowH) {
+			$('#feature-wrap').height(newHeight);
+		}
+		
 	});
 
-	$('#feature-wrap').height(newHeight);
+	if(newHeight < windowH) {
+		$('#feature-wrap').height(newHeight);
+	}
 
 });
 </script>
