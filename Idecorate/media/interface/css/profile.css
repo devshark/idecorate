@@ -50,7 +50,8 @@ section {
     background: #F0EBE5;
     position: relative; }
     section .featureContentWrap .featureImg {
-      width: 100%; }
+      width: 100%;
+      background: #ffffff; }
       section .featureContentWrap .featureImg img {
         width: 450px;
         height: 285px; }
