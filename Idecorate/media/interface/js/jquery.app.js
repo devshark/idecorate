@@ -1298,8 +1298,9 @@ function get_product_object_json(){
         var _def_qty = $(this).attr('def_qty');
         var _gst_tb = $(this).attr('gst_tb');
         var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
+        var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
-        product_objects.push({uid:_uid, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle,img:_img});
+        product_objects.push({uid:_uid, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, img:_img});
     });
     var product_array = new Array();
     for (var i in product_objects){

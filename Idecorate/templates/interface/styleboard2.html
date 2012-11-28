@@ -101,6 +101,33 @@
         #embellishments .breadcrumb-wrap .breadcrumb li{
             *margin-bottom: 2px !important;
         }
+        .file-wrapper, .submit-wrapper {
+          cursor: pointer;
+          display: inline-block;
+          overflow: hidden;
+          position: relative;
+        }
+        .file-wrapper input[type=file] {
+          cursor: pointer;
+          font-size: 100px;
+          height: 100%;
+          filter: alpha(opacity=1);
+          -moz-opacity: 0.01;
+          opacity: 0.01;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+        .file-wrapper .button, .tp-button {
+          cursor: pointer;
+          display: inline-block;
+          font-size: 12px;
+          margin-right: 5px;
+          padding: 4px 18px;
+        }
+        .file-holder {
+            font-size: 12px;
+        }
         </style>
     </head>
     <body>
@@ -254,13 +281,18 @@
                                 </div>
                                 <div id="embellishments" style="display:none;">
                                     <div class="formWrap">
-                                        <form id="upload-embel" method="POST">
+                                        <form id="upload-embel" method="POST">                                            
+                                            <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
+                                            <input type="hidden" id="id" name="id" value=""/>
                                             <fieldset>
                                                 <legend>Upload Image</legend>
-                                                <input type="file" name="picture" id="picture" placeholder="from computer" />
-                                                <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
-                                                <input type="hidden" id="id" name="id" value=""/>
-                                                <input id="form_submit_button" class="tp-button" type="submit" value="Upload" />
+                                                <span class="file-wrapper">
+                                                    <input type="file" name="picture" id="picture" placeholder="from computer" />
+                                                    <input class="button" type="button" value="Browse" />
+                                                </span>
+                                                <span class="submit-wrapper">
+                                                    <input id="form_submit_button" style="display:none" class="tp-button" type="submit" value="Upload" />
+                                                </span>
                                             </fieldset>
                                         </form>
                                     </div>
