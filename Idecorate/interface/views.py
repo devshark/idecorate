@@ -465,17 +465,37 @@ def generate_text(request):
 	#load font with size
 	font = ImageFont.truetype("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font), int(font_size))
 	
-	#get the text size first
-	textSize = font.getsize(image_text)
+	splittedTexts = image_text.split("\n")
+	totalHeight = 0
+	upperWidth = 0
+	heightList = [0]
+
+
+	#compute the final width and height first
+	for splittedText in splittedTexts:
+		textSize = font.getsize(splittedText)
+		totalHeight += textSize[1]
+		heightList.append(totalHeight)
+
+		if upperWidth == 0:
+			upperWidth = textSize[0]
+		else:
+			if textSize[0] > upperWidth:
+				upperWidth = textSize[0]
 
 	#image with background transparent
-	img = Image.new("RGBA", textSize, (255,255,255, 0))
+	img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
 
 	#create draw object	
 	draw = ImageDraw.Draw(img)
 
-	#draw text with black font color
-	draw.text((0,0), image_text, font_color, font=font)
+	#draw the text
+	ctr = 0
+	print "The heightlist are: %s" % heightList
+	for splittedText in splittedTexts:
+		#draw text
+		draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+		ctr += 1
 
 	if font_thumbnail == "0":
 		#not thumbnail
