@@ -1239,44 +1239,27 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
   vertical-align: top;
   text-align: left;
   width: auto !important;
-
-    ul {
-      padding: 2px 10px;
-      margin-right: 5px;
-      background: #99a237;
-      text-align: center;
-      -moz-border-radius: 4px;
-      -webkit-border-radius: 4px;
-      border-radius: 4px;
-      -khtml-border-radius: 4px;
-      font-size: 12px;
-      height: 20px;
-
-      li span {
-      	font-size: 14px;
-      }
-
-    }
+  font-size: 12px;
 
 }
 
 #info-menu {
   vertical-align: top;
 
-  ul.dropdown1 li {
-  	font-size: 14px !important;
-  }
+  .dropdown {
+  	font-size: 12px;
 
-  a {
-    text-decoration: none;
-    color: #333333;
-    font-size: 14px; 
-  }
+  	ul {
 
-  span {
-    text-decoration: none;
-    color: #333333;
-    font-size: 14px; 
+  		li {
+  			color: #333;
+			a {
+		  		color: #333;
+		  	}
+  		}
+
+  	}
+
   }
 
 }
