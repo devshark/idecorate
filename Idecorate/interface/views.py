@@ -80,6 +80,8 @@ def styleboard(request, cat_id=None):
 	else:
 		info['product_positions'] = mark_safe("''")
 
+	info['max_emb_size'] = settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE
+
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
 def styleboard_product_ajax(request):
@@ -229,6 +231,7 @@ def set_product_positions(request):
 		unique_identifier = request.POST.get('unique_identifier','')
 		changes_counter = request.POST.get('changes_counter','')
 		product_objects = request.POST.get('product_objects','')
+		embellishment_objects = request.POST.get('embellishment_objects','')
 		action_url = request.POST.get('action_url','')
 		total = request.POST.get('total','')
 		quantity = request.POST.get('quantity','')
@@ -242,6 +245,7 @@ def set_product_positions(request):
 			'unique_identifier': str(unique_identifier),
 			'changes_counter': str(changes_counter),
 			'product_objects':str(product_objects),
+			'embellishment_objects': str(embellishment_objects),
 			'action_url': str(action_url),
 			'total': str(total),
 			'quantity': str(quantity),
@@ -463,17 +467,37 @@ def generate_text(request):
 	#load font with size
 	font = ImageFont.truetype("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font), int(font_size))
 	
-	#get the text size first
-	textSize = font.getsize(image_text)
+	splittedTexts = image_text.split("\n")
+	totalHeight = 0
+	upperWidth = 0
+	heightList = [0]
+
+
+	#compute the final width and height first
+	for splittedText in splittedTexts:
+		textSize = font.getsize(splittedText)
+		totalHeight += textSize[1]
+		heightList.append(totalHeight)
+
+		if upperWidth == 0:
+			upperWidth = textSize[0]
+		else:
+			if textSize[0] > upperWidth:
+				upperWidth = textSize[0]
 
 	#image with background transparent
-	img = Image.new("RGBA", textSize, (255,255,255, 0))
+	img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
 
 	#create draw object	
 	draw = ImageDraw.Draw(img)
 
-	#draw text with black font color
-	draw.text((0,0), image_text, font_color, font=font)
+	#draw the text
+	ctr = 0
+	print "The heightlist are: %s" % heightList
+	for splittedText in splittedTexts:
+		#draw text
+		draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+		ctr += 1
 
 	if font_thumbnail == "0":
 		#not thumbnail

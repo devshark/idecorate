@@ -723,7 +723,8 @@ h5 {
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgBgControlWrap .imgBgControl li + li + li {
             padding-top: 0; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment {
-          margin-top: 5px; }
+          margin-top: 5px;
+          clear: both; }
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #color-picker-wrap {
             float: left;
             width: 10%; }
