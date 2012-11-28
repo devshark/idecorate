@@ -594,7 +594,7 @@ function create_instance_em_text(em_dbID,event,type){
     var imgHeight   = 0;
 
     obj_image.attr({
-        'src': '/generate_text/?font_size=50&font_text=rock%20and%20roll&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0'
+        'src': '/generate_text/?font_size=200&font_text=rock%20and%20roll&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0'
     }).css({
         width: '100%',
         height: 'auto'
@@ -604,15 +604,15 @@ function create_instance_em_text(em_dbID,event,type){
         
         imgWidth = obj_image.width();
         imgHeight = obj_image.height();
-        //var dimensions  = aspectratio(imgWidth, imgHeight, .80);
-        var imgTop      = event.pageY-$('#canvas').offset().top-imgHeight;
-        var imgLeft     = event.pageX-$('#canvas').offset().left-imgWidth;
+        var dimensions  = aspectratio(imgWidth, imgHeight, .30);
+        var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
+        var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
 
         object.css({
             left:imgLeft,
             top:imgTop,
-            width:imgWidth,
-            height:imgHeight
+            width:dimensions['width'],
+            height:dimensions['height']
         });
 
         set_ctr_attr(object);
