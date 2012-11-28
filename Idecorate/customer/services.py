@@ -85,7 +85,6 @@ def save_styleboard_item(data):
 		st.browser = data['browser']
 		st.save()
 
-		csb = CustomerStyleBoard()
 		csb.user = data['user']
 		csb.styleboard_item = st
 		csb.save()
