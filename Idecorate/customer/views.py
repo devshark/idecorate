@@ -20,7 +20,7 @@ from models import StyleboardItems
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
-	get_customer_styleboard_item
+	get_customer_styleboard_item, manage_styleboard_cart_items
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
 import re
