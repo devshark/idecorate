@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
 from models import StyleboardItems
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm
@@ -179,6 +179,14 @@ def generate_styleboard_view(request, id, w, h):
 				directory = "borders"
 
 			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
+		elif re.search('/media/embellishments/',iList['img'][0]['src']):
+
+			imgFile = iList['img'][0]['src'].split('/')
+			imgFile = imgFile[len(imgFile) - 1]
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', imgFile)
+
+		#elif re.search('/generate_text/',iList['img'][0]['src']):
+
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -261,6 +269,11 @@ def generate_styleboard_view(request, id, w, h):
 				directory = "borders"
 
 			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
+		elif re.search('/media/embellishments/',iList['img'][0]['src']):
+
+			imgFile = iList['img'][0]['src'].split('/')
+			imgFile = imgFile[len(imgFile) - 1]
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', imgFile)
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -290,6 +303,14 @@ def generate_styleboard_view(request, id, w, h):
 				imgObj = newImg
 			elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
 				imgObj.paste(newImg, mask=alpha) 
+
+		#apply opacity
+		if int(iList['opacity']) != 100:
+			#adjust opacity
+			floatOpacity = float(float(iList['opacity']) / float(100))
+			alpha = imgObj.split()[3]
+			alpha = ImageEnhance.Brightness(alpha).enhance(floatOpacity)
+			imgObj.putalpha(alpha)
 
 		#try to rotate
 		try:
