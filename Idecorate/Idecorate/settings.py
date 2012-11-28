@@ -161,6 +161,7 @@ INSTALLED_APPS = (
 CONTENT_TYPES = ['image']
 FONT_TYPES = ['font/ttf', 'font/truetype','application/x-font-ttf','application/octet-stream']
 ALLOWED_CATEGORY_IMAGES = ['png','gif','jpeg','jpg','pjpeg']
+ALLOWED_UPLOAD_EMBELLISHMENT_IMAGES = ['png','gif','jpeg','jpg','pjpeg','tiff','tif']
 # 1MB - 1048576
 # 2MB - 2097152
 # 2.5MB - 2621440

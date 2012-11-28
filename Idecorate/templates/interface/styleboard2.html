@@ -40,6 +40,9 @@
             var logined                     = {% if user.is_authenticated %}true{% else %}false{% endif %};
             var TEXT_IMG_GEN_URL            = '{% url generate_text %}';
             var EMB_IMG_GEN_URL             = '{% url generate_embellishment %}';
+            var UPLOAD_EMBELLISMENT_PROG    = '{% url upload_embellishment_progress %}';
+            var EMBELLISHMENT_UPLOAD_ACTION = '{% url upload_embellishment_action %}';
+            var MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE = {{ max_emb_size }};
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -197,10 +200,13 @@
                                 </div>
                                 <div id="embellishments" style="display:none;">
                                     <div class="formWrap">
-                                        <form id="upload-embel">
+                                        <form id="upload-embel" method="POST">
                                             <fieldset>
                                                 <legend>Upload Image</legend>
-                                                <input type="file" placeholder="from computer"/>
+                                                <input type="file" name="picture" id="picture" placeholder="from computer" />
+                                                <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
+                                                <input type="hidden" id="id" name="id" value=""/>
+                                                <input id="form_submit_button" class="tp-button" type="submit" value="Upload" />
                                             </fieldset>
                                         </form>
                                     </div>
@@ -233,26 +239,6 @@
                                             </a>
                                         </div>
                                         <div class="emItem">
-                                            
-                                            <!-- <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
-                                                <img alt="product 003" src="/media/products/img_default_10-Nov-16-04111353060682AM-2012_thumbnail.jpg">
-                                            </a>
-                                            <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
-                                                <img alt="product 003" src="/media/products/img_default_10-Nov-16-04111353060682AM-2012_thumbnail.jpg">
-                                            </a>
-                                            <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
-                                                <img alt="product 003" src="/media/products/img_default_10-Nov-16-04111353060682AM-2012_thumbnail.jpg">
-                                            </a>
-                                            <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
-                                                <img alt="product 003" src="/media/products/img_default_10-Nov-16-04111353060682AM-2012_thumbnail.jpg">
-                                            </a>
-                                            <a href="#" id="3" class="thumb draggable em" _emtype="1" _emuid="1" _emid="1">
-                                                <img alt="product 003" src="/media/products/img_default_10-Nov-16-04111353060682AM-2012_thumbnail.jpg">
-                                            </a> -->
-                                        <!-- <a class="thumb draggable em ui-draggable hidden" id="emb-1"><img src="/generate_embellishment/?embellishment_id=1&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-2"><img src="/generate_embellishment/?embellishment_id=2&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-3"><img src="/generate_embellishment/?embellishment_id=3&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-4"><img src="/generate_embellishment/?embellishment_id=4&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-5"><img src="/generate_embellishment/?embellishment_id=5&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a>
-                                        <a class="thumb draggable em ui-draggable hidden" id="emb-1"><img src="/generate_embellishment/?embellishment_id=1&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-2"><img src="/generate_embellishment/?embellishment_id=2&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-3"><img src="/generate_embellishment/?embellishment_id=3&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-4"><img src="/generate_embellishment/?embellishment_id=4&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-5"><img src="/generate_embellishment/?embellishment_id=5&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a>
-                                        <a class="thumb draggable em ui-draggable hidden" id="emb-1"><img src="/generate_embellishment/?embellishment_id=1&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-2"><img src="/generate_embellishment/?embellishment_id=2&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-3"><img src="/generate_embellishment/?embellishment_id=3&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-4"><img src="/generate_embellishment/?embellishment_id=4&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-5"><img src="/generate_embellishment/?embellishment_id=5&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a>
-                                        <a class="thumb draggable em ui-draggable hidden" id="emb-1"><img src="/generate_embellishment/?embellishment_id=1&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-2"><img src="/generate_embellishment/?embellishment_id=2&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-3"><img src="/generate_embellishment/?embellishment_id=3&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-4"><img src="/generate_embellishment/?embellishment_id=4&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a class="thumb draggable em ui-draggable hidden" id="emb-5"><img src="/generate_embellishment/?embellishment_id=5&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a> -->
                                         </div>
                                     </div>
                                     <div class="pagination"></div>
@@ -417,6 +403,8 @@
 <script type="text/javascript" src="/media/interface/js/colorpicker/js/colorpicker.js"></script>
 
 <script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
+<script src="/media/interface/js/jquery.form.js"></script>
+<script src="/media/interface/js/jquery.progressbar.js"></script>
 <!--[if lt IE 9]>
     <script type="text/javascript" src="/media/interface/js/ui/ie-jquery.ui.rotatable.js"></script>
 <![endif]-->

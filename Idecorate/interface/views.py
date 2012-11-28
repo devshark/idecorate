@@ -80,6 +80,8 @@ def styleboard(request, cat_id=None):
 	else:
 		info['product_positions'] = mark_safe("''")
 
+	info['max_emb_size'] = settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE
+
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
 def styleboard_product_ajax(request):
