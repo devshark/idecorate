@@ -96,9 +96,11 @@ def upload_embellishment_action(request):
 
 		upload_file = request.FILES.get('picture', None)
 		content_type = upload_file.content_type.split('/')[0]
+		uploaded = request.read
+		fileSize = int(uploaded.im_self.META["CONTENT_LENGTH"])
 		
 		if content_type in settings.CONTENT_TYPES:		
-			if upload_file._size > settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE:
+			if fileSize > settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE:
 				err =  _('Please keep filesize under %s. Current filesize %s') % (filesizeformat(settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE), filesizeformat(upload_file._size))
 				res = 'f1|%s' % err.encode('utf-8')
 				return HttpResponse(res)

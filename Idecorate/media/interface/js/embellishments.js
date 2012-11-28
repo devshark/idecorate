@@ -84,7 +84,7 @@ $(document).ready(function(){
         }
         return false;
     });
-    if(!$.browser.msie){
+    if(!$.browser.msie && !$.browser.safari){
         $('#picture').on('change', function() {
             if($('#upload-emb-error').length>0)
                 $('#upload-emb-error').remove();
@@ -385,9 +385,9 @@ function showResponseEmbellishment(responseText, statusText, xhr, $form) {
     res_code = response[0]
     res_msg = response[1]
     if (res_code=='f1'){
-        $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000"> '+res_msg+'</span>');
+        $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000; font-size:12px;"> '+res_msg+'</span>');
     } else if (res_code=='f2') {
-        $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000"> '+res_msg+'</span>');
+        $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000; font-size:12px;"> '+res_msg+'</span>');
     } else {
         emb_uploaded_filename = res_msg;
         $('#upload-embel fieldset').append('<span id="uploadprogressbar"></span>');

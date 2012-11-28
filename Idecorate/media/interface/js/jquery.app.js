@@ -669,7 +669,12 @@ function create_instance_embellishment_upload(fname){
         
         imgWidth = obj_image.width();
         imgHeight = obj_image.height();
-        var dimensions  = aspectratio(imgWidth, imgHeight, .60);
+        var r = .60;
+        // if (imgWidth > $('#canvas').width() || imgHeight > $('#canvas').height())
+        //     r = .20;
+
+        var dimensions  = aspectratio(imgWidth, imgHeight, r);
+        dimensions = embellisment_check_upload_image_dimension(dimensions, r);
 
         var imgTop      = ($('#canvas').height()/2)-(dimensions['height']/2);
         var imgLeft     = ($('#canvas').width()/2)-(dimensions['width']/2);       
@@ -685,6 +690,8 @@ function create_instance_embellishment_upload(fname){
 
         transform(object);
 
+        eventTracker(object, 'upload_image');
+
     }).appendTo(object);
     
     object.appendTo('#canvas');
@@ -698,6 +705,17 @@ function create_instance_embellishment_upload(fname){
     hide_canvas_menu();
 
     return object;
+}
+
+function embellisment_check_upload_image_dimension(dimensions,ratio){
+    var canvas_width = $('#canvas').width()-(($('#canvas').width()*5)/100);
+    var canvas_height = $('#canvas').height()-(($('#canvas').height()*5)/100);    
+    if (dimensions['height'] > canvas_height || dimensions['width']>canvas_width){
+        ratio = ratio-.05;
+        dimensions  = aspectratio(dimensions['width'], dimensions['height'], ratio);
+        return embellisment_check_upload_image_dimension(dimensions, ratio)        
+    } else
+        return dimensions;
 }
 
 function change_color(object,rgb){
