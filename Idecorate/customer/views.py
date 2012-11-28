@@ -15,7 +15,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageOps
 from models import StyleboardItems
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm
@@ -197,7 +197,8 @@ def generate_styleboard_view(request, id, w, h):
 
 		try:
 			imgObj = Image.open(imgFile).convert('RGBA')
-			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
 			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
 			w, h = imgObj.size
 		except:
@@ -292,7 +293,8 @@ def generate_styleboard_view(request, id, w, h):
 
 		#try to rotate
 		try:
-			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
 			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
 			"""
 			print "The width is: %s, and height is: %s" % (w,h)
@@ -305,7 +307,9 @@ def generate_styleboard_view(request, id, w, h):
 			imgObj.thumbnail((w,h),Image.ANTIALIAS)
 			"""
 		except:
-			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+			
 
 		#flip and flap
 		exec('matrix=%s' % iList['matrix'])

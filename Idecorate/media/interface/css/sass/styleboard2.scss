@@ -948,6 +948,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								float: left;
 								width: 10%;
 							}
+
 							#opacity-control-wrap{
 								float: right;
 								width: 87%;
@@ -968,6 +969,31 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								}
 								#slider{
 									z-index: 9999;
+								}
+							}
+
+							#text-change-wrap{
+								float: right;
+								width: 150px;
+								position:relative;
+								z-index: 9999;
+								#text-change{
+									resize: none;
+									width: 140px;
+									height: 50px;
+									padding: 3px;
+									border: 1px solid #DDD;
+									float: right;
+								}
+								#text-update{
+									display: block;
+									clear: both;
+									float: right;
+									padding: 4px;
+									background-color: #eee;
+									color: #333;
+									font-size: 12px;
+									border: 1px solid #DDD;
 								}
 							}
 						}
