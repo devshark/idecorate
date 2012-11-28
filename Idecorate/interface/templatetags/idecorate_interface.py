@@ -74,19 +74,19 @@ def menuInterfaceRecursion(menus):
 
 		if menus.model == type(InfoMenu()):
 			anotherClass = ""
-			clss = "dropdown1"
+			clss = "dropdown clearfix"
 
 			if InfoMenu.objects.filter(parent__id=menu.id).count() > 0:
-				arrow = ' <img src="/media/images/arrow.png" alt="" />'
+				arrow = ' &raquo;'
 			else:
 				arrow = ''
 
 		else:
 			anotherClass = " ddl-right"
-			clss = "dropdown2"
+			clss = "dropdown2 clearfix"
 
 			if SiteMenu.objects.filter(parent__id=menu.id).count() > 0:
-				arrow = ' <img src="/media/images/arrow.png" alt="" />'
+				arrow = ' &raquo;'
 			else:
 				arrow = ''
 
@@ -111,7 +111,7 @@ def menuInterfaceRecursion(menus):
 			#spanOpen = ''
 			#spanClose = ''
 
-		element += '<li>%s' % link
+		element += '<li>%s%s' % (link, arrow)
 
 		if menus.model == type(InfoMenu()):
 
