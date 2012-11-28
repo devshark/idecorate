@@ -107,15 +107,15 @@ def save_styleboard(request):
 	try:		
 		customer_styleboard = request.session['customer_styleboard']	
 		form = SaveStyleboardForm(initial={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description})
-	except Exception as e:
-		print e
+	except Exception as e:		
 		form = SaveStyleboardForm()
 	if request.method == "POST":
 		form = SaveStyleboardForm(request.POST)		
 		if form.is_valid():
 			cleaned_datas = form.cleaned_data
 			cleaned_datas['user'] = request.user
-			cleaned_datas['customer_styleboard'] = customer_styleboard				
+			cleaned_datas['customer_styleboard'] = customer_styleboard
+			cleaned_datas['sessionid'] = request.session.get('cartsession',None)
 			res = save_styleboard_item(cleaned_datas)
 			request.session['customer_styleboard'] = res
 			info['action'] = 'save_styleboard'

@@ -451,7 +451,7 @@ function hideUploadEmbellishment(){
 }
 function showUploadEmbellishment(){    
     $('#picture').val('');
-    $('#picture').show();
+    $('.file-wrapper input[type="button"]').show();
     $('#form_submit_button').show();
     $("#uploadprogressbar").remove();
     $('.file-wrapper .file-holder').remove();

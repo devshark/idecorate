@@ -85,14 +85,15 @@ def save_styleboard_item(data):
 		st.browser = data['browser']
 		st.save()
 
-		csb = CustomerStyleBoard()
 		csb.user = data['user']
 		csb.styleboard_item = st
 		csb.save()
+
+		manage_styleboard_cart_items(data['sessionid'],st)
+
 		transaction.commit()
 		return csb
 	except Exception as e:
-		print e
 		transaction.rollback()
 		return False
 
@@ -101,8 +102,9 @@ def get_customer_styleboard_item(customer_styleboard):
 
 def manage_styleboard_cart_items(sessionid, styleboard_item):
 	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)
-	for item in cart_temp_items:
-		save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
+	if cart_temp_items.count()>0:
+		for item in cart_temp_items:
+			save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
 
 def save_styleboard_cart_item(product, quantity, styleboard_item):
 	try:
