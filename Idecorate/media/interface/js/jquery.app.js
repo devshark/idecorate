@@ -502,15 +502,14 @@ $(document).ready(function () {
         },
         onHide: function (colpkr) {
             $(colpkr).fadeOut(500);
-            var object = $('.selected').find('img');
-            change_color(object,rgb);
+            $('.colorpicker_submit').trigger('click');
             return false;
         },
         onChange: function (hsb,hex,rgb) {
             $('#colorPicker div').css('backgroundColor', '#' + hex);
         },
-        onSubmit: function(hsb,hex,rgb){
-            $('.colorpicker').fadeOut(500);
+        onSubmit: function(hsb,hex,rgb, el){
+            $(el).ColorPickerHide();
             var object = $('.selected').find('img');
             change_color(object,rgb);
             return false;
