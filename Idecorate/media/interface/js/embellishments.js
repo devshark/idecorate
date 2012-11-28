@@ -65,10 +65,10 @@ $(document).ready(function(){
     });
 
     $('#form_submit_button').click(function(){
-        if (!emb_error_upload){
+        var f = $('#picture').val();
+        if (!emb_error_upload && f.length>0){
             if($('#upload-emb-error').length>0)
-                $('#upload-emb-error').remove();
-            var f = $('#picture').val()
+                $('#upload-emb-error').remove();            
             var extension = f.substr( (f.lastIndexOf('.') +1) ).toLowerCase();
             if (extension == 'jpg' || extension == 'jpeg' || extension == 'png' || extension == 'gif' || extension == 'tif'){                
                 $('#X-Progress-ID').val(gen_uuid());
@@ -95,8 +95,30 @@ $(document).ready(function(){
                 emb_error_upload = false;
             }
         });
-    }    
+    }
+    $('#embellishments .formWrap input[type=file]').bind('change', SITE.fileInputs);
 });
+var SITE = SITE || {};
+SITE.fileInputs = function() {    
+    $('#form_submit_button').show();
+    if ($.browser.msie){
+        $(this).blur();    
+    }
+    var $this = $(this),
+    $val = $this.val(),
+    valArray = $val.split('\\'),
+    newVal = valArray[valArray.length-1],
+    $button = $this.siblings('.button'),
+    $fakeFile = $this.siblings('.file-holder');        
+    if(newVal !== '') {
+        $button.text('Photo Chosen');
+        if($fakeFile.length === 0) {
+            $button.after('<span class="file-holder">' + newVal + '</span>');
+        } else {
+            $fakeFile.text(newVal);
+        }
+    }
+};
 function _resize_embellisment(){    
     if($.browser.msie && $.browser.version == 8.0){
         if ( $(window).height() != emb_window_height && $(window).width() != emb_window_width ) {
@@ -424,7 +446,7 @@ function startProgressBarUpdate(upload_id) {
     }, 1000);
 }
 function hideUploadEmbellishment(){
-    $('#picture').hide();
+    $('.file-wrapper input[type="button"]').hide();
     $('#form_submit_button').hide();
 }
 function showUploadEmbellishment(){    
@@ -432,5 +454,6 @@ function showUploadEmbellishment(){
     $('#picture').show();
     $('#form_submit_button').show();
     $("#uploadprogressbar").remove();
+    $('.file-wrapper .file-holder').remove();
     create_instance_embellishment_upload(emb_uploaded_filename);
 }

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
-from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard
+from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard, StyleBoardCartItems
+from cart.models import CartTemp
 
 @transaction.commit_manually
 def register_user(data):
@@ -98,3 +99,20 @@ def save_styleboard_item(data):
 def get_customer_styleboard_item(customer_styleboard):
 	return CustomerStyleBoard.objects.get(id=customer_styleboard.id)
 
+def manage_styleboard_cart_items(sessionid, styleboard_item):
+	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)
+	for item in cart_temp_items:
+		save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
+
+def save_styleboard_cart_item(product, quantity, styleboard_item):
+	try:
+		styleboard_cart = StyleBoardCartItems.objects.get(product=product, styleboard_item=styleboard_item)
+		if styleboard_cart.quantity != quantity:
+			styleboard_cart.quantity = quantity
+			styleboard_cart.save()
+	except:
+		styleboard_cart = StyleBoardCartItems()
+		styleboard_cart.styleboard_item = styleboard_item
+		styleboard_cart.product = product
+		styleboard_cart.quantity = quantity
+		styleboard_cart.save()
