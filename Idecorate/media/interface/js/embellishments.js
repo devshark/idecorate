@@ -452,7 +452,7 @@ function hideUploadEmbellishment(){
 function showUploadEmbellishment(){    
     $('#picture').val('');
     $('.file-wrapper input[type="button"]').show();
-    $('#form_submit_button').show();
+    $('#form_submit_button').hide();
     $("#uploadprogressbar").remove();
     $('.file-wrapper .file-holder').remove();
     create_instance_embellishment_upload(emb_uploaded_filename);

@@ -44,6 +44,7 @@
 				<div class="featurePrice">
 					<h5 class="clearfix">$10,000.00</h5>
 					<p>100 guest</p>
+					<p>100 tables</p>
 				</div>
 			</div>
 			<div class="clearfix featureFooter">
@@ -134,10 +135,11 @@ $(function(){
 		}
 		
 	});
-
-	if(newHeight < windowH) {
-		$('#feature-wrap').height(newHeight);
-	}
+	if ($(document).height()<$(window).height()){
+		if(newHeight < windowH) {
+			$('#feature-wrap').height(newHeight);
+		}
+	}	
 
 });
 </script>
