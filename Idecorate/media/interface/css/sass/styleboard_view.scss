@@ -26,7 +26,6 @@ aside {
     }
 
     div {
-      float: left;
       margin-left: 10px;
 
       div {
@@ -35,23 +34,25 @@ aside {
       }
     }
 
+    .name {
+      float: left;
+    }
+
+    .personalizeWrapper {
+      float: right;
+    }
+
     div a {
       text-decoration: underline;
       font-weight: bold;
       color: #0000FF;
     }
 
-    @-moz-document url-prefix() {
-      .personalize {
-        margin: 5px 0 0 55px !important;
-      }
-    }
-
     .personalize {
       width: auto;
       height: auto;
       padding: 3px;
-      margin: 5px 0 0 75px;
+      margin: 5px 0 0 0;
       *margin: 5px 0 0 65px;
       color: #666666;
       text-decoration: none;

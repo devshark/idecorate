@@ -14,20 +14,19 @@ aside {
     font-size: 1em;
     padding: 10px 0 10px 5px;
     border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
-    @-moz-document url-prefix() {
-      .personalize {
-        margin: 5px 0 0 55px !important; } }
- }
+    border-bottom: 1px solid #000; }
     aside .memberName img {
       float: left;
       margin: 5px 5px 0 0; }
     aside .memberName div {
-      float: left;
       margin-left: 10px; }
       aside .memberName div div {
         padding: 10px 0 0 0;
         margin: 0; }
+    aside .memberName .name {
+      float: left; }
+    aside .memberName .personalizeWrapper {
+      float: right; }
     aside .memberName div a {
       text-decoration: underline;
       font-weight: bold;
@@ -36,7 +35,7 @@ aside {
       width: auto;
       height: auto;
       padding: 3px;
-      margin: 5px 0 0 75px;
+      margin: 5px 0 0 0;
       *margin: 5px 0 0 65px;
       color: #666666;
       text-decoration: none;
