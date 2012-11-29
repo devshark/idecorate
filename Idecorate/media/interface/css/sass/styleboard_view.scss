@@ -20,53 +20,44 @@ aside {
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
 
-    img {
-      float: left;
-      margin: 5px 5px 0 0;
-    }
+    table {
+      width: 98%;
 
-    div {
-      margin-left: 10px;
-
-      div {
-        padding: 10px 0 0 0;
-        margin: 0;
+      img {
+        margin: 5px 0 0 0;
+        float: left;
       }
-    }
 
-    .name {
-      float: left;
-      width: auto;
-      white-space: nowrap;
+      span {
+        padding-top: 10px;
+        float: left;
+      }
 
-    }
+      a {
+        float: left;
+        padding-top: 10px;
+        text-decoration: underline;
+        font-weight: bold;
+        color: #0000FF;
+      }
 
-    .personalizeWrapper {
-      float: right;
-    }
-
-    div a {
-      text-decoration: underline;
-      font-weight: bold;
-      color: #0000FF;
-    }
-
-    .personalize {
-      width: auto;
-      height: auto;
-      padding: 3px;
-      margin: 5px 0 0 0;
-      *margin: 5px 0 0 65px;
-      color: #666666;
-      text-decoration: none;
-      cursor: pointer;
-      float: right;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
-      background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
-      background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
-      background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
-      border: 1px solid #FFC5C3;
-      box-shadow: 2px 2px 2px #999999;
+      .personalize {
+        width: auto;
+        height: auto;
+        padding: 3px;
+        margin: 5px 0 0 0;
+        *margin: 5px 0 0 65px;
+        color: #666666;
+        text-decoration: none;
+        cursor: pointer;
+        float: right;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
+        background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
+        border: 1px solid #FFC5C3;
+        box-shadow: 2px 2px 2px #999999;
+      }
     }
 
   }
@@ -154,13 +145,12 @@ aside {
     }
 
     .total {
-      width: 92%%;
+      width: 99%%%%;
       text-align: right;
-      padding-right: 20px;
     }
 
     .buyItem {
-      margin: 10px 20px 10px 0;
+      margin: 10px 0;
       cursor: pointer;
       float: right;
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */

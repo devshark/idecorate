@@ -3,6 +3,8 @@
 {% block title %}iDecorate Weddings{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard_view.css">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.2.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.2.ico" type="image/ico" />
 {% endblock %}
 {% block content %}
 <style type="text/css">
@@ -21,13 +23,12 @@
 	<aside>
 		<h1>{{ styleboard.styleboard_item.name }}</h1>
 		<div class="clearfix memberName">
-			<div class="name">
-				<img src="/media/images/man.1.jpg" />
-				<div>by <a href="#">{{ user_profile.nickname }}</a></div>
-			</div>
-			<div class="personalizeWrapper">
-				<a href="#" class="personalize">Personalize!</a>
-			</div>
+			<table>
+				<tr>
+					<td width="85%"><img src="/media/images/man.1.jpg" /> <span>&nbsp;by&nbsp;</span><a href="#">{{ user_profile.nickname }}</a></td>
+					<td><a href="#" class="personalize">Personalize!</a></td>
+				</tr>
+			</table>
 		</div>
 		<div class="clearfix socialMedia">
 			<div class="facebookLike">
