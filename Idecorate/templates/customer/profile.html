@@ -52,60 +52,6 @@
 			</div>
 		</div>
 		{% endfor %}
-		<!-- <div class="featureContentWrap clearfix">
-			<div class="clearfix featureImg">
-			 <img src="http://www.brides.com/images/2012_bridescom/Homepage/07-31/wedding-cakes-unique-wedding-cake-toppers-629.jpg" /> 
-			</div>
-			<h3 class="clearfix">Lorem ipsum dolor sit amet</h3>
-			<div class="clearfix">
-				<div class="featureDesc">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-				</div>
-				<div class="featurePrice">
-					<h5 class="clearfix">$10,000.00</h5>
-					<p>100 guest</p>
-				</div>
-			</div>
-			<div class="clearfix featureFooter">
-				<img src="/media/images/man.png" /><span class="member"><p>by membername</p></span>
-			</div>
-		</div>
-		<div class="featureContentWrap clearfix">
-			<div class="clearfix featureImg">
-			 <img src="http://www.brides.com/images/2012_bridescom/Homepage/07-31/wedding-cakes-unique-wedding-cake-toppers-629.jpg" /> 
-			</div>
-			<h3 class="clearfix">Lorem ipsum dolor sit amet</h3>
-			<div class="clearfix">
-				<div class="featureDesc">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-				</div>
-				<div class="featurePrice">
-					<h5 class="clearfix">$10,000.00</h5>
-					<p>100 guest</p>
-				</div>
-			</div>
-			<div class="clearfix featureFooter">
-				<img src="/media/images/man.png" /><span class="member"><p>by membername</p></span>
-			</div>
-		</div>
-		<div class="featureContentWrap clearfix">
-			<div class="clearfix featureImg">
-			 <img src="http://www.brides.com/images/2012_bridescom/Homepage/07-31/wedding-cakes-unique-wedding-cake-toppers-629.jpg" /> 
-			</div>
-			<h3 class="clearfix">Lorem ipsum dolor sit amet</h3>
-			<div class="clearfix">
-				<div class="featureDesc">
-					Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-				</div>
-				<div class="featurePrice">
-					<h5 class="clearfix">$10,000.00</h5>
-					<p>100 guest</p>
-				</div>
-			</div>
-			<div class="clearfix featureFooter">
-				<img src="/media/images/man.png" /><span class="member"><p>by membername</p></span>
-			</div>
-		</div> -->
 	</div>
 	{% else %}
 	<div class="clearfix create-wrap">
@@ -140,6 +86,16 @@ $(function(){
 			$('#feature-wrap').height(newHeight);
 		}
 	}	
+
+	var liMaxHeight = -1;
+	var node;
+	$(".featureDesc").each(function(index) {
+	    if ($(this).outerHeight() > liMaxHeight) {
+	        liMaxHeight = $(this).outerHeight();
+	        node = index;
+	    }
+	});
+	$(".featureDesc").height(liMaxHeight);
 
 });
 </script>

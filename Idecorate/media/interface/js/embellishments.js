@@ -67,6 +67,7 @@ $(document).ready(function(){
     $('#form_submit_button').click(function(){
         var f = $('#picture').val();
         if (!emb_error_upload && f.length>0){
+            $('#upload-embel fieldset').append('<span id="uploadprogressbar"></span>');
             if($('#upload-emb-error').length>0)
                 $('#upload-emb-error').remove();            
             var extension = f.substr( (f.lastIndexOf('.') +1) ).toLowerCase();
@@ -84,38 +85,36 @@ $(document).ready(function(){
         }
         return false;
     });
-    if(!$.browser.msie && !$.browser.safari){
-        $('#picture').on('change', function() {
-            if($('#upload-emb-error').length>0)
-                $('#upload-emb-error').remove();
-            if (this.files[0].size>MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE){
-                $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000; font-size:12px;"> Please keep filesize under 2MB. Current filesize '+ (this.files[0].size/1024/1024).toFixed(2) +'MB</span>');
-                emb_error_upload = true;
-            } else {
-                emb_error_upload = false;
-            }
-        });
-    }
     $('#embellishments .formWrap input[type=file]').bind('change', SITE.fileInputs);
 });
 var SITE = SITE || {};
-SITE.fileInputs = function() {    
+SITE.fileInputs = function() {
+    if($('#upload-emb-error').length>0)
+        $('#upload-emb-error').remove();
+
+    if(!$.browser.msie && !$.browser.safari){
+        if (this.files[0].size>MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE){
+            $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000; font-size:12px;"> Please keep filesize under 2MB. Current filesize '+ (this.files[0].size/1024/1024).toFixed(2) +'MB</span>');
+            emb_error_upload = true;
+        } else {
+            emb_error_upload = false;
+        }
+    }
+
     $('#form_submit_button').show();
     if ($.browser.msie){
         $(this).blur();    
     }
-    var $this = $(this),
-    $val = $this.val(),
-    valArray = $val.split('\\'),
+    var val = $(this).val(),
+    valArray = val.split('\\'),
     newVal = valArray[valArray.length-1],
-    $button = $this.siblings('.button'),
-    $fakeFile = $this.siblings('.file-holder');        
-    if(newVal !== '') {
-        $button.text('Photo Chosen');
-        if($fakeFile.length === 0) {
-            $button.after('<span class="file-holder">' + newVal + '</span>');
+    button = $('#btn-from-my-computer'),
+    fakeFile = $('#embellishments .file-wrapper .file-holder');    
+    if(newVal !== '') {        
+        if($(fakeFile).length === 0) {
+            $(button).after('<span class="file-holder">' + newVal + '</span>');
         } else {
-            $fakeFile.text(newVal);
+            $(fakeFile).text(newVal);
         }
     }
 };
@@ -411,8 +410,7 @@ function showResponseEmbellishment(responseText, statusText, xhr, $form) {
     } else if (res_code=='f2') {
         $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000; font-size:12px;"> '+res_msg+'</span>');
     } else {
-        emb_uploaded_filename = res_msg;
-        $('#upload-embel fieldset').append('<span id="uploadprogressbar"></span>');
+        emb_uploaded_filename = res_msg;        
         var d = {
             boxImage : '/media/images/progressbar.gif',
             barImage : {
