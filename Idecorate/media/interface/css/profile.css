@@ -1,5 +1,10 @@
 section {
   min-height: 300px; }
+  section h2 {
+    width: 100%;
+    border-bottom: 1px solid;
+    padding-bottom: 15px;
+    margin-bottom: 15px; }
   section .user-profile {
     padding: 10px;
     height: auto;
@@ -50,7 +55,8 @@ section {
     background: #F0EBE5;
     position: relative; }
     section .featureContentWrap .featureImg {
-      width: 100%;
+      width: 450px;
+      height: 285px;
       background: #ffffff; }
       section .featureContentWrap .featureImg img {
         width: 450px;

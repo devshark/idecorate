@@ -751,6 +751,10 @@ h5 {
             width: 150px;
             position: relative;
             z-index: 9999; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #text-change-wrap #font_id {
+              width: 148px;
+              float: right;
+              margin-bottom: 2px; }
             #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #text-change-wrap #text-change {
               resize: none;
               width: 140px;
