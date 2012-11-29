@@ -426,11 +426,9 @@
                                     <div id="text-change-wrap" class="clearfix">
                                         <form>
                                             <select name="font_id" id="font_id">
-                                                <option value="">-- Select font style --</option>
-                                                <option value="1">http://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg</option>
-                                                <option value="9">http://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg</option>
-                                                <option value="2">http://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg</option>
-                                                <option value="3">http://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg</option>
+                                                {% for text_item in text_items %}
+                                                <option value="{{ text_item.id }}">/generate_text/?font_size=100&font_text=Abc&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=1</option>
+                                                {% endfor %}
                                             </select>
                                             <textarea id="text-change" name="text-change"></textarea>
                                             <a href="#" id="text-update">update</a>
