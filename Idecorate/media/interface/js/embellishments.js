@@ -66,8 +66,7 @@ $(document).ready(function(){
 
     $('#form_submit_button').click(function(){
         var f = $('#picture').val();
-        if (!emb_error_upload && f.length>0){
-            $('#upload-embel fieldset').append('<span id="uploadprogressbar"></span>');
+        if (!emb_error_upload && f.length>0){            
             if($('#upload-emb-error').length>0)
                 $('#upload-emb-error').remove();            
             var extension = f.substr( (f.lastIndexOf('.') +1) ).toLowerCase();
@@ -75,7 +74,8 @@ $(document).ready(function(){
                 $('#X-Progress-ID').val(gen_uuid());
                 var options = {
                     dataType: 'html',
-                    url: EMBELLISHMENT_UPLOAD_ACTION + '?X-Progress-ID='+$('#X-Progress-ID').val(),            
+                    url: EMBELLISHMENT_UPLOAD_ACTION + '?X-Progress-ID='+$('#X-Progress-ID').val(), 
+                    beforeSubmit:  showRequestEmbellishment,           
                     success: showResponseEmbellishment
                 }
                 $('#upload-embel').ajaxSubmit(options); 
@@ -401,7 +401,13 @@ function gen_uuid() {
     }
     return uuid
 }
+function showRequestEmbellishment(){
+    if($.browser.msie || $.browser.safari){
+        $('#upload-embel fieldset').append('<span class="loading"><img src="/media/images/loader.gif" alt="loader" /></span>');
+    }
+}
 function showResponseEmbellishment(responseText, statusText, xhr, $form) {
+    $('.loading').remove();
     response = responseText.split('|')
     res_code = response[0]
     res_msg = response[1]
@@ -410,6 +416,7 @@ function showResponseEmbellishment(responseText, statusText, xhr, $form) {
     } else if (res_code=='f2') {
         $('#form_submit_button').after('<span id="upload-emb-error" style="color:#ff0000; font-size:12px;"> '+res_msg+'</span>');
     } else {
+        $('#upload-embel fieldset').append('<span id="uploadprogressbar"></span>');
         emb_uploaded_filename = res_msg;        
         var d = {
             boxImage : '/media/images/progressbar.gif',
