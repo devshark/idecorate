@@ -25,7 +25,8 @@ aside {
         margin: 0; }
     aside .memberName .name {
       float: left;
-      width: 70%; }
+      width: auto;
+      white-space: nowrap; }
     aside .memberName .personalizeWrapper {
       float: right; }
     aside .memberName div a {
