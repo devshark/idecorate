@@ -977,6 +977,13 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								width: 150px;
 								position:relative;
 								z-index: 9999;
+
+								#font_id{
+									width: 148px;
+									float: right;
+									margin-bottom: 2px;
+								}
+
 								#text-change{
 									resize: none;
 									width: 140px;

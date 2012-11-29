@@ -179,10 +179,10 @@
 					//check whether image or just a string
 					var isfound = inst.settings.imageRegExp.test(that.text());
 
-					option_value = isfound ? option_image.attr('src',that.text()): that.text();
+					option_value = isfound ? option_image.attr('src',that.text()).height(25): that.text();
 
 					if (that.is(":selected")) {
-						sbSelector.text(that.text());
+						sbSelector.html('');
 						s = TRUE;
 					}
 					if (i === olen - 1) {

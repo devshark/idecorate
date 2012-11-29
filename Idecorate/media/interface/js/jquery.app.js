@@ -495,6 +495,18 @@ $(document).ready(function () {
     starts as well as with the inits,events,variables
     */
 
+    // $("#font_id").selectbox({
+    //     imageRegExp: /font_id/
+    // });
+
+    // $('.sbHolder').on('click mousedown',function(e){
+    //     cancelBubble(e);
+    // });
+
+    $("#font_id").on('click mousedown',function(e){
+        cancelBubble(e);
+    });
+
     $('#colorPicker').ColorPicker({
         color: '#000000',
         onShow: function (colpkr) {
@@ -521,6 +533,7 @@ $(document).ready(function () {
         e.preventDefault();
         cancelBubble(e);
     });
+
     if(!$.browser.msie){
         $( "#slider" ).slider({
             range: "max",
@@ -577,14 +590,6 @@ $(document).ready(function () {
     $('#text-update').click(function(e){
         var text_value = $('#text-change').val();
         update_text_selected(text_value);
-    });
-
-    // $("#font_id").selectbox({
-    //     imageRegExp: /http/
-    // });
-
-    $('.sbHolder').on('click mousedown',function(e){
-        cancelBubble(e);
     });
 
     //show or hide upper left menu of canvas;
@@ -845,7 +850,9 @@ function embellishment_handle_set(slideValue){
 
 function change_textON_textarea(object){
     var text = object.attr('_text');
+    var font_id = object.attr('_uid');
     $('#text-change').val(text);
+    $('#font_id').val(font_id);
 }
 
 function update_text_selected(text_value){
