@@ -104,18 +104,16 @@ SITE.fileInputs = function() {
     if ($.browser.msie){
         $(this).blur();    
     }
-    var $this = $(this),
-    $val = $this.val(),
-    valArray = $val.split('\\'),
+    var val = $(this).val(),
+    valArray = val.split('\\'),
     newVal = valArray[valArray.length-1],
-    $button = $this.siblings('.button'),
-    $fakeFile = $this.siblings('.file-holder');        
-    if(newVal !== '') {
-        $button.text('Photo Chosen');
-        if($fakeFile.length === 0) {
-            $button.after('<span class="file-holder">' + newVal + '</span>');
+    button = $('#btn-from-my-computer'),
+    fakeFile = $(this).find('.file-holder');    
+    if(newVal !== '') {        
+        if($(fakeFile).length === 0) {
+            $(button).after('<span class="file-holder">' + newVal + '</span>');
         } else {
-            $fakeFile.text(newVal);
+            $(fakeFile).text(newVal);
         }
     }
 };
