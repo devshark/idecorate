@@ -10,7 +10,6 @@ changesCurrentPosition = 0;
 var handles = 'ne,se,nw,sw,n,e,s,w';
 var aspectR = true;
 var slideValue = 0;
-DEFAULT_TEXT_E = "I Love iDecorate";
 
 $(document).ready(function () {
     //init lasso
@@ -346,7 +345,7 @@ $(document).ready(function () {
     }).keydown(function(e){
         
         if(!$.browser.mozilla) {
-            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea') {
+            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
             }
@@ -357,7 +356,7 @@ $(document).ready(function () {
     $('html').keypress(function(e){
 
         if($.browser.mozilla) {
-            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea') {
+            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
                 return false;
@@ -604,7 +603,7 @@ function create_instance_em_text(em_dbID,event,type){
     var imgHeight   = 0;
 
     obj_image.attr({
-        'src': '/generate_text/?font_size=200&font_text=' + escape(DEFAULT_TEXT_E) + '&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0'
+        'src': '/generate_text/?font_size=200&font_text=rock%20and%20roll&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0'
     }).css({
         width: '100%',
         height: 'auto'
@@ -640,7 +639,7 @@ function create_instance_em_text(em_dbID,event,type){
         object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
         object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
         object.attr('_opacity', 100);
-        object.attr('_text', DEFAULT_TEXT_E);
+        object.attr('_text', 'rock and roll');
         object.attr('_rgb', '000000000');
         $( "#slider" ).slider({value:100});
         slideValue = 100;
