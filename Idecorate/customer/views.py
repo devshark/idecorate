@@ -17,6 +17,7 @@ from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
 from models import StyleboardItems
+from django.contrib.auth.models import User
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
@@ -90,13 +91,26 @@ def forgot_password(request):
 	return HttpResponse('<h1>Under Construction.</h1>')
 
 def profile(request):
-	if not request.user.is_authenticated():
-		return redirect('home')
+
+	user_id = request.GET.get('id',None)
+	if user_id:
+		try:
+			user = User.objects.get(id=user_id)
+		except:
+			if request.user.is_authenticated():
+				user = request.user
+			else:
+				return redirect('home')
+	else:
+		if request.user.is_authenticated():
+			user = request.user
+		else:
+			return redirect('home')
 	info = {}
-	user_profile = customer_profile(request.user)
+	user_profile = customer_profile(user)
 	info['user_profile'] = user_profile
 	info['currentUrl'] = request.get_full_path()
-	user_styleboard = get_user_styleboard(request.user)
+	user_styleboard = get_user_styleboard(user)
 	info['user_styleboard'] = user_styleboard
 
 	idecorateSettings = IdecorateSettings.objects.get(pk=1)
@@ -137,6 +151,15 @@ def styleboard_view(request,sid=None):
 	styleboard = get_user_styleboard(None, sid)
 	if not styleboard:
 		return redirect('home')
+
+	"""
+	manage add to cart
+	"""
+	if request.method=="POST":
+		styleboard_item_id = request.POST['sid']
+		styleboard = get_user_styleboard(None,styleboard_item_id)
+		cart_items = get_styleboard_cart_item(styleboard)
+
 	user_profile = customer_profile(styleboard.user)
 	info['user_profile'] = user_profile
 	info['styleboard'] = get_user_styleboard(None, sid)
@@ -205,7 +228,6 @@ def generate_styleboard_view(request, id, w, h):
 
 		style = iList['style']
 		splittedStyle = style.split(';')
-		print splittedStyle
 
 		#find width and height index
 		ctr = 0

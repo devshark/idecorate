@@ -25,7 +25,7 @@
 		<div class="clearfix memberName">
 			<table>
 				<tr>
-					<td width="85%"><img src="/media/images/man.1.jpg" /> <span>&nbsp;by&nbsp;</span><a href="#">{{ user_profile.nickname }}</a></td>
+					<td width="85%"><img src="/media/images/man.1.jpg" /> <span>&nbsp;by&nbsp;</span><a href="{% url profile %}?id={{ styleboard.user.id }}">{{ user_profile.nickname }}</a></td>
 					<td><a href="#" class="personalize">Personalize!</a></td>
 				</tr>
 			</table>
@@ -59,7 +59,9 @@
 				</p>
 			</div>
 			<h2>In this Styleboard</h2>
-			<form>
+			<form method="POST" action="{% url checkout_from_view_styleboard %}">
+				{% csrf_token %}
+				<input type="hidden" name="sid" value="{{ styleboard.styleboard_item.id }}" />
 				<div class="clearfix">
 					<table>
 						<tbody class="tbody">
@@ -86,7 +88,7 @@
 					</table>
 				</div>
 				<p class="clearfix total">Total: ${{ styleboard.styleboard_item.id|get_emb_save_total|intcomma }}</p>
-				<input type="button" value="Buy!" class="buyItem" />
+				<input type="submit" value="Buy!" class="buyItem" />
 			</form>
 		</div>
 	</aside>

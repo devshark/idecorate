@@ -24,6 +24,8 @@ from plata.shop import forms as shop_forms
 from django import forms
 import re
 
+from customer.services import get_styleboard_cart_item, get_user_styleboard
+
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
         fields = ['email'] + ['billing_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_same_as_billing']
@@ -134,6 +136,21 @@ class IdecorateShop(Shop):
 					guestTable.save()
 
 				self.guest_table = guestTable
+
+		else:
+			if GuestTable.objects.filter(order=order).exists():
+				guestTable = GuestTable.objects.get(order=order)
+				guestTable.guests = styleboard.item_guest
+				guestTable.tables = styleboard.item_tables
+				guestTable.save()
+			else:
+				guestTable = GuestTable()
+				guestTable.order = order
+				guestTable.guests = styleboard.item_guest
+				guestTable.tables = styleboard.item_tables
+				guestTable.save()
+
+			self.guest_table = guestTable
 
 	def render_checkout(self, request, context):
 		context.update({'guest_table': self.guest_table})
@@ -270,3 +287,22 @@ def checkout(request):
 		shop.modify_guest_table(request, guest_table.guests, guest_table.tables, order)
 
 	return redirect('plata_shop_checkout')
+
+def checkout_from_view_styleboard(request):
+	if request.method=='POST':
+		styleboard_item_id = request.POST['sid']
+		customer_styleboard = get_user_styleboard(None,styleboard_item_id)
+		styleboard = customer_styleboard.styleboard_item
+		cart_items = get_styleboard_cart_item(styleboard)
+
+		order = shop.order_from_request(request, create=True)
+
+		if cart_items.count() > 0:
+			for cart in cart_items:
+				order.modify_item(cart.product, absolute=cart.quantity)
+
+			shop.modify_guest_table(request, styleboard.item_guest, styleboard.item_tables, order)
+
+		return redirect('plata_shop_checkout')
+	else:
+		return redirect('styleboard')
