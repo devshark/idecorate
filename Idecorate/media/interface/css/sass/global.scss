@@ -133,7 +133,7 @@ h5 {
       }
     }
 
-    #info-menu, #site-menu {
+    #info-menu {
       width: 400px; 
     }
 
@@ -150,6 +150,7 @@ h5 {
         }
     }
     #site-menu {
+      width: auto;
       float: right;
       vertical-align: top;
       text-align: left;
