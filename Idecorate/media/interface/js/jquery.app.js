@@ -906,6 +906,8 @@ function update_text_selected(text_value){
         $('.selected').height(new_height);
         $('.selected').width(new_width);
 
+        eventTracker($('.selected'), 'text_change');
+
     });
 
     new_img.attr({//append new object
