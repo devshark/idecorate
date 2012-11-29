@@ -1,6 +1,12 @@
 section {
 	min-height: 300px;
 
+	h2 {
+		width: 100%;
+		border-bottom: 1px solid;
+		padding-bottom: 5px;
+	}
+
 	.user-profile {
 		padding: 10px;
 		height: auto;
@@ -73,7 +79,8 @@ section {
 		position: relative;
 
 		.featureImg {
-			width: 100%;
+			width: 450px;
+			height: 285px;
 			background: #ffffff;
 
 			img {
