@@ -81,6 +81,7 @@ def styleboard(request, cat_id=None):
 		info['product_positions'] = mark_safe("''")
 
 	info['max_emb_size'] = settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE
+	info['text_items'] = TextFonts.objects.filter(is_active=True, is_deleted=False)
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
@@ -610,7 +611,7 @@ def get_embellishment_items(request):
 			response_data['product_counts'] = item_counts
 			response_data['type'] = EmbellishmentsType.objects.get(id=typ).name
 		else:
-			text_items = TextFonts.objects.filter(is_active=True, is_deleted=False)			
+			text_items = TextFonts.objects.filter(is_active=True, is_deleted=False)
 			text_counts = text_items.count()
 			paginator = Paginator(text_items, offset)
 			page = request.GET.get('page')
