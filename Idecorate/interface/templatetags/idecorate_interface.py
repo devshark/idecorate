@@ -237,3 +237,7 @@ def get_emb_save_total(styleboard_item_id):
 def get_product_price(product):
 	product_details = ProductPrice.objects.get(product=product)
 	return mark_safe("%.2f" % product_details._unit_price)
+
+@register.filter
+def get_sub_total(price,quantity):
+	return mark_safe("%.2f" % (float(quantity)*float(price)))

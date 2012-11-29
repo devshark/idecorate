@@ -74,10 +74,10 @@
 									<p>${{ item.product|get_product_price|intcomma }}</p>
 								</td>
 								<td class="productTD">
-									x5
+									x{{ item.quantity }}
 								</td>
 								<td class="productTD">
-									$500.00
+									${{ item.product|get_product_price|get_sub_total:item.quantity|intcomma }}
 								</td>
 							</tr>
 							{% endfor %}
