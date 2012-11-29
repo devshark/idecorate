@@ -618,6 +618,9 @@ function create_instance_em_text(em_dbID,event,type){
         var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
 
+        $(this).attr('orig_width', imgWidth);
+        $(this).attr('orig_height',imgHeight);
+
         object.css({
             left:imgLeft,
             top:imgTop,
@@ -844,16 +847,68 @@ function update_text_selected(text_value){
     var rgb             = object.attr('_rgb');
     var new_img         = $('<img/>');
     var new_image_src   = new_obj_src = '/generate_text/?font_size=200&font_text='+escape(text_value)+'&font_color='+rgb+'&font_id='+object_dbID+'&font_thumbnail=0';
+    
+
+    var old_text = $('.selected').attr('_text');
+    var old_height = $('.selected').height();
+    var old_width = $('.selected').width();
+    var old_newline_count = escape(old_text).split('%0A').length
+    var orig_img_width = $('.selected > img').attr('orig_width');
+    var orig_img_height = $('.selected > img').attr('orig_height');
+    var oldHighestLength = 0;
+    var newHighestLength = 0;
 
     object.children('img').remove();//remove old object
     
     new_img.load(function(){
+        /**
         imgWidth = new_img.width();
         imgHeight = new_img.height();
         var aspectratio = imgHeight/imgWidth;
         var handle_height = aspectratio*object.width();
 
         $handles.height(handle_height);
+        $('.selected').height(handle_height);
+        **/
+
+        //get the old highest length first
+
+        var splittedText = escape(old_text).split('%0A');
+
+        for(x=0; x < splittedText.length; x++) {
+            if(oldHighestLength == 0) {
+                oldHighestLength = splittedText[x].length;
+            } else {
+                if(splittedText[x].length > oldHighestLength) {
+                    oldHighestLength = splittedText[x].length;
+                }
+            }
+        }
+
+        //get the new highest length
+
+        var splittedText = escape(text_value).split('%0A');
+
+        for(x=0; x < splittedText.length; x++) {
+            if(newHighestLength == 0) {
+                newHighestLength = splittedText[x].length;
+            } else {
+                if(splittedText[x].length > newHighestLength) {
+                    newHighestLength = splittedText[x].length;
+                }
+            }
+        }
+
+        var new_width = (old_width / oldHighestLength) * newHighestLength; 
+
+
+        var new_height = (old_height / old_newline_count) * escape(text_value).split('%0A').length;
+
+        $handles.height(new_height);
+        $handles.width(new_width);
+        $('.selected').height(new_height);
+        $('.selected').width(new_width);
+
     });
 
     new_img.attr({//append new object
