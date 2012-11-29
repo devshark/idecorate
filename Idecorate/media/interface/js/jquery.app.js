@@ -789,6 +789,9 @@ function create_instance_embellishment_upload(fname){
     update_menu(object,true);
     hide_canvas_menu();
 
+    //set handles direction 
+    change_cursor($(object).attr('_handle'));
+    
     return object;
 }
 
