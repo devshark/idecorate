@@ -35,7 +35,7 @@
 		{% for item in user_styleboard %}
 		<div class="featureContentWrap clearfix">
 			<div class="clearfix featureImg">
-			 <img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /> 
+				<a href="{% url styleboard_view item.styleboard_item.id %}"><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /></a> 
 			</div>
 			<h3 class="clearfix">{{ item.styleboard_item.name }}</h3>
 			<div class="clearfix">
@@ -44,8 +44,8 @@
 				</div>
 				<div class="featurePrice">
 					<h5 class="clearfix">${{ item.styleboard_item.id|get_emb_save_total|intcomma }}</h5>
-					<p>{{ item.styleboard_item.item_guest }} guest</p>
-					<p>{{ item.styleboard_item.item_tables }} tables</p>
+					<p>{% if item.styleboard_item.item_guest %}{{ item.styleboard_item.item_guest }}{% else %}{{ global_default_quantity }}{% endif %} guest</p>
+					<p>{% if item.styleboard_item.item_tables %}{{ item.styleboard_item.item_tables }}{% else %}{{ global_guest_table }}{% endif %} tables</p>
 				</div>
 			</div>
 			<div class="clearfix featureFooter">

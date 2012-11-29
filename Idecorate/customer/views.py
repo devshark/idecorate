@@ -20,11 +20,12 @@ from models import StyleboardItems
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
-	get_customer_styleboard_item, manage_styleboard_cart_items
+	get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
 import re
 import math
+from idecorate_settings.models import IdecorateSettings
 
 def login_signup(request):
 
@@ -97,6 +98,11 @@ def profile(request):
 	info['currentUrl'] = request.get_full_path()
 	user_styleboard = get_user_styleboard(request.user)
 	info['user_styleboard'] = user_styleboard
+
+	idecorateSettings = IdecorateSettings.objects.get(pk=1)
+	info['global_default_quantity'] = idecorateSettings.global_default_quantity
+	info['global_guest_table'] = idecorateSettings.global_table
+
 	return render_to_response('customer/profile.html', info, RequestContext(request))
 
 def save_styleboard(request):
@@ -124,8 +130,17 @@ def save_styleboard(request):
 	info['form'] = form
 	return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
 
-def styleboard_view(request):
+def styleboard_view(request,sid=None):
+	if not sid:
+		return redirect('home')
 	info = {}
+	styleboard = get_user_styleboard(None, sid)
+	if not styleboard:
+		return redirect('home')
+	user_profile = customer_profile(styleboard.user)
+	info['user_profile'] = user_profile
+	info['styleboard'] = get_user_styleboard(None, sid)
+	info['cart_items'] = get_styleboard_cart_item(styleboard.styleboard_item)
 	return render_to_response('customer/styleboard_view.html', info, RequestContext(request))
 
 

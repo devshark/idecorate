@@ -65,8 +65,14 @@ def get_client_ip(request):
 		ip = request.META.get('REMOTE_ADDR')
 	return ip
 
-def get_user_styleboard(user):
-	styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
+def get_user_styleboard(user=None,styleboard_id=None):
+	if user:
+		styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
+	elif styleboard_id:
+		try:
+			styleboards = CustomerStyleBoard.objects.get(styleboard_item__id=styleboard_id)
+		except:
+			styleboards = None
 	return styleboards
 
 @transaction.commit_manually
@@ -130,3 +136,6 @@ def get_save_styleboard_total(styleboard_item_id):
 		total_amount += (price._unit_price)*item.quantity
 
 	return total_amount
+
+def get_styleboard_cart_item(styleboard_item):
+	return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item)

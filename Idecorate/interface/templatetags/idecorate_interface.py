@@ -8,6 +8,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from cart.services import get_product
 
 from customer.services import customer_profile, get_save_styleboard_total
+from cart.models import ProductPrice
 
 register = template.Library()
 
@@ -231,3 +232,8 @@ def get_nickname(user):
 @register.filter
 def get_emb_save_total(styleboard_item_id):	
 	return mark_safe("%.2f" % get_save_styleboard_total(styleboard_item_id))
+
+@register.filter
+def get_product_price(product):
+	product_details = ProductPrice.objects.get(product=product)
+	return mark_safe("%.2f" % product_details._unit_price)
