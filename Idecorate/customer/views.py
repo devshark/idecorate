@@ -190,6 +190,7 @@ def generate_styleboard_view(request, id, w, h):
 
 		style = iList['style']
 		splittedStyle = style.split(';')
+		print splittedStyle
 
 		#find width and height index
 		ctr = 0

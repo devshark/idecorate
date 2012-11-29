@@ -7,7 +7,7 @@ from idecorate_settings.models import IdecorateSettings
 from django.contrib.humanize.templatetags.humanize import intcomma
 from cart.services import get_product
 
-from customer.services import customer_profile
+from customer.services import customer_profile, get_save_styleboard_total
 
 register = template.Library()
 
@@ -229,18 +229,5 @@ def get_nickname(user):
 		return ""
 
 @register.filter
-def get_emb_save_total(styleboard_item_id):
-	get_product
-	try:
-		profile = customer_profile(user)
-		return profile['nickname']
-	except:
-		return ""
-
-@register.filter
-def get_emb_save_guest_table(styleboard_item_id):
-	try:
-		profile = customer_profile(user)
-		return profile['nickname']
-	except:
-		return ""
+def get_emb_save_total(styleboard_item_id):	
+	return mark_safe("%.2f" % get_save_styleboard_total(styleboard_item_id))

@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
 from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard, StyleBoardCartItems
-from cart.models import CartTemp
+from cart.models import CartTemp, ProductPrice
 
 @transaction.commit_manually
 def register_user(data):
@@ -83,6 +83,8 @@ def save_styleboard_item(data):
 		st.description = data['description']
 		st.item = data['item']
 		st.browser = data['browser']
+		st.item_guest = data['guest']
+		st.item_tables = data['tables']
 		st.save()
 
 		csb.user = data['user']
@@ -118,3 +120,13 @@ def save_styleboard_cart_item(product, quantity, styleboard_item):
 		styleboard_cart.product = product
 		styleboard_cart.quantity = quantity
 		styleboard_cart.save()
+
+def get_save_styleboard_total(styleboard_item_id):
+	items = StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id)
+	res = {}
+	total_amount = 0
+	for item in items:
+		price = ProductPrice.objects.get(product=item.product)
+		total_amount += (price._unit_price)*item.quantity
+
+	return total_amount
