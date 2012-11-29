@@ -62,3 +62,5 @@ class SaveStyleboardForm(forms.Form):
 	description = forms.CharField( label=_("Name your style board."), widget=forms.Textarea, error_messages={'required':_('Enter a short description of your styleboard.')})
 	browser = forms.CharField(widget=forms.HiddenInput())
 	item = forms.CharField(widget=forms.HiddenInput())
+	guest = forms.CharField(widget=forms.HiddenInput())
+	tables = forms.CharField(widget=forms.HiddenInput())

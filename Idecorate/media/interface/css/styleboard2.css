@@ -757,7 +757,8 @@ h5 {
               height: 50px;
               padding: 3px;
               border: 1px solid #DDD;
-              float: right; }
+              float: right;
+              margin-bottom: 3px; }
             #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #text-change-wrap #text-update {
               display: block;
               clear: both;

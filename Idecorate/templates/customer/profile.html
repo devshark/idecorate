@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load idecorate_interface humanize %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
 <link rel="stylesheet" type="text/css" href="/media/interface/css/profile.css">
@@ -34,7 +35,7 @@
 		{% for item in user_styleboard %}
 		<div class="featureContentWrap clearfix">
 			<div class="clearfix featureImg">
-			 <img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /> 
+				<a href="{% url styleboard_view item.styleboard_item.id %}"><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /></a> 
 			</div>
 			<h3 class="clearfix">{{ item.styleboard_item.name }}</h3>
 			<div class="clearfix">
@@ -42,13 +43,13 @@
 					{{ item.styleboard_item.description }}
 				</div>
 				<div class="featurePrice">
-					<h5 class="clearfix">$10,000.00</h5>
-					<p>100 guest</p>
-					<p>100 tables</p>
+					<h5 class="clearfix">${{ item.styleboard_item.id|get_emb_save_total|intcomma }}</h5>
+					<p>{% if item.styleboard_item.item_guest %}{{ item.styleboard_item.item_guest }}{% else %}{{ global_default_quantity }}{% endif %} guest</p>
+					<p>{% if item.styleboard_item.item_tables %}{{ item.styleboard_item.item_tables }}{% else %}{{ global_guest_table }}{% endif %} tables</p>
 				</div>
 			</div>
 			<div class="clearfix featureFooter">
-				<img src="/media/images/man.png" /><span class="member"><p>by membername</p></span>
+				<img src="/media/images/man.png" /><span class="member"><p>by {{ user_profile.nickname }}</p></span>
 			</div>
 		</div>
 		{% endfor %}

@@ -579,6 +579,14 @@ $(document).ready(function () {
         update_text_selected(text_value);
     });
 
+    // $("#font_id").selectbox({
+    //     imageRegExp: /http/
+    // });
+
+    $('.sbHolder').on('click mousedown',function(e){
+        cancelBubble(e);
+    });
+
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
@@ -884,6 +892,7 @@ function update_text_selected(text_value){
             $('.selected').height(new_height);
             
             $('.selected').width(new_width);
+            
             $handles.width(new_width);
 
             new_img.show();
@@ -891,7 +900,6 @@ function update_text_selected(text_value){
             object.attr('_text',text_value);
 
             eventTracker($('.selected'), 'text_change');
-
 
         }).appendTo(object);
 

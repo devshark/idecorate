@@ -109,6 +109,8 @@
                     {% csrf_token %}
                     {{ form.browser }}
                     {{ form.item }}
+                    {{ form.guest }}
+                    {{ form.tables }}
                     <fieldset>
                         <legend>Save my Style Board</legend>
                         <div class="clearfix">{{ form.name|attr:"placeholder:Name your style board" }}</div>
@@ -137,6 +139,8 @@
             if (window.parent){
                 var json_data = window.parent.get_product_object_json();
                 var djsn = JSON.stringify(json_data);
+                $('#id_guest').val(window.parent.$('#guests').val());
+                $('#id_tables').val(window.parent.$('#tables').val());
                 var bwsr = '';
                 if ($.browser.mozilla){
                     bwsr = 'moz';

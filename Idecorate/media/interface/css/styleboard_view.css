@@ -14,43 +14,40 @@ aside {
     font-size: 1em;
     padding: 10px 0 10px 5px;
     border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
-    @-moz-document url-prefix() {
-      .personalize {
-        margin: 5px 0 0 55px !important; } }
- }
-    aside .memberName img {
-      float: left;
-      margin: 5px 5px 0 0; }
-    aside .memberName div {
-      float: left;
-      margin-left: 10px; }
-      aside .memberName div div {
-        padding: 10px 0 0 0;
-        margin: 0; }
-    aside .memberName div a {
-      text-decoration: underline;
-      font-weight: bold;
-      color: #0000FF; }
-    aside .memberName .personalize {
-      width: auto;
-      height: auto;
-      padding: 3px;
-      margin: 5px 0 0 75px;
-      *margin: 5px 0 0 65px;
-      color: #666666;
-      text-decoration: none;
-      cursor: pointer;
-      float: right;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
-      /* for IE */
-      background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
-      /* for webkit browsers */
-      background: -moz-linear-gradient(top, white, #da9b94);
-      /* for firefox 3.6+ */
-      background: -o-linear-gradient(top, white, #da9b94);
-      border: 1px solid #FFC5C3;
-      box-shadow: 2px 2px 2px #999999; }
+    border-bottom: 1px solid #000; }
+    aside .memberName table {
+      width: 98%; }
+      aside .memberName table img {
+        margin: 5px 0 0 0;
+        float: left; }
+      aside .memberName table span {
+        padding-top: 10px;
+        float: left; }
+      aside .memberName table a {
+        float: left;
+        padding-top: 10px;
+        text-decoration: underline;
+        font-weight: bold;
+        color: #0000FF; }
+      aside .memberName table .personalize {
+        width: auto;
+        height: auto;
+        padding: 3px;
+        margin: 5px 0 0 0;
+        *margin: 5px 0 0 65px;
+        color: #666666;
+        text-decoration: none;
+        cursor: pointer;
+        float: right;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+        /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+        /* for webkit browsers */
+        background: -moz-linear-gradient(top, white, #da9b94);
+        /* for firefox 3.6+ */
+        background: -o-linear-gradient(top, white, #da9b94);
+        border: 1px solid #FFC5C3;
+        box-shadow: 2px 2px 2px #999999; }
   aside .socialMedia {
     width: 100%;
     text-align: center;
@@ -94,11 +91,10 @@ aside {
           max-width: 120px;
           margin: 5px 0; }
   aside form .total {
-    width: 92%%;
-    text-align: right;
-    padding-right: 20px; }
+    width: 99%%%%;
+    text-align: right; }
   aside form .buyItem {
-    margin: 10px 20px 10px 0;
+    margin: 10px 0;
     cursor: pointer;
     float: right;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
@@ -113,7 +109,7 @@ aside {
 
 section {
   width: 69%;
-  height: 100%;
+  height: auto;
   margin-left: 10px; }
   section .canvass {
     width: 100%;

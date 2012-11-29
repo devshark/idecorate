@@ -3,10 +3,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta charset="utf-8">
-        <title>iDecorate Wedding</title>
+        <title>iDecorate Weddings</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
+        <link runat="server" rel="shortcut icon" href="/media/images/favicon.2.ico" type="image/x-icon" />
+        <link runat="server" rel="icon" href="/media/images/favicon.2.ico" type="image/ico" />
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard2.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
@@ -15,6 +17,8 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/ui-lightness/jquery.ui.all.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/colorpicker.css" />
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/selectbox/css/jquery.selectbox.css" />
+        
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
             var category_id                 = {{ cat_id }};
@@ -421,6 +425,11 @@
                                     </div>
                                     <div id="text-change-wrap" class="clearfix">
                                         <form>
+                                            <select name="font_id" id="font_id">
+                                                {% for text_item in text_items %}
+                                                <option value="{{ text_item.id }}">/generate_text/?font_size=100&font_text=Abc&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=1</option>
+                                                {% endfor %}
+                                            </select>
                                             <textarea id="text-change" name="text-change"></textarea>
                                             <a href="#" id="text-update">update</a>
                                         </form>
@@ -497,6 +506,7 @@
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/jquery.placeholder.js"></script>
 <script type="text/javascript" src="/media/interface/js/colorpicker/js/colorpicker.js"></script>
+<script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
 
 <script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
 <script src="/media/interface/js/jquery.form.js"></script>

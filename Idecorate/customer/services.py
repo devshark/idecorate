@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
 from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard, StyleBoardCartItems
-from cart.models import CartTemp
+from cart.models import CartTemp, ProductPrice
 
 @transaction.commit_manually
 def register_user(data):
@@ -65,8 +65,14 @@ def get_client_ip(request):
 		ip = request.META.get('REMOTE_ADDR')
 	return ip
 
-def get_user_styleboard(user):
-	styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
+def get_user_styleboard(user=None,styleboard_id=None):
+	if user:
+		styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
+	elif styleboard_id:
+		try:
+			styleboards = CustomerStyleBoard.objects.get(styleboard_item__id=styleboard_id)
+		except:
+			styleboards = None
 	return styleboards
 
 @transaction.commit_manually
@@ -83,6 +89,8 @@ def save_styleboard_item(data):
 		st.description = data['description']
 		st.item = data['item']
 		st.browser = data['browser']
+		st.item_guest = data['guest']
+		st.item_tables = data['tables']
 		st.save()
 
 		csb.user = data['user']
@@ -118,3 +126,16 @@ def save_styleboard_cart_item(product, quantity, styleboard_item):
 		styleboard_cart.product = product
 		styleboard_cart.quantity = quantity
 		styleboard_cart.save()
+
+def get_save_styleboard_total(styleboard_item_id):
+	items = StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id)
+	res = {}
+	total_amount = 0
+	for item in items:
+		price = ProductPrice.objects.get(product=item.product)
+		total_amount += (price._unit_price)*item.quantity
+
+	return total_amount
+
+def get_styleboard_cart_item(styleboard_item):
+	return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item)
