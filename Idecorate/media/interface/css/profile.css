@@ -3,7 +3,8 @@ section {
   section h2 {
     width: 100%;
     border-bottom: 1px solid;
-    padding-bottom: 5px; }
+    padding-bottom: 15px;
+    margin-bottom: 15px; }
   section .user-profile {
     padding: 10px;
     height: auto;
