@@ -579,9 +579,9 @@ $(document).ready(function () {
         update_text_selected(text_value);
     });
 
-    $("#font_id").selectbox({
-        imageRegExp: /http/
-    });
+    // $("#font_id").selectbox({
+    //     imageRegExp: /http/
+    // });
 
     $('.sbHolder').on('click mousedown',function(e){
         cancelBubble(e);
