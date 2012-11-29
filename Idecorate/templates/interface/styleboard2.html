@@ -17,6 +17,8 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/ui-lightness/jquery.ui.all.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/colorpicker.css" />
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/selectbox/css/jquery.selectbox.css" />
+        
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
             var category_id                 = {{ cat_id }};
@@ -423,6 +425,13 @@
                                     </div>
                                     <div id="text-change-wrap" class="clearfix">
                                         <form>
+                                            <select name="font_id" id="font_id">
+                                                <option value="">-- Select font style --</option>
+                                                <option value="1">http://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg</option>
+                                                <option value="9">http://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg</option>
+                                                <option value="2">http://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg</option>
+                                                <option value="3">http://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg</option>
+                                            </select>
                                             <textarea id="text-change" name="text-change"></textarea>
                                             <a href="#" id="text-update">update</a>
                                         </form>
@@ -499,6 +508,7 @@
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/jquery.placeholder.js"></script>
 <script type="text/javascript" src="/media/interface/js/colorpicker/js/colorpicker.js"></script>
+<script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
 
 <script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
 <script src="/media/interface/js/jquery.form.js"></script>

@@ -579,6 +579,14 @@ $(document).ready(function () {
         update_text_selected(text_value);
     });
 
+    $("#font_id").selectbox({
+        imageRegExp: /http/
+    });
+
+    $('.sbHolder').on('click mousedown',function(e){
+        cancelBubble(e);
+    });
+
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
@@ -911,9 +919,8 @@ function update_text_selected(text_value){
             $handles.width(new_width);
             $('.selected').height(new_height);
             $('.selected').width(new_width);
-
+        
             eventTracker($('.selected'), 'text_change');
-
         });
 
         new_img.attr({//append new object
