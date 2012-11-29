@@ -589,7 +589,8 @@ $(document).ready(function () {
 
     $('#text-update').click(function(e){
         var text_value = $('#text-change').val();
-        update_text_selected(text_value);
+        var font_id = $('#font_id').val();
+        update_text_selected(text_value,font_id);
     });
 
     //show or hide upper left menu of canvas;
@@ -855,13 +856,13 @@ function change_textON_textarea(object){
     $('#font_id').val(font_id);
 }
 
-function update_text_selected(text_value){
+function update_text_selected(text_value,font_id){
 
     if(text_value != "") {
 
         var object          = $('.selected');
         var default_style   = object.children('img').attr('style');
-        var object_dbID     = object.attr('_uid');
+        var object_dbID     = font_id;
         var rgb             = object.attr('_rgb');
         var new_img         = $('<img/>');
         var new_image_src   = new_obj_src = '/generate_text/?font_size=200&font_text='+escape(text_value)+'&font_color='+rgb+'&font_id='+object_dbID+'&font_thumbnail=0';
@@ -905,6 +906,7 @@ function update_text_selected(text_value){
             new_img.show();
 
             object.attr('_text',text_value);
+            object.attr('_uid',font_id);
 
             eventTracker($('.selected'), 'text_change');
 
