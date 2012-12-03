@@ -111,9 +111,9 @@
                 <label class="control-label">{% trans "Type" %}</label>
                 <div class="controls">
                   {{ form.embellishment_type }}
-                  <!--
-                  <span class="help-block"></span>
-                  -->
+                  
+                  <span class="help-block" id="dynamicHelp"></span>
+                  
                 </div>
               </div>
             </div><!--/span-->          
@@ -150,6 +150,14 @@
 
   <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
 	<script type="text/javascript" >
+
+    function helpTextChanger(sel) {
+      if(sel.val() == 2 || sel.val() == 4) {
+        $('#dynamicHelp').text('Upload a black-colored image with a transparent background to achieve transparent effect and color selection in the front-end.');
+      } else if(sel.val() == 3) {
+        $('#dynamicHelp').text('Upload a black and white image to achieve transparent effect and color selection in the front-end.');
+      }      
+    }
 
     function initThumbnail() {
       var thumb_original = $('img#thumb_original');
@@ -209,7 +217,13 @@
         }
       });
 
+    $('#id_embellishment_type').change(function(e){
 
+      helpTextChanger($(this));
+
+    });
+
+    helpTextChanger($('#id_embellishment_type'));
 
     });
 
