@@ -27,6 +27,7 @@ from django.conf import settings
 import re
 import math
 from idecorate_settings.models import IdecorateSettings
+from urllib import unquote
 
 def login_signup(request):
 
@@ -223,8 +224,15 @@ def generate_styleboard_view(request, id, w, h):
 			imgFile = imgFile[len(imgFile) - 1]
 			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', imgFile)
 
-		#elif re.search('/generate_text/',iList['img'][0]['src']):
+		elif re.search('/generate_text/',iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
+			fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
+			font_size = int(eProperties[0].split('=')[1])
+			font_color = eProperties[2].split('=')[1]
+			font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+			image_text = unquote(eProperties[1].split('=')[1])
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -242,11 +250,50 @@ def generate_styleboard_view(request, id, w, h):
 		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
 
 		try:
-			imgObj = Image.open(imgFile).convert('RGBA')
-			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
-			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
-			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
-			w, h = imgObj.size
+			if re.search('/generate_text/',iList['img'][0]['src']):
+
+				font = ImageFont.truetype(imgFile, font_size)
+				
+				splittedTexts = image_text.split("\n")
+				totalHeight = 0
+				upperWidth = 0
+				heightList = [0]
+
+				#compute the final width and height first
+				for splittedText in splittedTexts:
+					textSize = font.getsize(splittedText)
+					totalHeight += textSize[1]
+					heightList.append(totalHeight)
+
+					if upperWidth == 0:
+						upperWidth = textSize[0]
+					else:
+						if textSize[0] > upperWidth:
+							upperWidth = textSize[0]
+
+				#image with background transparent
+				img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
+				#create draw object	
+				draw = ImageDraw.Draw(img)
+				#draw the text
+				ctr = 0
+
+				for splittedText in splittedTexts:
+					#draw text
+					draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+					ctr += 1
+
+				imgObj = img
+				#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+				imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+				imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+				w, h = imgObj.size
+			else:
+				imgObj = Image.open(imgFile).convert('RGBA')
+				#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+				imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+				imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+				w, h = imgObj.size
 		except:
 			pass
 
@@ -312,6 +359,16 @@ def generate_styleboard_view(request, id, w, h):
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1]
 			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', imgFile)
+		elif re.search('/generate_text/',iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
+			font_size = int(eProperties[0].split('=')[1])
+			font_color = eProperties[2].split('=')[1]
+			font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+			image_text = unquote(eProperties[1].split('=')[1])
+			#print "The text is: %s" % image_text
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -328,7 +385,44 @@ def generate_styleboard_view(request, id, w, h):
 		w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
 		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
 
-		imgObj = Image.open(imgFile).convert('RGBA')
+
+		if re.search('/generate_text/',iList['img'][0]['src']):
+
+			font = ImageFont.truetype(imgFile, font_size)
+				
+			splittedTexts = image_text.split("\n")
+			totalHeight = 0
+			upperWidth = 0
+			heightList = [0]
+
+			#compute the final width and height first
+			for splittedText in splittedTexts:
+				textSize = font.getsize(splittedText)
+				totalHeight += textSize[1]
+				heightList.append(totalHeight)
+
+				if upperWidth == 0:
+					upperWidth = textSize[0]
+				else:
+					if textSize[0] > upperWidth:
+						upperWidth = textSize[0]
+
+			#image with background transparent
+			img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
+			#create draw object	
+			draw = ImageDraw.Draw(img)
+			#draw the text
+			ctr = 0
+
+			for splittedText in splittedTexts:
+				#draw text
+				draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+				ctr += 1
+
+			imgObj = img
+		else:
+
+			imgObj = Image.open(imgFile).convert('RGBA')
 
 		if re.search('/generate_embellishment/', iList['img'][0]['src']):
 			embellishment_color = eProperties[1].split('=')[1]
