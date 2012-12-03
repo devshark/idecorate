@@ -465,13 +465,13 @@ def generate_styleboard_view(request, id, w, h):
 			
 
 		#flip and flap
-		exec('matrix={%s}' % iList['matrix'])
+		exec('matrix=%s' % iList['matrix'])
 
-		if matrix['e']:
+		if matrix[0]['e']:
 			#flip
 			imgObj = imgObj.transpose(Image.FLIP_TOP_BOTTOM)
 
-		if matrix['f']:
+		if matrix[0]['f']:
 			#flap
 			imgObj = imgObj.transpose(Image.FLIP_LEFT_RIGHT)
 		
