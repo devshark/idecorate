@@ -869,6 +869,7 @@ function update_text_selected(text_value,font_id){
         var old_orig_img_height = $('.selected > img').attr('orig_height');
         var heightPercentage = old_height / old_orig_img_height * 100;
         var widthPercentage = old_width / old_orig_img_width * 100;
+        var old_id = object.attr('_uid');
 
         object.children('img').remove();//remove old object
 
@@ -881,6 +882,8 @@ function update_text_selected(text_value,font_id){
             imgWidth = new_img.width();
             imgHeight = new_img.height();
 
+            var dimensions  = aspectratio(imgWidth, imgHeight, .30);
+
             $(this).attr('orig_height', imgHeight);
             $(this).attr('orig_width', imgWidth);
 
@@ -889,8 +892,13 @@ function update_text_selected(text_value,font_id){
                 'style': default_style
             });
 
-            new_width = imgWidth * (widthPercentage / 100);
-            new_height = imgHeight * (heightPercentage / 100);
+            if(old_id != font_id) {
+                new_width = dimensions['width'];
+                new_height = dimensions['height'];
+            } else {
+                new_width = imgWidth * (widthPercentage / 100);
+                new_height = imgHeight * (heightPercentage / 100);
+            }
 
             $handles.height(new_height);            
             $('.selected').height(new_height);
