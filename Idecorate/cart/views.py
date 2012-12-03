@@ -298,6 +298,7 @@ def checkout_from_view_styleboard(request):
 		cart_items = get_styleboard_cart_item(styleboard)
 
 		order = shop.order_from_request(request, create=True)
+		order.items.filter().delete()
 
 		idecorateSettings = IdecorateSettings.objects.get(pk=1)
 		guests = styleboard.item_guest

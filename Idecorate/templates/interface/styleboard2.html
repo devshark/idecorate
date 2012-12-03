@@ -35,7 +35,7 @@
             var PRODUCT_DETAILS_URL         = '{% url get_product_details %}';
             var SET_PRODUCT_POSITION_URL    = '{% url set_product_positions %}';
             var SEARCH_PRODUCT_URL          = '{% url search_products %}';
-            var PRODUCT_POSITIONS           = {{ product_positions }};
+            var PRODUCT_POSITIONS           = {% if personalize_id %}''{% else %}{{ product_positions }}{% endif %};
             var has_change_mode             = false;
             var styleboard_mode_type        = '{{ mode }}';
             var sub_category_count          = {{ category_count }};
