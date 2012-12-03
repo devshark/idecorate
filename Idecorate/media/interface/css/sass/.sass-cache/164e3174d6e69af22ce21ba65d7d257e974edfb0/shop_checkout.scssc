@@ -1,5 +1,5 @@
 3.3.0.alpha.3 (Bleeding Edge)
-5fc05266d00766a46d02f523b6f52a3a8c2a1b7d
+f367f984279eb660a0dc548e1ea6641c821b3109
 o:Sass::Tree::RootNode
 :@template"Ö%#content {
 	padding: 15px;
@@ -389,7 +389,7 @@ div.leftPannel, div.rightPannel {
     }
 
 	.paymentMethod {
-		margin-left: 15px;
+		margin-left: 16px;
 
 		label {
 	        display: block;
@@ -413,7 +413,7 @@ div.leftPannel, div.rightPannel {
 	}
 
 	.paymentMethod2 {
-		margin-left: 15px;
+		margin-left: 16px;
 
 	    div {
 	        margin-bottom: 15px;
@@ -783,7 +783,7 @@ input;o;;" ;i};[o;;[o;
 input;i};"0;0;i};T;	[o;;["margin-bottom;i~;;;	[ ;i ;@;o;;; ;@;"	15px;i ;@;i ;@o;
 ;[".paymentMethod;o;;" ;iÑ;[o;;[o;
 ;o;;{ ;@=	;iÑ;[o;#;@=	;["paymentMethod;iÑ;0;iÑ;T;	[
-o;;["margin-left;iÖ;;;	[ ;i ;@;o;;; ;@;"	15pxo;
+o;;["margin-left;iÖ;;;	[ ;i ;@;o;;; ;@;"	16pxo;
 ;["
 label;o;;" ;iá;[o;;[o;
 ;o;;{ ;@S	;iá;[o;!	;@S	;["
@@ -805,7 +805,7 @@ width;iî;;;	[ ;i ;@;o;;; ;@;"
 width;iò;;;	[ ;i ;@;o;;; ;@;"
 360px;i ;@;i ;@o;
 ;[".paymentMethod2;o;;" ;iú;[o;;[o;
-;o;;{ ;@√	;iú;[o;#;@√	;["paymentMethod2;iú;0;iú;T;	[o;;["margin-left;iù;;;	[ ;i ;@;o;;; ;@;"	15pxo;
+;o;;{ ;@√	;iú;[o;#;@√	;["paymentMethod2;iú;0;iú;T;	[o;;["margin-left;iù;;;	[ ;i ;@;o;;; ;@;"	16pxo;
 ;["div;o;;" ;iü;[o;;[o;
 ;o;;{ ;@Ÿ	;iü;[o;!	;@Ÿ	;["div;iü;"0;0;iü;T;	[	o;;["margin-bottom;i†;;;	[ ;i ;@;o;;; ;@;"	15pxo;
 ;["

@@ -252,7 +252,7 @@ div.leftPannel, div.rightPannel {
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
   div.leftPannel .paymentMethod, div.rightPannel .paymentMethod {
-    margin-left: 15px; }
+    margin-left: 16px; }
     div.leftPannel .paymentMethod label, div.rightPannel .paymentMethod label {
       display: block;
       width: 70px;
@@ -266,7 +266,7 @@ div.leftPannel, div.rightPannel {
     div.leftPannel .paymentMethod select, div.rightPannel .paymentMethod select {
       width: 360px; }
   div.leftPannel .paymentMethod2, div.rightPannel .paymentMethod2 {
-    margin-left: 15px; }
+    margin-left: 16px; }
     div.leftPannel .paymentMethod2 div, div.rightPannel .paymentMethod2 div {
       margin-bottom: 15px; }
       div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {
