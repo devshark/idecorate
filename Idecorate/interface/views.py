@@ -494,7 +494,7 @@ def generate_text(request):
 
 	#draw the text
 	ctr = 0
-	print "The heightlist are: %s" % heightList
+
 	for splittedText in splittedTexts:
 		#draw text
 		draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
