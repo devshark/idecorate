@@ -25,6 +25,7 @@ from django import forms
 import re
 
 from customer.services import get_styleboard_cart_item, get_user_styleboard
+from idecorate_settings.models import IdecorateSettings
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
@@ -117,7 +118,8 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
 class IdecorateShop(Shop):
 
 	def modify_guest_table(self, request, guests, tables, order):
-
+		print guests
+		print tables
 		if 'cartsession' in request.session:
 			sessionid = request.session.get('cartsession')
 			
@@ -137,20 +139,20 @@ class IdecorateShop(Shop):
 
 				self.guest_table = guestTable
 
-		else:
-			if GuestTable.objects.filter(order=order).exists():
-				guestTable = GuestTable.objects.get(order=order)
-				guestTable.guests = styleboard.item_guest
-				guestTable.tables = styleboard.item_tables
-				guestTable.save()
 			else:
-				guestTable = GuestTable()
-				guestTable.order = order
-				guestTable.guests = styleboard.item_guest
-				guestTable.tables = styleboard.item_tables
-				guestTable.save()
+				if GuestTable.objects.filter(order=order).exists():
+					guestTable = GuestTable.objects.get(order=order)
+					guestTable.guests = guests
+					guestTable.tables = tables
+					guestTable.save()
+				else:
+					guestTable = GuestTable()
+					guestTable.order = order
+					guestTable.guests = guests
+					guestTable.tables = tables
+					guestTable.save()
 
-			self.guest_table = guestTable
+				self.guest_table = guestTable
 
 	def render_checkout(self, request, context):
 		context.update({'guest_table': self.guest_table})
@@ -297,11 +299,19 @@ def checkout_from_view_styleboard(request):
 
 		order = shop.order_from_request(request, create=True)
 
+		idecorateSettings = IdecorateSettings.objects.get(pk=1)
+		guests = styleboard.item_guest
+		if not guests:
+			guests = idecorateSettings.global_default_quantity
+		tables = styleboard.item_tables
+		if not tables:
+			tables = idecorateSettings.global_table
+
 		if cart_items.count() > 0:
 			for cart in cart_items:
 				order.modify_item(cart.product, absolute=cart.quantity)
 
-			shop.modify_guest_table(request, styleboard.item_guest, styleboard.item_tables, order)
+			shop.modify_guest_table(request, guests, tables, order)
 
 		return redirect('plata_shop_checkout')
 	else:
