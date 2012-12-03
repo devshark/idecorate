@@ -65,6 +65,21 @@
 <script type="text/javascript">
 $(function(){
 
+	$('div.featureDesc:even').each(function(index) {                                       
+    
+        $(this).height(Math.max($(this).height(),$(this).next().height()));
+        $(this).next().height(Math.max($(this).height(),$(this).next().height()));
+                                                 
+        /*var highestCol = Math.max($(this).height(),$(this).next().height());
+        $(this).height(highestCol);
+        $(this).next().height(highestCol);
+        
+        
+         $(this).css('height',Math.max($(this).height(),$(this).next().height()));
+        $(this).next().css('height',Math.max($(this).height(),$(this).next().height()));*/
+ 
+    });            ​
+
 	var windowH = $(window).outerHeight();
 		headerH = $('#header').outerHeight();
 		footerH = $('#footer').outerHeight();
@@ -101,15 +116,13 @@ $(function(){
 		});
 		$(".featureDesc").height(liMaxHeight);
 	
-*/
-
-	var first = $('.featureDesc').outerHeight(true);
-	var second = $('.featureDesc').next().outerHeight(true);
+	var first = $('.featureDesc').height();
+	var second = $('.featureDesc').next().height();
 
 	if(first < second) {
 		$('.featureDesc').next().height(second);
 	}
-
+*/
 });
 </script>
 {% endblock %}
