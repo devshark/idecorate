@@ -465,7 +465,7 @@ def generate_styleboard_view(request, id, w, h):
 			
 
 		#flip and flap
-		exec('matrix=%s' % iList['matrix'])
+		exec('matrix={%s}' % iList['matrix'])
 
 		if matrix['e']:
 			#flip
