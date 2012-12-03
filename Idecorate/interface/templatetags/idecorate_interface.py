@@ -241,3 +241,8 @@ def get_product_price(product):
 @register.filter
 def get_sub_total(price,quantity):
 	return mark_safe("%.2f" % (float(quantity)*float(price)))
+
+@register.filter
+def linebreak(txt):
+
+	return mark_safe(txt.replace("\n", '<br />'))

@@ -16,7 +16,7 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/base/jquery.ui.all.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/ui-lightness/jquery.ui.all.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/colorpicker.css" />
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/spectrum.css" />
         <link rel="stylesheet" type="text/css" href="/media/interface/js/selectbox/css/jquery.selectbox.css" />
         
         <script type="text/javascript">
@@ -47,6 +47,8 @@
             var UPLOAD_EMBELLISMENT_PROG    = '{% url upload_embellishment_progress %}';
             var EMBELLISHMENT_UPLOAD_ACTION = '{% url upload_embellishment_action %}';
             var MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE = {{ max_emb_size }};
+            var PERSONALIZE_ID              = {% if personalize_id %}{{ personalize_id }}{% else %}0{% endif %};
+            var PERSONALIZE_ITEM            = '{% if personalize_item %}{{ personalize_item }}{% else %}{% endif %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -138,14 +140,15 @@
         }
         </style>
     </head>
-    <body>
+    <body>        {{ save_styleboard.styleboard_item.item }}
         <div id="compact-header">
             <table border="0" cellpadding="0" cellspacing="0">
                 <thead class="headWrap">
                     <tr class="headWraptop">
                         <td id="info-menu">
                             <div class="headerColumn clearfix" id="info-menu">
-                                <!-- {{ "info"|getInterfaceMenus }} -->
+                                {{ "info"|getInterfaceMenus }}
+                                <!--
                                 <ul class="dropdown clearfix">
                                     <li>Menu 1</li>
                                     <li>
@@ -172,9 +175,9 @@
                                     </li>
                                     <li>Menu 3</li>
                                     <li>Menu 4</li>
-                                </ul>​
+                                </ul>
+                                -->​
                             </div>
-                            <!-- {{ "info"|getInterfaceMenus }} -->
                         </td>
                         <td id="logo">
                             <a href="{% url home %}">
@@ -182,7 +185,8 @@
                             </a>
                         </td>
                         <td id="site-menu">
-                            <!-- {{ "site"|getInterfaceMenus }} -->
+                            {{ "site"|getInterfaceMenus }}
+                            <!--
                             <ul class="dropdown2 clearfix">
                                 <li>Menu 1</li>
                                 <li>
@@ -209,7 +213,8 @@
                                 </li>
                                 <li>Menu 3</li>
                                 <li>Menu 4</li>
-                            </ul>​
+                            </ul>
+                            -->​
                         </td>
                     </tr>
                     <tr class="headWrapBottom">
@@ -411,9 +416,7 @@
                                 </div>
                                 <div class="colorAdjustment clearfix">
                                     <div id="color-picker-wrap">
-                                        <div id="colorPicker">
-                                            <div style="background-color: #000000"></div>
-                                        </div>
+                                        <input type='text' id="colorPicker"/>
                                     </div>
                                     <div id="opacity-control-wrap">
                                         <div class="opacity-control-label clearfix">
@@ -505,7 +508,7 @@
         </div>
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/jquery.placeholder.js"></script>
-<script type="text/javascript" src="/media/interface/js/colorpicker/js/colorpicker.js"></script>
+<script type="text/javascript" src="/media/interface/js/colorpicker/js/spectrum.js"></script>
 <script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
 
 <script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
@@ -537,6 +540,8 @@
 <script type="text/javascript" src="/media/interface/js/product_category.js"></script>
 <!--Embellishments -->
 <script type="text/javascript" src="/media/interface/js/embellishments.js"></script>
+<!--Personalize -->
+<script type="text/javascript" src="/media/interface/js/personalize.js"></script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>

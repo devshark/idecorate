@@ -495,41 +495,33 @@ $(document).ready(function () {
     starts as well as with the inits,events,variables
     */
 
-    // $("#font_id").selectbox({
-    //     imageRegExp: /font_id/
-    // });
+    $("#font_id").selectbox({
+        imageRegExp: /font_id/
+    });
 
-    // $('.sbHolder').on('click mousedown',function(e){
-    //     cancelBubble(e);
-    // });
+    $('.sbHolder').on('click mousedown',function(e){
+        cancelBubble(e);
+    });
 
     $("#font_id").on('click mousedown',function(e){
         cancelBubble(e);
     });
 
-    $('#colorPicker').ColorPicker({
-        color: '#000000',
-        onShow: function (colpkr) {
-            $(colpkr).fadeIn(500);
-            return false;
+    $("#colorPicker").spectrum({
+        color: "#000",
+        preferredFormat: "rgb",
+        showButtons: false,
+        clickoutFiresChange: true,
+        move: function(color) {
+         var object = $('.selected').find('img');
+         new_img = change_color(object,color.toRgb());
         },
-        onHide: function (colpkr) {
-            $(colpkr).fadeOut(500);
-            $('.colorpicker_submit',this).trigger('click');
-            return false;
-        },
-        onChange: function (hsb,hex,rgb) {
-            $('#colorPicker div').css('backgroundColor', '#' + hex);
-        },
-        onSubmit: function(hsb,hex,rgb, el){
-            $(el).ColorPickerHide();
-            var object = $('.selected').find('img');
-            change_color(object,rgb);
-            return false;
+        change: function(color){
+            eventTracker(new_img, 'change_color');
         }
     });
 
-    $('.colorpicker, #text-change, #text-update').click(function(e){
+    $('#text-change, #text-update').click(function(e){
         e.preventDefault();
         cancelBubble(e);
     });
@@ -547,6 +539,8 @@ $(document).ready(function () {
                     'filter': 'alpha(opacity='+ui.value+')'
                 });
                 $('.selected').attr('_opacity',ui.value);
+            },
+            stop: function(event, ui){
                 eventTracker($('.selected'), 'set_opacity');
             }
         });
@@ -571,6 +565,8 @@ $(document).ready(function () {
                         'filter': 'alpha(opacity='+ui.value+')'
                     });
                     $('.selected').attr('_opacity',ui.value);
+                },
+                stop: function(event, ui){
                     eventTracker($('.selected'), 'set_opacity');
                 }
             });
@@ -821,7 +817,7 @@ function embellishment_check_upload_image_dimension(dimensions,ratio){
 }
 
 function change_color(object,rgb){
-    var selected        = object.parent()
+    var selected        = object.parent();
     var default_style   = object.attr('style');
     var object_dbID     = selected.attr('_uid');
     var new_img         = $('<img/>');
@@ -836,7 +832,7 @@ function change_color(object,rgb){
         'style': default_style
     }).appendTo(selected);
 
-    eventTracker(new_img, 'change_color');
+    return new_img;
 }
 
 function embellishment_handle_set(slideValue){
@@ -1349,7 +1345,7 @@ function get_product_object_json(){
         var product_top = Math.round(elm_top-canvas_top);
         var style = $(this).attr('style');
         var _zindex = $(this).css('z-index');
-        var _matrix = $(this).attr('_matrix');
+        var _matrix = $(this).attr('_matrix').replace('{','').replace('}','');
         var _img = [];
         var elm_img = $(this).find('img');
         var _src = $(elm_img).attr('src');
