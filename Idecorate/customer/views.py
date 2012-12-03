@@ -28,6 +28,7 @@ import re
 import math
 from idecorate_settings.models import IdecorateSettings
 from urllib import unquote
+from admin.services import getExtensionAndFileName
 
 def login_signup(request):
 
@@ -233,6 +234,15 @@ def generate_styleboard_view(request, id, w, h):
 			font_color = eProperties[2].split('=')[1]
 			font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
 			image_text = unquote(eProperties[1].split('=')[1])
+		elif re.search('/cropped/',iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", eProperties[3].split('=')[1])
+			task = eProperties[1].split('=')[1]
+
+			splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
+
+
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -285,6 +295,37 @@ def generate_styleboard_view(request, id, w, h):
 
 				imgObj = img
 				#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+				imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+				imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+				w, h = imgObj.size
+			elif re.search('/cropped/',iList['img'][0]['src']):
+
+				img = Image.open(imgFile)
+				back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+				back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+				poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
+				pdraw = ImageDraw.Draw(poly)
+
+				dimensionList = []
+
+				if task == 'poly':
+					for splittedPost in splittedPosts:
+						spl = splittedPost.split(':')
+						dimensionList.append((float(spl[0]),float(spl[1])))
+
+					pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+				elif task == 'rect':
+					for splittedPost in splittedPosts:
+						dimensionList.append(float(splittedPost))
+					pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+
+				poly.paste(back,mask=poly)
+
+				newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+				imgObj = newImg
 				imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
 				imgObj = imgObj.rotate(float(iList['angle']), expand=1)
 				w, h = imgObj.size
@@ -369,6 +410,13 @@ def generate_styleboard_view(request, id, w, h):
 			font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
 			image_text = unquote(eProperties[1].split('=')[1])
 			#print "The text is: %s" % image_text
+		elif re.search('/cropped/',iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", eProperties[3].split('=')[1])
+			task = eProperties[1].split('=')[1]
+
+			splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -420,6 +468,43 @@ def generate_styleboard_view(request, id, w, h):
 				ctr += 1
 
 			imgObj = img
+		elif re.search('/cropped/',iList['img'][0]['src']):
+
+			img = Image.open(imgFile)
+			back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+			back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+			poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
+			pdraw = ImageDraw.Draw(poly)
+
+			dimensionList = []
+
+			if task == 'poly':
+				for splittedPost in splittedPosts:
+					spl = splittedPost.split(':')
+					dimensionList.append((float(spl[0]),float(spl[1])))
+
+				pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+			elif task == 'rect':
+				for splittedPost in splittedPosts:
+					dimensionList.append(float(splittedPost))
+				pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+
+			poly.paste(back,mask=poly)
+
+			newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+			
+			"""
+			splittedName = getExtensionAndFileName(imgFile)
+
+			if splittedName[1] == '.jpg':
+				imgObj = newImg.convert('RGB')
+			else:	
+				imgObj = newImg.convert('RGBA')
+			"""
+			imgObj = newImg
 		else:
 
 			imgObj = Image.open(imgFile).convert('RGBA')
@@ -475,7 +560,17 @@ def generate_styleboard_view(request, id, w, h):
 			#flap
 			imgObj = imgObj.transpose(Image.FLIP_LEFT_RIGHT)
 		
+		"""
+		try:
 
+			if splittedName[1] == '.jpg':
+				mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop))
+			else:	
+				mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
+		except:
+
+			mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
+		"""
 		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
 		#paste image
 		#mainImage.paste(imgObj, (highestWidth - (w + int(iList['left'])), highestHeight - (h + int(iList['top']))))
