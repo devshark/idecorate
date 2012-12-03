@@ -1345,7 +1345,9 @@ function get_product_object_json(){
         var product_top = Math.round(elm_top-canvas_top);
         var style = $(this).attr('style');
         var _zindex = $(this).css('z-index');
-        var _matrix = $(this).attr('_matrix').replace('{','').replace('}','');
+        var _matrix = [];
+        _matrix.push($.parseJSON($(this).attr('_matrix')));
+        console.log(_matrix)
         var _img = [];
         var elm_img = $(this).find('img');
         var _src = $(elm_img).attr('src');
@@ -1357,8 +1359,21 @@ function get_product_object_json(){
         var _gst_tb = $(this).attr('gst_tb');
         var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
         var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
+        var type = 'product';
+        if($(this).hasClass('text'))
+            type = 'text';
+        if($(this).hasClass('image'))
+            type = 'image';
+        if($(this).hasClass('border'))
+            type = 'border';
+        if($(this).hasClass('shape'))
+            type = 'shape';
+        if($(this).hasClass('texture'))
+            type = 'texture';
+        if($(this).hasClass('pattern'))
+            type = 'pattern';
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
-        product_objects.push({uid:_uid, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, img:_img});
+        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, img:_img});
     });
     var product_array = new Array();
     for (var i in product_objects){
