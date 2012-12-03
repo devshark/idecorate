@@ -249,7 +249,7 @@
     margin: 0 0 15px 0;
 
     fieldset{
-        width: 449px;
+        width: 465px;
         border: 1px solid #000000;
         float: left !important;
         padding: 10px;
@@ -323,7 +323,7 @@ div.leftPannel, div.rightPannel {
 	float: left;
 
 	.deliveryDate, .question, .paymentMethod, .paymentMethod2 {
-        width: 449px;
+        width: 465px;
         border: 1px solid #000000;
         float: left;
         padding: 10px;
@@ -386,6 +386,7 @@ div.leftPannel, div.rightPannel {
     }
 
 	.paymentMethod {
+		margin-left: 16px;
 
 		label {
 	        display: block;
@@ -409,6 +410,7 @@ div.leftPannel, div.rightPannel {
 	}
 
 	.paymentMethod2 {
+		margin-left: 16px;
 
 	    div {
 	        margin-bottom: 15px;

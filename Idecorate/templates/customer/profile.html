@@ -77,8 +77,10 @@ $(function(){
 			footerH = $('#footer').outerHeight();
 			newHeight = windowH - headerH - footerH - 35;
 
-		if(newHeight < windowH) {
-			$('#feature-wrap').height(newHeight);
+		if ($(document).height()<$(window).height()){
+			if(newHeight < windowH) {
+				$('#feature-wrap').height(newHeight);
+			}
 		}
 		
 	});
@@ -87,16 +89,26 @@ $(function(){
 			$('#feature-wrap').height(newHeight);
 		}
 	}	
-
+/*
 	var liMaxHeight = -1;
 	var node;
-	$(".featureDesc").each(function(index) {
-	    if ($(this).outerHeight() > liMaxHeight) {
-	        liMaxHeight = $(this).outerHeight();
-	        node = index;
-	    }
-	});
-	$(".featureDesc").height(liMaxHeight);
+	
+		$(".featureDesc").each(function(index) {
+		    if ($(this).outerHeight() > liMaxHeight) {
+		        liMaxHeight = $(this).outerHeight();
+		        node = index;
+		    }
+		});
+		$(".featureDesc").height(liMaxHeight);
+	
+*/
+
+	var first = $('.featureDesc').outerHeight(true);
+	var second = $('.featureDesc').next().outerHeight(true);
+
+	if(first < second) {
+		$('.featureDesc').next().height(second);
+	}
 
 });
 </script>

@@ -178,7 +178,7 @@
   height: auto;
   margin: 0 0 15px 0; }
   .information fieldset {
-    width: 449px;
+    width: 465px;
     border: 1px solid #000000;
     float: left !important;
     padding: 10px;
@@ -219,7 +219,7 @@ div.leftPannel, div.rightPannel {
   height: auto;
   float: left; }
   div.leftPannel .deliveryDate, div.leftPannel .question, div.leftPannel .paymentMethod, div.leftPannel .paymentMethod2, div.rightPannel .deliveryDate, div.rightPannel .question, div.rightPannel .paymentMethod, div.rightPannel .paymentMethod2 {
-    width: 449px;
+    width: 465px;
     border: 1px solid #000000;
     float: left;
     padding: 10px;
@@ -251,32 +251,36 @@ div.leftPannel, div.rightPannel {
       font-weight: bold; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
-  div.leftPannel .paymentMethod label, div.rightPannel .paymentMethod label {
-    display: block;
-    width: 70px;
-    height: auto;
-    padding-top: 10px;
-    float: left; }
-  div.leftPannel .paymentMethod div, div.rightPannel .paymentMethod div {
-    margin-bottom: 15px; }
-  div.leftPannel .paymentMethod input, div.rightPannel .paymentMethod input {
-    width: 350px; }
-  div.leftPannel .paymentMethod select, div.rightPannel .paymentMethod select {
-    width: 360px; }
-  div.leftPannel .paymentMethod2 div, div.rightPannel .paymentMethod2 div {
-    margin-bottom: 15px; }
-    div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {
-      float: left;
-      margin-top: 5px;
-      border: none; }
-    div.leftPannel .paymentMethod2 div label, div.rightPannel .paymentMethod2 div label {
+  div.leftPannel .paymentMethod, div.rightPannel .paymentMethod {
+    margin-left: 16px; }
+    div.leftPannel .paymentMethod label, div.rightPannel .paymentMethod label {
       display: block;
-      width: 110px;
+      width: 70px;
       height: auto;
-      padding-top: 8px;
+      padding-top: 10px;
       float: left; }
-    div.leftPannel .paymentMethod2 div img, div.rightPannel .paymentMethod2 div img {
-      float: left; }
+    div.leftPannel .paymentMethod div, div.rightPannel .paymentMethod div {
+      margin-bottom: 15px; }
+    div.leftPannel .paymentMethod input, div.rightPannel .paymentMethod input {
+      width: 350px; }
+    div.leftPannel .paymentMethod select, div.rightPannel .paymentMethod select {
+      width: 360px; }
+  div.leftPannel .paymentMethod2, div.rightPannel .paymentMethod2 {
+    margin-left: 16px; }
+    div.leftPannel .paymentMethod2 div, div.rightPannel .paymentMethod2 div {
+      margin-bottom: 15px; }
+      div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {
+        float: left;
+        margin-top: 5px;
+        border: none; }
+      div.leftPannel .paymentMethod2 div label, div.rightPannel .paymentMethod2 div label {
+        display: block;
+        width: 110px;
+        height: auto;
+        padding-top: 8px;
+        float: left; }
+      div.leftPannel .paymentMethod2 div img, div.rightPannel .paymentMethod2 div img {
+        float: left; }
 
 .leftPannel {
   margin-right: 20px; }
