@@ -1341,7 +1341,7 @@ function get_product_object_json(){
         var product_top = Math.round(elm_top-canvas_top);
         var style = $(this).attr('style');
         var _zindex = $(this).css('z-index');
-        var _matrix = $(this).attr('_matrix');
+        var _matrix = $(this).attr('_matrix').replace('{','').replace('}','');
         var _img = [];
         var elm_img = $(this).find('img');
         var _src = $(elm_img).attr('src');

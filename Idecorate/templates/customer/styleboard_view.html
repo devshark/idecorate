@@ -26,7 +26,7 @@
 			<table>
 				<tr>
 					<td width="85%"><img src="/media/images/man.1.jpg" /> <span>&nbsp;by&nbsp;</span><a href="{% url profile %}?id={{ styleboard.user.id }}">{{ user_profile.nickname }}</a></td>
-					<td><a href="#" class="personalize">Personalize!</a></td>
+					<td><a href="{% url styleboard %}?sbid={{ styleboard.styleboard_item.id }}" class="personalize">Personalize!</a></td>
 				</tr>
 			</table>
 		</div>

@@ -47,6 +47,8 @@
             var UPLOAD_EMBELLISMENT_PROG    = '{% url upload_embellishment_progress %}';
             var EMBELLISHMENT_UPLOAD_ACTION = '{% url upload_embellishment_action %}';
             var MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE = {{ max_emb_size }};
+            var PERSONALIZE_ID              = {% if personalize_id %}{{ personalize_id }}{% else %}0{% endif %};
+            var PERSONALIZE_ITEM            = '{% if personalize_item %}{{ personalize_item }}{% else %}{% endif %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -138,7 +140,7 @@
         }
         </style>
     </head>
-    <body>
+    <body>        {{ save_styleboard.styleboard_item.item }}
         <div id="compact-header">
             <table border="0" cellpadding="0" cellspacing="0">
                 <thead class="headWrap">
@@ -537,6 +539,8 @@
 <script type="text/javascript" src="/media/interface/js/product_category.js"></script>
 <!--Embellishments -->
 <script type="text/javascript" src="/media/interface/js/embellishments.js"></script>
+<!--Personalize -->
+<script type="text/javascript" src="/media/interface/js/personalize.js"></script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>

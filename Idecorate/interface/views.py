@@ -24,6 +24,7 @@ import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
 from admin.models import TextFonts, Embellishments, EmbellishmentsType
+from customer.services import get_user_styleboard
 
 def home(request):
 	info = {}
@@ -82,6 +83,16 @@ def styleboard(request, cat_id=None):
 
 	info['max_emb_size'] = settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE
 	info['text_items'] = TextFonts.objects.filter(is_active=True, is_deleted=False)
+
+	"""
+	save styleboard personalize or modify
+	"""
+	sbid = request.GET.get('sbid',None)
+	if sbid:
+		save_styleboard = get_user_styleboard(None, sbid)
+		if save_styleboard:
+			info['personalize_id'] = save_styleboard.styleboard_item.id
+			info['personalize_item'] = mark_safe(save_styleboard.styleboard_item.item)
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
