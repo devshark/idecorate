@@ -451,7 +451,13 @@ $(document).ready(function () {
     $('#customBg-btn').click(function(e){
         e.preventDefault();
         cancelBubble(e);
-        display_modal(MODAL_SRC.replace('0',$('.selected > img').attr('src').replace('/media/products/','')));
+
+        if(getUrlVars($('.selected > img').attr('src'))['filename']) {
+            display_modal(MODAL_SRC.replace('0',getUrlVars($('.selected > img').attr('src'))['filename']));
+        } else {
+            display_modal(MODAL_SRC.replace('0',$('.selected > img').attr('src').replace('/media/products/','')));
+        }
+
     });
 
     // close modal
@@ -1653,6 +1659,17 @@ function hide_canvas_menu(){
         $('.nwMenus').show();
     }
 }
+
+function getUrlVars(strURL) {
+    var vars = {};
+    
+    var parts = strURL.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+
+    return vars;
+}
+
 
 (function ($) {
    $.fn.liveDraggable = function (opts) {
