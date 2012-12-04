@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 from stdimage import StdImageField
 from django.conf import settings
 from django.contrib.auth.models import User
+from cart.models import Product
 
 class CustomerProfile(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
@@ -19,6 +20,9 @@ class StyleboardItems(models.Model):
 	name = models.CharField(db_column="name", max_length=256, null=True)
 	description = models.TextField(db_column='description', null=True)
 	item = models.TextField(db_column='item', null=True)
+	browser = models.CharField(db_column='browser', max_length=100, null=True)
+	item_guest = models.IntegerField(null=True)
+	item_tables = models.IntegerField(null=True)
 	deleted = models.IntegerField(db_column='deleted', default=0)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 
@@ -35,3 +39,13 @@ class CustomerStyleBoard(models.Model):
 	class Meta:
 		db_table = 'customer_styleboards'
 		verbose_name = _("Customer Styleboards")
+
+class StyleBoardCartItems(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    styleboard_item = models.ForeignKey(StyleboardItems, db_column='styleboard_item_id')
+    product = models.ForeignKey(Product, db_column='product_id')
+    quantity = models.PositiveIntegerField(db_column='quantity')
+
+    class Meta:
+        verbose_name = _('Styleboard Cart Items')
+        db_table = 'styleboard_cart_items'

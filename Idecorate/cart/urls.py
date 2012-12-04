@@ -8,6 +8,7 @@ urlpatterns =  patterns('cart.views',
     url(r'^cart/update$', 'update_cart', {}, name='update_cart'),
     url(r'^cart/checkout$', 'checkout', {}, name='checkout'),
     url(r'^cart/remove_all$', 'remove_all_cart_ajax', {}, name='remove_all_cart_ajax'),
+    url(r'^styleboard/checkout$', 'checkout_from_view_styleboard', {}, name='checkout_from_view_styleboard'),
 )
 
 urlpatterns += patterns('',

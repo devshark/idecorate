@@ -1,0 +1,15 @@
+$(document).ready(function(){
+	populate_save_styleboard();
+});
+
+function populate_save_styleboard(){
+	if (PERSONALIZE_ITEM != ''){
+		var item = eval(PERSONALIZE_ITEM);	
+		$.each(item, function(i,v){
+			//console.log(v.img[0].a)
+			// var elm = $('<div />');
+			// elm.attr('_angle',v.angle);
+			// elm.addClass('');
+		});
+	}
+}

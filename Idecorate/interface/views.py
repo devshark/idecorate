@@ -23,7 +23,8 @@ from django.core.urlresolvers import reverse
 import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
-from admin.models import TextFonts
+from admin.models import TextFonts, Embellishments, EmbellishmentsType
+from customer.services import get_user_styleboard
 
 def home(request):
 	info = {}
@@ -79,6 +80,19 @@ def styleboard(request, cat_id=None):
 		#del request.session['product_positions']
 	else:
 		info['product_positions'] = mark_safe("''")
+
+	info['max_emb_size'] = settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE
+	info['text_items'] = TextFonts.objects.filter(is_active=True, is_deleted=False)
+
+	"""
+	save styleboard personalize or modify
+	"""
+	sbid = request.GET.get('sbid',None)
+	if sbid:
+		save_styleboard = get_user_styleboard(None, sbid)
+		if save_styleboard:
+			info['personalize_id'] = save_styleboard.styleboard_item.id
+			info['personalize_item'] = mark_safe(save_styleboard.styleboard_item.item)
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
@@ -229,6 +243,7 @@ def set_product_positions(request):
 		unique_identifier = request.POST.get('unique_identifier','')
 		changes_counter = request.POST.get('changes_counter','')
 		product_objects = request.POST.get('product_objects','')
+		embellishment_objects = request.POST.get('embellishment_objects','')
 		action_url = request.POST.get('action_url','')
 		total = request.POST.get('total','')
 		quantity = request.POST.get('quantity','')
@@ -242,6 +257,7 @@ def set_product_positions(request):
 			'unique_identifier': str(unique_identifier),
 			'changes_counter': str(changes_counter),
 			'product_objects':str(product_objects),
+			'embellishment_objects': str(embellishment_objects),
 			'action_url': str(action_url),
 			'total': str(total),
 			'quantity': str(quantity),
@@ -463,25 +479,44 @@ def generate_text(request):
 	#load font with size
 	font = ImageFont.truetype("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font), int(font_size))
 	
-	#get the text size first
-	textSize = font.getsize(image_text)
+	splittedTexts = image_text.split("\n")
+	totalHeight = 0
+	upperWidth = 0
+	heightList = [0]
+
+
+	#compute the final width and height first
+	for splittedText in splittedTexts:
+		textSize = font.getsize(splittedText)
+		totalHeight += textSize[1]
+		heightList.append(totalHeight)
+
+		if upperWidth == 0:
+			upperWidth = textSize[0]
+		else:
+			if textSize[0] > upperWidth:
+				upperWidth = textSize[0]
 
 	#image with background transparent
-	img = Image.new("RGBA", textSize, (255,255,255, 0))
+	img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
 
 	#create draw object	
 	draw = ImageDraw.Draw(img)
 
-	#draw text with black font color
-	draw.text((0,0), image_text, font_color, font=font)
+	#draw the text
+	ctr = 0
+
+	for splittedText in splittedTexts:
+		#draw text
+		draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+		ctr += 1
 
 	if font_thumbnail == "0":
 		#not thumbnail
 		response = HttpResponse(mimetype="image/png")
 		img.save(response, "PNG")
 	else:
-		#create thumbnail
-		print 
+		#create thumbnail 
 		img.thumbnail((int(font_size),int(font_size)),Image.ANTIALIAS)
 		bgImg = Image.new('RGBA', (int(font_size),int(font_size)), (255, 255, 255, 0))
 		bgImg.paste(img,((int(font_size) - img.size[0]) / 2, (int(font_size) - img.size[1]) / 2))
@@ -490,3 +525,123 @@ def generate_text(request):
 		bgImg.save(response, "JPEG")
 
 	return response
+
+def generate_embellishment(request):
+
+	embellishment_id = request.GET.get('embellishment_id',0)
+	embellishment_color = request.GET.get('embellishment_color','')
+	embellishment_thumbnail = request.GET.get('embellishment_thumbnail','0')
+	embellishment_size = request.GET.get('embellishment_size','')
+
+	embellishment_color = (int(embellishment_color[0:3]), int(embellishment_color[3:6]), int(embellishment_color[6:9]))
+
+	directory = ""
+	retImage = None
+
+	embObj = Embellishments.objects.get(id=int(embellishment_id))
+
+	if embObj.e_type.id == 1:
+		directory = "images"
+	elif embObj.e_type.id == 2:
+		directory = "textures"
+	elif embObj.e_type.id == 3:
+		directory = "patterns"
+	elif embObj.e_type.id == 4:
+		directory = "shapes"
+	elif embObj.e_type.id == 5:
+		directory = "borders"
+
+	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)).convert("RGBA")
+	newImg = Image.new("RGBA", img.size, embellishment_color)
+	r, g, b, alpha = img.split()
+
+	response = HttpResponse(mimetype="image/png")
+
+	if embObj.e_type.id == 1 or embObj.e_type.id == 5:
+		retImage = img
+	elif embObj.e_type.id == 3:
+		newImg.paste(img, mask=b)
+		retImage = newImg
+	elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
+		img.paste(newImg, mask=alpha)
+		retImage = img 
+
+	if embellishment_thumbnail == "0":
+		#not thumbnail
+		retImage.save(response, "PNG")
+	else:
+		#return thumbnail
+		retImage.thumbnail((int(embellishment_size),int(embellishment_size)),Image.ANTIALIAS)
+		bgImg = Image.new('RGBA', (int(embellishment_size),int(embellishment_size)), (255, 255, 255, 0))
+		bgImg.paste(retImage,((int(embellishment_size) - retImage.size[0]) / 2, (int(embellishment_size) - retImage.size[1]) / 2))
+		bgImg.save(response, "PNG")
+
+	return response
+
+def new_styleboard(request):
+	try:
+		del request.session['customer_styleboard']
+	except:
+		pass
+
+	try:
+		del request.session['cartsession']
+	except:
+		pass
+
+	try:
+		del request.session['product_positions']
+	except:
+		pass
+
+	return redirect('styleboard')
+
+@csrf_exempt
+def get_embellishment_items(request):
+	if request.is_ajax():
+		typ = request.POST['type']
+		offset = request.GET.get('offset',25)
+		page = request.GET.get('page')
+		if typ != 'text':
+			embellishment_items = Embellishments.objects.filter(e_type__id=typ, is_active=True, is_deleted=False)
+
+			item_counts = embellishment_items.count()
+			paginator = Paginator(embellishment_items, offset)			
+			try:
+				embellishments = paginator.page(page)
+			except PageNotAnInteger:
+				embellishments = paginator.page(1)
+			except EmptyPage:
+				embellishments = paginator.page(paginator.num_pages)
+
+			json_embellishments = serializers.serialize("json", embellishments, fields=('id','description'))
+			response_data = {}
+			response_data['data'] = json_embellishments
+			response_data['page_number'] = embellishments.number
+			response_data['num_pages'] = embellishments.paginator.num_pages
+			response_data['product_counts'] = item_counts
+			response_data['type'] = EmbellishmentsType.objects.get(id=typ).name
+		else:
+			text_items = TextFonts.objects.filter(is_active=True, is_deleted=False)
+			text_counts = text_items.count()
+			paginator = Paginator(text_items, offset)
+			page = request.GET.get('page')
+			try:
+				texts = paginator.page(page)
+			except PageNotAnInteger:
+				texts = paginator.page(1)
+			except EmptyPage:
+				texts = paginator.page(paginator.num_pages)
+
+			json_data = serializers.serialize("json", texts, fields=('id','description'))
+			response_data = {}
+			response_data['data'] = json_data
+			response_data['page_number'] = texts.number
+			response_data['num_pages'] = texts.paginator.num_pages
+			response_data['product_counts'] = text_counts
+			response_data['type'] = 'Text'
+
+		return HttpResponse(simplejson.dumps(response_data), mimetype="application/json")
+
+	else:
+		return HttpResponseNotFound()

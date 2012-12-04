@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
-from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard
+from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard, StyleBoardCartItems
+from cart.models import CartTemp, ProductPrice
 
 @transaction.commit_manually
 def register_user(data):
@@ -64,9 +65,77 @@ def get_client_ip(request):
 		ip = request.META.get('REMOTE_ADDR')
 	return ip
 
-def get_user_styleboard(user):
-	styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
+def get_user_styleboard(user=None,styleboard_id=None):
+	if user:
+		styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
+	elif styleboard_id:
+		try:
+			styleboards = CustomerStyleBoard.objects.get(styleboard_item__id=styleboard_id)
+		except:
+			styleboards = None
 	return styleboards
 
+@transaction.commit_manually
 def save_styleboard_item(data):
-	StyleboardItems
+	try:
+		customer_styleboard = data['customer_styleboard']
+		if customer_styleboard:
+			st = customer_styleboard.styleboard_item
+			csb = customer_styleboard
+		else:
+			st = StyleboardItems()
+			csb = CustomerStyleBoard()
+		st.name = data['name']
+		st.description = data['description']
+		st.item = data['item']
+		st.browser = data['browser']
+		st.item_guest = data['guest']
+		st.item_tables = data['tables']
+		st.save()
+
+		csb.user = data['user']
+		csb.styleboard_item = st
+		csb.save()
+
+		manage_styleboard_cart_items(data['sessionid'],st)
+
+		transaction.commit()
+		return csb
+	except Exception as e:
+		transaction.rollback()
+		return False
+
+def get_customer_styleboard_item(customer_styleboard):
+	return CustomerStyleBoard.objects.get(id=customer_styleboard.id)
+
+def manage_styleboard_cart_items(sessionid, styleboard_item):
+	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)
+	if cart_temp_items.count()>0:
+		for item in cart_temp_items:
+			save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
+
+def save_styleboard_cart_item(product, quantity, styleboard_item):
+	try:
+		styleboard_cart = StyleBoardCartItems.objects.get(product=product, styleboard_item=styleboard_item)
+		if styleboard_cart.quantity != quantity:
+			styleboard_cart.quantity = quantity
+			styleboard_cart.save()
+	except:
+		styleboard_cart = StyleBoardCartItems()
+		styleboard_cart.styleboard_item = styleboard_item
+		styleboard_cart.product = product
+		styleboard_cart.quantity = quantity
+		styleboard_cart.save()
+
+def get_save_styleboard_total(styleboard_item_id):
+	items = StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id)
+	res = {}
+	total_amount = 0
+	for item in items:
+		price = ProductPrice.objects.get(product=item.product)
+		total_amount += (price._unit_price)*item.quantity
+
+	return total_amount
+
+def get_styleboard_cart_item(styleboard_item):
+	return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item)

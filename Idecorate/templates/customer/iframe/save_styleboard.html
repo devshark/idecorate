@@ -107,6 +107,10 @@
             <div class="clearfix formWrapper">
                 <form method="post">
                     {% csrf_token %}
+                    {{ form.browser }}
+                    {{ form.item }}
+                    {{ form.guest }}
+                    {{ form.tables }}
                     <fieldset>
                         <legend>Save my Style Board</legend>
                         <div class="clearfix">{{ form.name|attr:"placeholder:Name your style board" }}</div>
@@ -126,23 +130,32 @@
                         </div>
                     </fieldset>
                 </form>
-            </div>
-            {% if messages %}
-            <div class="clearfix errorBlock">
-                <ul>                    
-                    {% for message in messages %}
-                    <li>{{ message }}</li>
-                    {% endfor %}                    
-                </ul>
-            </div>
-            {% endif %}
+            </div>            
         </div>
         <script src="/media/interface/js/jquery.placeholder.js"></script>
+        <script src="/media/js/json/json2.js"></script>
         <script type="text/javascript">
         $(':input[placeholder]').placeholder();
         $(document).ready(function(){
             if (window.parent){
-                $('#login').append(window.parent.get_product_objects());
+                var json_data = window.parent.get_product_object_json();
+                var djsn = JSON.stringify(json_data);
+                $('#id_guest').val(window.parent.$('#guests').val());
+                $('#id_tables').val(window.parent.$('#tables').val());
+                var bwsr = '';
+                if ($.browser.mozilla){
+                    bwsr = 'moz';
+                } else if ($.browser.opera) {
+                    bwsr = 'ope';
+                } else if ($.browser.safari) {
+                    bwsr = 'saf';
+                } else if ($.browser.msie) {
+                    bwsr = 'ie';
+                } else if ($.browser.chrome) {
+                    bwsr = 'chm';
+                }
+                $('#id_browser').val(bwsr);
+                $('#id_item').val(djsn);
             }
         });
         </script>

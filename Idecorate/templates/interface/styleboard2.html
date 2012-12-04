@@ -3,15 +3,22 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta charset="utf-8">
-        <title>iDecorate Wedding</title>
+        <title>iDecorate Weddings</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
+        <link runat="server" rel="shortcut icon" href="/media/images/favicon.2.ico" type="image/x-icon" />
+        <link runat="server" rel="icon" href="/media/images/favicon.2.ico" type="image/ico" />
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard2.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/base/jquery.ui.all.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/ui-lightness/jquery.ui.all.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/spectrum.css" />
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/selectbox/css/jquery.selectbox.css" />
+        
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
             var category_id                 = {{ cat_id }};
@@ -28,13 +35,20 @@
             var PRODUCT_DETAILS_URL         = '{% url get_product_details %}';
             var SET_PRODUCT_POSITION_URL    = '{% url set_product_positions %}';
             var SEARCH_PRODUCT_URL          = '{% url search_products %}';
-            var PRODUCT_POSITIONS           = {{ product_positions }};
+            var PRODUCT_POSITIONS           = {% if personalize_id %}''{% else %}{{ product_positions }}{% endif %};
             var has_change_mode             = false;
             var styleboard_mode_type        = '{{ mode }}';
             var sub_category_count          = {{ category_count }};
             var mode_toggle_tab             = false;
             var save_styleboard_action      = false;
             var logined                     = {% if user.is_authenticated %}true{% else %}false{% endif %};
+            var TEXT_IMG_GEN_URL            = '{% url generate_text %}';
+            var EMB_IMG_GEN_URL             = '{% url generate_embellishment %}';
+            var UPLOAD_EMBELLISMENT_PROG    = '{% url upload_embellishment_progress %}';
+            var EMBELLISHMENT_UPLOAD_ACTION = '{% url upload_embellishment_action %}';
+            var MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE = {{ max_emb_size }};
+            var PERSONALIZE_ID              = {% if personalize_id %}{{ personalize_id }}{% else %}0{% endif %};
+            var PERSONALIZE_ITEM            = '{% if personalize_item %}{{ personalize_item }}{% else %}{% endif %}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -51,7 +65,7 @@
             box-shadow: 0 0 8px #333;
             z-index: 99999;
             top: 10%;
-            background-image: url(/media/images/idecorate_pattern.jpg);
+            background-image: url('/media/images/idecorate_pattern.jpg');
             background-repeat: repeat;
         }
         #modal-save-styleboard-window {
@@ -65,7 +79,7 @@
             box-shadow: 0 0 8px #333;
             z-index: 99999;
             top: 10%;
-            background-image: url(/media/images/idecorate_pattern.jpg);
+            background-image: url('/media/images/idecorate_pattern.jpg');
             background-repeat: repeat;
 
         }
@@ -90,9 +104,43 @@
         max-height: 700px;
         width: 100%;
         }
+        #embellishments .breadcrumb-wrap .breadcrumb li{
+            *margin-bottom: 2px !important;
+        }
+        .file-wrapper, .submit-wrapper {
+          cursor: pointer;
+          display: inline-block;
+          overflow: hidden;
+          position: relative;
+        }
+        .file-wrapper input[type=file] {
+          cursor: pointer;
+          font-size: 100px;
+          height: 100%;
+          filter: alpha(opacity=1);
+          -moz-opacity: 0.01;
+          opacity: 0.01;
+          position: absolute;
+          right: 0;
+          top: 0;
+        }
+        .file-wrapper .button, .tp-button {
+          cursor: pointer;
+          display: inline-block;
+          font-size: 12px;
+          margin-right: 5px;
+          padding: 4px 18px;
+        }
+        .file-holder {
+            font-size: 12px;
+        }
+        #embellishments .breadcrumb-wrap ul.breadcrumb{
+            *margin: 0;
+            padding: 0;
+        }
         </style>
     </head>
-    <body>
+    <body>        {{ save_styleboard.styleboard_item.item }}
         <div id="compact-header">
             <table border="0" cellpadding="0" cellspacing="0">
                 <thead class="headWrap">
@@ -100,8 +148,36 @@
                         <td id="info-menu">
                             <div class="headerColumn clearfix" id="info-menu">
                                 {{ "info"|getInterfaceMenus }}
+                                <!--
+                                <ul class="dropdown clearfix">
+                                    <li>Menu 1</li>
+                                    <li>
+                                        Menu 2
+                                        <ul>
+                                            <li><a href="#">Menu 2.1</a></li>
+                                            <li>
+                                                Menu 2.2 long text test &raquo;
+                                                <ul>
+                                                    <li><a href="#">Menu 2.2.1</a></li>
+                                                    <li>Menu 2.2.2</li>
+                                                    <li>
+                                                        <a href="#">Menu 2.2.3 &raquo;</a>
+                                                        <ul>
+                                                            <li>Menu 2.3.1</li>
+                                                            <li>Menu 2.3.2</li>
+                                                            <li>Menu 2.3.3</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                            </li>
+                                            <li>Menu 2.3</li>
+                                        </ul>
+                                    </li>
+                                    <li>Menu 3</li>
+                                    <li>Menu 4</li>
+                                </ul>
+                                -->​
                             </div>
-                            <!-- {{ "info"|getInterfaceMenus }} -->
                         </td>
                         <td id="logo">
                             <a href="{% url home %}">
@@ -109,7 +185,36 @@
                             </a>
                         </td>
                         <td id="site-menu">
-                            {{ "site"|getInterfaceMenus }}    
+                            {{ "site"|getInterfaceMenus }}
+                            <!--
+                            <ul class="dropdown2 clearfix">
+                                <li>Menu 1</li>
+                                <li>
+                                    <a href="#">Menu 2 &raquo;</a>
+                                    <ul>
+                                        <li><a href="#">Menu 2.1</a></li>
+                                        <li>
+                                            <a href="#">&laquo; Menu 2.2 long text test</a>
+                                            <ul>
+                                                <li>Menu 2.2.1</li>
+                                                <li>Menu 2.2.2</li>
+                                                <li>
+                                                    &laquo; Menu 2.2.3 
+                                                    <ul>
+                                                        <li>Menu 2.3.1</li>
+                                                        <li>Menu 2.3.2</li>
+                                                        <li>Menu 2.3.3</li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li>Menu 2.3</li>
+                                    </ul>
+                                </li>
+                                <li>Menu 3</li>
+                                <li>Menu 4</li>
+                            </ul>
+                            -->​
                         </td>
                     </tr>
                     <tr class="headWrapBottom">
@@ -189,40 +294,53 @@
                                 </div>
                                 <div id="embellishments" style="display:none;">
                                     <div class="formWrap">
-                                        <form id="upload-embel">
+                                        <form id="upload-embel" method="POST">                                            
+                                            <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
+                                            <input type="hidden" id="id" name="id" value=""/>
                                             <fieldset>
                                                 <legend>Upload Image</legend>
-                                                <input type="file" placeholder="from computer"/>
+                                                <span class="file-wrapper">
+                                                    <input type="file" name="picture" id="picture" placeholder="from computer" />
+                                                    <input id="btn-from-my-computer" class="button" type="button" value="From my computer" />
+                                                </span>
+                                                <span class="submit-wrapper">
+                                                    <input id="form_submit_button" style="display:none" class="tp-button" type="submit" value="Upload" />
+                                                </span>
                                             </fieldset>
                                         </form>
                                     </div>
+                                    <div class="breadcrumb-wrap"></div>
                                     <div id="embelishments-list-wrap" class="clearfix">
-                                        <a href="controller/image" class="image em">
-                                            <img src="http://images.encyclopedia.com/utility/image.aspx?id=2801408&imagetype=Hero" />
-                                            <span>Image</span>
-                                        </a>
-                                        <a href="controller/text" class="text em">
-                                            <img src="http://zoomzum.com/wp-content/uploads/2012/02/font-free.jpg" />
-                                            <span>Text</span>
-                                        </a>
-                                        <a href="controller/border" class="border em">
-                                            <img src="http://openclipart.org/people/ryanlerch/ryanlerch_worldlabel.com_border_bw_4x3.3.svg" />
-                                            <span>Border</span>
-                                        </a>
-                                        <a href="controller/shape" class="shape em">
-                                            <img src="http://1.bp.blogspot.com/-MwMWf1FESTE/UJq3AqFKtVI/AAAAAAAADAI/apaw17q0szY/s1600/phantom_shapes.gif" />
-                                            <span>Shapes</span>
-                                        </a>
-                                        <a href="controller/texture" class="texture em">
-                                            <img src="http://lenscanvas.com/wp-content/uploads/2012/08/rerto_colorful_background.jpg" />
-                                            <span>Textures</span>
-                                        </a>
-                                        <a href="controller/pattern" class="pattern em">
-                                            <img src="http://myaccidentalmuse.files.wordpress.com/2011/07/1-pattern.jpg" />
-                                            <span>Patterns</span>
-                                        </a>
+                                        <div class="emCat">
+                                            <a href="{% url get_embellishment_items %}" rel="1" class="image em">
+                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg" />
+                                                <span>Image</span>
+                                            </a>
+                                            <a href="{% url get_embellishment_items %}" rel="text" class="text em">
+                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/text.png" />
+                                                <span>Text</span>
+                                            </a>
+                                            <a href="{% url get_embellishment_items %}" rel="5" class="border em">
+                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/border.png" />
+                                                <span>Border</span>
+                                            </a>
+                                            <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
+                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/shape.gif" />
+                                                <span>Shapes</span>
+                                            </a>
+                                            <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
+                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg" />
+                                                <span>Textures</span>
+                                            </a>
+                                            <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
+                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg" />
+                                                <span>Patterns</span>
+                                            </a>
+                                        </div>
+                                        <div class="emItem">
+                                        </div>
                                     </div>
-                                    <div id="em-common-wrap" style="display:none;"></div>
+                                    <div class="pagination"></div>
                                 </div>
                                 <div id="templates" style="display:none;"></div>                       
                             </div>
@@ -265,19 +383,19 @@
                             <div class="handles">
                                 <div class="fakeHandle"></div>
                             </div>
-                            <div class="nwMenus">
+                            <div class="nwMenus" style="display:none;">
                                 <ul class="canvasControl">
                                     <li><a href="#" id="save">Save</a></li>
-                                    <li><a href="#" id="new">New</a></li>
+                                    <li><a href="{% url new_styleboard %}" id="new">New</a></li>
                                     <li class="do"><a href="#" id="undo">Undo</a><a href="#" id="redo">Redo</a></li>
                                 </ul>
                             </div>
                             <div class="neMenus">
-                                <div class="imgControlWrap">
+                                <div class="imgControlWrap clearfix">
                                     <ul class="imgControl clearfix">
                                         <li><a href="#" id="remove-btn">Remove</a></li>
                                         <li><a href="#" id="flip-btn">Flip</a></li>
-                                        <li><a href="#" id="flap-btn">Flap</a></li>
+                                        <li><a href="#" id="flap-btn">Flop</a></li>
                                         <li><a href="#" id="clone-btn">Clone</a></li>
                                         <li><a href="#" id="forward-btn">Forward</a></li>
                                         <li><a href="#" id="backward-btn">Backward</a></li>
@@ -296,7 +414,32 @@
                                         </li>
                                     </ul>
                                 </div>
+                                <div class="colorAdjustment clearfix">
+                                    <div id="color-picker-wrap">
+                                        <input type='text' id="colorPicker"/>
+                                    </div>
+                                    <div id="opacity-control-wrap">
+                                        <div class="opacity-control-label clearfix">
+                                            <span class="subtract">-</span>
+                                            <span class="label">Opacity</span>
+                                            <span class="add">+</span>
+                                        </div>
+                                        <div id="slider"></div>
+                                    </div>
+                                    <div id="text-change-wrap" class="clearfix">
+                                        <form>
+                                            <select name="font_id" id="font_id">
+                                                {% for text_item in text_items %}
+                                                <option value="{{ text_item.id }}">/generate_text/?font_size=40&font_text=Abcd&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=0</option>
+                                                {% endfor %}
+                                            </select>
+                                            <textarea id="text-change" name="text-change"></textarea>
+                                            <a href="#" id="text-update">update</a>
+                                        </form>
+                                    </div>
+                                </div>
                             </div>
+                            <div id="object-counter" style="display:none;"></div>
                         </div> <!-- end of canvas-->
                     </td>
                 </tr>
@@ -364,9 +507,13 @@
             <div id="iframe-save-styleboard-wrap"></div>
         </div>
 <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
-<script src="/media/interface/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="/media/interface/js/colorpicker/js/spectrum.js"></script>
+<script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
 
 <script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
+<script src="/media/interface/js/jquery.form.js"></script>
+<script src="/media/interface/js/jquery.progressbar.js"></script>
 <!--[if lt IE 9]>
     <script type="text/javascript" src="/media/interface/js/ui/ie-jquery.ui.rotatable.js"></script>
 <![endif]-->
@@ -381,8 +528,8 @@
 <!-- CART -->
 <script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- MENU BAR -->
-<script type="text/javascript" src="/media/interface/js/hoverIntent.js"></script>
-<script type="text/javascript" src="/media/interface/js/superfish.js"></script> 
+<!-- <script type="text/javascript" src="/media/interface/js/hoverIntent.js"></script>
+<script type="text/javascript" src="/media/interface/js/superfish.js"></script> -->
 <!-- STYLEBOARD TABPANNELS -->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
@@ -391,8 +538,14 @@
 <script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/media/interface/js/product_category.js"></script>
+<!--Embellishments -->
+<script type="text/javascript" src="/media/interface/js/embellishments.js"></script>
+<!--Personalize -->
+<script type="text/javascript" src="/media/interface/js/personalize.js"></script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
+<script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery.app.em.js"></script>
 <script type="text/javascript">
     
         
@@ -453,10 +606,6 @@
             setTimeout(set_category_label_height,500);
         }); 
 
-        $('ul.dropdown').superfish({
-            onBeforeShow: function(e){
-            }
-        });
     });
 
 
@@ -504,7 +653,8 @@
         
         $('#styleboard').height(_height); 
         $('#canvas').height(_height-1); 
-        $('#create-tab .category-wrap, #embellishments, #templates').height(__height);
+        $('#create-tab .category-wrap').height(__height);
+        $('#embellishments, #templates').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
         $('#create-tab .product-list-wrap .product-list').height(___height).css({minHeight:____height});
         $('#buy-tab').height(_____height).css({minHeight:height_});
         $('#buy-tab .buyTableWrap .table .tbody').height(______height);
@@ -601,6 +751,11 @@
 
         $('#page-mask').css({display:'block'});
         modal.css({display:'block',left:_left});
+    }
+    function save_styleboard_success(msg){
+        $('#page-mask').hide();
+        $('#modal-save-styleboard-window').hide();
+        alert(msg);
     }
 </script>
         

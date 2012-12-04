@@ -1,6 +1,9 @@
 {% extends "base.html" %}
-{% block title %}iDecorate Wedding{% endblock %}
+{% block title %}iDecorate Weddings{% endblock %}
 {%  block style %}
+    <link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
+    <link runat="server" rel="shortcut icon" href="/media/images/favicon.2.ico" type="image/x-icon" />
+    <link runat="server" rel="icon" href="/media/images/favicon.2.ico" type="image/ico" />
 {% endblock %}
 {% block content %}
 <div class="defaultContent clearfix">
@@ -13,70 +16,65 @@
 </div>
 
 <section id="feature-wrap" class="clearfix">
-	<h2>Featured Style Boards</h2>
-	<div class="featureContentWrap clearfix">
-		<div class="featureImg">
-		 <img src="http://www.brides.com/images/2012_bridescom/Homepage/07-31/wedding-cakes-unique-wedding-cake-toppers-629.jpg" /> 
-		</div>
-		<h3>Lorem ipsum dolor sit amet</h3>
-		<div class="featureDesc">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-		</div>
-		<div class="featurePrice">
-			<h5>$10,000.00</h5>
-			<p>100 guest</p>
-		</div>
-		<div class="featureFooter">
-			<span class="member"><p>by membername</p></span>
-		</div>
+	<div class="clearfix wrapper">
+		<a href="#">
+			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
+		</a>
 	</div>
-	<div class="featureContentWrap clearfix">
-		<div class="featureImg">
-			 <img src="http://www.pacificbayresort.com.au/images/stock/stock-wedding-05.jpg?Action=thumbnail&Width=497&Height=316&algorithm=fill" /> 
-		</div>
-		<h3>Lorem ipsum dolor sit amet</h3>
-		<div class="featureDesc">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-		</div>
-		<div class="featurePrice">
-			<h5>$10,000.00</h5>
-			<p>100 guest</p>
-		</div>
-		<div class="featureFooter">
-			<span class="member"><p>by membername</p></span>
-		</div>
+	<div class="clearfix wrapper2">
+		<a href="#">
+			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
+		</a>
+		<a href="#">
+			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
+		</a>
 	</div>
-	<div class="featureContentWrap clearfix">
-		<div class="featureImg">
-		 <img src="http://itsabrideslife.com/wp-content/uploads/Wedding-Budget-Piggybank1.jpg" /> 
-		</div>
-		<h3>Lorem ipsum dolor sit amet</h3>
-		<div class="featureDesc">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-		</div>
-		<div class="featurePrice">
-			<h5>$10,000.00</h5>
-			<p>100 guest</p>
-		</div>
-		<div class="featureFooter">
-			<span class="member"><p>by membername</p></span>
-		</div>
-	</div>
-	<div class="featureContentWrap clearfix">
-		<div class="featureImg">
-			 <img src="http://nyweddingflowers.net/wp-content/uploads/2012/05/weddings-11.jpg" /> 
-		</div>
-		<h3>Lorem ipsum dolor sit amet</h3>
-		<div class="featureDesc">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-		</div>
-		<div class="featurePrice">
-			<h5>$10,000.00</h5>
-			<p>100 guest</p>
-		</div>
-		<div class="featureFooter">
-			<span class="member"><p>by membername</p></span>
-		</div>
+	<div class="clearfix wrapper3">
+		<a href="#">
+			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
+		</a>
+		<a href="#">
+			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
+		</a>
+		<a href="#">
+			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
+		</a>
 	</div>
 </section>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+$(function(){
+	var windowH = $(window).height();
+		headerH = $('#header').outerHeight(true);
+		contentH = $('#feature-wrap').outerHeight(true);
+		footerH = $('#footer').outerHeight(true);
+
+		totalContent = headerH + contentH + footerH;
+		
+		if(totalContent < windowH) {
+			newHeight = windowH - headerH -footerH;
+
+			$('#feature-wrap').height(newHeight);
+
+		}
+
+		$(window).resize(function(){
+
+			var windowH = $(window).height();
+				headerH = $('#header').outerHeight(true);
+				contentH = $('#feature-wrap').outerHeight(true);
+				footerH = $('#footer').outerHeight(true);
+		
+			if(totalContent < windowH) {
+				newHeight = windowH - headerH -footerH;
+
+				$('#feature-wrap').height(newHeight);
+
+			}
+
+		});
+
+});
+</script>
 {% endblock %}

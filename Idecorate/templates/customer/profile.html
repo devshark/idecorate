@@ -1,57 +1,12 @@
 {% extends "base.html" %}
+{% load idecorate_interface humanize %}
 {%  block style %}
-<style type="text/css">
-section .user-profile {
-	padding: 10px;
-	height: auto;
-	background: #F0EBE5;
-	box-shadow: 5px 5px 5px #CCC;	
-	width: 800px;
-	margin: 0 auto;
-	margin-bottom: 30px;
-}
-section .no-image {
-	width: 150px;
-	height: 150px;
-	border: 1px solid #ccc;
-	background: #fff;
-}
-section .user-profile .picture-wrap, section .user-profile .description-wrap {
-	display: inline-block;
-	*display: inline;
-	zoom: 1;
-}
-section .user-profile .picture-wrap {
-	width: 150px;
-}
-section .user-profile .picture-wrap img {
-	width: 148px;
-	height: 148px;
-	border: 1px solid #ccc;
-}
-section .user-profile .description-wrap {
-	width: 630px;
-	margin: 10px;
-	margin-right: 0;
-	vertical-align: top;
-	font-size: 1.2em;
-	line-height: 1.1;
-}
-section .user-profile .description-wrap .title {
-	font-weight: bold;
-	margin-bottom: 10px;
-}
-section .user-profile .description-wrap .desc {
-	font-size: 1em;
-}
-section .create-wrap {
-	margin-bottom: 20px;
-}
-</style>
+<link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
+<link rel="stylesheet" type="text/css" href="/media/interface/css/profile.css">
 {% endblock %}
 {% block content %}
 <section id="feature-wrap" class="clearfix">
-	<div class="user-profile">
+	<div class="clearfix user-profile">
 		<div class="picture-wrap">
 			{% if user_profile.picture %}
 			<img src="/media/{{ user_profile.picture }}" alt="" />
@@ -66,7 +21,7 @@ section .create-wrap {
 				{% else %}
 				{{ user_profile.nickname }} 
 				{% endif %}
-			</>
+			</p>
 			<p class="desc">
 				{% if user_profile.description %}
 				{{ user_profile.description }}
@@ -76,74 +31,98 @@ section .create-wrap {
 	</div>	
 	<h2>My Style Boards</h2>
 	{% if user_styleboard %}	
-	<div class="featureContentWrap clearfix">
-		<div class="featureImg">
-		 <img src="http://www.brides.com/images/2012_bridescom/Homepage/07-31/wedding-cakes-unique-wedding-cake-toppers-629.jpg" /> 
+	<div class="clearfix">
+		{% for item in user_styleboard %}
+		<div class="featureContentWrap clearfix">
+			<div class="clearfix featureImg">
+				<a href="{% url styleboard_view item.styleboard_item.id %}"><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /></a> 
+			</div>
+			<h3 class="clearfix">{{ item.styleboard_item.name }}</h3>
+			<div class="clearfix">
+				<div class="featureDesc">
+					{{ item.styleboard_item.description|linebreak }}
+				</div>
+				<div class="featurePrice">
+					<h5 class="clearfix">${{ item.styleboard_item.id|get_emb_save_total|intcomma }}</h5>
+					<p>{% if item.styleboard_item.item_guest %}{{ item.styleboard_item.item_guest }}{% else %}{{ global_default_quantity }}{% endif %} guest</p>
+					<p>{% if item.styleboard_item.item_tables %}{{ item.styleboard_item.item_tables }}{% else %}{{ global_guest_table }}{% endif %} tables</p>
+				</div>
+			</div>
+			<div class="clearfix featureFooter">
+				<img src="/media/images/man.png" /><span class="member"><p>by {{ user_profile.nickname }}</p></span>
+			</div>
 		</div>
-		<h3>Lorem ipsum dolor sit amet</h3>
-		<div class="featureDesc">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-		</div>
-		<div class="featurePrice">
-			<h5>$10,000.00</h5>
-			<p>100 guest</p>
-		</div>
-		<div class="featureFooter">
-			<span class="member"><p>by membername</p></span>
-		</div>
-	</div>
-	<div class="featureContentWrap clearfix">
-		<div class="featureImg">
-			 <img src="http://www.pacificbayresort.com.au/images/stock/stock-wedding-05.jpg?Action=thumbnail&Width=497&Height=316&algorithm=fill" /> 
-		</div>
-		<h3>Lorem ipsum dolor sit amet</h3>
-		<div class="featureDesc">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-		</div>
-		<div class="featurePrice">
-			<h5>$10,000.00</h5>
-			<p>100 guest</p>
-		</div>
-		<div class="featureFooter">
-			<span class="member"><p>by membername</p></span>
-		</div>
-	</div>
-	<div class="featureContentWrap clearfix">
-		<div class="featureImg">
-		 <img src="http://itsabrideslife.com/wp-content/uploads/Wedding-Budget-Piggybank1.jpg" /> 
-		</div>
-		<h3>Lorem ipsum dolor sit amet</h3>
-		<div class="featureDesc">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-		</div>
-		<div class="featurePrice">
-			<h5>$10,000.00</h5>
-			<p>100 guest</p>
-		</div>
-		<div class="featureFooter">
-			<span class="member"><p>by membername</p></span>
-		</div>
-	</div>
-	<div class="featureContentWrap clearfix">
-		<div class="featureImg">
-			 <img src="http://nyweddingflowers.net/wp-content/uploads/2012/05/weddings-11.jpg" /> 
-		</div>
-		<h3>Lorem ipsum dolor sit amet</h3>
-		<div class="featureDesc">
-			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris imperdiet leo id turpis sollicitudin sed laoreet felis ullamcorper. Quisque iaculis eleifend rutrum.
-		</div>
-		<div class="featurePrice">
-			<h5>$10,000.00</h5>
-			<p>100 guest</p>
-		</div>
-		<div class="featureFooter">
-			<span class="member"><p>by membername</p></span>
-		</div>
+		{% endfor %}
 	</div>
 	{% else %}
-	<div class="create-wrap">
+	<div class="clearfix create-wrap">
 		<a href="{% url styleboard %}">Create New Style Board</a>
 	</div>	
 	{% endif %}
 </section>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+$(function(){
+
+	$('div.featureDesc:even').each(function(index) {                                       
+    
+        $(this).height(Math.max($(this).height(),$(this).next().height()));
+        $(this).next().height(Math.max($(this).height(),$(this).next().height()));
+                                                 
+        /*var highestCol = Math.max($(this).height(),$(this).next().height());
+        $(this).height(highestCol);
+        $(this).next().height(highestCol);
+        
+        
+         $(this).css('height',Math.max($(this).height(),$(this).next().height()));
+        $(this).next().css('height',Math.max($(this).height(),$(this).next().height()));*/
+ 
+    });            ​
+
+	var windowH = $(window).outerHeight();
+		headerH = $('#header').outerHeight();
+		footerH = $('#footer').outerHeight();
+		newHeight = windowH - headerH - footerH - 35;
+
+	$(window).resize(function(){
+
+		var windowH = $(window).outerHeight();
+			headerH = $('#header').outerHeight();
+			footerH = $('#footer').outerHeight();
+			newHeight = windowH - headerH - footerH - 35;
+
+		if ($(document).height()<$(window).height()){
+			if(newHeight < windowH) {
+				$('#feature-wrap').height(newHeight);
+			}
+		}
+		
+	});
+	if ($(document).height()<$(window).height()){
+		if(newHeight < windowH) {
+			$('#feature-wrap').height(newHeight);
+		}
+	}	
+/*
+	var liMaxHeight = -1;
+	var node;
+	
+		$(".featureDesc").each(function(index) {
+		    if ($(this).outerHeight() > liMaxHeight) {
+		        liMaxHeight = $(this).outerHeight();
+		        node = index;
+		    }
+		});
+		$(".featureDesc").height(liMaxHeight);
+	
+	var first = $('.featureDesc').height();
+	var second = $('.featureDesc').next().height();
+
+	if(first < second) {
+		$('.featureDesc').next().height(second);
+	}
+*/
+});
+</script>
 {% endblock %}

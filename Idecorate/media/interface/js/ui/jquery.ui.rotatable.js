@@ -90,22 +90,13 @@
                 stop: function(e,ui){
                     cancelBubble(e);
                     $rotatable.removeClass('ui-rotating');
-
+                    eventTracker($rotatable,'rotate');
                 }
             });
         };
 
         this.rotate_resizable_handles = function(angle){
-            var direction = {
-                        'nw': 'nw-resize',
-                        'w': 'w-resize',
-                        'sw':'sw-resize',
-                        's': 's-resize',
-                        'se': 'se-resize',
-                        'e': 'e-resize',
-                        'ne': 'ne-resize',
-                        'n': 'n-resize'
-                        };
+            var direction = ['nw','sw','se','ne','w','s','e','n'];
             var $selected;
 
            if(opts.rotateAlso){
@@ -114,61 +105,44 @@
 
             if (_this.between(angle, 67, 112)) {//1
                 direction = ['nw','sw','se','ne','w','s','e','n'];
-                this.change_cursor(direction);
-                $selected.attr('_handle',['nw','sw','se','ne']);
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
                 
             }else if(_this.between(angle, 113,157)){//2
                 direction = ['w','s','e','n','ne','nw','sw','se'];
-                this.change_cursor(direction);
-                $selected.attr('_handle',['w','s','e','n']);
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
 
             }else if(_this.between(angle, 158,202)){//3
                 direction = ['sw','se','ne','nw','w','s','e','n'];
-                this.change_cursor(direction);
-                $selected.attr('_handle',['sw','se','ne','nw']);
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
                 
             }else if(_this.between(angle, 203,247)){//4
                 direction = ['s','e','n','w','ne','nw','sw','se'];
-                this.change_cursor(direction);
-                $selected.attr('_handle',['s','e','n','w',]);
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
 
             }else if(_this.between(angle, 248,292)){//5
                 direction = ['se','ne','nw','sw','w','s','e','n'];
-                this.change_cursor(direction);
-                $selected.attr('_handle',['se','ne','nw','sw']);
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
                 
             }else if(_this.between(angle, 293,337)){//6
                 direction = ['e','n','w','s','ne','nw','sw','se'];
-                this.change_cursor(direction);
-                $selected.attr('_handle',['e','n','w','s']);
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
 
             }else if(_this.between(angle, 338,360)|| _this.between(angle, 1,22)){//7
                 direction = ['ne','nw','sw','se','w','s','e','n'];
-                this.change_cursor(direction);
-                $selected.attr('_handle',['ne','nw','sw','se']);
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
                 
             }else if(_this.between(angle, 23,66)){//8
                 direction = ['n','w','s','e','ne','nw','sw','se'];
-                this.change_cursor(direction);
-                $selected.attr('_handle',['n','w','s','e']);
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
             }
-        }
-
-        this.change_cursor = function(option){
-            var position = [{"top":"-5px","left":"-5px","bottom":"auto","right":"auto","display":"block"},
-                            {"top":"auto","left":"-5px","bottom":"-5px","right":"auto","display":"block"},
-                            {"top":"auto","left":"auto","bottom":"-5px","right":"-5px","display":"block"},
-                            {"top":"-5px","left":"auto","bottom":"auto","right":"-5px","display":"block"},
-                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
-                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
-                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
-                            {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"}
-            ];
-            var newObj;
-            $.each(option, function(index, value){
-                newObj = $('.ui-resizable-'+value);
-                newObj.css(position[index]);
-            });
         }
 
         this.between = function(value, min, max){

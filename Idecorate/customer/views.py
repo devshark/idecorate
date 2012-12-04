@@ -15,17 +15,27 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
+from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
+from models import StyleboardItems
+from django.contrib.auth.models import User
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm
-from services import register_user, customer_profile, get_client_ip, get_user_styleboard
-from admin.models import LoginLog
+from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
+	get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item
+from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
+from django.conf import settings
+import re
+import math
+from idecorate_settings.models import IdecorateSettings
+from urllib import unquote
+from admin.services import getExtensionAndFileName
 
 def login_signup(request):
 
 	info = {}
 	login_form = LoginForm()
 	signup_form = SignupForm()
-
+	info['action'] = 'login_signup'
 	if request.method=="POST":
 		action = request.POST['btnSubmit']
 		if action=='Login':			
@@ -62,7 +72,7 @@ def login_signup(request):
 					user = authenticate(username=signup_form.cleaned_data['username'], password=signup_form.cleaned_data['password'])
 					login(request, user)
 					profile = customer_profile(user)
-					info['username'] = profile['nickname']
+					info['username'] = profile['nickname']					
 					return render_to_response('customer/iframe/success.html', info)
 				else:
 					messages.warning(request, _('Sorry you could not register at the moment. Please try again later.'))
@@ -83,24 +93,495 @@ def forgot_password(request):
 	return HttpResponse('<h1>Under Construction.</h1>')
 
 def profile(request):
-	if not request.user.is_authenticated():
-		return redirect('home')
+
+	user_id = request.GET.get('id',None)
+	if user_id:
+		try:
+			user = User.objects.get(id=user_id)
+		except:
+			if request.user.is_authenticated():
+				user = request.user
+			else:
+				return redirect('home')
+	else:
+		if request.user.is_authenticated():
+			user = request.user
+		else:
+			return redirect('home')
 	info = {}
-	user_profile = customer_profile(request.user)
+	user_profile = customer_profile(user)
 	info['user_profile'] = user_profile
 	info['currentUrl'] = request.get_full_path()
-	user_styleboard = get_user_styleboard(request.user)
+	user_styleboard = get_user_styleboard(user)
 	info['user_styleboard'] = user_styleboard
+
+	idecorateSettings = IdecorateSettings.objects.get(pk=1)
+	info['global_default_quantity'] = idecorateSettings.global_default_quantity
+	info['global_guest_table'] = idecorateSettings.global_table
+
 	return render_to_response('customer/profile.html', info, RequestContext(request))
 
 def save_styleboard(request):
 	if not request.user.is_authenticated():
 		return redirect('styleboard')
 	info = {}
-	form = SaveStyleboardForm()
+	customer_styleboard = None
+	try:		
+		customer_styleboard = request.session['customer_styleboard']	
+		form = SaveStyleboardForm(initial={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description})
+	except Exception as e:		
+		form = SaveStyleboardForm()
 	if request.method == "POST":
-		form = SaveStyleboardForm(request.POST)
+		form = SaveStyleboardForm(request.POST)		
 		if form.is_valid():
-			pass
+			cleaned_datas = form.cleaned_data
+			cleaned_datas['user'] = request.user
+			cleaned_datas['customer_styleboard'] = customer_styleboard
+			cleaned_datas['sessionid'] = request.session.get('cartsession',None)
+			res = save_styleboard_item(cleaned_datas)
+			request.session['customer_styleboard'] = res
+			info['action'] = 'save_styleboard'
+			info['msg'] =  _('Style board saved.')
+			return render_to_response('customer/iframe/success.html', info)
 	info['form'] = form
 	return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
+
+def styleboard_view(request,sid=None):
+	if not sid:
+		return redirect('home')
+	info = {}
+	styleboard = get_user_styleboard(None, sid)
+	if not styleboard:
+		return redirect('home')
+
+	"""
+	manage add to cart
+	"""
+	if request.method=="POST":
+		styleboard_item_id = request.POST['sid']
+		styleboard = get_user_styleboard(None,styleboard_item_id)
+		cart_items = get_styleboard_cart_item(styleboard)
+
+	user_profile = customer_profile(styleboard.user)
+	info['user_profile'] = user_profile
+	info['styleboard'] = get_user_styleboard(None, sid)
+	info['cart_items'] = get_styleboard_cart_item(styleboard.styleboard_item)
+	return render_to_response('customer/styleboard_view.html', info, RequestContext(request))
+
+
+def generate_styleboard_view(request, id, w, h):
+	
+	styleboardItem = StyleboardItems.objects.get(id=id)
+	itemString = str(styleboardItem.item).replace(',null','')
+	itemList = []
+	
+	imageWidth = int(w)
+	imageHeight = int(h)
+
+	lowestTop = None
+	highestTop = None
+	lowestLeft = None
+	highestLeft = None
+
+	finalHeight = 0
+	finalWidth = 0
+	widthIndex = 0
+	heightIndex = 0
+	true = True
+	false = False
+
+	exec('itemList=%s' % itemString)
+
+	for iList in itemList:
+
+		if re.search('/media/products/',iList['img'][0]['src']):
+
+			imgFile = iList['img'][0]['src'].split('/')
+			imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+
+		elif re.search('/generate_embellishment/', iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			directory = ""
+
+			embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
+
+			if embObj.e_type.id == 1:
+				directory = "images"
+			elif embObj.e_type.id == 2:
+				directory = "textures"
+			elif embObj.e_type.id == 3:
+				directory = "patterns"
+			elif embObj.e_type.id == 4:
+				directory = "shapes"
+			elif embObj.e_type.id == 5:
+				directory = "borders"
+
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
+		elif re.search('/media/embellishments/',iList['img'][0]['src']):
+
+			imgFile = iList['img'][0]['src'].split('/')
+			imgFile = imgFile[len(imgFile) - 1]
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', imgFile)
+
+		elif re.search('/generate_text/',iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
+			font_size = int(eProperties[0].split('=')[1])
+			font_color = eProperties[2].split('=')[1]
+			font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+			image_text = unquote(eProperties[1].split('=')[1])
+		elif re.search('/cropped/',iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", eProperties[3].split('=')[1])
+			task = eProperties[1].split('=')[1]
+
+			splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
+
+
+
+		style = iList['style']
+		splittedStyle = style.split(';')
+
+		#find width and height index
+		ctr = 0
+		for item in splittedStyle:
+			if re.search('width', item):
+				widthIndex = ctr
+			if re.search('height', item):
+				heightIndex = ctr
+			ctr += 1
+
+		w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
+		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
+
+		try:
+			if re.search('/generate_text/',iList['img'][0]['src']):
+
+				font = ImageFont.truetype(imgFile, font_size)
+				
+				splittedTexts = image_text.split("\n")
+				totalHeight = 0
+				upperWidth = 0
+				heightList = [0]
+
+				#compute the final width and height first
+				for splittedText in splittedTexts:
+					textSize = font.getsize(splittedText)
+					totalHeight += textSize[1]
+					heightList.append(totalHeight)
+
+					if upperWidth == 0:
+						upperWidth = textSize[0]
+					else:
+						if textSize[0] > upperWidth:
+							upperWidth = textSize[0]
+
+				#image with background transparent
+				img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
+				#create draw object	
+				draw = ImageDraw.Draw(img)
+				#draw the text
+				ctr = 0
+
+				for splittedText in splittedTexts:
+					#draw text
+					draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+					ctr += 1
+
+				imgObj = img
+				#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+				imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+				imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+				w, h = imgObj.size
+			elif re.search('/cropped/',iList['img'][0]['src']):
+
+				img = Image.open(imgFile)
+				back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+				back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+				poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
+				pdraw = ImageDraw.Draw(poly)
+
+				dimensionList = []
+
+				if task == 'poly':
+					for splittedPost in splittedPosts:
+						spl = splittedPost.split(':')
+						dimensionList.append((float(spl[0]),float(spl[1])))
+
+					pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+				elif task == 'rect':
+					for splittedPost in splittedPosts:
+						dimensionList.append(float(splittedPost))
+					pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+
+				poly.paste(back,mask=poly)
+
+				newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+				imgObj = newImg
+				imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+				imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+				w, h = imgObj.size
+			else:
+				imgObj = Image.open(imgFile).convert('RGBA')
+				#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+				imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+				imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+				w, h = imgObj.size
+		except:
+			pass
+
+		if lowestTop is None:
+			lowestTop = int(float(iList['top']))
+		else:
+			if int(float(iList['top'])) < lowestTop:
+				lowestTop = int(float(iList['top']))
+
+		if highestTop is None:
+			highestTop = int(float(iList['top'])) + h
+		else:
+			if (int(float(iList['top'])) + h) > highestTop:
+				highestTop = int(float(iList['top'])) + h
+
+		if lowestLeft is None:
+			lowestLeft = int(float(iList['left']))
+		else:
+			if int(float(iList['left'])) < lowestLeft:
+				lowestLeft = int(float(iList['left']))
+
+		if highestLeft is None:
+			highestLeft = int(float(iList['left'])) + w
+		else:
+			if (int(float(iList['left'])) + w) > highestLeft:
+				highestLeft = int(float(iList['left'])) + w
+
+	finalWidth = highestLeft - lowestLeft
+	finalHeight = highestTop - lowestTop
+
+	#create main image
+	mainImage = Image.new('RGBA', (finalWidth, finalHeight), (255, 255, 255, 0))
+
+
+	for iList in itemList:
+
+		if re.search('/media/products/',iList['img'][0]['src']):
+
+			imgFile = iList['img'][0]['src'].split('/')
+			imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+		elif re.search('/generate_embellishment/', iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			directory = ""
+
+			embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
+
+			if embObj.e_type.id == 1:
+				directory = "images"
+			elif embObj.e_type.id == 2:
+				directory = "textures"
+			elif embObj.e_type.id == 3:
+				directory = "patterns"
+			elif embObj.e_type.id == 4:
+				directory = "shapes"
+			elif embObj.e_type.id == 5:
+				directory = "borders"
+
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
+		elif re.search('/media/embellishments/',iList['img'][0]['src']):
+
+			imgFile = iList['img'][0]['src'].split('/')
+			imgFile = imgFile[len(imgFile) - 1]
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', imgFile)
+		elif re.search('/generate_text/',iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
+			font_size = int(eProperties[0].split('=')[1])
+			font_color = eProperties[2].split('=')[1]
+			font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+			image_text = unquote(eProperties[1].split('=')[1])
+			#print "The text is: %s" % image_text
+		elif re.search('/cropped/',iList['img'][0]['src']):
+			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", eProperties[3].split('=')[1])
+			task = eProperties[1].split('=')[1]
+
+			splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
+
+		style = iList['style']
+		splittedStyle = style.split(';')
+
+		#find width and height index
+		ctr = 0
+		for item in splittedStyle:
+			if re.search('width', item):
+				widthIndex = ctr
+			if re.search('height', item):
+				heightIndex = ctr
+			ctr += 1
+
+		w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
+		h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
+
+
+		if re.search('/generate_text/',iList['img'][0]['src']):
+
+			font = ImageFont.truetype(imgFile, font_size)
+				
+			splittedTexts = image_text.split("\n")
+			totalHeight = 0
+			upperWidth = 0
+			heightList = [0]
+
+			#compute the final width and height first
+			for splittedText in splittedTexts:
+				textSize = font.getsize(splittedText)
+				totalHeight += textSize[1]
+				heightList.append(totalHeight)
+
+				if upperWidth == 0:
+					upperWidth = textSize[0]
+				else:
+					if textSize[0] > upperWidth:
+						upperWidth = textSize[0]
+
+			#image with background transparent
+			img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
+			#create draw object	
+			draw = ImageDraw.Draw(img)
+			#draw the text
+			ctr = 0
+
+			for splittedText in splittedTexts:
+				#draw text
+				draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+				ctr += 1
+
+			imgObj = img
+		elif re.search('/cropped/',iList['img'][0]['src']):
+
+			img = Image.open(imgFile)
+			back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+			back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+			poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
+			pdraw = ImageDraw.Draw(poly)
+
+			dimensionList = []
+
+			if task == 'poly':
+				for splittedPost in splittedPosts:
+					spl = splittedPost.split(':')
+					dimensionList.append((float(spl[0]),float(spl[1])))
+
+				pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+			elif task == 'rect':
+				for splittedPost in splittedPosts:
+					dimensionList.append(float(splittedPost))
+				pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+
+			poly.paste(back,mask=poly)
+
+			newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+			
+			"""
+			splittedName = getExtensionAndFileName(imgFile)
+
+			if splittedName[1] == '.jpg':
+				imgObj = newImg.convert('RGB')
+			else:	
+				imgObj = newImg.convert('RGBA')
+			"""
+			imgObj = newImg
+		else:
+
+			imgObj = Image.open(imgFile).convert('RGBA')
+
+		if re.search('/generate_embellishment/', iList['img'][0]['src']):
+			embellishment_color = eProperties[1].split('=')[1]
+			embellishment_color = (int(embellishment_color[0:3]), int(embellishment_color[3:6]), int(embellishment_color[6:9]))
+			newImg = Image.new("RGBA", imgObj.size, embellishment_color)
+			r, g, b, alpha = imgObj.split()
+
+			if embObj.e_type.id == 3:
+				newImg.paste(imgObj, mask=b)
+				imgObj = newImg
+			elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
+				imgObj.paste(newImg, mask=alpha) 
+
+		#apply opacity
+		if int(iList['opacity']) != 100:
+			#adjust opacity
+			floatOpacity = float(float(iList['opacity']) / float(100))
+			alpha = imgObj.split()[3]
+			alpha = ImageEnhance.Brightness(alpha).enhance(floatOpacity)
+			imgObj.putalpha(alpha)
+
+		#try to rotate
+		try:
+			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+			"""
+			print "The width is: %s, and height is: %s" % (w,h)
+			print "The new width is: %s, and the new height is: %s" % imgObj.size
+			
+			aW = int((w / 2) * math.cos(float(iList['angle']))) + int((h / 2) * math.cos(90 - float(iList['angle'])))
+			aH = int((w / 2) * math.sin(float(iList['angle']))) + int((h / 2) * math.sin(90 - float(iList['angle'])))
+			
+			
+			imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			"""
+		except:
+			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
+			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+			
+
+		#flip and flap
+		exec('matrix=%s' % iList['matrix'])
+
+		if matrix[0]['e']:
+			#flip
+			imgObj = imgObj.transpose(Image.FLIP_TOP_BOTTOM)
+
+		if matrix[0]['f']:
+			#flap
+			imgObj = imgObj.transpose(Image.FLIP_LEFT_RIGHT)
+		
+		"""
+		try:
+
+			if splittedName[1] == '.jpg':
+				mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop))
+			else:	
+				mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
+		except:
+
+			mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
+		"""
+		mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
+		#paste image
+		#mainImage.paste(imgObj, (highestWidth - (w + int(iList['left'])), highestHeight - (h + int(iList['top']))))
+
+	response = HttpResponse(mimetype="image/png")
+	
+	mainImage.thumbnail((imageWidth,imageHeight), Image.ANTIALIAS)
+	bgImg = Image.new('RGBA', (imageWidth, imageHeight), (255, 255, 255, 0))
+	bgImg.paste(mainImage,((imageWidth - mainImage.size[0]) / 2, (imageHeight - mainImage.size[1]) / 2))
+	bgImg.save(response, "PNG")
+	"""
+	mainImage.save(response, "PNG")
+	"""
+	return response

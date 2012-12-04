@@ -1,0 +1,224 @@
+{% extends "base.html" %}
+{% load idecorate_interface humanize %}
+{% block title %}iDecorate Weddings{% endblock %}
+{%  block style %}
+<link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard_view.css">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.2.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.2.ico" type="image/ico" />
+{% endblock %}
+{% block content %}
+<style type="text/css">
+@-moz-document url-prefix() {
+  .personalize {
+    margin: 5px 0 0 55px !important;
+  }
+}
+.commentsBlock {
+	width: 690px;
+	height: auto;
+	margin: 20px 0;
+}
+</style>
+<div class="clearfix viewWrapper">
+	<aside>
+		<h1>{{ styleboard.styleboard_item.name }}</h1>
+		<div class="clearfix memberName">
+			<table>
+				<tr>
+					<td width="85%"><img src="/media/images/man.1.jpg" /> <span>&nbsp;by&nbsp;</span><a href="{% url profile %}?id={{ styleboard.user.id }}">{{ user_profile.nickname }}</a></td>
+					<td><a href="{% url styleboard %}?sbid={{ styleboard.styleboard_item.id }}" class="personalize">Personalize!</a></td>
+				</tr>
+			</table>
+		</div>
+		<div class="clearfix socialMedia">
+			<div class="facebookLike">
+				<div class="fb-like" data-href="http://www.idecorateweddings.com/" data-send="true" data-width="450" data-show-faces="false"></div>
+			</div>
+			<div class="tumblerShare">
+				<span id="tumblr_button_abc123"></span>
+			</div>
+			<div class="twitterShare">
+				<a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+				</script>
+			</div>
+			<div class="pinterestShare">
+				<a data-pin-config="" data-pin-do="buttonBookmark" href="//pinterest.com/pin/create/button/">
+					<img src="//assets.pinterest.com/images/PinExt.png" />
+				</a>
+			</div>
+			<div class="googleShare">
+				<div class="g-plusone" data-size="medium" data-annotation="none" data-href="http://www.idecorateweddings.com/"></div>
+			</div>
+			<div class="email">
+				<img src="/media/images/email.jpg" />
+			</div>
+			<div class="clearfix styleboardDesc">
+				<p align="justify">
+					{{ styleboard.styleboard_item.description|linebreak }}
+				</p>
+			</div>
+			<h2>In this Styleboard</h2>
+			<form method="POST" action="{% url checkout_from_view_styleboard %}">
+				{% csrf_token %}
+				<input type="hidden" name="sid" value="{{ styleboard.styleboard_item.id }}" />
+				<div class="clearfix">
+					<table>
+						<tbody class="tbody">
+							{% for item in cart_items %}
+							<tr>
+								<td class="productTD">
+									<center>
+										<img src="/media/products/{{ item.product.original_image_thumbnail }}" />
+									</center>
+								</td>
+								<td class="productTD">
+									<p>{{ item.product.name }}</p>
+									<p>${{ item.product|get_product_price|intcomma }}</p>
+								</td>
+								<td class="productTD">
+									x{{ item.quantity }}
+								</td>
+								<td class="productTD">
+									${{ item.product|get_product_price|get_sub_total:item.quantity|intcomma }}
+								</td>
+							</tr>
+							{% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<p class="clearfix total">Total: ${{ styleboard.styleboard_item.id|get_emb_save_total|intcomma }}</p>
+				<input type="submit" value="Buy!" class="buyItem" />
+			</form>
+		</div>
+	</aside>
+	<section>
+		<div class="clearfix canvass">
+			<img src="/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/705/500/" alt="{{ styleboard.styleboard_item.name }}">
+		</div>
+		<div class="clearfix socialMediaWrapper">
+			<div class="clearfix socialMedia">
+				<div class="facebookLike">
+					<div class="fb-like" data-href="http://www.idecorateweddings.com/" data-send="true" data-width="450" data-show-faces="false"></div>
+				</div>
+				<div class="tumblerShare">
+					<span id="tumblr_button_abc1234"></span>
+				</div>
+				<div class="twitterShare">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+					</script>
+				</div>
+				<div class="pinterestShare">
+					<a data-pin-config="" data-pin-do="buttonBookmark" href="//pinterest.com/pin/create/button/">
+						<img src="//assets.pinterest.com/images/PinExt.png" />
+					</a>
+				</div>
+				<div class="googleShare">
+					<div class="g-plusone" data-size="medium" data-annotation="none" data-href="http://www.idecorateweddings.com/"></div>
+				</div>
+				<div class="email">
+					<img src="/media/images/email.jpg" />
+				</div>
+			</div>
+		</div>
+		<h2>Comments</h2>
+		<div class="commentsBlock">        
+
+			<div id="disqus_thread"></div>
+	        <script type="text/javascript">
+	            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	            var disqus_shortname = 'idecoratewedding'; // required: replace example with your forum
+	            var disqus_titleshortname = 'idecorate Weddings';
+	            var disqus_developer = 1; // developer mode is on
+	            var disqus_identifier = window.location.href;
+
+	            /* * * DON'T EDIT BELOW THIS LINE * * */
+	            (function() {
+	                var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	                dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+	                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	            })();
+	        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+	    </div>
+	</section>
+</div>
+{% endblock %}
+{% block javascripts %}
+		<script type="text/javascript">
+		$(function(){
+		var windowH = $(window).height();
+			headerH = $('#header').outerHeight(true);
+			footerh = $('#footer').outerHeight(true);
+			bodyh = windowH - headerH - footerh - 15;
+			totalContent = headerH + contentH + footerH;
+
+			if(totalContent > windowH) {
+				$('.viewWrapper').height(bodySize);
+			}
+
+			$(window).resize(function(){
+
+				var windowH = $(window).height();
+					headerH = $('#header').outerHeight(true);
+					footerh = $('#footer').outerHeight(true);
+					bodyh = windowH - headerH - footerh - 15;
+					totalContent = headerH + contentH + footerH;
+
+				if(totalContent > windowH) {
+					$('.viewWrapper').height(bodySize);
+				}
+				
+			});
+
+		});
+			
+		</script>
+        <!-- Social Media Buttons -->
+        <script src="http://platform.tumblr.com/v1/share.js"></script>
+        <script type="text/javascript">
+            var tumblr_link_url = "http://www.example.com/permalink/my-article";
+            var tumblr_link_name = "My Awesome Article";
+            var tumblr_link_description = "Lorem ipsum...";
+        </script>
+        <script type="text/javascript">
+            var tumblr_button = document.createElement("a");
+            tumblr_button.setAttribute("href", "http://www.tumblr.com/share/link?url=" + encodeURIComponent(tumblr_link_url) + "&name=" + encodeURIComponent(tumblr_link_name) + "&description=" + encodeURIComponent(tumblr_link_description));
+            tumblr_button.setAttribute("title", "Share on Tumblr");
+            tumblr_button.setAttribute("style", "display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;");
+            tumblr_button.innerHTML = "Share on Tumblr";
+            document.getElementById("tumblr_button_abc123").appendChild(tumblr_button);
+        </script>
+        <script type="text/javascript">
+            var tumblr_button = document.createElement("a");
+            tumblr_button.setAttribute("href", "http://www.tumblr.com/share/link?url=" + encodeURIComponent(tumblr_link_url) + "&name=" + encodeURIComponent(tumblr_link_name) + "&description=" + encodeURIComponent(tumblr_link_description));
+            tumblr_button.setAttribute("title", "Share on Tumblr");
+            tumblr_button.setAttribute("style", "display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;");
+            tumblr_button.innerHTML = "Share on Tumblr";
+            document.getElementById("tumblr_button_abc1234").appendChild(tumblr_button);
+        </script>
+        <script src="//assets.pinterest.com/js/pinit.js"></script>
+        <script type="text/javascript">
+          (function() {
+            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+            po.src = 'https://apis.google.com/js/plusone.js';
+            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+          })();
+        </script>
+
+        <!--DISQUS -->
+      	<script type="text/javascript">
+	        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+	        var disqus_shortname = 'idecoratewedding'; // required: replace example with your forum shortname
+
+	        /* * * DON'T EDIT BELOW THIS LINE * * */
+	        (function () {
+	            var s = document.createElement('script'); s.async = true;
+	            s.type = 'text/javascript';
+	            s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+	            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+	        }());
+        </script>
+        <!--DISQUS -->
+{% endblock %}

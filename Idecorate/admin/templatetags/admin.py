@@ -6,6 +6,8 @@ from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from cart.models import ProductPrice
+from customer.models import CustomerProfile
+from django.contrib.humanize.templatetags.humanize import naturaltime
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -380,3 +382,71 @@ def getFontPreview(font):
 def getFontStatus(font):
 
 	return 'Active' if font.is_active else 'Inactive'
+
+@register.filter
+def getUserStatus(user):
+
+	return 'Active' if user.is_active else 'Inactive'
+
+@register.filter
+def getUserNickname(user):
+
+	ret = ""
+
+	if user.first_name != "" and user.last_name != "":
+		ret = "%s %s" % (user.first_name, user.last_name)
+	else:
+
+		try:
+			profile = CustomerProfile.objects.get(user=user)
+			ret = profile.nickname
+		except:
+			pass
+
+	return mark_safe(ret)
+
+@register.filter
+def getUserNicknameOnly(user):
+
+	ret = ""
+
+	try:
+		profile = CustomerProfile.objects.get(user=user)
+		ret = profile.nickname
+	except:
+		pass
+
+	return mark_safe(ret)
+
+@register.filter
+def getUserType(user):
+
+	return 'Admin' if user.is_staff else 'Member'
+
+@register.filter
+def getUserActivity(user):
+
+	ret = ""
+
+	if user.date_joined.year == user.last_login.year and user.date_joined.month == user.last_login.month and user.date_joined.day == user.last_login.day and user.date_joined.hour == user.last_login.hour and user.date_joined.minute == user.last_login.minute:
+		ret = "%s%s" % ("Registered ", naturaltime(user.date_joined))
+	else:
+		ret = "%s%s" % ("Logged in ", naturaltime(user.last_login))
+
+	return mark_safe(ret)
+
+@register.filter
+def user_enable_disable(user):
+
+	ret = ''
+	retStat = ""
+
+	if user.is_active:
+		retStat = "Deactivate"
+	else:
+		retStat = "Activate"
+
+	ret = '<a data-toggle="modal" class="mod_btn" href="#myModal1" onclick="setGlobalURL(\'%s\')">%s</a>' % (reverse('admin_stat_user', args=[user.id]), retStat)
+
+	return mark_safe(ret)
+

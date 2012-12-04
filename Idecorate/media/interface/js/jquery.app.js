@@ -7,6 +7,10 @@ uniqueIdentifier = 1;
 changesCounter = 0;
 changesArray = [];
 changesCurrentPosition = 0;
+var handles = 'ne,se,nw,sw,n,e,s,w';
+var aspectR = true;
+var slideValue = 0;
+DEFAULT_TEXT_E = "I Love iDecorate";
 
 $(document).ready(function () {
     //init lasso
@@ -28,7 +32,8 @@ $(document).ready(function () {
     //draggable sidebar obj to canvas
     $(".draggable").liveDraggable({
         revert:true, 
-        helper: 'clone'
+        helper: 'clone',
+        containment: 'body'
     });
 
 
@@ -49,51 +54,66 @@ $(document).ready(function () {
                 //set this oject to jquery
                 Obj = $(Obj);
 
-                //custom attribute uid is a refference to populate new image 
-                var uid = Obj.attr('_uid');
+                if(Obj.hasClass('products')){
+                    //custom attribute uid is a refference to populate new image 
+                    var uid = Obj.attr('_uid');
 
-                //image source can be generated using ajax 
+                    //image source can be generated using ajax 
 
-                var _img_src = media_url+'products/';
-                var p_d_qty = 1;
-                var p_g_t = 'table';
+                    var _img_src = media_url+'products/';
+                    var p_d_qty = 1;
+                    var p_g_t = 'table';
 
-                //get image filename from DB using product_id via ajax
-                $.ajax({
-                    url: PRODUCT_IMAGE_URL,
-                    type: "POST",
-                    data: { product_id: uid},
-                    async:   false,
-                    success: function(data){
-                        //original
-                        img_src     = '/'+_img_src+data.original_image;
-                        img_w       = data.original_image_w;
-                        img_h       = data.original_image_h;
-                        img_w_bg    = data.original_image;
-                        img_wo_bg   = data.no_background;
-                        p_d_qty     = data.default_quantity;
-                        p_g_t       = data.guest_table;
+                    //get image filename from DB using product_id via ajax
+                    $.ajax({
+                        url: PRODUCT_IMAGE_URL,
+                        type: "POST",
+                        data: { product_id: uid},
+                        async:   false,
+                        success: function(data){
+                            //original
+                            img_src     = '/'+_img_src+data.original_image;
+                            img_w       = data.original_image_w;
+                            img_h       = data.original_image_h;
+                            img_w_bg    = data.original_image;
+                            img_wo_bg   = data.no_background;
+                            p_d_qty     = data.default_quantity;
+                            p_g_t       = data.guest_table;
 
-                        //create new image using image object
-                        var newObj = create_instance({
-                                    _uid     : uid,
-                                    _event   : e,
-                                    _src     : img_src,
-                                    _img_wo_b: img_wo_bg,
-                                    _img_w_b : img_w_bg,
-                                    _width   : img_w,
-                                    _height  : img_h,
-                                    _p_d_qty : p_d_qty,
-                                    _p_g_t   : p_g_t
-                                });
-                    },
-                    error: function(msg) {
-                        alert(msg);
+                            //create new image using image object
+                            var newObj = create_instance({
+                                        _uid     : uid,
+                                        _event   : e,
+                                        _src     : img_src,
+                                        _img_wo_b: img_wo_bg,
+                                        _img_w_b : img_w_bg,
+                                        _width   : img_w,
+                                        _height  : img_h,
+                                        _p_d_qty : p_d_qty,
+                                        _p_g_t   : p_g_t
+                                    });
+                        },
+                        error: function(msg) {
+                            alert(msg);
+                        }
+                    });
+
+                    //ajax add to cart
+                    add_to_cart(uid, p_d_qty, p_g_t);
+
+                }else if(Obj.hasClass('em')){
+
+                    var em_id = Obj.attr('id');
+                    var em_dbID = em_id.split('-');
+                    var type = Obj.attr('_type');
+
+                    if(type == 'Text'){
+                        object = create_instance_em_text(em_dbID[1],e,type);
+                    }else{
+                        object = create_instance_embellishments(em_dbID[1],e,type);
                     }
-                });
 
-                //ajax add to cart
-                add_to_cart(uid, p_d_qty, p_g_t);
+                }
 
             }
         }
@@ -152,9 +172,10 @@ $(document).ready(function () {
     });
 
     //drag the selected product together with its handle on the fly
-    $('.product').liveDraggable({
+    $('.unselected').liveDraggable({
         helper: 'original',
         cursor: 'move',
+        //containment: '#canvas',
         start : function(e, ui){
             
             transform($(this));
@@ -170,7 +191,6 @@ $(document).ready(function () {
             //set center coordinated for rotate plugin
             set_ctr_attr($(this));
 
-
             //track event
             eventTracker($(this),'move');
 
@@ -180,9 +200,13 @@ $(document).ready(function () {
     //onmouse down show handles for selected product
     if($.browser.msie){
         var handled = false;
-        $('#canvas').on('mousedown','.product',function(e){
+        $('#canvas').on('mousedown','.unselected',function(e){
 
-            update_menu($(this).find('img'));
+            if($(this).hasClass('embellishment')){
+                update_menu($(this).find('img'), true);
+            }else{
+                update_menu($(this).find('img'));
+            }
 
             if(!$(this).hasClass('selected')){
 
@@ -192,6 +216,8 @@ $(document).ready(function () {
 
                 //set center coordinated for rotate plugin
                 set_ctr_attr($('.selected'));
+                //set handles direction 
+                change_cursor($('.selected').attr('_handle'));
             }
             
             handled = true; 
@@ -235,9 +261,13 @@ $(document).ready(function () {
         });
 
     }else{
-        $('#canvas').on('mousedown','.product',function(e){
+        $('#canvas').on('mousedown','.unselected',function(e){
 
-            update_menu($(this).find('img'));
+            if($(this).hasClass('embellishment')){
+                update_menu($(this).find('img'), true);
+            }else{
+                update_menu($(this).find('img'));
+            }
 
             if(!$(this).hasClass('selected')){
 
@@ -247,6 +277,8 @@ $(document).ready(function () {
                 
                 //set center coordinated for rotate plugin
                 set_ctr_attr($('.selected'));
+                //set handles direction 
+                change_cursor($('.selected').attr('_handle'));
             }
             cancelBubble(e);
 
@@ -254,15 +286,14 @@ $(document).ready(function () {
     }
 
     //draggable handles binds style on selected obj
-
-    var handlesIE = 'ne,se,nw,sw,n,e,s,w';
-    if($.browser.msie && $.browser.version < 9.0){
-        handlesIE = 'ne,se,nw,sw';
+    if($.browser.msie && $.browser.version < 9.0){//while IE is not yet supported
+        handles = 'ne,se,nw,sw';
     }
 
     $handles.draggable({
         helper: 'original',
         cursor: 'move',
+        //containment:'#canvas',
         start: function(e, ui){
 
             transform($(this));
@@ -283,10 +314,9 @@ $(document).ready(function () {
             set_ctr_attr($(this));
         }
     }).resizable({
-
-        handles: handlesIE,
+        handles: handles,
         minWidth: 50,
-        aspectRatio: true,
+        aspectRatio: aspectR,
         start : function(e, ui){
             
         },
@@ -316,7 +346,7 @@ $(document).ready(function () {
     }).keydown(function(e){
         
         if(!$.browser.mozilla) {
-            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
+            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea') {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
             }
@@ -327,7 +357,7 @@ $(document).ready(function () {
     $('html').keypress(function(e){
 
         if($.browser.mozilla) {
-            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0) {
+            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea') {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
                 return false;
@@ -342,13 +372,14 @@ $(document).ready(function () {
         objCounter--;
         updateZIndex($('.selected'));
         
-        var selected_uid = $('.selected').attr('_uid');
+        var selected_uid = $('.product.selected').attr('_uid');
         var count = 0;
-        $('.unselected').each(function(){
+        $('.product.unselected').each(function(){
             if (selected_uid == $(this).attr('_uid'))
                 count++;
         });
-        if (count<=1)
+
+        if (count<=1 && selected_uid != undefined)
             remove_from_cart(parseInt(selected_uid,10));
 
         var removedElement = $('.selected');
@@ -357,6 +388,8 @@ $(document).ready(function () {
 
         eventTracker(removedElement,'remove');
 
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
     });
 
     $('#flip-btn').click(function(e){
@@ -391,6 +424,8 @@ $(document).ready(function () {
     $('#clone-btn').click(function(e){
         e.preventDefault();
         cancelBubble(e);
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
         obj = $('.selected');
         cloneObj(obj);
     });
@@ -431,58 +466,460 @@ $(document).ready(function () {
         cancelBubble(e);
     });
 
-    initProductPositions();
-
-
-    /* embellishments
-    this is where embellishment related function
-    starts as well as with the inits,events,variables
-    */
-
-    $('#embelishments-list-wrap .em').click(function(e){
+    //create new canvas remove session and products
+    $('#new').click(function(e){
         e.preventDefault();
-        var callajax = $(this).attr('href');
-        var to_output = callajax.split('/'),
-            to_output = to_output[1];
-        var this_container = $('#em-common-wrap');
-
-        this_container.append(ajax_get_by_type(callajax,to_output));
-
+        cancelBubble(e);
+        new_canvas($(this).attr('href'));
     });
+
+    initProductPositions();
 
     $('#redo').click(function(e){
         e.preventDefault();
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
         redo_styleboard();
     });
 
     $('#undo').click(function(e){
         e.preventDefault();
+        //show or hide upper left menu of canvas;
+        hide_canvas_menu();
         undo_styleboard();
     });
+
+    /*  
+    embellishments
+    this is where embellishment related function calls
+    starts as well as with the inits,events,variables
+    */
+
+    $("#font_id").selectbox({
+        imageRegExp: /font_id/
+    });
+
+    $('.sbHolder').on('click mousedown',function(e){
+        cancelBubble(e);
+    });
+
+    $("#font_id").on('click mousedown',function(e){
+        cancelBubble(e);
+    });
+
+    $("#colorPicker").spectrum({
+        color: "#000",
+        preferredFormat: "rgb",
+        showButtons: false,
+        clickoutFiresChange: true,
+        move: function(color) {
+         var object = $('.selected').find('img');
+         new_img = change_color(object,color.toRgb());
+        },
+        change: function(color){
+            eventTracker(new_img, 'change_color');
+        }
+    });
+
+    $('#text-change, #text-update').click(function(e){
+        e.preventDefault();
+        cancelBubble(e);
+    });
+
+    if(!$.browser.msie){
+        $( "#slider" ).slider({
+            range: "max",
+            min: 1,
+            max: 100,
+            value: slideValue,
+            slide: function( event, ui ) {
+                $('.selected img').css({
+                    'zoom': 1,
+                    'opacity' : ui.value*0.01,
+                    'filter': 'alpha(opacity='+ui.value+')'
+                });
+                $('.selected').attr('_opacity',ui.value);
+            },
+            stop: function(event, ui){
+                eventTracker($('.selected'), 'set_opacity');
+            }
+        });
+
+        $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture', function(e){
+            cancelBubble(e);
+            slideValue = parseInt($(this).attr('_opacity'));
+            embellishment_handle_set(slideValue);
+        });
+    }else{
+        $('#opacity-control-wrap').hide();
+        if($.browser.version >= 9.0){
+            $( "#slider" ).slider({
+                range: "max",
+                min: 1,
+                max: 100,
+                value: slideValue,
+                slide: function( event, ui ) {
+                    $('.selected img').css({
+                        'zoom': 1,
+                        'opacity' : ui.value*0.01,
+                        'filter': 'alpha(opacity='+ui.value+')'
+                    });
+                    $('.selected').attr('_opacity',ui.value);
+                },
+                stop: function(event, ui){
+                    eventTracker($('.selected'), 'set_opacity');
+                }
+            });
+
+            $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture', function(e){
+                cancelBubble(e);
+                slideValue = parseInt($(this).attr('_opacity'));
+                embellishment_handle_set(slideValue);
+            });
+        }
+    }
+
+    $('#canvas').on('click mousedown', '.text', function(e){
+        change_textON_textarea($(this));
+    });
+
+    $('#text-update').click(function(e){
+        var text_value = $('#text-change').val();
+        var font_id = $('#font_id').val();
+        update_text_selected(text_value,font_id);
+    });
+
+    //show or hide upper left menu of canvas;
+    hide_canvas_menu();
 
 });
 
 //embelishments functions start
-function ajax_get_by_type(url,classname){
+function create_instance_em_text(em_dbID,event,type){
+    //GLOBAL var objCounter is for setting z-index for each created instance
+    objCounter++;
 
-    var result_data;
-    
-    $.ajax({
-        url: url,
-        type: "POST",
-        data: {},
-        dataType: 'json',
-        async:   false,
-        success: function(data){
-            $.each(data, function(key, value){
-                result_data += $('a').attr({'id':value.obj_id,'this_uid':value.obj_uid, 'class':'emType thumb draggable '+classname});
-            });
-            return result_data;
-        },
-        error: function(msg) {
-            // return error if needed
-        }
+    var object = $('<div/>');
+    object.attr({
+        '_uid': em_dbID,
+        'class': type.toLowerCase()+' embellishment unselected'
+    }).css({
+        zIndex : objCounter,
+        position: 'absolute',
+        left: '-5000px'
     });
+
+    var obj_image   = $('<img/>');
+    var imgWidth    = 0;
+    var imgHeight   = 0;
+
+    obj_image.attr({
+        'src': '/generate_text/?font_size=200&font_text=' + escape(DEFAULT_TEXT_E) + '&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0'
+    }).css({
+        width: '100%',
+        height: 'auto'
+    });
+
+    obj_image.load(function(){
+        
+        imgWidth = obj_image.width();
+        imgHeight = obj_image.height();
+        var dimensions  = aspectratio(imgWidth, imgHeight, .30);
+        var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
+        var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
+
+        $(this).attr('orig_width', imgWidth);
+        $(this).attr('orig_height',imgHeight);
+
+        object.css({
+            left:imgLeft,
+            top:imgTop,
+            width:dimensions['width'],
+            height:dimensions['height']
+        });
+
+        set_ctr_attr(object);
+
+        transform(object);
+
+        eventTracker(object, 'create_embellishment');
+
+    }).appendTo(object);
+    
+    object.appendTo('#canvas');
+
+    if(!object.hasClass('selected')){
+        object.addClass('selected').siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
+        object.attr('_opacity', 100);
+        object.attr('_text', DEFAULT_TEXT_E);
+        object.attr('_rgb', '000000000');
+        $( "#slider" ).slider({value:100});
+        slideValue = 100;
+        embellishment_handle_set(slideValue);
+
+        //set handles direction 
+        change_cursor($('.selected').attr('_handle'));
+    }
+    change_textON_textarea($('.selected'));
+    update_menu(object,true);
+    hide_canvas_menu();
+
+    return object;
+}
+
+function create_instance_embellishments(em_dbID,event,type){
+
+    //GLOBAL var objCounter is for setting z-index for each created instance
+    objCounter++;
+
+    var object = $('<div/>');
+    object.attr({
+        '_uid': em_dbID,
+        'class': type.toLowerCase()+' embellishment unselected'
+    }).css({
+        zIndex : objCounter,
+        position: 'absolute',
+        left: '-5000px'
+    });
+
+    var obj_image   = $('<img/>');
+    var imgWidth    = 0;
+    var imgHeight   = 0;
+
+    obj_image.attr({
+        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0'
+    }).css({
+        width: '100%',
+        height: 'auto'
+    });
+
+    obj_image.load(function(){
+        
+        imgWidth = obj_image.width();
+        imgHeight = obj_image.height();
+        var dimensions  = aspectratio(imgWidth, imgHeight, .80);
+        var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
+        var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
+
+        object.css({
+            left:imgLeft,
+            top:imgTop,
+            width:dimensions['width'],
+            height:dimensions['height']
+        });
+
+        set_ctr_attr(object);
+
+        transform(object);
+
+        eventTracker(object, 'create_embellishment');
+
+    }).appendTo(object);
+    
+    object.appendTo('#canvas');
+
+    if(!object.hasClass('selected')){
+        object.addClass('selected').siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
+        if(type.toLowerCase() == 'shape' || type.toLowerCase() == 'texture' || type.toLowerCase() == 'text' || type.toLowerCase() == 'pattern'){
+            object.attr('_opacity', 100);
+            $( "#slider" ).slider({value:100});
+        }
+        slideValue = 100;
+        embellishment_handle_set(slideValue);
+        //set handles direction 
+        change_cursor($('.selected').attr('_handle'));
+    }
+    update_menu(object,true);
+    hide_canvas_menu();
+
+    return object;
+}
+
+function create_instance_embellishment_upload(fname){
+    //GLOBAL var objCounter is for setting z-index for each created instance
+    objCounter++;
+
+    var object = $('<div/>');
+    object.attr({
+        'class': 'image embellishment unselected'
+    }).css({
+        zIndex : objCounter,
+        position: 'absolute',
+        left: '-5000px'
+    });
+
+    var obj_image   = $('<img/>');
+    var imgWidth    = 0;
+    var imgHeight   = 0;
+
+    obj_image.attr({
+        'src': '/media/embellishments/images/'+fname
+    }).css({
+        width: '100%',
+        height: 'auto'
+    });
+
+    obj_image.load(function(){
+        
+        imgWidth = obj_image.width();
+        imgHeight = obj_image.height();
+        var r = 1;
+        var dimensions  = aspectratio(imgWidth, imgHeight, r);
+        dimensions = embellishment_check_upload_image_dimension(dimensions, r);
+
+        var imgTop      = ($('#canvas').height()/2)-(dimensions['height']/2);
+        var imgLeft     = ($('#canvas').width()/2)-(dimensions['width']/2);       
+
+        object.css({
+            left:imgLeft,
+            top:imgTop,
+            width:dimensions['width'],
+            height:dimensions['height']
+        });
+
+        set_ctr_attr(object);
+
+        transform(object);
+
+        eventTracker(object, 'upload_image');
+
+    }).appendTo(object);
+    
+    object.appendTo('#canvas');
+
+    if(!object.hasClass('selected')){
+        object.addClass('selected').siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
+    }
+    update_menu(object,true);
+    hide_canvas_menu();
+
+    //set handles direction 
+    change_cursor($(object).attr('_handle'));
+    
+    return object;
+}
+
+function embellishment_check_upload_image_dimension(dimensions,ratio){
+    var canvas_width = $('#canvas').width()-(($('#canvas').width()*10)/100);
+    var canvas_height = $('#canvas').height()-(($('#canvas').height()*10)/100);    
+    if (dimensions['height'] > canvas_height || dimensions['width']>canvas_width){
+        ratio = ratio-.05;
+        dimensions  = aspectratio(dimensions['width'], dimensions['height'], ratio);
+        return embellishment_check_upload_image_dimension(dimensions, ratio)        
+    } else
+        return dimensions;
+}
+
+function change_color(object,rgb){
+    var selected        = object.parent();
+    var default_style   = object.attr('style');
+    var object_dbID     = selected.attr('_uid');
+    var new_img         = $('<img/>');
+    var new_obj_src     = '/generate_embellishment/?embellishment_id='+object_dbID+'&embellishment_color='+$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3)+'&embellishment_thumbnail=0';
+    if(selected.hasClass('text')){
+        new_obj_src = '/generate_text/?font_size=200&font_text='+escape(selected.attr('_text'))+'&font_color='+$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3)+'&font_id='+object_dbID+'&font_thumbnail=0';
+        selected.attr('_rgb',$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3));
+    }
+    object.remove();//remove old object
+    new_img.attr({//append new object
+        'src': new_obj_src,
+        'style': default_style
+    }).appendTo(selected);
+
+    return new_img;
+}
+
+function embellishment_handle_set(slideValue){
+    $( "#slider" ).slider({value:slideValue});
+    if($('.selected').hasClass('shape') || $('.selected').hasClass('texture') || $('.selected').hasClass('pattern')){
+        $handles.resizable({aspectRatio:false});
+        $('.selected img').height('100%');
+    }else{
+        $handles.resizable({aspectRatio:true});
+    }
+}
+
+function change_textON_textarea(object){
+    var text = object.attr('_text');
+    var font_id = object.attr('_uid');
+    $('#text-change').val(text);
+    $('#font_id').val(font_id);
+}
+
+function update_text_selected(text_value,font_id){
+
+    if(text_value != "") {
+
+        var object          = $('.selected');
+        var default_style   = object.children('img').attr('style');
+        var object_dbID     = font_id;
+        var rgb             = object.attr('_rgb');
+        var new_img         = $('<img/>');
+        var new_image_src   = new_obj_src = '/generate_text/?font_size=200&font_text='+escape(text_value)+'&font_color='+rgb+'&font_id='+object_dbID+'&font_thumbnail=0';
+
+        var old_height = object.height();
+        var old_width = object.width();        
+        var old_orig_img_width = $('.selected > img').attr('orig_width');
+        var old_orig_img_height = $('.selected > img').attr('orig_height');
+        var heightPercentage = old_height / old_orig_img_height * 100;
+        var widthPercentage = old_width / old_orig_img_width * 100;
+        var old_id = object.attr('_uid');
+
+        object.children('img').remove();//remove old object
+
+        new_img.attr({
+            'src': new_obj_src
+        }).hide();
+        
+        new_img.load(function(){
+            
+            imgWidth = new_img.width();
+            imgHeight = new_img.height();
+
+            var dimensions  = aspectratio(imgWidth, imgHeight, .30);
+
+            $(this).attr('orig_height', imgHeight);
+            $(this).attr('orig_width', imgWidth);
+
+
+            new_img.attr({
+                'style': default_style
+            });
+
+            if(old_id != font_id) {
+                new_width = dimensions['width'];
+                new_height = dimensions['height'];
+            } else {
+                new_width = imgWidth * (widthPercentage / 100);
+                new_height = imgHeight * (heightPercentage / 100);
+            }
+
+            $handles.height(new_height);            
+            $('.selected').height(new_height);
+            
+            $('.selected').width(new_width);
+            
+            $handles.width(new_width);
+
+            new_img.show();
+
+            object.attr('_text',text_value);
+            object.attr('_uid',font_id);
+
+            eventTracker($('.selected'), 'text_change');
+
+        }).appendTo(object);
+
+    } else {
+        $("#text-change").val($('.selected').attr('_text'));
+    }
+
 }
 
 //embelishments functions end
@@ -546,6 +983,31 @@ function create_new_object(options){
     return object;
 }
 
+function append_to_canvas(event, obj, index, top, left){
+
+    object = obj;
+    object.appendTo('#canvas');
+    object_top = top;
+    object_left = left;
+    object.css({top : object_top, left: object_left, zIndex: index });
+    object.attr({'object_id':uniqueIdentifier});
+    
+    uniqueIdentifier++;
+    if(object.hasClass('selected')){
+        object.siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
+        set_ctr_attr(object);
+        //set handles direction 
+        change_cursor($('.selected').attr('_handle'));
+    }
+
+    //show or hide upper left menu of canvas;
+    hide_canvas_menu();
+
+    return object;
+}
+
 function flip(obj){ //e
     m = $.parseJSON(obj.attr('_matrix'));
     m.b = m.b>0 || m.b<0 ? (m.b*-1) : m.b;
@@ -571,6 +1033,10 @@ function flip(obj){ //e
     }
 
     obj.attr('_matrix','{"a":'+m.a+',"b":'+m.b+',"c":'+m.c+',"d":'+(m.d*-1)+',"e":'+!m.e+',"f":'+m.f+'}');
+
+    obj.attr('_handle',change_cursor(obj.attr('_handle')));
+
+    eventTracker(obj,'flip');
 }
 
 
@@ -599,6 +1065,10 @@ function flap(obj){ //f
     }
 
     obj.attr('_matrix','{"a":'+(m.a*-1)+',"b":'+m.b+',"c":'+m.c+',"d":'+m.d+',"e":'+m.e+',"f":'+!m.f+'}');
+    
+    obj.attr('_handle',change_cursor(obj.attr('_handle')));
+
+    eventTracker(obj,'flap');
 }
 
 function set_ctr_attr(obj){
@@ -609,30 +1079,6 @@ function set_ctr_attr(obj){
 
     }
     $handles.attr({'ctr':'{"x":'+x+',"y":'+y+'}'});
-    //$('.selected').attr({'ctr':'{"x":'+x+',"y":'+y+'}'});
-}
-
-function append_to_canvas(event, obj, index, top, left){
-
-    object = obj;
-    object.appendTo('#canvas');
-    object_top = top;
-    object_left = left;
-    object.css({top : object_top, left: object_left, zIndex: index });
-    object.attr({'object_id':uniqueIdentifier});
-    
-    uniqueIdentifier++;
-    if(object.hasClass('selected')){
-        object.siblings('.unselected').removeClass('selected');
-        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
-        object.attr('_handle', ['nw','sw','se','ne']);
-        set_ctr_attr(object);
-    }
-
-    //track event
-    //eventTracker(object,'create');
-
-    return object;
 }
 
 function aspectratio(width, height, percent){
@@ -651,42 +1097,65 @@ function remove_handles(event){
     
         $handles.css('display','none');
         $img_menus.css('display','none');
-        if($('.product').hasClass('selected')){
-            $('.product').removeClass('selected');
+        if($('.unselected').hasClass('selected')){
+            $('.unselected').removeClass('selected');
             return true;
         }
     
     }
 }
 
-function update_menu(obj){
+function update_menu(obj,img_menu){
+
+    img_menu = img_menu ? img_menu : false;
     
     $img_menus.show();
 
-    var _src        = '/'+media_url+'products/';
-    var wo_bg_img   = obj.attr('_nb');
-    var w_bg_img    = obj.attr('_wb');
+    if(img_menu){
+        $('.imgBgControlWrap').hide();
+        if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
+            $('.colorAdjustment').hide();
+        }else{
+            $('.colorAdjustment').show();
+            if(obj.hasClass('text') || obj.parent().hasClass('text')){
+                $('#text-change-wrap').show();
+                $('#opacity-control-wrap').css({'width':'47%','float':'left','margin-left':10});
+            }else{
+                $('#text-change-wrap').hide();
+                $('#opacity-control-wrap').css({'width':'87%','float':'right','margin-left':''});
+            }
+        }
+    }else{
+        $('.imgBgControlWrap').show();
+        $('.colorAdjustment').hide();
+    }
 
-    $('#whiteBg-btn').css({
-        'background-image':"url("+_src+w_bg_img+")",
-        'background-size':'contain',
-        'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+w_bg_img+'",sizingMethod="scale")',
-        '-ms-filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+w_bg_img+'",sizingMethod="scale")'
-    });
+    if(obj.hasClass('product') || obj.parent().hasClass('product')){
+        var _src        = '/'+media_url+'products/';
+        var wo_bg_img   = obj.attr('_nb');
+        var w_bg_img    = obj.attr('_wb');
 
-    $('#customBg-btn').css({
-        'background-image':"url("+_src+w_bg_img+")",
-        'background-size':'contain',
-        'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+w_bg_img+'",sizingMethod="scale")',
-        '-ms-filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+w_bg_img+'",sizingMethod="scale")'
-    });
+        $('#whiteBg-btn').css({
+            'background-image':"url("+_src+w_bg_img+")",
+            'background-size':'contain',
+            'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+w_bg_img+'",sizingMethod="scale")',
+            '-ms-filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+w_bg_img+'",sizingMethod="scale")'
+        });
 
-    $('#transBg-btn div').css({
-        'background-image':"url("+_src+wo_bg_img+")",
-        'background-size':'contain',
-        'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+wo_bg_img+'",sizingMethod="scale")',
-        '-ms-filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+wo_bg_img+'",sizingMethod="scale")'
-    });
+        $('#customBg-btn').css({
+            'background-image':"url("+_src+w_bg_img+")",
+            'background-size':'contain',
+            'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+w_bg_img+'",sizingMethod="scale")',
+            '-ms-filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+w_bg_img+'",sizingMethod="scale")'
+        });
+
+        $('#transBg-btn div').css({
+            'background-image':"url("+_src+wo_bg_img+")",
+            'background-size':'contain',
+            'filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+wo_bg_img+'",sizingMethod="scale")',
+            '-ms-filter': 'progid:DXImageTransform.Microsoft.AlphaImageLoader(src="'+_src+wo_bg_img+'",sizingMethod="scale")'
+        });
+    }
 
 }
 
@@ -718,7 +1187,7 @@ function moveNext(obj) {
     if(nextIndex > objCounter) {
         //cannot move
     } else {
-        $('.product').each(function(e){
+        $('.unselected').each(function(e){
             if(parseInt($(this).css('z-index')) == nextIndex) {
                 $(this).css('z-index', (parseInt($(this).css('z-index')) - 1));
             }
@@ -738,7 +1207,7 @@ function moveBack(obj) {
     if(backIndex < 1) {
         //cannot move
     } else {
-        $('.product').each(function(e){
+        $('.unselected').each(function(e){
             if(parseInt($(this).css('z-index')) == backIndex) {
                 $(this).css('z-index', (parseInt($(this).css('z-index')) + 1));
             }
@@ -754,7 +1223,7 @@ function updateZIndex(obj) {
 
     var currentZIndex = parseInt(obj.css('z-index'));
 
-    $('.product').each(function(e){
+    $('.unselected').each(function(e){
         if(parseInt($(this).css('z-index')) > currentZIndex) {
             $(this).css('z-index', (parseInt($(this).css('z-index')) - 1));
         }
@@ -766,7 +1235,7 @@ function cloneObj(obj) {
     var cloned_obj = obj.clone().appendTo('#canvas');
     objCounter++;
 
-    cloned_obj.siblings('.product').removeClass('selected');
+    cloned_obj.siblings('.unselected').removeClass('selected');
     cloned_obj.css({
         zIndex : objCounter,
         top : parseInt(obj.css('top'),10)+20,
@@ -777,7 +1246,11 @@ function cloneObj(obj) {
 
     uniqueIdentifier++;
 
-    update_menu(cloned_obj.find('img'));
+    if(cloned_obj.hasClass('embellishment')){
+        update_menu(cloned_obj.find('img'), true);
+    }else{
+        update_menu(cloned_obj.find('img'));
+    }
 
     transform(cloned_obj);
 
@@ -786,14 +1259,24 @@ function cloneObj(obj) {
 }
 
 function eventTracker(currentObject, eventType) {
+    //console.log(eventType);
     if(eventType != 'unselect' && eventType != 'undo' && eventType != 'redo') {
 
         var product_objects = '';
+        var embellishment_objects = '';
+
         var clonedObject = $('.product.unselected').clone();
+        var clonedObject2 = $('.embellishment.unselected').clone();
 
         clonedObject.each(function(e){
             $(this).removeClass('selected');
             product_objects += $(this).prop('outerHTML');
+
+        });
+
+        clonedObject2.each(function(e){
+            $(this).removeClass('selected');
+            embellishment_objects += $(this).prop('outerHTML');
 
         });
 
@@ -810,7 +1293,7 @@ function eventTracker(currentObject, eventType) {
             changesArray.splice(changesCounter + 1, changesArray.length - changesCounter);
         }
 
-        changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects });
+        changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
         changesCounter++;
     }
 
@@ -828,6 +1311,7 @@ function change_img(obj, background){
     var _img    = $('<img />').attr({'src':__src, 'style': _style, '_wb':_wb, '_nb':_nb});
     
     obj.html(_img);
+    eventTracker(obj,'change_background');
 }
 
 function display_modal(iframe_src){
@@ -847,12 +1331,12 @@ function close_modal(){
     $('#modal-window').css({display:'none'});
 }
 
-function get_product_objects(){
+function get_product_object_json(){
     var product_objects = [];
     var canvas_offset = $('#canvas').offset();
     var canvas_left = canvas_offset.left;
     var canvas_top = canvas_offset.top;
-    $('.product.unselected').each(function(e){
+    $('.unselected').each(function(e){
         var elm = $(this);
         var elm_offset = elm.offset();
         var elm_left = elm_offset.left;
@@ -860,27 +1344,76 @@ function get_product_objects(){
         var product_left = Math.round(elm_left-canvas_left);
         var product_top = Math.round(elm_top-canvas_top);
         var style = $(this).attr('style');
-        var _matrix = $(this).attr('_matrix');
+        var _zindex = $(this).css('z-index');
+        var _matrix = [];
+        _matrix.push($.parseJSON($(this).attr('_matrix')));
+        console.log(_matrix)
         var _img = [];
         var elm_img = $(this).find('img');
         var _src = $(elm_img).attr('src');
         var _nb = $(elm_img).attr('_nb');
         var _wb = $(elm_img).attr('_wb');
+        var _handle = $(this).attr('_handle');
+        var _uid = $(this).attr('_uid');
+        var _def_qty = $(this).attr('def_qty');
+        var _gst_tb = $(this).attr('gst_tb');
+        var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
+        var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
+        var type = 'product';
+        if($(this).hasClass('text'))
+            type = 'text';
+        if($(this).hasClass('image'))
+            type = 'image';
+        if($(this).hasClass('border'))
+            type = 'border';
+        if($(this).hasClass('shape'))
+            type = 'shape';
+        if($(this).hasClass('texture'))
+            type = 'texture';
+        if($(this).hasClass('pattern'))
+            type = 'pattern';
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
-        product_objects.push({left:product_left,top:product_top,style:style,matrix:_matrix,img:_img});
+        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, img:_img});
     });
-    return product_objects;
+    var product_array = new Array();
+    for (var i in product_objects){
+        var x = product_objects[i].zindex;
+        //product_objects[x] = product_objects[i];
+        product_array[x-1] = product_objects[i];
+    }    
+    keys(product_array).sort();
+    return product_array;
+}
+
+function keys(obj){
+    var keys = [];
+    for(var key in obj)
+    {
+        if(obj.hasOwnProperty(key))
+        {
+            keys.push(key);
+        }
+    }
+    return keys;
 }
 
 function setProductPositions(func) {
 
     var product_objects = '';
+    var embellishment_objects = '';
 
     var clonedObject = $('.product.unselected').clone();
+    var clonedObject2 = $('.embellishment.unselected').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
         product_objects += $(this).prop('outerHTML');
+
+    });
+
+    clonedObject2.each(function(e){
+        $(this).removeClass('selected');
+        embellishment_objects += $(this).prop('outerHTML');
 
     });
 
@@ -896,7 +1429,7 @@ function setProductPositions(func) {
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
-        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects },
+        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects },
         beforeSend : function(){
             
         },
@@ -939,6 +1472,8 @@ function initProductPositions() {
         selected_prev_prod_qty = parseInt(PRODUCT_POSITIONS['selected_prev_prod_qty']);
 
         $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
+        $('#canvas').append(PRODUCT_POSITIONS['embellishment_objects']);
+
         $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
         $('#tables').val(PRODUCT_POSITIONS['tables']);
         $('#guests').val(PRODUCT_POSITIONS['guests']);
@@ -949,11 +1484,19 @@ function initProductPositions() {
     }
 
     var product_objects = '';
+    var embellishment_objects = '';
     var clonedObject = $('.product.unselected').clone();
+    var clonedObject2 = $('.embellishment.unselected').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
         product_objects += $(this).prop('outerHTML');
+
+    });
+
+    clonedObject2.each(function(e){
+        $(this).removeClass('selected');
+        embellishment_objects += $(this).prop('outerHTML');
 
     });
 
@@ -966,7 +1509,7 @@ function initProductPositions() {
 
     });
 
-    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects });
+    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
     
 }
 
@@ -983,7 +1526,9 @@ function changeProductPositions(pos) {
     selected_prev_prod_qty = parseInt(pos['selected_prev_prod_qty']);
 
     $('.product.unselected').remove();
+    $('.embellishment.unselected').remove();
     $('#canvas').append(pos['product_objects']);
+    $('#canvas').append(pos['embellishment_objects']);
     $('.table').html(pos['buy_table_html']);
     $('#tables').val(pos['tables']);
     $('#guests').val(pos['guests']);
@@ -1050,6 +1595,66 @@ function redo_styleboard() {
     }
 }
 
+function change_cursor(option){
+    
+    var type = $.parseJSON($('.selected').attr('_matrix'));
+    var handles = [];
+    if($.isArray(option)){
+        handles = option;
+    }else{
+        var options = option.split(',');
+        handles = options;
+    }
+    
+    var position = [{"top":"-5px","left":"-5px","bottom":"auto","right":"auto","display":"block"},
+                    {"top":"auto","left":"-5px","bottom":"-5px","right":"auto","display":"block"},
+                    {"top":"auto","left":"auto","bottom":"-5px","right":"-5px","display":"block"},
+                    {"top":"-5px","left":"auto","bottom":"auto","right":"-5px","display":"block"},
+                    {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                    {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                    {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"},
+                    {"top":"auto","left":"auto","bottom":"auto","right":"auto","display":"none"}];
+    var newObj;
+    $.each(handles, function(index, value){
+        newObj = $('.ui-resizable-'+value);
+        newObj.css(position[index]);
+    });
+
+    return handles;
+}
+
+function new_canvas(url){
+    var r = confirm("Are you sure you want to discard your changes?");
+    if (r){
+        window.location = url;
+    }else{
+        return false;
+    }
+}
+
+function hide_canvas_menu(){
+    var warning = 'WARNING!!! Object inside the canvas exceed the 50 item limit: '+objCounter+' items.';
+    if(objCounter < 1){
+        $('.nwMenus').hide();
+        $('#canvas').css('background-image','url(/media/images/canvasbg.jpg)');
+    }else if(objCounter > 50){
+        $('#canvas').css('background-image','url()');
+        $('#object-counter').text(warning).show();
+        $('.nwMenus').show();
+        $('#save').unbind('click');
+    }else{
+        $('#canvas').css('background-image','url()');
+        $('#save').bind('click',function(e){
+            if ($('#canvas-wrap .unselected').length>0){
+                pop_save_styleboard();
+            }
+            e.preventDefault();
+        });
+        $('#object-counter').hide();
+        $('.nwMenus').show();
+    }
+}
+
 (function ($) {
    $.fn.liveDraggable = function (opts) {
       this.live("mouseover", function(e) {
@@ -1077,6 +1682,25 @@ function redo_styleboard() {
               return _old.apply(this, arguments);
       }
   }
+
+    $.strPad = function(i,l,s) {
+        var o = i.toString();
+        if (!s) { s = '0'; }
+        while (o.length < l) {
+            o = s + o;
+        }
+        return o;
+    };
+
+    var oldSetOption = $.ui.resizable.prototype._setOption;
+    $.ui.resizable.prototype._setOption = function(key, value) {
+        oldSetOption.apply(this, arguments);
+        if (key === "aspectRatio") {
+            this._aspectRatio = !!value;
+        }
+    };
+
 }(jQuery));
+
 
 //product functions end
