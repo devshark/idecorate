@@ -126,8 +126,7 @@
 			</div>
 		</div>
 		<h2>Comments</h2>
-		<div class="commentsBlock">        
-
+		<div class="commentsBlock">
 			<div id="disqus_thread"></div>
 	        <script type="text/javascript">
 	            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -143,7 +142,7 @@
 	                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 	            })();
 	        </script>
-        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 	    </div>
 	</section>
 </div>
@@ -164,12 +163,15 @@
 			var windowH = $(window).outerHeight(true);
 				headerH = $('#header').outerHeight(true);
 				footerH = $('#footer').outerHeight(true);
-				newHeight = windowH - headerH - footerH - 35;
+				newHeight = windowH - headerH - footerH - 15;
 			
-			if ($(document).height()<$(window).height()){
-				$('#feature-wrap').height(newHeight);
+			$('.viewWrapper').height(newHeight);
+			if($(document).height()<$(window).height()) {
+				$('.viewWrapper').height(newHeight);
+			} else if(newHeight<windowH){
+				$('.viewWrapper').height(newHeight);
 			}
-
+			
 		}
 		</script>
         <!-- Social Media Buttons -->
