@@ -18,6 +18,9 @@
 	height: auto;
 	margin: 20px 0;
 }
+#img-profile {
+	cursor: pointer;
+}
 </style>
 <div class="clearfix viewWrapper">
 	<aside>
@@ -25,7 +28,7 @@
 		<div class="clearfix memberName">
 			<table>
 				<tr>
-					<td width="85%"><img src="/media/images/man.1.jpg" /> <span>&nbsp;by&nbsp;</span><a href="{% url profile %}?id={{ styleboard.user.id }}">{{ user_profile.nickname }}</a></td>
+					<td width="85%"><img src="/media/images/man.1.jpg" id="img-profile" /> <span>&nbsp;by&nbsp;</span><a id="lnk-profile" href="{% url profile %}?id={{ styleboard.user.id }}">{{ user_profile.nickname }}</a></td>
 					<td><a href="{% url styleboard %}?sbid={{ styleboard.styleboard_item.id }}" class="personalize">Personalize!</a></td>
 				</tr>
 			</table>
@@ -148,11 +151,11 @@
 {% block javascripts %}
 		<script type="text/javascript">
 		$(function(){
-		var windowH = $(window).height();
+			var windowH = $(window).height();
 			headerH = $('#header').outerHeight(true);
 			footerh = $('#footer').outerHeight(true);
 			bodyh = windowH - headerH - footerh - 15;
-			totalContent = headerH + contentH + footerH;
+			totalContent = headerH + bodyh + footerh;
 
 			if(totalContent > windowH) {
 				$('.viewWrapper').height(bodySize);
@@ -164,14 +167,16 @@
 					headerH = $('#header').outerHeight(true);
 					footerh = $('#footer').outerHeight(true);
 					bodyh = windowH - headerH - footerh - 15;
-					totalContent = headerH + contentH + footerH;
+					totalContent = headerH + bodyh + footerh;
 
 				if(totalContent > windowH) {
 					$('.viewWrapper').height(bodySize);
 				}
 				
 			});
-
+			$('#img-profile').click(function(){
+				window.location.href = $('#lnk-profile').attr('href');
+			});
 		});
 			
 		</script>
