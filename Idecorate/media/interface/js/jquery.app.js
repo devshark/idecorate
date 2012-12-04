@@ -1346,8 +1346,7 @@ function get_product_object_json(){
         var style = $(this).attr('style');
         var _zindex = $(this).css('z-index');
         var _matrix = [];
-        _matrix.push($.parseJSON($(this).attr('_matrix')));
-        console.log(_matrix)
+        _matrix.push($.parseJSON($(this).attr('_matrix')));        
         var _img = [];
         var elm_img = $(this).find('img');
         var _src = $(elm_img).attr('src');
