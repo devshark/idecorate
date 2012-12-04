@@ -92,7 +92,8 @@ def styleboard(request, cat_id=None):
 		save_styleboard = get_user_styleboard(None, sbid)
 		if save_styleboard:
 			info['personalize_id'] = save_styleboard.styleboard_item.id
-			info['personalize_item'] = mark_safe(save_styleboard.styleboard_item.item)
+			print save_styleboard.styleboard_item.item.replace("'","\\'")
+			info['personalize_item'] = mark_safe(save_styleboard.styleboard_item.item.replace("'","\\'"))
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
