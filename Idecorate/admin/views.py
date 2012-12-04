@@ -1667,3 +1667,8 @@ def admin_edit_user(request):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
 	else:
 		return redirect('admin_manage_users')
+
+@staff_member_required
+def manage_template(request):
+    info = {}
+    return render_to_response('admin/manage_template.html',info,RequestContext(request))

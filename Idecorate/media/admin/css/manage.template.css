@@ -1,0 +1,224 @@
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline; 
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {
+  display: block; 
+}
+
+body {
+  line-height: 1; 
+}
+
+ol, ul {
+  list-style: none; 
+}
+
+blockquote, q {
+  quotes: none; 
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none; 
+}
+
+/*table {
+  border-collapse: collapse;
+  border-spacing: 0; 
+}*/
+
+/*
+ * These selection declarations have to be separate
+ * No text-shadow: twitter.com/miketaylr/status/12228805301
+ * Also: hot pink!
+ */
+::-moz-selection {
+  background: #fe57a1;
+  color: #fff;
+  text-shadow: none; 
+}
+
+::selection {
+  background: #fe57a1;
+  color: #fff;
+  text-shadow: none; 
+}
+
+/*=========================================
+	Clearfix for self clearing floated children
+=========================================*/
+.clearfix:before,
+.clearfix:after {
+  content: "";
+  display: table; 
+}
+
+.clearfix:after {
+  clear: both; 
+}
+
+.clearfix {
+  zoom: 1;
+  /* For IE 6/7 (trigger hasLayout) */ 
+}
+
+/* ========================================
+	Links
+=========================================*/
+a, a:hover, a:active {
+  outline: 0;
+  text-decoration: none;
+  text-decoration: none; 
+}
+
+/*=========================================
+	Main Styles
+=========================================*/
+/*px*/
+/*px*/
+html {
+  height: 100%; 
+}
+
+body {
+  font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+  font-size: 100%;
+  background-color: #c2bdbd;
+  color: #333333;
+  background-color: #FFFFFF;
+  overflow: auto;
+  min-width: 800px;
+  height: 100%; 
+  font-size: 12px;
+}
+
+/*#manage-template-main{
+  height: 500px;
+}*/
+#manage-template-header{
+  background-color: #333;
+  padding: 5px 0;
+}
+
+#manage-template-header h1{
+  font-size: 2em;
+  float: left;
+  color: #FFFFFF;
+  margin-left: 10px;
+}
+
+#manage-template-header ul{
+  display: block;
+  float: right;
+  margin:3px 10px 0 0;
+}
+
+#manage-template-header ul li{
+  float: left;
+  display: block;
+}
+
+#manage-template-header ul li:first-child{
+  border-left: 0;
+}
+
+#manage-template-header ul > li{
+  border-left: 1px solid #666666;
+  position: relative;
+}
+
+#manage-template-header ul li a{
+  color: #FFFFFF;
+  display: block;
+  padding: 3px 5px;
+}
+
+#manage-template-header ul li a:hover{
+  background-color: #666;
+}
+
+#manage-template-header ul ul{
+  display: none;
+  position: absolute;
+  background-color: #333;
+  margin-top: 0;
+  width: 100%;
+}
+
+#manage-template-header ul li:hover ul{
+  display: block;
+  left: 0;
+  top: 100%;
+}
+
+#manage-template-header ul li:hover ul li{
+  width: 100%;
+}
+
+#main-content{
+  width: 100%;
+  height: 100%;
+}
+
+#manage-template-sidebar{
+  background-color: #FBF6F0;
+  width: 40%;
+  box-shadow: 2px 2px 3px #999999;
+}
+
+#manage-template-footer{
+  text-align: center;
+}
+
+#manage-template-canvas #canvas{
+  border: 1px solid #DDDDDD;
+  height: 100%;
+  width: 100%;
+}
+
+#embellishment-wrap .emCat a{
+  width: 18.229%;
+  min-width: 76px;
+  margin: 6px 0 0 6px;
+  display: block;
+  float: left;
+}
+
+#embellishment-wrap .emCat a img{
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+#embellishment-wrap .emCat a:hover img{
+  outline: 2px solid #000000;
+  border: 0;
+  margin: 1px;
+}
+
+#embellishment-wrap .emCat a span{
+  margin: 10px 0 5px 0;
+  display: block;
+  color: #666;
+  text-align: center;
+}
