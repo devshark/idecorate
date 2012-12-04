@@ -43,14 +43,17 @@ section {
 			vertical-align: top;
 			font-size: 1.2em;
 			line-height: 1.1;
+			text-align: justify;
 
 			.title {
 				font-weight: bold;
 				margin-bottom: 10px;
+				text-align: justify;
 			}
 
 			.desc {
 				font-size: 1em;
+				text-align: justify;
 			}
 
 		}
@@ -116,7 +119,7 @@ section {
 
 			h5 {
 				font-weight: bold;
-				font-size: 1.1em;
+				font-size: 1em;
 				color: #000000;
 				text-align: center;
 				display: block;

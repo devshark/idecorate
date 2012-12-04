@@ -16,38 +16,30 @@ time, mark, audio, video {
   padding: 0;
   border: 0;
   font-size: 100%;
-  font: inherit;
-  vertical-align: baseline; 
-}
+  font: inherit; }
 
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section {
-  display: block; 
-}
+  display: block; }
 
 body {
-  line-height: 1; 
-}
+  line-height: 1; }
 
 ol, ul {
-  list-style: none; 
-}
+  list-style: none; }
 
 blockquote, q {
-  quotes: none; 
-}
+  quotes: none; }
 
 blockquote:before, blockquote:after,
 q:before, q:after {
   content: '';
-  content: none; 
-}
+  content: none; }
 
 table {
   border-collapse: collapse;
-  border-spacing: 0; 
-}
+  border-spacing: 0; }
 
 /*
  * These selection declarations have to be separate
@@ -57,60 +49,56 @@ table {
 ::-moz-selection {
   background: #fe57a1;
   color: #fff;
-  text-shadow: none; 
-}
+  text-shadow: none; }
 
 ::selection {
   background: #fe57a1;
   color: #fff;
-  text-shadow: none; 
-}
+  text-shadow: none; }
 
 /*=========================================
-	Clearfix for self clearing floated children
+  Clearfix for self clearing floated children
 =========================================*/
 .clearfix:before,
 .clearfix:after {
-    content: "";
-    display: table;
-    border-collapse: collapse;
-} 
+  content: "";
+  display: table;
+  border-collapse: collapse; }
+
 .clearfix:after {
-    clear: both;
-}
+  clear: both; }
+
 .clearfix {
-    zoom: 1; /* For IE 6/7 (trigger hasLayout) */
-}
+  zoom: 1;
+  /* For IE 6/7 (trigger hasLayout) */ }
 
 /* ========================================
-	Links
+  Links
 =========================================*/
 a, a:hover, a:active {
   outline: 0;
   text-decoration: none;
-  text-decoration: none; 
-}
+  text-decoration: none; }
 
 /*=========================================
-	Main Styles
+  Main Styles
 =========================================*/
 /*px*/
 /*px*/
 html {
-  height: 100%; 
-}
+  height: 100%; }
 
 body {
   font-family: 'futura_std_lightregular',Arial,Helvetica,sans-serif;
-  font-size: 100%;
+  font-size: 12px;
   background-color: #c2bdbd;
-  color: #333333;
+  color: #666666;
   background-color: #FFFFFF;
   overflow: auto;
-  min-width: 800px;
-  height: 100%; 
-  font-size: 12px;
-}
+  *overflow: hidden;
+  *min-width: 800px;
+  height: 100%; }
+
 
 /*#manage-template-main{
   height: 500px;
@@ -181,6 +169,7 @@ body {
   height: 100%;
   border-collapse: separate;
   border-spacing: 5px;
+  vertical-align: top;
 }
 
 #manage-template-sidebar{
@@ -192,7 +181,7 @@ body {
 #manage-template-sidebar h2{
   font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
   margin: 5px;
-  /*font-size: 21px;*/
+  font-size: 21px;
   color: #000;
   display: inline;
 }
@@ -214,11 +203,15 @@ body {
   font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
   padding: 0 5px;
   color: #000;
-  /*font-size: 16px;*/
+  font-size: 16px;
 }
 
 #manage-template-footer{
   text-align: center;
+}
+
+#embellishment-wrap .emCat{
+  overflow: auto;
 }
 
 #embellishment-wrap .emCat a{
@@ -250,17 +243,19 @@ body {
 #manage-template-canvas{
   padding: 0;
   margin: 0;
+  width: 60%;
 }
 
 #manage-template-canvas #canvas{
   border: 1px solid #DDDDDD;
-  width: 99.9%;
+  width: 100%;
   overflow: hidden;
   position: relative;
 }
 
 #manage-template-canvas #canvas #nw-menu ul{
   display: block;
+  float: left;
   margin: 5px 0 0 5px;
   width: 120px;
 }
