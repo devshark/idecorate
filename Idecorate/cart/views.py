@@ -13,7 +13,7 @@ from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 
 from cart.models import Product, ProductPrice, CartTemp, GuestTableTemp, GuestTable, Contact
-from cart.services import get_product, generate_unique_id, remove_from_cart_temp
+from cart.services import get_product, generate_unique_id, remove_from_cart_temp, add_to_cart
 
 import plata
 #from plata.contact.models import Contact
@@ -180,22 +180,30 @@ def add_to_cart_ajax(request):
 			sessionid = generate_unique_id()
 			request.session['cartsession'] = sessionid
 
-		exists = CartTemp.objects.filter(product=product.product,sessionid=sessionid).exists()
-		existsGT = GuestTableTemp.objects.filter(sessionid=sessionid).exists()		
+		data = {}
+		data['product'] = product.product
+		data['sessionid'] = sessionid
+		data['quantity'] = quantity
+		data['guests'] = guests
+		data['tables'] = tables
+		add_to_cart(data)
 
-		if not exists:
-			cartTemp = CartTemp()
-			cartTemp.product = product.product
-			cartTemp.quantity = quantity
-			cartTemp.sessionid = sessionid
-			cartTemp.save()
+		# exists = CartTemp.objects.filter(product=product.product,sessionid=sessionid).exists()
+		# existsGT = GuestTableTemp.objects.filter(sessionid=sessionid).exists()		
 
-		if not existsGT:
-			guestTable = GuestTableTemp()
-			guestTable.guests = guests
-			guestTable.tables = tables
-			guestTable.sessionid = sessionid
-			guestTable.save()
+		# if not exists:
+		# 	cartTemp = CartTemp()
+		# 	cartTemp.product = product.product
+		# 	cartTemp.quantity = quantity
+		# 	cartTemp.sessionid = sessionid
+		# 	cartTemp.save()
+
+		# if not existsGT:
+		# 	guestTable = GuestTableTemp()
+		# 	guestTable.guests = guests
+		# 	guestTable.tables = tables
+		# 	guestTable.sessionid = sessionid
+		# 	guestTable.save()
 
 		reponse_data = {}
 		reponse_data['id'] = product.product.id

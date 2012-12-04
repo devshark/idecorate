@@ -24,6 +24,8 @@ function populate_save_styleboard(){
 			elm.attr('def_qty',v.def_qty);
 			elm.attr('gst_tb',v.gst_tb);
 
+			elm.attr('_matrix','{"a":'+v.matrix[0].a+',"b":'+v.matrix[0].b+',"c":'+v.matrix[0].c+',"d":'+v.matrix[0].d+',"e":'+v.matrix[0].e+',"f":'+v.matrix[0].f+'}');
+
 			var matrix = 'matrix('+ v.matrix[0].a +', '+ v.matrix[0].b +', '+ v.matrix[0].c +', '+ v.matrix[0].d +', 0, 0)',
         	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+v.matrix[0].a+"', M12='"+v.matrix[0].b+"', M21='"+v.matrix[0].c+"', M22='"+v.matrix[0].d+"', sizingMethod='auto expand')";        	
             if($.browser.msie && $.browser.version == 9.0) {
@@ -54,6 +56,7 @@ function populate_save_styleboard(){
 			objCounter++;			
 		});
 		setTimeout(make_center,0);
+		get_cart_items();
 	}
 }
 
@@ -91,5 +94,32 @@ function getCenter(array) {
 	ind = parseInt(Math.round(ind));
 	
 	return array[ind - 1];
+}
 
+function get_cart_items(){
+	$.get(GET_PERSONALIZE_CART_URL+'?id='+PERSONALIZE_ID,function(data){
+		var img_src = media_url+'products/';
+		$.each(data,function(i,v){
+			var price = v.price.toFixed(2);
+	        price = addCommas(price);
+	        var subtotal = v.sub_total.toFixed(2);
+	        subtotal = addCommas(subtotal);
+
+	        var item = '<tr id="prod_cart_' + data.id + '">' +
+	            '<td class="span4">' +
+	                '<div class="buyItemImg">' +
+	                    '<div><img width="70" src="/' + img_src + v.original_image_thumbnail + '"></div>' +
+	                    '<div class="buyItemMeta">' +
+	                        '<p>' + v.name + '</p>' +
+	                        '<p>$' + price + '</p>'+
+	                    '</div>' +
+	                '</div>' +
+	            '</td>' +
+	            '<td class="span1"><input class="dynamic_qty" type="text" _pid="' + v.id + '" _pr="' + price + '" _cur="' + v.currency + '" _gs="' + v.guest_table + '" _dq="' + v.default_quantity + '" max-length="11" name="qty" value="' + v.quatity + '" placeholder="qty"/></td>' +
+	            '<td class="amount" id="subtotal_' + v.id + '">$' + subtotal + '</td>'+
+	            '</tr>';
+	        $('#buy-table tbody').append(item);
+		});
+		manage_total();			
+	},'json');
 }

@@ -54,6 +54,7 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_delete_user/(?P<id>\d+)/$','admin_delete_user', {}, name='admin_delete_user'),
     url(r'^admin/admin_edit_user/$','admin_edit_user', {}, name='admin_edit_user'),
     url(r'^admin/manage_template$','manage_template', {}, name='manage_template'),
+    url(r'^admin/manage_homepage$','manage_homepage', {}, name='manage_homepage'),
 )
 
 """
