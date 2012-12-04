@@ -10,32 +10,33 @@
  */
 
 (function($) {
-	$.fn.rotatable = function(options) {
-	
-		// Default Values
-		var defaults = {
-             			rotatorClass: 'ui-rotatable-handle',
-             			mtx: [1, 0, 0, 1],
+    $.fn.rotatable = function(options) {
+    
+        // Default Values
+        var defaults = {
+                        rotatorClass: 'ui-rotatable-handle',
+                        mtx: [1, 0, 0, 1],
                         rotateAlso : ''
-  		                },
+                        },
 
         opts        = $.extend(defaults, options),
-	    _this       = this,
-	    _rotator;      
-  		  
-  		// Initialization 
-  		this.intialize = function() {
-        	this.createHandler();
-        	this.updateRotationMatrix(opts.mtx);
+        _this       = this,
+        _rotator;      
+          
+        // Initialization 
+        this.intialize = function() {
+            this.createHandler();
+            this.updateRotationMatrix(opts.mtx);
+            $('.ui-resizable-n, .ui-resizable-e, .ui-resizable-s, .ui-resizable-w').hide();
         };
         
         // Create Rotation Handler
         this.createHandler = function() {
-        	_rotator = $('<div class="'+opts.rotatorClass+'-tip"></div>');
+            _rotator = $('<div class="'+opts.rotatorClass+'-tip"></div>');
             _rotator = $('<div class="'+opts.rotatorClass+'"></div>').append(_rotator);
-  			_this.append(_rotator);
-  			
-  			this.bindRotation();
+            _this.append(_rotator);
+            
+            this.bindRotation();
         };
                 
         // Bind Rotation to Handler
@@ -71,21 +72,82 @@
                         'y': e.pageY
                     };  
                     
+                    raw_angle = _this.getAngle(mouse_coords, center_coords);
+
+                    _this.rotate_resizable_handles(raw_angle);
+
                     angle = _this.getAngle(mouse_coords, center_coords)-90;
                     
                     if($.browser.msie && $.browser.version < 9.0) {
                         angle = -angle;
                     }
 
+                    if(opts.rotateAlso){
+                        $(opts.rotateAlso).attr('_angle', angle);
+                    }
                     return _this.rotate(angle);
-
                 },
                 stop: function(e,ui){
                     cancelBubble(e);
                     $rotatable.removeClass('ui-rotating');
+                    eventTracker($rotatable,'rotate');
                 }
             });
         };
+
+        this.rotate_resizable_handles = function(angle){
+            var direction = ['nw','sw','se','ne','w','s','e','n'];
+            var $selected;
+
+           if(opts.rotateAlso){
+                $selected = $(opts.rotateAlso);
+            }
+
+            if (_this.between(angle, 67, 112)) {//1
+                direction = ['nw','sw','se','ne','w','s','e','n'];
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
+                
+            }else if(_this.between(angle, 113,157)){//2
+                direction = ['w','s','e','n','ne','nw','sw','se'];
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
+
+            }else if(_this.between(angle, 158,202)){//3
+                direction = ['sw','se','ne','nw','w','s','e','n'];
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
+                
+            }else if(_this.between(angle, 203,247)){//4
+                direction = ['s','e','n','w','ne','nw','sw','se'];
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
+
+            }else if(_this.between(angle, 248,292)){//5
+                direction = ['se','ne','nw','sw','w','s','e','n'];
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
+                
+            }else if(_this.between(angle, 293,337)){//6
+                direction = ['e','n','w','s','ne','nw','sw','se'];
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
+
+            }else if(_this.between(angle, 338,360)|| _this.between(angle, 1,22)){//7
+                direction = ['ne','nw','sw','se','w','s','e','n'];
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
+                
+            }else if(_this.between(angle, 23,66)){//8
+                direction = ['n','w','s','e','ne','nw','sw','se'];
+                change_cursor(direction);
+                $selected.attr('_handle',direction);
+            }
+        }
+
+        this.between = function(value, min, max){
+            return value > min && value < max;
+        }
         
         // Get Angle
         this.getAngle = function(ms, ctr) {
@@ -99,40 +161,40 @@
                 }else if(y < 0){
                     angle = angle+360;
                 }
-        	
-		    return angle;
+            
+            return angle;
         };
 
         // Convert from Degrees to Radians
         this.degToRad = function(d) {
-        	return (d * (Math.PI / 180));
+            return (d * (Math.PI / 180));
         };
         
         // Convert from Radians to Degrees
         this.radToDeg = function(r) {
-        	return (r * (180 / Math.PI));
+            return (r * (180 / Math.PI));
         };
         
         // Rotate Element to the Given Degree
         this.rotate = function(degree) {
-        	var cos = parseFloat(parseFloat(Math.cos(_this.degToRad(-degree)))),
-        	    sin = parseFloat(parseFloat(Math.sin(_this.degToRad(-degree)))),
-        	    mtx = [cos, sin, (-sin), cos];
-        	    
-        	this.updateRotationMatrix(mtx);
+            var cos = parseFloat(parseFloat(Math.cos(_this.degToRad(-degree)))),
+                sin = parseFloat(parseFloat(Math.sin(_this.degToRad(-degree)))),
+                mtx = [cos, sin, (-sin), cos];
+                
+            this.updateRotationMatrix(mtx);
         };
         
         // Get CSS Transform Matrix (transform: matrix)
         this.getRotationMatrix = function() {
-        	var _matrix = _this.css('transform') ? _this.css('transform') : 'matrix(1, 0, 0, 1, 0, 0)';
-			    _m      = _matrix.split(','),
-        	    m       = [];
-        	    
-        	for (i = 0; i < 4; i++) {
-        		m[i] = parseFloat(_m[i].replace('matrix(', ''));
-        	}
-        	        	
-        	return m;
+            var _matrix = _this.css('transform') ? _this.css('transform') : 'matrix(1, 0, 0, 1, 0, 0)';
+                _m      = _matrix.split(','),
+                m       = [];
+                
+            for (i = 0; i < 4; i++) {
+                m[i] = parseFloat(_m[i].replace('matrix(', ''));
+            }
+                        
+            return m;
         };
         
         // Update CSS Transform Matrix (transform: matrix)
@@ -158,8 +220,8 @@
                 }
             }
 
-        	var matrix = 'matrix('+ m[0] +', '+ m[1] +', '+ m[2] +', '+ m[3] +', 0, 0)',
-        	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m[0]+"', M12='"+m[1]+"', M21='"+m[2]+"', M22='"+m[3]+"', sizingMethod='auto expand')";        	
+            var matrix = 'matrix('+ m[0] +', '+ m[1] +', '+ m[2] +', '+ m[3] +', 0, 0)',
+                ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+m[0]+"', M12='"+m[1]+"', M21='"+m[2]+"', M22='"+m[3]+"', sizingMethod='auto expand')";         
             if($.browser.msie && $.browser.version == 9.0) {
                 _this.css({
                     '-ms-transform'    : matrix
@@ -201,11 +263,11 @@
             }
 
             if($('.selected').attr('_matrix')){
-        	   $(opts.rotateAlso).attr('_matrix','{"a":'+m[0]+',"b":'+m[1]+',"c":'+m[2]+',"d":'+m[3]+',"e":'+e+',"f":'+f+'}');
+               $(opts.rotateAlso).attr('_matrix','{"a":'+m[0]+',"b":'+m[1]+',"c":'+m[2]+',"d":'+m[3]+',"e":'+e+',"f":'+f+'}');
             }
         };
 
-        return this.intialize();  		
-	}
+        return this.intialize();        
+    }
 })(jQuery);
 
