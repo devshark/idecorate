@@ -10,6 +10,10 @@
         <link rel="stylesheet" type="text/css" href="/media/admin/css/manage.template.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
+        <script type="text/javascript">
+        var TEXT_IMG_GEN_URL            = '{% url generate_text %}';
+        var EMB_IMG_GEN_URL             = '{% url generate_embellishment %}';
+        </script>
     </head>
     <body>
     	<div id="manage-template-header" class="header  clearfix">
@@ -73,34 +77,38 @@
 					    			</fieldset>
 					    		</form>
 				    		</div>
+				    		<div class="breadcrumbWrap"></div>
 				    		<div id="embellishment-wrap">
 					    		<div class="emCat clearfix">
-									<a href="/styleboard/embellishment_items" rel="1" class="image em">
-									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg">
-									    <span>Image</span>
-									</a>
-									<a href="/styleboard/embellishment_items" rel="text" class="text em">
-									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/text.png">
-									    <span>Text</span>
-									</a>
-									<a href="/styleboard/embellishment_items" rel="5" class="border em">
-									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/border.png">
-									    <span>Border</span>
-									</a>
-									<a href="/styleboard/embellishment_items" rel="4" class="shape em">
-									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/shape.gif">
-									    <span>Shapes</span>
-									</a>
-									<a href="/styleboard/embellishment_items" rel="2" class="texture em">
-									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg">
-									    <span>Textures</span>
-									</a>
-									<a href="/styleboard/embellishment_items" rel="3" class="pattern em">
-									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg">
-									    <span>Patterns</span>
-									</a>
+					    			<a href="{% url get_embellishment_items %}" rel="1" class="image em">
+                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg" />
+                                        <span>Image</span>
+                                    </a>
+                                    <a href="{% url get_embellishment_items %}" rel="text" class="text em">
+                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/text.png" />
+                                        <span>Text</span>
+                                    </a>
+                                    <a href="{% url get_embellishment_items %}" rel="5" class="border em">
+                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/border.png" />
+                                        <span>Border</span>
+                                    </a>
+                                    <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
+                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/shape.gif" />
+                                        <span>Shapes</span>
+                                    </a>
+                                    <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
+                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg" />
+                                        <span>Textures</span>
+                                    </a>
+                                    <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
+                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg" />
+                                        <span>Patterns</span>
+                                    </a>
+								</div>
+								<div class="emItem">
 								</div>
 							</div>
+							<div class="pagination"></div>
 						</div>
 					</td>
 					<td class="canvas" id="manage-template-canvas">
@@ -129,6 +137,7 @@
 		</div>
     </body>
     <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="/media/admin/js/emb.js"></script>
     <script type="text/javascript">
     	$(function () {
     		resize_body();
