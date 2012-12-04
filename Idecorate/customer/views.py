@@ -198,7 +198,7 @@ def generate_styleboard_view(request, id, w, h):
 
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1].split('?')[0]
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', unquote(imgFile))
 
 		elif re.search('/generate_embellishment/', iList['img'][0]['src']):
 			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
@@ -223,7 +223,7 @@ def generate_styleboard_view(request, id, w, h):
 
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1]
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', imgFile)
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
 
 		elif re.search('/generate_text/',iList['img'][0]['src']):
 			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
@@ -237,7 +237,7 @@ def generate_styleboard_view(request, id, w, h):
 		elif re.search('/cropped/',iList['img'][0]['src']):
 			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", eProperties[3].split('=')[1])
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", unquote(eProperties[3].split('=')[1]))
 			task = eProperties[1].split('=')[1]
 
 			splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
@@ -375,7 +375,7 @@ def generate_styleboard_view(request, id, w, h):
 
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1].split('?')[0]
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', imgFile)
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', unquote(imgFile))
 		elif re.search('/generate_embellishment/', iList['img'][0]['src']):
 			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
@@ -399,7 +399,7 @@ def generate_styleboard_view(request, id, w, h):
 
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1]
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', imgFile)
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
 		elif re.search('/generate_text/',iList['img'][0]['src']):
 			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
@@ -413,7 +413,7 @@ def generate_styleboard_view(request, id, w, h):
 		elif re.search('/cropped/',iList['img'][0]['src']):
 			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", eProperties[3].split('=')[1])
+			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", unquote(eProperties[3].split('=')[1]))
 			task = eProperties[1].split('=')[1]
 
 			splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
