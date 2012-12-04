@@ -491,19 +491,19 @@ def generate_styleboard_view(request, id, w, h):
 					dimensionList.append(float(splittedPost))
 				pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
 
-
 			poly.paste(back,mask=poly)
 
 			newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
-			
-			"""
-			splittedName = getExtensionAndFileName(imgFile)
 
+			splittedName = getExtensionAndFileName(imgFile)
 			if splittedName[1] == '.jpg':
-				imgObj = newImg.convert('RGB')
-			else:	
-				imgObj = newImg.convert('RGBA')
-			"""
+				img2 = Image.open("%s%s" % (settings.MEDIA_ROOT, "products/white_background.png"))
+				img2 = img2.resize((newImg.size[0],newImg.size[1]), Image.ANTIALIAS)
+				img2 = img2.convert('RGBA')				
+				#img2 = Image.blend(img2, newImg, 0.0)
+				img2.paste(newImg, mask=newImg)
+				newImg = img2
+			
 			imgObj = newImg
 		else:
 
