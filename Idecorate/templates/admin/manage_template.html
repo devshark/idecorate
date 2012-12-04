@@ -60,7 +60,7 @@
 			</ul>
     	</div>
 		<div class="mainContent" id="manage-template-main">
-			<table class="Content" border="0" cellpadding="0" cellspacing="5" id="main-content">
+			<table class="Content" border="0" cellpadding="0" cellspacing="0" id="main-content">
 				<tr>
 					<td class="sideBar" id="manage-template-sidebar">
 						<div id="sidebar">
@@ -74,7 +74,7 @@
 					    		</form>
 				    		</div>
 				    		<div id="embellishment-wrap">
-					    		<div class="emCat">
+					    		<div class="emCat clearfix">
 									<a href="/styleboard/embellishment_items" rel="1" class="image em">
 									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg">
 									    <span>Image</span>
@@ -105,7 +105,7 @@
 					</td>
 					<td class="canvas" id="manage-template-canvas">
 						<div id="canvas">
-							<div id="nwMenu">
+							<div id="nw-menu">
 								<ul>
 									<li><a id="save" href="#">Save</a></li>
 									<li><a id="save" href="#">New</a></li>
@@ -145,6 +145,7 @@
     		body_height = window_height-(header_height+footer_height)-2;
 
     		body.height(body_height);
+    		$('#canvas').height(body_height-10);
     	}
     </script>
 </html>
