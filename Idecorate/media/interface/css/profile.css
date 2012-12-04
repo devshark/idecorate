@@ -67,11 +67,12 @@ section {
       padding: 10px 5px;
       background: #f1ccc6; }
     section .featureContentWrap .featureDesc {
-      width: 335px;
+      width: 330px;
       height: auto;
-      padding: 10px 0;
+      padding: 10px 10px 10px 0;
       line-height: 1.4;
-      float: left; }
+      float: left;
+      text-align: justify; }
     section .featureContentWrap .featurePrice {
       width: 105px;
       height: auto;
