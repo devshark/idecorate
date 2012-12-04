@@ -149,11 +149,17 @@
     		var window_height 	= $(window).height();
     		var header_height 	= $('#manage-template-header').outerHeight(true);
     		var footer_height 	= $('#manage-template-footer').outerHeight(true);
+    		var sidebar_head	= $('#sidebar h2').outerHeight(true);
+    		var sidebar_form	= $('#uploadImage').outerHeight(true);
     		var body			= $('#manage-template-main');
+    		var embellishment 	= $('#embellishment-wrap');
+
+    		var embellishment_height = body-10-sidebar_head-sidebar_form;
 
     		body_height = window_height-(header_height+footer_height)-2;
 
     		body.height(body_height);
+    		embellishment.height(embellishment_height);
     		$('#canvas').height(body_height-10);
     	}
     </script>
