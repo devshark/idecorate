@@ -99,15 +99,16 @@ section {
 		}
 
 		.featureDesc {
-			width: 355px;
+			width: 330px;
 			height: auto;
-			padding: 10px 0;
+			padding: 10px 10px 10px 0;
 			line-height: 1.4;
 			float: left;
+			text-align: justify;
 		}
 
 		.featurePrice {
-			width: 85px;
+			width: 105px;
 			height: auto;
 			padding: 10px 0;
 			float: left;
@@ -115,6 +116,7 @@ section {
 
 			h5 {
 				font-weight: bold;
+				font-size: 1.1em;
 				color: #000000;
 				text-align: center;
 				display: block;

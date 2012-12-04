@@ -3,7 +3,7 @@ aside, section {
   float: left !important; }
 
 aside {
-  width: 30%; }
+  width: 31%; }
   aside h1 {
     width: 98%;
     font-weight: bold;
@@ -90,7 +90,8 @@ aside {
           width: 70px; }
         aside form div table tbody tr .productTD P {
           max-width: 120px;
-          margin: 5px 0; }
+          margin: 5px 0;
+          text-align: left; }
   aside form .total {
     width: 99%%%%;
     text-align: right; }
@@ -109,7 +110,7 @@ aside {
     box-shadow: 2px 2px 2px #999999; }
 
 section {
-  width: 69%;
+  width: 68%;
   height: auto;
   margin-left: 10px; }
   section .canvass {
