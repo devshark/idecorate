@@ -4,7 +4,8 @@ $(document).ready(function(){
 
 function populate_save_styleboard(){
 	if (PERSONALIZE_ITEM != ''){
-		var item = eval(PERSONALIZE_ITEM);
+		var raw_item = PERSONALIZE_ITEM.replace('filter: progid:dximagetransform.microsoft.','').replace('filter:progid:dximagetransform.microsoft.','');		
+		var item = eval(raw_item);
 		$.each(item, function(i,v){			
 			var elm = $('<div />');
 			elm.attr('_angle',v.angle);
