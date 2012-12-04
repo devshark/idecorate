@@ -62,4 +62,36 @@
 </section>
 {% endblock %}
 {% block javascripts %}
+<script type="text/javascript">
+$(function(){
+
+	page_H();
+
+	$('.featureContentWrap:odd').each(function(i,val){
+		if($(val).height() < $(val).prev().height()){
+			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
+		}else{
+			$(val).prev().find('.featureDesc').height($(val).find('.featureDesc').height())
+		}
+	});
+
+});
+
+$(window).resize(page_H);
+
+function page_H(){
+		
+	var windowH = $(window).outerHeight();
+	headerH = $('#header').outerHeight();
+	footerH = $('#footer').outerHeight();
+	newHeight = windowH - headerH - footerH - 35;
+	
+	if ($(document).height()<$(window).height()){
+		if(newHeight < windowH) {
+			$('#feature-wrap').height(newHeight);
+		}
+	}
+
+}
+</script>
 {% endblock %}
