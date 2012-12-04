@@ -67,19 +67,20 @@ section {
       padding: 10px 5px;
       background: #f1ccc6; }
     section .featureContentWrap .featureDesc {
-      width: 355px;
+      width: 335px;
       height: auto;
       padding: 10px 0;
       line-height: 1.4;
       float: left; }
     section .featureContentWrap .featurePrice {
-      width: 85px;
+      width: 105px;
       height: auto;
       padding: 10px 0;
       float: left;
       text-align: right; }
       section .featureContentWrap .featurePrice h5 {
         font-weight: bold;
+        font-size: 1.2em;
         color: #000000;
         text-align: center;
         display: block; }
