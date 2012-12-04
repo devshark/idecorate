@@ -1,0 +1,152 @@
+{% load i18n widget_tweaks admin %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>iDecorate Wedding</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="stylesheet" type="text/css" href="/media/admin/css/manage.template.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
+    </head>
+    <body>
+    	<div id="manage-template-header" class="header  clearfix">
+    		<h1>iDecorate</h1>
+    		<ul class="nav clearfix">
+				<li>
+					<a href="{% url admin %}">{% trans "Home" %}</a>
+				</li>
+				<li>
+					<a href="{% url admin_manage_menu %}">{% trans "Manage Menu" %}</a>
+				</li>
+				<li>
+					<a href="{% url category %}">{% trans "Manage Product Categories" %}</a>
+				</li>
+				<li>
+					<a href="{% url admin_manage_product %}">{% trans "Manage Products" %} &#x25bc;</a>
+					<ul>
+						<li>
+							<a href="{% url admin_create_product %}">{% trans "Create Product" %}</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="{% url admin_manage_embellishment %}">{% trans "Manage Embellishments" %} &#x25bc;</a> 
+					<ul>
+						<li>
+							<a href="{% url admin_upload_embellishment %}">{% trans "Upload Embellishment" %}</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+				<a href="{% url admin_manage_font %}">{% trans "Manage Text Fonts" %} &#x25bc;</a>
+					<ul>
+						<li>
+							<a href="{% url admin_manage_text_font %}">{% trans "Upload Font" %}</a>
+						</li>
+					</ul>
+				</li>
+				<li>
+					<a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a>
+				</li>
+				<li>
+					<a href="{% url manage_template %}">{% trans "Manage Template" %}</a>
+				</li>
+				<li>
+					<a href="{% url admin_logout %}">{% trans "Logout" %}</a>
+				</li>
+			</ul>
+    	</div>
+		<div class="mainContent" id="manage-template-main">
+			<table class="Content" border="0" cellpadding="0" cellspacing="5" id="main-content">
+				<tr>
+					<td class="sideBar" id="manage-template-sidebar">
+						<div id="sidebar">
+							<h2>Create Template</h2>
+							<div id="uploadImage">
+					    		<form action="" method="POST">
+					    			<fieldset>
+					    				<legend>Upload Image</legend>
+					    				<input type="file" name="emb_upload"/>
+					    			</fieldset>
+					    		</form>
+				    		</div>
+				    		<div id="embellishment-wrap">
+					    		<div class="emCat">
+									<a href="/styleboard/embellishment_items" rel="1" class="image em">
+									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg">
+									    <span>Image</span>
+									</a>
+									<a href="/styleboard/embellishment_items" rel="text" class="text em">
+									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/text.png">
+									    <span>Text</span>
+									</a>
+									<a href="/styleboard/embellishment_items" rel="5" class="border em">
+									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/border.png">
+									    <span>Border</span>
+									</a>
+									<a href="/styleboard/embellishment_items" rel="4" class="shape em">
+									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/shape.gif">
+									    <span>Shapes</span>
+									</a>
+									<a href="/styleboard/embellishment_items" rel="2" class="texture em">
+									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg">
+									    <span>Textures</span>
+									</a>
+									<a href="/styleboard/embellishment_items" rel="3" class="pattern em">
+									    <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg">
+									    <span>Patterns</span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</td>
+					<td class="canvas" id="manage-template-canvas">
+						<div id="canvas">
+							<div id="nwMenu">
+								<ul>
+									<li><a id="save" href="#">Save</a></li>
+									<li><a id="save" href="#">New</a></li>
+									<li><a id="save" href="#">undo</a></li>
+									<li><a id="save" href="#">redo</a></li>
+									<li><a id="save" href="#">New Container</a></li>
+									<li><a id="save" href="#">Remove Container</a></li>
+									<li><a id="save" href="#">Forward</a></li>
+									<li><a id="save" href="#">Backward</a></li>
+								</ul>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</table>
+	    	
+			
+		</div>
+		<div id="manage-template-footer" class="footer">
+			{% trans "&copy; IDecorate" %}
+		</div>
+    </body>
+    <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript">
+    	$(function () {
+    		resize_body();
+    	});
+
+    	$(window).resize(resize_body);
+
+    	function resize_body(){
+    		var window_height 	= $(window).height();
+    		var header_height 	= $('#manage-template-header').outerHeight(true);
+    		var footer_height 	= $('#manage-template-footer').outerHeight(true);
+    		var body			= $('#manage-template-main');
+
+    		body_height = window_height-(header_height+footer_height)-2;
+
+    		body.height(body_height);
+    	}
+    </script>
+</html>
+
+

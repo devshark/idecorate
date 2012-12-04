@@ -48,6 +48,7 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_manage_font/$', 'admin_manage_font', {}, name='admin_manage_font'),
     url(r'^admin/admin_delete_font/(?P<id_delete>\d+)/$','admin_delete_font', {}, name='admin_delete_font'),
     url(r'^admin/admin_edit_font/(?P<t_id>\d+)/$','admin_edit_font', {}, name='admin_edit_font'),
+    url(r'^admin/manage_template$','manage_template', {}, name='manage_template'),
 )
 
 """

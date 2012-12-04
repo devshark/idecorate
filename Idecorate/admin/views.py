@@ -1415,3 +1415,8 @@ def admin_edit_font(request, t_id):
 
     info['form'] = form
     return render_to_response('admin/admin_edit_font.html',info,RequestContext(request))
+
+@staff_member_required
+def manage_template(request):
+    info = {}
+    return render_to_response('admin/manage_template.html',info,RequestContext(request))
