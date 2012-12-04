@@ -83,15 +83,16 @@ $(window).resize(page_H);
 
 function page_H(){
 		
-	var windowH = $(window).outerHeight(true);
+	var windowH = $(window).height();
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
 		newHeight = windowH - headerH - footerH - 35;
-	
-	if ($(document).height()<$(window).height()){
+
+	if($(document).height()<$(window).height()) {
+		$('#feature-wrap').height(newHeight);
+	} else if(newHeight<windowH){
 		$('#feature-wrap').height(newHeight);
 	}
-
 }
 </script>
 {% endblock %}

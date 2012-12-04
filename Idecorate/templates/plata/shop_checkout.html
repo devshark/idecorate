@@ -225,6 +225,8 @@ QUESTION_ORIGINAL_SIZE = 0;
 
 	$(function(){
 
+		page_H();
+
 		QUESTION_ORIGINAL_SIZE = $('.question').height();
 
 		$('#edit_button').click(function(e){
@@ -243,6 +245,22 @@ QUESTION_ORIGINAL_SIZE = 0;
 		hideBilling()
 		
 	});
+
+	$(window).resize(page_H);
+
+	function page_H(){
+			
+		var windowH = $(window).height();
+			headerH = $('#header').outerHeight(true);
+			footerH = $('#footer').outerHeight(true);
+			newHeight = windowH - headerH - footerH + 190;
+
+		if($(document).height()<$(window).height()) {
+			$('.checkout').height(newHeight);
+		} else if(newHeight<windowH){
+			$('.checkout').height(newHeight);
+		}
+	}
 
 	function resizeUpperInfos() {
 		var deliveryH = $('.delivery').height(),
