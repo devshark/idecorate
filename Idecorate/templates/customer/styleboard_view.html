@@ -151,34 +151,26 @@
 {% block javascripts %}
 		<script type="text/javascript">
 		$(function(){
-			var windowH = $(window).height();
-			headerH = $('#header').outerHeight(true);
-			footerh = $('#footer').outerHeight(true);
-			bodyh = windowH - headerH - footerh - 15;
-			totalContent = headerH + bodyh + footerh;
+			page_H();
 
-			if(totalContent > windowH) {
-				$('.viewWrapper').height(bodySize);
-			}
-
-			$(window).resize(function(){
-
-				var windowH = $(window).height();
-					headerH = $('#header').outerHeight(true);
-					footerh = $('#footer').outerHeight(true);
-					bodyh = windowH - headerH - footerh - 15;
-					totalContent = headerH + bodyh + footerh;
-
-				if(totalContent > windowH) {
-					$('.viewWrapper').height(bodySize);
-				}
-				
-			});
 			$('#img-profile').click(function(){
 				window.location.href = $('#lnk-profile').attr('href');
 			});
 		});
+		$(window).resize(page_H);
+
+		function page_H(){
+				
+			var windowH = $(window).outerHeight(true);
+				headerH = $('#header').outerHeight(true);
+				footerH = $('#footer').outerHeight(true);
+				newHeight = windowH - headerH - footerH - 35;
 			
+			if ($(document).height()<$(window).height()){
+				$('#feature-wrap').height(newHeight);
+			}
+
+		}
 		</script>
         <!-- Social Media Buttons -->
         <script src="http://platform.tumblr.com/v1/share.js"></script>
