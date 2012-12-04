@@ -43,10 +43,12 @@ section {
 			vertical-align: top;
 			font-size: 1.2em;
 			line-height: 1.1;
+			text-align: justify;
 
 			.title {
 				font-weight: bold;
 				margin-bottom: 10px;
+				text-align: justify;
 			}
 
 			.desc {
@@ -142,7 +144,7 @@ section {
 		.featureFooter {
 			width: 440px;
 			margin: 5px 0 0 0;
-			padding: 3px 0;
+			padding: 3px 5px;
 			background: #e7e0da;
 
 			img {
