@@ -61,6 +61,11 @@ def login_signup(request):
 							if personalize_styleboard.user.id == user.id:
 								request.session['customer_styleboard'] = save_styleboard
 								del request.session['personalize_styleboard']
+
+						customer_styleboard = request.session.get('customer_styleboard',None)
+						if customer_styleboard:
+							if customer_styleboard.user.id != user.id:
+								del request.session['customer_styleboard']
 						
 						return render_to_response('customer/iframe/success.html', info)
 					else:
@@ -85,6 +90,10 @@ def login_signup(request):
 						if personalize_styleboard.user.id == user.id:
 							request.session['customer_styleboard'] = save_styleboard
 							del request.session['personalize_styleboard']
+					customer_styleboard = request.session.get('customer_styleboard',None)
+					if customer_styleboard:
+						if customer_styleboard.user.id != user.id:
+							del request.session['customer_styleboard']
 					return render_to_response('customer/iframe/success.html', info)
 				else:
 					messages.warning(request, _('Sorry you could not register at the moment. Please try again later.'))

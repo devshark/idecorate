@@ -31,8 +31,7 @@ def home(request):
 	return render_to_response('interface/home.html',info,RequestContext(request))
 
 @csrf_exempt
-def styleboard(request, cat_id=None):
-
+def styleboard(request, cat_id=None):	
 	"""
 	check if category is exist
 	"""
@@ -90,8 +89,7 @@ def styleboard(request, cat_id=None):
 	sbid = request.GET.get('sbid',None)
 	if sbid:
 		save_styleboard = get_user_styleboard(None, sbid)
-		if save_styleboard:
-			clear_styleboard_session(request)
+		if save_styleboard:			
 			info['save_styleboard'] = save_styleboard
 			info['personalize_item'] = mark_safe(save_styleboard.styleboard_item.item.replace("'","\\'"))
 			info['global_default_quantity'] = save_styleboard.styleboard_item.item_guest
@@ -139,8 +137,7 @@ def styleboard_ajax(request):
 		if cat_id == '':
 			cat_id = None
 		items = None
-		categories = get_categories(cat_id)
-		print categories.count()
+		categories = get_categories(cat_id)		
 		reponse_data = {}
 		if categories.count() > 0:
 			categories = categories.order_by('order')
@@ -181,8 +178,7 @@ def get_category_tree_ajax(request):
 		return HttpResponseNotFound()
 
 @csrf_exempt
-def get_product_original_image(request):
-
+def get_product_original_image(request):	
 	if request.method == "POST":
 
 		ret = {}
@@ -243,7 +239,6 @@ def get_product_details(request):
 
 @csrf_exempt
 def set_product_positions(request):
-
 	ret = ""
 
 	if request.method == 'POST':
@@ -592,7 +587,7 @@ def clear_styleboard_session(request):
 	except:
 		pass
 
-	try:
+	try:		
 		clear_cart_temp(request.session['cartsession'])
 		del request.session['cartsession']
 	except:
@@ -660,6 +655,7 @@ def get_embellishment_items(request):
 @csrf_exempt
 def get_personalize_cart_items(request):
 	if request.is_ajax():
+		clear_styleboard_session(request)
 		id = request.GET.get('id',None)
 		cart_items = get_styleboard_cart_item(None,id)
 		sessionid = request.session.get('cartsession',None)
