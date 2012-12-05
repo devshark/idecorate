@@ -127,7 +127,7 @@
 		</div>
 		<h2>Comments</h2>
 		<div class="commentsBlock">
-			<!--
+			
 			<div id="disqus_thread"></div>
 	        <script type="text/javascript">
 	            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
@@ -144,7 +144,7 @@
 	            })();
 	        </script>
         	<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-        -->
+        
 	    </div>
 	</section>
 </div>
@@ -161,19 +161,18 @@
 		$(window).resize(page_H);
 
 		function page_H(){
-				
+		/*		
 			var windowH = $(window).outerHeight(true);
 				headerH = $('#header').outerHeight(true);
 				footerH = $('#footer').outerHeight(true);
 				newHeight = windowH - headerH - footerH - 15;
 			
-			$('.viewWrapper').height(newHeight);
 			if($(document).height()<$(window).height()) {
 				$('.viewWrapper').height(newHeight);
 			} else if(newHeight<windowH){
 				$('.viewWrapper').height(newHeight);
 			}
-			
+			/*
 		}
 		</script>
         <!-- Social Media Buttons -->
