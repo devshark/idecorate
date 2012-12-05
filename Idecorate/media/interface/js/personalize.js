@@ -4,11 +4,11 @@ $(document).ready(function(){
 
 function populate_save_styleboard(){
 	if (PERSONALIZE_ITEM != ''){
-		var raw_item = PERSONALIZE_ITEM.replace("\n",'%OA');
+		var raw_item = PERSONALIZE_ITEM; //.replace('filter: progid:dximagetransform.microsoft.','').replace('filter:progid:dximagetransform.microsoft.','');		
 		var item = eval(raw_item);
 		var canvas_height = $('#canvas').height();
 		var canvas_width = $('#canvas').width();
-		$.each(item, function(i,v){
+		$.each(item, function(i,v){			
 			var elm = $('<div />');
 			elm.attr('_angle',v.angle);
 			elm.addClass(v._type);
@@ -23,8 +23,6 @@ function populate_save_styleboard(){
 			elm.attr('_opacity',v.opacity);
 			elm.attr('def_qty',v.def_qty);
 			elm.attr('gst_tb',v.gst_tb);
-			elm.attr('_text',v.text);
-			elm.attr('_rgb',v.rgb);
 
 			elm.attr('_matrix','{"a":'+v.matrix[0].a+',"b":'+v.matrix[0].b+',"c":'+v.matrix[0].c+',"d":'+v.matrix[0].d+',"e":'+v.matrix[0].e+',"f":'+v.matrix[0].f+'}');
 
@@ -63,33 +61,76 @@ function populate_save_styleboard(){
 }
 
 function make_center(){
-	var array_x = {};
-	var array_y = {};
+	var bb = computeBboxDimension();
+
+	var ctr_diff = canvas_bb_ctr_diff(bb.centerY,bb.centerX);
 
 	$('#canvas .unselected').each(function(){
-		array_x[$(this).attr('_uid')] = parseFloat($(this).css('left'));
-		array_y[$(this).attr('_uid')] = parseFloat($(this).css('top'));
-		console.log($(this).width());
+		$(this).css({
+			top:parseFloat($(this).css('top'))+ctr_diff.y,
+			left:parseFloat($(this).css('left'))+ctr_diff.x
+		});
 	});
 
-	console.log(array_x);
-	console.log(array_y);
+}
 
-	var raw_w = getCenter(array_x, 'left');
-	var raw_h = getCenter(array_y, 'top');
-	var bb_w = (raw_w.max - raw_w.min)/2;
-	var bb_h = (raw_h.max - raw_h.min)/2;
-	bb_w = raw_w.min+bb_w;
-	bb_h = raw_h.min+bb_h;
+ function computeBboxDimension() {
 
-	var ctr_diff = canvas_bb_ctr_diff(bb_h,bb_w);
+        var lowestTop = 0;
+        var highestTop = 0;
+        var lowestLeft = 0;
+        var highestLeft = 0;
+		var finalWidth = 0;
+        var finalHeight = 0;
 
-	// $('#canvas .unselected').each(function(){
-	// 	$(this).css({
-	// 		top:parseFloat($(this).css('top'))+ctr_diff.y,
-	// 		left:parseFloat($(this).css('left'))+ctr_diff.x
-	// 	});
-	// });
+        $('#canvas .unselected').each(function(e){
+                
+            if(lowestTop == 0) {
+                lowestTop = parseFloat($(this).css('top').replace('px',''));
+            } else {
+                if(parseFloat($(this).css('top').replace('px','')) < lowestTop) {
+                    lowestTop = parseFloat($(this).css('top').replace('px',''));
+                }
+            }
+            
+            if(highestTop == 0) {
+                highestTop = parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''));
+            } else {
+                if((parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''))) > highestTop) {
+                    highestTop = parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''));
+                }
+            }
+            
+            
+            if(lowestLeft == 0) {
+                lowestLeft = parseFloat($(this).css('left').replace('px',''));
+            } else {
+                if(parseFloat($(this).css('left').replace('px','')) < lowestLeft) {
+                    lowestLeft = parseFloat($(this).css('left').replace('px',''));
+                }
+            }
+            
+            
+            if(highestLeft == 0) {
+                highestLeft = parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''));
+            } else {
+                if((parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''))) > highestLeft) {
+                    highestLeft = parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''));
+                }
+            }
+                
+                
+        });
+        
+        finalWidth = highestLeft - lowestLeft;
+        finalHeight = highestTop - lowestTop;
+        
+        return {
+            'width': finalWidth,
+            'height': finalHeight,
+            'centerX': finalWidth / 2 + lowestLeft,
+            'centerY': finalHeight / 2 + lowestTop
+        };
 
 }
 
@@ -99,53 +140,10 @@ function canvas_bb_ctr_diff(bbH, bbW){
 	var bb_ctr 		= {'x':bbW, 'y':bbH};
 	canvas_ctr['x'] = $('#canvas').width()/2;
 	canvas_ctr['y'] = $('#canvas').height()/2;
-
-	console.log(canvas_ctr);
-	console.log(bb_ctr);
-	
-	$('<div/>').css({
-		top : bbH,
-		left: bbW,
-		width: 5,
-		height: 5,
-		position: 'absolute',
-		backgroundColor: '#333',
-		zIndex: 10
-	}).appendTo('#canvas');
-
-	$('<div/>').css({
-		top : canvas_ctr.y,
-		left: canvas_ctr.x,
-		width: 5,
-		height: 5,
-		position: 'absolute',
-		backgroundColor: '#333',
-		zIndex: 10
-	}).appendTo('#canvas');
-
 	ctr_diff['x'] = canvas_ctr.x - bb_ctr.x;
 	ctr_diff['y'] = canvas_ctr.y - bb_ctr.y;
 
 	return ctr_diff;
-}
-
-function getCenter(array,pos) {
-	var coor = {};
-	var arr = Object.keys( array ).map(function ( key ) { return array[key]; });
-	var min = Math.min.apply( null, arr );
-	var max = Math.max.apply( null, arr );
-
-	coor['min'] = min;
-	$.each(array, function(i,val){
-		if(array[i] == max && pos == 'left'){
-			console.log($('.unselected[_uid="'+i+'"]').width());
-			coor['max'] = max + $('.unselected[_uid="'+i+'"]').width();
-		}else if(array[i] == max && pos == 'top'){
-			coor['max'] = max + $('.unselected[_uid="'+i+'"]').height();
-		}
-	});
-	console.log(coor);
-	return coor;
 }
 
 function get_cart_items(){
@@ -157,7 +155,7 @@ function get_cart_items(){
 	        var subtotal = v.sub_total.toFixed(2);
 	        subtotal = addCommas(subtotal);
 
-	        var item = '<tr id="prod_cart_' + v.id + '">' +
+	        var item = '<tr id="prod_cart_' + data.id + '">' +
 	            '<td class="span4">' +
 	                '<div class="buyItemImg">' +
 	                    '<div><img width="70" src="/' + img_src + v.original_image_thumbnail + '"></div>' +
@@ -172,7 +170,6 @@ function get_cart_items(){
 	            '</tr>';
 	        $('#buy-table tbody').append(item);
 		});
-		attachEventToQty();
 		manage_total();			
 	},'json');
 }
