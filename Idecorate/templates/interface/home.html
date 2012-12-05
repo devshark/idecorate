@@ -15,7 +15,7 @@
 	</div>
 </div>
 
-<section id="feature-wrap" class="clearfix"> <!--
+<section id="feature-wrap" class="clearfix"> 
 	<div class="clearfix wrapper">
 		<a href="#">
 			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
@@ -39,7 +39,7 @@
 		<a href="#">
 			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
 		</a>
-	</div>-->
+	</div>
 </section>
 {% endblock %}
 {% block javascripts %}
@@ -56,11 +56,13 @@ function page_H(){
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
 		newHeight = windowH - headerH - footerH - 395;
+		newHeight2 = windowH - headerH - footerH;
+		sectionH = $('#feature-wrap').outerHeight(true);
 
 	if($(document).height()<$(window).height()) {
 		$('#feature-wrap').height(newHeight);
 	} else if(newHeight<windowH){
-		$('#feature-wrap').height(newHeight);
+		$('#feature-wrap').height(sectionH);
 	}
 }
 </script>
