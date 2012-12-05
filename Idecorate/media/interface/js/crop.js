@@ -91,11 +91,23 @@
 	}
 
 	function loadCropped() {
+		//alert(PRE_TASK);
 		if(PRE_TASK == 'rect') {
 			doneCrop = true;
+			usePen = false;
 
 			var pre_d = PRE_DIMENSIONS.split(',')
 			var pre_od = PRE_OTHERDATA.split(',')
+
+
+			savedCoordinates.push({
+				startX: parseInt(pre_d[0]),
+				startY: parseInt(pre_d[1]),
+				w: parseInt(pre_d[2]),
+				h: parseInt(pre_d[3]),
+				realW: parseInt(pre_od[0]),
+				realH: parseInt(pre_od[1])
+			});
 
 			var rect2 = canvas3.getContext("2d");
 			rect2.beginPath();
@@ -104,6 +116,35 @@
 			rect2.fillStyle = "white";
 			rect2.fill();
 			rect2.stroke();
+
+		} else if(PRE_TASK == 'poly') {
+			doneCrop = true;
+			usePen = true;
+
+			var pre_d = PRE_DIMENSIONS.split(',')
+			var pre_od = PRE_OTHERDATA.split(',')
+			var dCounter = 0;
+
+			for(dCounter = 0; dCounter < pre_d.length; dCounter++) {
+
+				var splitted_d = pre_d[dCounter].split(':');
+				var splitted_od = pre_od[dCounter].split(':');
+
+				savedCoordinates.push({
+					startX: parseInt(splitted_d[0]),
+					startY: parseInt(splitted_d[1]),
+					w: parseInt(splitted_od[0]),
+					h: parseInt(splitted_od[1])
+				});
+
+			}
+
+			var pth = drawLines();
+			pth.closePath();
+			pth.globalAlpha = 0.5;
+			pth.fillStyle = "white";
+			//pth.globalCompositeOperation = 'xor';
+			pth.fill();
 
 		}
 	}
