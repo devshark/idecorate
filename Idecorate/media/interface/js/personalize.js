@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 function populate_save_styleboard(){
 	if (PERSONALIZE_ITEM != ''){
-		var raw_item = PERSONALIZE_ITEM; //.replace('filter: progid:dximagetransform.microsoft.','').replace('filter:progid:dximagetransform.microsoft.','');		
+		var raw_item = PERSONALIZE_ITEM.replace("\n", "\\n"); //.replace("\n",'%OA');
 		var item = eval(raw_item);
 		var canvas_height = $('#canvas').height();
 		var canvas_width = $('#canvas').width();

@@ -29,6 +29,7 @@ import math
 from idecorate_settings.models import IdecorateSettings
 from urllib import unquote
 from admin.services import getExtensionAndFileName
+from cart.services import generate_unique_id
 
 def login_signup(request):
 
@@ -59,12 +60,12 @@ def login_signup(request):
 						personalize_styleboard = request.session.get('personalize_styleboard',None)
 						if personalize_styleboard:
 							if personalize_styleboard.user.id == user.id:
-								request.session['customer_styleboard'] = save_styleboard
+								request.session['customer_styleboard'] = personalize_styleboard
 								del request.session['personalize_styleboard']
 
 						customer_styleboard = request.session.get('customer_styleboard',None)
 						if customer_styleboard:
-							if customer_styleboard.user.id != user.id:
+							if customer_styleboard.user.id != request.user.id:
 								del request.session['customer_styleboard']
 						
 						return render_to_response('customer/iframe/success.html', info)
@@ -92,7 +93,7 @@ def login_signup(request):
 							del request.session['personalize_styleboard']
 					customer_styleboard = request.session.get('customer_styleboard',None)
 					if customer_styleboard:
-						if customer_styleboard.user.id != user.id:
+						if customer_styleboard.user.id != request.user.id:
 							del request.session['customer_styleboard']
 					return render_to_response('customer/iframe/success.html', info)
 				else:
@@ -133,7 +134,7 @@ def profile(request):
 	user_profile = customer_profile(user)
 	info['user_profile'] = user_profile
 	info['currentUrl'] = request.get_full_path()
-	user_styleboard = get_user_styleboard(user)
+	user_styleboard = get_user_styleboard(user)	
 	info['user_styleboard'] = user_styleboard
 
 	idecorateSettings = IdecorateSettings.objects.get(pk=1)
@@ -145,12 +146,11 @@ def profile(request):
 def save_styleboard(request):
 	if not request.user.is_authenticated():
 		return redirect('styleboard')
-	info = {}
-	customer_styleboard = None
-	try:		
-		customer_styleboard = request.session['customer_styleboard']
+	info = {}	
+	customer_styleboard = request.session.get('customer_styleboard',None)	
+	if customer_styleboard:
 		form = SaveStyleboardForm(initial={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description})
-	except Exception as e:		
+	else:
 		form = SaveStyleboardForm()
 	if request.method == "POST":
 		form = SaveStyleboardForm(request.POST)		
@@ -158,7 +158,7 @@ def save_styleboard(request):
 			cleaned_datas = form.cleaned_data
 			cleaned_datas['user'] = request.user
 			cleaned_datas['customer_styleboard'] = customer_styleboard
-			cleaned_datas['sessionid'] = request.session.get('cartsession',None)
+			cleaned_datas['sessionid'] = request.session.get('cartsession',generate_unique_id())
 			res = save_styleboard_item(cleaned_datas)
 			request.session['customer_styleboard'] = res
 			info['action'] = 'save_styleboard'

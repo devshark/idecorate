@@ -32,7 +32,7 @@
 		c1.clearRect(0,0, canvas.width, canvas.height);
 	
 		$('.crop_handles').remove();
-		setCanvasImage(PIC_FILENAME);
+		//setCanvasImage(PIC_FILENAME);
 
 	}
 
