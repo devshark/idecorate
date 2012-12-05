@@ -31,9 +31,9 @@
 	</div>	
 	<h2>My Style Boards</h2>
 	{% if user_styleboard %}	
-	<div class="clearfix">
+	<div class="clearfix styleboardWrapper">
 		{% for item in user_styleboard %}
-		
+
 		<div class="featureContentWrap clearfix">
 			<div class="clearfix featureImg">
 				<a href="{% url styleboard_view item.styleboard_item.id %}"><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /></a> 
@@ -53,7 +53,7 @@
 				<img src="/media/images/man.png" /><span class="member"><p>by {{ user_profile.nickname }}</p></span>
 			</div>
 		</div>
-		
+
 		{% endfor %}
 	</div>
 	{% else %}
@@ -86,13 +86,14 @@ function page_H(){
 	var windowH = $(window).height();
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
-		newHeight = windowH - headerH - footerH - 35;
+		newHeight = windowH - headerH - footerH - 320;
 
-	if($(document).height()<$(window).height()) {
-		$('#feature-wrap').height(newHeight);
-	} else if(newHeight<windowH){
-		$('#feature-wrap').height(newHeight);
+	if($(".styleboardWrapper").not(".featureContentWrap")) {
+		if(newHeight<windowH){
+			$('.styleboardWrapper').height(newHeight);
+		}
 	}
+
 }
 </script>
 {% endblock %}
