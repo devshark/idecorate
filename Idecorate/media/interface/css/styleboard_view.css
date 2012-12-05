@@ -52,16 +52,13 @@ aside {
     width: 100%;
     text-align: center;
     padding: 5px 0; }
-    aside .socialMedia .facebookLike {
-      width: 110px;
-      overflow: hidden;
-      float: left;
-      margin-left: 5px;
-      position: relative; }
-    aside .socialMedia .tumblerShare, aside .socialMedia .twitterShare, aside .socialMedia .pinterestShare, aside .socialMedia .googleShare, aside .socialMedia .email {
+    aside .socialMedia .facebookShare, aside .socialMedia .tumblerShare, aside .socialMedia .twitterShare, aside .socialMedia .pinterestShare, aside .socialMedia .googleShare, aside .socialMedia .email {
       width: auto;
       float: left;
       padding: 3px 0 0 3px; }
+    aside .socialMedia .facebookShare {
+      margin-left: 35px;
+      cursor: pointer; }
     aside .socialMedia .pinterestShare {
       margin-top: 0 !important; }
     aside .socialMedia .email img {
@@ -125,16 +122,13 @@ section {
       float: right;
       text-align: center;
       margin: 10px 10px 10px 0; }
-      section .socialMediaWrapper .socialMedia .facebookLike {
-        width: 110px;
-        overflow: hidden;
-        float: left;
-        margin-left: 5px;
-        position: relative; }
-      section .socialMediaWrapper .socialMedia .tumblerShare, section .socialMediaWrapper .socialMedia .twitterShare, section .socialMediaWrapper .socialMedia .pinterestShare, section .socialMediaWrapper .socialMedia .googleShare, section .socialMediaWrapper .socialMedia .email {
+      section .socialMediaWrapper .socialMedia .facebookShare, section .socialMediaWrapper .socialMedia .tumblerShare, section .socialMediaWrapper .socialMedia .twitterShare, section .socialMediaWrapper .socialMedia .pinterestShare, section .socialMediaWrapper .socialMedia .googleShare, section .socialMediaWrapper .socialMedia .email {
         width: auto;
         float: left;
         padding: 0 0 0 3px; }
+      section .socialMediaWrapper .socialMedia .facebookShare {
+        margin-left: 35px;
+        cursor: pointer; }
       section .socialMediaWrapper .socialMedia .pinterestShare {
         margin-top: 0 !important; }
       section .socialMediaWrapper .socialMedia .email img {

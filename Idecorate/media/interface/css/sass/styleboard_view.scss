@@ -67,18 +67,14 @@ aside {
     text-align: center;
     padding: 5px 0;
 
-    .facebookLike {
-      width: 110px;
-      overflow: hidden;
-      float: left;
-      margin-left: 5px;
-      position: relative;
-    }
-
-    .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {
+    .facebookShare, .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {
       width: auto;
       float: left;
       padding: 3px 0 0 3px;
+    }
+    .facebookShare{
+     margin-left: 35px;
+     cursor: pointer;
     }
     .pinterestShare {
       margin-top: 0 !important;
@@ -189,18 +185,14 @@ section {
       text-align: center;
       margin: 10px 10px 10px 0;
 
-      .facebookLike {
-        width: 110px;
-        overflow: hidden;
-        float: left;
-        margin-left: 5px;
-        position: relative;
-      }
-
-      .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {
+      .facebookShare, .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {
         width: auto;
         float: left;
         padding: 0 0 0 3px;
+      }
+      .facebookShare{
+       margin-left: 35px;
+       cursor: pointer;
       }
       .pinterestShare {
         margin-top: 0 !important;

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load idecorate_interface humanize %}
-{% block title %}iDecorate Weddings{% endblock %}
+{% block title %}iDecorate Weddings | {{ styleboard.styleboard_item.name }}{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard_view.css">
 <link runat="server" rel="shortcut icon" href="/media/images/favicon.2.ico" type="image/x-icon" />
@@ -34,8 +34,8 @@
 			</table>
 		</div>
 		<div class="clearfix socialMedia">
-			<div class="facebookLike">
-				<div class="fb-like" data-href="http://www.idecorateweddings.com/" data-send="true" data-width="450" data-show-faces="false"></div>
+			<div class="facebookShare">
+				<img src="/media/images/fb_share.png" onclick='postToFeed(); return false;' />
 			</div>
 			<div class="tumblerShare">
 				<span id="tumblr_button_abc123"></span>
@@ -101,8 +101,8 @@
 		</div>
 		<div class="clearfix socialMediaWrapper">
 			<div class="clearfix socialMedia">
-				<div class="facebookLike">
-					<div class="fb-like" data-href="http://www.idecorateweddings.com/" data-send="true" data-width="450" data-show-faces="false"></div>
+				<div class="facebookShare">
+					<img src="/media/images/fb_share.png" onclick='postToFeed(); return false;' />
 				</div>
 				<div class="tumblerShare">
 					<span id="tumblr_button_abc1234"></span>
@@ -176,6 +176,30 @@
 		}
 		</script>
         <!-- Social Media Buttons -->
+        <script> 
+	      FB.init({appId: "284021491694031", status: true, cookie: true});
+
+	      function postToFeed() {
+
+	        // calling the API ...
+	        var obj = {
+	          method: 'feed',
+	          redirect_uri: 'http://yabee.lazbit.com',
+	          link: 'http://yabee.lazbit.com', //page link here
+	          picture: 'http://172.29.19.157:8000/styleboard/generate_styleboard_view/6/680/500/', //add image link of product here 
+	          name: 'Facebook Dialogs', //styleboard title
+	          caption: 'iDecorate Weddings Styleboard',
+	          description: 'Using Dialogs to interact with users.' //truncated description
+	        };
+
+	        function callback(response) {
+	          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+	        }
+
+	        FB.ui(obj, callback);
+	      }
+	    
+	    </script>
         <script src="http://platform.tumblr.com/v1/share.js"></script>
         <script type="text/javascript">
             var tumblr_link_url = "http://www.example.com/permalink/my-article";
