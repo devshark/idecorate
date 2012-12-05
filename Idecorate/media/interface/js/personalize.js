@@ -8,7 +8,7 @@ function populate_save_styleboard(){
 		var item = eval(raw_item);
 		var canvas_height = $('#canvas').height();
 		var canvas_width = $('#canvas').width();
-		$.each(item, function(i,v){			
+		$.each(item, function(i,v){
 			var elm = $('<div />');
 			elm.attr('_angle',v.angle);
 			elm.addClass(v._type);
