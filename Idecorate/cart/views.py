@@ -118,8 +118,6 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
 class IdecorateShop(Shop):
 
 	def modify_guest_table(self, request, guests, tables, order):
-		print guests
-		print tables
 		if 'cartsession' in request.session:
 			sessionid = request.session.get('cartsession')
 			
@@ -159,7 +157,6 @@ class IdecorateShop(Shop):
 		return self.render(request, 'plata/shop_checkout.html', self.get_context(request, context))
 	
 	def checkout_form(self, request, order):
-		#print request.method
 		return IdecorateCheckoutForm
 
 shop = IdecorateShop(
