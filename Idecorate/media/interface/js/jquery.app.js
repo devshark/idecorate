@@ -1351,6 +1351,9 @@ function get_product_object_json(){
         var elm_top = elm_offset.top;
         var product_left = Math.round(elm_left-canvas_left);
         var product_top = Math.round(elm_top-canvas_top);
+        $(this).css('filter','none');
+        $(this).css('msfilter','none');
+        $(this).css('-ms-filter','none');
         var style = $(this).attr('style');
         var _zindex = $(this).css('z-index');
         var _matrix = [];
