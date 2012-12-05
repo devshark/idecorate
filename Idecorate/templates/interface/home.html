@@ -15,7 +15,7 @@
 	</div>
 </div>
 
-<section id="feature-wrap" class="clearfix"> 
+<section id="feature-wrap" class="clearfix">
 	<div class="clearfix wrapper">
 		<a href="#">
 			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
@@ -56,12 +56,14 @@ function page_H(){
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
 		newHeight = windowH - headerH - footerH - 395;
+		sectionH = $('#feature-wrap').outerHeight(true);
 
-	if($(document).height()<$(window).height()) {
-		$('#feature-wrap').height(newHeight);
-	} else if(newHeight<windowH){
-		$('#feature-wrap').height(newHeight);
+	if(!$("#feature-wrap").hasClass(".wrapper") && !$("#feature-wrap").hasClass(".wrapper2") && !$("#feature-wrap").hasClass(".wrapper3")) {
+		if(sectionH < windowH) {
+			$('#feature-wrap').height(newHeight);
+		}
 	}
+
 }
 </script>
 {% endblock %}

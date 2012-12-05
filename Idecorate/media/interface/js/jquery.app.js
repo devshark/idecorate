@@ -453,7 +453,9 @@ $(document).ready(function () {
         cancelBubble(e);
 
         if(getUrlVars($('.selected > img').attr('src'))['filename']) {
-            display_modal(MODAL_SRC.replace('0',getUrlVars($('.selected > img').attr('src'))['filename']));
+            var meta_data = getUrlVars($('.selected > img').attr('src'));
+            var url_to_open = MODAL_SRC.replace('0',meta_data['filename']) + '/?&task=' + meta_data['task'] + '&otherdata=' + meta_data['otherdata'] + '&dimensions=' + meta_data['dimensions'];
+            display_modal(url_to_open);
         } else {
             display_modal(MODAL_SRC.replace('0',$('.selected > img').attr('src').replace('/media/products/','')));
         }
@@ -1364,6 +1366,8 @@ function get_product_object_json(){
         var _gst_tb = $(this).attr('gst_tb');
         var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
         var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
+        var _text = $(this).attr('_text')?$(this).attr('_text'):'';
+        var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
         var type = 'product';
         if($(this).hasClass('text'))
             type = 'text';
@@ -1378,7 +1382,7 @@ function get_product_object_json(){
         if($(this).hasClass('pattern'))
             type = 'pattern';
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
-        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, img:_img});
+        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, img:_img});
     });
     var product_array = new Array();
     for (var i in product_objects){

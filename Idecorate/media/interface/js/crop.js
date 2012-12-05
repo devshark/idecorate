@@ -89,6 +89,65 @@
 		imgObj.src = imageSrc;
 			
 	}
+
+	function loadCropped() {
+		//alert(PRE_TASK);
+		if(PRE_TASK == 'rect') {
+			doneCrop = true;
+			usePen = false;
+
+			var pre_d = PRE_DIMENSIONS.split(',')
+			var pre_od = PRE_OTHERDATA.split(',')
+
+
+			savedCoordinates.push({
+				startX: parseInt(pre_d[0]),
+				startY: parseInt(pre_d[1]),
+				w: parseInt(pre_d[2]),
+				h: parseInt(pre_d[3]),
+				realW: parseInt(pre_od[0]),
+				realH: parseInt(pre_od[1])
+			});
+
+			var rect2 = canvas3.getContext("2d");
+			rect2.beginPath();
+			rect2.rect(parseInt(pre_d[0]), parseInt(pre_d[1]), parseInt(pre_od[0]), parseInt(pre_od[1]));
+			rect2.globalAlpha = 0.5;
+			rect2.fillStyle = "white";
+			rect2.fill();
+			rect2.stroke();
+
+		} else if(PRE_TASK == 'poly') {
+			doneCrop = true;
+			usePen = true;
+
+			var pre_d = PRE_DIMENSIONS.split(',')
+			var pre_od = PRE_OTHERDATA.split(',')
+			var dCounter = 0;
+
+			for(dCounter = 0; dCounter < pre_d.length; dCounter++) {
+
+				var splitted_d = pre_d[dCounter].split(':');
+				var splitted_od = pre_od[dCounter].split(':');
+
+				savedCoordinates.push({
+					startX: parseInt(splitted_d[0]),
+					startY: parseInt(splitted_d[1]),
+					w: parseInt(splitted_od[0]),
+					h: parseInt(splitted_od[1])
+				});
+
+			}
+
+			var pth = drawLines();
+			pth.closePath();
+			pth.globalAlpha = 0.5;
+			pth.fillStyle = "white";
+			//pth.globalCompositeOperation = 'xor';
+			pth.fill();
+
+		}
+	}
 	
 	$(function(e){
 
@@ -287,7 +346,7 @@
 					createHandle(rectMouse.w,rectMouse.h);
 					createHandle(rectMouse.w,rectMouse.y);
 					createHandle(rectMouse.x,rectMouse.h);
-					savedCoordinates.push({startX: lineRect.startX, startY: lineRect.startY, w: (e.pageX - this.offsetLeft), h: (e.pageY - this.offsetTop)});
+					savedCoordinates.push({startX: lineRect.startX, startY: lineRect.startY, w: (e.pageX - this.offsetLeft), h: (e.pageY - this.offsetTop), realW: lineRect.w, realH: lineRect.h});
 				}
 			}
 
@@ -309,29 +368,36 @@
 			if(savedCoordinates.length > 0) {
 
 				var dimen = '';
+				var dimen2 = '';
 				var task = '';
 				var url = '';
 
-				if(usePen) {
+				if(usePen) { 
 					var val = [];
+					var val2 = [];
 
 					for(x=0; x < savedCoordinates.length; x++) {
 						val.push(savedCoordinates[x].startX + ':' + savedCoordinates[x].startY);
+						val2.push(savedCoordinates[x].w + ':' + savedCoordinates[x].h);
 					}
 
 					dimen = val.toString();
+					dimen2 = val2.toString();
 					task = 'poly';
 				} else {
 					dimen = savedCoordinates[0].startX + ',' + savedCoordinates[0].startY + ',' + savedCoordinates[0].w + ',' + savedCoordinates[0].h;
+					dimen2 = savedCoordinates[0].realW + ',' + savedCoordinates[0].realH;
 					task = 'rect';
 				}
 
-				url = CROP_URL + '?&task=' + task + '&dimensions=' + escape(dimen) + '&filename=' + escape(BASE_FILENAME);
+				url = CROP_URL + '?&task=' + task + '&dimensions=' + escape(dimen) + '&filename=' + escape(BASE_FILENAME) + '&otherdata=' + escape(dimen2);
 
 				parent.setSelectedImage(url);
 			}
 
 		});
+
+		loadCropped();
 
 		/**
 		$('#frmbutton').click(function(e){

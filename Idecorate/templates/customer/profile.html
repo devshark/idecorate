@@ -31,14 +31,14 @@
 	</div>	
 	<h2>My Style Boards</h2>
 	{% if user_styleboard %}	
-	<div class="clearfix">
+	<div class="clearfix styleboardWrapper">
 		{% for item in user_styleboard %}
-		
+
 		<div class="featureContentWrap clearfix">
 			<div class="clearfix featureImg">
 				<a href="{% url styleboard_view item.styleboard_item.id %}"><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /></a> 
 			</div>
-			<h3 class="clearfix">{{ item.styleboard_item.name }}</h3>
+			<h3 class="clearfix featureTitle">{{ item.styleboard_item.name }}</h3>
 			<div class="clearfix">
 				<div class="featureDesc">
 					{{ item.styleboard_item.description|linebreak }}
@@ -53,7 +53,7 @@
 				<img src="/media/images/man.png" /><span class="member"><p>by {{ user_profile.nickname }}</p></span>
 			</div>
 		</div>
-		
+
 		{% endfor %}
 	</div>
 	{% else %}
@@ -68,12 +68,28 @@
 $(function(){
 
 	page_H();
-
+/*
 	$('.featureContentWrap:odd').each(function(i,val){
 		if($(val).height() < $(val).prev().height()){
 			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
 		}else{
-			$(val).prev().find('.featureDesc').height($(val).find('.featureDesc').height())
+			$(val).prev().find('.featureDesc').height($(val).find('.featureDesc').height());
+		}
+	});
+*/
+	$('.featureContentWrap:odd').each(function(i,val){
+		if($(val).height() < $(val).prev().height()){
+			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
+			$(val).prev().find('.featureDesc').height($(val).prev().find('.featureDesc').height());
+
+			$(val).find('.featureTitle').height($(val).prev().find('.featureTitle').height());
+			$(val).prev().find('.featureTitle').height($(val).prev().find('.featureTitle').height());
+		}else{
+			$(val).find('.featureTitle').height($(val).find('.featureTitle').height());
+			$(val).prev().find('.featureTitle').height($(val).find('.featureTitle').height());
+
+			$(val).find('.featureTitle').height($(val).find('.featureTitle').height());
+			$(val).prev().find('.featureTitle').height($(val).find('.featureTitle').height());
 		}
 	});
 
@@ -86,13 +102,19 @@ function page_H(){
 	var windowH = $(window).height();
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
-		newHeight = windowH - headerH - footerH - 35;
+		sectionH = $('.styleboardWrapper').outerHeight(true);
+		newHeight = windowH - headerH - footerH - 320;
 
-	if($(document).height()<$(window).height()) {
-		$('#feature-wrap').height(newHeight);
-	} else if(newHeight<windowH){
-		$('#feature-wrap').height(newHeight);
+	if(!$(".styleboardWrapper").hasClass(".featureContentWrap")) {
+		if(sectionH < windowH) {
+			$('.styleboardWrapper').height(sectionH);
+		}
+/*
+		if(newHeight<windowH){
+			$('.styleboardWrapper').height(newHeight);
+		}*/
 	}
+
 }
 </script>
 {% endblock %}
