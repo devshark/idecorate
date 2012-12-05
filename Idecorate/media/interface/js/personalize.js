@@ -155,7 +155,7 @@ function get_cart_items(){
 	        var subtotal = v.sub_total.toFixed(2);
 	        subtotal = addCommas(subtotal);
 
-	        var item = '<tr id="prod_cart_' + data.id + '">' +
+	        var item = '<tr id="prod_cart_' + v.id + '">' +
 	            '<td class="span4">' +
 	                '<div class="buyItemImg">' +
 	                    '<div><img width="70" src="/' + img_src + v.original_image_thumbnail + '"></div>' +
