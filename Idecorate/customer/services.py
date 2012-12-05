@@ -20,7 +20,6 @@ def register_user(data):
 		transaction.commit()
 		return user
 	except Exception as e:
-		print e
 		transaction.rollback()
 		return None
 
@@ -109,7 +108,7 @@ def get_customer_styleboard_item(customer_styleboard):
 	return CustomerStyleBoard.objects.get(id=customer_styleboard.id)
 
 def manage_styleboard_cart_items(sessionid, styleboard_item):
-	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)
+	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)	
 	if cart_temp_items.count()>0:
 		for item in cart_temp_items:
 			save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
@@ -139,8 +138,8 @@ def get_save_styleboard_total(styleboard_item_id):
 
 def get_styleboard_cart_item(styleboard_item=None,styleboard_item_id=None):
 	if styleboard_item:
-		return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item)
+		return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item).order_by('id')
 	elif styleboard_item_id:
-		return StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id)
+		return StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id).order_by('id')
 	return False
 
