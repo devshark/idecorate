@@ -56,11 +56,14 @@ function page_H(){
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
 		newHeight = windowH - headerH - footerH - 395;
+		newHeight2 = windowH - headerH - footerH;
+		sectionH = $('#feature-wrap').outerHeight(true);
 
-	if($(document).height()>$(window).height()) {
+console.log(newHeight);console.log(sectionH);
+	if($(document).height()<$(window).height()) {
 		$('#feature-wrap').height(newHeight);
 	} else if(newHeight<windowH){
-		$('#feature-wrap').height(newHeight);
+		$('#feature-wrap').height(sectionH);
 	}
 }
 </script>
