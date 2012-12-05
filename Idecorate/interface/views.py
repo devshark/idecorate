@@ -206,8 +206,16 @@ def get_product_original_image(request):
 def crop(request, id):
 	info = {}
 
-	info['filename'] = "%s?filename=%s" % (reverse('crop_view'), re.sub(r'\?[0-9].*','', str(id)))
-	info['file_only'] = re.sub(r'\?[0-9].*','', str(id))
+	info['filename'] = "%s?filename=%s" % (reverse('crop_view'), re.sub(r'\?[0-9].*','', str(id)).replace('/',''))
+	info['file_only'] = re.sub(r'\?[0-9].*','', str(id)).replace('/','')
+
+	task = request.GET.get('task',None)
+	otherdata = request.GET.get('otherdata',None)
+	dimensions = request.GET.get('dimensions', None)
+
+	info['pre_task'] = task if task else ''
+	info['pre_otherdata'] = otherdata if otherdata else ''
+	info['pre_dimensions'] = dimensions if dimensions else ''
 
 	return render_to_response('interface/iframe/crop.html', info,RequestContext(request))
 

@@ -89,6 +89,24 @@
 		imgObj.src = imageSrc;
 			
 	}
+
+	function loadCropped() {
+		if(PRE_TASK == 'rect') {
+			doneCrop = true;
+
+			var pre_d = PRE_DIMENSIONS.split(',')
+			var pre_od = PRE_OTHERDATA.split(',')
+
+			var rect2 = canvas3.getContext("2d");
+			rect2.beginPath();
+			rect2.rect(parseInt(pre_d[0]), parseInt(pre_d[1]), parseInt(pre_od[0]), parseInt(pre_od[1]));
+			rect2.globalAlpha = 0.5;
+			rect2.fillStyle = "white";
+			rect2.fill();
+			rect2.stroke();
+
+		}
+	}
 	
 	$(function(e){
 
@@ -287,7 +305,7 @@
 					createHandle(rectMouse.w,rectMouse.h);
 					createHandle(rectMouse.w,rectMouse.y);
 					createHandle(rectMouse.x,rectMouse.h);
-					savedCoordinates.push({startX: lineRect.startX, startY: lineRect.startY, w: (e.pageX - this.offsetLeft), h: (e.pageY - this.offsetTop)});
+					savedCoordinates.push({startX: lineRect.startX, startY: lineRect.startY, w: (e.pageX - this.offsetLeft), h: (e.pageY - this.offsetTop), realW: lineRect.w, realH: lineRect.h});
 				}
 			}
 
@@ -309,29 +327,36 @@
 			if(savedCoordinates.length > 0) {
 
 				var dimen = '';
+				var dimen2 = '';
 				var task = '';
 				var url = '';
 
-				if(usePen) {
+				if(usePen) { 
 					var val = [];
+					var val2 = [];
 
 					for(x=0; x < savedCoordinates.length; x++) {
 						val.push(savedCoordinates[x].startX + ':' + savedCoordinates[x].startY);
+						val2.push(savedCoordinates[x].w + ':' + savedCoordinates[x].h);
 					}
 
 					dimen = val.toString();
+					dimen2 = val2.toString();
 					task = 'poly';
 				} else {
 					dimen = savedCoordinates[0].startX + ',' + savedCoordinates[0].startY + ',' + savedCoordinates[0].w + ',' + savedCoordinates[0].h;
+					dimen2 = savedCoordinates[0].realW + ',' + savedCoordinates[0].realH;
 					task = 'rect';
 				}
 
-				url = CROP_URL + '?&task=' + task + '&dimensions=' + escape(dimen) + '&filename=' + escape(BASE_FILENAME);
+				url = CROP_URL + '?&task=' + task + '&dimensions=' + escape(dimen) + '&filename=' + escape(BASE_FILENAME) + '&otherdata=' + escape(dimen2);
 
 				parent.setSelectedImage(url);
 			}
 
 		});
+
+		loadCropped();
 
 		/**
 		$('#frmbutton').click(function(e){

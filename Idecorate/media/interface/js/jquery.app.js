@@ -453,7 +453,9 @@ $(document).ready(function () {
         cancelBubble(e);
 
         if(getUrlVars($('.selected > img').attr('src'))['filename']) {
-            display_modal(MODAL_SRC.replace('0',getUrlVars($('.selected > img').attr('src'))['filename']));
+            var meta_data = getUrlVars($('.selected > img').attr('src'));
+            var url_to_open = MODAL_SRC.replace('0',meta_data['filename']) + '/?&task=' + meta_data['task'] + '&otherdata=' + meta_data['otherdata'] + '&dimensions=' + meta_data['dimensions'];
+            display_modal(url_to_open);
         } else {
             display_modal(MODAL_SRC.replace('0',$('.selected > img').attr('src').replace('/media/products/','')));
         }
