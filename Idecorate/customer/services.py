@@ -137,5 +137,10 @@ def get_save_styleboard_total(styleboard_item_id):
 
 	return total_amount
 
-def get_styleboard_cart_item(styleboard_item):
-	return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item)
+def get_styleboard_cart_item(styleboard_item=None,styleboard_item_id=None):
+	if styleboard_item:
+		return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item)
+	elif styleboard_item_id:
+		return StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id)
+	return False
+

@@ -15,7 +15,7 @@
 	</div>
 </div>
 
-<section id="feature-wrap" class="clearfix">
+<section id="feature-wrap" class="clearfix"> 
 	<div class="clearfix wrapper">
 		<a href="#">
 			<img src="http://upload.wikimedia.org/wikipedia/commons/3/3d/Wedding_rings.jpg" />
@@ -45,36 +45,23 @@
 {% block javascripts %}
 <script type="text/javascript">
 $(function(){
+	page_H();
+});
+
+$(window).resize(page_H);
+
+function page_H(){
+		
 	var windowH = $(window).height();
 		headerH = $('#header').outerHeight(true);
-		contentH = $('#feature-wrap').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
+		newHeight = windowH - headerH - footerH - 395;
 
-		totalContent = headerH + contentH + footerH;
-		
-		if(totalContent < windowH) {
-			newHeight = windowH - headerH -footerH;
-
-			$('#feature-wrap').height(newHeight);
-
-		}
-
-		$(window).resize(function(){
-
-			var windowH = $(window).height();
-				headerH = $('#header').outerHeight(true);
-				contentH = $('#feature-wrap').outerHeight(true);
-				footerH = $('#footer').outerHeight(true);
-		
-			if(totalContent < windowH) {
-				newHeight = windowH - headerH -footerH;
-
-				$('#feature-wrap').height(newHeight);
-
-			}
-
-		});
-
-});
+	if($(document).height()>$(window).height()) {
+		$('#feature-wrap').height(newHeight);
+	} else if(newHeight<windowH){
+		$('#feature-wrap').height(newHeight);
+	}
+}
 </script>
 {% endblock %}

@@ -55,6 +55,13 @@ def login_signup(request):
 						info['username'] = profile['nickname']
 						#Successfull login, delete all the log attempts
 						LoginLog.objects.filter(ip_address=ip).delete()
+
+						personalize_styleboard = request.session.get('personalize_styleboard',None)
+						if personalize_styleboard:
+							if personalize_styleboard.user.id == user.id:
+								request.session['customer_styleboard'] = save_styleboard
+								del request.session['personalize_styleboard']
+						
 						return render_to_response('customer/iframe/success.html', info)
 					else:
 						messages.warning(request, _('Sorry we could not verify your e-mail address and password.'))
@@ -72,7 +79,12 @@ def login_signup(request):
 					user = authenticate(username=signup_form.cleaned_data['username'], password=signup_form.cleaned_data['password'])
 					login(request, user)
 					profile = customer_profile(user)
-					info['username'] = profile['nickname']					
+					info['username'] = profile['nickname']
+					personalize_styleboard = request.session.get('personalize_styleboard',None)
+					if personalize_styleboard:
+						if personalize_styleboard.user.id == user.id:
+							request.session['customer_styleboard'] = save_styleboard
+							del request.session['personalize_styleboard']
 					return render_to_response('customer/iframe/success.html', info)
 				else:
 					messages.warning(request, _('Sorry you could not register at the moment. Please try again later.'))
@@ -127,7 +139,7 @@ def save_styleboard(request):
 	info = {}
 	customer_styleboard = None
 	try:		
-		customer_styleboard = request.session['customer_styleboard']	
+		customer_styleboard = request.session['customer_styleboard']
 		form = SaveStyleboardForm(initial={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description})
 	except Exception as e:		
 		form = SaveStyleboardForm()

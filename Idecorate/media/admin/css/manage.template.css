@@ -183,7 +183,6 @@ body {
   margin: 5px;
   font-size: 21px;
   color: #000;
-  display: inline;
 }
 
 #uploadImage{
@@ -193,7 +192,6 @@ body {
 }
 
 #uploadImage fieldset{
-  display: inline;
   border: 1px solid #000;
   padding: 5px;
   margin: 10px 0;

@@ -1672,3 +1672,8 @@ def admin_edit_user(request):
 def manage_template(request):
     info = {}
     return render_to_response('admin/manage_template.html',info,RequestContext(request))
+
+@staff_member_required
+def manage_homepage(request):
+    info = {}
+    return render_to_response('admin/manage_homepage.html',info,RequestContext(request))

@@ -16,7 +16,7 @@ from category.services import get_categories, get_cat, category_tree_crumb, sear
 from category.models import Categories
 from cart.services import get_product
 from cart.models import Product, CartTemp, ProductPopularity
-from cart.services import generate_unique_id, clear_cart_temp
+from cart.services import generate_unique_id, clear_cart_temp, add_to_cart
 from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
 from django.core.urlresolvers import reverse
@@ -24,7 +24,7 @@ import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
 from admin.models import TextFonts, Embellishments, EmbellishmentsType
-from customer.services import get_user_styleboard
+from customer.services import get_user_styleboard, get_styleboard_cart_item
 
 def home(request):
 	info = {}
@@ -91,9 +91,16 @@ def styleboard(request, cat_id=None):
 	if sbid:
 		save_styleboard = get_user_styleboard(None, sbid)
 		if save_styleboard:
-			info['personalize_id'] = save_styleboard.styleboard_item.id
-			print save_styleboard.styleboard_item.item.replace("'","\\'")
+			clear_styleboard_session(request)
+			info['save_styleboard'] = save_styleboard
 			info['personalize_item'] = mark_safe(save_styleboard.styleboard_item.item.replace("'","\\'"))
+			info['global_default_quantity'] = save_styleboard.styleboard_item.item_guest
+			info['global_guest_table'] = save_styleboard.styleboard_item.item_tables			
+			if request.user.is_authenticated():
+				if save_styleboard.user.id == request.user.id:
+					request.session['customer_styleboard'] = save_styleboard
+			else:
+				request.session['personalize_styleboard'] = save_styleboard
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
@@ -587,13 +594,14 @@ def generate_embellishment(request):
 
 	return response
 
-def new_styleboard(request):
+def clear_styleboard_session(request):
 	try:
 		del request.session['customer_styleboard']
 	except:
 		pass
 
 	try:
+		clear_cart_temp(request.session['cartsession'])
 		del request.session['cartsession']
 	except:
 		pass
@@ -603,6 +611,8 @@ def new_styleboard(request):
 	except:
 		pass
 
+def new_styleboard(request):
+	clear_styleboard_session(request)
 	return redirect('styleboard')
 
 @csrf_exempt
@@ -652,5 +662,45 @@ def get_embellishment_items(request):
 
 		return HttpResponse(simplejson.dumps(response_data), mimetype="application/json")
 
+	else:
+		return HttpResponseNotFound()
+
+@csrf_exempt
+def get_personalize_cart_items(request):
+	if request.is_ajax():
+		id = request.GET.get('id',None)
+		cart_items = get_styleboard_cart_item(None,id)
+		sessionid = request.session.get('cartsession',None)
+		if not sessionid:
+			sessionid = generate_unique_id()
+			request.session['cartsession'] = sessionid
+		
+		responsedata = []
+		for cart in cart_items:
+			datas = {}
+			product = get_product(cart.product.id)
+			data = {}
+			data['product'] = product.product
+			data['sessionid'] = sessionid
+			data['quantity'] = cart.quantity
+			data['guests'] = cart.styleboard_item.item_guest
+			data['tables'] = cart.styleboard_item.item_tables
+			add_to_cart(data)
+			datas['price'] = product._unit_price
+			datas['quatity'] = cart.quantity
+			datas['sub_total'] = product._unit_price*cart.quantity
+			datas['name'] = product.product.name
+			datas['original_image_thumbnail'] = product.product.original_image_thumbnail
+			datas['default_quantity'] = product.product.default_quantity
+			datas['currency'] = product.currency
+			datas['id'] = product.product.id
+			try:
+				guest_table = product.product.guest_table.name
+			except:
+				pass
+			datas['guest_table'] = guest_table
+			responsedata.append(datas)
+
+		return HttpResponse(simplejson.dumps(responsedata), mimetype="application/json")		
 	else:
 		return HttpResponseNotFound()

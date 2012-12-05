@@ -151,15 +151,15 @@
     		var footer_height 	= $('#manage-template-footer').outerHeight(true);
     		var sidebar_head	= $('#sidebar h2').outerHeight(true);
     		var sidebar_form	= $('#uploadImage').outerHeight(true);
-    		var body			= $('#manage-template-main');
+    		var body			= $('#manage-template-main table');
     		var embellishment 	= $('#embellishment-wrap');
+			
+			var body_height = window_height-(header_height+footer_height)-2;
 
-    		var embellishment_height = body-10-sidebar_head-sidebar_form;
-
-    		body_height = window_height-(header_height+footer_height)-2;
+    		var embellishment_height = body_height-10-sidebar_head-sidebar_form;
 
     		body.height(body_height);
-    		embellishment.height(embellishment_height);
+    		embellishment.height(parseInt(embellishment_height));
     		$('#canvas').height(body_height-10);
     	}
     </script>
