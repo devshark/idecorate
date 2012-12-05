@@ -90,13 +90,14 @@ def styleboard(request, cat_id=None):
 	if sbid:
 		personalize_styleboard = get_user_styleboard(None, sbid)
 		if personalize_styleboard:
-			if personalize_styleboard.user.id:			
+			if personalize_styleboard.user.id:
+				clear_styleboard_session(request)			
 				info['save_styleboard'] = personalize_styleboard
 				info['personalize_item'] = mark_safe(personalize_styleboard.styleboard_item.item.replace("'","\\'"))
 				info['global_default_quantity'] = personalize_styleboard.styleboard_item.item_guest
 				info['global_guest_table'] = personalize_styleboard.styleboard_item.item_tables			
 				if request.user.is_authenticated():					
-					if int(personalize_styleboard.user.id) == int(request.user.id):						
+					if int(personalize_styleboard.user.id) == int(request.user.id):
 						request.session['customer_styleboard'] = personalize_styleboard
 				else:
 					request.session['personalize_styleboard'] = personalize_styleboard
@@ -664,7 +665,6 @@ def get_embellishment_items(request):
 @csrf_exempt
 def get_personalize_cart_items(request):
 	if request.is_ajax():
-		clear_styleboard_session(request)
 		id = request.GET.get('id',None)
 		cart_items = get_styleboard_cart_item(None,id)
 		sessionid = request.session.get('cartsession',None)

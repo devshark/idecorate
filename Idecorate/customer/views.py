@@ -147,7 +147,7 @@ def save_styleboard(request):
 	if not request.user.is_authenticated():
 		return redirect('styleboard')
 	info = {}	
-	customer_styleboard = request.session.get('customer_styleboard',None)
+	customer_styleboard = request.session.get('customer_styleboard',None)	
 	if customer_styleboard:
 		form = SaveStyleboardForm(initial={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description})
 	else:

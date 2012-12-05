@@ -108,17 +108,14 @@ def get_customer_styleboard_item(customer_styleboard):
 	return CustomerStyleBoard.objects.get(id=customer_styleboard.id)
 
 def manage_styleboard_cart_items(sessionid, styleboard_item):
-	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)
-	print cart_temp_items.query
+	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)	
 	if cart_temp_items.count()>0:
 		for item in cart_temp_items:
 			save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
 
-def save_styleboard_cart_item(product, quantity, styleboard_item):
-	print quantity
+def save_styleboard_cart_item(product, quantity, styleboard_item):	
 	try:
-		styleboard_cart = StyleBoardCartItems.objects.get(product=product, styleboard_item=styleboard_item)
-		print styleboard_cart.quantity
+		styleboard_cart = StyleBoardCartItems.objects.get(product=product, styleboard_item=styleboard_item)		
 		if styleboard_cart.quantity != quantity:
 			styleboard_cart.quantity = quantity
 			styleboard_cart.save()
