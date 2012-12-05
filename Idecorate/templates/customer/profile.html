@@ -68,7 +68,15 @@
 $(function(){
 
 	page_H();
-
+/*
+	$('.featureContentWrap:odd').each(function(i,val){
+		if($(val).height() < $(val).prev().height()){
+			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
+		}else{
+			$(val).prev().find('.featureDesc').height($(val).find('.featureDesc').height());
+		}
+	});
+*/
 	$('.featureContentWrap:odd').each(function(i,val){
 		if($(val).height() < $(val).prev().height()){
 			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
@@ -94,12 +102,17 @@ function page_H(){
 	var windowH = $(window).height();
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
+		sectionH = $('.styleboardWrapper').outerHeight(true);
 		newHeight = windowH - headerH - footerH - 320;
 
-	if($(".styleboardWrapper").not(".featureContentWrap")) {
+	if(!$(".styleboardWrapper").hasClass(".featureContentWrap")) {
+		if(sectionH < windowH) {
+			$('.styleboardWrapper').height(sectionH);
+		}
+/*
 		if(newHeight<windowH){
 			$('.styleboardWrapper').height(newHeight);
-		}
+		}*/
 	}
 
 }

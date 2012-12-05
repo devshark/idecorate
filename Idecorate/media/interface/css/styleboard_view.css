@@ -144,3 +144,5 @@ section {
     height: auto;
     padding: 0 0 5px 0;
     border-bottom: 1px solid; }
+  section .commentsBlock {
+    min-height: 350px; }
