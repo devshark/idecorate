@@ -65,6 +65,7 @@ def get_client_ip(request):
 	return ip
 
 def get_user_styleboard(user=None,styleboard_id=None):
+	styleboards = None
 	if user:
 		styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
 	elif styleboard_id:
@@ -96,11 +97,10 @@ def save_styleboard_item(data):
 		csb.styleboard_item = st
 		csb.save()
 
-		manage_styleboard_cart_items(data['sessionid'],st)
-
+		manage_styleboard_cart_items(data['sessionid'],st)		
 		transaction.commit()
 		return csb
-	except Exception as e:
+	except Exception as e:		
 		transaction.rollback()
 		return False
 
@@ -113,9 +113,9 @@ def manage_styleboard_cart_items(sessionid, styleboard_item):
 		for item in cart_temp_items:
 			save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
 
-def save_styleboard_cart_item(product, quantity, styleboard_item):
+def save_styleboard_cart_item(product, quantity, styleboard_item):	
 	try:
-		styleboard_cart = StyleBoardCartItems.objects.get(product=product, styleboard_item=styleboard_item)
+		styleboard_cart = StyleBoardCartItems.objects.get(product=product, styleboard_item=styleboard_item)		
 		if styleboard_cart.quantity != quantity:
 			styleboard_cart.quantity = quantity
 			styleboard_cart.save()
