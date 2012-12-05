@@ -230,8 +230,12 @@ QUESTION_ORIGINAL_SIZE = 0;
 		QUESTION_ORIGINAL_SIZE = $('.question').height();
 
 		$('#edit_button').click(function(e){
-
-			window.location = '{% url styleboard %}#buy-tab';
+			var url = '{% url styleboard %}';
+			{% if request.session.personalize_id %}
+				url = url+'?sbid={{ request.session.personalize_id }}';
+			{% endif %}
+			url = url + '#buy-tab';
+			window.location = url;
 			
 		});
 

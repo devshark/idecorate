@@ -138,8 +138,8 @@ def get_save_styleboard_total(styleboard_item_id):
 
 def get_styleboard_cart_item(styleboard_item=None,styleboard_item_id=None):
 	if styleboard_item:
-		return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item)
+		return StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item).order_by('id')
 	elif styleboard_item_id:
-		return StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id)
+		return StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id).order_by('id')
 	return False
 

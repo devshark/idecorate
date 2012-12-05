@@ -4,11 +4,11 @@ $(document).ready(function(){
 
 function populate_save_styleboard(){
 	if (PERSONALIZE_ITEM != ''){
-		var raw_item = PERSONALIZE_ITEM; //.replace('filter: progid:dximagetransform.microsoft.','').replace('filter:progid:dximagetransform.microsoft.','');		
+		var raw_item = PERSONALIZE_ITEM.replace("\n",'%OA');
 		var item = eval(raw_item);
 		var canvas_height = $('#canvas').height();
 		var canvas_width = $('#canvas').width();
-		$.each(item, function(i,v){			
+		$.each(item, function(i,v){
 			var elm = $('<div />');
 			elm.attr('_angle',v.angle);
 			elm.addClass(v._type);
@@ -23,6 +23,8 @@ function populate_save_styleboard(){
 			elm.attr('_opacity',v.opacity);
 			elm.attr('def_qty',v.def_qty);
 			elm.attr('gst_tb',v.gst_tb);
+			elm.attr('_text',v.text);
+			elm.attr('_rgb',v.rgb);
 
 			elm.attr('_matrix','{"a":'+v.matrix[0].a+',"b":'+v.matrix[0].b+',"c":'+v.matrix[0].c+',"d":'+v.matrix[0].d+',"e":'+v.matrix[0].e+',"f":'+v.matrix[0].f+'}');
 
@@ -105,7 +107,7 @@ function get_cart_items(){
 	        var subtotal = v.sub_total.toFixed(2);
 	        subtotal = addCommas(subtotal);
 
-	        var item = '<tr id="prod_cart_' + data.id + '">' +
+	        var item = '<tr id="prod_cart_' + v.id + '">' +
 	            '<td class="span4">' +
 	                '<div class="buyItemImg">' +
 	                    '<div><img width="70" src="/' + img_src + v.original_image_thumbnail + '"></div>' +
@@ -120,6 +122,7 @@ function get_cart_items(){
 	            '</tr>';
 	        $('#buy-table tbody').append(item);
 		});
+		attachEventToQty();
 		manage_total();			
 	},'json');
 }

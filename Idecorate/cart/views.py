@@ -301,6 +301,7 @@ def checkout_from_view_styleboard(request):
 		customer_styleboard = get_user_styleboard(None,styleboard_item_id)
 		styleboard = customer_styleboard.styleboard_item
 		cart_items = get_styleboard_cart_item(styleboard)
+		cart_items = cart_items.order_by('-id')
 
 		order = shop.order_from_request(request, create=True)
 		order.items.filter().delete()
@@ -319,6 +320,7 @@ def checkout_from_view_styleboard(request):
 
 			shop.modify_guest_table(request, guests, tables, order)
 
+		request.session['personalize_id'] = styleboard.id
 		return redirect('plata_shop_checkout')
 	else:
 		return redirect('styleboard')
