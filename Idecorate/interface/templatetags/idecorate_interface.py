@@ -244,5 +244,8 @@ def get_sub_total(price,quantity):
 
 @register.filter
 def linebreak(txt):
-
 	return mark_safe(txt.replace("\n", '<br />'))
+
+@register.filter
+def get_url(request):
+	return request.get_full_path()
