@@ -57,7 +57,7 @@ aside {
       float: left;
       padding: 3px 0 0 3px; }
     aside .socialMedia .facebookShare {
-      margin-left: 35px;
+      margin-left: 20px;
       cursor: pointer; }
     aside .socialMedia .pinterestShare {
       margin-top: 0 !important; }
@@ -117,7 +117,7 @@ section {
   section .socialMediaWrapper {
     width: 100%; }
     section .socialMediaWrapper .socialMedia {
-      width: 315px;
+      width: 310px;
       height: 28px;
       float: right;
       text-align: center;
@@ -127,7 +127,7 @@ section {
         float: left;
         padding: 0 0 0 3px; }
       section .socialMediaWrapper .socialMedia .facebookShare {
-        margin-left: 35px;
+        margin-left: 20px;
         cursor: pointer; }
       section .socialMediaWrapper .socialMedia .pinterestShare {
         margin-top: 0 !important; }
