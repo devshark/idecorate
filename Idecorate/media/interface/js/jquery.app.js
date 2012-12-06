@@ -332,7 +332,14 @@ $(document).ready(function () {
             eventTracker($('.selected'),'resize');
 
         }
-    }).rotatable({rotateAlso:'.selected'});
+    });
+
+    //draggable handles binds style on selected obj
+    if(!$.browser.msie){//while IE is not yet supported
+        $handles.rotatable({rotateAlso:'.selected'});
+    }else if($.browser.msie && $.browser.version == 9.0){
+        $handles.rotatable({rotateAlso:'.selected'});
+    }
 
     //hide handles and menus
     $(document).click(function(e){
@@ -559,7 +566,6 @@ $(document).ready(function () {
             embellishment_handle_set(slideValue);
         });
     }else{
-        $('#opacity-control-wrap').hide();
         if($.browser.version >= 9.0){
             $( "#slider" ).slider({
                 range: "max",
@@ -584,6 +590,8 @@ $(document).ready(function () {
                 slideValue = parseInt($(this).attr('_opacity'));
                 embellishment_handle_set(slideValue);
             });
+        }else{
+            $('#opacity-control-wrap').hide();
         }
     }
 
@@ -598,14 +606,12 @@ $(document).ready(function () {
         update_text_selected(text_value,font_id);
     });
 
-
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
 });
 
 //embelishments functions start
-
 
 function changeSelectedFont(el) {
 
@@ -621,7 +627,6 @@ function changeSelectedFont(el) {
 
     $('.sbSelector').html($('.sbOptions  li  a[href="#' + font_id + '"]').html());
 }
-
 
 function create_instance_em_text(em_dbID,event,type){
     //GLOBAL var objCounter is for setting z-index for each created instance
@@ -720,16 +725,14 @@ function create_instance_embellishments(em_dbID,event,type){
 
     obj_image.attr({
         'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0'
-    }).css({
-        width: '100%',
-        height: 'auto'
     });
 
     obj_image.load(function(){
         
         imgWidth = obj_image.width();
         imgHeight = obj_image.height();
-        var dimensions  = aspectratio(imgWidth, imgHeight, .80);
+
+        var dimensions  = aspectratio(imgWidth, imgHeight, .48);
         var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
 
@@ -738,6 +741,11 @@ function create_instance_embellishments(em_dbID,event,type){
             top:imgTop,
             width:dimensions['width'],
             height:dimensions['height']
+        });
+
+        $(this).css({
+            width: '100%',
+            height: '100%'
         });
 
         set_ctr_attr(object);
@@ -827,6 +835,7 @@ function create_instance_embellishment_upload(fname){
         object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
     }
     update_menu(object,true);
+    $handles.resizable({aspectRatio:true});
     hide_canvas_menu();
 
     //set handles direction 
@@ -1395,7 +1404,7 @@ function get_product_object_json(){
         var _gst_tb = $(this).attr('gst_tb');
         var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
         var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
-        var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
+        var _text = $(this).attr('_text')?$(this).attr('_text'):'';
         var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
         var type = 'product';
         if($(this).hasClass('text'))

@@ -363,12 +363,14 @@ def admin_create_product(request):
 
     		#CREATE THUMBNAIL
     		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+    		img = img.convert('RGBA')
     		img.thumbnail(imgSize,Image.ANTIALIAS)
     		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
     		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
     		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
 
     		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+    		img = img.convert('RGBA')
 
     		if img.size[0] > 400 or img.size[1] > 400:
     			#RESIZE MAIN IMAGE
@@ -516,12 +518,14 @@ def admin_edit_product(request, prod_id):
 
 	    		#CREATE THUMBNAIL
 	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+	    		img = img.convert('RGBA')
 	    		img.thumbnail(imgSize,Image.ANTIALIAS)
 	    		bgImg = Image.new('RGBA', imgSize, (255, 255, 255, 0))
 	    		bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
 	    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName))
 
 	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+	    		img = img.convert('RGBA')
 
 	    		if img.size[0] > 400 or img.size[1] > 400:
 	    			#RESIZE MAIN IMAGE

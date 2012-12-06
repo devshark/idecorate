@@ -35,7 +35,7 @@
 		</div>
 		<div class="clearfix socialMedia">
 			<div class="facebookShare">
-				<img src="/media/images/fb_share.png" onclick='postToFeed(); return false;' />
+				<img src="/media/images/fb_share.png" onclick="postToFeed(); return false;" />
 			</div>
 			<div class="tumblerShare">
 				<span id="tumblr_button_abc123"></span>
@@ -49,11 +49,11 @@
 				<a href="http://pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
 			</div>
 			<div class="googleShare">
-				<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
+				<div class="g-plus" data-action="share" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
+				<!-- <div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div> -->
 			</div>
 			<div class="email">
 				<a href="mailto:?subject=iDecorate%20Weddings%20|%20{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}" target="_blank"><img src="/media/images/email.jpg" /></a>
-				
 			</div>
 			<div class="clearfix styleboardDesc">
 				<p align="justify">
@@ -115,15 +115,21 @@
 					</script>
 				</div>
 				<div class="pinterestShare">
-					<a data-pin-config="" data-pin-do="buttonBookmark" href="//pinterest.com/pin/create/button/">
-						<img src="//assets.pinterest.com/images/PinExt.png" />
-					</a>
+					<a href="http://pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
 				</div>
 				<div class="googleShare">
-					<div class="g-plusone" data-size="medium" data-annotation="none" data-href="http://www.idecorateweddings.com/"></div>
+					<div class="g-plus" data-action="share" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
+					<!-- Place this tag after the last share tag. -->
+					<script type="text/javascript">
+					  (function() {
+					    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+					    po.src = 'https://apis.google.com/js/plusone.js';
+					    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+					  })();
+					</script>
 				</div>
 				<div class="email">
-					<img src="/media/images/email.jpg" />
+					<a href="mailto:?subject=iDecorate%20Weddings%20|%20{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}" target="_blank"><img src="/media/images/email.jpg" /></a>
 				</div>
 			</div>
 		</div>
@@ -181,19 +187,19 @@
 		</script>
         <!-- Social Media Buttons -->
         <script> 
-	      FB.init({appId: "284021491694031", status: true, cookie: true});
+	      FB.init({appId: "250262231769530", status: true, cookie: true});
 
 	      function postToFeed() {
 
 	        // calling the API ...
 	        var obj = {
 	          method: 'feed',
-	          redirect_uri: 'http://yabee.lazbit.com',
-	          link: 'http://yabee.lazbit.com', //page link here
-	          picture: 'http://172.29.19.157:8000/styleboard/generate_styleboard_view/6/680/500/', //add image link of product here 
-	          name: 'Facebook Dialogs', //styleboard title
-	          caption: 'iDecorate Weddings Styleboard',
-	          description: 'Using Dialogs to interact with users.' //truncated description
+	          redirect_uri: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}',
+	          link: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}', //page link here
+	          picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/', //add image link of product here 
+	          name: '{{ styleboard.styleboard_item.name }}', //styleboard title
+	          caption: 'iDecorate Weddings',
+	          description: '{{ styleboard.styleboard_item.description|linebreak }}' //description
 	        };
 
 	        function callback(response) {
@@ -206,9 +212,9 @@
 	    </script>
         <script src="http://platform.tumblr.com/v1/share.js"></script>
         <script type="text/javascript">
-            var tumblr_link_url = "http://www.example.com/permalink/my-article";
-            var tumblr_link_name = "My Awesome Article";
-            var tumblr_link_description = "Lorem ipsum...";
+            var tumblr_link_url = "http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}";
+            var tumblr_link_name = "{{ styleboard.styleboard_item.name }}";
+            var tumblr_link_description = "{{ styleboard.styleboard_item.description|linebreak }}";
         </script>
         <script type="text/javascript">
             var tumblr_button = document.createElement("a");
@@ -227,13 +233,6 @@
             document.getElementById("tumblr_button_abc1234").appendChild(tumblr_button);
         </script>
         <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
-        <script type="text/javascript">
-          (function() {
-            var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-            po.src = 'https://apis.google.com/js/plusone.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-          })();
-        </script>
 
         <!--DISQUS -->
       	<script type="text/javascript">
