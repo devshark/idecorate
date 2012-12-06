@@ -983,3 +983,10 @@ h5 {
       color: #333; }
       #info-menu .dropdown ul li a {
         color: #333; }
+
+#canvas .unselected img{
+   background: transparent;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)"; /* IE 8 */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF); /* IE 6 & 7 */
+  zoom: 1;
+}
