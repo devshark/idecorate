@@ -589,6 +589,7 @@ $(document).ready(function () {
 
     $('#canvas').on('click mousedown', '.text', function(e){
         change_textON_textarea($(this));
+        changeSelectedFont($(this));
     });
 
     $('#text-update').click(function(e){
@@ -603,6 +604,23 @@ $(document).ready(function () {
 });
 
 //embelishments functions start
+
+
+function changeSelectedFont(el) {
+
+    var font_id = el.attr('_uid');
+
+    
+    $('#font_id option').attr('selected',false);
+
+    $('#font_id option[value="' + font_id + '"]').attr('selected',true);
+    //$('#font_id').val(font_id);
+    $('#font_id').trigger('change');
+    //$('#font_id').selectbox("option", font_id);
+
+    $('.sbSelector').html($('.sbOptions  li  a[href="#' + font_id + '"]').html());
+}
+
 function create_instance_em_text(em_dbID,event,type){
     //GLOBAL var objCounter is for setting z-index for each created instance
     objCounter++;
@@ -649,6 +667,8 @@ function create_instance_em_text(em_dbID,event,type){
         set_ctr_attr(object);
 
         transform(object);
+
+        changeSelectedFont(object);
 
         eventTracker(object, 'create_embellishment');
 
