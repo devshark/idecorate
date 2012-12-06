@@ -19,10 +19,13 @@ function populate_save_styleboard(){
 			if (v.uid)
 				elm.attr('_uid',v.uid);
 			elm.attr('style',v.style);
-
-			elm.css('filter','none');
-	        elm.css('msfilter','none');
-	        elm.css('-ms-filter','none');
+			var filter = {};
+			if($.browser.msie && $.browser.version == 7.0){
+	            filter = {'filter':'none'};
+	        }else if($.browser.msie && $.browser.version == 8.0){
+	            filter = {'msfilter':'none','-ms-filter':'none'};
+	        }
+	        elm.css(filter);
 
 			elm.attr('_handle',v.handle);
 			elm.attr('_opacity',v.opacity);

@@ -86,6 +86,19 @@ $(document).ready(function(){
         return false;
     });
     $('#embellishments .formWrap input[type=file]').bind('change', SITE.fileInputs);
+
+    $('a[href="#embellishments"]').click(function(){        
+        if (is_window_resized){
+            if ($('#embellishments #embelishments-list-wrap .emCat').css('display') == 'none'){
+                if($('#embellishments #embelishments-list-wrap .emItem a').length == 0){
+                    if(emb_offset == 0)
+                        emb_offset = 25;
+                    get_embellishment_items();
+                    is_window_resized = false;
+                }
+            }
+        }
+    });
 });
 var SITE = SITE || {};
 SITE.fileInputs = function() {
@@ -158,7 +171,7 @@ function manage_embellishment_pagination(){
             var item_per_height = _item_height*count_by_height;            
             $('#embellishments #embelishments-list-wrap .emItem').height(_height);            
 
-            if (item_per_height>_height)
+            if (item_per_height>_height && count_by_height > 1)
                 count_by_height = count_by_height-1;
 
             emb_item_per_page = count_by_width*count_by_height;
@@ -175,9 +188,21 @@ function manage_embellishment_pagination(){
             generate_embellishment_pagination();
         });
     });
-    // if($.browser.msie && $.browser.version == 7.0){
-    //     setTimeout(reset_product,0);
-    // }
+    if($.browser.msie && $.browser.version == 7.0){
+        setTimeout(reset_embellishment,0);
+    }
+}
+
+function reset_embellishment(){
+    var items = $('#embelishments-list-wrap .emItem').html();
+    clear_embellishments();
+    $('#embelishments-list-wrap .emItem').append(items);
+}
+
+function clear_embellishments(){
+    $('embelishments-list-wrap .emItem a').each(function(){
+        $(this).remove();
+    });
 }
 
 function generate_embellishment_pagination(){
@@ -282,6 +307,7 @@ function get_embellishment_items(){
 }
 
 function manage_embellishment_resize(){
+    is_window_resized = true;
     $('#embelishments-list-wrap .emItem a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('#embelishments-list-wrap .emItem a:first');            
@@ -320,6 +346,9 @@ function manage_embellishment_resize(){
             $('#embelishments-list-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
                     $(this).remove();
+                } else {
+                    if ($(this).hasClass('hidden'))
+                        $(this).removeClass('hidden');
                 }
             });
 
