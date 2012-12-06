@@ -101,6 +101,10 @@ def styleboard(request, cat_id=None):
 						request.session['customer_styleboard'] = personalize_styleboard
 				else:
 					request.session['personalize_styleboard'] = personalize_styleboard
+					try:
+						del request.session['customer_styleboard']
+					except:
+						pass
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
@@ -382,13 +386,15 @@ def cropped(request):
 
 	newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
 	
+	"""	
 	splittedName = getExtensionAndFileName(filename)
 
 	if splittedName[1] == '.jpg':
 		newImg.save(response, "JPEG")
 	else:	
 		newImg.save(response, "PNG")
-
+	"""
+	newImg.save(response, "PNG")
 	return response
 
 def search_suggestions(request):
