@@ -24,10 +24,6 @@ function populate_save_styleboard(){
 			elm.attr('def_qty',v.def_qty);
 			elm.attr('gst_tb',v.gst_tb);
 
-			elm.css('filter','none');
-	        elm.css('msfilter','none');
-	        elm.css('-ms-filter','none');
-
 			elm.attr('_text',unescape(v.text));
 			elm.attr('_rgb',v.rgb);
 
@@ -60,6 +56,9 @@ function populate_save_styleboard(){
 			img.attr('_wb',v.img[0].wb);
 			img.appendTo(elm);
 			elm.appendTo('#canvas');
+			elm.css('filter','none');
+	        elm.css('msfilter','none');
+	        elm.css('-ms-filter','none');
 			objCounter++;			
 		});
 		setTimeout(make_center,0);
