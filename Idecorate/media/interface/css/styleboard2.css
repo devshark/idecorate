@@ -670,7 +670,8 @@ h5 {
         float: right;
         margin-top: 5px;
         margin-right: 5px;
-        display: none; }
+        display: none;
+        *width: 294px; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl {
           display: block;
           float: right\9;
