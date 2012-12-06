@@ -1391,7 +1391,7 @@ function get_product_object_json(){
         var _gst_tb = $(this).attr('gst_tb');
         var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
         var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
-        var _text = $(this).attr('_text')?$(this).attr('_text'):'';
+        var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
         var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
         var type = 'product';
         if($(this).hasClass('text'))

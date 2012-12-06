@@ -19,10 +19,18 @@ function populate_save_styleboard(){
 			if (v.uid)
 				elm.attr('_uid',v.uid);
 			elm.attr('style',v.style);
+
+			elm.css('filter','none');
+	        elm.css('msfilter','none');
+	        elm.css('-ms-filter','none');
+
 			elm.attr('_handle',v.handle);
 			elm.attr('_opacity',v.opacity);
 			elm.attr('def_qty',v.def_qty);
 			elm.attr('gst_tb',v.gst_tb);
+
+			elm.attr('_text',unescape(v.text));
+			elm.attr('_rgb',v.rgb);
 
 			elm.attr('_matrix','{"a":'+v.matrix[0].a+',"b":'+v.matrix[0].b+',"c":'+v.matrix[0].c+',"d":'+v.matrix[0].d+',"e":'+v.matrix[0].e+',"f":'+v.matrix[0].f+'}');
 
@@ -52,7 +60,7 @@ function populate_save_styleboard(){
 			img.attr('_nb',v.img[0].nb);
 			img.attr('_wb',v.img[0].wb);
 			img.appendTo(elm);
-			elm.appendTo('#canvas');
+			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
 		setTimeout(make_center,0);
