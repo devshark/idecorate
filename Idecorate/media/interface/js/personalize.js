@@ -24,6 +24,9 @@ function populate_save_styleboard(){
 			elm.attr('def_qty',v.def_qty);
 			elm.attr('gst_tb',v.gst_tb);
 
+			elm.attr('_text',unescape(v.text));
+			elm.attr('_rgb',v.rgb);
+
 			elm.attr('_matrix','{"a":'+v.matrix[0].a+',"b":'+v.matrix[0].b+',"c":'+v.matrix[0].c+',"d":'+v.matrix[0].d+',"e":'+v.matrix[0].e+',"f":'+v.matrix[0].f+'}');
 
 			var matrix = 'matrix('+ v.matrix[0].a +', '+ v.matrix[0].b +', '+ v.matrix[0].c +', '+ v.matrix[0].d +', 0, 0)',
