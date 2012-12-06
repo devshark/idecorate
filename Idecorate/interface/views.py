@@ -86,6 +86,10 @@ def styleboard(request, cat_id=None):
 	"""
 	save styleboard personalize or modify
 	"""
+	try:
+		del request.session['customer_styleboard']
+	except:
+		pass
 	sbid = request.GET.get('sbid',None)
 	if sbid:
 		personalize_styleboard = get_user_styleboard(None, sbid)
@@ -100,11 +104,7 @@ def styleboard(request, cat_id=None):
 					if int(personalize_styleboard.user.id) == int(request.user.id):
 						request.session['customer_styleboard'] = personalize_styleboard
 				else:
-					request.session['personalize_styleboard'] = personalize_styleboard
-					try:
-						del request.session['customer_styleboard']
-					except:
-						pass
+					request.session['personalize_styleboard'] = personalize_styleboard					
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 

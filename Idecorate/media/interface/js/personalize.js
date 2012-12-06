@@ -70,6 +70,10 @@ function populate_save_styleboard(){
 
 function make_center(){
 	var bb = computeBboxDimension();
+	var canvasW = $('#canvas').width();
+	var canvasH = $('#canvas').height();
+	var bbH		= bb.height;
+	var bbW		= bb.width;
 
 	var ctr_diff = canvas_bb_ctr_diff(bb.centerY,bb.centerX);
 
@@ -80,6 +84,18 @@ function make_center(){
 		});
 	});
 
+}
+
+function canvas_bb_ctr_diff(bbH, bbW){
+	var ctr_diff 	= {}
+	var canvas_ctr 	= {};
+	var bb_ctr 		= {'x':bbW, 'y':bbH};
+	canvas_ctr['x'] = $('#canvas').width()/2;
+	canvas_ctr['y'] = $('#canvas').height()/2;
+	ctr_diff['x'] = canvas_ctr.x - bb_ctr.x;
+	ctr_diff['y'] = canvas_ctr.y - bb_ctr.y;
+
+	return ctr_diff;
 }
 
  function computeBboxDimension() {
@@ -108,8 +124,7 @@ function make_center(){
                     highestTop = parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''));
                 }
             }
-            
-            
+
             if(lowestLeft == 0) {
                 lowestLeft = parseFloat($(this).css('left').replace('px',''));
             } else {
@@ -117,8 +132,7 @@ function make_center(){
                     lowestLeft = parseFloat($(this).css('left').replace('px',''));
                 }
             }
-            
-            
+
             if(highestLeft == 0) {
                 highestLeft = parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''));
             } else {
@@ -140,18 +154,6 @@ function make_center(){
             'centerY': finalHeight / 2 + lowestTop
         };
 
-}
-
-function canvas_bb_ctr_diff(bbH, bbW){
-	var ctr_diff 	= {}
-	var canvas_ctr 	= {};
-	var bb_ctr 		= {'x':bbW, 'y':bbH};
-	canvas_ctr['x'] = $('#canvas').width()/2;
-	canvas_ctr['y'] = $('#canvas').height()/2;
-	ctr_diff['x'] = canvas_ctr.x - bb_ctr.x;
-	ctr_diff['y'] = canvas_ctr.y - bb_ctr.y;
-
-	return ctr_diff;
 }
 
 function get_cart_items(){

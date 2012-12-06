@@ -589,7 +589,6 @@ $(document).ready(function () {
 
     $('#canvas').on('click mousedown', '.text', function(e){
         change_textON_textarea($(this));
-        changeSelectedFont($(this));
     });
 
     $('#text-update').click(function(e){
@@ -598,31 +597,12 @@ $(document).ready(function () {
         update_text_selected(text_value,font_id);
     });
 
-
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
 });
 
 //embelishments functions start
-
-
-function changeSelectedFont(el) {
-
-    var font_id = el.attr('_uid');
-
-    
-    $('#font_id option').attr('selected',false);
-
-    $('#font_id option[value="' + font_id + '"]').attr('selected',true);
-    //$('#font_id').val(font_id);
-    $('#font_id').trigger('change');
-    //$('#font_id').selectbox("option", font_id);
-
-    $('.sbSelector').html($('.sbOptions  li  a[href="#' + font_id + '"]').html());
-}
-
-
 function create_instance_em_text(em_dbID,event,type){
     //GLOBAL var objCounter is for setting z-index for each created instance
     objCounter++;
@@ -669,8 +649,6 @@ function create_instance_em_text(em_dbID,event,type){
         set_ctr_attr(object);
 
         transform(object);
-
-        changeSelectedFont(object);
 
         eventTracker(object, 'create_embellishment');
 
@@ -720,16 +698,14 @@ function create_instance_embellishments(em_dbID,event,type){
 
     obj_image.attr({
         'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0'
-    }).css({
-        width: '100%',
-        height: 'auto'
     });
 
     obj_image.load(function(){
         
         imgWidth = obj_image.width();
         imgHeight = obj_image.height();
-        var dimensions  = aspectratio(imgWidth, imgHeight, .80);
+
+        var dimensions  = aspectratio(imgWidth, imgHeight, .48);
         var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
 
@@ -738,6 +714,11 @@ function create_instance_embellishments(em_dbID,event,type){
             top:imgTop,
             width:dimensions['width'],
             height:dimensions['height']
+        });
+
+        $(this).css({
+            width: '100%',
+            height: '100%'
         });
 
         set_ctr_attr(object);
@@ -1373,9 +1354,6 @@ function get_product_object_json(){
         var elm_top = elm_offset.top;
         var product_left = Math.round(elm_left-canvas_left);
         var product_top = Math.round(elm_top-canvas_top);
-        $(this).css('filter','none');
-        $(this).css('msfilter','none');
-        $(this).css('-ms-filter','none');
         var style = $(this).attr('style');
         var _zindex = $(this).css('z-index');
         var _matrix = [];
@@ -1391,7 +1369,7 @@ function get_product_object_json(){
         var _gst_tb = $(this).attr('gst_tb');
         var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
         var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
-        var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
+        var _text = $(this).attr('_text')?$(this).attr('_text'):'';
         var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
         var type = 'product';
         if($(this).hasClass('text'))
