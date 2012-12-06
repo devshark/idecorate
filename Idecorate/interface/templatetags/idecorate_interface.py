@@ -271,3 +271,7 @@ def getTextThumbnail(dummy):
 @register.filter
 def get_url(request):
 	return request.build_absolute_uri()
+
+@register.filter
+def get_host(request):
+	return request.get_host()

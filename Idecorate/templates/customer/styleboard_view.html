@@ -46,15 +46,14 @@
 				</script>
 			</div>
 			<div class="pinterestShare">
-				<a data-pin-config="" data-pin-do="buttonBookmark" href="//pinterest.com/pin/create/button/">
-					<img src="//assets.pinterest.com/images/PinExt.png" />
-				</a>
+				<a href="http://pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
 			</div>
 			<div class="googleShare">
-				<div class="g-plusone" data-size="medium" data-annotation="none" data-href="http://www.idecorateweddings.com/"></div>
+				<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
 			</div>
 			<div class="email">
-				<img src="/media/images/email.jpg" />
+				<a href="mailto:?subject=iDecorate%20Weddings%20|%20{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}" target="_blank"><img src="/media/images/email.jpg" /></a>
+				
 			</div>
 			<div class="clearfix styleboardDesc">
 				<p align="justify">
@@ -222,7 +221,7 @@
             tumblr_button.innerHTML = "Share on Tumblr";
             document.getElementById("tumblr_button_abc1234").appendChild(tumblr_button);
         </script>
-        <script src="//assets.pinterest.com/js/pinit.js"></script>
+        <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
         <script type="text/javascript">
           (function() {
             var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
