@@ -116,6 +116,8 @@ SITE.fileInputs = function() {
         } else {
             $(fakeFile).text(newVal);
         }
+
+        $('#picture').css('display','none');
     }
 };
 function _resize_embellisment(){    
