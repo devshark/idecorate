@@ -11,6 +11,7 @@ var handles = 'ne,se,nw,sw,n,e,s,w';
 var aspectR = true;
 var slideValue = 0;
 DEFAULT_TEXT_E = "I Love iDecorate";
+active_object = null;
 
 $(document).ready(function () {
     //init lasso
@@ -29,7 +30,6 @@ $(document).ready(function () {
     
     $(window).hashchange();
 
-    //draggable sidebar obj to canvas
     $(".draggable").liveDraggable({
         revert:true, 
         helper: 'clone',
@@ -112,9 +112,7 @@ $(document).ready(function () {
                     }else{
                         object = create_instance_embellishments(em_dbID[1],e,type);
                     }
-
                 }
-
             }
         }
     });
@@ -176,14 +174,8 @@ $(document).ready(function () {
         helper: 'original',
         cursor: 'move',
         //containment: '#canvas',
-        start : function(e, ui){
-            
-            transform($(this));
-        },
-        drag : function(e, ui){
-            
-            transform($(this));
-        },
+        start : function(e, ui){transform($(this));},
+        drag : function(e, ui){transform($(this));},
         stop : function(e, ui){
             
             transform($(this));
@@ -294,18 +286,9 @@ $(document).ready(function () {
         helper: 'original',
         cursor: 'move',
         //containment:'#canvas',
-        start: function(e, ui){
-
-            transform($(this));
-
-        },
-        drag: function(e, ui){
-
-            transform($(this));
-
-        },
+        start: function(e, ui){transform($(this));},
+        drag: function(e, ui){transform($(this));},
         stop: function(e, ui){
-
             transform($(this));
             //track event
             eventTracker($('.selected'),'move');
@@ -334,11 +317,13 @@ $(document).ready(function () {
         }
     });
 
-    //draggable handles binds style on selected obj
+
     if(!$.browser.msie){//while IE is not yet supported
         $handles.rotatable({rotateAlso:'.selected'});
     }else if($.browser.msie && $.browser.version == 9.0){
         $handles.rotatable({rotateAlso:'.selected'});
+    }else if($.browser.msie && $.browser.version < 9.0){
+        $('#flip-btn, #flap-btn').parent().hide();
     }
 
     //hide handles and menus
