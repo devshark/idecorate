@@ -61,12 +61,14 @@
 					{{ styleboard.styleboard_item.description|linebreak }}
 				</p>
 			</div>
+			{% if cart_items %}
 			<h2>In this Styleboard</h2>
-			<form method="POST" action="{% url checkout_from_view_styleboard %}">
+			<form id="formCheckout" method="POST" action="{% url checkout_from_view_styleboard %}">
 				{% csrf_token %}
+				
 				<input type="hidden" name="sid" value="{{ styleboard.styleboard_item.id }}" />
 				<div class="clearfix">
-					<table>
+					<table id="cart-items">
 						<tbody class="tbody">
 							{% for item in cart_items %}
 							<tr>
@@ -91,8 +93,9 @@
 					</table>
 				</div>
 				<p class="clearfix total">Total: ${{ styleboard.styleboard_item.id|get_emb_save_total|intcomma }}</p>
-				<input type="submit" value="Buy!" class="buyItem" />
+				<input id="btnSubmitBuy" type="submit" value="Buy!" class="buyItem" />				
 			</form>
+			{% endif %}
 		</div>
 	</aside>
 	<section>
@@ -157,7 +160,9 @@
 			$('#img-profile').click(function(){
 				window.location.href = $('#lnk-profile').attr('href');
 			});
+
 		});
+
 		$(window).resize(page_H);
 
 		function page_H(){
