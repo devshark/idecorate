@@ -73,7 +73,7 @@ ul.dropdown2 ul {
   display: none;
   position: absolute;
   top: 100%;
-  right: 0;
+  left: 0;
   z-index: 597;
   width: auto;
   border: 1px solid #99A237;
@@ -91,7 +91,7 @@ ul.dropdown2 li a:hover {
 
 ul.dropdown2 ul ul {
   top: 2px;
-  right: 100%; }
+  left: 100%; }
 
 ul.dropdown2 li {
   position: relative;
