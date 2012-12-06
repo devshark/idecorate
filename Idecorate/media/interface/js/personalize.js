@@ -19,6 +19,11 @@ function populate_save_styleboard(){
 			if (v.uid)
 				elm.attr('_uid',v.uid);
 			elm.attr('style',v.style);
+
+			elm.css('filter','none');
+	        elm.css('msfilter','none');
+	        elm.css('-ms-filter','none');
+
 			elm.attr('_handle',v.handle);
 			elm.attr('_opacity',v.opacity);
 			elm.attr('def_qty',v.def_qty);
@@ -55,10 +60,7 @@ function populate_save_styleboard(){
 			img.attr('_nb',v.img[0].nb);
 			img.attr('_wb',v.img[0].wb);
 			img.appendTo(elm);
-			elm.appendTo('#canvas');
-			elm.css('filter','none');
-	        elm.css('msfilter','none');
-	        elm.css('-ms-filter','none');
+			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
 		setTimeout(make_center,0);
