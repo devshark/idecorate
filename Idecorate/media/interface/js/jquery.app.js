@@ -1367,6 +1367,13 @@ function get_product_object_json(){
         var elm_top = elm_offset.top;
         var product_left = Math.round(elm_left-canvas_left);
         var product_top = Math.round(elm_top-canvas_top);
+        var filter = {};
+        if($.browser.msie && $.browser.version == 7.0){
+            filter = {'filter':'none'};
+        }else if($.browser.msie && $.browser.version == 8.0){
+            filter = {'msfilter':'none','-ms-filter':'none'};
+        }
+        $(this).css(filter);
         var style = $(this).attr('style');
         var _zindex = $(this).css('z-index');
         var _matrix = [];

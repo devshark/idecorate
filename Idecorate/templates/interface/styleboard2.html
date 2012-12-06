@@ -60,6 +60,7 @@
             var PERSONALIZE_ID              = {% if save_styleboard %}{{ save_styleboard.styleboard_item.id }}{% else %}0{% endif %};
             var PERSONALIZE_ITEM            = '{% if personalize_item %}{{ personalize_item }}{% else %}{% endif %}';
             var GET_PERSONALIZE_CART_URL    = '{% url get_personalize_cart_items %}';
+            var is_window_resized           = false;
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -167,7 +168,9 @@
                             </a>
                         </td>
                         <td id="site-menu">
+                            <div style="width: auto;">
                             {{ "site"|getInterfaceMenus }}
+                            </div>
                         </td>
                     </tr>
                     <tr class="headWrapBottom">
@@ -497,6 +500,21 @@
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
+
+<script type="text/javascript">
+var textBox = document.getElementById("text-change");
+textBox.onfocus = function() {
+    textBox.select();
+
+    // Work around Chrome's little problem
+    textBox.onmouseup = function() {
+        // Prevent further mouseup intervention
+        textBox.onmouseup = null;
+        return false;
+    };
+};
+</script>
+
 <script type="text/javascript">
 
     $(document).ready( function() {
@@ -708,9 +726,7 @@
         alert(msg);
     }
 </script>
-
-<script type="text/javascript" src="https://getfirebug.com/firebug-lite-debug.js"></script>
-    
+<!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
     </body>
 </html>
 
