@@ -566,7 +566,6 @@ $(document).ready(function () {
             embellishment_handle_set(slideValue);
         });
     }else{
-        $('#opacity-control-wrap').hide();
         if($.browser.version >= 9.0){
             $( "#slider" ).slider({
                 range: "max",
@@ -591,6 +590,8 @@ $(document).ready(function () {
                 slideValue = parseInt($(this).attr('_opacity'));
                 embellishment_handle_set(slideValue);
             });
+        }else{
+            $('#opacity-control-wrap').hide();
         }
     }
 
