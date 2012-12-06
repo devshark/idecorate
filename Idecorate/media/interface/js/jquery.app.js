@@ -720,16 +720,14 @@ function create_instance_embellishments(em_dbID,event,type){
 
     obj_image.attr({
         'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0'
-    }).css({
-        width: '100%',
-        height: 'auto'
     });
 
     obj_image.load(function(){
         
         imgWidth = obj_image.width();
         imgHeight = obj_image.height();
-        var dimensions  = aspectratio(imgWidth, imgHeight, .80);
+
+        var dimensions  = aspectratio(imgWidth, imgHeight, .48);
         var imgTop      = event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = event.pageX-$('#canvas').offset().left-dimensions['width']/2;
 
@@ -738,6 +736,11 @@ function create_instance_embellishments(em_dbID,event,type){
             top:imgTop,
             width:dimensions['width'],
             height:dimensions['height']
+        });
+
+        $(this).css({
+            width: '100%',
+            height: '100%'
         });
 
         set_ctr_attr(object);
