@@ -9,6 +9,8 @@ from cart.services import get_product
 
 from customer.services import customer_profile, get_save_styleboard_total
 from cart.models import ProductPrice
+from admin.models import Embellishments, TextFonts
+from django.conf import settings
 
 register = template.Library()
 
@@ -246,3 +248,23 @@ def get_sub_total(price,quantity):
 def linebreak(txt):
 
 	return mark_safe(txt.replace("\n", '<br />'))
+
+@register.filter
+def getEmbellishmentThumbnail(id):
+
+	ret = ''
+	e = Embellishments.objects.filter(e_type__id=int(id))
+	e = e.latest('id')
+
+	ret = '<img src="/generate_embellishment/?embellishment_id=%s&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100">' % e.id
+	return mark_safe(ret)
+
+@register.filter
+def getTextThumbnail(dummy):
+
+	ret = ''
+	t = TextFonts.objects.latest('id')
+
+	ret = '<img src="/generate_text/?font_size=100&amp;font_text=Abc&amp;font_color=000000000&amp;font_id=%s&amp;font_thumbnail=1">' % t.id
+
+	return mark_safe(ret)
