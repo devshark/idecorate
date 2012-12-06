@@ -50,6 +50,8 @@
             var PERSONALIZE_ID              = {% if save_styleboard %}{{ save_styleboard.styleboard_item.id }}{% else %}0{% endif %};
             var PERSONALIZE_ITEM            = '{% if personalize_item %}{{ personalize_item }}{% else %}{% endif %}';
             var GET_PERSONALIZE_CART_URL    = '{% url get_personalize_cart_items %}';
+
+            var lll = '{{ request|get_url }}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>

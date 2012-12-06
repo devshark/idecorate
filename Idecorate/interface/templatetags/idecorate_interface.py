@@ -248,4 +248,4 @@ def linebreak(txt):
 
 @register.filter
 def get_url(request):
-	return request.get_full_path()
+	return request.build_absolute_uri()
