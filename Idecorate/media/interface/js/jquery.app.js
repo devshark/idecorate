@@ -332,7 +332,14 @@ $(document).ready(function () {
             eventTracker($('.selected'),'resize');
 
         }
-    }).rotatable({rotateAlso:'.selected'});
+    });
+
+    //draggable handles binds style on selected obj
+    if(!$.browser.msie){//while IE is not yet supported
+        $handles.rotatable({rotateAlso:'.selected'});
+    }else if($.browser.msie && $.browser.version == 9.0){
+        $handles.rotatable({rotateAlso:'.selected'});
+    }
 
     //hide handles and menus
     $(document).click(function(e){
@@ -559,7 +566,6 @@ $(document).ready(function () {
             embellishment_handle_set(slideValue);
         });
     }else{
-        $('#opacity-control-wrap').hide();
         if($.browser.version >= 9.0){
             $( "#slider" ).slider({
                 range: "max",
@@ -584,6 +590,8 @@ $(document).ready(function () {
                 slideValue = parseInt($(this).attr('_opacity'));
                 embellishment_handle_set(slideValue);
             });
+        }else{
+            $('#opacity-control-wrap').hide();
         }
     }
 
@@ -604,7 +612,6 @@ $(document).ready(function () {
 });
 
 //embelishments functions start
-
 
 function changeSelectedFont(el) {
 
@@ -828,6 +835,7 @@ function create_instance_embellishment_upload(fname){
         object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
     }
     update_menu(object,true);
+    $handles.resizable({aspectRatio:true});
     hide_canvas_menu();
 
     //set handles direction 
