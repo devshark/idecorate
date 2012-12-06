@@ -101,6 +101,10 @@ def styleboard(request, cat_id=None):
 						request.session['customer_styleboard'] = personalize_styleboard
 				else:
 					request.session['personalize_styleboard'] = personalize_styleboard
+					try:
+						del request.session['customer_styleboard']
+					except:
+						pass
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 

@@ -50,6 +50,8 @@
             var PERSONALIZE_ID              = {% if save_styleboard %}{{ save_styleboard.styleboard_item.id }}{% else %}0{% endif %};
             var PERSONALIZE_ITEM            = '{% if personalize_item %}{{ personalize_item }}{% else %}{% endif %}';
             var GET_PERSONALIZE_CART_URL    = '{% url get_personalize_cart_items %}';
+
+            var lll = '{{ request|get_url }}';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -314,27 +316,27 @@
                                     <div id="embelishments-list-wrap" class="clearfix">
                                         <div class="emCat">
                                             <a href="{% url get_embellishment_items %}" rel="1" class="image em">
-                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg" />
+                                                {{ 1|getEmbellishmentThumbnail }}
                                                 <span>Image</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="text" class="text em">
-                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/text.png" />
+                                                {{ "TEXT"|getTextThumbnail }}
                                                 <span>Text</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="5" class="border em">
-                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/border.png" />
+                                                {{ 5|getEmbellishmentThumbnail }}
                                                 <span>Border</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
-                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/shape.gif" />
+                                                {{ 4|getEmbellishmentThumbnail }}
                                                 <span>Shapes</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
-                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg" />
+                                                {{ 2|getEmbellishmentThumbnail }}
                                                 <span>Textures</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
-                                                <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg" />
+                                                {{ 3|getEmbellishmentThumbnail }}
                                                 <span>Patterns</span>
                                             </a>
                                         </div>
@@ -511,7 +513,7 @@
 <script type="text/javascript" src="/media/interface/js/jquery.placeholder.js"></script>
 <script type="text/javascript" src="/media/interface/js/colorpicker/js/spectrum.js"></script>
 <script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
-
+<script type="text/javascript" src="/media/interface/js/png-hack/supersleight.js"></script>
 <script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
 <script src="/media/interface/js/jquery.form.js"></script>
 <script src="/media/interface/js/jquery.progressbar.js"></script>

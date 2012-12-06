@@ -4,7 +4,7 @@ $(document).ready(function(){
 
 function populate_save_styleboard(){
 	if (PERSONALIZE_ITEM != ''){
-		var raw_item = PERSONALIZE_ITEM.replace("\n", "\\n"); //.replace("\n",'%OA');
+		var raw_item = PERSONALIZE_ITEM.replace("\n", "\\n").replace("\r",'');
 		var item = eval(raw_item);
 		var canvas_height = $('#canvas').height();
 		var canvas_width = $('#canvas').width();
@@ -19,10 +19,18 @@ function populate_save_styleboard(){
 			if (v.uid)
 				elm.attr('_uid',v.uid);
 			elm.attr('style',v.style);
+
+			elm.css('filter','none');
+	        elm.css('msfilter','none');
+	        elm.css('-ms-filter','none');
+
 			elm.attr('_handle',v.handle);
 			elm.attr('_opacity',v.opacity);
 			elm.attr('def_qty',v.def_qty);
 			elm.attr('gst_tb',v.gst_tb);
+
+			elm.attr('_text',unescape(v.text));
+			elm.attr('_rgb',v.rgb);
 
 			elm.attr('_matrix','{"a":'+v.matrix[0].a+',"b":'+v.matrix[0].b+',"c":'+v.matrix[0].c+',"d":'+v.matrix[0].d+',"e":'+v.matrix[0].e+',"f":'+v.matrix[0].f+'}');
 
@@ -52,7 +60,7 @@ function populate_save_styleboard(){
 			img.attr('_nb',v.img[0].nb);
 			img.attr('_wb',v.img[0].wb);
 			img.appendTo(elm);
-			elm.appendTo('#canvas');
+			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
 		setTimeout(make_center,0);
@@ -155,7 +163,7 @@ function get_cart_items(){
 	        var subtotal = v.sub_total.toFixed(2);
 	        subtotal = addCommas(subtotal);
 
-	        var item = '<tr id="prod_cart_' + data.id + '">' +
+	        var item = '<tr id="prod_cart_' + v.id + '">' +
 	            '<td class="span4">' +
 	                '<div class="buyItemImg">' +
 	                    '<div><img width="70" src="/' + img_src + v.original_image_thumbnail + '"></div>' +
