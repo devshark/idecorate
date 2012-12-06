@@ -516,6 +516,7 @@ def generate_styleboard_view(request, id, w, h):
 
 			newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
 
+			"""
 			splittedName = getExtensionAndFileName(imgFile)
 			if splittedName[1] == '.jpg':
 				img2 = Image.open("%s%s" % (settings.MEDIA_ROOT, "products/white_background.png"))
@@ -524,7 +525,7 @@ def generate_styleboard_view(request, id, w, h):
 				#img2 = Image.blend(img2, newImg, 0.0)
 				img2.paste(newImg, mask=newImg)
 				newImg = img2
-			
+			"""
 			imgObj = newImg
 		else:
 
