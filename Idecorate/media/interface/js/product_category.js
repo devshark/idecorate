@@ -33,10 +33,10 @@ $(document).ready( function() {
     		if ( $(window).height() != window_height && $(window).width() != window_width ) {
     			window_height = $(window).height();
     			window_width = $(window).width();
-    			manage_product_resize();
+    			setTimeout(manage_product_resize,0);
     		}
     	} else {
-    		manage_product_resize();
+    		setTimeout(manage_product_resize,0);
     	}
     });
     $('#buyTab').click(function(){
@@ -51,6 +51,17 @@ $(document).ready( function() {
     });
     
     setTimeout("set_category_label_height()",0);
+
+    $('a[href="#products"]').click(function(){
+        if (is_window_resized){
+            if ($('.product-list-wrap .product-list').length>0){
+                if($('.product-list-wrap .product-list a').length == 0){
+                    populate_products();
+                    is_window_resized = false;
+                }
+            }
+        }
+    });
       
 });
 var recur = false;
@@ -546,7 +557,8 @@ function populate_product_by_page(){
     });    
 }
 
-function manage_product_resize(){
+function manage_product_resize(){    
+    is_window_resized = true;
     var elm = $('.product-list a:first');
 
     var prod_width = $('.product-list').width();
@@ -564,28 +576,20 @@ function manage_product_resize(){
     prod_height = prod_height + 5;
 
     if (prod_per_height > prod_height)
-        count_by_height = count_by_height - 1;
-
+        count_by_height = count_by_height - 1;    
     product_per_page = count_by_width*count_by_height;
 
     var page = 1;    
-    var counter = 1;
+    var counter = 1;    
     $('.product-list a').each(function(i, val){                
         if (counter > product_per_page){
             $(this).remove();
+        } else {
+            if($(this).hasClass('hidden'))
+                $(this).removeClass('hidden');
         }
         counter++;
     });
-
-    if ( $('.product-list a').length < product_per_page ){
-        var x = $('.product-list a').length;        
-        $('#remove_products_container a').each(function(){
-            $('.product-list').append(this);
-            if ( x == product_per_page )
-                return false;
-            x++;            
-        });
-    }
 
     total_pages = Math.ceil(parseInt(total_product_count)/product_per_page);
     if ( total_pages < current_page ){
