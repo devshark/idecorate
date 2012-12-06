@@ -638,6 +638,12 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										outline:2px solid #000;
 									}
 								}
+
+								.emItem{
+									.thumb{
+										cursor: pointer;
+									}
+								}
 							}
 						}
 					}
@@ -1200,6 +1206,13 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 }
 
 #canvas{
+	
+	.unselected img{
+	   background: transparent;
+	  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)"; /* IE 8 */
+	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF); /* IE 6 & 7 */
+	  zoom: 1;
+	}
 
 	.handles{
 		width: 50px;

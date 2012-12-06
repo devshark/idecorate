@@ -511,6 +511,8 @@ h5 {
               color: #000; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em:hover img {
             outline: 2px solid #000; }
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap .emItem .thumb {
+            cursor: pointer; }
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab {
         background-color: #f0ebe5; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .thead {
@@ -913,6 +915,13 @@ h5 {
   opacity: 0.6;
   outline: none !important; }
 
+#canvas .unselected img {
+  background: transparent;
+  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)";
+  /* IE 8 */
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+  /* IE 6 & 7 */
+  zoom: 1; }
 #canvas .handles {
   width: 50px;
   height: 50px;
@@ -983,10 +992,3 @@ h5 {
       color: #333; }
       #info-menu .dropdown ul li a {
         color: #333; }
-
-#canvas .unselected img{
-   background: transparent;
-  -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)"; /* IE 8 */
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF); /* IE 6 & 7 */
-  zoom: 1;
-}
