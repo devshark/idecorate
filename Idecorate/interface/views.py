@@ -386,13 +386,15 @@ def cropped(request):
 
 	newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
 	
+	"""	
 	splittedName = getExtensionAndFileName(filename)
 
 	if splittedName[1] == '.jpg':
 		newImg.save(response, "JPEG")
 	else:	
 		newImg.save(response, "PNG")
-
+	"""
+	newImg.save(response, "PNG")
 	return response
 
 def search_suggestions(request):
