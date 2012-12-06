@@ -18,7 +18,17 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/spectrum.css" />
         <link rel="stylesheet" type="text/css" href="/media/interface/js/selectbox/css/jquery.selectbox.css" />
-        
+        <!--[if lt IE 9]>
+        <style type="text/css">
+
+            #canvas .unselected img{
+               background: transparent;
+              -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF)"; /* IE 8 */
+              filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF); /* IE 6 & 7 */
+              zoom: 1;
+            }
+        </style>
+        <![endif]-->
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
             var category_id                 = {{ cat_id }};
@@ -488,8 +498,7 @@
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
 <script type="text/javascript">
-    
-        
+
     $(document).ready( function() {
 
         $(':input[placeholder]').placeholder();
