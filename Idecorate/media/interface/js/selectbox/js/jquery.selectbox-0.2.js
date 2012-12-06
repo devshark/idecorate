@@ -349,6 +349,11 @@
 				$("#sbSelector_" + inst.uid).html(option_value);
 			}
 			value = value.replace(/\'/g, "\\'");
+			
+			$(target).find("option").each(function(e){
+				$(this).attr("selected", FALSE);
+			});
+
 			$(target).find("option[value='" + value + "']").attr("selected", TRUE);
 			if (inst && onChange) {
 				onChange.apply((inst.input ? inst.input[0] : null), [value, inst]);
