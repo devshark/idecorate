@@ -35,10 +35,10 @@
 		</div>
 		<div class="clearfix socialMedia">
 			<div class="facebookShare">
-				<img src="/media/images/fb_share.png" onclick="postToFeed(); return false;" />
+				<a href="#" onclick="postToFeed()"><img border="0" src="/media/images/fb_share.png" /></a>
 			</div>
 			<div class="tumblerShare">
-				<span id="tumblr_button_abc123"></span>
+				<a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank"><img src='/media/images/tumblr.png' border="0" /></a>
 			</div>
 			<div class="twitterShare">
 				<a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
@@ -46,11 +46,10 @@
 				</script>
 			</div>
 			<div class="pinterestShare">
-				<a href="http://pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+				<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}"><img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
 			</div>
 			<div class="googleShare">
-				<div class="g-plus" data-action="share" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
-				<!-- <div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div> -->
+				<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
 			</div>
 			<div class="email">
 				<a href="mailto:?subject=iDecorate%20Weddings%20|%20{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}" target="_blank"><img src="/media/images/email.jpg" /></a>
@@ -104,10 +103,10 @@
 		<div class="clearfix socialMediaWrapper">
 			<div class="clearfix socialMedia">
 				<div class="facebookShare">
-					<img src="/media/images/fb_share.png" onclick='postToFeed(); return false;' />
+					<a href="#" onclick="postToFeed()"><img border="0" src="/media/images/fb_share.png" /></a>
 				</div>
 				<div class="tumblerShare">
-					<span id="tumblr_button_abc1234"></span>
+					<a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank"><img src='/media/images/tumblr.png' border="0" /></a>
 				</div>
 				<div class="twitterShare">
 					<a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
@@ -115,11 +114,11 @@
 					</script>
 				</div>
 				<div class="pinterestShare">
-					<a href="http://pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}" class="pin-it-button" count-layout="horizontal"><img border="0" src="//assets.pinterest.com/images/PinExt.png" title="Pin It" /></a>
+					<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}"><img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
 				</div>
 				<div class="googleShare">
-					<div class="g-plus" data-action="share" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
-					<!-- Place this tag after the last share tag. -->
+					<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
+
 					<script type="text/javascript">
 					  (function() {
 					    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -166,9 +165,10 @@
 				window.location.href = $('#lnk-profile').attr('href');
 			});
 
+			$(window).resize(page_H);
+
 		});
 
-		$(window).resize(page_H);
 
 		function page_H(){
 		/*		
@@ -182,7 +182,7 @@
 			} else if(newHeight<windowH){
 				$('.viewWrapper').height(newHeight);
 			}
-			/*
+		*/
 		}
 		</script>
         <!-- Social Media Buttons -->
@@ -194,12 +194,12 @@
 	        // calling the API ...
 	        var obj = {
 	          method: 'feed',
-	          redirect_uri: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}',
+	          redirect_uri: 'http://www.facebook.com',
 	          link: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}', //page link here
 	          picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/', //add image link of product here 
 	          name: '{{ styleboard.styleboard_item.name }}', //styleboard title
 	          caption: 'iDecorate Weddings',
-	          description: '{{ styleboard.styleboard_item.description|linebreak }}' //description
+	          description: '{{ styleboard.styleboard_item.description|truncateDescription }}' //description
 	        };
 
 	        function callback(response) {
@@ -210,29 +210,8 @@
 	      }
 	    
 	    </script>
-        <script src="http://platform.tumblr.com/v1/share.js"></script>
-        <script type="text/javascript">
-            var tumblr_link_url = "http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}";
-            var tumblr_link_name = "{{ styleboard.styleboard_item.name }}";
-            var tumblr_link_description = "{{ styleboard.styleboard_item.description|linebreak }}";
-        </script>
-        <script type="text/javascript">
-            var tumblr_button = document.createElement("a");
-            tumblr_button.setAttribute("href", "http://www.tumblr.com/share/link?url=" + encodeURIComponent(tumblr_link_url) + "&name=" + encodeURIComponent(tumblr_link_name) + "&description=" + encodeURIComponent(tumblr_link_description));
-            tumblr_button.setAttribute("title", "Share on Tumblr");
-            tumblr_button.setAttribute("style", "display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;");
-            tumblr_button.innerHTML = "<img src='/media/images/tumblr.png' />";
-            document.getElementById("tumblr_button_abc123").appendChild(tumblr_button);
-        </script>
-        <script type="text/javascript">
-            var tumblr_button = document.createElement("a");
-            tumblr_button.setAttribute("href", "http://www.tumblr.com/share/link?url=" + encodeURIComponent(tumblr_link_url) + "&name=" + encodeURIComponent(tumblr_link_name) + "&description=" + encodeURIComponent(tumblr_link_description));
-            tumblr_button.setAttribute("title", "Share on Tumblr");
-            tumblr_button.setAttribute("style", "display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;");
-            tumblr_button.innerHTML = "Share on Tumblr";
-            document.getElementById("tumblr_button_abc1234").appendChild(tumblr_button);
-        </script>
-        <script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
+	    <script src="http://platform.tumblr.com/v1/share.js"></script>
+        <script src="//assets.pinterest.com/js/pinit.js"></script>
 
         <!--DISQUS -->
       	<script type="text/javascript">

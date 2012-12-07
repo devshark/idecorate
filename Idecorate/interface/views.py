@@ -498,6 +498,8 @@ def generate_text(request):
 	#load font with size
 	font = ImageFont.truetype("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font), int(font_size))
 	
+	image_text = image_text.replace("\r", "")
+
 	splittedTexts = image_text.split("\n")
 	totalHeight = 0
 	upperWidth = 0

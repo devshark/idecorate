@@ -85,7 +85,7 @@ $(document).ready(function(){
         }
         return false;
     });
-    $('#embellishments .formWrap input[type=file]').bind('change', SITE.fileInputs);
+    $('#embellishments .formWrap input[type=file]').live('change', SITE.fileInputs);
 
     $('a[href="#embellishments"]').click(function(){        
         if (is_window_resized){
@@ -130,7 +130,7 @@ SITE.fileInputs = function() {
             $(fakeFile).text(newVal);
         }
 
-        $('#picture').css('display','none');
+        //$('#picture').css('display','none');
     }
 };
 function _resize_embellisment(){    
@@ -500,6 +500,9 @@ function hideUploadEmbellishment(){
 }
 function showUploadEmbellishment(){    
     $('#picture').val('');
+    $('#picture').remove();
+    $('.file-wrapper').append($('<input type="file" name="picture" id="picture" placeholder="from computer" />'));
+    
     $('.file-wrapper input[type="button"]').show();
     $('#form_submit_button').hide();
     $("#uploadprogressbar").remove();

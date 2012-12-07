@@ -275,3 +275,11 @@ def get_url(request):
 @register.filter
 def get_host(request):
 	return request.get_host()
+
+@register.filter
+def truncateDescription(desc):
+
+	if(len(desc) > 50):
+		return mark_safe("%s%s" % (desc[0:50], "..."))
+	else:
+		return mark_safe(desc)
