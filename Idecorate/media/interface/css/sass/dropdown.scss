@@ -23,14 +23,14 @@ ul.dropdown ul ul {
 ul.dropdown li {
      width: auto;
      position: relative;
-     z-index: 999;
+     z-index: 599;
      text-align: center;
      display: block;
      white-space: nowrap;
      color: #333;
 }
 ul.dropdown li:hover {
-     z-index: 599;
+     z-index: 601;
 }
 ul.dropdown > li {
     float: left;
@@ -96,7 +96,7 @@ ul.dropdown2 ul ul {
 }
 ul.dropdown2 li {
      position: relative;
-     z-index: 999;
+     z-index: 599;
      text-align: center;
      display: block;
      white-space: nowrap;
@@ -104,7 +104,7 @@ ul.dropdown2 li {
      background: #99A237;
 }
 ul.dropdown2 li:hover {
-     z-index: 599;
+     z-index: 601;
 }
 ul.dropdown2 > li {
     float: left;

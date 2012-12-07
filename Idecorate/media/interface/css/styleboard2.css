@@ -813,7 +813,7 @@ h5 {
   #compact-footer table {
     width: 100%; }
     #compact-footer table tfoot.footWrap tr td {
-      padding: 5px; }
+      padding: 15px; }
       #compact-footer table tfoot.footWrap tr td .copyright {
         float: left;
         font-size: 12px;
@@ -828,7 +828,7 @@ h5 {
             display: inline-block;
             zoom: 1;
             *display: inline;
-            font-size: 10px;
+            font-size: 12px;
             padding: 3px 5px;
             border-left: 1px solid #DDD;
             color: #FFF; }
@@ -986,6 +986,8 @@ h5 {
   text-align: left;
   width: 670px !important;
   font-size: 12px; }
+  #site-menu ul.dropdown2 {
+    margin-right: 5px !important; }
 
 #info-menu {
   vertical-align: top; }
