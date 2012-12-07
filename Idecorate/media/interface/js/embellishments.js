@@ -202,7 +202,7 @@ function reset_embellishment(){
 }
 
 function clear_embellishments(){
-    $('embelishments-list-wrap .emItem a').each(function(){
+    $('#embelishments-list-wrap .emItem a').each(function(){
         $(this).remove();
     });
 }
