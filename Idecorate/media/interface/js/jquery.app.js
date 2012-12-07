@@ -16,12 +16,7 @@ active_object = null;
 
 $(document).ready(function () {
 
-    //init lasso
-    //$('<div id="lasso"></div>').appendTo('#canvas');
-    //$('#canvas').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
-
-    
-    //remove edit button on buy tab
+     //remove edit button on buy tab
     $(window).hashchange( function(){
         
         if(location.hash == '#buy-tab'){
@@ -136,59 +131,6 @@ $(document).ready(function () {
         }
     });
 
-    /**
-    $("#canvas").mousemove(function(e){
-        e.preventDefault();
-        if(lassoStart && $('.selected').length == 0) {
-            var x = e.pageX - $(this).offset().left;
-            var y = e.pageY - $(this).offset().top;
-
-            var lassoLeft = 0;
-            var lassoTop = 0;
-            var lassoWidth = 0;
-            var lassoHeight = 0;
-
-            if(x > lassoCoordinate.startX) {
-                lassoLeft = lassoCoordinate.startX;
-                lassoWidth = x - lassoCoordinate.startX;
-            } else {
-                lassoLeft = x;
-                lassoWidth = lassoCoordinate.startX - x;
-            }
-
-            if(y > lassoCoordinate.startY) {
-                lassoTop = lassoCoordinate.startY;
-                lassoHeight = y - lassoCoordinate.startY;
-            }else {
-                lassoTop = y;
-                lassoHeight = lassoCoordinate.startY - y;
-            }
-
-            $('#lasso').css('display', 'block'); 
-            $('#lasso').css({'left':lassoLeft, 'top':lassoTop});
-            $('#lasso').width(lassoWidth);
-            $('#lasso').height(lassoHeight);
-        }
-    }).mousedown(function(e){
-        if($('.selected').length == 0) {
-
-            var x = e.pageX - $(this).offset().left;
-            var y = e.pageY - $(this).offset().top;
-            lassoCoordinate.startX = x;
-            lassoCoordinate.startY = y;
-            lassoStart = true;   
-        }
-    }).mouseup(function(e){
-        lassoStart = false;
-        var x = e.pageX - $(this).offset().left;
-        var y = e.pageY - $(this).offset().top;
-        lassoCoordinate.startX = 0;
-        lassoCoordinate.startY = 0;
-        $('#lasso').width(0);
-        $('#lasso').height(0);
-        $('#lasso').css('display', 'none');
-    });
-    **/
 
     //drag the selected product together with its handle on the fly
     $('.unselected').liveDraggable({
@@ -618,7 +560,7 @@ $(document).ready(function () {
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
-    setTimeout('ie_message()',2500);
+    //setTimeout('ie_message()',2500);
 
 });
 
