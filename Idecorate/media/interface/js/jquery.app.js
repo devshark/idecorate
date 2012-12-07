@@ -560,7 +560,7 @@ $(document).ready(function () {
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
-    //setTimeout('ie_message()',2500);
+    setTimeout('ie_message()',2500);
 
 });
 
