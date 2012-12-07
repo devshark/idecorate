@@ -126,15 +126,18 @@
           position: relative;
         }
         .file-wrapper input[type=file] {
-          cursor: pointer;
-          font-size: 100px;
-          height: 100%;
-          filter: alpha(opacity=1);
-          -moz-opacity: 0.01;
-          opacity: 0.01;
-          position: absolute;
-          right: 0;
-          top: 0;
+            height: 30px;
+            cursor: pointer;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            font-size: 100px;
+            z-index: 2;
+            opacity: 0.0; /* Standard: FF gt 1.5, Opera, Safari */
+            filter: alpha(opacity=0); /* IE lt 8 */
+            -ms-filter: "alpha(opacity=0)"; /* IE 8 */
+            -khtml-opacity: 0.0; /* Safari 1.x */
+            -moz-opacity: 0.0; /* FF lt 1.5, Netscape */
         }
         .file-wrapper .button, .tp-button {
           cursor: pointer;
@@ -726,7 +729,9 @@ textBox.onfocus = function() {
         alert(msg);
     }
 </script>
+<!--
 <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script>
+-->
     </body>
 </html>
 

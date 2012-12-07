@@ -35,7 +35,7 @@
 		</div>
 		<div class="clearfix socialMedia">
 			<div class="facebookShare">
-				<a href="#" onclick="postToFeed(); return false;"><img border="0" src="/media/images/fb_share.png" /></a>
+				<a href="#" onclick="postToFeed()"><img border="0" src="/media/images/fb_share.png" /></a>
 			</div>
 			<div class="tumblerShare">
 				<a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank"><img src='/media/images/tumblr.png' border="0" /></a>
@@ -103,7 +103,7 @@
 		<div class="clearfix socialMediaWrapper">
 			<div class="clearfix socialMedia">
 				<div class="facebookShare">
-					<a href="#" onclick="postToFeed(); return false;"><img border="0" src="/media/images/fb_share.png" /></a>
+					<a href="#" onclick="postToFeed()"><img border="0" src="/media/images/fb_share.png" /></a>
 				</div>
 				<div class="tumblerShare">
 					<a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank"><img src='/media/images/tumblr.png' border="0" /></a>
@@ -165,9 +165,10 @@
 				window.location.href = $('#lnk-profile').attr('href');
 			});
 
+			$(window).resize(page_H);
+
 		});
 
-		$(window).resize(page_H);
 
 		function page_H(){
 		/*		
@@ -181,7 +182,7 @@
 			} else if(newHeight<windowH){
 				$('.viewWrapper').height(newHeight);
 			}
-			/*
+		*/
 		}
 		</script>
         <!-- Social Media Buttons -->
@@ -193,12 +194,12 @@
 	        // calling the API ...
 	        var obj = {
 	          method: 'feed',
-	          redirect_uri: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}',
+	          redirect_uri: 'http://www.facebook.com',
 	          link: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}', //page link here
 	          picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/', //add image link of product here 
 	          name: '{{ styleboard.styleboard_item.name }}', //styleboard title
 	          caption: 'iDecorate Weddings',
-	          description: '{{ styleboard.styleboard_item.description|linebreak }}' //description
+	          description: '{{ styleboard.styleboard_item.description|truncateDescription }}' //description
 	        };
 
 	        function callback(response) {

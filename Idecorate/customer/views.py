@@ -285,6 +285,7 @@ def generate_styleboard_view(request, id, w, h):
 
 				font = ImageFont.truetype(imgFile, font_size)
 				
+				image_text = image_text.replace("\r", "")
 				splittedTexts = image_text.split("\n")
 				totalHeight = 0
 				upperWidth = 0
@@ -458,7 +459,8 @@ def generate_styleboard_view(request, id, w, h):
 		if re.search('/generate_text/',iList['img'][0]['src']):
 
 			font = ImageFont.truetype(imgFile, font_size)
-				
+			
+			image_text = image_text.replace("\r", "")	
 			splittedTexts = image_text.split("\n")
 			totalHeight = 0
 			upperWidth = 0
