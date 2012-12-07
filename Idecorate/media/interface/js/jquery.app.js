@@ -781,9 +781,6 @@ function create_instance_embellishment_upload(fname){
 
     obj_image.attr({
         'src': '/media/embellishments/images/'+fname
-    }).css({
-        width: '100%',
-        height: 'auto'
     });
 
     obj_image.load(function(){
@@ -802,6 +799,11 @@ function create_instance_embellishment_upload(fname){
             top:imgTop,
             width:dimensions['width'],
             height:dimensions['height']
+        });
+
+        $(this).css({
+            width: '100%',
+            height: 'auto'
         });
 
         set_ctr_attr(object);
