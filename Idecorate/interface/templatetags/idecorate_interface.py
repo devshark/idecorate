@@ -81,7 +81,7 @@ def menuInterfaceRecursion(menus):
 			clss = "dropdown clearfix"
 
 			if InfoMenu.objects.filter(parent__id=menu.id).count() > 0:
-				arrow = ' &raquo;'
+				arrow = ' <span>&raquo;</span>'
 			else:
 				arrow = ''
 
@@ -106,7 +106,7 @@ def menuInterfaceRecursion(menus):
 
 		if menu.link == "":
 			#css_class = ' class="nonLink"'
-			link = '%s' % (menu.name)
+			link = '<span>%s</span>' % (menu.name)
 			#spanOpen = '<span>'
 			#spanClose = '</span>'
 		else:

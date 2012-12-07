@@ -47,6 +47,8 @@ ul.dropdown ul li {
     text-align: left;
     padding: 4px 7px;
     background: #cccccc;
+    position: relative;
+    z-index: 603;
 }
 ul.dropdown ul li:hover {
     background: #F1CCC6;
@@ -88,8 +90,8 @@ ul.dropdown2 li a:hover {
     text-decoration: underline;
 }
 ul.dropdown2 ul ul {
-     top: 0;
-     left: 100%;
+     top: 2%;
+     left: 95%;
 }
 ul.dropdown2 li {
      position: relative;
@@ -120,6 +122,8 @@ ul.dropdown2 ul li {
     width: auto;
     text-align: center;
     padding: 4px 7px;
+    position: relative;
+    z-index: 603;
 }
 ul.dropdown2 ul li:hover {
 }
