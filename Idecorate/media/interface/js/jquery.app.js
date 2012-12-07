@@ -214,7 +214,7 @@ $(document).ready(function () {
                 //set handles direction 
                 change_cursor($('.selected').attr('_handle'));
             }
-            
+
             handled = true; 
             $(document).unbind('click');
 
@@ -275,6 +275,7 @@ $(document).ready(function () {
                 //set handles direction 
                 change_cursor($('.selected').attr('_handle'));
             }
+            
             cancelBubble(e);
 
         });
