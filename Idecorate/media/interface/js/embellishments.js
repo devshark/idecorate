@@ -36,6 +36,7 @@ $(document).ready(function(){
             e.preventDefault();
         });
         emb_type = $(this).attr('rel');
+        get_dummy_product();
         get_embellishment_items();
         e.preventDefault();
     });
@@ -202,7 +203,7 @@ function reset_embellishment(){
 }
 
 function clear_embellishments(){
-    $('embelishments-list-wrap .emItem a').each(function(){
+    $('#embelishments-list-wrap .emItem a').each(function(){
         $(this).remove();
     });
 }
@@ -290,6 +291,7 @@ function get_embellishment_items(){
                     var img_src_url = v.model == 'admin.embellishments'?EMB_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
                     var a = $('<a />');
                     a.attr('id','emb-'+id);
+                    a.attr('_id','emb-'+id);
                     a.attr('_type',response_data.type);
                     a.addClass('thumb');
                     a.addClass('draggable');
@@ -340,7 +342,7 @@ function manage_embellishment_resize(){
             var item_per_height = _item_height*count_by_height;            
             $('#embellishments #embelishments-list-wrap .emItem').height(_height);            
 
-            if (item_per_height>_height)
+            if (item_per_height>_height && count_by_height > 1)
                 count_by_height = count_by_height-1;
 
             emb_item_per_page = count_by_width*count_by_height;
@@ -395,10 +397,12 @@ function manage_embellishment_resize(){
                                         var img_src_url = v.model == 'admin.embellishments'?EMB_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
                                         var a = $('<a />');
                                         a.attr('id','emb-'+id);
+                                        a.attr('_id','emb-'+id);
                                         a.addClass('thumb');
                                         a.addClass('draggable');
                                         a.addClass('hidden');
                                         a.addClass('em');
+                                        a.attr('_type',response_data.type);
                                         var img = $('<img />');
                                         img.attr('src',img_src_url);
                                         img.appendTo(a);
@@ -436,6 +440,7 @@ function emb_remove_overlay(){
             }            
         });
     }
+    //dragInit();
 }
 /* embellishment upload */
 function gen_uuid() {
@@ -508,4 +513,8 @@ function showUploadEmbellishment(){
     $("#uploadprogressbar").remove();
     $('.file-wrapper .file-holder').remove();
     create_instance_embellishment_upload(emb_uploaded_filename);
+}
+
+function get_dummy_product(){
+
 }

@@ -13,13 +13,10 @@ var slideValue = 0;
 DEFAULT_TEXT_E = "I Love iDecorate";
 active_object = null;
 
-$(document).ready(function () {
-    //init lasso
-    //$('<div id="lasso"></div>').appendTo('#canvas');
-    //$('#canvas').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
 
-    
-    //remove edit button on buy tab
+$(document).ready(function () {
+
+     //remove edit button on buy tab
     $(window).hashchange( function(){
         
         if(location.hash == '#buy-tab'){
@@ -31,12 +28,27 @@ $(document).ready(function () {
     
     $(window).hashchange();
 
-    $(".draggable").liveDraggable({
-        revert:true, 
-        helper: 'clone',
-        containment: 'body'
-    });
+    if($.browser.msie && $.browser.version == 7.0) {
 
+        $(".draggable").liveDraggable({
+            revert: true,
+            helper: function(e) {
+                active_object = $(this).clone();
+                return $(active_object).find('img').attr('id','');
+            },
+            containment: 'body'
+
+        });
+
+    } else {
+
+        $(".draggable").liveDraggable({
+            revert:true, 
+            helper: 'clone',
+            containment: 'body'
+        });
+
+    }
 
     //get the maxheight sidebar name <span> and set as global
     //height for all name container <span> on the sidebar
@@ -45,6 +57,7 @@ $(document).ready(function () {
     $("#canvas").droppable({
 
         drop: function (e, ui) {
+
 
             if ($(ui.draggable)[0].id != "") {
 
@@ -118,59 +131,6 @@ $(document).ready(function () {
         }
     });
 
-    /**
-    $("#canvas").mousemove(function(e){
-        e.preventDefault();
-        if(lassoStart && $('.selected').length == 0) {
-            var x = e.pageX - $(this).offset().left;
-            var y = e.pageY - $(this).offset().top;
-
-            var lassoLeft = 0;
-            var lassoTop = 0;
-            var lassoWidth = 0;
-            var lassoHeight = 0;
-
-            if(x > lassoCoordinate.startX) {
-                lassoLeft = lassoCoordinate.startX;
-                lassoWidth = x - lassoCoordinate.startX;
-            } else {
-                lassoLeft = x;
-                lassoWidth = lassoCoordinate.startX - x;
-            }
-
-            if(y > lassoCoordinate.startY) {
-                lassoTop = lassoCoordinate.startY;
-                lassoHeight = y - lassoCoordinate.startY;
-            }else {
-                lassoTop = y;
-                lassoHeight = lassoCoordinate.startY - y;
-            }
-
-            $('#lasso').css('display', 'block'); 
-            $('#lasso').css({'left':lassoLeft, 'top':lassoTop});
-            $('#lasso').width(lassoWidth);
-            $('#lasso').height(lassoHeight);
-        }
-    }).mousedown(function(e){
-        if($('.selected').length == 0) {
-
-            var x = e.pageX - $(this).offset().left;
-            var y = e.pageY - $(this).offset().top;
-            lassoCoordinate.startX = x;
-            lassoCoordinate.startY = y;
-            lassoStart = true;   
-        }
-    }).mouseup(function(e){
-        lassoStart = false;
-        var x = e.pageX - $(this).offset().left;
-        var y = e.pageY - $(this).offset().top;
-        lassoCoordinate.startX = 0;
-        lassoCoordinate.startY = 0;
-        $('#lasso').width(0);
-        $('#lasso').height(0);
-        $('#lasso').css('display', 'none');
-    });
-    **/
 
     //drag the selected product together with its handle on the fly
     $('.unselected').liveDraggable({
@@ -275,7 +235,7 @@ $(document).ready(function () {
                 //set handles direction 
                 change_cursor($('.selected').attr('_handle'));
             }
-            
+
             cancelBubble(e);
 
         });
@@ -314,10 +274,12 @@ $(document).ready(function () {
         stop : function(e, ui){
             //set center coordinated for rotate plugin
             set_ctr_attr($(this));
-
             //track event
             eventTracker($('.selected'),'resize');
-
+            
+            if($.browser.msie && $.browser.version == 7.0){
+                reset_product();
+            }
         }
     });
 
@@ -598,7 +560,7 @@ $(document).ready(function () {
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
-    setTimeout('ie_message()',2500);
+    //setTimeout('ie_message()',2500);
 
 });
 
@@ -646,7 +608,7 @@ function create_instance_em_text(em_dbID,event,type){
     var imgHeight   = 0;
 
     obj_image.attr({
-        'src': '/generate_text/?font_size=200&font_text=' + escape(DEFAULT_TEXT_E) + '&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0'
+        'src': '/generate_text/?font_size=200&font_text=' + escape(DEFAULT_TEXT_E) + '&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0&rand=' + new Date().getTime()
     }).css({
         width: '100%',
         height: 'auto'
@@ -723,10 +685,11 @@ function create_instance_embellishments(em_dbID,event,type){
     var imgHeight   = 0;
 
     obj_image.attr({
-        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0'
+        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0&rand=' + new Date().getTime()
     });
 
     obj_image.load(function(){
+        //alert('image load');
         
         imgWidth = obj_image.width();
         imgHeight = obj_image.height();
@@ -961,7 +924,6 @@ function update_text_selected(text_value,font_id){
     }
 
 }
-
 //embelishments functions end
 
 
@@ -1355,7 +1317,7 @@ function change_img(obj, background){
 }
 
 function display_modal(iframe_src){
-    var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':iframe_src});
+    var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':iframe_src, 'frameBorder': 0});
     var modal   = $('#modal-window'),
         _left   = $(window).width()/2-modal.width()/2,
         frame   = $('#iframe-wrap').append(iframe);

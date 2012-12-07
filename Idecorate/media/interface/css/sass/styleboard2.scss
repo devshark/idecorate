@@ -1132,6 +1132,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 	box-shadow: 0 0 8px #333;
 	z-index:99999;
 	top:10%;
+	overflow: hidden;
 
 	h2{
 		margin: 0 5px 0 0; 
@@ -1150,10 +1151,11 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 	#iframe-wrap{
 		width: 405px;
 		margin: 0 auto;
+		overflow: hidden;
 	}
 	iframe{
-		width: 402px;
-		height: 480px;
+		width: 412px;
+		height: 490px;
 	}
 }
 

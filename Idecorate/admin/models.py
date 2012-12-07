@@ -1,7 +1,6 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
-
-# Create your models here.
+from stdimage import StdImageField
 
 class LoginLog(models.Model):
 
@@ -32,6 +31,7 @@ class Embellishments(models.Model):
 	image_thumb = models.CharField(db_column='image_thumb', max_length=256, blank=True)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 	is_deleted = models.BooleanField(db_column='is_deleted', default=False)
+	is_used = models.BooleanField(db_column='is_used', default=False)
 	
 	class Meta:
 		db_table = 'embellishments'
@@ -45,8 +45,28 @@ class TextFonts(models.Model):
 	font = models.CharField(db_column='font', max_length=256, blank=True)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 	is_deleted = models.BooleanField(db_column='is_deleted', default=False)
+	is_used = models.BooleanField(db_column='is_used', default=False)
 	
 	class Meta:
 		db_table = 'text_fonts'
 		ordering = ["id"]
 		verbose_name = _("Text Fonts")
+
+class HomeBanners(models.Model):
+	id = models.AutoField(db_column='id', primary_key=True)
+	is_active = models.BooleanField(db_column="is_active", default=True)
+	link = models.CharField(db_column='link', max_length=256)
+	image_whole = StdImageField(upload_to='banners', blank=True, size=(994,400,True))
+	image_half1 = StdImageField(upload_to='banners', blank=True, size=(489,400,True))
+	image_half2 = StdImageField(upload_to='banners', blank=True, size=(489,400,True))
+	image_third1 = StdImageField(upload_to='banners', blank=True, size=(322,400,True))
+	image_third2 = StdImageField(upload_to='banners', blank=True, size=(322,400,True))
+	image_third3 = StdImageField(upload_to='banners', blank=True, size=(322,400,True))
+	order = models.IntegerField(db_column='order', null=True)	
+	is_deleted = models.BooleanField(db_column='is_deleted', default=False)
+	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+
+	class Meta:
+		db_table = 'home_banners'
+		ordering = ["created"]
+		verbose_name = _("Home Banners")

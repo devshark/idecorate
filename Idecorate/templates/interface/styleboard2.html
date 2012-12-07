@@ -297,6 +297,7 @@
                                             </a>
                                         </div>
                                         <div class="emItem">
+                                            <!-- <a id="emb-1" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=1&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-2" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=2&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-3" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=3&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-4" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=4&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-5" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=5&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a> -->
                                         </div>
                                     </div>
                                     <div class="pagination"></div>
@@ -712,6 +713,15 @@
         $('#page-mask').hide();
         $('#modal-save-styleboard-window').hide();
         alert(msg);
+    }
+
+    function dragInit(){
+        //draggable event
+        $(".draggable").draggable({
+            revert:true, 
+            helper: 'clone',
+            containment: 'body'
+        });
     }
 </script>
 
