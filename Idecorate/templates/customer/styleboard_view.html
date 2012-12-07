@@ -165,9 +165,10 @@
 				window.location.href = $('#lnk-profile').attr('href');
 			});
 
+			$(window).resize(page_H);
+
 		});
 
-		$(window).resize(page_H);
 
 		function page_H(){
 		/*		
@@ -181,7 +182,7 @@
 			} else if(newHeight<windowH){
 				$('.viewWrapper').height(newHeight);
 			}
-			/*
+		*/
 		}
 		</script>
         <!-- Social Media Buttons -->
@@ -198,7 +199,7 @@
 	          picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/', //add image link of product here 
 	          name: '{{ styleboard.styleboard_item.name }}', //styleboard title
 	          caption: 'iDecorate Weddings',
-	          description: '{{ styleboard.styleboard_item.description|linebreak }}' //description
+	          description: '{{ styleboard.styleboard_item.description|truncateDescription }}' //description
 	        };
 
 	        function callback(response) {
