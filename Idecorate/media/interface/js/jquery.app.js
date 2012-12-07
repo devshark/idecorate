@@ -1317,7 +1317,7 @@ function change_img(obj, background){
 }
 
 function display_modal(iframe_src){
-    var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':iframe_src});
+    var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-iframe','src':iframe_src, 'frameBorder': 0});
     var modal   = $('#modal-window'),
         _left   = $(window).width()/2-modal.width()/2,
         frame   = $('#iframe-wrap').append(iframe);
