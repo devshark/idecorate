@@ -118,6 +118,7 @@ $(document).ready(function () {
         }
     });
 
+    /**
     $("#canvas").mousemove(function(e){
         e.preventDefault();
         if(lassoStart && $('.selected').length == 0) {
@@ -169,6 +170,7 @@ $(document).ready(function () {
         $('#lasso').height(0);
         $('#lasso').css('display', 'none');
     });
+    **/
 
     //drag the selected product together with its handle on the fly
     $('.unselected').liveDraggable({
@@ -212,7 +214,7 @@ $(document).ready(function () {
                 //set handles direction 
                 change_cursor($('.selected').attr('_handle'));
             }
-            
+
             handled = true; 
             $(document).unbind('click');
 
@@ -273,6 +275,7 @@ $(document).ready(function () {
                 //set handles direction 
                 change_cursor($('.selected').attr('_handle'));
             }
+            
             cancelBubble(e);
 
         });
@@ -595,7 +598,17 @@ $(document).ready(function () {
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
+    setTimeout('ie_message()',2500);
+
 });
+
+//message in ie
+function ie_message() {
+    //view message if ie version < 9
+    if($.browser.msie && $.browser.version < 9.0){
+        alert('Sorry! Your browser does not support the following functionalities: rotate, flip, flop, and transparency changes.\nPlease use one of the following browsers: Chrome, Firefox, Safari, or try upgrading your Internet Explorer to version 9.');
+    }
+}
 
 //embelishments functions start
 
