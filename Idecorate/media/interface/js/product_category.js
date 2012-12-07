@@ -157,9 +157,9 @@ function browse_categories(elm_id){
                         while (i!=0){
                             cc = arr[i-1].split(':');
                             if (i==1)
-                                breadcrumb += '<li> > </li><li class="active">' + cc[1] + '</li>';
+                                breadcrumb += '<li> <span>></span> </li><li class="active"><span>' + cc[1] + '</span></li>';
                             else
-                                breadcrumb += '<li> > </li><li><a rel="' + cc[0] + '" href="#">' + cc[1] + '</a></li>';
+                                breadcrumb += '<li> <span>></span> </li><li><a rel="' + cc[0] + '" href="#">' + cc[1] + '</a></li>';
                             i = i-1
                         }
                         breadcrumb += '</ul>'
