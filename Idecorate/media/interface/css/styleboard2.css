@@ -862,7 +862,8 @@ h5 {
   background-color: #FFF;
   box-shadow: 0 0 8px #333;
   z-index: 99999;
-  top: 10%; }
+  top: 10%;
+  overflow: hidden; }
   #modal-window h2 {
     margin: 0 5px 0 0;
     padding: 0;
@@ -874,10 +875,11 @@ h5 {
       color: #333; }
   #modal-window #iframe-wrap {
     width: 405px;
-    margin: 0 auto; }
+    margin: 0 auto;
+    overflow: hidden; }
   #modal-window iframe {
-    width: 402px;
-    height: 480px; }
+    width: 412px;
+    height: 490px; }
 
 .idecorateTooltip {
   width: 400px;
