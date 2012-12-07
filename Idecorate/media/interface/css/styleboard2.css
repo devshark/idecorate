@@ -405,21 +405,27 @@ h5 {
             font-size: 12px;
             padding-right: 5px;
             display: inline;
-            vertical-align: bottom; }
+            *vertical-align: top; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a {
               text-decoration: none;
               color: #000;
               display: block;
               background-color: #DDDDDD;
-              border: 1px solid #CCCCCC; }
+              border: 1px solid #CCCCCC;
+              padding: 2px 5px;
+              *padding-bottom: 4px;
+              display: inline-block;
+              zoom: 1;
+              *display: inline; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a:hover {
               background-color: #999999;
               color: #FFF; }
-            #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a, #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li span {
+            #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li span {
               display: inline-block;
               zoom: 1;
               *display: inline;
-              padding: 2px 5px; }
+              padding: 2px 0;
+              *padding-bottom: 4px; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap {
           overflow: auto; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories {
