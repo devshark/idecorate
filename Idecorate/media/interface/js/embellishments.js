@@ -25,7 +25,7 @@ $(document).ready(function(){
         emb_offset = 25;
         $('#embellishments .pagination').show();
         emb_item_url = $(this).attr('href');
-        $('#embellishments .breadcrumb-wrap').html('<ul class="breadcrumb"><li><a href="#">All</a></a></li><li>></li><li>'+$(this).find('span').text()+'</li></ul>');
+        $('#embellishments .breadcrumb-wrap').html('<ul class="breadcrumb"><li><a href="#">All</a></li><li><span>></span></li><li><span>'+$(this).find('span').text()+'</span></li></ul>');
         $('#embellishments .breadcrumb-wrap a').bind('click',function(e){
             $('#embelishments-list-wrap .emCat').show();
             $('#embelishments-list-wrap .emItem a').each(function(){
