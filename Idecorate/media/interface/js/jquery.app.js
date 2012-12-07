@@ -33,11 +33,27 @@ $(document).ready(function () {
     
     $(window).hashchange();
 
-    $(".draggable").liveDraggable({
-        revert:true, 
-        helper: 'clone',
-        containment: 'body'
-    });
+    if($.browser.msie && $.browser.version == 7.0) {
+
+        $(".draggable").liveDraggable({
+            revert: true,
+            helper: function(e) {
+                active_object = $(this).clone();
+                return $(active_object).find('img').attr('id','');
+            },
+            containment: 'body'
+
+        });
+
+    } else {
+
+        $(".draggable").liveDraggable({
+            revert:true, 
+            helper: 'clone',
+            containment: 'body'
+        });
+
+    }
 
     //get the maxheight sidebar name <span> and set as global
     //height for all name container <span> on the sidebar
@@ -46,6 +62,7 @@ $(document).ready(function () {
     $("#canvas").droppable({
 
         drop: function (e, ui) {
+
 
             if ($(ui.draggable)[0].id != "") {
 
@@ -649,7 +666,7 @@ function create_instance_em_text(em_dbID,event,type){
     var imgHeight   = 0;
 
     obj_image.attr({
-        'src': '/generate_text/?font_size=200&font_text=' + escape(DEFAULT_TEXT_E) + '&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0'
+        'src': '/generate_text/?font_size=200&font_text=' + escape(DEFAULT_TEXT_E) + '&font_color=000000000&font_id='+em_dbID+'&font_thumbnail=0&rand=' + new Date().getTime()
     }).css({
         width: '100%',
         height: 'auto'
@@ -726,10 +743,11 @@ function create_instance_embellishments(em_dbID,event,type){
     var imgHeight   = 0;
 
     obj_image.attr({
-        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0'
+        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0&rand=' + new Date().getTime()
     });
 
     obj_image.load(function(){
+        //alert('image load');
         
         imgWidth = obj_image.width();
         imgHeight = obj_image.height();

@@ -68,15 +68,8 @@
 $(function(){
 
 	page_H();
-/*
-	$('.featureContentWrap:odd').each(function(i,val){
-		if($(val).height() < $(val).prev().height()){
-			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
-		}else{
-			$(val).prev().find('.featureDesc').height($(val).find('.featureDesc').height());
-		}
-	});
-*/
+	$(window).resize(page_H);
+
 	$('.featureContentWrap:odd').each(function(i,val){
 		if($(val).height() < $(val).prev().height()){
 			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
@@ -95,25 +88,17 @@ $(function(){
 
 });
 
-$(window).resize(page_H);
-
 function page_H(){
 		
 	var windowH = $(window).height();
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
-		sectionH = $('.styleboardWrapper').outerHeight(true);
-		newHeight = windowH - headerH - footerH - 320;
-
-	if(!$(".styleboardWrapper").hasClass(".featureContentWrap")) {
+		newHeight = windowH - headerH - footerH - 50;
+		sectionH = $('#feature-wrap').outerHeight(true);
+		
 		if(sectionH < windowH) {
-			$('.styleboardWrapper').height(sectionH);
+			$('#feature-wrap').height(newHeight);
 		}
-/*
-		if(newHeight<windowH){
-			$('.styleboardWrapper').height(newHeight);
-		}*/
-	}
 
 }
 </script>

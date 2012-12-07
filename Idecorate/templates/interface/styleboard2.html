@@ -188,13 +188,13 @@
                                 </div>
                             </div>
                             <div class="socialIcons">
-                                <a href="#" id="email"></a>
+                                <a href="mailto:shana@idecorateweddings.com" id="email"></a>
                                 <a href="#" id="arrow"></a>
-                                <a href="#" id="facebook"></a>
-                                <a href="#" id="pinterest"></a>
-                                <a href="#" id="instagram"></a>
-                                <a href="#" id="twitter"></a>
-                                <a href="#" id="youtube"></a>
+                                <a href="https://www.facebook.com/iDecorateweddings" id="facebook"></a>
+                                <a href="http://pinterest.com/idecorateltd/" id="pinterest"></a>
+                                <a href="http://web.stagram.com/n/idecorateweddings/" id="instagram"></a>
+                                <a href="https://twitter.com/idecorateltd" id="twitter"></a>
+                                <a href="http://www.youtube.com/idecorateweddings" id="youtube"></a>
                             </div>
                         </td>
                     </tr>
@@ -635,7 +635,7 @@
     });
     function generate_user_nav(){
         var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
-        '<li style="border:0"><a id="lnk-logout" href="#">Logout</a></li>' + 
+        '<li style="border-left:1px solid #ffffff;"><a id="lnk-logout" href="#">Logout</a></li>' + 
         '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
         $('#site-menu ul.dropdown2').append(navs);
         $('#lnk-logout').bind('click',function(e){
