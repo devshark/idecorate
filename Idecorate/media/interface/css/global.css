@@ -135,7 +135,7 @@ h5 {
       #header .headerRowTop #logo h1, #header .headerRowTop #logo h3 {
         text-align: center; }
     #header .headerRowTop #site-menu {
-      width: auto;
+      width: 400px;
       float: right;
       vertical-align: top;
       text-align: left; }

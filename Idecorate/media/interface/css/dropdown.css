@@ -23,7 +23,7 @@ ul.dropdown ul ul {
 ul.dropdown li {
   width: auto;
   position: relative;
-  z-index: 598;
+  z-index: 999;
   text-align: center;
   display: block;
   white-space: nowrap;
@@ -95,7 +95,7 @@ ul.dropdown2 ul ul {
 
 ul.dropdown2 li {
   position: relative;
-  z-index: 598;
+  z-index: 999;
   text-align: center;
   display: block;
   white-space: nowrap;
