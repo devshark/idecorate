@@ -147,7 +147,7 @@
             });
             function generate_user_nav(){
                 var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
-                '<li style="border:0"><a id="lnk-logout" href="#">Logout</a></li>' + 
+                '<li style="border-left:1px solid #ffffff"><a id="lnk-logout" href="#">Logout</a></li>' + 
                 '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
                 $('#site-menu ul.dropdown2').append(navs);
                 $('#lnk-logout').bind('click',logmeout);
@@ -196,6 +196,19 @@
                 $('#page-mask').css({display:'block'});
                 modal.css({display:'block',left:_left});
             }
+            $(function() {
+                   var zIndexNumber = 1000;
+                   // Put your target element(s) in the selector below!
+                   $("ul.dropdown li").each(function() {
+                           $(this).css('zIndex', zIndexNumber);
+                           zIndexNumber -= 10;
+                   });
+                   $("ul.dropdown2 li").each(function() {
+                           $(this).css('zIndex', zIndexNumber);
+                           zIndexNumber -= 10;
+                   });
+            });
+            
         </script>
         <script type="text/javascript">
         var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';

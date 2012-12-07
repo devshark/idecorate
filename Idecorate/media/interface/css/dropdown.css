@@ -5,9 +5,6 @@ ul.dropdown {
 ul.dropdown a {
   color: #333 !important; }
 
-ul.dropdown li:last-child {
-  border: none !important; }
-
 ul.dropdown ul {
   display: none;
   position: absolute;
@@ -23,20 +20,23 @@ ul.dropdown ul ul {
 ul.dropdown li {
   width: auto;
   position: relative;
-  z-index: 598;
+  z-index: 599;
   text-align: center;
   display: block;
   white-space: nowrap;
   color: #333; }
 
 ul.dropdown li:hover {
-  z-index: 599; }
+  z-index: 601; }
 
 ul.dropdown > li {
   float: left;
-  padding: 4px 10px;
+  padding: 4px 7px;
   cursor: pointer;
-  border-right: 1px solid; }
+  border-left: 1px solid; }
+
+ul.dropdown > li:first-child {
+  border: 0; }
 
 ul.dropdown li:hover > ul {
   display: block; }
@@ -45,7 +45,7 @@ ul.dropdown ul li {
   display: block;
   width: auto;
   text-align: left;
-  padding: 4px 10px;
+  padding: 4px 7px;
   background: #cccccc; }
 
 ul.dropdown ul li:hover {
@@ -65,9 +65,6 @@ ul.dropdown2 {
   -webkit-border-radius: 4px;
   border-radius: 4px;
   -khtml-border-radius: 4px; }
-
-ul.dropdown2 li:last-child {
-  border: none !important; }
 
 ul.dropdown2 ul {
   display: none;
@@ -90,12 +87,12 @@ ul.dropdown2 li a:hover {
   text-decoration: underline; }
 
 ul.dropdown2 ul ul {
-  top: 2px;
+  top: 0;
   left: 100%; }
 
 ul.dropdown2 li {
   position: relative;
-  z-index: 598;
+  z-index: 599;
   text-align: center;
   display: block;
   white-space: nowrap;
@@ -103,13 +100,16 @@ ul.dropdown2 li {
   background: #99A237; }
 
 ul.dropdown2 li:hover {
-  z-index: 599; }
+  z-index: 601; }
 
 ul.dropdown2 > li {
   float: left;
   cursor: default;
-  padding: 4px 10px;
-  border-right: 1px solid; }
+  padding: 4px 7px;
+  border-left: 1px solid; }
+
+ul.dropdown2 > li:first-child {
+  border: 0; }
 
 ul.dropdown2 li:hover > ul {
   display: block; }
@@ -117,5 +117,5 @@ ul.dropdown2 li:hover > ul {
 ul.dropdown2 ul li {
   display: block;
   width: auto;
-  text-align: right;
-  padding: 4px 10px; }
+  text-align: center;
+  padding: 4px 7px; }

@@ -1067,7 +1067,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		tfoot.footWrap{
 	    	tr{
 	    		td{
-	    			padding:5px;
+	    			padding: 15px;
 
 	    			.copyright{
 						float:left;
@@ -1086,9 +1086,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								display:inline-block;
 								zoom: 1;
 								*display:inline;
-								font-size: 10px;
+								font-size: 12px;
 								padding: 3px 5px;
 								border-left:1px solid #DDD;
+								color: #FFF;
 
 								a{
 									color: #FFF;
@@ -1290,8 +1291,12 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
   float: right;
   vertical-align: top;
   text-align: left;
-  width: auto !important;
+  width: 670px !important;
   font-size: 12px;
+
+  ul.dropdown2 {
+  	margin-right: 5px !important;
+  }
 
 }
 
