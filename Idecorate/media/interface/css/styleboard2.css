@@ -402,22 +402,24 @@ h5 {
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb {
           margin: 5px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li {
-            *vertical-align: top;
-            display: inline-block;
-            zoom: 1;
-            *display: inline;
             font-size: 12px;
-            padding-right: 5px; }
+            padding-right: 5px;
+            display: inline;
+            vertical-align: bottom; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a {
               text-decoration: none;
               color: #000;
               display: block;
               background-color: #DDDDDD;
-              padding: 2px 5px;
               border: 1px solid #CCCCCC; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a:hover {
               background-color: #999999;
               color: #FFF; }
+            #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a, #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li span {
+              display: inline-block;
+              zoom: 1;
+              *display: inline;
+              padding: 2px 5px; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap {
           overflow: auto; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories {

@@ -479,25 +479,29 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								margin: 5px;
 
 								li{
-									*vertical-align:top;
-									display: inline-block;
-									zoom: 1;
-									*display: inline;
 									font-size: 12px;
 									padding-right: 5px;
+									display: inline;
+									;vertical-align: bottom;
 
 									a{
 										text-decoration: none;
 										color: #000;
 										display: block;
 										background-color: #DDDDDD;
-										padding: 2px 5px;
 										border: 1px solid #CCCCCC;
 									}
 
 									a:hover{
 										background-color: #999999;
 										color: #FFF;
+									}
+
+									a, span{
+										display: inline-block;
+										zoom: 1;
+										*display: inline;
+										padding: 2px 5px;
 									}
 								}
 							}
