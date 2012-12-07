@@ -124,6 +124,11 @@ ul.dropdown2 ul li {
     padding: 4px 7px;
     position: relative;
     z-index: 603;
+     border: 1px solid #FFFFFF;
+     -moz-border-radius: 4px;
+     -webkit-border-radius: 4px;
+     border-radius: 4px;
+     -khtml-border-radius: 4px;
 }
 ul.dropdown2 ul li:hover {
 }
