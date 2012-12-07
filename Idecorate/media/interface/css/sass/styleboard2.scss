@@ -482,7 +482,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									font-size: 12px;
 									padding-right: 5px;
 									display: inline;
-									;vertical-align: bottom;
+									*vertical-align: top;
 
 									a{
 										text-decoration: none;
@@ -490,6 +490,11 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										display: block;
 										background-color: #DDDDDD;
 										border: 1px solid #CCCCCC;
+										padding: 2px 5px;
+										*padding-bottom:4px;
+										display: inline-block;
+										zoom: 1;
+										*display: inline;
 									}
 
 									a:hover{
@@ -497,11 +502,12 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										color: #FFF;
 									}
 
-									a, span{
+									span{
 										display: inline-block;
 										zoom: 1;
 										*display: inline;
-										padding: 2px 5px;
+										padding: 2px 0;
+										*padding-bottom:4px;
 									}
 								}
 							}
