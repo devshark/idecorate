@@ -118,6 +118,7 @@ $(document).ready(function () {
         }
     });
 
+    /**
     $("#canvas").mousemove(function(e){
         e.preventDefault();
         if(lassoStart && $('.selected').length == 0) {
@@ -169,6 +170,7 @@ $(document).ready(function () {
         $('#lasso').height(0);
         $('#lasso').css('display', 'none');
     });
+    **/
 
     //drag the selected product together with its handle on the fly
     $('.unselected').liveDraggable({
