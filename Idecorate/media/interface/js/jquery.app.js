@@ -15,8 +15,9 @@ active_object = null;
 
 $(document).ready(function () {
     //init lasso
-    $('<div id="lasso"></div>').appendTo('#canvas');
-    $('#canvas').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
+    //$('<div id="lasso"></div>').appendTo('#canvas');
+    //$('#canvas').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
+
     
     //remove edit button on buy tab
     $(window).hashchange( function(){
