@@ -500,21 +500,6 @@
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
-
-<script type="text/javascript">
-var textBox = document.getElementById("text-change");
-textBox.onfocus = function() {
-    textBox.select();
-
-    // Work around Chrome's little problem
-    textBox.onmouseup = function() {
-        // Prevent further mouseup intervention
-        textBox.onmouseup = null;
-        return false;
-    };
-};
-</script>
-
 <script type="text/javascript">
 
     $(document).ready( function() {
