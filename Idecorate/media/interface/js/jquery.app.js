@@ -595,7 +595,17 @@ $(document).ready(function () {
     //show or hide upper left menu of canvas;
     hide_canvas_menu();
 
+    setTimeout('ie_message()',2500);
+
 });
+
+//message in ie
+function ie_message() {
+    //view message if ie version < 9
+    if($.browser.msie && $.browser.version < 9.0){
+        alert('Sorry! Your browser does not support the following functionalities: rotate, flip, flop, and transparency changes.\nPlease use one of the following browsers: Chrome, Firefox, Safari, or try upgrading your Internet Explorer to version 9.');
+    }
+}
 
 //embelishments functions start
 
