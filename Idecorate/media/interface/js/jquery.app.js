@@ -13,7 +13,9 @@ var slideValue = 0;
 DEFAULT_TEXT_E = "I Love iDecorate";
 active_object = null;
 
+
 $(document).ready(function () {
+
     //init lasso
     //$('<div id="lasso"></div>').appendTo('#canvas');
     //$('#canvas').attr('unselectable', 'on').css('user-select', 'none').on('selectstart', false);
@@ -36,7 +38,6 @@ $(document).ready(function () {
         helper: 'clone',
         containment: 'body'
     });
-
 
     //get the maxheight sidebar name <span> and set as global
     //height for all name container <span> on the sidebar
@@ -275,7 +276,7 @@ $(document).ready(function () {
                 //set handles direction 
                 change_cursor($('.selected').attr('_handle'));
             }
-            
+
             cancelBubble(e);
 
         });
@@ -314,10 +315,12 @@ $(document).ready(function () {
         stop : function(e, ui){
             //set center coordinated for rotate plugin
             set_ctr_attr($(this));
-
             //track event
             eventTracker($('.selected'),'resize');
-
+            
+            if($.browser.msie && $.browser.version == 7.0){
+                reset_product();
+            }
         }
     });
 
@@ -961,7 +964,6 @@ function update_text_selected(text_value,font_id){
     }
 
 }
-
 //embelishments functions end
 
 
