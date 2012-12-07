@@ -93,14 +93,17 @@ function page_H(){
 	var windowH = $(window).height();
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
-		newHeight = windowH - headerH - footerH - 320;
+		newHeight = windowH - headerH - footerH - 50;
+		sectionH = $('#feature-wrap').outerHeight(true);
+		
+		if(sectionH < windowH) {
+			$('#feature-wrap').height(newHeight);
+		}
 
-	if(!$(".styleboardWrapper").hasClass(".featureContentWrap")) {
-		$(".styleboardWrapper").height(newHeight);
-		var test = $(".styleboardWrapper").height();
-		//alert(test);
+/*	if(!$("#feature-wrap").hasClass(".styleboardWrapper")) {
+		$("#feature-wrap").height(newHeight);
 	}
-
+*/
 }
 </script>
 {% endblock %}
