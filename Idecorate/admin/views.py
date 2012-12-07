@@ -1681,3 +1681,8 @@ def manage_template(request):
 def manage_homepage(request):
     info = {}
     return render_to_response('admin/manage_homepage.html',info,RequestContext(request))
+
+@staff_member_required
+def homepage_upload_banner(request):
+    info = {}
+    return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))

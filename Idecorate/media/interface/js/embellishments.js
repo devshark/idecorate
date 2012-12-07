@@ -340,7 +340,7 @@ function manage_embellishment_resize(){
             var item_per_height = _item_height*count_by_height;            
             $('#embellishments #embelishments-list-wrap .emItem').height(_height);            
 
-            if (item_per_height>_height)
+            if (item_per_height>_height && count_by_height > 1)
                 count_by_height = count_by_height-1;
 
             emb_item_per_page = count_by_width*count_by_height;
@@ -399,6 +399,7 @@ function manage_embellishment_resize(){
                                         a.addClass('draggable');
                                         a.addClass('hidden');
                                         a.addClass('em');
+                                        a.attr('_type',response_data.type);
                                         var img = $('<img />');
                                         img.attr('src',img_src_url);
                                         img.appendTo(a);
