@@ -25,7 +25,7 @@ $(document).ready(function(){
         emb_offset = 25;
         $('#embellishments .pagination').show();
         emb_item_url = $(this).attr('href');
-        $('#embellishments .breadcrumb-wrap').html('<ul class="breadcrumb"><li><a href="#">All</a></a></li><li>></li><li>'+$(this).find('span').text()+'</li></ul>');
+        $('#embellishments .breadcrumb-wrap').html('<ul class="breadcrumb"><li><a href="#">All</a></li><li><span>></span></li><li><span>'+$(this).find('span').text()+'</span></li></ul>');
         $('#embellishments .breadcrumb-wrap a').bind('click',function(e){
             $('#embelishments-list-wrap .emCat').show();
             $('#embelishments-list-wrap .emItem a').each(function(){
@@ -286,18 +286,20 @@ function get_embellishment_items(){
             emb_num_pages = response_data.num_pages;            
             $.each(data,function(i,v){
                 var id = v.pk;
-                var img_src_url = v.model == 'admin.embellishments'?EMB_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
-                var a = $('<a />');
-                a.attr('id','emb-'+id);
-                a.attr('_type',response_data.type);
-                a.addClass('thumb');
-                a.addClass('draggable');
-                a.addClass('hidden');
-                a.addClass('em');
-                var img = $('<img />');
-                img.attr('src',img_src_url);
-                img.appendTo(a);
-                a.appendTo('#embelishments-list-wrap .emItem');
+                if ($('#emb-'+id).length == 0){                    
+                    var img_src_url = v.model == 'admin.embellishments'?EMB_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
+                    var a = $('<a />');
+                    a.attr('id','emb-'+id);
+                    a.attr('_type',response_data.type);
+                    a.addClass('thumb');
+                    a.addClass('draggable');
+                    a.addClass('hidden');
+                    a.addClass('em');
+                    var img = $('<img />');
+                    img.attr('src',img_src_url);
+                    img.appendTo(a);
+                    a.appendTo('#embelishments-list-wrap .emItem');
+                }                
             });
             manage_embellishment_pagination();
             $('#embelishments-list-wrap .emCat').hide();
@@ -423,6 +425,17 @@ function manage_embellishment_resize(){
 function emb_remove_overlay(){
     if( $('.embellishment-overlay').length > 0 )
         $('.embellishment-overlay').remove();
+
+    if($.browser.msie && $.browser.version==7.0){
+        var emb = [];
+        $('#embelishments-list-wrap .emItem a').each(function(i,v){            
+            if ($.inArray($(this).attr('id'),emb)!=-1){
+                $(this).remove();
+            } else {
+                emb.push($(this).attr('id'));
+            }            
+        });
+    }
 }
 /* embellishment upload */
 function gen_uuid() {

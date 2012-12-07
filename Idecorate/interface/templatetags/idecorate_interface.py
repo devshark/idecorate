@@ -155,9 +155,9 @@ def get_breadcrumb(parent_id):
 		while i != 0:
 			cc = arr[i-1].split(':')
 			if i==1:
-				tags += '<li> > </li><li class="active">%s</li>' % (cc[1])
+				tags += '<li> <span>></span> </li><li class="active"><span>%s</span></li>' % (cc[1])
 			else:
-				tags += '<li> > </li><li><a rel="%s" href="#">%s</a></li>' % (cc[0], cc[1])
+				tags += '<li> <span>></span> </li><li><a rel="%s" href="#">%s</a></li>' % (cc[0], cc[1])
 			i = i-1
 
 		tags += '</ul>'
