@@ -402,6 +402,7 @@ h5 {
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb {
           margin: 5px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li {
+            *vertical-align: top;
             display: inline-block;
             zoom: 1;
             *display: inline;
