@@ -67,9 +67,6 @@ ul.dropdown2 {
     border-radius: 4px;
     -khtml-border-radius: 4px;
 }
-ul.dropdown2 li:last-child {
-    border: none !important;
-}
 ul.dropdown2 ul {
      display: none;
      position: absolute;
@@ -91,7 +88,7 @@ ul.dropdown2 li a:hover {
     text-decoration: underline;
 }
 ul.dropdown2 ul ul {
-     top: 2px;
+     top: 0;
      left: 100%;
 }
 ul.dropdown2 li {
