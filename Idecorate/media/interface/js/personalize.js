@@ -59,7 +59,7 @@ function populate_save_styleboard(){
 
 			var img = $('<img />');
 			var img_src = v.img[0].src.indexOf("?") != -1?v.img[0].src+i:v.img[0].src+'?'+i;
-			img.attr('src',v.img[0].src);
+			img.attr('src',img_src);
 			img.attr('style',v.img[0].style);
 			img.attr('_nb',v.img[0].nb);
 			img.attr('_wb',v.img[0].wb);
