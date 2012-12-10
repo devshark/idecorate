@@ -65,8 +65,8 @@ function populate_save_styleboard(){
 			img.attr('_wb',v.img[0].wb);
 			if($.browser.msie && $.browser.version < 9.0){
 				img.load(function(){
-					img.appendTo(elm);
-				});
+					// do nothing
+				}).appendTo(elm);;
 			} else 
 				img.appendTo(elm);
 			elm.appendTo('#canvas');			
