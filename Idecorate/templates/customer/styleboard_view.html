@@ -34,37 +34,39 @@
 			</table>
 		</div>
 		<div class="clearfix socialMedia">
-			<div class="facebookShare">
-				<a href="#" onclick="postToFeed()"><img border="0" src="/media/images/fb_share.png" /></a>
-			</div>
-			<div class="tumblerShare">
-				<!--[if IE 7]>
-					<div class="tumblrShareIE">
-						<a href="http://www.tumblr.com/share" target="_blank">
-							<img src='/media/images/tumblr.png' border="0" />
+			<div class="clearfix">
+				<div class="facebookShare">
+					<a href="#" onclick="postToFeed()"><img border="0" src="/media/images/fb_share.png" /></a>
+				</div>
+				<div class="tumblerShare">
+					<!--[if IE 7]>
+						<div class="tumblrShareIE">
+							<a href="http://www.tumblr.com/share" target="_blank">
+								<img src='/media/images/tumblr.png' border="0" />
+							</a>
+						</div>
+					<![endif]-->
+					<a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank"><img src='/media/images/tumblr.png' border="0" /></a>
+				</div>
+				<div class="twitterShare">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+					<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+					</script>
+				</div>
+				<div class="pinterestShare">
+					<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}"><img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+				</div>
+				<div class="googleShare">
+					<!--[if IE 7]>
+						<a href="http://plus.google.com" target="_blank">
+							<img src="/media/images/google_2.png" border="0" height="20" />
 						</a>
-					</div>
-				<![endif]-->
-				<a href="http://www.tumblr.com/share" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank"><img src='/media/images/tumblr.png' border="0" /></a>
-			</div>
-			<div class="twitterShare">
-				<a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
-				<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="//platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-				</script>
-			</div>
-			<div class="pinterestShare">
-				<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/680/500/&description={{ styleboard.styleboard_item.description|linebreak }}"><img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
-			</div>
-			<div class="googleShare">
-				<!--[if IE 7]>
-					<a href="http://plus.google.com" target="_blank">
-						<img src="/media/images/google_2.png" border="0" height="20" />
-					</a>
-				<![endif]-->
-				<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
-			</div>
-			<div class="email">
-				<a href="mailto:?subject=iDecorate%20Weddings%20|%20{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}" target="_blank"><img src="/media/images/email.jpg" /></a>
+					<![endif]-->
+					<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{ request|get_url }}"></div>
+				</div>
+				<div class="email">
+					<a href="mailto:?subject=iDecorate%20Weddings%20|%20{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}" target="_blank"><img src="/media/images/email.jpg" /></a>
+				</div>
 			</div>
 			<div class="clearfix styleboardDesc">
 				<p class="clearfix" align="justify">
