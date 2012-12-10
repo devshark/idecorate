@@ -16,27 +16,28 @@
 {% block content %}
 <h1>{% trans "Upload Home Banners" %}</h1>
 <form method="post" action="">
-<fieldset>
-	<div id="alert-error"></div>
-	<table width="100%" cellpadding="0" cellspacing="0">
-		<tr>
-			<td colspan="2" width="994" height="400">
-				<div id="wrap-preview"></div>				
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<a id="btn-browse" class="button btn btn-primary">Choose a Photo</a>				
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2"><input type="text" placeholder="Link" /></td>
-		</tr>
-		<tr>
-			<td colspan="2"> <input class="btn btn-primary btn-submit" type="submit" value="Upload" /> </td>
-		</tr>
-	</table>
-</fieldset>
+	{% csrf_token %}
+	<fieldset>
+		<div id="alert-error"></div>
+		<table width="100%" cellpadding="5" cellspacing="5">
+			<tr>
+				<td colspan="2" width="994" height="400">
+					<div id="wrap-preview"></div>				
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<a id="btn-browse" class="button btn btn-primary">Choose a Photo</a>				
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2"><input type="text" placeholder="Link" /></td>
+			</tr>
+			<tr>
+				<td colspan="2"> <input class="btn btn-primary btn-submit" type="submit" value="Upload" /> </td>
+			</tr>
+		</table>
+	</fieldset>
 </form>
 {% endblock %}
 {% block javascripts %}
