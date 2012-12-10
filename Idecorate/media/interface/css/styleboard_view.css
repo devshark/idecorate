@@ -55,7 +55,13 @@ aside {
     aside .socialMedia .facebookShare, aside .socialMedia .tumblerShare, aside .socialMedia .twitterShare, aside .socialMedia .pinterestShare, aside .socialMedia .googleShare, aside .socialMedia .email {
       width: auto;
       float: left;
-      padding: 3px 0 0 3px; }
+      padding: 3px 0 0 3px;
+      position: relative;
+      z-index: 500; }
+    aside .socialMedia .tumblrShareIE {
+      width: 20px;
+      height: 20px;
+      overflow: hidden; }
     aside .socialMedia .facebookShare {
       margin-left: 20px;
       cursor: pointer; }
@@ -117,7 +123,7 @@ section {
   section .socialMediaWrapper {
     width: 100%; }
     section .socialMediaWrapper .socialMedia {
-      width: 310px;
+      width: 280px;
       height: 28px;
       float: right;
       text-align: center;
@@ -125,10 +131,16 @@ section {
       section .socialMediaWrapper .socialMedia .facebookShare, section .socialMediaWrapper .socialMedia .tumblerShare, section .socialMediaWrapper .socialMedia .twitterShare, section .socialMediaWrapper .socialMedia .pinterestShare, section .socialMediaWrapper .socialMedia .googleShare, section .socialMediaWrapper .socialMedia .email {
         width: auto;
         float: left;
-        padding: 0 0 0 3px; }
+        padding: 0 0 0 3px;
+        position: relative;
+        z-index: 500; }
       section .socialMediaWrapper .socialMedia .facebookShare {
         margin-left: 20px;
         cursor: pointer; }
+      section .socialMediaWrapper .socialMedia .tumblrShareIE {
+        width: 20px;
+        height: 20px;
+        overflow: hidden; }
       section .socialMediaWrapper .socialMedia .pinterestShare {
         margin-top: 0 !important; }
       section .socialMediaWrapper .socialMedia .email img {
