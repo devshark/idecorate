@@ -63,7 +63,12 @@ function populate_save_styleboard(){
 			img.attr('style',v.img[0].style);
 			img.attr('_nb',v.img[0].nb);
 			img.attr('_wb',v.img[0].wb);
-			img.appendTo(elm);
+			if($.browser.msie && $.browser.version < 9.0){
+				img.load(function(){
+					img.appendTo(elm);
+				});
+			} else 
+				img.appendTo(elm);
 			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
