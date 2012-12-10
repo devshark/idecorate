@@ -28,6 +28,7 @@ import urllib #urlencode
 from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
 from customer.models import CustomerProfile, CustomerStyleBoard
+from django.http import HttpResponseNotFound
 
 @staff_member_required
 def admin(request):
@@ -1720,3 +1721,10 @@ def manage_homepage(request):
 def homepage_upload_banner(request):
     info = {}
     return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))
+
+@csrf_exempt
+def upload_temp_banner(request):
+	if request.method == 'POST':
+		return HttpResponse(0)
+	else:
+		return HttpResponseNotFound()
