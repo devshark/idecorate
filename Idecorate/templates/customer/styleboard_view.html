@@ -72,6 +72,7 @@
 				</p>
 			</div>
 			{% if cart_items %}
+			<div class="clearfix"></div>
 			<h2>In this Styleboard</h2>
 			<form id="formCheckout" method="POST" action="{% url checkout_from_view_styleboard %}">
 				{% csrf_token %}
