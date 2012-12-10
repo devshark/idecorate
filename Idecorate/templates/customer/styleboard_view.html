@@ -67,12 +67,11 @@
 				<a href="mailto:?subject=iDecorate%20Weddings%20|%20{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}" target="_blank"><img src="/media/images/email.jpg" /></a>
 			</div>
 			<div class="clearfix styleboardDesc">
-				<p align="justify">
+				<p class="clearfix" align="justify">
 					{{ styleboard.styleboard_item.description|linebreak }}
 				</p>
 			</div>
 			{% if cart_items %}
-			<div class="clearfix"></div>
 			<h2>In this Styleboard</h2>
 			<form id="formCheckout" method="POST" action="{% url checkout_from_view_styleboard %}">
 				{% csrf_token %}
