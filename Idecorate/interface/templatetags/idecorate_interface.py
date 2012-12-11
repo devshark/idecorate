@@ -75,24 +75,8 @@ def menuInterfaceRecursion(menus):
 	clss = ""
 
 	for menu in menus:
-
-		if menus.model == type(InfoMenu()):
-			anotherClass = ""
-			clss = "dropdown clearfix"
-
-			if InfoMenu.objects.filter(parent__id=menu.id).count() > 0:
-				arrow = ' &raquo;'
-			else:
-				arrow = ''
-
-		else:
-			anotherClass = " ddl-right"
-			clss = "dropdown2 clearfix"
-
-			if SiteMenu.objects.filter(parent__id=menu.id).count() > 0:
-				arrow = ' &raquo;'
-			else:
-				arrow = ''
+		
+		clss = "dd"
 
 		if menu.parent is None:
 			if needToOpen:
@@ -105,17 +89,11 @@ def menuInterfaceRecursion(menus):
 				needToOpen = False
 
 		if menu.link == "":
-			#css_class = ' class="nonLink"'
-			link = '%s' % (menu.name)
-			#spanOpen = '<span>'
-			#spanClose = '</span>'
+			link = '<span>%s</span>' % (menu.name)
 		else:
-			#css_class = ''
 			link = '<a href="%s">%s</a>' % (menu.link, menu.name)
-			#spanOpen = ''
-			#spanClose = ''
 
-		element += '<li>%s%s' % (link, arrow)
+		element += '<li>%s' % (link)
 
 		if menus.model == type(InfoMenu()):
 

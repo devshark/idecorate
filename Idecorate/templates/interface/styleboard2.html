@@ -11,7 +11,7 @@
         <link runat="server" rel="icon" href="/media/images/favicon.2.ico" type="image/ico" />
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard2.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/base/jquery.ui.all.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/ui-lightness/jquery.ui.all.css">
@@ -487,8 +487,8 @@
 <!-- CART -->
 <script type="text/javascript" src="/media/interface/js/cart.js"></script>
 <!-- MENU BAR -->
-<!-- <script type="text/javascript" src="/media/interface/js/hoverIntent.js"></script>
-<script type="text/javascript" src="/media/interface/js/superfish.js"></script> -->
+<script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.dropdown.js"></script>
+<script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.hoverflow.js"></script>
 <!-- STYLEBOARD TABPANNELS -->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
@@ -509,6 +509,9 @@
     $(document).ready( function() {
 
         $(':input[placeholder]').placeholder();
+        $('.dd').dropdown({
+            subClass: 'sub-menu'
+        });
 
         styleboardH();
 
@@ -635,9 +638,9 @@
     });
     function generate_user_nav(){
         var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
-        '<li style="border-left:1px solid #ffffff;"><a id="lnk-logout" href="#">Logout</a></li>' + 
+        '<li><a id="lnk-logout" href="#">Logout</a></li>' + 
         '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
-        $('#site-menu ul.dropdown2').append(navs);
+        $('#site-menu ul').append(navs);
         $('#lnk-logout').bind('click',function(e){
             logmeout();
             e.preventDefault();
@@ -726,7 +729,7 @@
 </script>
 
 <!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
-
+    
     </body>
 </html>
 
