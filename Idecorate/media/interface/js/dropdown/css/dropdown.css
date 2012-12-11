@@ -61,11 +61,11 @@ ul.dropdown ul{
 	position: absolute; 
 	top: 100%; 
 	left: 0; 
+	background-color: #f6f6f6; 
 }
 
 ul.dropdown ul li{ 
 	font-weight: normal; 
-	background: #f6f6f6; 
 	color: #000; 
 	border-bottom: 1px solid #ccc; 
 	border-left: none; 
