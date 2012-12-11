@@ -135,6 +135,7 @@ h5 {
         text-align: center; }
     #header .headerRowTop #site-menu {
       margin-right: 5px;
+      max-width: 385px;
       float: right;
       vertical-align: top;
       text-align: left;
