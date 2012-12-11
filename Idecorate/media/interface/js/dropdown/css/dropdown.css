@@ -1,13 +1,14 @@
 ul .arrow{
-	display: inline-block;
+	/*display: inline-block;
 	*display: inline;
 	zoom:1;
-	text-align: right;
+	text-align: right;*/
 }
 
 /* LEVEL ONE */
 ul.dropdown{ 
 	position: relative; 
+	*z-index: 999999;
 }
 
 ul.dropdown li{ 
@@ -16,6 +17,7 @@ ul.dropdown li{
 	display: inline-block;
 	*display: inline;
 	zoom:1; 
+	vertical-align: top;
 }
 
 ul.dropdown a:hover{ 
