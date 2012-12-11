@@ -156,14 +156,6 @@ h5 {
           -webkit-border-radius: 4px;
           border-radius: 4px;
           -khtml-border-radius: 4px; }
-          #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn .dd li {
-            border-left: 1px solid #FFF; }
-            #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn .dd li a, #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn .dd li span {
-              color: #FFF; }
-          #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn .dd li.hover, #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn .dd li:hover {
-            background-color: #737A2A; }
-          #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn .dd ul li {
-            background-color: #B9C444; }
       #compact-header table thead.headWrap tr.headWrapBottom td {
         padding: 5px; }
         #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap {

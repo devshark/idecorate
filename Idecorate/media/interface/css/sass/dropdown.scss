@@ -3,3 +3,21 @@
     font-size: 12px;
 }
 
+#site-menu{
+    .dd{
+        li{
+            border-left: 1px solid #FFF;
+            a,span{
+                color: #FFF !important;
+            }
+        }
+        li.hover,li:hover{
+            background-color: #737A2A;
+        }
+
+        ul li{
+            background-color: #B9C444;
+        }
+    }
+}
+

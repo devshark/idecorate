@@ -12,6 +12,7 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
 
         {%  block style %}{% endblock %}
 
@@ -105,6 +106,8 @@
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
         <script src="/media/interface/js/jquery-ui.js"></script>
         <script src="/media/interface/js/jquery.placeholder.js"></script>
+        <script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.dropdown.js"></script>
+        <script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.hoverflow.js"></script>
         <script type="text/javascript">
             $(function() {
                 var dateToday = new Date();
@@ -127,6 +130,11 @@
                         dates.not(this).datepicker("option", option, date);
                     }
                 });
+
+                $('.dd').dropdown({
+                    subClass: 'sub-menu'
+                }).show();
+
 
                 /**
                 $( "#datepicker" ).datepicker({

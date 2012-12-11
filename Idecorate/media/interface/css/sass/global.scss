@@ -125,7 +125,7 @@ h5 {
     .headerColumn {
       vertical-align: top; 
       a {
-        text-decoration: none;
+        text-decoration: none !important;
         color: #333333; 
       }
       a:hover {
@@ -134,11 +134,8 @@ h5 {
     }
 
     #info-menu {
-      width: 400px; 
-    }
-
-    #info-menu {
       float: left;
+      width: 400px; 
     }
 
     #logo {
@@ -150,10 +147,16 @@ h5 {
         }
     }
     #site-menu {
-      width: 400px;
+      margin-right: 5px;
       float: right;
       vertical-align: top;
       text-align: left;
+      background-color: #99A237;
+      padding: 5px;
+      -moz-border-radius: 4px;
+      -webkit-border-radius: 4px;
+      border-radius: 4px; 
+      -khtml-border-radius: 4px;
 
     }
     

@@ -1,3 +1,12 @@
 .dd {
   display: none;
   font-size: 12px; }
+
+#site-menu .dd li {
+  border-left: 1px solid #FFF; }
+  #site-menu .dd li a, #site-menu .dd li span {
+    color: #FFF !important; }
+#site-menu .dd li.hover, #site-menu .dd li:hover {
+  background-color: #737A2A; }
+#site-menu .dd ul li {
+  background-color: #B9C444; }
