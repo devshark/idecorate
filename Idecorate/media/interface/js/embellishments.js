@@ -33,6 +33,11 @@ $(document).ready(function(){
             });
             $('#embellishments .breadcrumb-wrap').html('');
             $('#embellishments .pagination').hide();
+            // var _h = $('#embellishments .breadcrumb-wrap').outerHeight(true)+$('#embellishments .pagination').outerHeight(true)+$('#embellishments .formWrap').outerHeight(true)+3;
+            // $('#embelishments-list-wrap').height($('#embellishments').outerHeight(true)-_h);
+            $('#embelishments-list-wrap').height($('#embellishments').outerHeight(true)-$('#embellishments .formWrap').outerHeight(true));
+            if($.browser.msie && ($.browser.version==7.0 || $.browser.version==8.0))
+                $('#embelishments-list-wrap').height($('#embelishments-list-wrap').height()-20);
             e.preventDefault();
         });
         emb_type = $(this).attr('rel');
@@ -249,6 +254,9 @@ function generate_embellishment_pagination(){
         $('#emb-page-number-' + emb_current_page).addClass('cur-page');
         generate_embellishment_pagination();
     });
+
+    var _h = $('#embellishments .breadcrumb-wrap').outerHeight(true)+$('#embellishments .pagination').outerHeight(true)+$('#embellishments .formWrap').outerHeight(true)+3;
+    $('#embelishments-list-wrap').height($('#embellishments').outerHeight(true)-_h);
 }
 
 function populate_embellishment_by_page(){
@@ -342,7 +350,7 @@ function manage_embellishment_resize(){
             var item_per_height = _item_height*count_by_height;            
             $('#embellishments #embelishments-list-wrap .emItem').height(_height);            
 
-            if (item_per_height>_height)
+            if (item_per_height>_height && count_by_height > 1)
                 count_by_height = count_by_height-1;
 
             emb_item_per_page = count_by_width*count_by_height;
@@ -402,6 +410,7 @@ function manage_embellishment_resize(){
                                         a.addClass('draggable');
                                         a.addClass('hidden');
                                         a.addClass('em');
+                                        a.attr('_type',response_data.type);
                                         var img = $('<img />');
                                         img.attr('src',img_src_url);
                                         img.appendTo(a);

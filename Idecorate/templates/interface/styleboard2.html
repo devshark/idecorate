@@ -153,6 +153,15 @@
             *margin: 0;
             padding: 0;
         }
+        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments {
+            overflow: hidden;
+        }
+        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap {
+            overflow: auto;
+        }
+        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap {
+            height: 60px;
+        }
         </style>
     </head>
     <body>
@@ -223,7 +232,7 @@
                                         </label>
                                     </div>
                                     <div class="sidebarTotals">
-                                        <h5>Total: <span id="my-order-total">$0</span></h5>
+                                        <h5>Total: <span id="my-order-total">$0.00</span></h5>
                                     </div>
                                 </fieldset>
                             </div>
@@ -617,7 +626,8 @@
         $('#embellishments, #templates').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
         $('#create-tab .product-list-wrap .product-list').height(___height).css({minHeight:____height});
         $('#buy-tab').height(_____height).css({minHeight:height_});
-        $('#buy-tab .buyTableWrap .table .tbody').height(______height);
+        $('#buy-tab .buyTableWrap .table .tbody').height(______height);        
+        $('#embelishments-list-wrap').height(______height-$('#embellishments .formWrap').outerHeight(true)+17);
 
     }
 

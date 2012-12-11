@@ -74,6 +74,11 @@ aside {
       position: relative;
       z-index: 500;
     }
+    .tumblrShareIE {
+      width: 20px;
+      height: 20px;
+      overflow: hidden;
+    }
     .facebookShare{
      margin-left: 20px;
      cursor: pointer;
@@ -181,7 +186,7 @@ section {
     width: 100%;
     
     .socialMedia {
-      width: 310px;
+      width: 280px;
       height: 28px;
       float: right;
       text-align: center;
@@ -198,6 +203,11 @@ section {
       .facebookShare{
        margin-left: 20px;
        cursor: pointer;
+      }
+      .tumblrShareIE {
+        width: 20px;
+        height: 20px;
+        overflow: hidden;
       }
       .pinterestShare {
         margin-top: 0 !important;

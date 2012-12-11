@@ -28,6 +28,7 @@ import urllib #urlencode
 from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
 from customer.models import CustomerProfile, CustomerStyleBoard
+from django.http import HttpResponseNotFound
 
 @staff_member_required
 def admin(request):
@@ -447,8 +448,15 @@ def admin_create_product(request):
     		productPrice.save()
 
     		#REMOVE FILES
-    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
-    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+    		try:
+    			os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+    		except:
+    			pass
+    		try:
+
+    			os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+    		except:
+    			pass
     		#shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
     		#shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
     		
@@ -536,7 +544,10 @@ def admin_edit_product(request, prod_id):
 		    	else:
 		    		img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", prodName))
 
-	    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+		    	try:
+	    			os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+	    		except:
+	    			pass
 	    		#shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['original_image']))
 
 	    		product.original_image_thumbnail = thumbName
@@ -557,7 +568,10 @@ def admin_edit_product(request, prod_id):
 		    	else:
 		    		img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
 	    		
-	    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+	    		try:
+	    			os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+	    		except:
+	    			pass
 	    		#shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']), "%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
 
     		product.sku = form.cleaned_data['product_sku']
@@ -614,7 +628,10 @@ def admin_upload_product_image(request):
 					img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName))
 
 					splittedName = getExtensionAndFileName(newFileName)
-					os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName))
+					try:
+						os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName))
+					except:
+						pass
 					newFileName = "%s%s" % (splittedName[0], ".jpg")
 					img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName))
 
@@ -891,7 +908,10 @@ def admin_upload_embellishment(request):
 	    	embellishment.save()
 
 	    	#REMOVE FILES
-	    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+	    	try:
+	    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+	    	except:
+	    		pass
 
 	    	messages.success(request, _('Embellishment Saved.'))
 	    	return redirect('admin_upload_embellishment')
@@ -924,7 +944,10 @@ def admin_upload_embellishment_image(request):
 					img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", newFileName))
 
 					splittedName = getExtensionAndFileName(newFileName)
-					os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", newFileName))
+					try:
+						os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", newFileName))
+					except:
+						pass
 					newFileName = "%s%s" % (splittedName[0], ".jpg")
 					img.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", newFileName))
 
@@ -1235,9 +1258,18 @@ def admin_edit_embellishment(request, e_id):
 		    	img.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, form.cleaned_data['embellishment_image']))
 
 		    	#REMOVE FILES
-		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
-		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, embellishment.image))
-		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, embellishment.image_thumb))
+		    	try:
+		    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+		    	except:
+		    		pass
+		    	try:
+		    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, embellishment.image))
+		    	except:
+		    		pass
+		    	try:
+		    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, embellishment.image_thumb))
+		    	except:
+		    		pass
 
 		    	embellishment.image = form.cleaned_data['embellishment_image']
 		    	embellishment.image_thumb = thumbName
@@ -1406,7 +1438,10 @@ def admin_edit_font(request, t_id):
 	    		shutil.move("%s%s%s" % (settings.MEDIA_ROOT, "fonts/temp/", form.cleaned_data['font_file']), "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", form.cleaned_data['font_file']))
 
 		    	#REMOVE FILES
-		    	os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", font.font))
+		    	try:
+		    		os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", font.font))
+		    	except:
+		    		pass
 
 		    	font.font = form.cleaned_data['font_file']
 
@@ -1681,3 +1716,15 @@ def manage_template(request):
 def manage_homepage(request):
     info = {}
     return render_to_response('admin/manage_homepage.html',info,RequestContext(request))
+
+@staff_member_required
+def homepage_upload_banner(request):
+    info = {}
+    return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))
+
+@csrf_exempt
+def upload_temp_banner(request):
+	if request.method == 'POST':
+		return HttpResponse(0)
+	else:
+		return HttpResponseNotFound()
