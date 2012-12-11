@@ -12,6 +12,7 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard2.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/base/jquery.ui.all.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/ui-lightness/jquery.ui.all.css">
@@ -170,18 +171,18 @@
                 <thead class="headWrap">
                     <tr class="headWraptop">
                         <td id="info-menu">
-                            <div class="headerColumn clearfix" id="info-menu">
+                            <div class="headerColumn clearfix">
                                 {{ "info"|getInterfaceMenus }}
                             </div>
                         </td>
                         <td id="logo">
-                            <a href="{% url home %}">
-                                <img width="193px" height="43px" src="/media/images/idecorate_wedding.jpg" title="logo" />
-                            </a>
+                            <div class="headerColumn clearfix">
+                            <a href="{% url home %}"><img width="193px" height="43px" src="/media/images/idecorate_wedding.jpg" title="logo" /></a>
+                            </div>
                         </td>
                         <td id="site-menu">
-                            <div style="width: auto;">
-                            {{ "site"|getInterfaceMenus }}
+                            <div class="headerColumn clearfix">
+                                {{ "site"|getInterfaceMenus }}
                             </div>
                         </td>
                     </tr>
@@ -521,7 +522,7 @@
         
         $('.dd').dropdown({
             subClass: 'sub-menu'
-        });
+        }).show();
 
         styleboardH();
 
@@ -651,7 +652,7 @@
         var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
         '<li><a id="lnk-logout" href="#">Logout</a></li>' + 
         '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
-        $('#site-menu ul').append(navs);
+        $('#site-menu ul.dd').append(navs);
         $('#lnk-logout').bind('click',function(e){
             logmeout();
             e.preventDefault();

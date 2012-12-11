@@ -1,11 +1,8 @@
-/**{ margin: 0; padding: 0; }
-body{ font: 14px Helvetica, Sans-Serif; } 
-a{ text-decoration: none; }
-ul{ list-style: none; }
-p{ margin: 15px 0; }*/
-
 ul .arrow{
-	float: right;
+	display: inline-block;
+	*display: inline;
+	zoom:1;
+	text-align: right;
 }
 
 /* LEVEL ONE */
@@ -38,7 +35,7 @@ ul.dropdown li{
 }
 
 ul.dropdown li:first-child{ 
-	border-left: none; 
+	border-left: none !important; 
 }
 
 ul.dropdown li.hover,
@@ -48,7 +45,8 @@ ul.dropdown li:hover{
 	position: relative; 
 }
 
-ul.dropdown li.hover a{ 
+ul.dropdown li.hover a,
+ul.dropdown li.hover span{ 
 	color: black; 
 	white-space: nowrap;
 }
