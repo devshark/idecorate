@@ -11,8 +11,11 @@ ul.dropdown{
 }
 
 ul.dropdown li{ 
-	float: left; 
-	zoom: 1; 
+	/*float: left; 
+	zoom: 1;*/
+	display: inline-block;
+	*display: inline;
+	zoom:1; 
 }
 
 ul.dropdown a:hover{ 
