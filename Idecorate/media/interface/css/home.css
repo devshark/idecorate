@@ -78,7 +78,8 @@ section {
     width: 100%;
     height: auto;
     margin: 0 0 10px 0;
-    box-shadow: 5px 5px 5px #DDDEE5; }
+    box-shadow: 5px 5px 5px #DDDEE5;
+    border: 1px solid #EEEEEE; }
     section .wrapper2 a {
       display: block;
       width: 488px;
@@ -96,7 +97,8 @@ section {
     width: 100%;
     height: auto;
     margin: 0 0 10px 0;
-    box-shadow: 5px 5px 5px #DDDEE5; }
+    box-shadow: 5px 5px 5px #DDDEE5;
+    border: 1px solid #EEEEEE; }
     section .wrapper3 a {
       display: block;
       width: 322px;
