@@ -444,15 +444,15 @@ $(document).ready(function () {
     $('#redo').click(function(e){
         e.preventDefault();
         //show or hide upper left menu of canvas;
-        hide_canvas_menu();
         redo_styleboard();
+        hide_canvas_menu();
     });
 
     $('#undo').click(function(e){
         e.preventDefault();
         //show or hide upper left menu of canvas;
-        hide_canvas_menu();
         undo_styleboard();
+        hide_canvas_menu();
     });
 
     /*  

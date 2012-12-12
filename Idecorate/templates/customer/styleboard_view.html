@@ -166,7 +166,7 @@
 	            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
 	            var disqus_shortname = 'idecoratewedding'; // required: replace example with your forum
 	            var disqus_titleshortname = 'idecorate Weddings';
-	            var disqus_developer = 1; // developer mode is on
+	            var disqus_developer = 1; // developer mode is on set to 0 for live
 	            var disqus_identifier = window.location.href;
 
 	            /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -253,4 +253,8 @@
 	        }());
         </script>
         <!--DISQUS -->
+        <script src="/media/interface/js/jquery.placeholder.js"></script>
+        <script type="text/javascript">
+        $(':input[placeholder]').placeholder();
+        </script>
 {% endblock %}

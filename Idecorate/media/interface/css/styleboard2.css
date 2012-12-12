@@ -131,18 +131,31 @@ h5 {
     #compact-header table thead.headWrap {
       background-color: #F0EBE5; }
       #compact-header table thead.headWrap tr.headWraptop td {
-        padding-top: 5px; }
+        padding-top: 5px;
+        vertical-align: top; }
       #compact-header table thead.headWrap tr.headWraptop td#info-menu {
-        width: 41.927%;
-        padding-left: 5px; }
+        padding-left: 5px;
+        width: 42.188%; }
+        #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn {
+          float: left; }
       #compact-header table thead.headWrap tr.headWraptop td#logo {
         width: 15.625%; }
-        #compact-header table thead.headWrap tr.headWraptop td#logo a {
+        #compact-header table thead.headWrap tr.headWraptop td#logo .headerColumn a {
           display: block;
           width: 193px;
-          height: 43px; }
+          height: 43px;
+          margin: 0 auto; }
       #compact-header table thead.headWrap tr.headWraptop td#site-menu {
-        width: 62.76%; }
+        width: 42.188%;
+        padding-right: 5px; }
+        #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn {
+          float: right;
+          background-color: #99A237;
+          padding: 5px;
+          -moz-border-radius: 4px;
+          -webkit-border-radius: 4px;
+          border-radius: 4px;
+          -khtml-border-radius: 4px; }
       #compact-header table thead.headWrap tr.headWrapBottom td {
         padding: 5px; }
         #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap {
@@ -982,21 +995,3 @@ h5 {
 
 .hidden {
   visibility: hidden; }
-
-#site-menu {
-  float: right;
-  vertical-align: top;
-  text-align: left;
-  width: 670px !important;
-  font-size: 12px; }
-  #site-menu ul.dropdown2 {
-    margin-right: 5px !important; }
-
-#info-menu {
-  vertical-align: top; }
-  #info-menu .dropdown {
-    font-size: 12px; }
-    #info-menu .dropdown ul li {
-      color: #333; }
-      #info-menu .dropdown ul li a {
-        color: #333; }
