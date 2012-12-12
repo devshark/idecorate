@@ -116,6 +116,7 @@ section{
 		a {
 			display: block;
 			width: 489px;
+			*width: 490px;
 			height: 100%;
 			float: left;
 			box-shadow: 5px 5px 5px #DDDEE5;
@@ -143,12 +144,13 @@ section{
 		a {
 			display: block;
 			width: 322px;
-			*width: 319px;
+			*width: 317px;
 			height: 100%;
 			float: left;
-			box-shadow: 5px 5px 5px #DDDEE5;
+			box-shadow: 3px 3px 3px #DDDEE5;
 			border:1px solid #EEEEEE;
-			margin-right: 10px;
+			margin-left: 10px;
+			*margin-left: 17px;
 
 			img {
 				width: 100%;
@@ -158,8 +160,8 @@ section{
 
 		}
 
-		a:last-child {
-			margin-right: 0;
+		a:first-child {
+			margin-left: 0;
 		}
 
 	}
