@@ -112,15 +112,14 @@ section{
 		width: 100%;
 		height: auto;
 		margin: 0 0 10px 0;
+		box-shadow: 5px 5px 5px #DDDEE5;
 
 		a {
 			display: block;
-			width: 489px;
+			width: 488px;
 			*width: 490px;
 			height: 100%;
 			float: left;
-			box-shadow: 5px 5px 5px #DDDEE5;
-			border:1px solid #EEEEEE;
 
 			img {
 				width: 100%;
@@ -130,8 +129,9 @@ section{
 
 		}
 
-		a:first-child {
-			margin-right: 10px;
+		a:last-child {
+			width: 488px;
+			margin-left: 18px;
 		}
 
 	}
@@ -140,6 +140,7 @@ section{
 		width: 100%;
 		height: auto;
 		margin: 0 0 10px 0;
+		box-shadow: 5px 5px 5px #DDDEE5;
 
 		a {
 			display: block;
@@ -147,9 +148,7 @@ section{
 			*width: 317px;
 			height: 100%;
 			float: left;
-			box-shadow: 3px 3px 3px #DDDEE5;
-			border:1px solid #EEEEEE;
-			margin-left: 10px;
+			margin-left: 13px;
 			*margin-left: 17px;
 
 			img {
@@ -162,6 +161,9 @@ section{
 
 		a:first-child {
 			margin-left: 0;
+		}
+		a:last-child {
+			margin-left: 14px;
 		}
 
 	}
