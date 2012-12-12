@@ -130,7 +130,7 @@ def category_thumbnail_upload(request):
 		thumbnail = request.FILES['image']
 		res = validate_thumbnail(thumbnail)
 		if res['error']:
-			return_response = 'fail|%s' % res['msg']			
+			return_response = 'fail|%s' % res['msg']
 		else:
 			data = {}
 			data['thumbnail'] = thumbnail

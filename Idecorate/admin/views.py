@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm, HomeBannerForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -29,6 +29,8 @@ from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
 from customer.models import CustomerProfile, CustomerStyleBoard
 from django.http import HttpResponseNotFound
+from admin.services import home_banner, validate_banner, save_home_banner, validate_home_banner_form, get_home_banners
+from cart.services import generate_unique_id
 
 @staff_member_required
 def admin(request):
@@ -1715,16 +1717,53 @@ def manage_template(request):
 @staff_member_required
 def manage_homepage(request):
     info = {}
+    info['home_banners'] = get_home_banners()
     return render_to_response('admin/manage_homepage.html',info,RequestContext(request))
 
 @staff_member_required
 def homepage_upload_banner(request):
     info = {}
+    form = HomeBannerForm()
+    if request.method=="POST":
+    	form = HomeBannerForm(request.POST)
+    	if form.is_valid():
+    		validated = validate_home_banner_form(form.cleaned_data)
+    		if not validated:
+	    		save_response = save_home_banner(form.cleaned_data)
+	    		if save_response:
+	    			messages.success(request, _('Successfully added.'))
+	    		else:
+	    			messages.error(request, _('Could not save. Please contact administrator.'))
+	    		return redirect('homepage_upload_banner')
+	    	else:
+	    		info['validated'] = validated
+    info['form'] = form
     return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))
 
 @csrf_exempt
 def upload_temp_banner(request):
 	if request.method == 'POST':
-		return HttpResponse(0)
+		size = int(request.POST['size'])
+		uploaded = request.FILES['image']
+		validated = validate_banner(uploaded)
+
+		if validated['error']:
+			return_response = 'fail|%s' % validated['msg']			
+		else:
+			max_width = 0
+			max_height = settings.HOME_BANNER_HEIGHT
+			if size == 11:
+				max_width = settings.HOME_BANNER_WHOLE_WIDTH
+			elif size==21 or size==22:
+				max_width = settings.HOME_BANNER_HALF_WIDTH
+			else:
+				max_width = settings.HOME_BANNER_THIRD_WIDTH			
+
+			ret = home_banner(uploaded, max_width, max_height)
+			if ret:
+				return_response = 'good|%s' % ret
+			else:
+				return_response = 'fail|Server error. Please contact administrator.'
+		return HttpResponse(return_response)
 	else:
 		return HttpResponseNotFound()

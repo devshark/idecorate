@@ -55,9 +55,10 @@ class TextFonts(models.Model):
 class HomeBanners(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
 	is_active = models.BooleanField(db_column="is_active", default=True)
-	link = models.CharField(db_column='link', max_length=256)
+	link = models.CharField(db_column='link', max_length=256, blank=True)
 	image = StdImageField(upload_to='banners', blank=True, size=(322,400,True))
-	order = models.IntegerField(db_column='order', null=True)	
+	order = models.IntegerField(db_column='order', null=True)
+	size = models.IntegerField(db_column='size', null=True)
 	is_deleted = models.BooleanField(db_column='is_deleted', default=False)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 
@@ -65,3 +66,13 @@ class HomeBanners(models.Model):
 		db_table = 'home_banners'
 		ordering = ["created"]
 		verbose_name = _("Home Banners")
+
+class HomeBannerImages(models.Model):
+	id = models.AutoField(db_column='id', primary_key=True)
+	home_banner = models.ForeignKey(HomeBanners)
+	image = models.CharField(db_column='image', max_length=256)
+	link = models.CharField(db_column='link', max_length=256)
+
+	class Meta:
+		db_table = 'home_banner_images'
+		verbose_name = _("Home Banner Images")

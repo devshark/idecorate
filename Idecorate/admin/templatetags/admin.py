@@ -8,6 +8,7 @@ from django.contrib.sites.models import Site
 from cart.models import ProductPrice
 from customer.models import CustomerProfile
 from django.contrib.humanize.templatetags.humanize import naturaltime
+from interface.views import admin as admin2
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -450,3 +451,13 @@ def user_enable_disable(user):
 
 	return mark_safe(ret)
 
+@register.filter
+def get_images(home_banner_id):
+	images = admin2.models.HomeBannerImages.objects.filter(home_banner__id=home_banner_id)
+	ret = ''
+	i=1
+	for image in images:
+		ret += '<a href="#" rel="%s">Image %s</a><br />' % (image.image, i);
+		++i
+	
+	return images	

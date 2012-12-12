@@ -5,10 +5,62 @@
 {% endblock %}
 {% block styles %}
 <style type="text/css">
-#wrap-preview {
-	border: 1px solid #ccc;
+.wrap-preview {
+	display: inline-block;
+	*display: inline;	
+}
+.third {
 	width: 322px;
+	border: 1px solid #ccc;
 	height: 400px;
+	margin-bottom: 5px;
+}
+.half {
+	width: 489px;
+	border: 1px solid #ccc;
+	height: 400px;
+	margin-bottom: 5px;
+}
+.whole {
+	width: 994px;
+	border: 1px solid #ccc;
+	height: 400px;
+	margin-bottom: 5px;
+}
+#wrap-half .spacer {
+	display: inline-block;
+	*display: inline;
+	width: 5px;
+}
+#wrap-third .spacer {
+	display: inline-block;
+	*display: inline;
+	width: 3px;
+}
+.hidden {
+	display: none;
+}
+#wrap-browse-half #btn-browse-half1 {
+	margin-right: 385px;
+}
+.loading {
+	background: url('/media/images/loader.gif') no-repeat;
+	width: 16px;
+	height: 16px;
+}
+.pv {
+	position:relative;
+}
+.pv img {
+	margin:auto;
+	position:absolute;
+	top:0;
+	bottom:0;	
+	max-height:100%;
+	max-width:100%;
+}
+.alert-error {
+	margin-top: 20px;
 }
 </style>
 {% endblock %}
@@ -16,110 +68,281 @@
 {% block content %}
 <h1>{% trans "Upload Home Banners" %}</h1>
 <form method="post" action="">
-	{% csrf_token %}
-	<fieldset>
-		<div id="alert-error"></div>
-		<table width="100%" cellpadding="5" cellspacing="5">
-			<tr>
-				<td colspan="2" width="994" height="400">
-					<div id="wrap-preview"></div>				
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<a id="btn-browse" class="button btn btn-primary">Choose a Photo</a>				
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2"><input type="text" placeholder="Link" /></td>
-			</tr>
-			<tr>
-				<td colspan="2"> <input class="btn btn-primary btn-submit" type="submit" value="Upload" /> </td>
-			</tr>
-		</table>
-	</fieldset>
+{% csrf_token %}
+{{ form.image11 }}
+{{ form.image21 }}
+{{ form.image22 }}
+{{ form.image31 }}
+{{ form.image32 }}
+{{ form.image33 }}
+
+<fieldset>	
+	<div id="alert-error">		
+		{% if messages %}
+		{% for message in messages %}
+		<div class="alert alert-{{ message.tags }}">
+		  <a class="close" data-dismiss="alert" href="#">×</a>
+		  <h4 class="alert-heading">{{ message.tags }}!</h4>
+		  	{{ message }}		  
+		</div>
+		{% endfor %}
+		{% endif %}
+
+		{% if validated %}
+		<div class="alert alert-error">
+			<a class="close" data-dismiss="alert" href="#">×</a>
+			<h4 class="alert-heading">Please correct the following errors:</h4>
+			<ol>
+				{% if validated.image11 %}
+				<li>{{ validated.image11 }}</li>
+				{% endif %}
+				{% if validated.image21 %}
+				<li>{{ validated.image21 }}</li>
+				{% endif %}
+				{% if validated.image22 %}
+				<li>{{ validated.image22 }}</li>
+				{% endif %}
+				{% if validated.image31 %}
+				<li>{{ validated.image31 }}</li>
+				{% endif %}
+				{% if validated.image32 %}
+				<li>{{ validated.image32 }}</li>
+				{% endif %}
+				{% if validated.image33 %}
+				<li>{{ validated.image33 }}</li>
+				{% endif %}
+				{% if validated.link %}
+				<li>{{ validated.link }}</li>
+				{% endif %}
+			</ol>
+		</div>
+		{% endif %}
+	</div>
+	<table width="100%" cellpadding="5" cellspacing="5">
+		<tr>
+			<td colspan="2">
+				{{ form.sizes }}				
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" width="994" height="400">
+				<div id="wrap-whole" class="selected">
+					<div class="wrap-preview">
+						<div class="whole pv"></div>
+						<a id="btn-browse-whole" class="button btn btn-primary brw" rel="11">Choose a Photo</a>
+						<br /><br />
+						{{ form.wholelink|attr:"placeholder:Link" }}
+					</div>
+				</div>
+				<div id="wrap-half" class="hidden">
+					<div>
+						<div class="wrap-preview">
+							<div id="half1-preview" class="half pv"></div>
+							<a id="btn-browse-half1" class="button btn btn-primary brw" rel="21">Choose a Photo</a>
+							<br /><br />
+							{{ form.half1link|attr:"placeholder:Link" }}
+						</div>
+						<div class="spacer"></div>
+						<div class="wrap-preview">
+							<div id="half2-preview" class="half pv"></div>
+							<a id="btn-browse-half2" class="button btn btn-primary brw" rel="22">Choose a Photo</a>
+							<br /><br />
+							{{ form.half2link|attr:"placeholder:Link" }}
+						</div>
+					</div>
+				</div>
+				<div id="wrap-third" class="hidden">
+					<div class="wrap-preview">
+						<div id="third1-preview" class="third pv"></div>
+						<a id="btn-browse-third1" class="button btn btn-primary brw" rel="31">Choose a Photo</a>
+						<br /><br />
+						{{ form.third1link|attr:"placeholder:Link" }}
+					</div>
+					<div class="spacer"></div>
+					<div class="wrap-preview">
+						<div id="third2-preview" class="third pv"></div>
+						<a id="btn-browse-third2" class="button btn btn-primary brw" rel="32">Choose a Photo</a>
+						<br /><br />
+						{{ form.third2link|attr:"placeholder:Link" }}
+					</div>
+					<div class="spacer"></div>
+					<div class="wrap-preview">
+						<div id="third3-preview" class="third pv"></div>
+						<a id="btn-browse-third3" class="button btn btn-primary brw" rel="33">Choose a Photo</a>
+						<br /><br />
+						{{ form.third3link|attr:"placeholder:Link" }}
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2"> <input class="btn btn-primary btn-submit" type="submit" value="Upload" /> </td>
+		</tr>
+	</table>
+</fieldset>
 </form>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-		new AjaxUpload('btn-browse', {
-			name: 'image',
-			action: '{% url upload_temp_banner %}',
-			onSubmit: function(file, extension) {
-
-				if(extension == 'tif' || extension == 'tiff'){					
-					if($('.alert.alert-error').length > 0){
-						if ($('.thumb-error').length > 0)
-							$('.alert.alert-error ol li.thumb-error').text('{% trans "File type is not supported" %}');
-						else
-							$('.alert.alert-error ol').append('<li class="thumb-error">{% trans "File type is not supported" %}</li>');
-					} else {
-						var elm = '<div class="alert alert-error">' +
-								'<a class="close" data-dismiss="alert" href="#">×</a>' +
-								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
-								'<ol>' +
-								'<li class="thumb-error">{% trans "File type is not supported" %}</li>' +
-								'</ol>' +
-							'</div>';
-						$('#alert-error').html(elm);
-					}					
-					return false;
-				}
-
-				if($('#created-thumb').length > 0)
-					$('#created-thumb').remove();
-				$('div#preview').append('<div class="loading"></div>');
-			},
-			onComplete: function(file, response){
-				$('div.loading').remove();
-				var splittedResponse = response.split('|');				
-				if (splittedResponse[0] == 'fail') {
-					var msg = splittedResponse[1];
-					if($('.alert.alert-error').length > 0){
-						if ($('.thumb-error').length > 0)
-							$('.alert.alert-error ol li.thumb-error').text(msg);
-						else
-							$('.alert.alert-error ol').append('<li class="thumb-error">' + msg + '</li>');						
-					} else {
-						var elm = '<div class="alert alert-error">' +
-								'<a class="close" data-dismiss="alert" href="#">×</a>' +
-								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
-								'<ol>' +
-								'<li class="thumb-error">' + msg + '</li>' +
-								'</ol>' +
-							'</div>';
-						$('#alert-error').html(elm);
-					}
-				} else {
-					$('#btn-browse').text('Photo Chosen');
-					$('#id_thumbnail').val('temp|' + splittedResponse[1]);
-					$('div#preview').append('<img id="created-thumb" src="/media/' + splittedResponse[2] + '" />');
-					if($('.alert.alert-error').length > 0){
-						$('.alert.alert-error a.close').trigger('click');
-					}
-				}				
-			},
-			error: function(){
-				if($('.alert.alert-error').length > 0){
-					if ($('.thumb-error').length > 0)
-						$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');
-					else
-						$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
-				} else {
-					var elm = '<div class="alert alert-error">' +
-							'<a class="close" data-dismiss="alert" href="#">×</a>' +
-							'<h4 class="alert-heading">Please correct the following errors:</h4>' +
-							'<ol>' +
-							'<li class="thumb-error">{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
-							'</ol>' +
-						'</div>';
-					$('#alert-error').html(elm);
-				}				
-				$('div.loading').remove();
-			}
+	function togglePreview(v){
+		$('.selected').addClass('hidden');
+		$('.selected').removeClass('selected');
+		if (v==1){
+			$('#wrap-whole').addClass('selected');
+			$('#wrap-whole').removeClass('hidden');
+		} else if (v==2){
+			$('#wrap-half').addClass('selected');
+			$('#wrap-half').removeClass('hidden');
+		} else {
+			$('#wrap-third').addClass('selected');
+			$('#wrap-third').removeClass('hidden');
+		}
+		$('.pv img').each(function(){
+			$(this).remove();
 		});
+	}
+	$(document).ready(function(){
+		$('#id_sizes').change(function(){
+			if ($.browser.msie){
+				$(this).blur();
+			}
+			var v = $(this).val();
+			togglePreview(v);
+			$('#id_image11').val('');
+			$('#id_image21').val('');
+			$('#id_image22').val('');
+			$('#id_image31').val('');
+			$('#id_image32').val('');
+			$('#id_image33').val('');
+		});
+
+		togglePreview($('#id_sizes').val());
+
+		$('.brw').each(function(){
+			var r = $(this).attr('rel');
+			var elm = this;
+
+			var preview = '';
+			if (r=='11')
+				preview = '.whole';
+			else if (r=='21')
+				preview = '#half1-preview';
+			else if (r=='22')
+				preview = '#half2-preview';
+			else if (r=='31')
+				preview = '#third1-preview';
+			else if (r=='32')
+				preview = '#third2-preview';
+			else if (r=='33')
+				preview = '#third3-preview';
+			var eid = $(this).attr('id');
+			new AjaxUpload(eid, {
+				name: 'image',
+				action: '{% url upload_temp_banner %}',
+				data: {
+					size : r
+				},
+				onSubmit: function(file, extension) {					
+					$(preview).append('<div class="loading"></div>');
+				},
+				onComplete: function(file, response){
+					$('div.loading').remove();
+					var splittedResponse = response.split('|');
+					console.log(splittedResponse)
+					if (splittedResponse[0] == 'fail') {
+						var msg = splittedResponse[1];
+						if($('.alert.alert-error').length > 0){
+							if ($('.thumb-error').length > 0)
+								$('.alert.alert-error ol li.thumb-error').text(msg);
+							else
+								$('.alert.alert-error ol').append('<li class="thumb-error">' + msg + '</li>');						
+						} else {
+							var elm = '<div class="alert alert-error">' +
+									'<a class="close" data-dismiss="alert" href="#">×</a>' +
+									'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+									'<ol>' +
+									'<li class="thumb-error">' + msg + '</li>' +
+									'</ol>' +
+								'</div>';
+							$('#alert-error').html(elm);
+						}
+					} else {
+						$('#'+eid).text('Photo Chosen');						
+						if ($(preview).find('img').length > 0){
+							$(preview).find('img').remove();
+						}
+						$(preview).append('<img src="/media/banners/' + splittedResponse[1] + '" />');
+						$('#id_image'+r).val(splittedResponse[1]);
+						getHeight($(preview).find('img'),function(h){
+							var w = $(preview).width()/2;
+							var iw = $(preview).find('img').width()/2;
+							var dw = w-iw;
+							$(preview).find('img').css('left',dw);
+						});
+						if($('.alert.alert-error').length > 0){
+							$('.alert.alert-error a.close').trigger('click');
+						}
+					}				
+				},
+				error: function(msg){
+					alert(msg)
+					if($('.alert.alert-error').length > 0){
+						if ($('.thumb-error').length > 0)
+							$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');
+						else
+							$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
+					} else {
+						var elm = '<div class="alert alert-error">' +
+								'<a class="close" data-dismiss="alert" href="#">×</a>' +
+								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+								'<ol>' +
+								'<li class="thumb-error">{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
+								'</ol>' +
+							'</div>';
+						$('#alert-error').html(elm);
+					}				
+					$('div.loading').remove();
+				}
+			});
+		});
+
+		$('#modalConfirm').click(function(){
+        	var csrf = ""
+			$('input:hidden').each(function(){
+				if ($(this).attr('name')=='csrfmiddlewaretoken'){
+					csrf = $(this).val()
+				}
+			});
+
+			var delurl = '{% url remove_category %}';
+			var elm = this;
+			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$('#cat_id').val()}, function(data){
+				if (data != 0){
+					$('#list_'+$('#cat_id').val()).remove();
+					$('#successModal h3').text('Remove Category');
+					$('#successModal p').text('Successfully removed category.');
+					$('#successModal').modal('show');
+					$('#category-dropdown-menu').html(data);
+					$('#category-dropdown-menu a').each(function(){
+						$(this).bind('click', function(){
+							$('#ddl-name').text($(this).find('span').text());
+							$('#id_parent').val(this.rel);
+						});
+					});
+					if($('#id_id').val()==$('#cat_id').val())
+						window.location.href='{% url category %}'
+				}					
+			});
+			$('#btnDismiss').trigger('click');
+			return false;
+        });
 	});
+	function getHeight(el,fn) {
+	    var img = new Image();
+	    img.onload = function() { fn(img.height); };
+	    img.src = el.attr("src");
+	}
+
 </script>
 {% endblock %}

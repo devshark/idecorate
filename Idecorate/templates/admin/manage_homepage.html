@@ -4,8 +4,42 @@
 {% block title %}
     {% trans "iDecorate CMS" %}
 {% endblock %}
+{% block styles %}
+<link href="/media/admin/css/thickbox.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
-
+<h1>{% trans "Upload Home Banners" %}</h1>
+<table class="table table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>Images/Links</th>
+			<th>Date Created</th>
+			<th></th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for banner in home_banners %}
+		<tr>
+			<td>
+				<table style="border: none">
+					{% for i in banner.id|get_images %}
+					<tr>
+						<td style="border: none">
+							<a href="/media/banners/{{ i.image }}" class="thickbox">View</a>
+						</td>
+						<td style="border: none">{{ i.link }}</td>
+					</tr>
+					{% endfor %}
+				</table>				 
+			</td>
+			<td>{{ banner.created }}</td>
+			<td></td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<div id="blob"></div>
 {% endblock %}
 {% block javascripts %}
+<script type="text/javascript" src="/media/admin/js/thickbox.js"></script>
 {% endblock %}

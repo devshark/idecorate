@@ -25,6 +25,7 @@ from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
 from admin.models import TextFonts, Embellishments, EmbellishmentsType
 from customer.services import get_user_styleboard, get_styleboard_cart_item
+import admin
 
 def home(request):
 	info = {}
