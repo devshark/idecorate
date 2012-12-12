@@ -121,6 +121,7 @@ section{
 			*width: 490px;
 			height: 100%;
 			float: left;
+			margin-left: 18px;
 
 			img {
 				width: 100%;
@@ -130,9 +131,8 @@ section{
 
 		}
 
-		a:last-child {
-			width: 488px;
-			margin-left: 18px;
+		a:first-child {
+			margin-left: 0;
 		}
 
 	}
