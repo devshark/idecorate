@@ -276,6 +276,36 @@ body {
   color: #333;
 }
 
+a.em{
+  display: block;
+  float: left;
+  width: 140%/768*100;
+  margin: 6px 0 0 6px;  
+  font-size: 0;
+  min-width:76px;
+}
+
+a.em img{
+  width: 100%;
+  outline:1px solid #CCC;
+}
+
+a.em span {
+  display: block;
+  font-size: 10px;
+  margin: 10px 0 5px 0;
+  text-align: center;
+  color: #000;
+}
+
+a.em:hover img{
+  outline:2px solid #000;
+}
+
+.emItem .thumb{
+  cursor: pointer;
+}
+
 .breadcrumbWrap .breadcrumb{
   margin: 5px;
 }
@@ -311,4 +341,32 @@ body {
   *display: inline;
   padding: 2px 0;
   *padding-bottom:4px;
+}
+
+
+.pagination {
+  display: none;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 0;
+  height: 20px;
+}
+
+.pagination span{
+  font-size: 12px;
+  display: inline-block;
+  zoom:1;
+  *display:inline;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.pagination span.cur-page{
+  background-color: #ccc;
+  cursor: default;
+  font-weight: bold;            
+  border-radius: 3px;
+  -ms-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;    
 }
