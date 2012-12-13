@@ -237,3 +237,40 @@ class EditUsersForm(forms.Form):
 			return confirm_password
 		except MultiValueDictKeyError as e:
 			return ""
+
+class HomeBannerForm(forms.Form):
+	sizes = forms.ChoiceField(choices=(('1','1'),('2','2'),('3','3'),), required=True, widget=forms.Select)
+	image11 = forms.CharField(widget=forms.HiddenInput, required=False)
+	wholelink = forms.CharField(required=False)
+	image21 = forms.CharField(widget=forms.HiddenInput, required=False)
+	image22 = forms.CharField(widget=forms.HiddenInput, required=False)
+	half1link = forms.CharField(required=False)
+	half2link = forms.CharField(required=False)
+	image31 = forms.CharField(widget=forms.HiddenInput, required=False)
+	image32 = forms.CharField(widget=forms.HiddenInput, required=False)
+	image33 = forms.CharField(widget=forms.HiddenInput, required=False)
+	third1link = forms.CharField(required=False)
+	third2link = forms.CharField(required=False)
+	third3link = forms.CharField(required=False)
+
+	def __init__(self, *args, **kwargs):		
+		self.home_banner_id = kwargs.pop('home_banner_id',None)
+		# size = kwargs.pop('size',1)
+		# if size:
+		# 	size = int(size)
+		# 	if size==1:
+		# 		wholelink = forms.CharField(required=True, error_messages={'required':_('Link is a required field.')})
+		# 		image11 = forms.CharField(widget=forms.HiddenInput, required=True, error_messages={'required':_('Image is a required field.')})
+		# 	elif size==2:
+		# 		image21 = forms.CharField(widget=forms.HiddenInput, required=True, error_messages={'required':_('Image 1 is a required field.')})
+		# 		image22 = forms.CharField(widget=forms.HiddenInput, required=True, error_messages={'required':_('Image 2 is a required field.')})
+		# 		half1link = forms.CharField(required=True, error_messages={'required':_('Link is a required field.')})
+		# 		half2link = forms.CharField(required=True, error_messages={'required':_('Link is a required field.')})
+		# 	else:
+		# 		image31 = forms.CharField(widget=forms.HiddenInput, required=True, error_messages={'required':_('Image 1 is a required field.')})
+		# 		image32 = forms.CharField(widget=forms.HiddenInput, required=True, error_messages={'required':_('Image 2 is a required field.')})
+		# 		image33 = forms.CharField(widget=forms.HiddenInput, required=True, error_messages={'required':_('Image 3 is a required field.')})
+		# 		third1link = forms.CharField(required=True, error_messages={'required':_('Link is a required field.')})
+		# 		third2link = forms.CharField(required=True, error_messages={'required':_('Link is a required field.')})
+		# 		third3link = forms.CharField(required=True, error_messages={'required':_('Link is a required field.')})
+		super(forms.Form, self).__init__(*args, **kwargs)
