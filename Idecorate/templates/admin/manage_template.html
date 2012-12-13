@@ -65,7 +65,7 @@
     	</div>
 		<div class="mainContent" id="manage-template-main">
 			<table class="Content" border="0" cellpadding="0" cellspacing="0" id="main-content">
-				<tr>
+				<tr valign="top">
 					<td class="sideBar" id="manage-template-sidebar">
 						<div id="sidebar">
 							<h2>Create Template</h2>
@@ -105,7 +105,7 @@
                                         <span>Patterns</span>
                                     </a>
 								</div>
-								<div class="emItem">
+								<div class="emItem" style="display:none;">
 								</div>
 							</div>
 							<div class="pagination"></div>
@@ -119,8 +119,8 @@
 									<li><a id="save" href="#">New</a></li>
 									<li><a id="save" href="#">undo</a></li>
 									<li><a id="save" href="#">redo</a></li>
-									<li><a id="save" href="#">New Container</a></li>
-									<li><a id="save" href="#">Remove Container</a></li>
+									<li><a id="save" href="#">New Box</a></li>
+									<li><a id="save" href="#">Remove</a></li>
 									<li><a id="save" href="#">Forward</a></li>
 									<li><a id="save" href="#">Backward</a></li>
 								</ul>
@@ -140,27 +140,52 @@
     <script type="text/javascript" src="/media/admin/js/emb.js"></script>
     <script type="text/javascript">
     	$(function () {
-    		resize_body();
+    		resize();
+
+    		$('#embellishment-wrap .emCat a').on('click mousedown',function(e){
+    			resize();
+    		});
     	});
 
-    	$(window).resize(resize_body);
+    	$(window).resize(resize);
+
+    	function resize(){
+    		var body = $('#manage-template-main table');
+    		var body_height = resize_body();
+    		body.height(body_height);
+
+    		$('#canvas').height(body_height-10);
+
+    		var embellishment 	= $('#embellishment-wrap');
+			var emcat_height	= resize_emcat(embellishment);
+			if($('.emCat',embellishment).is(':visible')){
+				$('.emCat',embellishment).height(emcat_height);
+			}else if($('.emItem',embellishment).is(':visible')){
+				$('.emItem',embellishment).height(emcat_height);
+			}
+
+    	}
 
     	function resize_body(){
     		var window_height 	= $(window).height();
     		var header_height 	= $('#manage-template-header').outerHeight(true);
     		var footer_height 	= $('#manage-template-footer').outerHeight(true);
-    		var sidebar_head	= $('#sidebar h2').outerHeight(true);
-    		var sidebar_form	= $('#uploadImage').outerHeight(true);
-    		var body			= $('#manage-template-main table');
-    		var embellishment 	= $('#embellishment-wrap');
-			
-			var body_height = window_height-(header_height+footer_height)-2;
+			var body_height 	= window_height-(header_height+footer_height)-2;
 
-    		var embellishment_height = body_height-10-sidebar_head-sidebar_form;
+    		return body_height;
+    	}
 
-    		body.height(body_height);
-    		embellishment.height(parseInt(embellishment_height));
-    		$('#canvas').height(body_height-10);
+    	function resize_emcat(embellishment){
+    		var sideBar_height			= $('#manage-template-sidebar').outerHeight(true);
+    		var embellishment_height 	= 0;
+    		
+    		embellishment.siblings().each(function(i,val){
+    			embellishment_height = embellishment_height+$(this).outerHeight(true);
+    		});
+
+    		embellishment_height = sideBar_height-embellishment_height;
+
+    		return embellishment_height;
     	}
     </script>
 </html>
