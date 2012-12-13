@@ -150,6 +150,12 @@
                                 <a href="{% url forgot_password %}">forgot password</a>
                                 <input type="submit" name="btnSubmit" value="Login" />
                             </div>
+                            <div>
+                            <a id="idecorate_fb" href="#">Login Using Facebook</a>
+                            </div>
+                            <div>
+                            <a id="idecorate_twitter" href="#">Login Using Twitter</a>
+                            </div>
                         </fieldset>
                     </form>
                 </div>
@@ -201,7 +207,25 @@
         </div>
         <script src="/media/interface/js/jquery.placeholder.js"></script>
         <script type="text/javascript">
-        $(':input[placeholder]').placeholder();
+
+        $(function(e){
+
+            $(':input[placeholder]').placeholder();
+
+            $('#idecorate_fb').click(function(e){
+
+                parent.window.location = '/login/facebook';
+
+            });
+
+            $('#idecorate_twitter').click(function(e){
+
+                parent.window.location = '/login/twitter';
+
+            });
+
+        });
+
         </script>
     </body>
 </html>

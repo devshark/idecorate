@@ -19,7 +19,8 @@ urlpatterns = patterns('',
     url(r'', include('interface.urls')),
     url(r'', include('customer.urls')),
     url(r'', include('cart.urls')),
-    url(r'', include('embellishments.urls'))
+    url(r'', include('embellishments.urls')),
+    url(r'', include('social_auth.urls')),
 )
 
 """
