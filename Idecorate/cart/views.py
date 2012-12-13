@@ -297,6 +297,12 @@ def checkout(request):
 
 def checkout_from_view_styleboard(request):
 	if request.method=='POST':
+
+		sessionid = request.session.get('cartsession',None)
+		if not sessionid:
+			sessionid = generate_unique_id()
+			request.session['cartsession'] = sessionid
+
 		styleboard_item_id = request.POST['sid']
 		customer_styleboard = get_user_styleboard(None,styleboard_item_id)
 		styleboard = customer_styleboard.styleboard_item
@@ -324,3 +330,9 @@ def checkout_from_view_styleboard(request):
 		return redirect('plata_shop_checkout')
 	else:
 		return redirect('styleboard')
+
+
+def payment(request):
+    info = {}
+
+    return render_to_response('plata/payment.html',info,RequestContext(request))

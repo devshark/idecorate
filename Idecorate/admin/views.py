@@ -29,8 +29,10 @@ from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
 from customer.models import CustomerProfile, CustomerStyleBoard
 from django.http import HttpResponseNotFound
-from admin.services import home_banner, validate_banner, save_home_banner, validate_home_banner_form, get_home_banners
+from admin.services import home_banner, validate_banner, save_home_banner, validate_home_banner_form, get_home_banners, get_home_banner, get_home_banner_images
 from cart.services import generate_unique_id
+from models import HomeBannerImages
+import Image as pil
 
 @staff_member_required
 def admin(request):
@@ -1724,6 +1726,7 @@ def manage_homepage(request):
 def homepage_upload_banner(request):
     info = {}
     form = HomeBannerForm()
+    info['mode'] = 'new'
     if request.method=="POST":
     	form = HomeBannerForm(request.POST)
     	if form.is_valid():
@@ -1739,6 +1742,97 @@ def homepage_upload_banner(request):
 	    		info['validated'] = validated
     info['form'] = form
     return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))
+
+@staff_member_required
+def homepage_edit_banner(request,hbid=None):
+	if not hbid:
+		return redirect('manage_homepage')
+
+	home_banner_item = get_home_banner(hbid)
+
+	if not home_banner_item:
+		return redirect('manage_homepage')
+
+	hb_images = get_home_banner_images(home_banner_item.id)
+	hb_images = hb_images.order_by('id')
+	info = {}
+
+	image11 = ''
+	wholelink = ''
+	image21 = ''
+	image22 = ''
+	half1link = ''
+	half2link = ''
+	image31 = ''
+	image32 = ''
+	image33 = ''
+	third1link = ''
+	third2link = ''
+	third3link = ''
+
+	count = hb_images.count()
+	if count==1:
+		image11 = hb_images[0].image		
+		wholelink = hb_images[0].link
+
+		info['image11'] = image11
+	if count==2:
+		image21 = hb_images[0].image
+		image22 = hb_images[1].image
+		half1link = hb_images[0].link
+		half2link = hb_images[1].link
+
+		info['image21'] = image21
+		info['image22'] = image22
+	if count==3:
+		image31 = hb_images[0].image
+		image32 = hb_images[1].image
+		image33 = hb_images[2].image
+		third1link = hb_images[0].link
+		third2link = hb_images[1].link
+		third3link = hb_images[2].link
+
+		image31 = hb_images[0].image
+		image32 = hb_images[1].image
+		image33 = hb_images[2].image
+
+		info['image31'] = image31
+		info['image32'] = image32
+		info['image33'] = image33
+
+	form = HomeBannerForm(initial={ 
+		'sizes': home_banner_item.size, 
+		'image11':image11, 
+		'wholelink':wholelink,
+		'image21':image21,
+		'image22':image22,
+		'half1link':half1link,
+		'half2link':half2link,
+		'image31':image31,
+		'image32':image31,
+		'image33':image31,
+		'third1link':third1link,
+		'third2link':third2link,
+		'third3link':third3link
+		})
+	if request.method=="POST":
+		form = HomeBannerForm(request.POST)
+		if form.is_valid():
+			validated = validate_home_banner_form(form.cleaned_data)
+			if not validated:
+				data = form.cleaned_data
+				data['id'] = hbid
+				save_response = save_home_banner(form.cleaned_data)
+				if save_response:
+					messages.success(request, _('Saved.'))
+				else:
+					messages.error(request, _('Could not save. Please contact administrator.'))
+				return redirect('/admin/edit_banner/%s' % hbid)
+			else:
+				info['validated'] = validated
+	info['form'] = form
+	info['mode'] = 'edit'
+	return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))
 
 @csrf_exempt
 def upload_temp_banner(request):
@@ -1766,4 +1860,21 @@ def upload_temp_banner(request):
 				return_response = 'fail|Server error. Please contact administrator.'
 		return HttpResponse(return_response)
 	else:
+		return HttpResponseNotFound()
+
+def generate_home_banner_thumb(request,hbiid,width,height):
+	try:
+		home_banner_image = HomeBannerImages.objects.get(id=hbiid)
+		path = '%s%s%s' % (settings.MEDIA_ROOT, "banners/", home_banner_image.image)
+		img = pil.open(path)
+		img.thumbnail((width, height), pil.ANTIALIAS)
+		splittedName = getExtensionAndFileName(home_banner_image.image)
+		fname = '%s%s' % (home_banner_image.id,splittedName[1])
+		thumb_path = '%s%s%s' % (settings.MEDIA_ROOT, "banners/thumb/", fname)
+
+		background = Image.new('RGBA', size, (255, 255, 255, 0))
+		background.paste(im,((size[0] - im.size[0]) / 2, (size[1] - im.size[1]) / 2))
+
+		background.save(path)
+	except:
 		return HttpResponseNotFound()
