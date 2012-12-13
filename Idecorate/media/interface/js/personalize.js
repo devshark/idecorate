@@ -107,29 +107,47 @@ function make_center(){
 			percent 		= new_box_width/box_Width;
 			plus_left		= (canvas_Width/2)-(new_box_width/2);
 		}
-	}
-	
-	$('#canvas .unselected').each(function(){
-		var each_aspect 		= do_aspectratio($(this).width(),$(this).height(),percent);
-		var present_top 		= parseFloat($(this).css('top'));
-		var present_left 		= parseFloat($(this).css('left'));
 
-		var at_zeroX_axis 		= present_left-box_lowestLeft;
-		var old_width			= box_Width;
-		var new_width			= new_box_width;
-		var each_percentX		= at_zeroX_axis/old_width;
-		var at_zeroY_axis 		= present_top-box_lowestTop;
-		var old_height			= box_Height;
-		var new_height			= new_box_height;
-		var each_percentY		= at_zeroY_axis/old_height;
+		$('#canvas .unselected').each(function(){
+			var each_aspect 		= do_aspectratio($(this).width(),$(this).height(),percent);
+			var present_top 		= parseFloat($(this).css('top'));
+			var present_left 		= parseFloat($(this).css('left'));
 
-		$(this).css({
-			width:each_aspect.width,
-			height:each_aspect.height,
-			top: (new_height*each_percentY)+plus_top,
-			left:(new_width*each_percentX)+plus_left
+			var at_zeroX_axis 		= present_left-box_lowestLeft;
+			var old_width			= box_Width;
+			var new_width			= new_box_width;
+			var each_percentX		= at_zeroX_axis/old_width;
+			var at_zeroY_axis 		= present_top-box_lowestTop;
+			var old_height			= box_Height;
+			var new_height			= new_box_height;
+			var each_percentY		= at_zeroY_axis/old_height;
+
+			$(this).css({
+				width:each_aspect.width,
+				height:each_aspect.height,
+				top: (new_height*each_percentY)+plus_top,
+				left:(new_width*each_percentX)+plus_left
+			});
 		});
-	});
+
+	}else{
+		var ctr_diff = canvas_bb_ctr_diff(box.centerY,box.centerX);
+
+	    $('#canvas .unselected').each(function(){
+	        $(this).css({
+	            top:parseFloat($(this).css('top'))+ctr_diff.y,
+	            left:parseFloat($(this).css('left'))+ctr_diff.x
+	        });
+	    });
+	}
+}
+
+function canvas_bb_ctr_diff(box_centerY, box_centerX){
+    var ctr_diff 	= {};
+    ctr_diff['x'] 	= $('#canvas').width()/2 - box_centerX;
+    ctr_diff['y'] 	= $('#canvas').height()/2 - box_centerY;
+
+    return ctr_diff;
 }
 
 function do_aspectratio(width, height, percent){
