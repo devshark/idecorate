@@ -96,23 +96,51 @@ def save_home_banner(data):
 		print e
 		return False
 
+def save_edit_home_banner(data):
+	id = data['id']
+	hb = HomeBanners.objects.get(id=id)
+	hb.size = data['sizes']
+	s = int(data['sizes'])
+	delete_home_banner_images(hb)
+	if s==1:
+		save_home_banner_image(data['image11'],data['wholelink'],hb)
+	elif s==2:
+		save_home_banner_image(data['image21'],data['half1link'],hb)
+		save_home_banner_image(data['image22'],data['half2link'],hb)
+	else:
+		save_home_banner_image(data['image31'],data['third1link'],hb)
+		save_home_banner_image(data['image32'],data['third2link'],hb)
+		save_home_banner_image(data['image33'],data['third3link'],hb)
 
 def delete_home_banner_images(home_banner):
 	images = HomeBannerImages.objects.filter(home_banner=home_banner)
 	for image in images:
 		path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/", image.image)
 		image.delete()
-		os.unlink(path)
 
 def rename_image_banner(img):
+	if img.find('temp')!=-1:
+		path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/", img)
+		img = img.split('_')
+		new_path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/", img[1])
+		os.rename(path,new_path)
+		generate_banner_thumb(img[1])
+		# img = pil.open(path)
+		# img.save(new_path)
+		# os.unlink(path)
+		return img[1]
+	else:
+		return img
+
+def generate_banner_thumb(img):
 	path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/", img)
-	img = img.split('_')
-	new_path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/", img[1])
-	os.rename(path,new_path)
-	# img = pil.open(path)
-	# img.save(new_path)
-	# os.unlink(path)
-	return img[1]
+	im = pil.open(path)
+	size = (100,100)
+	im.thumbnail(size, pil.ANTIALIAS)
+	background = pil.new('RGBA', size, (255, 255, 255, 0))
+	background.paste(im,((size[0] - im.size[0]) / 2, (size[1] - im.size[1]) / 2))
+	thumb_path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/thumb/", img)
+	background.save(thumb_path)
 
 def save_home_banner_image(img,link,home_banner):	
 	hbi = HomeBannerImages()
@@ -162,6 +190,12 @@ def validate_home_banner_form(data):
 
 def get_home_banners():
 	return HomeBanners.objects.filter(is_active=1,is_deleted=0).order_by('-id')
+
+def get_home_banner(id):
+	try:
+		return HomeBanners.objects.get(id=id)
+	except:
+		return False
 
 def get_home_banner_images(home_banner_id):
 	return HomeBannerImages.objects.filter(home_banner__id=home_banner_id)

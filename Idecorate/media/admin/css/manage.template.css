@@ -164,18 +164,30 @@ body {
   width: 100%;
 }
 
+.mainContent{
+  width: 100%;
+}
 #main-content{
   width: 100%;
-  height: 100%;
   border-collapse: separate;
   border-spacing: 5px;
-  vertical-align: top;
+}
+
+#manage-template-sidebar{
+  width: 40%;
 }
 
 #manage-template-sidebar{
   background-color: #FBF6F0;
   width: 40%;
   box-shadow: 2px 2px 3px #999999;
+}
+
+#manage-template-footer{
+  text-align: center;
+  padding: 4px 0;
+  background-color: #000;
+  color: #FFF;
 }
 
 #manage-template-sidebar h2{
@@ -202,10 +214,6 @@ body {
   padding: 0 5px;
   color: #000;
   font-size: 16px;
-}
-
-#manage-template-footer{
-  text-align: center;
 }
 
 #embellishment-wrap .emCat{
@@ -255,7 +263,6 @@ body {
   display: block;
   float: left;
   margin: 5px 0 0 5px;
-  width: 120px;
 }
 
 #manage-template-canvas #canvas #nw-menu li{
@@ -267,4 +274,99 @@ body {
   display: block;
   background-color: #DDD;
   color: #333;
+}
+
+a.em{
+  display: block;
+  float: left;
+  width: 140%/768*100;
+  margin: 6px 0 0 6px;  
+  font-size: 0;
+  min-width:76px;
+}
+
+a.em img{
+  width: 100%;
+  outline:1px solid #CCC;
+}
+
+a.em span {
+  display: block;
+  font-size: 10px;
+  margin: 10px 0 5px 0;
+  text-align: center;
+  color: #000;
+}
+
+a.em:hover img{
+  outline:2px solid #000;
+}
+
+.emItem .thumb{
+  cursor: pointer;
+}
+
+.breadcrumbWrap .breadcrumb{
+  margin: 5px;
+}
+
+.breadcrumbWrap .breadcrumb li{
+  font-size: 12px;
+  padding-right: 5px;
+  display: inline;
+  *vertical-align: top;
+}
+
+.breadcrumbWrap .breadcrumb li a{
+  text-decoration: none;
+  color: #000;
+  display: block;
+  background-color: #DDDDDD;
+  border: 1px solid #CCCCCC;
+  padding: 2px 5px;
+  *padding-bottom:4px;
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+}
+
+.breadcrumbWrap .breadcrumb li a:hover{
+  background-color: #999999;
+  color: #FFF;
+}
+
+.breadcrumbWrap .breadcrumb li span{
+  display: inline-block;
+  zoom: 1;
+  *display: inline;
+  padding: 2px 0;
+  *padding-bottom:4px;
+}
+
+
+.pagination {
+  display: none;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 0;
+  height: 20px;
+}
+
+.pagination span{
+  font-size: 12px;
+  display: inline-block;
+  zoom:1;
+  *display:inline;
+  cursor: pointer;
+  padding: 4px 6px;
+}
+
+.pagination span.cur-page{
+  background-color: #ccc;
+  cursor: default;
+  font-weight: bold;            
+  border-radius: 3px;
+  -ms-border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;    
 }

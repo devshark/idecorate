@@ -28,6 +28,7 @@ $(document).ready(function(){
         $('#manage-template-sidebar .breadcrumbWrap').html('<ul class="breadcrumb"><li><a href="#">All</a></a></li><li>></li><li>'+$(this).find('span').text()+'</li></ul>');
         $('#manage-template-sidebar .breadcrumbWrap a').bind('click',function(e){
             $('#embellishment-wrap .emCat').show();
+            $('#embellishment-wrap .emItem').hide();
             $('#embellishment-wrap .emItem a').each(function(){
                 $(this).remove();
             });
@@ -41,7 +42,7 @@ $(document).ready(function(){
         return false;
     });
     $(window).resize(function(){
-        _resize_embellisment();
+        //_resize_embellisment();
     });
     $('#manage-template-sidebar #embellishment-wrap .emItem').on('mousewheel',function(event,delta){
         emb_offset = emb_item_per_page;
@@ -131,6 +132,7 @@ function _resize_embellisment(){
     }
 }
 function manage_embellishment_pagination(){
+    $('#embellishment-wrap .emItem').show();    
     $('#embellishment-wrap .emItem a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('#embellishment-wrap .emItem a:first');            
@@ -163,8 +165,7 @@ function manage_embellishment_pagination(){
                 count_by_height = count_by_height-1;
 
             emb_item_per_page = count_by_width*count_by_height;
-            emb_offset = emb_item_per_page;
-            
+            emb_offset = emb_item_per_page;            
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
                     $(this).remove();

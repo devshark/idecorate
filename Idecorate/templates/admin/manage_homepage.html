@@ -12,8 +12,8 @@
 <table class="table table-bordered table-hover">
 	<thead>
 		<tr>
-			<th>Images/Links</th>
-			<th>Date Created</th>
+			<th width="60%">Images/Links</th>
+			<th width="30%">Date Created</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -24,16 +24,16 @@
 				<table style="border: none">
 					{% for i in banner.id|get_images %}
 					<tr>
-						<td style="border: none">
-							<a href="/media/banners/{{ i.image }}" class="thickbox">View</a>
+						<td style="border: none;">
+							<a href="/media/banners/{{ i.image }}" class="thickbox"><img src="/media/banners/thumb/{{ i.image }}"></a>
 						</td>
-						<td style="border: none">{{ i.link }}</td>
+						<td style="border: none; vertical-align: middle">{{ i.link }}</td>
 					</tr>
 					{% endfor %}
 				</table>				 
 			</td>
 			<td>{{ banner.created }}</td>
-			<td></td>
+			<td><a href="{% url homepage_edit_banner banner.id %}" class="btn btn-primary">Edit</a></td>
 		</tr>
 		{% endfor %}
 	</tbody>

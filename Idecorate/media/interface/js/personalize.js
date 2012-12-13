@@ -78,90 +78,157 @@ function populate_save_styleboard(){
 }
 
 function make_center(){
-	var bb = computeBboxDimension();
-	var canvasW = $('#canvas').width();
-	var canvasH = $('#canvas').height();
-	var bbH		= bb.height;
-	var bbW		= bb.width;
+	var percent			= 100;
+	var box 			= computeBboxDimension();
+	var canvas_Width 	= $('#canvas').width();
+	var canvas_Height 	= $('#canvas').height();
+	var box_Height		= box.height;
+	var box_Width		= box.width;
+	var box_lowestLeft 	= box.lowestLeft;
+	var box_lowestTop 	= box.lowestTop;
+	var new_box_width 	= canvas_Width;
+	var new_box_height 	= canvas_Height;
+	var plus_top		= 0;
+	var plus_left		= 0;
 
-	var ctr_diff = canvas_bb_ctr_diff(bb.centerY,bb.centerX);
+	if((canvas_Width < box_Width) || (canvas_Height < box_Height)){
+		var width_diff 		= box_Width-canvas_Width;
+		var height_diff 	= box_Height-canvas_Height;
+		var ratio 			= box_Width/box_Height;//aspect ratio of bounding box
+		
+		if(width_diff >= height_diff){
+			new_box_width 	= canvas_Width;
+			new_box_height 	= new_box_width/ratio;
+			percent 		= new_box_width/box_Width;
+			plus_top		= (canvas_Height/2)-(new_box_height/2);
+		}else{
+			new_box_height 	= canvas_Height;
+			new_box_width 	= new_box_height*ratio;
+			percent 		= new_box_width/box_Width;
+			plus_left		= (canvas_Width/2)-(new_box_width/2);
+		}
 
-	$('#canvas .unselected').each(function(){
-		$(this).css({
-			top:parseFloat($(this).css('top'))+ctr_diff.y,
-			left:parseFloat($(this).css('left'))+ctr_diff.x
+		$('#canvas .unselected').each(function(){
+			var each_aspect 		= do_aspectratio($(this).width(),$(this).height(),percent);
+			var present_top 		= parseFloat($(this).css('top'));
+			var present_left 		= parseFloat($(this).css('left'));
+
+			var at_zeroX_axis 		= present_left-box_lowestLeft;
+			var old_width			= box_Width;
+			var new_width			= new_box_width;
+			var each_percentX		= at_zeroX_axis/old_width;
+			var at_zeroY_axis 		= present_top-box_lowestTop;
+			var old_height			= box_Height;
+			var new_height			= new_box_height;
+			var each_percentY		= at_zeroY_axis/old_height;
+
+			$(this).css({
+				width:each_aspect.width,
+				height:each_aspect.height,
+				top: (new_height*each_percentY)+plus_top,
+				left:(new_width*each_percentX)+plus_left
+			});
 		});
-	});
 
+	}else{
+		var ctr_diff = canvas_bb_ctr_diff(box.centerY,box.centerX);
+
+	    $('#canvas .unselected').each(function(){
+	        $(this).css({
+	            top:parseFloat($(this).css('top'))+ctr_diff.y,
+	            left:parseFloat($(this).css('left'))+ctr_diff.x
+	        });
+	    });
+	}
 }
 
-function canvas_bb_ctr_diff(bbH, bbW){
-	var ctr_diff 	= {}
-	var canvas_ctr 	= {};
-	var bb_ctr 		= {'x':bbW, 'y':bbH};
-	canvas_ctr['x'] = $('#canvas').width()/2;
-	canvas_ctr['y'] = $('#canvas').height()/2;
-	ctr_diff['x'] = canvas_ctr.x - bb_ctr.x;
-	ctr_diff['y'] = canvas_ctr.y - bb_ctr.y;
+function canvas_bb_ctr_diff(box_centerY, box_centerX){
+    var ctr_diff 	= {};
+    ctr_diff['x'] 	= $('#canvas').width()/2 - box_centerX;
+    ctr_diff['y'] 	= $('#canvas').height()/2 - box_centerY;
 
-	return ctr_diff;
+    return ctr_diff;
 }
 
- function computeBboxDimension() {
+function do_aspectratio(width, height, percent){
+	
+	var dimension = new Array();
+    var aspectRatio = height/width;
+    dimension['width'] = width*percent;
+    dimension['height'] = aspectRatio*dimension['width'];
 
-        var lowestTop = 0;
-        var highestTop = 0;
-        var lowestLeft = 0;
-        var highestLeft = 0;
-		var finalWidth = 0;
-        var finalHeight = 0;
+    return dimension;
+}
 
-        $('#canvas .unselected').each(function(e){
-                
-            if(lowestTop == 0) {
-                lowestTop = parseFloat($(this).css('top').replace('px',''));
-            } else {
-                if(parseFloat($(this).css('top').replace('px','')) < lowestTop) {
-                    lowestTop = parseFloat($(this).css('top').replace('px',''));
-                }
-            }
+function do_round(value){
+	var val = 0;
+	var rounded = 0;
+	if(typeof value === 'number' && value % 1 == 0){
+		rounded = value;
+	}else{
+		val = parseFloat(value);
+		rounded = val.toFixed(2);
+	}
+	return rounded; 
+}
+
+function computeBboxDimension() {
+
+    var lowestTop = 0;
+    var highestTop = 0;
+    var lowestLeft = 0;
+    var highestLeft = 0;
+	var finalWidth = 0;
+    var finalHeight = 0;
+
+    $('#canvas .unselected').each(function(e){
             
-            if(highestTop == 0) {
+        if(lowestTop == 0) {
+            lowestTop = parseFloat($(this).css('top').replace('px',''));
+        } else {
+            if(parseFloat($(this).css('top').replace('px','')) < lowestTop) {
+                lowestTop = parseFloat($(this).css('top').replace('px',''));
+            }
+        }
+        
+        if(highestTop == 0) {
+            highestTop = parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''));
+        } else {
+            if((parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''))) > highestTop) {
                 highestTop = parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''));
-            } else {
-                if((parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''))) > highestTop) {
-                    highestTop = parseFloat($(this).css('top').replace('px','')) + parseFloat($(this).css('height').replace('px',''));
-                }
             }
+        }
 
-            if(lowestLeft == 0) {
+        if(lowestLeft == 0) {
+            lowestLeft = parseFloat($(this).css('left').replace('px',''));
+        } else {
+            if(parseFloat($(this).css('left').replace('px','')) < lowestLeft) {
                 lowestLeft = parseFloat($(this).css('left').replace('px',''));
-            } else {
-                if(parseFloat($(this).css('left').replace('px','')) < lowestLeft) {
-                    lowestLeft = parseFloat($(this).css('left').replace('px',''));
-                }
             }
+        }
 
-            if(highestLeft == 0) {
+        if(highestLeft == 0) {
+            highestLeft = parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''));
+        } else {
+            if((parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''))) > highestLeft) {
                 highestLeft = parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''));
-            } else {
-                if((parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''))) > highestLeft) {
-                    highestLeft = parseFloat($(this).css('left').replace('px','')) + parseFloat($(this).css('width').replace('px',''));
-                }
             }
-                
-                
-        });
-        
-        finalWidth = highestLeft - lowestLeft;
-        finalHeight = highestTop - lowestTop;
-        
-        return {
-            'width': finalWidth,
-            'height': finalHeight,
-            'centerX': finalWidth / 2 + lowestLeft,
-            'centerY': finalHeight / 2 + lowestTop
-        };
+        }
+            
+            
+    });
+    
+    finalWidth = highestLeft - lowestLeft;
+    finalHeight = highestTop - lowestTop;
+    
+    return {
+        'width':finalWidth,
+        'height':finalHeight,
+        'centerX':finalWidth / 2 + lowestLeft,
+        'centerY':finalHeight / 2 + lowestTop,
+        'lowestLeft':lowestLeft,
+        'lowestTop':lowestTop
+    };
 
 }
 

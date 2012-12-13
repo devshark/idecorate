@@ -128,7 +128,11 @@
 			<td colspan="2" width="994" height="400">
 				<div id="wrap-whole" class="selected">
 					<div class="wrap-preview">
-						<div class="whole pv"></div>
+						<div class="whole pv">
+							{% if image11 %}
+							<img src="/media/banners/{{ image11 }}" alt="" />
+							{% endif %}
+						</div>
 						<a id="btn-browse-whole" class="button btn btn-primary brw" rel="11">Choose a Photo</a>
 						<br /><br />
 						{{ form.wholelink|attr:"placeholder:Link" }}
@@ -137,14 +141,22 @@
 				<div id="wrap-half" class="hidden">
 					<div>
 						<div class="wrap-preview">
-							<div id="half1-preview" class="half pv"></div>
+							<div id="half1-preview" class="half pv">
+								{% if image21 %}
+								<img src="/media/banners/{{ image21 }}" alt="" />
+								{% endif %}
+							</div>
 							<a id="btn-browse-half1" class="button btn btn-primary brw" rel="21">Choose a Photo</a>
 							<br /><br />
 							{{ form.half1link|attr:"placeholder:Link" }}
 						</div>
 						<div class="spacer"></div>
 						<div class="wrap-preview">
-							<div id="half2-preview" class="half pv"></div>
+							<div id="half2-preview" class="half pv">
+								{% if image22 %}
+								<img src="/media/banners/{{ image22 }}" alt="" />
+								{% endif %}
+							</div>
 							<a id="btn-browse-half2" class="button btn btn-primary brw" rel="22">Choose a Photo</a>
 							<br /><br />
 							{{ form.half2link|attr:"placeholder:Link" }}
@@ -153,21 +165,33 @@
 				</div>
 				<div id="wrap-third" class="hidden">
 					<div class="wrap-preview">
-						<div id="third1-preview" class="third pv"></div>
+						<div id="third1-preview" class="third pv">
+							{% if image31 %}
+							<img src="/media/banners/{{ image31 }}" alt="" />
+							{% endif %}
+						</div>
 						<a id="btn-browse-third1" class="button btn btn-primary brw" rel="31">Choose a Photo</a>
 						<br /><br />
 						{{ form.third1link|attr:"placeholder:Link" }}
 					</div>
 					<div class="spacer"></div>
 					<div class="wrap-preview">
-						<div id="third2-preview" class="third pv"></div>
+						<div id="third2-preview" class="third pv">							
+							{% if image32 %}
+							<img src="/media/banners/{{ image32 }}" alt="" />
+							{% endif %}
+						</div>
 						<a id="btn-browse-third2" class="button btn btn-primary brw" rel="32">Choose a Photo</a>
 						<br /><br />
 						{{ form.third2link|attr:"placeholder:Link" }}
 					</div>
 					<div class="spacer"></div>
 					<div class="wrap-preview">
-						<div id="third3-preview" class="third pv"></div>
+						<div id="third3-preview" class="third pv">
+							{% if image33 %}
+							<img src="/media/banners/{{ image33 }}" alt="" />
+							{% endif %}
+						</div>
 						<a id="btn-browse-third3" class="button btn btn-primary brw" rel="33">Choose a Photo</a>
 						<br /><br />
 						{{ form.third3link|attr:"placeholder:Link" }}
@@ -197,10 +221,7 @@
 		} else {
 			$('#wrap-third').addClass('selected');
 			$('#wrap-third').removeClass('hidden');
-		}
-		$('.pv img').each(function(){
-			$(this).remove();
-		});
+		}		
 	}
 	$(document).ready(function(){
 		$('#id_sizes').change(function(){
@@ -209,12 +230,6 @@
 			}
 			var v = $(this).val();
 			togglePreview(v);
-			$('#id_image11').val('');
-			$('#id_image21').val('');
-			$('#id_image22').val('');
-			$('#id_image31').val('');
-			$('#id_image32').val('');
-			$('#id_image33').val('');
 		});
 
 		togglePreview($('#id_sizes').val());
@@ -248,8 +263,10 @@
 				},
 				onComplete: function(file, response){
 					$('div.loading').remove();
-					var splittedResponse = response.split('|');
-					console.log(splittedResponse)
+					var deli = '|';
+					if (response.indexOf(',') !=-1)
+						deli = ',';
+					var splittedResponse = response.split(deli);					
 					if (splittedResponse[0] == 'fail') {
 						var msg = splittedResponse[1];
 						if($('.alert.alert-error').length > 0){
@@ -273,20 +290,19 @@
 							$(preview).find('img').remove();
 						}
 						$(preview).append('<img src="/media/banners/' + splittedResponse[1] + '" />');
-						$('#id_image'+r).val(splittedResponse[1]);
-						getHeight($(preview).find('img'),function(h){
-							var w = $(preview).width()/2;
-							var iw = $(preview).find('img').width()/2;
-							var dw = w-iw;
-							$(preview).find('img').css('left',dw);
-						});
+						// $('#id_image'+r).val(splittedResponse[1]);
+						// getHeight($(preview).find('img'),function(h){
+						// 	var w = $(preview).width()/2;
+						// 	var iw = $(preview).find('img').width()/2;
+						// 	var dw = w-iw;
+						// 	$(preview).find('img').css('left',dw);
+						// });
 						if($('.alert.alert-error').length > 0){
 							$('.alert.alert-error a.close').trigger('click');
 						}
 					}				
 				},
-				error: function(msg){
-					alert(msg)
+				error: function(msg){					
 					if($('.alert.alert-error').length > 0){
 						if ($('.thumb-error').length > 0)
 							$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');
