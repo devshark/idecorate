@@ -76,3 +76,14 @@ class HomeBannerImages(models.Model):
 	class Meta:
 		db_table = 'home_banner_images'
 		verbose_name = _("Home Banner Images")
+
+class HomeInfoGrapics(models.Model):
+	id = models.AutoField(db_column='id', primary_key=True)
+	image = models.CharField(db_column='image', max_length=256)
+	is_active = models.BooleanField(db_column="is_active", default=True)
+	is_deleted = models.BooleanField(db_column='is_deleted', default=False)
+	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+
+	class Meta:
+		db_table = 'home_info_grapics'
+		verbose_name = _("Home Info Grapics")
