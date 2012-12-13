@@ -453,7 +453,7 @@ def user_enable_disable(user):
 
 @register.filter
 def get_images(home_banner_id):
-	images = admin2.models.HomeBannerImages.objects.filter(home_banner__id=home_banner_id)
+	images = admin2.models.HomeBannerImages.objects.filter(home_banner__id=home_banner_id).order_by('id')
 	ret = ''
 	i=1
 	for image in images:

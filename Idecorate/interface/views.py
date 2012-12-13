@@ -26,9 +26,19 @@ from idecorate_settings.models import IdecorateSettings
 from admin.models import TextFonts, Embellishments, EmbellishmentsType
 from customer.services import get_user_styleboard, get_styleboard_cart_item
 import admin
+from admin.services import get_home_banners, get_home_banner_images
 
 def home(request):
 	info = {}
+	items = get_home_banners()
+	items = items.order_by('-id')
+	lists = []
+	for item in items:
+		images = get_home_banner_images(item.id)
+		images = images.order_by('id')
+		lists.append(images)
+	print lists
+	info['lists'] = lists
 	return render_to_response('interface/home.html',info,RequestContext(request))
 
 @csrf_exempt
