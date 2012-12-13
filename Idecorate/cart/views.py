@@ -324,3 +324,9 @@ def checkout_from_view_styleboard(request):
 		return redirect('plata_shop_checkout')
 	else:
 		return redirect('styleboard')
+
+
+def payment(request):
+    info = {}
+
+    return render_to_response('plata/payment.html',info,RequestContext(request))
