@@ -59,6 +59,12 @@
 					<a href="{% url manage_template %}">{% trans "Manage Template" %}</a>
 				</li>
 				<li>
+					<a href="{% url manage_homepage %}">{% trans "Manage Homepage" %} &#x25bc;</a>
+					<ul>
+	                  	<li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
+	                </ul>
+				</li>
+				<li>
 					<a href="{% url admin_logout %}">{% trans "Logout" %}</a>
 				</li>
 			</ul>
@@ -137,8 +143,10 @@
 		</div>
     </body>
     <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+	<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
     <script type="text/javascript" src="/media/admin/js/emb.js"></script>
-    <!--<script type="text/javascript" src="/media/admin/js/jquery.app.js"></script>-->
+	<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
+	<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
     <script type="text/javascript">
     	$(function () {
     		resize();
