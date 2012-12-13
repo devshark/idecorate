@@ -263,8 +263,10 @@
 				},
 				onComplete: function(file, response){
 					$('div.loading').remove();
-					var splittedResponse = response.split('|');
-					console.log(splittedResponse)
+					var deli = '|';
+					if (response.indexOf(',') !=-1)
+						deli = ',';
+					var splittedResponse = response.split(deli);					
 					if (splittedResponse[0] == 'fail') {
 						var msg = splittedResponse[1];
 						if($('.alert.alert-error').length > 0){
@@ -288,7 +290,7 @@
 							$(preview).find('img').remove();
 						}
 						$(preview).append('<img src="/media/banners/' + splittedResponse[1] + '" />');
-						// $('#id_image'+r).val(splittedResponse[1]);
+						$('#id_image'+r).val(splittedResponse[1]);
 						// getHeight($(preview).find('img'),function(h){
 						// 	var w = $(preview).width()/2;
 						// 	var iw = $(preview).find('img').width()/2;
@@ -300,8 +302,7 @@
 						}
 					}				
 				},
-				error: function(msg){
-					alert(msg)
+				error: function(msg){					
 					if($('.alert.alert-error').length > 0){
 						if ($('.thumb-error').length > 0)
 							$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');

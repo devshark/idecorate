@@ -259,3 +259,12 @@ def truncateDescription(desc):
                 return mark_safe("%s%s" % (desc[0:50], "..."))
         else:
                 return mark_safe(desc)
+
+@register.filter
+def set_last_page_idecorate(request):
+
+        request.session['last_page_idecorate'] = request.get_full_path()
+
+        #print request.get_full_path()
+
+        return ""

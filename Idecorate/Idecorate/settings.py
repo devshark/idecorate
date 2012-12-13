@@ -91,6 +91,13 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
@@ -101,6 +108,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.request",
     'plata.context_processors.plata_context',
+    'social_auth.context_processors.social_auth_by_type_backends',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -151,11 +159,55 @@ INSTALLED_APPS = (
     'bootstrap-pagination',
     'idecorate_settings',
     'customer',
+    'social_auth',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+SOCIAL_AUTH_ENABLED_BACKENDS = ('twitter', 'facebook',)  
+SOCIAL_AUTH_CREATE_USERS          = True
+SOCIAL_AUTH_FORCE_RANDOM_USERNAME = False
+SOCIAL_AUTH_DEFAULT_USERNAME      = 'socialauth_user'
+SOCIAL_AUTH_COMPLETE_URL_NAME     = 'socialauth_complete'
+#SOCIAL_AUTH_USER_MODEL           = 'app.CustomUser'
+SOCIAL_AUTH_ERROR_KEY             = 'socialauth_error'
+SOCIAL_AUTH_FORCE_POST_DISCONNECT = True
+
+TWITTER_CONSUMER_KEY = 'prOK4KmIyYRlSLbSgnb8Q'
+TWITTER_CONSUMER_SECRET = 'duHZCipNTNZd6oU9KeP5sOi2BImJjjaymmDy1jtKpo'
+
+
+FACEBOOK_APP_ID = '250262231769530'
+FACEBOOK_API_SECRET = '95a3252b750cb86fb27e5df6e575eb6b'
+#FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+#FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
+
+
+#LOGIN_URL          = '/login-form/'
+LOGIN_REDIRECT_URL = '/social_redirect/'
+LOGIN_ERROR_URL    = '/login/error/'
+
+SOCIAL_AUTH_PIPELINE = (
+    #'social_auth.backends.pipeline.misc.save_status_to_session',
+    #'social_auth.backends.pipeline.social.social_auth_user',
+    #'social_auth.backends.pipeline.associate.associate_by_email',
+    
+    #'social_auth.backends.pipeline.user.create_user',
+    #'social_auth.backends.pipeline.social.associate_user',
+    #'social_auth.backends.pipeline.social.load_extra_data',
+    #'social_auth.backends.pipeline.user.update_user_details',
+    'social_auth.backends.pipeline.social.social_auth_user',
+    'social_auth.backends.pipeline.associate.associate_by_email',
+    'social_auth.backends.pipeline.user.get_username',
+    'social_auth.backends.pipeline.user.create_user',
+    'social_auth.backends.pipeline.social.associate_user',
+    'social_auth.backends.pipeline.user.update_user_details',
+    'social_auth.backends.pipeline.social.load_extra_data',
+    'customer.pipeline.get_user_avatar',
+)
+
 
 # Add to your settings file
 CONTENT_TYPES = ['image']

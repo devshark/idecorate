@@ -609,3 +609,11 @@ def generate_styleboard_view(request, id, w, h):
 	mainImage.save(response, "PNG")
 	"""
 	return response
+
+def social_redirect(request):
+
+	if "last_page_idecorate" in request.session:
+		print request.session['last_page_idecorate']
+		return redirect(request.session.get('last_page_idecorate'))
+	else:
+		return redirect('/')
