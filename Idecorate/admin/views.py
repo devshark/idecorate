@@ -1878,3 +1878,7 @@ def generate_home_banner_thumb(request,hbiid,width,height):
 		background.save(path)
 	except:
 		return HttpResponseNotFound()
+
+def manage_home_info_graphic(request):
+	info = {}
+	return render_to_response('admin/manage_home_info_graphic.html',info,RequestContext(request))
