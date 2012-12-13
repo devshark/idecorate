@@ -123,6 +123,9 @@
                 background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */
                 background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
             }
+            .social_login {
+                margin-top: 20px;
+            }
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
     </head>
@@ -150,11 +153,13 @@
                                 <a href="{% url forgot_password %}">forgot password</a>
                                 <input type="submit" name="btnSubmit" value="Login" />
                             </div>
-                            <div>
-                            <a id="idecorate_fb" href="#" class="clearfix"><img src="/media/images/social_login_11.png" /></a>
-                            </div>
-                            <div>
-                            <a id="idecorate_twitter" href="#" class="clearfix"><img src="/media/images/social_login_05.png" /></a>
+                            <div class="clearfix social_login">
+                                <div>
+                                <a id="idecorate_fb" href="#" class="clearfix"><img src="/media/images/social_login_11.png" /></a>
+                                </div>
+                                <div>
+                                <a id="idecorate_twitter" href="#" class="clearfix"><img src="/media/images/social_login_05.png" /></a>
+                                </div>
                             </div>
                         </fieldset>
                     </form>
