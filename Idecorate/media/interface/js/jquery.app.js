@@ -1397,10 +1397,8 @@ function get_product_object_json(){
 
 function keys(obj){
     var keys = [];
-    for(var key in obj)
-    {
-        if(obj.hasOwnProperty(key))
-        {
+    for(var key in obj){
+        if(obj.hasOwnProperty(key)){
             keys.push(key);
         }
     }

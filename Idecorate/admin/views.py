@@ -1715,6 +1715,7 @@ def admin_edit_user(request):
 def manage_template(request):
     info = {}
     info['max_emb_size'] = settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE
+    info['text_items'] = TextFonts.objects.filter(is_active=True, is_deleted=False)
     return render_to_response('admin/manage_template.html',info,RequestContext(request))
 
 @staff_member_required
