@@ -28,7 +28,13 @@
 		<div class="clearfix memberName">
 			<table>
 				<tr>
-					<td width="85%"><img src="/media/images/man.1.jpg" id="img-profile" /> <span>&nbsp;by&nbsp;</span><a id="lnk-profile" href="{% url profile %}?id={{ styleboard.user.id }}">{{ user_profile.nickname }}</a></td>
+					<td width="85%">
+						{% if user_profile.picture %}
+						<img src="{{ user_profile.picture }}" alt="" id="img-profile" style="width:23px;height:23px;" />
+						{% else %}
+						<img src="/media/images/man.1.jpg" id="img-profile" />
+						{% endif %}	
+						 <span>&nbsp;by&nbsp;</span><a id="lnk-profile" href="{% url profile %}?id={{ styleboard.user.id }}">{{ user_profile.nickname }}</a></td>
 					<td><a href="{% url styleboard %}?sbid={{ styleboard.styleboard_item.id }}" class="personalize">Personalize!</a></td>
 				</tr>
 			</table>

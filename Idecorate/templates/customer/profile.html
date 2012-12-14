@@ -50,7 +50,11 @@
 				</div>
 			</div>
 			<div class="clearfix featureFooter">
-				<img src="/media/images/man.png" /><span class="member"><p>by {{ user_profile.nickname }}</p></span>
+				{% if user_profile.picture %}
+				<img src="{{ user_profile.picture }}" style="width:23px;height:23px;" alt="" />
+				{% else %}
+				<img src="/media/images/man.jpg" alt="" />
+				{% endif %}	<span class="member"><p>by {{ user_profile.nickname }}</p></span>
 			</div>
 		</div>
 
