@@ -7,6 +7,7 @@ from cart.services import generate_unique_id
 from django.utils.translation import ugettext_lazy as _
 from admin.models import HomeBanners, HomeBannerImages
 from django.db import DatabaseError, transaction
+from django.template.defaultfilters import filesizeformat
 
 def getExtensionAndFileName(filename):
 

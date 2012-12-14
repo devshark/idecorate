@@ -88,6 +88,10 @@ def upload_embellishment(request):
 def upload_embellishment_action(request):
 	if request.method == 'POST':
 		outPath = "%s%s" % (settings.MEDIA_ROOT, "embellishments/images/")
+		folder = request.POST.get('folder',None)
+		if folder:
+			outPath = "%s%s%s" % (settings.MEDIA_ROOT, folder, "/")
+
 		filename = generate_unique_id(10)
 		if not os.path.exists(outPath):
 			os.makedirs(outPath)

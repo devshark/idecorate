@@ -1,4 +1,4 @@
-{% load i18n widget_tweaks admin %}
+{% load i18n widget_tweaks admin idecorate_interface %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -77,6 +77,7 @@
 							<h2>Create Template</h2>
 							<div id="uploadImage">
 					    		<form action="" method="POST">
+					    			<input type="hidden" name="folder" value="template" />
 					    			<fieldset>
 					    				<legend>Upload Image</legend>
 					    				<input type="file" name="emb_upload"/>
@@ -85,32 +86,32 @@
 				    		</div>
 				    		<div class="breadcrumbWrap"></div>
 				    		<div id="embellishment-wrap">
-					    		<div class="emCat clearfix">
-					    			<a href="{% url get_embellishment_items %}" rel="1" class="image em">
-                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/image.jpg" />
-                                        <span>Image</span>
+					    		<div class="emCat">
+                                    <a href="{% url get_embellishment_items %}" rel="1" class="image em">
+                                        {{ 1|getEmbellishmentThumbnail }}
+                                        <span>Images</span>
                                     </a>
                                     <a href="{% url get_embellishment_items %}" rel="text" class="text em">
-                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/text.png" />
+                                        {{ "TEXT"|getTextThumbnail }}
                                         <span>Text</span>
                                     </a>
                                     <a href="{% url get_embellishment_items %}" rel="5" class="border em">
-                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/border.png" />
-                                        <span>Border</span>
+                                        {{ 5|getEmbellishmentThumbnail }}
+                                        <span>Borders</span>
                                     </a>
                                     <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
-                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/shape.gif" />
+                                        {{ 4|getEmbellishmentThumbnail }}
                                         <span>Shapes</span>
                                     </a>
                                     <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
-                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/texture.jpg" />
+                                        {{ 2|getEmbellishmentThumbnail }}
                                         <span>Textures</span>
                                     </a>
                                     <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
-                                        <img src="https://dl.dropbox.com/u/70695879/idecorate_embellishments/pattern.jpg" />
+                                        {{ 3|getEmbellishmentThumbnail }}
                                         <span>Patterns</span>
                                     </a>
-								</div>
+                                </div>
 								<div class="emItem" style="display:none;">
 								</div>
 							</div>
