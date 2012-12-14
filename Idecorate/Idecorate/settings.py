@@ -112,6 +112,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'customer.middleware.IdecorateMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
