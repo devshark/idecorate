@@ -9,10 +9,18 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/admin/css/manage.template.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/base/jquery.ui.all.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/ui-lightness/jquery.ui.all.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/spectrum.css" />
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/selectbox/css/jquery.selectbox.css" />
         <script type="text/javascript">
         var TEXT_IMG_GEN_URL            = '{% url generate_text %}';
         var EMB_IMG_GEN_URL             = '{% url generate_embellishment %}';
+        //var PRODUCT_POSITIONS           = {% if save_styleboard %}''{% else %}{{ product_positions }}{% endif %};
         </script>
     </head>
     <body>
@@ -119,18 +127,47 @@
 					</td>
 					<td class="canvas" id="manage-template-canvas">
 						<div id="canvas">
+							<div class="handles">
+                                <div class="fakeHandle"></div>
+                            </div>
 							<div id="nw-menu">
 								<ul>
 									<li><a id="save" href="#">Save</a></li>
-									<li><a id="save" href="#">New</a></li>
-									<li><a id="save" href="#">undo</a></li>
-									<li><a id="save" href="#">redo</a></li>
-									<li><a id="save" href="#">New Box</a></li>
-									<li><a id="save" href="#">Remove</a></li>
-									<li><a id="save" href="#">Forward</a></li>
-									<li><a id="save" href="#">Backward</a></li>
+									<li><a id="new" href="{% url %}">New</a></li>
+									<li><a id="undo" href="#">undo</a></li>
+									<li><a id="redo" href="#">redo</a></li>
+									<li><a id="createBox" href="#">New Box</a></li>
+									<li><a id="remove-btn" href="#">Remove</a></li>
+									<li><a id="forward-btn" href="#">Forward</a></li>
+									<li><a id="backward-btn" href="#">Backward</a></li>
 								</ul>
 							</div>
+							<div class="neMenus">
+                                <div class="colorAdjustment clearfix">
+                                    <div id="color-picker-wrap">
+                                        <input type='text' id="colorPicker"/>
+                                    </div>
+                                    <div id="opacity-control-wrap">
+                                        <div class="opacity-control-label clearfix">
+                                            <span class="subtract">-</span>
+                                            <span class="label">Opacity</span>
+                                            <span class="add">+</span>
+                                        </div>
+                                        <div id="slider"></div>
+                                    </div>
+                                    <div id="text-change-wrap" class="clearfix">
+                                        <form>
+                                            <select name="font_id" id="font_id">
+                                                {% for text_item in text_items %}
+                                                <option value="{{ text_item.id }}">/generate_text/?font_size=40&font_text=Abcd&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=0</option>
+                                                {% endfor %}
+                                            </select>
+                                            <textarea id="text-change" name="text-change"></textarea>
+                                            <a href="#" id="text-update">update</a>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
 						</div>
 					</td>
 				</tr>
@@ -144,8 +181,11 @@
     </body>
     <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
-    <script type="text/javascript" src="/media/admin/js/emb.js"></script>
+    <script type="text/javascript" src="/media/admin/js/emb.js"></script> 
+<script type="text/javascript" src="/media/interface/js/colorpicker/js/spectrum.js"></script>
+<script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
 	<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
+    <script type="text/javascript" src="/media/admin/js/jquery.app.js"></script> 
 	<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
     <script type="text/javascript">
     	$(function () {
