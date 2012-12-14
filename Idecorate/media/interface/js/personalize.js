@@ -256,6 +256,7 @@ function get_cart_items(){
 	            '</tr>';
 	        $('#buy-table tbody').append(item);
 		});
-		manage_total();			
+		manage_total();	
+		attachEventToQty();		
 	},'json');
 }
