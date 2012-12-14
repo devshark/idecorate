@@ -52,6 +52,26 @@
           margin-right: 5px;
           padding: 4px 18px;
         }
+        #modal-save-styleboard-window {
+            border: 5px solid #DDD;
+            position: fixed;
+            width: 405px;/*
+            */
+            height: auto;
+            overflow: hidden;
+            background-color: white;
+            box-shadow: 0 0 8px #333;
+            z-index: 99999;
+            top: 10%;
+            background-image: url('/media/images/idecorate_pattern.jpg');
+            background-repeat: repeat;
+        }
+        #modal-save-styleboard-window iframe {
+        /*height: 480px;*/
+        min-height: 375px;
+        max-height: 700px;
+        width: 100%;
+        }
         </style>
     </head>
     <body>
@@ -218,6 +238,13 @@
 		<div id="manage-template-footer" class="footer">
 			{% trans "&copy; IDecorate" %}
 		</div>
+		<div id="page-mask" style="display:none;"></div>
+		<div id="modal-save-styleboard-window" style="display:none">
+            <h2 id="modal-save-styleboard-header">
+                <a href="#" id="close-save-styleboard-modal" class="close-modal-btn">&times;</a>
+            </h2>
+            <div id="iframe-save-styleboard-wrap"></div>
+        </div>
     </body>
     <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>

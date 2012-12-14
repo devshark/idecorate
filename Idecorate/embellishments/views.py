@@ -137,3 +137,7 @@ def template_upload_embellishment_action(request):
 			err = _('File type is not supported')
 			res = 'f2|%s' % err.encode('utf-8')
 			return HttpResponse(res)
+
+def save_styleboard_template(request):
+	info = {}
+	return render_to_response('interface/upload.html', info, RequestContext(request))
