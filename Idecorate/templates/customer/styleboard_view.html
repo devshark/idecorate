@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load idecorate_interface humanize %}
+{{ request|set_last_page_idecorate }}
 {% block title %}iDecorate Weddings | {{ styleboard.styleboard_item.name }}{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard_view.css">
