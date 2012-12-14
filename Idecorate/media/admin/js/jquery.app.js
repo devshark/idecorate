@@ -622,7 +622,7 @@ function create_instance_embellishment_upload(fname){
     var imgHeight   = 0;
 
     obj_image.attr({
-        'src': '/media/embellishments/images/'+fname
+        'src': '/media/embellishments/template/'+fname
     });
 
     obj_image.load(function(){
