@@ -6,10 +6,21 @@
 {% endblock %}
 {% block styles %}
 <link href="/media/admin/css/thickbox.css" rel="stylesheet">
+<style type="text/css">
+table#featured-items tbody tr td table tr td a {
+	*display: inline;
+	*width: 100px !important;
+	*height: 100px !important;
+}
+table#featured-items img {
+	*width: 100px !important;
+	*height: 100px !important;
+}
+</style>
 {% endblock %}
 {% block content %}
 <h1>{% trans "Upload Home Banners" %}</h1>
-<table class="table table-bordered table-hover">
+<table class="table table-bordered table-hover" id="featured-items">
 	<thead>
 		<tr>
 			<th width="60%">Images/Links</th>
@@ -25,7 +36,7 @@
 					{% for i in banner.id|get_images %}
 					<tr>
 						<td style="border: none;">
-							<a href="/media/banners/{{ i.image }}" class="thickbox"><img src="/media/banners/thumb/{{ i.image }}" width="100" height="100"></a>
+							<a href="/media/banners/{{ i.image }}" class="thickbox"><img src="/media/banners/thumb/{{ i.image }}" width="100" height="100" alt="" /></a>
 						</td>
 						<td style="border: none; vertical-align: middle">{{ i.link }}</td>
 					</tr>
@@ -42,4 +53,20 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/thickbox.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	if ($.browser.msie && $.browser.version==7.0){
+		$('#featured-items img').each(function(){
+			if($(this).height()<100)
+				$(this).height(100)
+			if($(this).width()<100)
+				$(this).width(100)
+		});
+		// $('#featured-items img').each(function(){
+			
+		// 	alert($(this).height())
+		// });
+	}	
+});
+</script>
 {% endblock %}
