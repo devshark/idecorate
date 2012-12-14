@@ -198,6 +198,7 @@ body {
 }
 
 #uploadImage{
+  content: "tetadasd";
   border-bottom: 2px dotted #000;
   border-top: 2px dotted #000;
   margin: 5px;

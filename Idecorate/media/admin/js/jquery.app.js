@@ -321,6 +321,10 @@ $(document).ready(function () {
         hide_canvas_menu();
     });
 
+    $('#createBox').click(function(){
+
+    });
+
     /*  
     embellishments
     this is where embellishment related function calls
