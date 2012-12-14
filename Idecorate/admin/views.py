@@ -1800,29 +1800,14 @@ def homepage_edit_banner(request,hbid=None):
 		info['image32'] = image32
 		info['image33'] = image33
 
-	form = HomeBannerForm(initial={ 
-		'sizes': home_banner_item.size, 
-		'image11':image11, 
-		'wholelink':wholelink,
-		'image21':image21,
-		'image22':image22,
-		'half1link':half1link,
-		'half2link':half2link,
-		'image31':image31,
-		'image32':image31,
-		'image33':image31,
-		'third1link':third1link,
-		'third2link':third2link,
-		'third3link':third3link
-		})
 	if request.method=="POST":
 		form = HomeBannerForm(request.POST)
 		if form.is_valid():
 			validated = validate_home_banner_form(form.cleaned_data)
 			if not validated:
-				data = form.cleaned_data
+				data = form.cleaned_data				
 				data['id'] = hbid
-				save_response = save_home_banner(form.cleaned_data)
+				save_response = save_home_banner(data)
 				if save_response:
 					messages.success(request, _('Saved.'))
 				else:
@@ -1830,6 +1815,22 @@ def homepage_edit_banner(request,hbid=None):
 				return redirect('/admin/edit_banner/%s' % hbid)
 			else:
 				info['validated'] = validated
+	else:
+		form = HomeBannerForm(initial={ 
+			'sizes': home_banner_item.size, 
+			'image11':image11, 
+			'wholelink':wholelink,
+			'image21':image21,
+			'image22':image22,
+			'half1link':half1link,
+			'half2link':half2link,
+			'image31':image31,
+			'image32':image32,
+			'image33':image33,
+			'third1link':third1link,
+			'third2link':third2link,
+			'third3link':third3link
+			})
 	info['form'] = form
 	info['mode'] = 'edit'
 	return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))
