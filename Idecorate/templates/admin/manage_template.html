@@ -20,8 +20,39 @@
         <script type="text/javascript">
         var TEXT_IMG_GEN_URL            = '{% url generate_text %}';
         var EMB_IMG_GEN_URL             = '{% url generate_embellishment %}';
-        //var PRODUCT_POSITIONS           = {% if save_styleboard %}''{% else %}{{ product_positions }}{% endif %};
+        var MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE = {{ max_emb_size }};
+        var UPLOAD_EMBELLISMENT_PROG    = '{% url upload_embellishment_progress %}';
+        var EMBELLISHMENT_UPLOAD_ACTION = '{% url template_upload_embellishment_action %}';
         </script>
+        <style type="text/css">
+        .file-wrapper, .submit-wrapper {
+          cursor: pointer;
+          display: inline-block;
+          overflow: hidden;
+          position: relative;
+        }
+        .file-wrapper input[type=file] {
+            height: 30px;
+            cursor: pointer;
+            position: absolute;
+            top: 0px;
+            right: 0px;
+            font-size: 100px;
+            z-index: 2;
+            opacity: 0.0; /* Standard: FF gt 1.5, Opera, Safari */
+            filter: alpha(opacity=0); /* IE lt 8 */
+            -ms-filter: "alpha(opacity=0)"; /* IE 8 */
+            -khtml-opacity: 0.0; /* Safari 1.x */
+            -moz-opacity: 0.0; /* FF lt 1.5, Netscape */
+        }
+        .file-wrapper .button, .tp-button {
+          cursor: pointer;
+          display: inline-block;
+          font-size: 12px;
+          margin-right: 5px;
+          padding: 4px 18px;
+        }
+        </style>
     </head>
     <body>
     	<div id="manage-template-header" class="header  clearfix">
@@ -84,13 +115,21 @@
 						<div id="sidebar">
 							<h2>Create Template</h2>
 							<div id="uploadImage">
-					    		<form action="" method="POST">
-					    			<input type="hidden" name="folder" value="template" />
-					    			<fieldset>
-					    				<legend>Upload Image</legend>
-					    				<input type="file" name="emb_upload"/>
-					    			</fieldset>
-					    		</form>
+								<form id="upload-embel" method="POST">                                            
+                                    <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
+                                    <input type="hidden" id="id" name="id" value=""/>
+                                    <input type="hidden" name="folder" value="template" />
+                                    <fieldset>
+                                        <legend>Upload Image</legend>
+                                        <span class="file-wrapper">
+                                            <input type="file" name="picture" id="picture" placeholder="from computer" />
+                                            <input id="btn-from-my-computer" class="button" type="button" value="From my computer" />
+                                        </span>
+                                        <span class="submit-wrapper">
+                                            <input id="form_submit_button" style="display:none" class="tp-button" type="submit" value="Upload" />
+                                        </span>
+                                    </fieldset>
+                                </form>
 				    		</div>
 				    		<div class="breadcrumbWrap"></div>
 				    		<div id="embellishment-wrap">
@@ -134,7 +173,7 @@
 							<div id="nw-menu">
 								<ul>
 									<li><a id="save" href="#">Save</a></li>
-									<li><a id="new" href="{% url %}">New</a></li>
+									<li><a id="new" href="#">New</a></li>
 									<li><a id="undo" href="#">undo</a></li>
 									<li><a id="redo" href="#">redo</a></li>
 									<li><a id="createBox" href="#">New Box</a></li>
@@ -188,6 +227,8 @@
 	<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
     <script type="text/javascript" src="/media/admin/js/jquery.app.js"></script> 
 	<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
+	<script src="/media/interface/js/jquery.form.js"></script>
+	<script src="/media/interface/js/jquery.progressbar.js"></script>
     <script type="text/javascript">
     	$(function () {
     		resize();
