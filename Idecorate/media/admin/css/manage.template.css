@@ -113,39 +113,43 @@ body {
   float: left;
   color: #FFFFFF;
   margin-left: 10px;
+  width: 95px;
 }
 
-#manage-template-header ul{
-  display: block;
+#manage-template-header .navigation{
   float: right;
+  width: 88%;
+}
+
+#manage-template-header .navigation ul{
   margin:3px 10px 0 0;
 }
 
-#manage-template-header ul li{
+#manage-template-header .navigation ul li{
   float: left;
   display: block;
 }
 
-#manage-template-header ul li:first-child{
+#manage-template-header .navigation ul li:first-child{
   border-left: 0;
 }
 
-#manage-template-header ul > li{
+#manage-template-header .navigation ul > li{
   border-left: 1px solid #666666;
   position: relative;
 }
 
-#manage-template-header ul li a{
+#manage-template-header .navigation ul li a{
   color: #FFFFFF;
   display: block;
   padding: 3px 5px;
 }
 
-#manage-template-header ul li a:hover{
+#manage-template-header .navigation ul li a:hover{
   background-color: #666;
 }
 
-#manage-template-header ul ul{
+#manage-template-header .navigation ul ul{
   display: none;
   position: absolute;
   z-index: 999999;
@@ -154,13 +158,13 @@ body {
   width: 100%;
 }
 
-#manage-template-header ul li:hover ul{
+#manage-template-header .navigation ul li:hover ul{
   display: block;
   left: 0;
   top: 100%;
 }
 
-#manage-template-header ul li:hover ul li{
+#manage-template-header .navigation ul li:hover ul li{
   width: 100%;
 }
 
