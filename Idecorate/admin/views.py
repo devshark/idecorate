@@ -1917,3 +1917,15 @@ def set_template_positions(request):
 		ret = obj_counter
 
 	return HttpResponse(ret)
+
+
+def clear_template_session(request):
+
+	try:
+		del request.session['template_positions']
+	except:
+		pass
+
+def new_template(request):
+	clear_template_session(request)
+	return redirect('manage_template')

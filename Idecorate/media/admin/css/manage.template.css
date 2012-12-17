@@ -113,39 +113,43 @@ body {
   float: left;
   color: #FFFFFF;
   margin-left: 10px;
+  width: 95px;
 }
 
-#manage-template-header ul{
-  display: block;
+#manage-template-header .navigation{
   float: right;
+  width: 88%;
+}
+
+#manage-template-header .navigation ul{
   margin:3px 10px 0 0;
 }
 
-#manage-template-header ul li{
+#manage-template-header .navigation ul li{
   float: left;
   display: block;
 }
 
-#manage-template-header ul li:first-child{
+#manage-template-header .navigation ul li:first-child{
   border-left: 0;
 }
 
-#manage-template-header ul > li{
+#manage-template-header .navigation ul > li{
   border-left: 1px solid #666666;
   position: relative;
 }
 
-#manage-template-header ul li a{
+#manage-template-header .navigation ul li a{
   color: #FFFFFF;
   display: block;
   padding: 3px 5px;
 }
 
-#manage-template-header ul li a:hover{
+#manage-template-header .navigation ul li a:hover{
   background-color: #666;
 }
 
-#manage-template-header ul ul{
+#manage-template-header .navigation ul ul{
   display: none;
   position: absolute;
   z-index: 999999;
@@ -154,13 +158,13 @@ body {
   width: 100%;
 }
 
-#manage-template-header ul li:hover ul{
+#manage-template-header .navigation ul li:hover ul{
   display: block;
   left: 0;
   top: 100%;
 }
 
-#manage-template-header ul li:hover ul li{
+#manage-template-header .navigation ul li:hover ul li{
   width: 100%;
 }
 
@@ -314,9 +318,11 @@ body {
 }
 
 #manage-template-canvas #canvas #nw-menu ul{
+  position: relative;
   display: block;
   float: left;
   margin: 5px 0 0 5px;
+  z-index: 99999;
 }
 
 #manage-template-canvas #canvas #nw-menu li{
@@ -447,6 +453,8 @@ a.em:hover img{
   margin-right: 5px;
   display: none;
   width:394px;
+  position: relative;
+  z-index: 99999;
 }
 
 .neMenus .colorAdjustment{
@@ -497,16 +505,20 @@ a.em:hover img{
   margin-bottom: 2px;
 }
 
-#text-change{
-  resize: none;
+.textChange{
   width: 140px;
-  height: 50px;
   padding: 3px;
   border: 1px solid #DDD;
   float: right;
   margin-bottom: 3px;
 }
-#text-update{
+
+textarea.textChange{
+  resize: none;
+  height: 50px;
+}
+
+.updateText{
   display: block;
   clear: both;
   float: right;
@@ -516,7 +528,27 @@ a.em:hover img{
   font-size: 12px;
   border: 1px solid #DDD;
 }
-
 .unselected.box{
-  border: 1px dotted #CCC;
+  border: 2px dashed #999;
+  background-color: #FFF;
+  /* IE 8 */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)";
+  /* IE 5-7 */
+  filter: alpha(opacity=30);
+  /* Netscape */
+  -moz-opacity: 0.3;
+  /* Safari 1.x */
+  -khtml-opacity: 0.3;
+  /* Good browsers */
+  opacity: 0.3;
+}
+
+.unselected.box span{
+  display: block;
+  font-size: 1.2em;
+  text-align: center;
+  position: absolute;
+  top: 30%;
+  left: 0;
+  width: 100%;
 }

@@ -103,56 +103,61 @@
     <body>
     	<div id="manage-template-header" class="header  clearfix">
     		<h1>iDecorate</h1>
-    		<ul class="nav clearfix">
-				<li>
-					<a href="{% url admin %}">{% trans "Home" %}</a>
-				</li>
-				<li>
-					<a href="{% url admin_manage_menu %}">{% trans "Manage Menu" %}</a>
-				</li>
-				<li>
-					<a href="{% url category %}">{% trans "Manage Product Categories" %}</a>
-				</li>
-				<li>
-					<a href="{% url admin_manage_product %}">{% trans "Manage Products" %} &#x25bc;</a>
-					<ul>
-						<li>
-							<a href="{% url admin_create_product %}">{% trans "Create Product" %}</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="{% url admin_manage_embellishment %}">{% trans "Manage Embellishments" %} &#x25bc;</a> 
-					<ul>
-						<li>
-							<a href="{% url admin_upload_embellishment %}">{% trans "Upload Embellishment" %}</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-				<a href="{% url admin_manage_font %}">{% trans "Manage Text Fonts" %} &#x25bc;</a>
-					<ul>
-						<li>
-							<a href="{% url admin_manage_text_font %}">{% trans "Upload Font" %}</a>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a>
-				</li>
-				<li>
-					<a href="{% url manage_template %}">{% trans "Manage Template" %}</a>
-				</li>
-				<li>
-					<a href="{% url manage_homepage %}">{% trans "Manage Homepage" %} &#x25bc;</a>
-					<ul>
-	                  	<li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
-	                </ul>
-				</li>
-				<li>
-					<a href="{% url admin_logout %}">{% trans "Logout" %}</a>
-				</li>
-			</ul>
+            <div class="navigation">
+        		<ul class="nav clearfix">
+    				<li>
+    					<a href="{% url admin %}">{% trans "Home" %}</a>
+    				</li>
+                    <li>
+                        <a href="{% url admin_manage_users %}">{% trans "Manage Users" %}</a>
+                    </li>
+    				<li>
+    					<a href="{% url admin_manage_menu %}">{% trans "Manage Menu" %}</a>
+    				</li>
+    				<li>
+    					<a href="{% url category %}">{% trans "Manage Product Categories" %}</a>
+    				</li>
+    				<li>
+    					<a href="{% url admin_manage_product %}">{% trans "Manage Products" %} &#x25bc;</a>
+    					<ul>
+    						<li>
+    							<a href="{% url admin_create_product %}">{% trans "Create Product" %}</a>
+    						</li>
+    					</ul>
+    				</li>
+    				<li>
+    					<a href="{% url admin_manage_embellishment %}">{% trans "Manage Embellishments" %} &#x25bc;</a> 
+    					<ul>
+    						<li>
+    							<a href="{% url admin_upload_embellishment %}">{% trans "Upload Embellishment" %}</a>
+    						</li>
+    					</ul>
+    				</li>
+    				<li>
+    				<a href="{% url admin_manage_font %}">{% trans "Manage Text Fonts" %} &#x25bc;</a>
+    					<ul>
+    						<li>
+    							<a href="{% url admin_manage_text_font %}">{% trans "Upload Font" %}</a>
+    						</li>
+    					</ul>
+    				</li>
+    				<li>
+    					<a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a>
+    				</li>
+    				<li>
+    					<a href="{% url manage_template %}">{% trans "Manage Template" %}</a>
+    				</li>
+    				<li>
+    					<a href="{% url manage_homepage %}">{% trans "Manage Homepage" %} &#x25bc;</a>
+    					<ul>
+    	                  	<li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
+    	                </ul>
+    				</li>
+    				<li>
+    					<a href="{% url admin_logout %}">{% trans "Logout" %}</a>
+    				</li>
+    			</ul>
+            </div>
     	</div>
 		<div class="mainContent" id="manage-template-main">
 			<table class="Content" border="0" cellpadding="0" cellspacing="0" id="main-content">
@@ -219,7 +224,7 @@
 							<div id="nw-menu">
 								<ul>
 									<li><a id="save" href="#">Save</a></li>
-									<li><a id="new" href="#">New</a></li>
+									<li><a id="new" href="{% url new_template %}">New</a></li>
 									<li><a id="undo" href="#">undo</a></li>
 									<li><a id="redo" href="#">redo</a></li>
 									<li><a id="createBox" href="#">New Box</a></li>
@@ -248,9 +253,13 @@
                                                 <option value="{{ text_item.id }}">/generate_text/?font_size=40&font_text=Abcd&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=0</option>
                                                 {% endfor %}
                                             </select>
-                                            <textarea id="text-change" name="text-change"></textarea>
-                                            <a href="#" id="text-update">update</a>
+                                            <textarea id="text-change" class="textChange" name="text-change"></textarea>
+                                            <a href="#" class="updateText" id="text-update">update</a>
                                         </form>
+                                    </div>
+                                    <div id="text-change-template-wrap">
+                                        <input  class="textChange" type="text"id="text-change-template" name="text-change-template"/>
+                                        <a href="#" class="updateText" id="text-update-template">update</a>
                                     </div>
                                 </div>
                             </div>
