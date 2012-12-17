@@ -91,6 +91,8 @@ $(document).ready(function () {
 
             if($(this).hasClass('embellishment')){
                 update_menu($(this).find('img'), true);
+            }else if($(this).hasClass('box')){
+                update_menu($(this), true);
             }else{
                 update_menu($(this).find('img'));
             }
@@ -152,6 +154,8 @@ $(document).ready(function () {
 
             if($(this).hasClass('embellishment')){
                 update_menu($(this).find('img'), true);
+            }else if($(this).hasClass('box')){
+                update_menu($(this), true);
             }else{
                 update_menu($(this).find('img'));
             }
@@ -339,6 +343,20 @@ $(document).ready(function () {
         cancelBubble(e);
     });
 
+    $("#text-change-template").on('click mousedown',function(e){
+        cancelBubble(e);
+    });
+
+    $("#canvas").on('click mousedown','.box',function(e){
+        cancelBubble(e);
+        update_text_template($(this).find('span').text());
+    });
+
+    $('#text-update-template').click(function(e){
+        cancelBubble(e);
+        update_text_on_box($('#text-change-template').val());
+    });
+
     $("#colorPicker").spectrum({
         color: "#000",
         preferredFormat: "rgb",
@@ -353,7 +371,7 @@ $(document).ready(function () {
         }
     });
 
-    $('#text-change, #text-update').click(function(e){
+    $('#text-change, #text-update, #text-update-template').click(function(e){
         e.preventDefault();
         cancelBubble(e);
     });
@@ -434,17 +452,28 @@ $(document).ready(function () {
         e.preventDefault();
         cancelBubble(e);
         //crete container for as product placeholder on template
-        create_box().appendTo('#canvas');
+        create_box();
     });
 
 });
 
+function update_text_template(text){
+    $('#text-change-template').val(text);
+}
+
+function update_text_on_box(text_value){
+    $('.selected').find('span').html(text_value);
+}
+
 function create_box(){
     var object      = $('<div/>');
+    var appendObj   = $('<span/>');
     var attribute   = {'class':'unselected box'};
     var style       = {zIndex:objCounter+1,width:120, height:120,position:'absolute',top:20,left:20};
 
-    object.attr(attribute).css(style);
+    appendObj.text('add text here.');;
+    object.attr(attribute).css(style).append(appendObj);
+    object.appendTo('#canvas');
 
     if(!object.hasClass('selected')){
         object.addClass('selected').siblings('.unselected').removeClass('selected');
@@ -453,9 +482,15 @@ function create_box(){
         
         //set handles direction 
         change_cursor(['nw','sw','se','ne','w','s','e','n']);
+
+        set_ctr_attr(object);
+        transform(object);
+        embellishment_handle_set(100);
     }
     update_menu(object,true);
     hide_canvas_menu();
+
+    $('#text-change-template').val('add text here.');
 
     objCounter++;
 
@@ -736,7 +771,7 @@ function change_color(object,rgb){
 
 function embellishment_handle_set(slideValue){
     $( "#slider" ).slider({value:slideValue});
-    if($('.selected').hasClass('shape') || $('.selected').hasClass('texture') || $('.selected').hasClass('pattern')){
+    if($('.selected').hasClass('shape') || $('.selected').hasClass('texture') || $('.selected').hasClass('pattern') || $('.selected').hasClass('box')){
         $handles.resizable({aspectRatio:false});
         $('.selected img').height('100%');
     }else{
@@ -869,8 +904,12 @@ function update_menu(obj,img_menu){
         $('.imgBgControlWrap').hide();
         if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
             $('.colorAdjustment').hide();
+        }else if(obj.hasClass('box')){
+            $('.colorAdjustment').show();
+            $('#text-change-template-wrap').show().siblings().hide();
         }else{
             $('.colorAdjustment').show();
+            $('#text-change-template-wrap').hide().siblings().show();
             if(obj.hasClass('text') || obj.parent().hasClass('text')){
                 $('#text-change-wrap').show();
                 $('#opacity-control-wrap').css({'width':'184px'});
