@@ -1905,13 +1905,15 @@ def set_template_positions(request):
 		changes_counter = request.POST.get('changes_counter','')
 		product_objects = request.POST.get('product_objects','')
 		embellishment_objects = request.POST.get('embellishment_objects','')
+		box_objects = request.POST.get('box_objects','')
 
 		request.session['template_positions'] = {
 			'obj_counter':str(obj_counter),
 			'unique_identifier': str(unique_identifier),
 			'changes_counter': str(changes_counter),
 			'product_objects':str(product_objects),
-			'embellishment_objects': str(embellishment_objects)
+			'embellishment_objects': str(embellishment_objects),
+			'box_objects': str(box_objects)
 		}
 
 		ret = obj_counter

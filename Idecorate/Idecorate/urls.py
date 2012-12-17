@@ -62,6 +62,8 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/edit_banner/(?P<hbid>\d+)/$','homepage_edit_banner', {}, name='homepage_edit_banner'),    
     url(r'^admin/set_template_positions/$', 'set_template_positions', {}, name='set_template_positions'),
     url(r'^admin/new_template/$', 'new_template', {}, name='new_template'),
+    url(r'^admin/info_graphic/$', 'manage_home_info_graphic', {}, name='manage_home_info_graphic'),
+
 )
 
 """
