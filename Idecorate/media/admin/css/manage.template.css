@@ -198,7 +198,6 @@ body {
 }
 
 #uploadImage{
-  content: "tetadasd";
   border-bottom: 2px dotted #000;
   border-top: 2px dotted #000;
   margin: 5px;
@@ -426,8 +425,6 @@ a.em:hover img{
   -webkit-border-radius: 3px;    
 }
 
-
-
 /*===== jquery UI styles overwrites =====*/
 
 #sidebar .ui-draggable-dragging{
@@ -518,4 +515,8 @@ a.em:hover img{
   color: #333;
   font-size: 12px;
   border: 1px solid #DDD;
+}
+
+.unselected.box{
+  border: 1px dotted #CCC;
 }

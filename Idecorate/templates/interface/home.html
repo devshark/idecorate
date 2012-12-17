@@ -30,26 +30,27 @@
 {% block javascripts %}
 <script type="text/javascript">
 $(function(){
-	page_H();
+	if($(window).height() > $('#main-container').outerHeight()){
+		page_H();
+	}
 });
 
-$(window).resize(page_H);
-
 function page_H(){
-		
-	var windowH = $(window).height();
+
+ 	var windowH = $(window).height();
 		headerH = $('#header').outerHeight(true);
 		footerH = $('#footer').outerHeight(true);
 		newHeight = windowH - headerH - footerH - 395;
 		sectionH = $('#feature-wrap').outerHeight(true);
-
-	if(!$("#feature-wrap").hasClass(".wrapper") && !$("#feature-wrap").hasClass(".wrapper2") && !$("#feature-wrap").hasClass(".wrapper3")) {
-		if(sectionH < windowH) {
-			$('#feature-wrap').height(newHeight);
-		}
-	}
+	$("#feature-wrap").height(newHeight);
 
 }
+
+(function($) {
+    $.fn.hasScrollBar = function() {
+        return $(window).height() > $('#main-container').outerHeight();
+    }
+})(jQuery);
 </script>
 <!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
 {% endblock %}
