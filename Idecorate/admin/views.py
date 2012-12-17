@@ -33,6 +33,7 @@ from admin.services import home_banner, validate_banner, save_home_banner, valid
 from cart.services import generate_unique_id
 from models import HomeBannerImages
 import Image as pil
+from django.utils.safestring import mark_safe
 
 @staff_member_required
 def admin(request):
@@ -1716,6 +1717,14 @@ def manage_template(request):
     info = {}
     info['max_emb_size'] = settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE
     info['text_items'] = TextFonts.objects.filter(is_active=True, is_deleted=False)
+
+    template_positions = request.session.get('template_positions', None)
+
+    if template_positions:
+    	info['template_positions'] = mark_safe(str(template_positions))
+    else:
+    	info['template_positions'] = mark_safe("''")
+
     return render_to_response('admin/manage_template.html',info,RequestContext(request))
 
 @staff_member_required
@@ -1885,3 +1894,38 @@ def generate_home_banner_thumb(request,hbiid,width,height):
 def manage_home_info_graphic(request):
 	info = {}
 	return render_to_response('admin/manage_home_info_graphic.html',info,RequestContext(request))
+
+@csrf_exempt
+def set_template_positions(request):
+	ret = ""
+
+	if request.method == 'POST':
+		obj_counter = request.POST.get('obj_counter','')
+		unique_identifier = request.POST.get('unique_identifier','')
+		changes_counter = request.POST.get('changes_counter','')
+		product_objects = request.POST.get('product_objects','')
+		embellishment_objects = request.POST.get('embellishment_objects','')
+
+		request.session['template_positions'] = {
+			'obj_counter':str(obj_counter),
+			'unique_identifier': str(unique_identifier),
+			'changes_counter': str(changes_counter),
+			'product_objects':str(product_objects),
+			'embellishment_objects': str(embellishment_objects)
+		}
+
+		ret = obj_counter
+
+	return HttpResponse(ret)
+
+
+def clear_template_session(request):
+
+	try:
+		del request.session['template_positions']
+	except:
+		pass
+
+def new_template(request):
+	clear_template_session(request)
+	return redirect('manage_template')

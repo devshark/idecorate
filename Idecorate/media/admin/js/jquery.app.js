@@ -229,7 +229,7 @@ $(document).ready(function () {
     }
 
     //initialize object saved on session
-    //initProductPositions();
+    initProductPositions();
 
     //hide handles and menus
     $(document).click(function(e){
@@ -1050,11 +1050,11 @@ function eventTracker(currentObject, eventType) {
             changesArray.splice(changesCounter + 1, changesArray.length - changesCounter);
         }
 
-        //changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
+        changesArray.push({ obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
         changesCounter++;
     }
 
-    //setProductPositions();
+    setProductPositions();
 }
 
 function setProductPositions(func) {
@@ -1077,6 +1077,7 @@ function setProductPositions(func) {
 
     });
 
+    /**
     var cloned_table = $('.table').clone();
 
     $('.dynamic_qty').each(function(e){
@@ -1085,11 +1086,12 @@ function setProductPositions(func) {
         cloned_table.find('[_pid="' + $(this).attr('_pid') + '"]').replaceWith($(strInput));
 
     });
+    **/
 
     $.ajax({
-        url: SET_PRODUCT_POSITION_URL,
+        url: SET_TEMPLATE_POSITION_URL,
         type: "POST",
-        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects },
+        data: { obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects },
         beforeSend : function(){
             
         },
@@ -1177,25 +1179,14 @@ function moveBack(obj) {
 }
 
 function initProductPositions() {
-    if(PRODUCT_POSITIONS != '') {
-        uniqueIdentifier = parseInt(PRODUCT_POSITIONS['unique_identifier']);
-        objCounter = parseInt(PRODUCT_POSITIONS['obj_counter']);
-        changesCounter = parseInt(PRODUCT_POSITIONS['changes_counter']);
-        action_url = PRODUCT_POSITIONS['action_url'];
-        total = parseFloat(PRODUCT_POSITIONS['total']);
-        quantity = parseInt(PRODUCT_POSITIONS['quantity']);
-        selected_prev_prod_qty = parseInt(PRODUCT_POSITIONS['selected_prev_prod_qty']);
+    if(TEMPLATE_POSITIONS != '') {
+        uniqueIdentifier = parseInt(TEMPLATE_POSITIONS['unique_identifier']);
+        objCounter = parseInt(TEMPLATE_POSITIONS['obj_counter']);
+        changesCounter = parseInt(TEMPLATE_POSITIONS['changes_counter']);
 
-        $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
-        $('#canvas').append(PRODUCT_POSITIONS['embellishment_objects']);
+        $('#canvas').append(TEMPLATE_POSITIONS['product_objects']);
+        $('#canvas').append(TEMPLATE_POSITIONS['embellishment_objects']);
 
-        $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
-        $('#tables').val(PRODUCT_POSITIONS['tables']);
-        $('#guests').val(PRODUCT_POSITIONS['guests']);
-
-        attachEventToQty();
-        manage_subtotal();
-        manage_total();
     }
 
     var product_objects = '';
@@ -1215,16 +1206,7 @@ function initProductPositions() {
 
     });
 
-    var cloned_table = $('.table').clone();
-
-    $('.dynamic_qty').each(function(e){
-
-        var strInput = '<input class="dynamic_qty" type="text" _pid="' + $(this).attr('_pid') + '" _pr="' + $(this).attr('_pr') + '" _cur="' + $(this).attr('_cur') + '" _gs="' + $(this).attr('_gs') + '" _dq="' + $(this).attr('_dq') + '" max-length="' + $(this).attr('max-length') + '" name="' + $(this).attr('name') + '" value="' + $(this).val() + '" placeholder="' + $(this).attr('placeholder') + '">';
-        cloned_table.find('[_pid="' + $(this).attr('_pid') + '"]').replaceWith($(strInput));
-
-    });
-
-    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
+    changesArray.push({ obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
     
 }
 
@@ -1235,44 +1217,20 @@ function changeProductPositions(pos) {
     uniqueIdentifier = parseInt(pos['unique_identifier']);
     objCounter = parseInt(pos['obj_counter']);
     //changesCounter = parseInt(pos['changes_counter']);
-    action_url = pos['action_url'];
-    total = parseFloat(pos['total']);
-    quantity = parseInt(pos['quantity']);
-    selected_prev_prod_qty = parseInt(pos['selected_prev_prod_qty']);
 
     $('.product.unselected').remove();
     $('.embellishment.unselected').remove();
     $('#canvas').append(pos['product_objects']);
     $('#canvas').append(pos['embellishment_objects']);
-    $('.table').html(pos['buy_table_html']);
-    $('#tables').val(pos['tables']);
-    $('#guests').val(pos['guests']);
-
-    attachEventToQty();
-    manage_subtotal();
-    manage_total();
 
 }
+
 function undo_styleboard() {
     if(changesCounter > 0) {
         changesCounter--;
         changeProductPositions(changesArray[changesCounter]);
-        remove_all_cart();
 
-        var clonedTable = $('.table').clone();
-        $('.table').html('');
-
-
-        $(clonedTable).find('.dynamic_qty').each(function(e){
-            add_to_cart($(this).attr('_pid'), $(this).attr('_dq'), $(this).attr('_gs'));
-        });
-
-        $('.table').html($(clonedTable).html());
-
-        attachEventToQty();
-        manage_subtotal();
-        manage_total();
-        styleboardH();
+        //styleboardH();
         
         eventTracker($('#canvas'),'undo');
     }
@@ -1282,25 +1240,95 @@ function redo_styleboard() {
     if(changesCounter < (changesArray.length - 1)) {
         changesCounter++;
         changeProductPositions(changesArray[changesCounter]);
-        remove_all_cart();
 
-        var clonedTable = $('.table').clone();
-        $('.table').html('');
-
-
-        $(clonedTable).find('.dynamic_qty').each(function(e){
-            add_to_cart($(this).attr('_pid'), $(this).attr('_dq'), $(this).attr('_gs'));
-        });
-
-        $('.table').html($(clonedTable).html());
-
-        attachEventToQty();
-        manage_subtotal();
-        manage_total();
-        styleboardH();
+        //styleboardH();
 
         eventTracker($('#canvas'),'redo');
     }
+}
+
+function closed_modal(){
+    $('#page-mask').hide();
+    $('#modal-save-styleboard-window').hide();
+}
+
+function get_template_object_json(){
+    var template_objects = [];
+    var canvas_offset = $('#canvas').offset();
+    var canvas_left = canvas_offset.left;
+    var canvas_top = canvas_offset.top;
+    $('.unselected').each(function(e){
+        var elm = $(this);
+        var elm_offset = elm.offset();
+        var elm_left = elm_offset.left;
+        var elm_top = elm_offset.top;
+        var product_left = Math.round(elm_left-canvas_left);
+        var product_top = Math.round(elm_top-canvas_top);
+        var filter = {};
+        if($.browser.msie && $.browser.version == 7.0){
+            filter = {'filter':'none'};
+        }else if($.browser.msie && $.browser.version == 8.0){
+            filter = {'msfilter':'none','-ms-filter':'none'};
+        }
+        $(this).css(filter);
+        var style = $(this).attr('style');
+        var _zindex = $(this).css('z-index');
+        var _matrix = [];
+        _matrix.push($.parseJSON($(this).attr('_matrix')));        
+        var _img = [];
+        var elm_img = $(this).find('img');
+        var _src = $(elm_img).attr('src');
+        var _nb = $(elm_img).attr('_nb');
+        var _wb = $(elm_img).attr('_wb');
+        var _handle = $(this).attr('_handle');
+        var _uid = $(this).attr('_uid');
+        var _def_qty = $(this).attr('def_qty');
+        var _gst_tb = $(this).attr('gst_tb');
+        var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
+        var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
+        var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
+        var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
+        var type = 'product';
+        if($(this).hasClass('text'))
+            type = 'text';
+        if($(this).hasClass('image'))
+            type = 'image';
+        if($(this).hasClass('border'))
+            type = 'border';
+        if($(this).hasClass('shape'))
+            type = 'shape';
+        if($(this).hasClass('texture'))
+            type = 'texture';
+        if($(this).hasClass('pattern'))
+            type = 'pattern';
+        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
+        template_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, img:_img});
+    });
+    var product_array = new Array();
+    for (var i in template_objects){
+        var x = template_objects[i].zindex;
+        product_array[x-1] = template_objects[i];
+    }    
+    keys(product_array).sort();
+    return product_array;
+}
+
+function keys(obj){
+    var keys = [];
+    for(var key in obj){
+        if(obj.hasOwnProperty(key)){
+            keys.push(key);
+        }
+    }
+    return keys;
+}
+
+function saved_template(){
+    closed_modal();
+    alert('Template saved.');
+    $('.unselected').each(function(){
+        $(this).remove();
+    });
 }
 
 //extending default jquery

@@ -23,6 +23,8 @@
         var MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE = {{ max_emb_size }};
         var UPLOAD_EMBELLISMENT_PROG    = '{% url upload_embellishment_progress %}';
         var EMBELLISHMENT_UPLOAD_ACTION = '{% url template_upload_embellishment_action %}';
+        SET_TEMPLATE_POSITION_URL = '{% url set_template_positions %}';
+        TEMPLATE_POSITIONS = {{ template_positions }};
         </script>
         <style type="text/css">
         .file-wrapper, .submit-wrapper {
@@ -71,6 +73,30 @@
         min-height: 375px;
         max-height: 700px;
         width: 100%;
+        }
+        #modal-save-styleboard-window h2 {
+            margin: 0 5px 0 0;
+            padding: 0;
+            text-align: right;
+        }
+        #modal-save-styleboard-window a.close-modal-btn {
+            text-decoration: none;
+            color: #666;
+            font-size: 20px;
+        }
+        #page-mask {
+            position: fixed;
+            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+            filter: alpha(opacity=50);
+            -moz-opacity: 0.5;
+            -khtml-opacity: 0.5;
+            opacity: 0.5;
+            background-color: black;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 99999;
         }
         </style>
     </head>
@@ -193,7 +219,7 @@
 							<div id="nw-menu">
 								<ul>
 									<li><a id="save" href="#">Save</a></li>
-									<li><a id="new" href="#">New</a></li>
+									<li><a id="new" href="{% url new_template %}">New</a></li>
 									<li><a id="undo" href="#">undo</a></li>
 									<li><a id="redo" href="#">redo</a></li>
 									<li><a id="createBox" href="#">New Box</a></li>
@@ -253,8 +279,8 @@
     <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 	<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
     <script type="text/javascript" src="/media/admin/js/emb.js"></script> 
-<script type="text/javascript" src="/media/interface/js/colorpicker/js/spectrum.js"></script>
-<script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
+    <script type="text/javascript" src="/media/interface/js/colorpicker/js/spectrum.js"></script>
+    <script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
 	<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
     <script type="text/javascript" src="/media/admin/js/jquery.app.js"></script> 
 	<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
@@ -263,10 +289,11 @@
     <script type="text/javascript">
     	$(function () {
     		resize();
-
     		$('#embellishment-wrap .emCat a').on('click mousedown',function(e){
     			resize();
     		});
+            $('#save').click(save_template_pop);
+            $('#close-save-styleboard-modal').click(closed_modal)
     	});
 
     	$(window).resize(resize);
@@ -309,6 +336,22 @@
 
     		return embellishment_height;
     	}
+
+        function save_template_pop(){
+            var item_count = $('.unselected').length;
+            if (item_count == 0){
+                alert('No item to save.');
+                return;
+            }
+
+            var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':"{% url save_styleboard_template %}",'frameborder':'0'});
+            var modal   = $('#modal-save-styleboard-window'),
+                _left   = $(window).width()/2-modal.width()/2;
+                frame   = $('#iframe-save-styleboard-wrap').html(iframe);
+
+            $('#page-mask').css({display:'block'});
+            modal.css({display:'block',left:_left});
+        }        
     </script>
 </html>
 

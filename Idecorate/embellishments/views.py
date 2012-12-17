@@ -7,6 +7,9 @@ from django.conf import settings
 from cart.services import generate_unique_id
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+from django.template import RequestContext
+from embellishments.forms import SaveTemplateForm
+from admin.services import save_template
 
 # class who handles the upload
 class ProgressUploadHandler(FileUploadHandler):
@@ -139,5 +142,18 @@ def template_upload_embellishment_action(request):
 			return HttpResponse(res)
 
 def save_styleboard_template(request):
-	info = {}
-	return render_to_response('interface/upload.html', info, RequestContext(request))
+	info = {}	
+	form = SaveTemplateForm()
+	if request.method=="POST":
+		form = SaveTemplateForm(request.POST)
+		if form.is_valid():
+			data = form.cleaned_data
+			res = save_template(data)
+			if res:
+				return render_to_response('embellishments/success.html', info)
+			else:
+				messages.warning(request, _('An error occured when saving the template. Please try again.'))
+
+	info['form'] = form
+
+	return render_to_response('embellishments/save_styleboard_template.html', info, RequestContext(request))
