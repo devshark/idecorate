@@ -3,4 +3,5 @@ from django.conf import settings
 
 urlpatterns =  patterns('sites.views',
     url(r'^help$', 'help', {}, name='help'),
+    url(r'^privacy$', 'privacy', {}, name='privacy'),
 )
