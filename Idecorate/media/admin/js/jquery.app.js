@@ -1237,6 +1237,90 @@ function redo_styleboard() {
     }
 }
 
+function closed_modal(){
+    $('#page-mask').hide();
+    $('#modal-save-styleboard-window').hide();
+}
+
+function get_template_object_json(){
+    var template_objects = [];
+    var canvas_offset = $('#canvas').offset();
+    var canvas_left = canvas_offset.left;
+    var canvas_top = canvas_offset.top;
+    $('.unselected').each(function(e){
+        var elm = $(this);
+        var elm_offset = elm.offset();
+        var elm_left = elm_offset.left;
+        var elm_top = elm_offset.top;
+        var product_left = Math.round(elm_left-canvas_left);
+        var product_top = Math.round(elm_top-canvas_top);
+        var filter = {};
+        if($.browser.msie && $.browser.version == 7.0){
+            filter = {'filter':'none'};
+        }else if($.browser.msie && $.browser.version == 8.0){
+            filter = {'msfilter':'none','-ms-filter':'none'};
+        }
+        $(this).css(filter);
+        var style = $(this).attr('style');
+        var _zindex = $(this).css('z-index');
+        var _matrix = [];
+        _matrix.push($.parseJSON($(this).attr('_matrix')));        
+        var _img = [];
+        var elm_img = $(this).find('img');
+        var _src = $(elm_img).attr('src');
+        var _nb = $(elm_img).attr('_nb');
+        var _wb = $(elm_img).attr('_wb');
+        var _handle = $(this).attr('_handle');
+        var _uid = $(this).attr('_uid');
+        var _def_qty = $(this).attr('def_qty');
+        var _gst_tb = $(this).attr('gst_tb');
+        var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
+        var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
+        var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
+        var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
+        var type = 'product';
+        if($(this).hasClass('text'))
+            type = 'text';
+        if($(this).hasClass('image'))
+            type = 'image';
+        if($(this).hasClass('border'))
+            type = 'border';
+        if($(this).hasClass('shape'))
+            type = 'shape';
+        if($(this).hasClass('texture'))
+            type = 'texture';
+        if($(this).hasClass('pattern'))
+            type = 'pattern';
+        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
+        template_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, img:_img});
+    });
+    var product_array = new Array();
+    for (var i in template_objects){
+        var x = template_objects[i].zindex;
+        product_array[x-1] = template_objects[i];
+    }    
+    keys(product_array).sort();
+    return product_array;
+}
+
+function keys(obj){
+    var keys = [];
+    for(var key in obj){
+        if(obj.hasOwnProperty(key)){
+            keys.push(key);
+        }
+    }
+    return keys;
+}
+
+function saved_template(){
+    closed_modal();
+    alert('Template saved.');
+    $('.unselected').each(function(){
+        $(this).remove();
+    });
+}
+
 //extending default jquery
 (function ($) {
     //makes dynamic element draggable

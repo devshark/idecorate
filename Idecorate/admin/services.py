@@ -8,6 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from admin.models import HomeBanners, HomeBannerImages
 from django.db import DatabaseError, transaction
 from django.template.defaultfilters import filesizeformat
+from embellishments.models import StyleboardTemplateItems
 
 def getExtensionAndFileName(filename):
 
@@ -200,3 +201,15 @@ def get_home_banner(id):
 
 def get_home_banner_images(home_banner_id):
 	return HomeBannerImages.objects.filter(home_banner__id=home_banner_id)
+
+def save_template(data):
+	try:
+		sti = StyleboardTemplateItems()
+		sti.name = data['name']
+		sti.description = data['description']
+		sti.item = data['item']
+		sti.browser = data['browser']
+		sti.save()
+		return True
+	except Exception as e:
+		return False
