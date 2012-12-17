@@ -321,10 +321,6 @@ $(document).ready(function () {
         hide_canvas_menu();
     });
 
-    $('#createBox').click(function(){
-
-    });
-
     /*  
     embellishments
     this is where embellishment related function calls
@@ -434,7 +430,38 @@ $(document).ready(function () {
         setTimeout('ie_message()',2500);
     }
 
+    $('#createBox').click(function(e){
+        e.preventDefault();
+        cancelBubble(e);
+        //crete container for as product placeholder on template
+        create_box().appendTo('#canvas');
+    });
+
 });
+
+function create_box(){
+    var object      = $('<div/>');
+    var attribute   = {'class':'unselected box'};
+    var style       = {zIndex:objCounter+1,width:120, height:120,position:'absolute',top:20,left:20};
+
+    object.attr(attribute).css(style);
+
+    if(!object.hasClass('selected')){
+        object.addClass('selected').siblings('.unselected').removeClass('selected');
+        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);
+        
+        //set handles direction 
+        change_cursor(['nw','sw','se','ne','w','s','e','n']);
+    }
+    update_menu(object,true);
+    hide_canvas_menu();
+
+    objCounter++;
+
+    return object;
+}
+
 //message in ie
 function ie_message() {
     //view message if ie version < 9
