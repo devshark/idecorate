@@ -153,6 +153,10 @@ def save_styleboard_template(request):
 			data = form.cleaned_data
 			res = save_template(data)
 			if res:
+				try:
+					del request.session['template_positions']
+				except:
+					pass
 				return render_to_response('embellishments/success.html', info)
 			else:
 				messages.warning(request, _('An error occured when saving the template. Please try again.'))
