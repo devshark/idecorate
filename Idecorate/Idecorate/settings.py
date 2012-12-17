@@ -161,6 +161,7 @@ INSTALLED_APPS = (
     'idecorate_settings',
     'customer',
     'social_auth',
+    'embellishments',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
