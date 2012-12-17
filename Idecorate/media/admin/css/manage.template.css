@@ -258,6 +258,60 @@ body {
   overflow: hidden;
   position: relative;
 }
+ 
+#canvas .handles{
+  width: 50px;
+  height: 50px;
+  border: 1px solid #999;
+  cursor: move;
+  display: none;
+  position: absolute;
+  z-index: 1000;
+  background: transparent;
+  overflow: visible;
+  /*background: url('../images/fake_bg.png') 0 0  repeat;*/
+}
+
+#canvas .handles .ui-resizable-handle{
+  background-color: #CCC;
+  border: 1px solid #333;
+}
+
+#canvas .handles .ui-rotatable-handle{
+  position: absolute;
+  width: 1px;
+  background-color: #666;
+  height: 30px;
+  top: -30px;
+  left: 50%;
+  z-index: 1000;
+}
+
+#canvas .handles .ui-rotatable-handle .ui-rotatable-handle-tip {
+  background: #CCC;
+  border: 1px solid #333;
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -o-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  cursor: pointer;
+  height: 9px;
+  width: 9px;
+  margin-left: -5px;
+}
+
+#canvas .handles .ui-rotatable-handle.ui-draggable-dragging {
+  visibility:  hidden;
+}
+
+#canvas .selected{
+  /*-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
+  filter: alpha(opacity=80);*/
+  -moz-opacity: 0.8;
+  -khtml-opacity: 0.8;
+  opacity: 0.8;
+  z-index: 1;
+}
 
 #manage-template-canvas #canvas #nw-menu ul{
   display: block;
@@ -279,7 +333,7 @@ body {
 a.em{
   display: block;
   float: left;
-  width: 140%/768*100;
+  width: 18.229%;
   margin: 6px 0 0 6px;  
   font-size: 0;
   min-width:76px;
@@ -369,4 +423,100 @@ a.em:hover img{
   -ms-border-radius: 3px;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;    
+}
+
+/*===== jquery UI styles overwrites =====*/
+
+#sidebar .ui-draggable-dragging{
+  width: 100px !important;
+  z-index: 99;
+  box-shadow: -2px 0 5px #999;
+    border: 1px solid #CCC;
+    background-color: #FFF;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+    filter: alpha(opacity=60);
+    -moz-opacity: 0.6;
+    -khtml-opacity: 0.6;
+    opacity: 0.6;
+    outline: none !important;
+}
+
+.neMenus{
+  float: right;
+  margin-top: 5px;
+  margin-right: 5px;
+  display: none;
+  width:394px;
+}
+
+.neMenus .colorAdjustment{
+  margin-top: 5px;
+}
+
+.colorAdjustment #color-picker-wrap{
+  float: left;
+}
+
+.colorAdjustment #opacity-control-wrap{
+  float: left;
+  width: 150px;
+  margin-left: 10px;
+  z-index: 999999;
+}
+.colorAdjustment #opacity-control-wrap .opacity-control-label{
+  margin-bottom: 3px;
+  font-size: 11px;
+  color: #000000;
+  text-align: center;
+}
+
+.colorAdjustment #opacity-control-wrap .opacity-control-label .subtract{
+  display: block;
+  float: left;
+}
+
+.colorAdjustment #opacity-control-wrap .opacity-control-label .add{
+  display: block;
+  float: right;
+}
+.colorAdjustment #slider{
+  z-index: 9999;
+}
+
+#text-change-wrap{
+  float: left;
+  width: 150px;
+  margin-left:10px;
+  position:relative;
+  z-index: 9999;
+}
+
+#font_id{
+  width: 148px;
+  float: right;
+  margin-bottom: 2px;
+}
+
+#text-change{
+  resize: none;
+  width: 140px;
+  height: 50px;
+  padding: 3px;
+  border: 1px solid #DDD;
+  float: right;
+  margin-bottom: 3px;
+}
+#text-update{
+  display: block;
+  clear: both;
+  float: right;
+  padding: 4px;
+  background-color: #eee;
+  color: #333;
+  font-size: 12px;
+  border: 1px solid #DDD;
+}
+
+.unselected.box{
+  border: 1px dotted #CCC;
 }

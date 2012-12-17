@@ -87,7 +87,7 @@ $(document).ready(function(){
         }
         return false;
     });
-    $('#manage-template-sidebar .formWrap input[type=file]').bind('change', SITE.fileInputs);
+    $('#uploadImage input[type=file]').bind('change', SITE.fileInputs);
 });
 var SITE = SITE || {};
 SITE.fileInputs = function() {

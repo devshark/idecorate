@@ -232,8 +232,8 @@ function computeBboxDimension() {
 
 }
 
-function get_cart_items(){
-	$.get(GET_PERSONALIZE_CART_URL+'?id='+PERSONALIZE_ID,function(data){
+function get_cart_items(){	
+	$.post(GET_PERSONALIZE_CART_URL+'?id='+PERSONALIZE_ID,function(data){
 		var img_src = media_url+'products/';
 		$.each(data,function(i,v){
 			var price = v.price.toFixed(2);
@@ -256,6 +256,7 @@ function get_cart_items(){
 	            '</tr>';
 	        $('#buy-table tbody').append(item);
 		});
-		manage_total();			
+		manage_total();	
+		attachEventToQty();		
 	},'json');
 }

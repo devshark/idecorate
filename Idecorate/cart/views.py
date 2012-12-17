@@ -223,11 +223,15 @@ def add_to_cart_ajax(request):
 
 def update_cart(request):
 	if request.method == "POST":
+		print request.POST
 		product_id = request.POST.get('prod_id')
 		quantity = request.POST.get('quantity',1)
 		guests = request.POST.get('guests', 1)
 		tables = request.POST.get('tables', 1)
 		sessionid = request.session.get('cartsession',None)
+		if not sessionid:
+			sessionid = generate_unique_id()
+			request.session['cartsession'] = sessionid
 		reponse_data = {}
 		try:
 			product = get_product(product_id)
@@ -240,7 +244,8 @@ def update_cart(request):
 			guestTable.tables = tables
 			guestTable.save()
 
-		except:
+		except Exception as e:
+			print e
 			return HttpResponse(0)
 		return HttpResponse(1)
 	else:

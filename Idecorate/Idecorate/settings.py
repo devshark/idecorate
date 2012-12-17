@@ -112,6 +112,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'customer.middleware.IdecorateMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -160,6 +161,7 @@ INSTALLED_APPS = (
     'idecorate_settings',
     'customer',
     'social_auth',
+    'embellishments',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -181,8 +183,8 @@ TWITTER_CONSUMER_SECRET = 'duHZCipNTNZd6oU9KeP5sOi2BImJjjaymmDy1jtKpo'
 
 FACEBOOK_APP_ID = '250262231769530'
 FACEBOOK_API_SECRET = '95a3252b750cb86fb27e5df6e575eb6b'
-#FACEBOOK_EXTENDED_PERMISSIONS = ['email']
-#FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
+FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
 
 
 #LOGIN_URL          = '/login-form/'
