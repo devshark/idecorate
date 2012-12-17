@@ -222,9 +222,13 @@
                                                 <option value="{{ text_item.id }}">/generate_text/?font_size=40&font_text=Abcd&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=0</option>
                                                 {% endfor %}
                                             </select>
-                                            <textarea id="text-change" name="text-change"></textarea>
-                                            <a href="#" id="text-update">update</a>
+                                            <textarea id="text-change" class="textChange" name="text-change"></textarea>
+                                            <a href="#" class="updateText" id="text-update">update</a>
                                         </form>
+                                    </div>
+                                    <div id="text-change-template-wrap">
+                                        <input  class="textChange" type="text"id="text-change-template" name="text-change-template"/>
+                                        <a href="#" class="updateText" id="text-update-template">update</a>
                                     </div>
                                 </div>
                             </div>
