@@ -396,7 +396,7 @@ $(document).ready(function () {
             }
         });
 
-        $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture', function(e){
+        $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture, .unselected.box', function(e){
             cancelBubble(e);
             slideValue = parseInt($(this).attr('_opacity'));
             embellishment_handle_set(slideValue);
@@ -421,7 +421,7 @@ $(document).ready(function () {
                 }
             });
 
-            $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture', function(e){
+            $('#canvas').on('click mousedown', '.embellishment.shape,.embellishment.pattern,.embellishment.text,.embellishment.texture, .unselected.box', function(e){
                 cancelBubble(e);
                 slideValue = parseInt($(this).attr('_opacity'));
                 embellishment_handle_set(slideValue);
@@ -471,10 +471,13 @@ function create_box(){
     var object      = $('<div/>');
     var appendObj   = $('<span/>');
     var attribute   = {'class':'unselected box'};
-    var style       = {zIndex:objCounter+1,width:120, height:120,position:'absolute',top:20,left:20};
+    var style       = {zIndex:objCounter+1,width:120, height:120,position:'absolute',top:'40%',left:'40%'};
 
-    appendObj.text('add text here.');;
+    appendObj.text('add text here.');
     object.attr(attribute).css(style).append(appendObj);
+    if($.browser.msie){
+        object.append('<img src="/media/admin/img/fake_BG.png" width="100%">');
+    }
     object.appendTo('#canvas');
 
     if(!object.hasClass('selected')){
