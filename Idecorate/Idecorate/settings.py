@@ -162,6 +162,7 @@ INSTALLED_APPS = (
     'customer',
     'social_auth',
     'embellishments',
+    'common',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -252,6 +253,8 @@ HOME_INFO_GRAPHICS_WIDTH = 1024
 HOME_INFO_GRAPHICS_HEIGHT = 400
 HOME_INFO_GRAPHICS_SIZE = 2621440
 
+
+IDECORATE_HOST = 'idecorateweddings.com:8000'
 
 #Plata Settings
 POSTFINANCE = {

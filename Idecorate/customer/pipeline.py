@@ -2,6 +2,9 @@ from social_auth.backends.twitter import TwitterBackend
 from social_auth.backends.facebook import FacebookBackend
 from customer.models import CustomerProfile
 from django.contrib.auth.models import User
+from common.services import IdecorateEmail
+from uuid import uuid4
+from django.conf import settings
 
 def get_user_avatar(backend, details, response, social_user, uid, user, *args, **kwargs):
 
@@ -36,6 +39,24 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
         prof.description = desc
         prof.picture = url
         prof.save()
+
+    if User.objects.get(id=user.id).password == "!":
+        u = CustomerProfile.objects.get(user__id=user.id)
+        u.hash_set_password = str(uuid4())
+        u.save()
+
+        messageHTML = """
+        Welcome to iDecorate Weddings!
+        <br /><br />
+        If you would like to use this email address to login to iDecorate Weddings, you need to set your password by clicking on this link - http://%s/set_password_user/%s.
+        <br /><br />
+        Thank you for using iDecorate Weddings!
+        <br /><br />
+        iDecorate Weddings Team
+        """ % (settings.IDECORATE_HOST, u.hash_set_password)
+
+        IdecorateEmail.send_mail(mail_from='noreply@idecorateweddings.com',mail_to=User.objects.get(id=user.id).email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
+
 
     """
     if url:

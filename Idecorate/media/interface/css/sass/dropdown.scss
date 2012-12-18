@@ -1,6 +1,6 @@
 .dd{
     display: none;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 #site-menu{
@@ -8,16 +8,25 @@
         li{
             border-left: 2px solid #FFF;
             a,span{
-                font-weight: bold;
+                text-transform: uppercase;
+                font-weight: bold !important;
                 color: #FFF !important;
             }
         }
         li.hover,li:hover{
-            background-color: #737A2A;
+            background-color: #F5F5DC;
+            a,span{
+                color: #000 !important;
+            }
+
         }
 
         ul li{
-            background-color: #B9C444;
+            background-color: #F5F5DC;
+            a,span{
+                color: #000 !important;
+            }
+            
         }
     }
 }
@@ -27,8 +36,27 @@
         li{
             border-left: 2px solid #FFF;
             a,span{
-                font-weight: bold;
+                text-transform: uppercase;
+                font-weight: bold !important;
                 color: #FFF !important;
+            }
+            a:hover, span:hover {
+                color: #000 !important;
+            }
+        }
+        li.hover,li:hover{
+            background-color: #F5F5DC;
+            a,span{
+                color: #000 !important;
+            }
+
+        }
+        ul li {
+            background-color: #F5F5DC;
+            a,span{
+                text-transform: uppercase;
+                font-weight: bolder;
+                color: #000 !important;
             }
         }
     }
