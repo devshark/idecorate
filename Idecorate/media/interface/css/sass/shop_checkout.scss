@@ -51,7 +51,9 @@
 		color: #FFFFFF;
 		font-weight: bold;
 		padding: 4px 8px;
+		margin-top: 10px;
 		cursor: pointer;
+		float: right;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#333333)); /* for webkit browsers */
         background: -moz-linear-gradient(top,  #FFFFFF,  #333333); /* for firefox 3.6+ */

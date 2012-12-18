@@ -38,16 +38,17 @@ $(document).ready(function () {
             },
             containment: 'body',
             drag:function(e,ui){
-                $('#canvas .box').css({
-                    backgroundColor : '#FFF6DC',
-                    border: '2px dashed #666'
-                });
+                template_fill();
+                // $('#canvas .box').css({
+                //     backgroundColor : '#FFF6DC',
+                //     border: '2px dashed #666'
+                // });
             },
             stop: function(e, ui){
-                $('#canvas .box').css({
-                    backgroundColor : '#FFF',
-                    border: '2px dashed #999'
-                });
+                // $('#canvas .box').css({
+                //     backgroundColor : '#FFF',
+                //     border: '2px dashed #999'
+                // });
             }
 
         });
@@ -59,16 +60,17 @@ $(document).ready(function () {
             helper: 'clone',
             containment: 'body',
             drag:function(e,ui){
-                $('#canvas .box').css({
-                    backgroundColor : '#FFF6DC',
-                    border: '2px dashed #666'
-                });
+                template_fill();
+                // $('#canvas .box').css({
+                //     backgroundColor : '#FFF6DC',
+                //     border: '2px dashed #666'
+                // });
             },
             stop: function(e, ui){
-                $('#canvas .box').css({
-                    backgroundColor : '#FFF',
-                    border: '2px dashed #999'
-                });
+                // $('#canvas .box').css({
+                //     backgroundColor : '#FFF',
+                //     border: '2px dashed #999'
+                // });
             }
         });
 
@@ -628,6 +630,8 @@ $(document).ready(function () {
                                     var img_wo_bg   = data.no_background;
                                     var p_d_qty     = data.default_quantity;
                                     var p_g_t       = data.guest_table;
+                                    var this_width  = $(_this).width();
+                                    var this_height = $(_this).height()
 
                                     //create new image using image object
                                     var object = create_image_for_template({
@@ -637,15 +641,20 @@ $(document).ready(function () {
                                                 _img_wo_b: img_wo_bg,
                                                 _img_w_b : img_w_bg,
                                                 _p_d_qty : p_d_qty,
-                                                _p_g_t   : p_g_t
+                                                _p_g_t   : p_g_t,
+                                                _width   : this_width,
+                                                _height  : this_height
                                             });
+
                                     $(_this).html(object[0]);
+                                    eventTracker($(_this),'drop_object');
                                 },
                                 error: function(msg){
                                     alert(msg);
                                 }
                             });
-                            //$(_this).find('span').;
+                            
+                            template_fill();
 
                             add_to_cart(uid, p_d_qty, p_g_t);
 
@@ -666,6 +675,22 @@ $(document).ready(function () {
             });
         }
     });
+    
+    var notEmpty = false;
+    $('#canvas').on('mouseenter', '.box', function(e){
+        $(this).addClass('hover');
+        if($(this).hasClass('notEmpty')){
+            notEmpty = true;
+            $(this).removeClass('notEmpty');
+        }
+    });
+    $('#canvas').on('mouseleave', '.box', function(e){
+        $(this).removeClass('hover');
+        if(notEmpty){
+            $(this).addClass('notEmpty');
+        }
+        notEmpty = false;
+    });
 
 });
 
@@ -677,9 +702,22 @@ function ie_message() {
     }
 }
 // functions related to template
+function template_fill(){
+    $('#canvas .template.box').each(function(i,val){
+        if($(this).find('img').length > 0){
+            $(this).find('span').hide();
+            $(this).addClass('notEmpty');
+        }else{
+            $(this).addClass('hover');
+            //.removeClass('notEmpty');
+        }
+    });
+}
 
 function create_image_for_template(options){
     var object = $('<img/>');
+    var this_width;
+    var this_height;
 
     object.attr({
         '_uid': options._uid,
@@ -690,6 +728,10 @@ function create_image_for_template(options){
         'bg_src': options._img_w_b
     }).addClass('templateImage');
     
+    object.load(function(){
+        this_width = object.width();
+        this_height = object.height();
+    });
     object.width('100%').height('auto');
 
     return object;
@@ -1120,24 +1162,24 @@ function update_text_selected(text_value,font_id){
 
 //product functions start
 function create_instance(options){
+    var object;
     var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b}).hide().load(function () {
         var imgWidth    = options._width;
         var imgHeight   = options._height;
         var dimensions  = aspectratio(imgWidth, imgHeight, .60);
         var imgTop      = options._event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = options._event.pageX-$('#canvas').offset().left-dimensions['width']/2;
-
         //create instance of this object
-        var object = create_new_object({
-                id          : options._uid,
-                img         : this,
-                imgW        : dimensions['width'],
-                imgH        : dimensions['height'],
-                def_qty     : options._p_d_qty,
-                gst_tb      : options._p_g_t,
-                container   : $('<div />'),
-                addclass    : 'product unselected'
-            });
+        object = create_new_object({
+            id          : options._uid,
+            img         : this,
+            imgW        : dimensions['width'],
+            imgH        : dimensions['height'],
+            def_qty     : options._p_d_qty,
+            gst_tb      : options._p_g_t,
+            container   : $('<div />'),
+            addclass    : 'product unselected'
+        });
 
         //show menus
         update_menu($(this));
