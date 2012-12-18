@@ -150,8 +150,7 @@ function _resize_embellisment(){
         manage_embellishment_resize();
     }
 }
-function manage_embellishment_pagination(){
-    console.log(emb_item_per_page)
+function manage_embellishment_pagination(){    
     $('#embelishments-list-wrap .emItem a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('#embelishments-list-wrap .emItem a:first');            
@@ -185,8 +184,6 @@ function manage_embellishment_pagination(){
 
             emb_item_per_page = count_by_width*count_by_height;
             emb_offset = emb_item_per_page;
-
-            console.log(emb_item_per_page)
             
             $('#embelishments-list-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page)
