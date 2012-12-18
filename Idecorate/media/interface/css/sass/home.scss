@@ -4,23 +4,13 @@ $padding15:15px;
 
 .banner{
 	float: left;
-	width: 764px;
+	width: 1024px;
+	height: 400px;
 	background-color: #000000;
-	/*
-	box-shadow: 5px 5px 20px #DDDEE5;
-	border:1px solid #EEEEEE;
-*/
-	.BannerImg{
-		float: left;
+
+	img{
 		width: 100%;
-		height: 330px;
-		background-color: #000000;
-
-		img{
-			width: 100%;
-			height: 330px;
-		}
-
+		height: 400px;
 	}
 
 	.BannerInfoWrap{
@@ -94,9 +84,11 @@ section{
 
 		a {
 			display: block;
-			width: 100%;
+			width: 975px;
 			height: 100%;
 			border: 0;
+			padding: 10px;
+			background-color: #efebe4;
 
 			img {
 				width: 100%;
@@ -117,12 +109,14 @@ section{
 
 		a {
 			display: block;
-			width: 488px;
-			*width: 492px;
+			width: 468px;
+			*width: 472px;
 			height: 100%;
 			float: left;
+			padding: 10px;
 			margin-left: 18px;
 			*margin-left: 10px;
+			background-color: #efebe4;
 
 			img {
 				width: 100%;
@@ -143,16 +137,18 @@ section{
 		height: auto;
 		margin: 0 0 10px 0;
 		box-shadow: 5px 5px 5px #DDDEE5;
-		border: 1px solid #EEEEEE;
+		border-right: 1px solid #EEEEEE;
 
 		a {
 			display: block;
-			width: 322px;
-			*width: 320px;
+			width: 302px;
+			*width: 300px;
 			height: 100%;
+			padding: 10px;
 			float: left;
 			margin-left: 13px;
 			*margin-left: 17px;
+			background-color: #efebe4;
 
 			img {
 				width: 100%;
@@ -164,6 +160,7 @@ section{
 
 		a:first-child {
 			margin-left: 0;
+			margin-right: 1px;
 		}
 		a:last-child {
 			margin-left: 14px;

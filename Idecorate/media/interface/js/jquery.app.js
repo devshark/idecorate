@@ -576,6 +576,15 @@ function ie_message() {
 }
 // functions related to template
 
+function get_template_details(template_id){
+    var url = GET_TEMPLATES_DETAIL_URL;
+    var json_data;
+    $.post(url,{id:template_id},function(data){        
+        json_data =eval(data);
+    });
+    return json_data;
+}
+
 // template function end
 
 
