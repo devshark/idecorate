@@ -16,7 +16,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
-from cart.models import Product, ProductPrice, ProductGuestTable
+from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails
 from plata.shop.models import TaxClass
 import shutil
 from PIL import Image, ImageDraw, ImageFont
@@ -37,6 +37,7 @@ from cart.services import generate_unique_id
 from models import HomeBannerImages
 import Image as pil
 from django.utils.safestring import mark_safe
+import decimal
 
 @staff_member_required
 def admin(request):
@@ -455,6 +456,29 @@ def admin_create_product(request):
     		productPrice.tax_class = TaxClass.objects.get(pk=1)
     		productPrice.save()
 
+    		try:
+	    		unit_price = form.cleaned_data['unit_price']
+	    		pieces_carton = form.cleaned_data['pieces_carton']
+	    		min_order_qty_carton = form.cleaned_data['min_order_qty_carton']
+	    		min_order_qty_pieces = None
+	    		if pieces_carton and min_order_qty_carton:
+	    			min_order_qty_pieces = int(pieces_carton)*int(min_order_qty_carton)
+	    		cost_min_order_qty = None
+	    		if min_order_qty_pieces and unit_price:
+	    			cost_min_order_qty = decimal.Decimal(min_order_qty_pieces) * decimal.Decimal(unit_price)
+	    		productDetails = ProductDetails()
+	    		productDetails.product = product
+	    		productDetails.comment = form.cleaned_data['comment']
+	    		productDetails.size = form.cleaned_data['size']
+	    		productDetails.unit_price = unit_price
+	    		productDetails.pieces_carton = pieces_carton
+	    		productDetails.min_order_qty_carton = min_order_qty_carton
+	    		productDetails.min_order_qty_pieces = min_order_qty_pieces
+	    		productDetails.cost_min_order_qty = cost_min_order_qty
+	    		productDetails.save()
+	    	except Exception as e:	    		
+	    		pass
+
     		#REMOVE FILES
     		try:
     			os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
@@ -486,6 +510,21 @@ def admin_edit_product(request, prod_id):
     listCats = [str(initCat.id) for initCat in initCats]
 
     request.listCats = listCats
+    comment = ''
+    size = ''
+    unit_price = ''
+    pieces_carton = ''
+    min_order_qty_carton = ''
+
+    try:
+    	productDetails = ProductDetails.objects.get(product=product)
+    	comment = productDetails.comment
+    	size = productDetails.size
+    	unit_price = productDetails.unit_price
+    	pieces_carton = productDetails.pieces_carton
+    	min_order_qty_carton = productDetails.min_order_qty_carton
+    except Exception as e:
+    	pass
 
     info['initial_form_data'] = {
     	'product_status':str(int(product.is_active)),
@@ -497,7 +536,12 @@ def admin_edit_product(request, prod_id):
     	'original_image':product.original_image,
     	'no_background':product.no_background,
     	'default_quantity':product.default_quantity,
-    	'guest_table':str(product.guest_table.id)
+    	'guest_table':str(product.guest_table.id),
+    	'comment':comment,
+    	'size':size,
+    	'unit_price':unit_price,
+    	'pieces_carton':pieces_carton,
+    	'min_order_qty_carton':min_order_qty_carton
     }
 
     form = EditProductForm(initial=info['initial_form_data'],product_id=int(prod_id))
@@ -596,6 +640,33 @@ def admin_edit_product(request, prod_id):
     		productPrice = ProductPrice.objects.get(product=product)
     		productPrice._unit_price = form.cleaned_data['price']
     		productPrice.save()
+
+    		try:
+				unit_price = form.cleaned_data['unit_price']
+				pieces_carton = form.cleaned_data['pieces_carton']
+				min_order_qty_carton = form.cleaned_data['min_order_qty_carton']
+				min_order_qty_pieces = None
+				if pieces_carton and min_order_qty_carton:
+					min_order_qty_pieces = int(pieces_carton)*int(min_order_qty_carton)
+				cost_min_order_qty = None
+				if min_order_qty_pieces and unit_price:
+					cost_min_order_qty = decimal.Decimal(min_order_qty_pieces) * decimal.Decimal(unit_price)
+
+				try:
+					productDetails = ProductDetails.objects.get(product=product)
+				except:
+					productDetails = ProductDetails()
+					productDetails.product = product
+				productDetails.comment = form.cleaned_data['comment']
+				productDetails.size = form.cleaned_data['size']
+				productDetails.unit_price = unit_price
+				productDetails.pieces_carton = pieces_carton
+				productDetails.min_order_qty_carton = min_order_qty_carton
+				productDetails.min_order_qty_pieces = min_order_qty_pieces
+				productDetails.cost_min_order_qty = cost_min_order_qty
+				productDetails.save()
+	    	except Exception as e:	    		
+	    		pass
 
     		messages.success(request, _('Product Saved.'))
 

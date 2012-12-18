@@ -119,8 +119,9 @@ def styleboard(request, cat_id=None):
 				info['personalize_item'] = mark_safe(personalize_styleboard.styleboard_item.item.replace("'","\\'"))
 				info['global_default_quantity'] = personalize_styleboard.styleboard_item.item_guest
 				info['global_guest_table'] = personalize_styleboard.styleboard_item.item_tables			
-				if request.user.is_authenticated():					
+				if request.user.is_authenticated():
 					if int(personalize_styleboard.user.id) == int(request.user.id):
+						info['sbid'] = sbid
 						request.session['customer_styleboard'] = personalize_styleboard
 				else:
 					request.session['personalize_styleboard'] = personalize_styleboard					

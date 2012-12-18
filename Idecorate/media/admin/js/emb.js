@@ -16,6 +16,7 @@ var emb_window_height;
 var emb_window_width;
 var emb_uploaded_filename;
 var emb_error_upload = false;
+var is_trigger_change = false;
 
 $(document).ready(function(){
     emb_window_height = $(window).height();
@@ -66,11 +67,33 @@ $(document).ready(function(){
         }
         return false;
     });
-    $('#uploadImage input[type=file]').bind('change', SITE.fileInputs);
+    
+    // if($.browser.safari){
+    //     $('#uploadImage input[type=file]').blur(SITE.fileInputs);
+    // } else {
+        
+    // }
+    
+    
+    if($.browser.safari){
+        $('#btn-from-my-computer').hide();
+        $('#uploadImage .file-wrapper input[type=file]').css({
+            'opacity': 100,
+            'filter': 'alpha(opacity=100)',
+            '-ms-filter': "alpha(opacity=0)",
+            '-khtml-opacity': 100,
+            '-moz-opacity': 100,
+            'position':'relative',
+            'font-size': 14
+        });
+        $('#form_submit_button').show();
+    } else {
+        $('#uploadImage input[type=file]').change(manage_upload);
+    }
 });
 
-var SITE = SITE || {};
-SITE.fileInputs = function() {
+function manage_upload(e) {
+    is_trigger_change  = true;
     if($('#upload-emb-error').length>0)
         $('#upload-emb-error').remove();
 
@@ -84,7 +107,7 @@ SITE.fileInputs = function() {
     }
 
     $('#form_submit_button').show();
-    if ($.browser.msie){
+    if ($.browser.msie || $.browser.safari){
         $(this).blur();    
     }
     var val = $(this).val(),
@@ -469,8 +492,12 @@ function hideUploadEmbellishment(){
 }
 function showUploadEmbellishment(){    
     $('#picture').val('');
-    $('.file-wrapper input[type="button"]').show();
-    $('#form_submit_button').hide();
+    if (!$.browser.safari){
+        $('.file-wrapper input[type="button"]').show();
+        $('#form_submit_button').hide();
+    } else {
+        $('#form_submit_button').show();
+    }
     $("#uploadprogressbar").remove();
     $('.file-wrapper .file-holder').remove();
     create_instance_embellishment_upload(emb_uploaded_filename);

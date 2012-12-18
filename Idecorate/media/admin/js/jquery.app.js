@@ -694,7 +694,7 @@ function create_instance_embellishment_upload(fname){
     var imgHeight   = 0;
 
     obj_image.attr({
-        'src': '/media/embellishments/template/'+fname
+        'src': '/media/embellishments/images/'+fname
     });
 
     obj_image.load(function(){
@@ -740,8 +740,7 @@ function create_instance_embellishment_upload(fname){
     hide_canvas_menu();
 
     //set handles direction 
-    change_cursor($(object).attr('_handle'));
-    
+    change_cursor($(object).attr('_handle'));    
     return object;
 }
 

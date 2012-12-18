@@ -106,6 +106,7 @@ $(document).ready(function(){
         }
     });
 });
+
 var SITE = SITE || {};
 SITE.fileInputs = function() {
     if($('#upload-emb-error').length>0)
@@ -135,8 +136,6 @@ SITE.fileInputs = function() {
         } else {
             $(fakeFile).text(newVal);
         }
-
-        //$('#picture').css('display','none');
     }
 };
 function _resize_embellisment(){    

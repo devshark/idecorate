@@ -730,7 +730,11 @@
             popup_login();
     }
     function save_styleboard_modal(){
-        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-save-styleboard-iframe','src':"{% url save_styleboard %}",'frameborder':'0'});
+        var url = '{% url save_styleboard %}';
+        {% if sbid %}
+        url = url + '?sbid={{ sbid }}';
+        {% endif %}
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-save-styleboard-iframe','src':url,'frameborder':'0'});
         var modal   = $('#modal-save-styleboard-window'),
             _left   = $(window).width()/2-modal.width()/2;
             frame   = $('#iframe-save-styleboard-wrap').html(iframe);

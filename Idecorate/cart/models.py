@@ -77,6 +77,21 @@ class ProductPopularity(models.Model):
         verbose_name = _('Product Popularity')
         db_table = 'product_popularities'
 
+class ProductDetails(models.Model):
+    id = models.AutoField(db_column='id', primary_key=True)
+    product = models.ForeignKey(Product, db_column='product_id')
+    comment = models.TextField(db_column='comment', null=True, blank=True)
+    size = models.CharField(db_column='size', max_length=255, null=True, blank=True)
+    unit_price = models.DecimalField(db_column='unit_price', max_digits=6, decimal_places=2, null=True, blank=True)
+    pieces_carton = models.PositiveIntegerField(db_column='pieces_per_carton', null=True, blank=True)
+    min_order_qty_carton = models.PositiveIntegerField(db_column='min_order_qty_carton', null=True, blank=True)
+    min_order_qty_pieces = models.PositiveIntegerField(db_column='min_order_qty_pieces', null=True, blank=True)
+    cost_min_order_qty = models.DecimalField(db_column='cost_min_order_qty', max_digits=6, decimal_places=2, null=True, blank=True)
+
+    class Meta:
+        verbose_name = _('Product Details')
+        db_table = 'product_details'
+
 class GuestTableTemp(models.Model):
 
     id = models.AutoField(db_column='id', primary_key=True)
