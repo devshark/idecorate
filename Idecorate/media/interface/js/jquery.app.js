@@ -1897,6 +1897,10 @@ function undo_styleboard() {
         manage_subtotal();
         manage_total();
         styleboardH();
+
+        if($('.template').length > 0) {
+            box_droppable();
+        }
         
         eventTracker($('#canvas'),'undo');
     }
@@ -1922,6 +1926,10 @@ function redo_styleboard() {
         manage_subtotal();
         manage_total();
         styleboardH();
+
+        if($('.template').length > 0) {
+            box_droppable();
+        }
 
         eventTracker($('#canvas'),'redo');
     }
