@@ -10,22 +10,10 @@
 	*display: inline;
 	zoom:1;
 }
-.third {
-	width: 322px;
-	border: 1px solid #ccc;
-	height: 400px;
-	margin-bottom: 5px;
-}
-.half {
-	width: 489px;
-	border: 1px solid #ccc;
-	height: 400px;
-	margin-bottom: 5px;
-}
 .whole {
-	width: 994px;
+	width: {{ width }}px;
 	border: 1px solid #ccc;
-	height: 400px;
+	height: {{ height }}px;
 	margin-bottom: 5px;
 }
 #wrap-half .spacer {
@@ -68,7 +56,7 @@
 {% endblock %}
 
 {% block content %}
-<h1>{% trans "Upload Home Banners" %}</h1>
+<h1>{% trans "Upload Home Infographics" %}</h1>
 <form method="post" action="">
 {% csrf_token %}
 {{ form.image }}
@@ -85,14 +73,14 @@
 		{% endfor %}
 		{% endif %}
 
-		{% if validated %}
+		{% if form.errors %}
 		<div class="alert alert-error">
 			<a class="close" data-dismiss="alert" href="#">×</a>
 			<h4 class="alert-heading">Please correct the following errors:</h4>
 			<ol>
-				{% if validated.image %}
-				<li>{{ validated.image11 }}</li>
-				{% endif %}
+				{% for e in form.image.errors %}
+				<li>{{ e }}</li>
+				{% endfor %}
 			</ol>
 		</div>
 		{% endif %}
@@ -107,68 +95,8 @@
 							<img src="/media/banners/{{ image11 }}" alt="" />
 							{% endif %}
 						</div>
-						<a id="btn-browse-whole" class="button btn btn-primary brw" rel="11">Choose a Photo</a>
-						<br /><br />
-						{{ form.wholelink|attr:"placeholder:Link" }}
-					</div>
-				</div>
-				<div id="wrap-half" class="hidden">
-					<div>
-						<div class="wrap-preview">
-							<div id="half1-preview" class="half pv">
-								{% if image21 %}
-								<img src="/media/banners/{{ image21 }}" alt="" />
-								{% endif %}
-							</div>
-							<a id="btn-browse-half1" class="button btn btn-primary brw" rel="21">Choose a Photo</a>
-							<br /><br />
-							{{ form.half1link|attr:"placeholder:Link" }}
-						</div>
-						<div class="spacer"></div>
-						<div class="wrap-preview">
-							<div id="half2-preview" class="half pv">
-								{% if image22 %}
-								<img src="/media/banners/{{ image22 }}" alt="" />
-								{% endif %}
-							</div>
-							<a id="btn-browse-half2" class="button btn btn-primary brw" rel="22">Choose a Photo</a>
-							<br /><br />
-							{{ form.half2link|attr:"placeholder:Link" }}
-						</div>
-					</div>
-				</div>
-				<div id="wrap-third" class="hidden">
-					<div class="wrap-preview">
-						<div id="third1-preview" class="third pv">
-							{% if image31 %}
-							<img src="/media/banners/{{ image31 }}" alt="" />
-							{% endif %}
-						</div>
-						<a id="btn-browse-third1" class="button btn btn-primary brw" rel="31">Choose a Photo</a>
-						<br /><br />
-						{{ form.third1link|attr:"placeholder:Link" }}
-					</div>
-					<div class="spacer"></div>
-					<div class="wrap-preview">
-						<div id="third2-preview" class="third pv">							
-							{% if image32 %}
-							<img src="/media/banners/{{ image32 }}" alt="" />
-							{% endif %}
-						</div>
-						<a id="btn-browse-third2" class="button btn btn-primary brw" rel="32">Choose a Photo</a>
-						<br /><br />
-						{{ form.third2link|attr:"placeholder:Link" }}
-					</div>
-					<div class="spacer"></div>
-					<div class="wrap-preview">
-						<div id="third3-preview" class="third pv">
-							{% if image33 %}
-							<img src="/media/banners/{{ image33 }}" alt="" />
-							{% endif %}
-						</div>
-						<a id="btn-browse-third3" class="button btn btn-primary brw" rel="33">Choose a Photo</a>
-						<br /><br />
-						{{ form.third3link|attr:"placeholder:Link" }}
+						<a id="btn-browse" class="button btn btn-primary brw">Choose a Photo</a>
+						Note: Recommended image size is {{ width }}x{{ height }}.
 					</div>
 				</div>
 			</td>
@@ -183,133 +111,67 @@
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
 <script type="text/javascript">
-	function togglePreview(){		
-		$('#wrap-whole').addClass('selected');
-		$('#wrap-whole').removeClass('hidden');
-	}
 	$(document).ready(function(){
-
-		togglePreview($('#id_sizes').val());
-
-		$('.brw').each(function(){
-			var r = $(this).attr('rel');
-			var elm = this;
-
-			var preview = '';
-			if (r=='11')
-				preview = '.whole';
-			else if (r=='21')
-				preview = '#half1-preview';
-			else if (r=='22')
-				preview = '#half2-preview';
-			else if (r=='31')
-				preview = '#third1-preview';
-			else if (r=='32')
-				preview = '#third2-preview';
-			else if (r=='33')
-				preview = '#third3-preview';
-			var eid = $(this).attr('id');
-			new AjaxUpload(eid, {
-				name: 'image',
-				action: '{% url upload_temp_banner %}',
-				data: {
-					size : r
-				},
-				onSubmit: function(file, extension) {					
-					$(preview).append('<div class="loading"></div>');
-				},
-				onComplete: function(file, response){
-					$('div.loading').remove();
-					var deli = '|';
-					if (response.indexOf(',') !=-1)
-						deli = ',';
-					var splittedResponse = response.split(deli);					
-					if (splittedResponse[0] == 'fail') {
-						var msg = splittedResponse[1];
-						if($('.alert.alert-error').length > 0){
-							if ($('.thumb-error').length > 0)
-								$('.alert.alert-error ol li.thumb-error').text(msg);
-							else
-								$('.alert.alert-error ol').append('<li class="thumb-error">' + msg + '</li>');						
-						} else {
-							var elm = '<div class="alert alert-error">' +
-									'<a class="close" data-dismiss="alert" href="#">×</a>' +
-									'<h4 class="alert-heading">Please correct the following errors:</h4>' +
-									'<ol>' +
-									'<li class="thumb-error">' + msg + '</li>' +
-									'</ol>' +
-								'</div>';
-							$('#alert-error').html(elm);
-						}
-					} else {
-						$('#'+eid).text('Photo Chosen');						
-						if ($(preview).find('img').length > 0){
-							$(preview).find('img').remove();
-						}
-						$(preview).append('<img src="/media/banners/' + splittedResponse[1] + '" />');
-						$('#id_image'+r).val(splittedResponse[1]);
-						// getHeight($(preview).find('img'),function(h){
-						// 	var w = $(preview).width()/2;
-						// 	var iw = $(preview).find('img').width()/2;
-						// 	var dw = w-iw;
-						// 	$(preview).find('img').css('left',dw);
-						// });
-						if($('.alert.alert-error').length > 0){
-							$('.alert.alert-error a.close').trigger('click');
-						}
-					}				
-				},
-				error: function(msg){					
+		new AjaxUpload('btn-browse', {
+			name: 'image',
+			action: '{% url upload_temp_infographic %}',
+			onSubmit: function(file, extension) {					
+				$('.whole').append('<div class="loading"></div>');
+			},
+			onComplete: function(file, response){
+				$('div.loading').remove();
+				var deli = '|';
+				if (response.indexOf(',') !=-1)
+					deli = ',';
+				var splittedResponse = response.split(deli);					
+				if (splittedResponse[0] == 'fail') {
+					var msg = splittedResponse[1];
 					if($('.alert.alert-error').length > 0){
 						if ($('.thumb-error').length > 0)
-							$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');
+							$('.alert.alert-error ol li.thumb-error').text(msg);
 						else
-							$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
+							$('.alert.alert-error ol').append('<li class="thumb-error">' + msg + '</li>');						
 					} else {
 						var elm = '<div class="alert alert-error">' +
 								'<a class="close" data-dismiss="alert" href="#">×</a>' +
 								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
 								'<ol>' +
-								'<li class="thumb-error">{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
+								'<li class="thumb-error">' + msg + '</li>' +
 								'</ol>' +
 							'</div>';
 						$('#alert-error').html(elm);
-					}				
-					$('div.loading').remove();
-				}
-			});
-		});
-
-		$('#modalConfirm').click(function(){
-        	var csrf = ""
-			$('input:hidden').each(function(){
-				if ($(this).attr('name')=='csrfmiddlewaretoken'){
-					csrf = $(this).val()
-				}
-			});
-
-			var delurl = '{% url remove_category %}';
-			var elm = this;
-			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$('#cat_id').val()}, function(data){
-				if (data != 0){
-					$('#list_'+$('#cat_id').val()).remove();
-					$('#successModal h3').text('Remove Category');
-					$('#successModal p').text('Successfully removed category.');
-					$('#successModal').modal('show');
-					$('#category-dropdown-menu').html(data);
-					$('#category-dropdown-menu a').each(function(){
-						$(this).bind('click', function(){
-							$('#ddl-name').text($(this).find('span').text());
-							$('#id_parent').val(this.rel);
-						});
-					});
-					if($('#id_id').val()==$('#cat_id').val())
-						window.location.href='{% url category %}'
-				}					
-			});
-			$('#btnDismiss').trigger('click');
-			return false;
-        });
+					}
+				} else {
+					$('#btn-browse').text('Photo Chosen');						
+					if ($('.whole').find('img').length > 0){
+						$('.whole').find('img').remove();
+					}
+					$('.whole').append('<img src="/media/infographics/' + splittedResponse[1] + '" />');
+					$('#id_image').val(splittedResponse[1]);
+					if($('.alert.alert-error').length > 0){
+						$('.alert.alert-error a.close').trigger('click');
+					}
+				}				
+			},
+			error: function(msg){					
+				if($('.alert.alert-error').length > 0){
+					if ($('.thumb-error').length > 0)
+						$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');
+					else
+						$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
+				} else {
+					var elm = '<div class="alert alert-error">' +
+							'<a class="close" data-dismiss="alert" href="#">×</a>' +
+							'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+							'<ol>' +
+							'<li class="thumb-error">{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
+							'</ol>' +
+						'</div>';
+					$('#alert-error').html(elm);
+				}				
+				$('div.loading').remove();
+			}
+		});		
 	});
 	function getHeight(el,fn) {
 	    var img = new Image();

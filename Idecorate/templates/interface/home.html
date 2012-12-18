@@ -8,7 +8,11 @@
 {% block content %}
 <div class="defaultContent clearfix">
 	<div class="banner clearfix">
-		<img src="http://www.doonbeglodge.com/upload/background_slideshow_images/wedding23.jpg" />
+		{% if infographic %}
+			<img src="/media/infographics/{{ infographic.image }}" alt="" />
+		{% else %}
+			<img src="http://www.doonbeglodge.com/upload/background_slideshow_images/wedding23.jpg" />
+		{% endif %}
 	</div>
 </div>
 
