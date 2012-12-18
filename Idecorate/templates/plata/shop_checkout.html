@@ -28,7 +28,7 @@
 {% endblock %}
 {% block content %}
 <div class="clearfix checkout">
-	<h3>Checkout</h3>
+	<h3>CHECKOUT</h3>
 	<div class="clearfix orderWrap">
 		
 		{% if orderform.errors %}
@@ -91,7 +91,7 @@
 						</td>
 						<td>
 							<p><!-- + $100 Shipping Fee -->&nbsp;</p>
-							<p>Total: ${{ order.total|floatformat:2|intcomma }}</p>
+							<p class="totalCost">Total: ${{ order.total|floatformat:2|intcomma }}</p>
 							<button type="button" id="edit_button">Edit</button>
 						</td>
 					</tr>
