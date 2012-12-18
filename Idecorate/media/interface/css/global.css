@@ -114,7 +114,8 @@ h5 {
   margin-bottom: 5px;
   padding-top: 10px;
   position: relative;
-  min-height: 60px; }
+  min-height: 60px;
+  background-color: #000000; }
   #header .headerRowTop {
     width: auto; }
     #header .headerRowTop .headerColumn {
@@ -239,18 +240,25 @@ h5 {
       #header .headerRowBottom .socialIcons a#youtube {
         background-position: 1px -125px; }
 
-/*
 .categoryWrapper {
   width: 100%;
-  height: 30px;
+  height: auto;
+  padding: 10px 0;
   text-align: center;
-  border-top: 2px solid #FFF;
-  border-bottom: 2px solid #FFF;
+  border-top: 2px solid #FFFFFF; }
+  .categoryWrapper ul {
+    width: auto; }
+    .categoryWrapper ul li {
+      float: left;
+      text-align: center; }
+      .categoryWrapper ul li a {
+        padding: 0 10px;
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #ffffff;
+        text-decoration: none;
+        text-transform: uppercase; }
 
-    span {
-      padding: 10px;
-    }
-}*/
 p {
   font-size: 1.1em;
   line-height: 1.2em; }
@@ -283,37 +291,49 @@ p {
   color: black; }
 
 footer {
-  padding: 15px 15px;
-  border-top: 1px solid #EEEEEE;
-  background: #000000;
-  color: #FFFFFF; }
-
-footer .copyright {
-  float: left;
-  width: 300px; }
-
-footer .footerMenus {
-  float: right;
-  width: 694px;
-  text-align: right; }
-
-footer .footerMenus ul li {
-  padding: 2px 5px;
-  display: inline-block;
-  zoom: 1;
-  *display: inline;
-  border-left: 1px solid #CCCCCC; }
-
-footer .footerMenus ul li a {
-  text-decoration: none;
-  color: #FFFFFF;
-  font-size: 1.1em; }
-
-.footerMenus ul li a:hover {
-  text-decoration: underline; }
-
-footer .footerMenus ul li:first-child {
-  border-left: none; }
+  background-color: #FFFFFF; }
+  footer .footerMenu {
+    padding: 15px 0;
+    border-top: 2px solid #CCCCCC;
+    border-bottom: 2px solid #CCCCCC;
+    line-height: 1.3; }
+    footer .footerMenu div {
+      width: 150px;
+      padding-left: 20px;
+      float: left; }
+      footer .footerMenu div h3 {
+        font-weight: 900; }
+      footer .footerMenu div ul {
+        margin-bottom: 15px; }
+        footer .footerMenu div ul li a {
+          font-size: 1.2em;
+          color: #666;
+          text-decoration: none; }
+        footer .footerMenu div ul .socialIcons a {
+          display: block !important;
+          float: left;
+          height: 40px;
+          width: 40px;
+          border: 1px solid;
+          padding: 0 !important;
+          margin-left: 5px;
+          background: url(/media/images/sprite.png) no-repeat; }
+          footer .footerMenu div ul .socialIcons a a#email {
+            background-position: 5px 0; }
+          footer .footerMenu div ul .socialIcons a a#google-plus {
+            background-position: 0 0; }
+          footer .footerMenu div ul .socialIcons a a#tumblr {
+            background-position: 0 0; }
+          footer .footerMenu div ul .socialIcons a a#facebook {
+            background-position: 0 0; }
+          footer .footerMenu div ul .socialIcons a a#pinterest {
+            background-position: 0 0; }
+          footer .footerMenu div ul .socialIcons a a#instagram {
+            background-position: 0 0; }
+          footer .footerMenu div ul .socialIcons a a#twitter {
+            background-position: 0 0; }
+          footer .footerMenu div ul .socialIcons a a#youtube {
+            background-position: 0 0; }
 
 .error {
   color: #B94A48; }
