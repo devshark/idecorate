@@ -720,3 +720,8 @@ def get_personalize_cart_items(request):
 		return HttpResponse(simplejson.dumps(responsedata), mimetype="application/json")		
 	else:
 		return HttpResponseNotFound()
+
+def set_password_user(request):
+	info = {}
+
+	return render_to_response('interface/set_password.html', info,RequestContext(request))

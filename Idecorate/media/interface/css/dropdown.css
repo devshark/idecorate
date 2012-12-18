@@ -3,7 +3,7 @@
   font-size: 12px; }
 
 #site-menu .dd li {
-  border-left: 2px solid #FFF; }
+  border-left: 1px solid #FFF; }
   #site-menu .dd li a, #site-menu .dd li span {
     /*font-weight: bold;*/
     color: #FFF !important; }

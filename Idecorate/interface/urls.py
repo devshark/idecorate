@@ -21,5 +21,6 @@ urlpatterns =  patterns('interface.views',
     url(r'^generate_embellishment/$', 'generate_embellishment', {}, name='generate_embellishment'),
     url(r'^styleboard/new$', 'new_styleboard', {}, name='new_styleboard'),
     url(r'^styleboard/embellishment_items$', 'get_embellishment_items', {}, name='get_embellishment_items'),
-    url(r'^styleboard/get_cart_items$', 'get_personalize_cart_items', {}, name='get_personalize_cart_items'),    
+    url(r'^styleboard/get_cart_items$', 'get_personalize_cart_items', {}, name='get_personalize_cart_items'),
+    url(r'^set_password_user/$', 'set_password_user', {}, name='set_password_user'),    
 )
