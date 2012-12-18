@@ -20,7 +20,10 @@
 				</ol>
 			</div>
 		</div>
-		<form>
+		<form action="" method="post">
+			<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />
+			<input type="hidden" name="terms_and_conditions" value="on" />
+			{% csrf_token %}
 			<div class="clearfix reqMessage">
 				* fields are required
 			</div>

@@ -10,6 +10,7 @@ class CustomerProfile(models.Model):
 	nickname = models.CharField(db_column='nickname', max_length=256, db_index=True)
 	picture = models.CharField(db_column='picture', max_length=256, null=True)
 	description = models.TextField(db_column='description', null=True)
+	hash_set_password = models.CharField(db_column='hash_set_password', max_length=256, null=True)
 
 	class Meta:
 		db_table = 'customer_profiles'
