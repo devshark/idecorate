@@ -112,6 +112,7 @@ section {
         border: 0; }
     section .wrapper3 a:first-child {
       margin-left: 0;
-      margin-right: 1px; }
+      margin-right: 1px;
+      *margin-right: 0; }
     section .wrapper3 a:last-child {
       margin-left: 14px; }
