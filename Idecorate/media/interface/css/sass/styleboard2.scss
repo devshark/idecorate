@@ -797,18 +797,18 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 					}
 
 					.box{
-						border: 2px dashed #999;
-						background-color: #FFF;
-						/* IE 8 */
-						-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
-						/* IE 5-7 */
-						filter: alpha(opacity=60);
-						/* Netscape */
-						-moz-opacity: 0.6;
-						/* Safari 1.x */
-						-khtml-opacity: 0.6;
-						/* Good browsers */
-						opacity: 0.6;
+						outline: 1px dashed #999;
+						background-color: rgba(255,255,255,0.6);
+						// /* IE 8 */
+						// -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+						// /* IE 5-7 */
+						// filter: alpha(opacity=60);
+						// /* Netscape */
+						// -moz-opacity: 0.6;
+						// /* Safari 1.x */
+						// -khtml-opacity: 0.6;
+						// /* Good browsers */
+						// opacity: 0.6;
 						overflow: hidden;
 
 						span{
@@ -820,6 +820,14 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							text-align: center;
 						}
 					}
+					.box.hover{
+						background-color: rgba(201,198,189,0.6);
+					}
+					.box.notEmpty{
+						background: none;
+						outline:none;
+					}
+
 
 					.product:hover{
 						outline:1px solid #DDD;
