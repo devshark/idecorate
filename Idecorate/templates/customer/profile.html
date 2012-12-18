@@ -71,10 +71,10 @@
 {% block javascripts %}
 <script type="text/javascript">
 $(function(){
-
+/*
 	page_H();
 	$(window).resize(page_H);
-
+*/
 	$('.featureContentWrap:odd').each(function(i,val){
 		if($(val).height() < $(val).prev().height()){
 			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
@@ -92,7 +92,7 @@ $(function(){
 	});
 
 });
-
+/*
 function page_H(){
 		
 	var windowH = $(window).height();
@@ -105,6 +105,6 @@ function page_H(){
 			$('#feature-wrap').height(newHeight);
 		}
 
-}
+}*/
 </script>
 {% endblock %}
