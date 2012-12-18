@@ -23,7 +23,7 @@ from django.core.urlresolvers import reverse
 import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
-from admin.models import TextFonts, Embellishments, EmbellishmentsType
+from admin.models import TextFonts, Embellishments, EmbellishmentsType, HomeInfoGrapics
 from customer.services import get_user_styleboard, get_styleboard_cart_item
 import admin
 from admin.services import get_home_banners, get_home_banner_images
@@ -40,8 +40,13 @@ def home(request):
 		images = get_home_banner_images(item.id)
 		images = images.order_by('id')
 		lists.append(images)
-	print lists
+	
 	info['lists'] = lists
+	try:
+		info['infographic'] = HomeInfoGrapics.objects.get(is_active=True)
+	except:
+		pass
+
 	return render_to_response('interface/home.html',info,RequestContext(request))
 
 @csrf_exempt

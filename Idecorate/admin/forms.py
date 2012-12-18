@@ -258,4 +258,4 @@ class HomeBannerForm(forms.Form):
 		super(forms.Form, self).__init__(*args, **kwargs)
 
 class HomeInfoGraphicForm(forms.Form):
-	image = forms.CharField(widget=forms.HiddenInput)
+	image = forms.CharField(widget=forms.HiddenInput, error_messages={'required':_('Image is a required field.')})
