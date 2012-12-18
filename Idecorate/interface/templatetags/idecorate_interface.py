@@ -262,8 +262,10 @@ def truncateDescription(desc):
 
 @register.filter
 def set_last_page_idecorate(request):
-
-        request.session['last_page_idecorate'] = request.get_full_path()
+        try:
+                request.session['last_page_idecorate'] = request.get_full_path()
+        except:
+                pass
 
         #print request.get_full_path()
 

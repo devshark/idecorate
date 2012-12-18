@@ -243,7 +243,8 @@ $(document).ready(function () {
     }).keydown(function(e){
         
         if(!$.browser.mozilla) {
-            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea') {
+            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea' && e.target.type != 'text') {
+                console.log(e.target.type);
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
             }
@@ -254,7 +255,7 @@ $(document).ready(function () {
     $('html').keypress(function(e){
 
         if($.browser.mozilla) {
-            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea') {
+            if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea' && e.target.type != 'text') {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
                 return false;
@@ -463,6 +464,7 @@ function update_text_template(text){
 
 function update_text_on_box(text_value){
     $('.selected').find('span').html(text_value);
+    eventTracker($('.selected'),'update_text_box');
 }
 
 function create_box(){
@@ -496,6 +498,8 @@ function create_box(){
     $('#text-change-template').val('add text here.');
 
     objCounter++;
+
+    eventTracker(object,'create_box');
 
     return object;
 }
@@ -1024,9 +1028,11 @@ function eventTracker(currentObject, eventType) {
 
         var product_objects = '';
         var embellishment_objects = '';
+        var box_objects = '';
 
         var clonedObject = $('.product.unselected').clone();
         var clonedObject2 = $('.embellishment.unselected').clone();
+        var clonedObject3 = $('.box.unselected').clone();
 
         clonedObject.each(function(e){
             $(this).removeClass('selected');
@@ -1040,20 +1046,27 @@ function eventTracker(currentObject, eventType) {
 
         });
 
-        var cloned_table = $('.table').clone();
+        clonedObject3.each(function(e){
+            $(this).removeClass('selected');
+            box_objects += $(this).prop('outerHTML');
 
+        });
+
+        //var cloned_table = $('.table').clone();
+        /**
         $('.dynamic_qty').each(function(e){
 
             var strInput = '<input class="dynamic_qty" type="text" _pid="' + $(this).attr('_pid') + '" _pr="' + $(this).attr('_pr') + '" _cur="' + $(this).attr('_cur') + '" _gs="' + $(this).attr('_gs') + '" _dq="' + $(this).attr('_dq') + '" max-length="' + $(this).attr('max-length') + '" name="' + $(this).attr('name') + '" value="' + $(this).val() + '" placeholder="' + $(this).attr('placeholder') + '">';
             cloned_table.find('[_pid="' + $(this).attr('_pid') + '"]').replaceWith($(strInput));
 
         });
+        **/
 
         if(changesCounter != (changesArray.length - 1)) {
             changesArray.splice(changesCounter + 1, changesArray.length - changesCounter);
         }
 
-        changesArray.push({ obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
+        changesArray.push({ obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, box_objects: box_objects });
         changesCounter++;
     }
 
@@ -1064,9 +1077,12 @@ function setProductPositions(func) {
 
     var product_objects = '';
     var embellishment_objects = '';
+    var box_objects = '';
 
     var clonedObject = $('.product.unselected').clone();
     var clonedObject2 = $('.embellishment.unselected').clone();
+    var clonedObject3 = $('.box.unselected').clone();
+
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
@@ -1077,6 +1093,13 @@ function setProductPositions(func) {
     clonedObject2.each(function(e){
         $(this).removeClass('selected');
         embellishment_objects += $(this).prop('outerHTML');
+
+    });
+
+
+    clonedObject3.each(function(e){
+        $(this).removeClass('selected');
+        box_objects += $(this).prop('outerHTML');
 
     });
 
@@ -1094,7 +1117,7 @@ function setProductPositions(func) {
     $.ajax({
         url: SET_TEMPLATE_POSITION_URL,
         type: "POST",
-        data: { obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects },
+        data: { obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects,box_objects: box_objects },
         beforeSend : function(){
             
         },
@@ -1189,13 +1212,16 @@ function initProductPositions() {
 
         $('#canvas').append(TEMPLATE_POSITIONS['product_objects']);
         $('#canvas').append(TEMPLATE_POSITIONS['embellishment_objects']);
+        $('#canvas').append(TEMPLATE_POSITIONS['box_objects']);
 
     }
 
     var product_objects = '';
     var embellishment_objects = '';
+    var box_objects = '';
     var clonedObject = $('.product.unselected').clone();
     var clonedObject2 = $('.embellishment.unselected').clone();
+    var clonedObject3 = $('.box.unselected').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
@@ -1209,7 +1235,13 @@ function initProductPositions() {
 
     });
 
-    changesArray.push({ obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
+    clonedObject3.each(function(e){
+        $(this).removeClass('selected');
+        box_objects += $(this).prop('outerHTML');
+
+    });
+
+    changesArray.push({ obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, box_objects: box_objects });
     
 }
 
@@ -1223,8 +1255,10 @@ function changeProductPositions(pos) {
 
     $('.product.unselected').remove();
     $('.embellishment.unselected').remove();
+    $('.box.unselected').remove();
     $('#canvas').append(pos['product_objects']);
     $('#canvas').append(pos['embellishment_objects']);
+    $('#canvas').append(pos['box_objects']);
 
 }
 

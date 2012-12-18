@@ -63,6 +63,8 @@
             var PERSONALIZE_ITEM            = '{% if personalize_item %}{{ personalize_item }}{% else %}{% endif %}';
             var GET_PERSONALIZE_CART_URL    = '{% url get_personalize_cart_items %}';
             var is_window_resized           = false;
+            var GET_TEMPLATES_LIST_URL      = '{% url get_template_items %}';
+            var create_current_tab          = 'products';
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -313,7 +315,10 @@
                                     </div>
                                     <div class="pagination"></div>
                                 </div>
-                                <div id="templates" style="display:none;"></div>                       
+                                <div id="templates" style="display:none;">
+                                    <div class="template-wrap"></div>
+                                    <div class="pagination"></div>
+                                </div>                       
                             </div>
                             <!-- end of create -->
                             <div id="buy-tab" style="display:none">
@@ -512,6 +517,8 @@
 <script type="text/javascript" src="/media/interface/js/embellishments.js"></script>
 <!--Personalize -->
 <script type="text/javascript" src="/media/interface/js/personalize.js"></script>
+<!--templates -->
+<script type="text/javascript" src="/media/interface/js/templates.js"></script>
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
@@ -539,13 +546,12 @@
                         setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
                     {% endif %}
                 } else {
-			if($.browser.msie && ($.browser.version == 7.0 || $.browser.version == 8.0)){
-				if ($.browser.version == 8.0)
-					mode_toggle_tab = true;
-				setTimeout(manage_product_pagination,0);
-			    }
-			
-		}
+                    if($.browser.msie && ($.browser.version == 7.0 || $.browser.version == 8.0)){
+                        if ($.browser.version == 8.0)
+                            mode_toggle_tab = true;
+                        setTimeout(manage_product_pagination,0);
+                    }
+                }
             } else if (location.hash == '#buy-tab') {
                 setTimeout(styleboardH,50);
                 $('.category-wrap .thumb.categories').addClass('hidden');
@@ -560,14 +566,13 @@
                         setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
                     {% endif %}
                 } else {
-			if($.browser.msie && ($.browser.version == 7.0 || $.browser.version == 8.0)){
-				if ($.browser.version == 8.0)
-					mode_toggle_tab = true;
-				setTimeout(manage_product_pagination,0);
-			    }
-			
-		}
-            }        
+                    if($.browser.msie && ($.browser.version == 7.0 || $.browser.version == 8.0)){
+                        if ($.browser.version == 8.0)
+                            mode_toggle_tab = true;
+                        setTimeout(manage_product_pagination,0);
+                    }
+                }
+            }
         });
         $(window).hashchange();
         
@@ -576,8 +581,7 @@
         $('#sidebar-wrap').easytabs({ animate:false }).bind('easytabs:after',function(){
             recur = false;
             setTimeout(set_category_label_height,500);
-        }); 
-
+        });
     });
 
 

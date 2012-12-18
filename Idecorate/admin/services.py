@@ -213,3 +213,6 @@ def save_template(data):
 		return True
 	except Exception as e:
 		return False
+
+def getTemplateItems():
+	return StyleboardTemplateItems.objects.filter(deleted=0)

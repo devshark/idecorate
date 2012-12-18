@@ -9,7 +9,10 @@ from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
 from django.template import RequestContext
 from embellishments.forms import SaveTemplateForm
-from admin.services import save_template
+from admin.services import save_template, getTemplateItems
+from django.utils import simplejson
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core import serializers
 
 # class who handles the upload
 class ProgressUploadHandler(FileUploadHandler):
@@ -150,6 +153,10 @@ def save_styleboard_template(request):
 			data = form.cleaned_data
 			res = save_template(data)
 			if res:
+				try:
+					del request.session['template_positions']
+				except:
+					pass
 				return render_to_response('embellishments/success.html', info)
 			else:
 				messages.warning(request, _('An error occured when saving the template. Please try again.'))
@@ -157,3 +164,28 @@ def save_styleboard_template(request):
 	info['form'] = form
 
 	return render_to_response('embellishments/save_styleboard_template.html', info, RequestContext(request))
+
+def get_template_items(request):
+	if request.method == "POST":
+		template_items = getTemplateItems()
+		offset = request.GET.get('offset',25)
+
+		paginator = Paginator(template_items, offset)
+		page = request.GET.get('page')
+		try:
+			templates = paginator.page(page)
+		except PageNotAnInteger:
+			templates = paginator.page(1)
+		except EmptyPage:
+			templates = paginator.page(paginator.num_pages)
+
+		reponse_data = {}
+		json_data = serializers.serialize("json", templates, fields=('id','name','description','browser'))
+		reponse_data['data'] = json_data
+		reponse_data['page_number'] = templates.number
+		reponse_data['num_pages'] = templates.paginator.num_pages
+		reponse_data['product_counts'] = template_items.count()
+
+		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
+	else:
+		return HttpResponseServerError()
