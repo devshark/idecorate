@@ -555,10 +555,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									text-align:center;
 								}
 							}
-						}
 						
-						.thumb.categories:hover{
-							outline:2px solid #333;
+							.thumb.categories:hover{
+								outline:2px solid #333;
+							}
 						}
 
 						.product-list-wrap{
@@ -673,6 +673,40 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										cursor: pointer;
 									}
 								}
+							}
+						}
+
+						.template-wrap{
+							a.temp{
+								display: block;
+								float: left;
+								width: 140%/768*100;
+								margin: 6px 0 0 6px;  
+								font-size: 0;
+								min-width:76px;
+
+								img{
+									width: 100%;
+									outline:1px solid #CCC;
+								}
+
+								span {
+						            display: block;
+						            font-size: 10px;
+									margin: 10px 0 5px 0;
+						            text-align: center;
+						            color: #000;
+						        }
+							}
+
+							a.temp:hover{
+								img{
+									outline:2px solid #000;
+								}
+							}
+							
+							.thumb{
+								cursor: pointer;
 							}
 						}
 					}
