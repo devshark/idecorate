@@ -75,7 +75,7 @@ function populate_template_items(){
                     a.appendTo('.template-wrap');
                 }                
             });
-            manage_embellishment_pagination();
+            manage_template_pagination();
             setTimeout(temp_remove_overlay,0);
         },
         error: function(msg) {
@@ -83,7 +83,7 @@ function populate_template_items(){
     });
 }
 
-function manage_embellishment_pagination(){
+function manage_template_pagination(){
     $('#templates a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('#templates a:first');            
