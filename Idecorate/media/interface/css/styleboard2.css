@@ -611,7 +611,8 @@ h5 {
         /* Safari 1.x */
         -khtml-opacity: 0.6;
         /* Good browsers */
-        opacity: 0.6; }
+        opacity: 0.6;
+        overflow: hidden; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box span {
           position: absolute;
           top: 30%;

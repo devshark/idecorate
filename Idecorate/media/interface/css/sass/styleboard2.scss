@@ -809,6 +809,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						-khtml-opacity: 0.6;
 						/* Good browsers */
 						opacity: 0.6;
+						overflow: hidden;
 
 						span{
 							position:absolute;
