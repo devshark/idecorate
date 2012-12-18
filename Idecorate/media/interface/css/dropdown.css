@@ -3,9 +3,10 @@
   font-size: 12px; }
 
 #site-menu .dd li {
-  border-left: 1px solid #FFF; }
+  border-left: 2px solid #FFF; }
   #site-menu .dd li a, #site-menu .dd li span {
-    font-weight: bold;
+    text-transform: uppercase;
+    font-weight: bolder;
     color: #FFF !important; }
 #site-menu .dd li.hover, #site-menu .dd li:hover {
   background-color: #737A2A; }
@@ -15,5 +16,6 @@
 #info-menu .dd li {
   border-left: 2px solid #FFF; }
   #info-menu .dd li a, #info-menu .dd li span {
-    font-weight: bold;
+    text-transform: uppercase;
+    font-weight: bolder;
     color: #FFF !important; }
