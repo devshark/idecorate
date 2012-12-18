@@ -665,6 +665,26 @@ h5 {
         font-size: 0;
         background: transparent;
         /*background: url('../images/fake_bg.png') 0 0  repeat;*/ }
+      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box {
+        border: 2px dashed #999;
+        background-color: #FFF;
+        /* IE 8 */
+        -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+        /* IE 5-7 */
+        filter: alpha(opacity=60);
+        /* Netscape */
+        -moz-opacity: 0.6;
+        /* Safari 1.x */
+        -khtml-opacity: 0.6;
+        /* Good browsers */
+        opacity: 0.6; }
+        #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box span {
+          position: absolute;
+          top: 30%;
+          left: 0;
+          display: block;
+          width: 100%;
+          text-align: center; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .product:hover {
         outline: 1px solid #DDD; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus {

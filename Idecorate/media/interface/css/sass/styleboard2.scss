@@ -879,6 +879,30 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						/*background: url('../images/fake_bg.png') 0 0  repeat;*/
 					}
 
+					.box{
+						border: 2px dashed #999;
+						background-color: #FFF;
+						/* IE 8 */
+						-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+						/* IE 5-7 */
+						filter: alpha(opacity=60);
+						/* Netscape */
+						-moz-opacity: 0.6;
+						/* Safari 1.x */
+						-khtml-opacity: 0.6;
+						/* Good browsers */
+						opacity: 0.6;
+
+						span{
+							position:absolute;
+							top: 30%;
+							left: 0;
+							display: block;
+							width: 100%;
+							text-align: center;
+						}
+					}
+
 					.product:hover{
 						outline:1px solid #DDD;
 					}

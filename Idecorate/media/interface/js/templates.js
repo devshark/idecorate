@@ -63,7 +63,7 @@ function populate_template_items(){
                     var img_src_url = v.model == 'admin.embellishments'?temp_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
                     var a = $('<a />');
                     a.attr('id','temp-'+id);
-                    a.attr('_id','temp-'+id);
+                    a.attr('_uid',id);
                     a.attr('_type',response_data.type);
                     a.addClass('thumb');
                     a.addClass('draggable');
