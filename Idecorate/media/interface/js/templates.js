@@ -60,7 +60,8 @@ function populate_template_items(){
             $.each(data,function(i,v){
                 var id = v.pk;                
                 if ($('#temp-'+id).length == 0){                    
-                    var img_src_url = v.model == 'admin.embellishments'?temp_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
+                    //var img_src_url = v.model == 'admin.embellishments'?temp_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
+                    var img_src_url = '/styleboard/generate_styleboard_template_view/' + id + '/139/139/'
                     var a = $('<a />');
                     a.attr('id','temp-'+id);
                     a.attr('_uid',id);
