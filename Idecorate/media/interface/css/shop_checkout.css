@@ -35,28 +35,30 @@
     border-radius: 3px;
     -khtml-border-radius: 3px; }
   .checkout #edit_button {
+    color: #FFFFFF;
+    font-weight: bold;
     padding: 4px 8px;
     cursor: pointer;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333');
     /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#333333));
     /* for webkit browsers */
-    background: -moz-linear-gradient(top, white, #da9b94);
+    background: -moz-linear-gradient(top, white, #333333);
     /* for firefox 3.6+ */
-    background: -o-linear-gradient(top, white, #da9b94);
+    background: -o-linear-gradient(top, white, #333333);
     -moz-border-radius: 4px;
     -webkit-border-radius: 4px;
     border-radius: 4px;
     /* future proofing */
     -khtml-border-radius: 4px;
     /* for old Konqueror browsers */
-    border: 1px solid #FFC5C3; }
+    border: 1px solid #CCCCCC; }
   .checkout #edit_button:hover {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#666666');
     /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
+    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#666666));
     /* for webkit browsers */
-    background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
+    background: -moz-linear-gradient(top, white, #666666);
     /* for firefox 3.6+ */ }
 
 .orderWrap .errorBlock {
@@ -93,6 +95,12 @@
       list-style: decimal;
       line-height: 18px;
       text-align: -webkit-match-parent; }
+.orderWrap .orderTable {
+  width: 964px;
+  color: #FFFFFF;
+  font-weight: bold;
+  padding: 10px 15px 5px 15px;
+  background-color: #000000; }
 .orderWrap fieldset {
   border: 1px solid #000000;
   padding: 10px; }
@@ -107,7 +115,10 @@
     .orderWrap fieldset table thead tr th {
       padding: 10px;
       color: #000000;
+      font-weight: bold;
       border-bottom: 2px dotted #999999; }
+    .orderWrap fieldset table thead tr th:first-child {
+      text-align: left; }
     .orderWrap fieldset table tbody tr td {
       padding: 10px;
       margin: 0 auto; }
@@ -131,6 +142,12 @@
       padding: 10px;
       color: #000000;
       border-top: 2px dotted #999999; }
+      .orderWrap fieldset table tfoot tr td .totalCost {
+        display: block;
+        padding: 5px 0;
+        background-color: #FFC5C3;
+        text-align: center;
+        font-weight: bold; }
 
 .loginDetails {
   width: auto;
