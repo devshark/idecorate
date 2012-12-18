@@ -114,6 +114,14 @@
 		}
 	}
 
+	.orderTable {
+		width: 965px;
+		color: #FFFFFF;
+		font-weight: bold;
+		padding: 10px 15px 5px 15px;
+		background-color: #000000;
+	}
+
 	fieldset {
 		border: 1px solid #000000;
 		padding: 10px;
@@ -135,7 +143,12 @@
 					th{
 						padding: 10px;
 						color: #000000;
+						font-weight: bold;
 						border-bottom: 2px dotted #999999;
+					}
+
+					th:first-child {
+						text-align: left;
 					}
 
 				}
