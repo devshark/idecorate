@@ -323,38 +323,7 @@
 					$('div.loading').remove();
 				}
 			});
-		});
-
-		$('#modalConfirm').click(function(){
-        	var csrf = ""
-			$('input:hidden').each(function(){
-				if ($(this).attr('name')=='csrfmiddlewaretoken'){
-					csrf = $(this).val()
-				}
-			});
-
-			var delurl = '{% url remove_category %}';
-			var elm = this;
-			$.post(delurl,{csrfmiddlewaretoken:csrf, cat_id:$('#cat_id').val()}, function(data){
-				if (data != 0){
-					$('#list_'+$('#cat_id').val()).remove();
-					$('#successModal h3').text('Remove Category');
-					$('#successModal p').text('Successfully removed category.');
-					$('#successModal').modal('show');
-					$('#category-dropdown-menu').html(data);
-					$('#category-dropdown-menu a').each(function(){
-						$(this).bind('click', function(){
-							$('#ddl-name').text($(this).find('span').text());
-							$('#id_parent').val(this.rel);
-						});
-					});
-					if($('#id_id').val()==$('#cat_id').val())
-						window.location.href='{% url category %}'
-				}					
-			});
-			$('#btnDismiss').trigger('click');
-			return false;
-        });
+		});		
 	});
 	function getHeight(el,fn) {
 	    var img = new Image();

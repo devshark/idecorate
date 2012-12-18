@@ -3,33 +3,29 @@
 {% block title %}
     {% trans "iDecorate CMS" %}
 {% endblock %}
+{% block styles %}
+<link href="/media/admin/css/thickbox.css" rel="stylesheet">
+{% endblock %}
 {% block content %}
 <h1>{% trans "Manage Home Info Graphics" %}</h1>
 <table class="table table-bordered table-hover">
 	<thead>
 		<tr>
-			<th width="60%">Images/Links</th>
-			<th width="30%">Date Created</th>
+			<th width="50%">Images</th>
+			<th width="20%">Status</th>
+			<th width="20%">Date Created</th>
 			<th></th>
 		</tr>
 	</thead>
 	<tbody>
-		{% for banner in home_banners %}
+		{% for item in infographics %}
 		<tr>
 			<td>
-				<table style="border: none">
-					{% for i in banner.id|get_images %}
-					<tr>
-						<td style="border: none;">
-							<a href="/media/banners/{{ i.image }}" class="thickbox"><img src="/media/banners/thumb/{{ i.image }}"></a>
-						</td>
-						<td style="border: none; vertical-align: middle">{{ i.link }}</td>
-					</tr>
-					{% endfor %}
-				</table>				 
+				<a href="/media/infographics/{{ item.image }}" class="thickbox"><img src="/media/infographics/thumb/{{ item.image }}"></a>			 
 			</td>
-			<td>{{ banner.created }}</td>
-			<td><a href="{% url homepage_edit_banner banner.id %}" class="btn btn-primary">Edit</a></td>
+			<td><span class="lblStatus {{ item.id }}">{% if item.is_active %}Active{% else %}Inactive{% endif %}</span></td>
+			<td>{{ item.created }}</td>			
+			<td><a href="#" rel="{{ item.id }}" class="btn btn-primary btnStatus {% if item.is_active %}active{% else %}inactive{% endif %}" style="{% if item.is_active %}display:none{% endif %}">Set to active</a></td>
 		</tr>
 		{% endfor %}
 	</tbody>
@@ -38,4 +34,29 @@
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/thickbox.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){
+	$('.btnStatus').click(function(e){
+		var _this = this;
+		var hid = $(this).attr('rel');
+		$.post('{% url set_infographic_status %}',{ id:hid },function(data){
+			if (data=='good'){
+				$('.lblStatus').each(function(){
+					if($(this).text() == 'Active'){
+						$(this).text('Inactive');
+					}
+				});
+				$('.active').each(function(){
+					$(this).show();
+					$(this).addClass('inactive');
+				});
+				$('.'+hid).text('Active');
+				$(_this).addClass('active');
+				$(_this).hide();
+			}
+		});
+		e.preventDefault();
+	});
+});
+</script>
 {% endblock %}

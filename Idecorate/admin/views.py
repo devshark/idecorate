@@ -31,7 +31,8 @@ from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
 from customer.models import CustomerProfile, CustomerStyleBoard
 from django.http import HttpResponseNotFound
-from admin.services import home_banner, validate_banner, save_home_banner, validate_home_banner_form, get_home_banners, get_home_banner, get_home_banner_images
+from admin.services import home_banner, validate_banner, save_home_banner, validate_home_banner_form, get_home_banners, get_home_banner, get_home_banner_images,\
+save_Infographics, manage_infographic, get_HomeInfographics, set_HomeInfographicStatus, validate_Infographic
 from cart.services import generate_unique_id
 from models import HomeBannerImages
 import Image as pil
@@ -1893,15 +1894,67 @@ def generate_home_banner_thumb(request,hbiid,width,height):
 	except:
 		return HttpResponseNotFound()
 
+@staff_member_required
 def manage_home_info_graphic(request):
 	info = {}
+	info['infographics'] = get_HomeInfographics()
 	return render_to_response('admin/manage_home_info_graphic.html',info,RequestContext(request))
 
+@staff_member_required
 def upload_info_graphic(request):
 	info = {}
 	form = HomeInfoGraphicForm()
+	info['width'] = settings.HOME_INFO_GRAPHICS_WIDTH
+	info['height'] = settings.HOME_INFO_GRAPHICS_HEIGHT
+
+	if request.method == 'POST':
+		form = HomeInfoGraphicForm(request.POST)
+		if form.is_valid():
+			data = form.cleaned_data
+			save_response = save_Infographics(data)
+			if save_response:
+				messages.success(request, _('Successfully added.'))
+			else:
+				messages.error(request, _('Could not save. Please contact administrator.'))
+			return redirect('upload_info_graphic')
 	info['form'] = form
 	return render_to_response('admin/upload_info_graphic.html',info,RequestContext(request))
+
+@csrf_exempt
+def upload_temp_infographic(request):
+	if request.method == 'POST':
+		uploaded = request.FILES['image']
+		validated = validate_Infographic(uploaded)
+
+		if validated['error']:
+			return_response = 'fail|%s' % validated['msg']			
+		else:
+			max_width = 0
+			max_height = settings.HOME_INFO_GRAPHICS_HEIGHT
+			max_width = settings.HOME_INFO_GRAPHICS_WIDTH		
+
+			ret = manage_infographic(uploaded, max_width, max_height)
+			if ret:
+				return_response = 'good|%s' % ret
+			else:
+				return_response = 'fail|Server error. Please contact administrator.'			
+		return HttpResponse(return_response)
+	else:
+		return HttpResponseNotFound()
+
+@csrf_exempt
+def set_infographic_status(request):
+	if request.method == 'POST':
+		id = request.POST['id']
+		ret = set_HomeInfographicStatus(id)
+		if ret:
+			return_response = 'good'
+		else:
+			return_response = 'fail'
+			
+		return HttpResponse(return_response)
+	else:
+		return HttpResponseNotFound()
 
 @csrf_exempt
 def set_template_positions(request):
@@ -1927,7 +1980,6 @@ def set_template_positions(request):
 		ret = obj_counter
 
 	return HttpResponse(ret)
-
 
 def clear_template_session(request):
 

@@ -640,12 +640,14 @@ $(document).ready(function () {
                                                 _p_g_t   : p_g_t
                                             });
                                     $(_this).html(object[0]);
+                                    eventTracker($(_this),'drop_object');
                                 },
                                 error: function(msg){
                                     alert(msg);
                                 }
                             });
-                            //$(_this).find('span').;
+                            
+                            template_fill($(_this).find('img').length,$(_this));
 
                             add_to_cart(uid, p_d_qty, p_g_t);
 
@@ -677,6 +679,11 @@ function ie_message() {
     }
 }
 // functions related to template
+function template_fill(count, box){
+    if(count > 0){
+        box.find('span').hide();
+    }
+}
 
 function create_image_for_template(options){
     var object = $('<img/>');
@@ -1158,7 +1165,7 @@ function create_instance(options){
         //track event
         eventTracker(object,'create');        
     });
-    return object;
+    //return object;
 }
 
 function create_new_object(options){
