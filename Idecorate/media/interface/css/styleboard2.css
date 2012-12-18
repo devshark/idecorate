@@ -610,8 +610,8 @@ h5 {
           display: block;
           width: 100%;
           text-align: center; }
-      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.hover {
-        background-color: rgba(201, 198, 189, 0.6); }
+      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.hover, #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.dragHover {
+        background-color: rgba(201, 198, 189, 0.6) !important; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.notEmpty {
         background: none;
         outline: none; }
