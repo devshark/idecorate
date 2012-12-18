@@ -92,7 +92,7 @@
 						<td>
 							<p><!-- + $100 Shipping Fee -->&nbsp;</p>
 							<p class="totalCost">Total: ${{ order.total|floatformat:2|intcomma }}</p>
-							<button type="button" id="edit_button">Edit</button>
+							<button type="button" id="edit_button">EDIT</button>
 						</td>
 					</tr>
 				</tfoot>
@@ -103,17 +103,17 @@
 		{% csrf_token %}
 		<input type="hidden" name="_checkout" value="1" />
 		<div class="clearfix loginDetails">
-			<h4>Are you a returning customer?</h4>
+			<h4>ARE YOU A RETURNING CUSTOMER?</h4>
 			<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
 			<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
 				<input type="text" placeholder="Email" />
 				<input type="password" placeholder="Password" />
-				<input type="submit" value="Login" class="submit" />
+				<input type="submit" value="LOGIN" class="submit" />
 				<a href="#">Forgot your password?</a>
 		</div>
 		<div class="clearfix information">
 			<fieldset class="personal">
-				<legend>Personal Information</legend>
+				<legend>PERSONAL INFORMATION</legend>
 				<br />
 					<div class="clearfix">
 						<label>Salutations</label>
@@ -133,7 +133,7 @@
 					</div>
 			</fieldset>
 			<fieldset class="delivery">
-				<legend>Delivery Address</legend>
+				<legend>DELIVERY ADDRESS</legend>
 				<br />
 					<div class="clearfix">
 						<label>Address 1</label>
@@ -162,7 +162,7 @@
 	<div class="clearfix" style="width: 100%; height: auto;">
 		<div class="leftPannel">
 			<fieldset class="deliveryDate">
-	            <legend>Delivery Date</legend>
+	            <legend>DELIVERY DATE</legend>
 				<br />
 					<div class="clearfix calendarWrapper">
 	                	{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
@@ -170,14 +170,14 @@
 	             	{{ "delivery_date_note"|get_checkout_page_info }}
 	        </fieldset>
 	        <fieldset class="question">
-	            <legend>Any Questions?</legend>
+	            <legend>ANY QUESTIONS?</legend>
 				<br />
 	            <p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
 	        </fieldset>
 		</div>
 		<div class="rightPannel">
             <fieldset class="delivery paymentMethod" id="billing_orig">
-                <legend>Billing Address</legend>
+                <legend>BILLING ADDRESS</legend>
 				<br />
                     <div class="clearfix">
                         <label>Address 1</label>
@@ -201,7 +201,7 @@
                     </div>
             </fieldset>
 	        <fieldset class="paymentMethod2" id="payment_orig">
-	            <legend>Payment Method</legend>
+	            <legend>PAYMENT METHOD</legend>
 				<br />
 
 	                {% for choice in orderform.payment_method.field.choices %}
@@ -217,7 +217,7 @@
 	</div>
 	<div class="clearfix disclaimer" style="clear: both;">
 		<p align="justify">{{ "t_and_c"|get_checkout_page_info }}</p>
-		<button type="submit">Proceed to Payment</button>
+		<button type="submit">PROCEED TO PAYMENT</button>
 	</div>
 	</form>
 </div>
