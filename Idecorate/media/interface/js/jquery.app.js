@@ -78,7 +78,7 @@ $(document).ready(function () {
     //height for all name container <span> on the sidebar
     
     //set dropable area for the draggable sidebar objects
-    $("#canvas").droppable({
+    $("#canvas,#canvas .template.box").droppable({
 
         drop: function (e, ui) {
 
@@ -595,12 +595,11 @@ $(document).ready(function () {
             $('#canvas .template').remove();
             manage_total();
         }
-        //$('#canvas').droppable('disable');
+        $('#canvas').droppable('disable').fadeTo(1,1);
         objects = get_template_details($(this).attr('_uid'));
 
         if(objects.length > 0){
             drop_template(objects);
-
         }
     });
 
@@ -617,7 +616,6 @@ function ie_message() {
 function drop_template(objects){
 
     $.each(objects, function(i, val){
-        console.log(val);
         var object  = $('<div/>');
         var img     = $('<img/>');
         object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
@@ -646,7 +644,7 @@ function drop_template(objects){
             object.addClass('embellishment '+val._type);
         }else{
             object.addClass(val._type);
-            object.html('<span>'+val.spantext+'<span/>')
+            object.html('<span>'+val.spantext+'<span/>');
         }
 
         object.appendTo('#canvas');
