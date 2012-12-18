@@ -122,22 +122,43 @@ h5 {
   font-size: 100%; }
 
 /*16px/16px*100*/
-@media screen and (max-width:800px) {}
 #compact-header {
   width: 100%;
   min-width: 800px; }
   #compact-header table {
     width: 100%; }
     #compact-header table thead.headWrap {
-      background-color: #F0EBE5; }
+      /*background-color: #F0EBE5;*/
+      background-color: #000000; }
       #compact-header table thead.headWrap tr.headWraptop td {
         padding-top: 5px;
         vertical-align: top; }
       #compact-header table thead.headWrap tr.headWraptop td#info-menu {
         padding-left: 5px;
-        width: 42.188%; }
+        width: 42.1875%; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn {
-          float: left; }
+          clear: both; }
+        #compact-header table thead.headWrap tr.headWraptop td#info-menu .search {
+          width: 240px;
+          height: 28px;
+          background-color: #FFFFFF;
+          margin: 5px 0; }
+          #compact-header table thead.headWrap tr.headWraptop td#info-menu .search .searchButton {
+            display: none;
+            visibility: hidden; }
+          #compact-header table thead.headWrap tr.headWraptop td#info-menu .search input[type="text"] {
+            vertical-align: top;
+            border: 0;
+            width: 200px;
+            padding-left: 5px;
+            line-height: 23px; }
+          #compact-header table thead.headWrap tr.headWraptop td#info-menu .search input[type="image"] {
+            vertical-align: top;
+            height: 21px;
+            width: 21px;
+            margin: 3px 0 0 0;
+            background: #FFFFFF;
+            padding: 1px; }
       #compact-header table thead.headWrap tr.headWraptop td#logo {
         width: 15.625%; }
         #compact-header table thead.headWrap tr.headWraptop td#logo .headerColumn a {
@@ -146,104 +167,16 @@ h5 {
           height: 43px;
           margin: 0 auto; }
       #compact-header table thead.headWrap tr.headWraptop td#site-menu {
-        width: 42.188%;
+        width: 42.1875%;
         padding-right: 5px; }
         #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn {
           float: right;
-          background-color: #99A237;
+          /*background-color: #99A237;*/
           padding: 5px;
           -moz-border-radius: 4px;
           -webkit-border-radius: 4px;
           border-radius: 4px;
           -khtml-border-radius: 4px; }
-      #compact-header table thead.headWrap tr.headWrapBottom td {
-        padding: 5px; }
-        #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap {
-          height: auto;
-          padding: 10px;
-          background: #000000;
-          float: left;
-          *width: 240px; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap .search {
-            vertical-align: top;
-            font-size: 0;
-            white-space: nowrap;
-            border: 1px solid #EEE;
-            overflow: hidden;
-            background-color: #FFF;
-            -moz-border-radius: 4px;
-            -webkit-border-radius: 4px;
-            border-radius: 4px;
-            -khtml-border-radius: 4px; }
-            #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap .search input {
-              display: inline;
-              height: 23px;
-              float: left; }
-            #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap .search input[type="image"] {
-              vertical-align: top;
-              height: 21px;
-              width: 21px;
-              margin: 0;
-              background: #FFFFFF;
-              margin: 0;
-              padding: 1px; }
-            #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap .search input[type="text"] {
-              vertical-align: top;
-              border: 0;
-              width: 153px;
-              line-height: 23px; }
-            #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap .search input[type="submit"] {
-              cursor: pointer;
-              vertical-align: top;
-              border: 0;
-              height: 25px;
-              margin: 0;
-              float: right;
-              background-color: #da9b94;
-              filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
-              /* for IE */
-              background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
-              /* for webkit browsers */
-              background: -moz-linear-gradient(top, white, #da9b94);
-              /* for firefox 3.6+ */ }
-            #compact-header table thead.headWrap tr.headWrapBottom td .searchWrap .search input[type="submit"]:hover {
-              filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
-              /* for IE */
-              background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
-              /* for webkit browsers */
-              background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
-              /* for firefox 3.6+ */ }
-        #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons {
-          vertical-align: bottom;
-          float: right;
-          border-left: 2px dotted #000;
-          border-right: 2px dotted #000;
-          height: 100%;
-          padding: 12px;
-          font-size: 0; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a {
-            display: inline-block;
-            font-size: .9em;
-            height: 20px;
-            width: 20px;
-            margin-left: 5px;
-            background: url(/media/images/social.png) no-repeat; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a:first-child {
-            margin-left: 0; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a#email {
-            background-position: 1px 3px; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a#arrow {
-            background-position: 2px -16px; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a#facebook {
-            background-position: 0 -38px; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a#pinterest {
-            background-position: 0 -61px; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a#instagram {
-            background-position: 1px -83px; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a#twitter {
-            background-position: 0 -103px; }
-          #compact-header table thead.headWrap tr.headWrapBottom td .socialIcons a#youtube {
-            background-position: 1px -125px; }
 
 #styleboard {
   width: 100%;
@@ -366,7 +299,7 @@ h5 {
             display: block;
             margin-top: 5px;
             color: #666;
-            font-size: 1.063em; }
+            font-size: 1.0625em; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs input[type="text"] {
             width: 40%;
             border: 1px solid #CCC;
@@ -445,7 +378,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             outline: 1px solid #CCC;
             margin: 6px 0 0 6px;
             font-size: 0;
@@ -466,7 +399,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             border: 1px solid #CCC;
             padding: 1px;
             margin: 6px 0 0 6px;
@@ -518,7 +451,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em {
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             margin: 6px 0 0 6px;
             font-size: 0;
             min-width: 76px; }
@@ -538,7 +471,7 @@ h5 {
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap a.temp {
           display: block;
           float: left;
-          width: 18.229%;
+          width: 18.22917%;
           margin: 6px 0 0 6px;
           font-size: 0;
           min-width: 76px; }

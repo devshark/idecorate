@@ -131,6 +131,9 @@ def styleboard_product_ajax(request):
 		product_counts = product_list.count()		
 		offset = request.GET.get('offset',25)
 
+		if offset == 'Infinity':
+			offset = 25
+
 		paginator = Paginator(product_list, offset)
 		page = request.GET.get('page')
 		try:
@@ -167,6 +170,9 @@ def styleboard_ajax(request):
 			product_counts = product_list.count()
 			product_list = product_list.order_by('ordering')
 			offset = request.GET.get('offset',25)
+
+			if offset == 'Infinity':
+				offset = 25
 
 			paginator = Paginator(product_list, offset)
 			page = request.GET.get('page')
@@ -480,6 +486,9 @@ def search_products(request):
 		product_counts = product_list.count()		
 		offset = request.GET.get('offset',25)
 
+		if offset == 'Infinity':
+			offset = 25
+
 		paginator = Paginator(product_list, offset)
 		page = request.GET.get('page')
 		try:
@@ -640,7 +649,9 @@ def new_styleboard(request):
 def get_embellishment_items(request):
 	if request.is_ajax():
 		typ = request.POST['type']
-		offset = request.GET.get('offset',25)
+		offset = request.GET.get('offset',25)		
+		if offset == 'Infinity':
+			offset = 25
 		page = request.GET.get('page')
 		if typ != 'text':
 			embellishment_items = Embellishments.objects.filter(e_type__id=typ, is_active=True, is_deleted=False)
