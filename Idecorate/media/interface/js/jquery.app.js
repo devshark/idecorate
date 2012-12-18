@@ -1165,7 +1165,7 @@ function create_instance(options){
         //track event
         eventTracker(object,'create');        
     });
-    return object;
+    //return object;
 }
 
 function create_new_object(options){
