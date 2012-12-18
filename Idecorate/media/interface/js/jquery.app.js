@@ -600,7 +600,7 @@ $(document).ready(function () {
 
         if(objects.length > 0){
             drop_template(objects);
-            eventTracker(objects, 'add_template');
+
         }
     });
 
@@ -652,8 +652,15 @@ function drop_template(objects){
         object.appendTo('#canvas');
         objCounter = 1;
         hide_canvas_menu();
-        setTimeout(make_center_template, 0);
+        
     });
+
+    make_center_template();
+    setTimeout(function(){
+        eventTracker($('#canvas'), 'add_template');
+
+    },300);
+    //setTimeout(make_center_template, 0);
 }
 
 function get_template_details(template_id){
@@ -1866,6 +1873,7 @@ function make_center_template(){
             });
         });
     }
+
 }
 
 function canvas_bb_ctr_diff_template(box_centerY, box_centerX){
