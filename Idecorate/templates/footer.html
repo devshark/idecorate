@@ -7,13 +7,13 @@
 		<h3>ABOUT US</h3>
 		<ul>
 			<li>
-				<a href="">About iDECORATE</a>
+				<a href="{% url about %}">About iDECORATE</a>
 			</li>
 			<li>
-				<a href="">Contact Us</a>
+				<a href="{% url contact %}">Contact Us</a>
 			</li>
 			<li>
-				<a href="">Help</a>
+				<a href="{% url help %}">Help</a>
 			</li>
 		</ul>
 	</div>
@@ -24,8 +24,9 @@
 	<div>
 		<h3>CREATE</h3>
 		<ul>
-			<li><a href="http://{{ request|get_host }}/styleboard">Create a Style Board</a></li>
+			<li><a href="{% url styleboard %}">Create a Style Board</a></li>
 		</ul>
+		<!--
 		<h3>INTERACTIVE</h3>
 		<ul>
 			<li><a href="">Keep</a></li>
@@ -33,6 +34,7 @@
 			<li><a href="">Buy</a></li>
 			<li><a href="">Create</a></li>
 		</ul>
+		-->
 	</div>
 	<div class="socialWrapper" style="width: 295px;">
 		<h3>FOLLOW US</h3>
@@ -52,21 +54,21 @@
 		<br />
 		<h3>JOIN NOW</h3>
 		<ul>
-			<li><a href="#">Login</a></li>
-			<li><a href="#">Register</a></li>
-			<li><a href="#">Invite Friends</a></li>
+			<li><a href="#" class="loginTrigger">Login</a></li>
+			<li><a href="#" class="loginTrigger">Register</a></li>
+			<!-- <li><a href="#">Invite Friends</a></li> -->
 		</ul>
 	</div>
 	<div>
 		<h3>MY ACCOUNT</h3>
 		<ul>
-			<li><a href="#">Profile</a></li>
-			<li><a href="#">News feed</a></li>
+			<li><a href="{% url profile %}">Profile</a></li>
+			<!-- <li><a href="#">News feed</a></li>
 			<li><a href="#">Keep box</a></li>
 			<li><a href="#">Share record</a></li>
 			<li><a href="#">Order history</a></li>
 			<li><a href="#">Cart</a></li>
-			<li><a href="#">Design boards</a></li>
+			<li><a href="#">Design boards</a></li> -->
 		</ul>
 	</div>
 </div>
