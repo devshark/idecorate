@@ -1,4 +1,7 @@
 {% load i18n idecorate_interface %}
+<div class="clearfix imageBorder">
+	<img src="media/images/border.jpg" />
+</div>
 <div class="clearfix footerMenu">
 	<div>
 		<h3>ABOUT US</h3>
@@ -31,12 +34,12 @@
 			<li><a href="">Create</a></li>
 		</ul>
 	</div>
-	<div>
+	<div class="socialWrapper" style="width: 295px;">
 		<h3>FOLLOW US</h3>
 		<ul>
 			<li class="socialIcons">
 				<a href="mailto:shana@idecorateweddings.com" id="email"></a>
-				<a href="" id="google-plus"></a>
+				<a href="" id="google"></a>
 				<a href="" id="tumblr"></a>
 				<a href="https://www.facebook.com/iDecorateweddings" id="facebook"></a>
 				<a href="http://pinterest.com/idecorateltd/" id="pinterest"></a>
@@ -45,9 +48,37 @@
 				<a href="http://www.youtube.com/idecorateweddings" id="youtube"></a>
 			</li>
 		</ul>
+		<br />
+		<br />
+		<h3>JOIN NOW</h3>
+		<ul>
+			<li><a href="#">Login</a></li>
+			<li><a href="#">Register</a></li>
+			<li><a href="#">Invite Friends</a></li>
+		</ul>
+	</div>
+	<div>
+		<h3>MY ACCOUNT</h3>
+		<ul>
+			<li><a href="#">Profile</a></li>
+			<li><a href="#">News feed</a></li>
+			<li><a href="#">Keep box</a></li>
+			<li><a href="#">Share record</a></li>
+			<li><a href="#">Order history</a></li>
+			<li><a href="#">Cart</a></li>
+			<li><a href="#">Design boards</a></li>
+		</ul>
 	</div>
 </div>
-
+<div class="clearfix imageBorder">
+	<img src="media/images/border.jpg" />
+</div>
+<div class="clearfix footerLinks">
+	{{ "footer_menu"|get_interface_info }}
+</div>
+<div class="clearfix copyright">
+	{{ "footer"|get_interface_info }}
+</div>
 <!--
 <div class="copyright">{{ "footer"|get_interface_info }}</div>
 <div class="footerMenus">
