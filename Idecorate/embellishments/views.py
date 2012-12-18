@@ -120,7 +120,7 @@ def upload_embellishment_action(request):
 @csrf_exempt
 def template_upload_embellishment_action(request):
 	if request.method == 'POST':
-		outPath = "%s%s" % (settings.MEDIA_ROOT, "embellishments/template/")
+		outPath = "%s%s" % (settings.MEDIA_ROOT, "embellishments/images/")
 		filename = generate_unique_id(10)
 		if not os.path.exists(outPath):
 			os.makedirs(outPath)
