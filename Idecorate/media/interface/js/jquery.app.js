@@ -562,6 +562,9 @@ $(document).ready(function () {
 
     setTimeout('ie_message()',2500);
 
+
+    //event handlers for templates
+
 });
 
 //message in ie
@@ -571,9 +574,12 @@ function ie_message() {
         alert('Sorry! Your browser does not support the following functionalities:  rotate, flip, flop, transparency changes, and personalizing style boards.\nPlease use one of the following browsers: Chrome, Firefox, Safari, or try upgrading your Internet Explorer to version 9.');
     }
 }
+// functions related to template
+
+// template function end
+
 
 //embelishments functions start
-
 function changeSelectedFont(el) {
 
     var font_id = el.attr('_uid');
