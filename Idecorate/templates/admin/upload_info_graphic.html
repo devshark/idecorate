@@ -71,12 +71,7 @@
 <h1>{% trans "Upload Home Banners" %}</h1>
 <form method="post" action="">
 {% csrf_token %}
-{{ form.image11 }}
-{{ form.image21 }}
-{{ form.image22 }}
-{{ form.image31 }}
-{{ form.image32 }}
-{{ form.image33 }}
+{{ form.image }}
 
 <fieldset>	
 	<div id="alert-error">		
@@ -95,26 +90,8 @@
 			<a class="close" data-dismiss="alert" href="#">×</a>
 			<h4 class="alert-heading">Please correct the following errors:</h4>
 			<ol>
-				{% if validated.image11 %}
+				{% if validated.image %}
 				<li>{{ validated.image11 }}</li>
-				{% endif %}
-				{% if validated.image21 %}
-				<li>{{ validated.image21 }}</li>
-				{% endif %}
-				{% if validated.image22 %}
-				<li>{{ validated.image22 }}</li>
-				{% endif %}
-				{% if validated.image31 %}
-				<li>{{ validated.image31 }}</li>
-				{% endif %}
-				{% if validated.image32 %}
-				<li>{{ validated.image32 }}</li>
-				{% endif %}
-				{% if validated.image33 %}
-				<li>{{ validated.image33 }}</li>
-				{% endif %}
-				{% if validated.link %}
-				<li>{{ validated.link }}</li>
 				{% endif %}
 			</ol>
 		</div>
