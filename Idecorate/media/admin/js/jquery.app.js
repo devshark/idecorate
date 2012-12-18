@@ -244,7 +244,6 @@ $(document).ready(function () {
         
         if(!$.browser.mozilla) {
             if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea' && e.target.type != 'text') {
-                console.log(e.target.type);
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
             }
