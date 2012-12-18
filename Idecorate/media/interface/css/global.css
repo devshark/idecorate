@@ -118,20 +118,19 @@ h5 {
   background-color: #000000; }
   #header .headerRowTop {
     width: auto;
-    padding-bottom: 15px; }
+    padding-bottom: 5px; }
     #header .headerRowTop .headerColumn {
-      vertical-align: top;
-      position: relative; }
+      vertical-align: top; }
       #header .headerRowTop .headerColumn a {
         text-decoration: none !important;
         color: #333333; }
       #header .headerRowTop .headerColumn a:hover {
         text-decoration: underline; }
       #header .headerRowTop .headerColumn .search {
-        position: absolute;
-        top: 90px;
-        left: 10px;
-        background-color: #FFFFFF; }
+        width: 240px;
+        height: 28px;
+        background-color: #FFFFFF;
+        margin: 5px 0 0 5px; }
         #header .headerRowTop .headerColumn .search .searchButton {
           display: none;
           visibility: hidden; }

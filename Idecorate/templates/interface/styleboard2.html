@@ -168,12 +168,24 @@
             height: 60px;
         }
         #info-menu .headerColumn .dropdown li {
-            border-left: 1px solid #000000 !important;
+            border-left-color: #FFFFFF !important;
         }
         #info-menu .headerColumn .dropdown li:first-child {
             border-left: 0 !important;
         }
-        #info-menu .headerColumn .dropdown li a, #info-menu .headerColumn .dropdown li span{
+        #info-menu .headerColumn .dropdown li a, #info-menu .headerColumn .dropdown li span {
+            color: #FFFFFF !important;
+        }
+        #info-menu .headerColumn .dropdown li:hover a, #info-menu .headerColumn .dropdown li:hover span {
+            color: #000000 !important;
+        }
+        #info-menu .headerColumn .dropdown li a:hover, #info-menu .headerColumn .dropdown li span:hover {
+            color: #000000 !important;
+        }
+        #info-menu .headerColumn .dropdown ul li a, #info-menu .headerColumn .dropdown ul li span {
+            color: #000000 !important;
+        }
+        #info-menu .headerColumn .dropdown ul li a:hover, #info-menu .headerColumn .dropdown ul li span:hover {
             color: #000000 !important;
         }
         </style>
@@ -187,37 +199,24 @@
                             <div class="headerColumn clearfix">
                                 {{ "info"|getInterfaceMenus }}
                             </div>
+                            <div class="search clearfix">
+                                <form action="{% url styleboard %}" method="POST">
+                                    <input id="search" name="search" type="text" value="{{ keyword }}" placeholder="Search Products" /> 
+                                    <input type="image" src="/media/images/search.png" class="searchIcon" />
+                                    <input type="submit" value="Search" class="searchButton" />
+                                </form>
+                            </div>
                         </td>
                         <td id="logo">
                             <div class="headerColumn clearfix">
-                            <a href="{% url home %}"><img width="193px" height="43px" src="/media/images/idecorate_wedding.jpg" title="logo" /></a>
+                            <a href="{% url home %}">
+                                <img width="193px" height="43px" src="/media/images/logo_txt.jpg" title="logo" />
+                            </a>
                             </div>
                         </td>
                         <td id="site-menu">
                             <div class="headerColumn clearfix">
                                 {{ "site"|getInterfaceMenus }}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="headWrapBottom">
-                        <td colspan="3">
-                            <div class="searchWrap">
-                                <div class="search clearfix">
-                                    <form action="{% url styleboard %}" method="POST">
-                                        <input type="image" src="/media/images/search.png" class="searchIcon" />
-                                        <input id="search" name="search" type="text" value="{{ keyword }}" placeholder="Search Products" > 
-                                        <input type="submit" value="Search">
-                                    </form>
-                                </div>
-                            </div>
-                            <div class="socialIcons">
-                                <a href="mailto:shana@idecorateweddings.com" id="email"></a>
-                                <a href="#" id="arrow"></a>
-                                <a href="https://www.facebook.com/iDecorateweddings" id="facebook"></a>
-                                <a href="http://pinterest.com/idecorateltd/" id="pinterest"></a>
-                                <a href="http://web.stagram.com/n/idecorateweddings/" id="instagram"></a>
-                                <a href="https://twitter.com/idecorateltd" id="twitter"></a>
-                                <a href="http://www.youtube.com/idecorateweddings" id="youtube"></a>
                             </div>
                         </td>
                     </tr>
