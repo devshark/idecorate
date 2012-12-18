@@ -174,7 +174,9 @@ class IdecorateShop(Shop):
 			form = ConfirmationForm(request.POST, **kwargs)
 
 			if form.is_valid():
+
 				return form.process_confirmation()
+				#form = ConfirmationForm(**kwargs)
 		else:
 			form = ConfirmationForm(**kwargs)
 
