@@ -647,6 +647,7 @@ $(document).ready(function () {
                                             });
 
                                     $(_this).html(object[0]);
+                                    eventTracker($(_this),'drop_object');
                                 },
                                 error: function(msg){
                                     alert(msg);
@@ -1199,7 +1200,7 @@ function create_instance(options){
         //track event
         eventTracker(object,'create');        
     });
-    return object;
+    //return object;
 }
 
 function create_new_object(options){

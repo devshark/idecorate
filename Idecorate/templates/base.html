@@ -153,6 +153,7 @@
                 $('#close-login-signup-modal').click(closed_modal);
                 generate_user_nav();
                 $('input[type="text"]').placeholder();
+                $('.loginTrigger').click(popup_login);
             });
             function generate_user_nav(){
                 var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 

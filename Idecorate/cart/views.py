@@ -159,6 +159,32 @@ class IdecorateShop(Shop):
 	def checkout_form(self, request, order):
 		return IdecorateCheckoutForm
 
+	def confirmation(self, request, order):
+
+		order.recalculate_total()
+
+		ConfirmationForm = self.confirmation_form(request, order)
+		kwargs = {
+			'order': order,
+			'request': request,
+			'shop': self,
+		}
+
+		if request.method == 'POST':
+			form = ConfirmationForm(request.POST, **kwargs)
+
+			if form.is_valid():
+				return form.process_confirmation()
+		else:
+			form = ConfirmationForm(**kwargs)
+
+		return self.render_confirmation(request, {
+			'order': order,
+			'form': form,
+			'confirmed': request.GET.get('confirmed', False),
+			'progress': 'confirmation',
+		})
+
 shop = IdecorateShop(
 	contact_model=Contact,
 	order_model=Order,
