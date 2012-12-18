@@ -474,9 +474,9 @@ function create_box(){
 
     appendObj.text('add text here.');
     object.attr(attribute).css(style).append(appendObj);
-    if($.browser.msie){
+    //if($.browser.msie){
         object.append('<img src="/media/admin/img/fake_BG.png" width="100%">');
-    }
+    //}
     object.appendTo('#canvas');
 
     if(!object.hasClass('selected')){
@@ -1324,7 +1324,7 @@ function get_template_object_json(){
         var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
         var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
         var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
-        var type = 'product';
+        var type = 'box';
         if($(this).hasClass('text'))
             type = 'text';
         if($(this).hasClass('image'))
@@ -1337,8 +1337,11 @@ function get_template_object_json(){
             type = 'texture';
         if($(this).hasClass('pattern'))
             type = 'pattern';
+        if($(this).hasClass('box')){
+            var _spantext = $(this).find('span').text();
+        }
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
-        template_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, img:_img});
+        template_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, img:_img, spantext:_spantext});
     });
     var product_array = new Array();
     for (var i in template_objects){
