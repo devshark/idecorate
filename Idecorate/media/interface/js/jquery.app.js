@@ -640,6 +640,7 @@ $(document).ready(function () {
                                                 _p_g_t   : p_g_t
                                             });
                                     $(_this).html(object[0]);
+                                    eventTracker($(_this),'drop_object');
                                 },
                                 error: function(msg){
                                     alert(msg);
