@@ -117,14 +117,37 @@ h5 {
   min-height: 60px;
   background-color: #000000; }
   #header .headerRowTop {
-    width: auto; }
+    width: auto;
+    padding-bottom: 15px; }
     #header .headerRowTop .headerColumn {
-      vertical-align: top; }
+      vertical-align: top;
+      position: relative; }
       #header .headerRowTop .headerColumn a {
         text-decoration: none !important;
         color: #333333; }
       #header .headerRowTop .headerColumn a:hover {
         text-decoration: underline; }
+      #header .headerRowTop .headerColumn .search {
+        position: absolute;
+        top: 90px;
+        left: 10px;
+        background-color: #FFFFFF; }
+        #header .headerRowTop .headerColumn .search .searchButton {
+          display: none;
+          visibility: hidden; }
+        #header .headerRowTop .headerColumn .search input[type="text"] {
+          vertical-align: top;
+          border: 0;
+          width: 200px;
+          padding-left: 5px;
+          line-height: 23px; }
+        #header .headerRowTop .headerColumn .search input[type="image"] {
+          vertical-align: top;
+          height: 21px;
+          width: 21px;
+          margin: 3px 0 0 0;
+          background: #FFFFFF;
+          padding: 1px; }
     #header .headerRowTop #info-menu {
       float: left;
       width: 400px;
