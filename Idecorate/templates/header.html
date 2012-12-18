@@ -1,7 +1,15 @@
 {% load idecorate_interface %}
+
 <div class="headerRowTop clearfix">
 	<div class="headerColumn clearfix" id="info-menu">
 		{{ "info"|getInterfaceMenus }}
+		<div class="search clearfix">
+			<form action="{% url styleboard %}" method="POST">
+			<input type="text" name="search" id="search" placeholder="Search Products" > 
+			<input type="image" src="/media/images/search.png" class="searchIcon" />
+			<input type="submit" value="Search" class="searchButton">
+			</form>
+		</div>
 	</div>
 	<div class="headerColumn clearfix" id="logo">
 		<a href="{% url home %}">
@@ -13,6 +21,8 @@
 		{{ "site"|getInterfaceMenus }}
 	</div>
 </div>
+<!--
+
 <div class="headerRowBottom clearfix">
 	<div class="searchWrap">
 		<div class="search clearfix">
@@ -23,7 +33,6 @@
 			</form>
 		</div>
 	</div>
-	<!--
 	<div class="socialIcons">
 		<a href="mailto:shana@idecorateweddings.com" id="email"></a>
 		<a href="#" id="arrow"></a>
@@ -32,8 +41,8 @@
 		<a href="http://web.stagram.com/n/idecorateweddings/" id="instagram"></a>
 		<a href="https://twitter.com/idecorateltd" id="twitter"></a>
 		<a href="http://www.youtube.com/idecorateweddings" id="youtube"></a>
-	</div>-->
-</div>
+	</div>
+</div>-->
 <div class="clearfix categoryWrapper">
 	{% include 'sidebar.html' %}
 </div>
