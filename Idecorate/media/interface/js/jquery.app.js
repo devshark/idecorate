@@ -1365,7 +1365,7 @@ function cloneObj(obj) {
 }
 
 function eventTracker(currentObject, eventType) {
-    console.log(eventType);
+    //console.log(eventType);
     if(eventType != 'unselect' && eventType != 'undo' && eventType != 'redo') {
 
         var product_objects = '';
