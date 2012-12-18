@@ -595,11 +595,75 @@ $(document).ready(function () {
             $('#canvas .template').remove();
             manage_total();
         }
-        //$('#canvas').droppable('disable');
+        $('#canvas').droppable('disable').fadeTo(1,1);
         objects = get_template_details($(this).attr('_uid'));
 
         if(objects.length > 0){
             drop_template(objects);
+            $('#canvas .template.box').droppable({
+                drop: function (e, ui) {
+
+
+                    if ($(ui.draggable)[0].id != "") {
+
+                        ui.helper.remove();
+                        var Obj = $(ui.draggable)[0];
+                        Obj = $(Obj);
+
+                        if(Obj.hasClass('products')){
+                            var uid         = Obj.attr('_uid');
+                            var _img_src    = media_url+'products/';
+                            var p_d_qty     = 1;
+                            var p_g_t       = 'table';
+                            var _this       = this;
+
+                            $.ajax({
+                                url: PRODUCT_IMAGE_URL,
+                                type: "POST",
+                                data: {product_id: uid},
+                                async:   false,
+                                success: function(data){
+                                    var img_src     = '/'+_img_src+data.original_image;
+                                    var img_w_bg    = data.original_image;
+                                    var img_wo_bg   = data.no_background;
+                                    var p_d_qty     = data.default_quantity;
+                                    var p_g_t       = data.guest_table;
+
+                                    //create new image using image object
+                                    var object = create_image_for_template({
+                                                _uid     : uid,
+                                                _event   : e,
+                                                _src     : img_src,
+                                                _img_wo_b: img_wo_bg,
+                                                _img_w_b : img_w_bg,
+                                                _p_d_qty : p_d_qty,
+                                                _p_g_t   : p_g_t
+                                            });
+                                    $(_this).html(object[0]);
+                                },
+                                error: function(msg){
+                                    alert(msg);
+                                }
+                            });
+                            //$(_this).find('span').;
+
+                            add_to_cart(uid, p_d_qty, p_g_t);
+
+                        }else if(Obj.hasClass('em')){
+
+                            var em_id = Obj.attr('id');
+                            var em_dbID = em_id.split('-');
+                            var type = Obj.attr('_type');
+
+                            if(type == 'Text'){
+                                object = create_instance_em_text(em_dbID[1],e,type);
+                            }else{
+                                object = create_instance_embellishments(em_dbID[1],e,type);
+                            }
+                        }
+                    }
+                }
+            });
         }
     });
 
@@ -613,10 +677,28 @@ function ie_message() {
     }
 }
 // functions related to template
+
+function create_image_for_template(options){
+    var object = $('<img/>');
+
+    object.attr({
+        '_uid': options._uid,
+        'def_qty': options._p_d_qty,
+        'gst_tb': options._p_g_t,
+        'src': options._src,
+        'nobg_src': options._img_wo_b,
+        'bg_src': options._img_w_b
+    }).addClass('templateImage');
+    
+    object.width('100%').height('auto');
+
+    return object;
+    
+}
+
 function drop_template(objects){
 
     $.each(objects, function(i, val){
-        console.log(val);
         var object  = $('<div/>');
         var img     = $('<img/>');
         object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
@@ -645,14 +727,21 @@ function drop_template(objects){
             object.addClass('embellishment '+val._type);
         }else{
             object.addClass(val._type);
-            object.html('<span>'+val.spantext+'<span/>')
+            object.html('<span>'+val.spantext+'<span/>');
         }
 
         object.appendTo('#canvas');
         objCounter = 1;
         hide_canvas_menu();
-        setTimeout(make_center_template, 0);
+        
     });
+
+    make_center_template();
+    setTimeout(function(){
+        eventTracker($('#canvas'), 'add_template');
+
+    },300);
+    //setTimeout(make_center_template, 0);
 }
 
 function get_template_details(template_id){
@@ -672,7 +761,6 @@ function get_template_details(template_id){
     });
     return json_data;
 }
-
 // template function end
 
 
@@ -1040,7 +1128,7 @@ function create_instance(options){
         var imgLeft     = options._event.pageX-$('#canvas').offset().left-dimensions['width']/2;
 
         //create instance of this object
-        object = create_new_object({
+        var object = create_new_object({
                 id          : options._uid,
                 img         : this,
                 imgW        : dimensions['width'],
@@ -1070,7 +1158,7 @@ function create_instance(options){
         //track event
         eventTracker(object,'create');        
     });
-
+    return object;
 }
 
 function create_new_object(options){
@@ -1369,9 +1457,11 @@ function eventTracker(currentObject, eventType) {
 
         var product_objects = '';
         var embellishment_objects = '';
+        var template_objects = '';
 
         var clonedObject = $('.product.unselected').clone();
         var clonedObject2 = $('.embellishment.unselected').clone();
+        var clonedObject3 = $('.template').clone();
 
         clonedObject.each(function(e){
             $(this).removeClass('selected');
@@ -1384,6 +1474,11 @@ function eventTracker(currentObject, eventType) {
             embellishment_objects += $(this).prop('outerHTML');
 
         });
+
+        clonedObject3.each(function(e){
+            template_objects += $(this).prop('outerHTML');
+
+        });        
 
         var cloned_table = $('.table').clone();
 
@@ -1398,7 +1493,7 @@ function eventTracker(currentObject, eventType) {
             changesArray.splice(changesCounter + 1, changesArray.length - changesCounter);
         }
 
-        changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
+        changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, template_objects: template_objects });
         changesCounter++;
     }
 
@@ -1512,9 +1607,11 @@ function setProductPositions(func) {
 
     var product_objects = '';
     var embellishment_objects = '';
+    var template_objects = '';
 
     var clonedObject = $('.product.unselected').clone();
     var clonedObject2 = $('.embellishment.unselected').clone();
+    var clonedObject3 = $('.template').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
@@ -1528,6 +1625,11 @@ function setProductPositions(func) {
 
     });
 
+    clonedObject3.each(function(e){
+        template_objects += $(this).prop('outerHTML');
+
+    });    
+
     var cloned_table = $('.table').clone();
 
     $('.dynamic_qty').each(function(e){
@@ -1540,7 +1642,7 @@ function setProductPositions(func) {
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
-        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects },
+        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, template_objects: template_objects },
         beforeSend : function(){
             
         },
@@ -1584,6 +1686,7 @@ function initProductPositions() {
 
         $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
         $('#canvas').append(PRODUCT_POSITIONS['embellishment_objects']);
+        $('#canvas').append(PRODUCT_POSITIONS['template_objects'])
 
         $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
         $('#tables').val(PRODUCT_POSITIONS['tables']);
@@ -1596,8 +1699,10 @@ function initProductPositions() {
 
     var product_objects = '';
     var embellishment_objects = '';
+    var template_objects = '';
     var clonedObject = $('.product.unselected').clone();
     var clonedObject2 = $('.embellishment.unselected').clone();
+    var clonedObject3 = $('.template').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
@@ -1611,6 +1716,11 @@ function initProductPositions() {
 
     });
 
+    clonedObject3.each(function(e){
+        template_objects += $(this).prop('outerHTML');
+
+    });
+
     var cloned_table = $('.table').clone();
 
     $('.dynamic_qty').each(function(e){
@@ -1620,7 +1730,7 @@ function initProductPositions() {
 
     });
 
-    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
+    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, template_objects: template_objects });
     
 }
 
@@ -1638,8 +1748,10 @@ function changeProductPositions(pos) {
 
     $('.product.unselected').remove();
     $('.embellishment.unselected').remove();
+    $('.template').remove();
     $('#canvas').append(pos['product_objects']);
     $('#canvas').append(pos['embellishment_objects']);
+    $('#canvas').append(pos['template_objects']);
     $('.table').html(pos['buy_table_html']);
     $('#tables').val(pos['tables']);
     $('#guests').val(pos['guests']);
@@ -1841,6 +1953,7 @@ function make_center_template(){
             });
         });
     }
+
 }
 
 function canvas_bb_ctr_diff_template(box_centerY, box_centerX){

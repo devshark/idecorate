@@ -122,11 +122,10 @@ h5 {
 
   .headerRowTop {
     width: auto;
-    padding-bottom: 15px;
+    padding-bottom: 5px;
 
     .headerColumn {
       vertical-align: top;
-      position: relative;
 
       a {
         text-decoration: none !important;
@@ -137,10 +136,10 @@ h5 {
       }
 
       .search {
-        position: absolute;
-        top: 90px;
-        left: 10px;
+        width: 240px;
+        height: 28px;
         background-color: #FFFFFF;
+        margin: 5px 0 0 5px;
 
         .searchButton {
           display: none;
