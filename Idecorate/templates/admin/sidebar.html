@@ -22,8 +22,13 @@
                 </ul>
               </li>
               <li><a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a></li>
-              <li><a href="{% url manage_template %}">{% trans "Manage Template" %}</a></li>
-              <li><a href="{% url manage_home_info_graphic %}">{% trans "Manage Home Info Graphics" %}</a></li>              
+              <li><a href="{% url manage_template %}">{% trans "Create Template" %}</a></li>
+              <li>
+                <a href="{% url manage_home_info_graphic %}">{% trans "Manage Home Infographics" %}</a>
+                <ul>
+                  <li><a href="#">{% trans "Upload Home Infographics" %}</a></li>
+                </ul>
+              </li>              
               <li><a href="{% url manage_homepage %}">{% trans "Manage Homepage" %}</a></li>
                 <ul>
                   <li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
