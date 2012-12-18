@@ -22,6 +22,6 @@ urlpatterns =  patterns('interface.views',
     url(r'^styleboard/new$', 'new_styleboard', {}, name='new_styleboard'),
     url(r'^styleboard/embellishment_items$', 'get_embellishment_items', {}, name='get_embellishment_items'),
     url(r'^styleboard/get_cart_items$', 'get_personalize_cart_items', {}, name='get_personalize_cart_items'),
-    url(r'^set_password_user/$', 'set_password_user', {}, name='set_password_user'),    
+    url(r'^set_password_user/(?P<param>[\w\-]+)$', 'set_password_user', {}, name='set_password_user'),    
     url(r'^styleboard/template_details/$', 'get_template_details', {}, name='get_template_details'),
 )

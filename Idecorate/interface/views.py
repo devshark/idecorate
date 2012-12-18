@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.template import RequestContext
 from django.utils import simplejson
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, Http404
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -28,6 +28,8 @@ from customer.services import get_user_styleboard, get_styleboard_cart_item
 import admin
 from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems
+from customer.models import CustomerProfile
+from forms import SetPasswordForm
 
 def home(request):
 	info = {}
@@ -722,9 +724,34 @@ def get_personalize_cart_items(request):
 	else:
 		return HttpResponseNotFound()
 
-def set_password_user(request):
+def set_password_user(request, param):
 	info = {}
+	form = SetPasswordForm()
 
+	prof = None
+
+	try:
+		prof = CustomerProfile.objects.get(hash_set_password=param)
+
+	except:
+		pass
+
+	if not prof:
+		raise Http404
+
+
+	if request.method == "POST":
+		form = SetPasswordForm(request.POST)
+
+		if form.is_valid():
+
+			prof.user.username = prof.user.email
+			prof.user.set_password(form.cleaned_data['password'])
+			prof.user.save()
+
+			return redirect('home')
+
+	info['form'] = form
 	return render_to_response('interface/set_password.html', info,RequestContext(request))
 
 @csrf_exempt
