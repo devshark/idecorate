@@ -565,6 +565,8 @@ $(document).ready(function () {
 
     //event handlers for templates
 
+    $('')
+
 });
 
 //message in ie
