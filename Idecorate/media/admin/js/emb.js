@@ -42,7 +42,7 @@ $(document).ready(function(){
         return false;
     });
     $(window).resize(function(){
-        //_resize_embellisment();
+        _resize_embellisment();
     });
     $('#manage-template-sidebar #embellishment-wrap .emItem').on('mousewheel',function(event,delta){
         emb_offset = emb_item_per_page;
@@ -89,6 +89,7 @@ $(document).ready(function(){
     });
     $('#uploadImage input[type=file]').bind('change', SITE.fileInputs);
 });
+
 var SITE = SITE || {};
 SITE.fileInputs = function() {
     if($('#upload-emb-error').length>0)
@@ -119,7 +120,8 @@ SITE.fileInputs = function() {
             $(fakeFile).text(newVal);
         }
     }
-};
+}
+
 function _resize_embellisment(){    
     if($.browser.msie && $.browser.version == 8.0){
         if ( $(window).height() != emb_window_height && $(window).width() != emb_window_width ) {
@@ -131,6 +133,61 @@ function _resize_embellisment(){
         manage_embellishment_resize();
     }
 }
+
+function get_embellishment_items(){
+    $('#embellishment-wrap .emItem a').each(function(){
+        $(this).remove();
+    });
+    var url = emb_item_url + '?page='+emb_next_page+'&offset='+emb_offset;
+
+    $.ajax({
+        url: url,
+        type: "POST",
+        dataType: 'json',
+        data: { type:emb_type },
+        async:   false,
+        beforeSend : function(a){
+            if ( emb_withloading ){
+                var elm_overlay = $('<div />');
+                elm_overlay.attr('class','embellishment-overlay');
+
+                var t = $('#manage-template-sidebar').offset().top;
+                var l = $('#manage-template-sidebar').offset().left;
+                elm_overlay.css({ 'position':'absolute', 'background':'transparent', 'top':(t)+'px', 'left':l+'px', 'width': $('#manage-template-sidebar').width()+'px', 'height':($('#manage-template-sidebar').height())+'px' });
+                elm_overlay.appendTo('#manage-template-sidebar');
+                elm_overlay.html('<div class="loading"></div>');
+            }
+        },
+        success: function(response_data){
+            var data = $.parseJSON(response_data.data);
+            emb_total_item_count = response_data.product_counts;
+            emb_page_number = response_data.page_number;
+            emb_num_pages = response_data.num_pages; 
+
+            $.each(data,function(i,v){
+                var id = v.pk;
+                var img_src_url = v.model == 'admin.embellishments'?EMB_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
+                var a = $('<a />');
+                a.attr('id','emb-'+id);
+                a.attr('_type',response_data.type);
+                a.addClass('thumb');
+                a.addClass('draggable');
+                a.addClass('hidden');
+                a.addClass('em');
+                var img = $('<img />');
+                img.attr('src',img_src_url);
+                img.appendTo(a);
+                a.appendTo('#embellishment-wrap .emItem');
+            });
+            manage_embellishment_pagination();
+            $('#embellishment-wrap .emCat').hide();
+            setTimeout(emb_remove_overlay,0);
+        },
+        error: function(msg) {
+        }
+    });
+}
+
 function manage_embellishment_pagination(){
     $('#embellishment-wrap .emItem').show();    
     $('#embellishment-wrap .emItem a:first img').each(function(){
@@ -144,13 +201,15 @@ function manage_embellishment_pagination(){
             if (item_per_width > _width)
                 count_by_width = count_by_width - 1;
 
-            var _height = $('#manage-template-sidebar').height();
+            var _height = $('#canvas').outerHeight(true);
             var _formWrap_height = $('#manage-template-sidebar .formWrap').outerHeight(true);
             var _breadcrumb_wrap_height = $('#manage-template-sidebar .breadcrumbWrap').outerHeight(true);
             var _pagination_height = $('#manage-template-sidebar .pagination').outerHeight(true);
+            var _h2_height = $('#manage-template-sidebar h2').outerHeight(true);
             _height = _height-_formWrap_height;            
             _height = _height-_breadcrumb_wrap_height;
             _height = _height-_pagination_height;
+            _height = _height-_h2_height;
             var _item_height = $(elm).outerHeight(true);
             if (_height<_item_height)
                 _height = _item_height;
@@ -230,60 +289,6 @@ function populate_embellishment_by_page(){
     generate_embellishment_pagination();
 }
 
-function get_embellishment_items(){
-    $('#embellishment-wrap .emItem a').each(function(){
-        $(this).remove();
-    });
-    var url = emb_item_url + '?page='+emb_next_page+'&offset='+emb_offset;
-
-    $.ajax({
-        url: url,
-        type: "POST",
-        dataType: 'json',
-        data: { type:emb_type },
-        async:   false,
-        beforeSend : function(a){
-            if ( emb_withloading ){
-                var elm_overlay = $('<div />');
-                elm_overlay.attr('class','embellishment-overlay');
-
-                var t = $('#manage-template-sidebar').offset().top;
-                var l = $('#manage-template-sidebar').offset().left;
-                elm_overlay.css({ 'position':'absolute', 'background':'transparent', 'top':(t)+'px', 'left':l+'px', 'width': $('#manage-template-sidebar').width()+'px', 'height':($('#manage-template-sidebar').height())+'px' });
-                elm_overlay.appendTo('#manage-template-sidebar');
-                elm_overlay.html('<div class="loading"></div>');
-            }
-        },
-        success: function(response_data){
-            var data = $.parseJSON(response_data.data);
-            emb_total_item_count = response_data.product_counts;
-            emb_page_number = response_data.page_number;
-            emb_num_pages = response_data.num_pages; 
-
-            $.each(data,function(i,v){
-                var id = v.pk;
-                var img_src_url = v.model == 'admin.embellishments'?EMB_IMG_GEN_URL+'?embellishment_id='+id+'&embellishment_color=000000000&embellishment_thumbnail=1&embellishment_size=100':TEXT_IMG_GEN_URL+'?font_size=100&font_text=Abc&font_color=000000000&font_id='+id+'&font_thumbnail=1';
-                var a = $('<a />');
-                a.attr('id','emb-'+id);
-                a.attr('_type',response_data.type);
-                a.addClass('thumb');
-                a.addClass('draggable');
-                a.addClass('hidden');
-                a.addClass('em');
-                var img = $('<img />');
-                img.attr('src',img_src_url);
-                img.appendTo(a);
-                a.appendTo('#embellishment-wrap .emItem');
-            });
-            manage_embellishment_pagination();
-            $('#embellishment-wrap .emCat').hide();
-            setTimeout(emb_remove_overlay,0);
-        },
-        error: function(msg) {
-        }
-    });
-}
-
 function manage_embellishment_resize(){
     $('#embellishment-wrap .emItem a:first img').each(function(){
         getHeight($(this),function(h){
@@ -296,20 +301,26 @@ function manage_embellishment_resize(){
             if (item_per_width > _width)
                 count_by_width = count_by_width - 1;
 
-            var _height = $('#manage-template-sidebar').height();
-            var _formWrap_height = $('#manage-template-sidebar .formWrap').outerHeight(true);
+            var _height = $('#canvas').outerHeight(true);
+            var _formWrap_height = $('#manage-template-sidebar #uploadImage').outerHeight(true);
             var _breadcrumb_wrap_height = $('#manage-template-sidebar .breadcrumbWrap').outerHeight(true);
             var _pagination_height = $('#manage-template-sidebar .pagination').outerHeight(true);
+            var _h2_height = $('#manage-template-sidebar h2').outerHeight(true);
+
+            // console.log(_height, _formWrap_height, _breadcrumb_wrap_height, _pagination_height, _h2_height);
+
             _height = _height-_formWrap_height;            
             _height = _height-_breadcrumb_wrap_height;
             _height = _height-_pagination_height;
+            _height = _height-_h2_height;
             var _item_height = $(elm).outerHeight(true);
             if (_height<_item_height)
                 _height = _item_height;
             else
                 _height = _height-5;
 
-            var count_by_height = Math.round(_height/_item_height);            
+            var count_by_height = Math.round(_height/_item_height);
+            
             var item_per_height = _item_height*count_by_height;            
             $('#manage-template-sidebar #embellishment-wrap .emItem').height(_height);            
 
