@@ -78,7 +78,7 @@ $(document).ready(function () {
     //height for all name container <span> on the sidebar
     
     //set dropable area for the draggable sidebar objects
-    $("#canvas,#canvas .template.box").droppable({
+    $("#canvas").droppable({
 
         drop: function (e, ui) {
 
@@ -600,6 +600,70 @@ $(document).ready(function () {
 
         if(objects.length > 0){
             drop_template(objects);
+            $('#canvas .template.box').droppable({
+                drop: function (e, ui) {
+
+
+                    if ($(ui.draggable)[0].id != "") {
+
+                        ui.helper.remove();
+                        var Obj = $(ui.draggable)[0];
+                        Obj = $(Obj);
+
+                        if(Obj.hasClass('products')){
+                            var uid         = Obj.attr('_uid');
+                            var _img_src    = media_url+'products/';
+                            var p_d_qty     = 1;
+                            var p_g_t       = 'table';
+                            var _this       = this;
+
+                            $.ajax({
+                                url: PRODUCT_IMAGE_URL,
+                                type: "POST",
+                                data: {product_id: uid},
+                                async:   false,
+                                success: function(data){
+                                    var img_src     = '/'+_img_src+data.original_image;
+                                    var img_w_bg    = data.original_image;
+                                    var img_wo_bg   = data.no_background;
+                                    var p_d_qty     = data.default_quantity;
+                                    var p_g_t       = data.guest_table;
+
+                                    //create new image using image object
+                                    var object = create_image_for_template({
+                                                _uid     : uid,
+                                                _event   : e,
+                                                _src     : img_src,
+                                                _img_wo_b: img_wo_bg,
+                                                _img_w_b : img_w_bg,
+                                                _p_d_qty : p_d_qty,
+                                                _p_g_t   : p_g_t
+                                            });
+                                    $(_this).html(object[0]);
+                                },
+                                error: function(msg){
+                                    alert(msg);
+                                }
+                            });
+                            //$(_this).find('span').;
+
+                            add_to_cart(uid, p_d_qty, p_g_t);
+
+                        }else if(Obj.hasClass('em')){
+
+                            var em_id = Obj.attr('id');
+                            var em_dbID = em_id.split('-');
+                            var type = Obj.attr('_type');
+
+                            if(type == 'Text'){
+                                object = create_instance_em_text(em_dbID[1],e,type);
+                            }else{
+                                object = create_instance_embellishments(em_dbID[1],e,type);
+                            }
+                        }
+                    }
+                }
+            });
         }
     });
 
@@ -613,6 +677,25 @@ function ie_message() {
     }
 }
 // functions related to template
+
+function create_image_for_template(options){
+    var object = $('<img/>');
+
+    object.attr({
+        '_uid': options._uid,
+        'def_qty': options._p_d_qty,
+        'gst_tb': options._p_g_t,
+        'src': options._src,
+        'nobg_src': options._img_wo_b,
+        'bg_src': options._img_w_b
+    }).addClass('templateImage');
+    
+    object.width('100%').height('auto');
+
+    return object;
+    
+}
+
 function drop_template(objects){
 
     $.each(objects, function(i, val){
@@ -678,7 +761,6 @@ function get_template_details(template_id){
     });
     return json_data;
 }
-
 // template function end
 
 
@@ -1046,7 +1128,7 @@ function create_instance(options){
         var imgLeft     = options._event.pageX-$('#canvas').offset().left-dimensions['width']/2;
 
         //create instance of this object
-        object = create_new_object({
+        var object = create_new_object({
                 id          : options._uid,
                 img         : this,
                 imgW        : dimensions['width'],
@@ -1076,7 +1158,7 @@ function create_instance(options){
         //track event
         eventTracker(object,'create');        
     });
-
+    return object;
 }
 
 function create_new_object(options){
