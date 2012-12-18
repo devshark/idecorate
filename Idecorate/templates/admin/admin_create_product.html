@@ -255,6 +255,64 @@
             </div><!--/span-->          
           </div><!--/row-->
 
+          <h3 style="font-weight:normal;">{% trans "Product Details" %}</h3>
+          <hr />
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.comment.label }}:</label>
+                <div class="controls">
+                  {{ form.comment|add_class:"input-xxlarge"|attr:"style:height:300px;" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.size.label }}:</label>
+                <div class="controls">
+                  {{ form.size|add_class:"input-xlarge"|attr:"placeholder:Size" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.unit_price.label }}:</label>
+                <div class="controls">
+                  {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.pieces_carton.label }}:</label>
+                <div class="controls">
+                  {{ form.pieces_carton|add_class:"input-xlarge"|attr:"placeholder:Pieces/Carton" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.min_order_qty_carton.label }}:</label>
+                <div class="controls">
+                  {{ form.min_order_qty_carton|add_class:"input-xlarge"|attr:"placeholder:Minimum Order Quantity/Carton" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
 
         </div><!--/span-->      
       </div><!--/row-->

@@ -32,6 +32,12 @@ class AddProductForm(forms.Form):
 	default_quantity = forms.IntegerField(min_value=1,label=_("Default Quantity"),required=False,initial=1,error_messages={'invalid':_('Enter a whole number in Default Quantity field.'),'min_value':_('Ensure that Default Quantity is greater than or equal to %(limit_value)s.')})
 	guest_table = forms.ChoiceField(label=_("Guest Table"), choices=(('1','Table'),('2','Guest'),), required=False,widget=forms.Select)
 
+	comment = forms.CharField(label=_("Comment"), required=False, widget=forms.Textarea)
+	size = forms.CharField(label=_("Size"), required=False)
+	unit_price = forms.DecimalField(label='Unit Price', max_digits=6, decimal_places=2, required=False)
+	pieces_carton = forms.IntegerField(label='Pieces/Carton', required=False, max_value=999999, min_value=1)
+	min_order_qty_carton = forms.IntegerField(label='Minimum Order Quantity/Carton', required=False, max_value=999999, min_value=1)
+
 	def clean_product_sku(self):
 
 		sku = self.cleaned_data['product_sku']
@@ -87,6 +93,12 @@ class EditProductForm(forms.Form):
 	categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, error_messages={'required':_('Product Category is a required field.')})
 	default_quantity = forms.IntegerField(min_value=1,label=_("Default Quantity"),required=False,initial=1,error_messages={'invalid':_('Enter a whole number in Default Quantity field.'),'min_value':_('Ensure that Default Quantity is greater than or equal to %(limit_value)s.')})
 	guest_table = forms.ChoiceField(label=_("Guest Table"), choices=(('1','Table'),('2','Guest'),), required=False,widget=forms.Select)
+
+	comment = forms.CharField(label=_("Comment"), required=False, widget=forms.Textarea)
+	size = forms.CharField(label=_("Size"), required=False)
+	unit_price = forms.DecimalField(label='Unit Price', max_digits=6, decimal_places=2, required=False)
+	pieces_carton = forms.IntegerField(label='Pieces/Carton', required=False, max_value=999999, min_value=1)
+	min_order_qty_carton = forms.IntegerField(label='Minimum Order Quantity/Carton', required=False, max_value=999999, min_value=1)
 
 	def __init__(self, *args, **kwargs):
 		self.product_id = kwargs.pop('product_id',None)
