@@ -600,7 +600,6 @@ $(document).ready(function () {
 
         if(objects.length > 0){
             drop_template(objects);
-            $('#canvas .template.box').droppable('enable');
         }
     });
 
@@ -651,8 +650,15 @@ function drop_template(objects){
         object.appendTo('#canvas');
         objCounter = 1;
         hide_canvas_menu();
-        setTimeout(make_center_template, 0);
+        
     });
+
+    make_center_template();
+    setTimeout(function(){
+        eventTracker($('#canvas'), 'add_template');
+
+    },300);
+    //setTimeout(make_center_template, 0);
 }
 
 function get_template_details(template_id){
@@ -1369,9 +1375,11 @@ function eventTracker(currentObject, eventType) {
 
         var product_objects = '';
         var embellishment_objects = '';
+        var template_objects = '';
 
         var clonedObject = $('.product.unselected').clone();
         var clonedObject2 = $('.embellishment.unselected').clone();
+        var clonedObject3 = $('.template').clone();
 
         clonedObject.each(function(e){
             $(this).removeClass('selected');
@@ -1384,6 +1392,11 @@ function eventTracker(currentObject, eventType) {
             embellishment_objects += $(this).prop('outerHTML');
 
         });
+
+        clonedObject3.each(function(e){
+            template_objects += $(this).prop('outerHTML');
+
+        });        
 
         var cloned_table = $('.table').clone();
 
@@ -1398,7 +1411,7 @@ function eventTracker(currentObject, eventType) {
             changesArray.splice(changesCounter + 1, changesArray.length - changesCounter);
         }
 
-        changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
+        changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, template_objects: template_objects });
         changesCounter++;
     }
 
@@ -1512,9 +1525,11 @@ function setProductPositions(func) {
 
     var product_objects = '';
     var embellishment_objects = '';
+    var template_objects = '';
 
     var clonedObject = $('.product.unselected').clone();
     var clonedObject2 = $('.embellishment.unselected').clone();
+    var clonedObject3 = $('.template').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
@@ -1528,6 +1543,11 @@ function setProductPositions(func) {
 
     });
 
+    clonedObject3.each(function(e){
+        template_objects += $(this).prop('outerHTML');
+
+    });    
+
     var cloned_table = $('.table').clone();
 
     $('.dynamic_qty').each(function(e){
@@ -1540,7 +1560,7 @@ function setProductPositions(func) {
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
-        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects },
+        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, template_objects: template_objects },
         beforeSend : function(){
             
         },
@@ -1584,6 +1604,7 @@ function initProductPositions() {
 
         $('#canvas').append(PRODUCT_POSITIONS['product_objects']);
         $('#canvas').append(PRODUCT_POSITIONS['embellishment_objects']);
+        $('#canvas').append(PRODUCT_POSITIONS['template_objects'])
 
         $('.table').html(PRODUCT_POSITIONS['buy_table_html']);
         $('#tables').val(PRODUCT_POSITIONS['tables']);
@@ -1596,8 +1617,10 @@ function initProductPositions() {
 
     var product_objects = '';
     var embellishment_objects = '';
+    var template_objects = '';
     var clonedObject = $('.product.unselected').clone();
     var clonedObject2 = $('.embellishment.unselected').clone();
+    var clonedObject3 = $('.template').clone();
 
     clonedObject.each(function(e){
         $(this).removeClass('selected');
@@ -1611,6 +1634,11 @@ function initProductPositions() {
 
     });
 
+    clonedObject3.each(function(e){
+        template_objects += $(this).prop('outerHTML');
+
+    });
+
     var cloned_table = $('.table').clone();
 
     $('.dynamic_qty').each(function(e){
@@ -1620,7 +1648,7 @@ function initProductPositions() {
 
     });
 
-    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects });
+    changesArray.push({ guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, template_objects: template_objects });
     
 }
 
@@ -1638,8 +1666,10 @@ function changeProductPositions(pos) {
 
     $('.product.unselected').remove();
     $('.embellishment.unselected').remove();
+    $('.template').remove();
     $('#canvas').append(pos['product_objects']);
     $('#canvas').append(pos['embellishment_objects']);
+    $('#canvas').append(pos['template_objects']);
     $('.table').html(pos['buy_table_html']);
     $('#tables').val(pos['tables']);
     $('#guests').val(pos['guests']);
@@ -1841,6 +1871,7 @@ function make_center_template(){
             });
         });
     }
+
 }
 
 function canvas_bb_ctr_diff_template(box_centerY, box_centerX){

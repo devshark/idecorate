@@ -131,6 +131,9 @@ def styleboard_product_ajax(request):
 		product_counts = product_list.count()		
 		offset = request.GET.get('offset',25)
 
+		if offset == 'Infinity':
+			offset = 25
+
 		paginator = Paginator(product_list, offset)
 		page = request.GET.get('page')
 		try:
@@ -167,6 +170,9 @@ def styleboard_ajax(request):
 			product_counts = product_list.count()
 			product_list = product_list.order_by('ordering')
 			offset = request.GET.get('offset',25)
+
+			if offset == 'Infinity':
+				offset = 25
 
 			paginator = Paginator(product_list, offset)
 			page = request.GET.get('page')
@@ -275,6 +281,7 @@ def set_product_positions(request):
 		changes_counter = request.POST.get('changes_counter','')
 		product_objects = request.POST.get('product_objects','')
 		embellishment_objects = request.POST.get('embellishment_objects','')
+		template_objects = request.POST.get('template_objects','')
 		action_url = request.POST.get('action_url','')
 		total = request.POST.get('total','')
 		quantity = request.POST.get('quantity','')
@@ -289,6 +296,7 @@ def set_product_positions(request):
 			'changes_counter': str(changes_counter),
 			'product_objects':str(product_objects),
 			'embellishment_objects': str(embellishment_objects),
+			'template_objects': str(template_objects),
 			'action_url': str(action_url),
 			'total': str(total),
 			'quantity': str(quantity),
@@ -478,6 +486,9 @@ def search_products(request):
 		product_counts = product_list.count()		
 		offset = request.GET.get('offset',25)
 
+		if offset == 'Infinity':
+			offset = 25
+
 		paginator = Paginator(product_list, offset)
 		page = request.GET.get('page')
 		try:
@@ -638,7 +649,9 @@ def new_styleboard(request):
 def get_embellishment_items(request):
 	if request.is_ajax():
 		typ = request.POST['type']
-		offset = request.GET.get('offset',25)
+		offset = request.GET.get('offset',25)		
+		if offset == 'Infinity':
+			offset = 25
 		page = request.GET.get('page')
 		if typ != 'text':
 			embellishment_items = Embellishments.objects.filter(e_type__id=typ, is_active=True, is_deleted=False)
