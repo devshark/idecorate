@@ -645,7 +645,8 @@ $(document).ready(function () {
                                     alert(msg);
                                 }
                             });
-                            //$(_this).find('span').;
+                            
+                            template_fill($(_this).find('img').length,$(_this));
 
                             add_to_cart(uid, p_d_qty, p_g_t);
 
@@ -677,6 +678,11 @@ function ie_message() {
     }
 }
 // functions related to template
+function template_fill(count, box){
+    if(count > 0){
+        box.find('span').hide();
+    }
+}
 
 function create_image_for_template(options){
     var object = $('<img/>');
