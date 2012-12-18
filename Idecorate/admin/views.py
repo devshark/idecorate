@@ -6,7 +6,9 @@ from django.contrib import messages
 from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
 from datetime import datetime, timedelta
 from django.template import RequestContext
-from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage, UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm, HomeBannerForm
+from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
+UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
+HomeBannerForm, HomeInfoGraphicForm
 from menu.services import addMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
 from django.contrib.sites.models import Site
@@ -1897,6 +1899,8 @@ def manage_home_info_graphic(request):
 
 def upload_info_graphic(request):
 	info = {}
+	form = HomeInfoGraphicForm()
+	info['form'] = form
 	return render_to_response('admin/upload_info_graphic.html',info,RequestContext(request))
 
 @csrf_exempt

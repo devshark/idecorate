@@ -27,6 +27,7 @@ from admin.models import TextFonts, Embellishments, EmbellishmentsType
 from customer.services import get_user_styleboard, get_styleboard_cart_item
 import admin
 from admin.services import get_home_banners, get_home_banner_images
+from embellishments.models import StyleboardTemplateItems
 
 def home(request):
 	info = {}
@@ -718,5 +719,17 @@ def get_personalize_cart_items(request):
 			responsedata.append(datas)
 
 		return HttpResponse(simplejson.dumps(responsedata), mimetype="application/json")		
+	else:
+		return HttpResponseNotFound()
+
+@csrf_exempt
+def get_template_details(request):
+	if request.method == "POST":
+		id = request.POST['id']
+		try:
+			template_details = StyleboardTemplateItems.objects.get(id=id)
+			return HttpResponse(template_details.item)
+		except:
+			return HttpResponse('0')
 	else:
 		return HttpResponseNotFound()
