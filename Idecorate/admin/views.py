@@ -1895,6 +1895,10 @@ def manage_home_info_graphic(request):
 	info = {}
 	return render_to_response('admin/manage_home_info_graphic.html',info,RequestContext(request))
 
+def upload_info_graphic(request):
+	info = {}
+	return render_to_response('admin/upload_info_graphic.html',info,RequestContext(request))
+
 @csrf_exempt
 def set_template_positions(request):
 	ret = ""

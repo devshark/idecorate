@@ -3,10 +3,24 @@
   font-size: 12px; }
 
 #site-menu .dd li {
-  border-left: 1px solid #FFF; }
+  border-left: 2px solid #FFF; }
   #site-menu .dd li a, #site-menu .dd li span {
+    /*font-weight: bold;*/
     color: #FFF !important; }
 #site-menu .dd li.hover, #site-menu .dd li:hover {
   background-color: #737A2A; }
 #site-menu .dd ul li {
   background-color: #B9C444; }
+
+/*
+#info-menu {
+    .dd{
+        li{
+            border-left: 2px solid #FFF;
+            a,span{
+                font-weight: bold;
+                color: #FFF !important;
+            }
+        }
+    }
+}*/

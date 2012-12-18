@@ -1,0 +1,35 @@
+.staticWrapper {
+	background-color: #FFF;
+	padding: 15px;
+
+	fieldset {
+		display: block;
+		border: 1px solid #000;
+		width: 964px;
+		padding: 15px;
+
+		legend {
+			margin: 0 0 0 20px;
+			padding: 0 5px;
+			font-size: 14px;
+			color: black;		
+		}
+
+		p {
+			margin: 15px 0;
+			align: justify;
+			text-indent: 25px;
+		}
+
+		div {
+			margin: 10px 0;
+		}
+
+		.end {
+			width: 56px;
+			height: 10px;
+			margin: 0 auto;
+		}
+	}
+
+}

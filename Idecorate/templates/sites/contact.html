@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}iDecorate Weddings{% endblock %}
+{% block style %}
+<link rel="stylesheet" type="text/css" href="/media/interface/css/static.css">
+{% endblock %}
+{% block content %}
+<div class="clearfix staticWrapper">
+	<fieldset>
+		<legend>Contact Us</legend>
+		<div class="clearfix">
+			Shana Buchanan<br />
+			Owner/Managing Director
+		</div>
+		<div class="clearfix">+85293193117<div>
+		<div class="clearfix">shana@idecorateweddings.com<div>
+		<div class="clearfix">skype: shanabuchanan<div>
+		<div class="clearfix end">
+			<img src="/media/images/end.png" />
+		</div>
+	</fieldset>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+$(function(){
+
+	page_H();
+	$(window).resize(page_H);
+
+});
+
+function page_H(){
+		
+	var windowH = $(window).height();
+		headerH = $('#header').outerHeight(true);
+		footerH = $('#footer').outerHeight(true);
+		newHeight = windowH - headerH - footerH - 50;
+		sectionH = $('.staticWrapper').outerHeight(true);
+		
+		if(sectionH < windowH) {
+			$('.staticWrapper').height(newHeight);
+		}
+
+}
+</script>
+{% endblock %}

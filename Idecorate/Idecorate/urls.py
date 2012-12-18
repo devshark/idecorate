@@ -21,6 +21,7 @@ urlpatterns = patterns('',
     url(r'', include('cart.urls')),
     url(r'', include('embellishments.urls')),
     url(r'', include('social_auth.urls')),
+    url(r'', include('sites.urls')),
 )
 
 """
@@ -62,6 +63,7 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/set_template_positions/$', 'set_template_positions', {}, name='set_template_positions'),
     url(r'^admin/new_template/$', 'new_template', {}, name='new_template'),
     url(r'^admin/info_graphic/$', 'manage_home_info_graphic', {}, name='manage_home_info_graphic'),
+    url(r'^admin/info_graphic_upload/$', 'upload_info_graphic', {}, name='upload_info_graphic'),
 
 )
 
