@@ -200,17 +200,21 @@
 	height: auto;
 	margin: 15px auto;
 	padding: 10px;
-	background: #fbf6f0;
+	color: #FFFFFF;
+	background: #000000;
 	box-shadow: 3px 3px 3px 2px #EEEEEE;
 
 	h4{
 		font-weight: bold;
 		margin: 0 0 15px 0;
-		color: #000000;
+		color: #FFFFFF;
 	}
 
 	p {
 		margin: 10px auto;
+		color: #FFFFFF;
+		font-size: 1.2em;
+		font-weight: bold;
 	}
 	
 	input{
@@ -239,7 +243,8 @@
     }
 
 	a {
-		color: #d89b96;
+		color: #FFFFFF;
+		font-weight: bold;
 	}
 
 }
