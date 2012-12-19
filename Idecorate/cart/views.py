@@ -26,6 +26,7 @@ import re
 
 from customer.services import get_styleboard_cart_item, get_user_styleboard
 from idecorate_settings.models import IdecorateSettings
+from django.conf import settings
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
