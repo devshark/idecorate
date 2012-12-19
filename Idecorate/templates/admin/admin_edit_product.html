@@ -1,5 +1,5 @@
 {% extends "admin/base.html" %}
-{% load i18n widget_tweaks admin %}
+{% load i18n widget_tweaks admin humanize %}
 
 {% block title %}
     {% trans "iDecorate CMS" %}
@@ -41,7 +41,19 @@
   .treeinput {
     margin-bottom: 5px !important;
   }
-
+  /*
+  .curCode {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    color: #555;
+  }
+  .controls {
+    position: relative;
+  }
+  .controls input[type="text"] {
+    padding-left: 13px;
+  }*/
 </style>
 {% endblock %}
 
@@ -64,7 +76,7 @@
 	<h1>{% trans "Edit Product" %}</h1>
 	<div>&nbsp;</div>
 
-      {% if form.product_status.errors or form.product_sku.errors or form.product_name.errors or form.price.errors or form.product_description.errors or form.original_image.errors or form.no_background.errors or form.default_quantity.errors or form.categories.errors %}
+      {% if form.errors %}
 
       <div class="alert alert-error">
         <a class="close" data-dismiss="alert" href="#">×</a>
@@ -182,8 +194,8 @@
             <div class="span12">
               <div class="control-group">
                 <label class="control-label">{{ form.price.label }} *</label>
-                <div class="controls">$
-                  {{ form.price|add_class:"input-xlarge"|attr:"placeholder:Price" }}
+                <div class="controls">
+                  <span class="curCode">$</span> {{ form.price|add_class:"input-xlarge"|attr:"placeholder:Price" }}
                   <span class="help-block">{{ form.price.help_text }}</span>
                 </div>
               </div>
@@ -320,7 +332,7 @@
               <div class="control-group">
                 <label class="control-label">{{ form.unit_price.label }}:</label>
                 <div class="controls">
-                  $ {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
+                  <span class="curCode">$</span> {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
                 </div>
               </div>
             </div><!--/span-->          
@@ -353,7 +365,7 @@
               <div class="control-group">
                 <label class="control-label">Minmum Order Quantity/Pieces:</label>
                 <div class="controls" style="padding-top: 10px;">
-                  {{ min_order_qty_pieces }}
+                  {{ min_order_qty_pieces|intcomma }}
                 </div>
               </div>
             </div><!--/span-->          
@@ -364,7 +376,7 @@
               <div class="control-group">
                 <label class="control-label">Cost of Minimum Order Quantity:</label>
                 <div class="controls" style="padding-top: 10px;">
-                  $ {{ cost_min_order_qty }}
+                  $ {{ cost_min_order_qty|currency }}
                 </div>
               </div>
             </div><!--/span-->          

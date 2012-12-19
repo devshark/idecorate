@@ -35,7 +35,7 @@ class AddProductForm(forms.Form):
 	comment = forms.CharField(label=_("Comment"), required=False, widget=forms.Textarea)
 	size = forms.CharField(label=_("Size"), required=False)
 	color = forms.CharField(label=_("Color"), required=False)
-	unit_price = forms.DecimalField(label='Unit Price', max_digits=19, decimal_places=2, required=False,error_messages={'max_decimal_places':_('Ensure that there are no more than %s decimal places in Unit Price.')})
+	unit_price = forms.DecimalField(label='Unit Price', max_digits=19, decimal_places=2, required=False,error_messages={'max_decimal_places':_('Ensure that there are no more than %s decimal places in Unit Price.'), 'invalid':_('Unit price must be a number.')})
 	pieces_carton = forms.IntegerField(label='Pieces/Carton', required=False, max_value=999999, min_value=1, error_messages={'invalid':_('Enter a whole number in Pieces/Carton field.'),'min_value':_('Ensure that Pieces/Carton is greater than or equal to %(limit_value)s.')})
 	min_order_qty_carton = forms.IntegerField(label='Minimum Order Quantity/Carton', required=False, max_value=999999, min_value=1, error_messages={'invalid':_('Enter a whole number in Minimum Order Quantity/Carton field.'),'min_value':_('Ensure that Minimum Order Quantity/Carton is greater than or equal to %(limit_value)s.')})
 
@@ -98,7 +98,7 @@ class EditProductForm(forms.Form):
 	comment = forms.CharField(label=_("Comment"), required=False, widget=forms.Textarea)
 	size = forms.CharField(label=_("Size"), required=False)
 	color = forms.CharField(label=_("Color"), required=False)
-	unit_price = forms.DecimalField(label='Unit Price', max_digits=19, decimal_places=2, required=False,error_messages={'max_decimal_places':_('Ensure that there are no more than %s decimal places in Unit Price.')})
+	unit_price = forms.DecimalField(label='Unit Price', max_digits=19, decimal_places=2, required=False,error_messages={'max_decimal_places':_('Ensure that there are no more than %s decimal places in Unit Price.'), 'invalid':_('Unit price must be a number.')})
 	pieces_carton = forms.IntegerField(label='Pieces/Carton', required=False, max_value=999999, min_value=1, error_messages={'invalid':_('Enter a whole number in Pieces/Carton field.'),'min_value':_('Ensure that Pieces/Carton is greater than or equal to %(limit_value)s.')})
 	min_order_qty_carton = forms.IntegerField(label='Minimum Order Quantity/Carton', required=False, max_value=999999, min_value=1, error_messages={'invalid':_('Enter a whole number in Minimum Order Quantity/Carton field.'),'min_value':_('Ensure that Minimum Order Quantity/Carton is greater than or equal to %(limit_value)s.')})
 
