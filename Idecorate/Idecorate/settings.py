@@ -256,6 +256,25 @@ HOME_INFO_GRAPHICS_SIZE = 2621440
 
 IDECORATE_HOST = 'idecorateweddings.com:8000'
 
+# paydollar settings
+"""
+#LIVE SETTINGS
+PAYDOLLAR_SS_DIRECT_URL = 'https://www.paydollar.com/b2c2/eng/directPay/payComp.jsp'  # LIVE
+PAYDOLLAR_CP_THROUGH_BROWSER_URL = 'https://www.paydollar.com/b2c2/eng/payment/payForm.jsp'  # LIVE
+PAYDOLLAR_API_URL = 'https://www.paydollar.com/b2c2/eng/merchant/api/orderApi.jsp'  # LIVE
+"""
+
+#TEST SETTINGS
+PAYDOLLAR_SS_DIRECT_URL = 'https://test.paydollar.com/b2cDemo/eng/directPay/payComp.jsp'
+PAYDOLLAR_CP_THROUGH_BROWSER_URL = 'https://test.paydollar.com/b2cDemo/eng/payment/payForm.jsp'
+PAYDOLLAR_API_URL = 'https://test.paydollar.com/b2cDemo/eng/merchant/api/orderApi.jsp'
+
+PAYDOLLAR_API_LOGIN_ID = ''
+PAYDOLLAR_API_PASSWORD = ''
+PAYDOLLAR_SECURE_HASH_SECRET = 'E1qaoDmP7MBPUXBuCc1IJqlxrwE1UiJt'
+PAYDOLLAR_CURRENCY = '840'  # 840(USD), 344(HKD)
+PAYDOLLAR_MERCHANT_ID = '88110388'
+
 #Plata Settings
 POSTFINANCE = {
     'PSPID': 'plataTEST',

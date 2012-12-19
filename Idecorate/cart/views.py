@@ -26,6 +26,7 @@ import re
 
 from customer.services import get_styleboard_cart_item, get_user_styleboard
 from idecorate_settings.models import IdecorateSettings
+from django.conf import settings
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
@@ -163,6 +164,13 @@ class IdecorateShop(Shop):
 
 		order.recalculate_total()
 
+		card_error = []
+
+		card_number = ""
+		name_on_card = ""
+		expires = ""
+		cvv_code = ""
+
 		ConfirmationForm = self.confirmation_form(request, order)
 		kwargs = {
 			'order': order,
@@ -175,8 +183,28 @@ class IdecorateShop(Shop):
 
 			if form.is_valid():
 
-				return form.process_confirmation()
-				#form = ConfirmationForm(**kwargs)
+				card_number = request.POST.get('card_number', "")
+				name_on_card = request.POST.get('name_on_card', "")
+				expires = request.POST.get('expires', "")
+				cvv_code = request.POST.get('cvv_code', "")
+
+				if not card_number:
+					card_error.append("Card Number is a required field.")
+
+				if not name_on_card:
+					card_error.append("Name on card is a required field.")
+
+				if not expires:
+					card_error.append("Expires is a required field.")
+
+				if not cvv_code:
+					card_error.append("CVV Code is a required field.")
+
+				if len(card_error) == 0:
+
+					return form.process_confirmation()
+				else:
+					form = ConfirmationForm(**kwargs)
 		else:
 			form = ConfirmationForm(**kwargs)
 
@@ -185,6 +213,11 @@ class IdecorateShop(Shop):
 			'form': form,
 			'confirmed': request.GET.get('confirmed', False),
 			'progress': 'confirmation',
+			'card_error': card_error,
+			'card_number': card_number,
+			'name_on_card': name_on_card,
+			'expires': expires,
+			'cvv_code': cvv_code
 		})
 
 shop = IdecorateShop(

@@ -29,11 +29,12 @@
                   <li><a href="{% url upload_info_graphic %}">{% trans "Upload Home Infographics" %}</a></li>
                 </ul>
               </li>              
-              <li><a href="{% url manage_homepage %}">{% trans "Manage Homepage" %}</a></li>
+              <li><a href="{% url manage_homepage %}">{% trans "Manage Homepage" %}</a>
                 <ul>
                   <li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
                 </ul>
-              
+              </li>
+              <li><a href="{% url management_reports %}">{% trans "Inventory & Finance management report" %}</a></li>
               <li><a href="{% url admin_logout %}">{% trans "Logout" %}</a></li>
               <!--
               <li class="active"><a href="#">{% trans "Manage Menu" %}</a></li> 
