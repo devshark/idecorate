@@ -582,3 +582,10 @@ def getOppCostExcess(product):
 	retail_price = getProductPrice(product)
 	excess = getExcessStock(product)
 
+	if not retail_price:
+		retail_price = 0
+	if not excess:
+		excess = 0
+
+
+
