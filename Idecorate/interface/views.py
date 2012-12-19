@@ -755,8 +755,8 @@ def set_password_user(request, param):
 	except:
 		pass
 
-	#if not prof:
-	#	raise Http404
+	if not prof:
+		raise Http404
 
 
 	if request.method == "POST":
