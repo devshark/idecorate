@@ -1,4 +1,4 @@
-{% load i18n widget_tweaks admin humanize %}
+{% load i18n widget_tweaks admin humanize bootstrap_pagination %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
@@ -28,6 +28,12 @@
 		}
 		.cur {
 			text-align: right !important;
+		}
+		.pagination {
+			display: block;
+		}
+		.pagination a{
+			font-size: 12px;
 		}
         </style>
     </head>
@@ -95,11 +101,23 @@
 									<td class="cur">{{ item|getProductPrice|currency }}</td>
 									<td class="cur">{{ item|getRevenue }}</td>
 									<td class="cur">{{ item|getNetProfit }}</td>
-									<td class="cur">{{ item|getExcessStock }}</td>
+									<td>{{ item|getExcessStock }}</td>
+									<td class="cur">{{ item|getOppCostExcess }}</td>
+									<td></td>
+									<td class="cur"></td>
+									<td class="cur"></td>
+									<td class="cur"></td>
 								</tr> 
 								{% endfor %}
 							</tbody>
-						</table>
+							<tfoot>
+								<tr>
+									<td colspan="23">
+										{% bootstrap_paginate products url_get_params=other_params %}										
+									</td>
+								</tr>
+							</tfoot>
+						</table>						
 					</div>
     			</td>
     		</tr>
@@ -110,7 +128,7 @@
 					</div>
     			</td>
     		</tr>
-		</table>
+		</table>		
     </body>
 </html>
 

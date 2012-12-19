@@ -584,8 +584,13 @@ def getOppCostExcess(product):
 
 	if not retail_price:
 		retail_price = 0
+	else:
+		retail_price = decimal.Decimal(retail_price)
 	if not excess:
 		excess = 0
+	else:
+		excess = decimal.Decimal(excess)
 
+	opp_cost = retail_price*excess
 
-
+	return currency(opp_cost)
