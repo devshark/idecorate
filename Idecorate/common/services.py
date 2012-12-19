@@ -4,7 +4,6 @@ import logging
 import requests
 import urlparse
 import urllib
-from lxml import etree
 
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -49,61 +48,6 @@ def ss_direct(params, url, secure=False):
         
     return result
 
-
-def cp_through_browser(params, url, secure=False):
-    """
-    API for Client Post Through Browser.
-
-    @param url: PayDollar post url
-    @param params: dictionary of parameters to be posted to PayDollar
-    @param secure: Boolean, wether or not we should generate secure hash
-
-    @return rendered html form ready for submission
-    """
-
-    if secure:
-        params['secureHash'] = generate_secure_hash(
-            params['merchantId'],
-            params['orderRef'],
-            params['currCode'],
-            params['amount'],
-            params['payType'],
-            settings.PAYDOLLAR_SECURE_HASH_SECRET)
-
-    #logger.debug("PPS Payload: %s" % str(params))
-
-    return render_to_string('purchasing/paydollar/client_post_form.html', params)
-
-
-def query_payment_status(params, url):
-    """
-    API for Query Payment Status.
-    """
-    #logger.debug("QueryPaymentStatus Payload: %s" % str(params))
-
-    params = urllib.urlencode(params)
-    headers = {"Content-type": "application/x-www-form-urlencoded"}
-    response = requests.post(url, data=params, headers=headers, verify=True)
-    response = response.text.replace('encoding="ISO-8859-1"', '')
-
-    try:
-        root = etree.fromstring(response)
-        order_status = root.find(".//orderStatus")
-        error_msg = root.find(".//errMsg")
-        if order_status is None:
-            msg = "unable to find orderStatus xml tag: %s" % response
-            print msg
-            #logger.debug(msg)
-            return False, msg
-        return order_status.text.strip(), error_msg.text.strip()
-    except etree.XMLSyntaxError:
-        response = flatten_response(urlparse.parse_qs(response))
-        msg = "invalid xml response: %s" % str(response)
-        print msg
-        #logger.debug(msg)
-        return False, msg
-
-
 def generate_secure_hash(merchant_id, order_ref, curr, amount, pay_type,
     hash_secret):
     """
@@ -120,7 +64,6 @@ def generate_secure_hash(merchant_id, order_ref, curr, amount, pay_type,
     print param_str
     #logger.debug(param_str)
     return hashlib.sha1(param_str).hexdigest()
-
 
 def verify_secure_hash(src, prc, success_code, ref, pay_ref, curr, amount,
     payer_auth, hash_secret, secure_hash):

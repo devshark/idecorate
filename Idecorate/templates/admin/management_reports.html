@@ -1,0 +1,117 @@
+{% load i18n widget_tweaks admin humanize %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>iDecorate Wedding</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link href="/media/admin/css/bootstrap.css" rel="stylesheet">
+        <link runat="server" rel="shortcut icon" href="/media/images/favicon.2.ico" type="image/x-icon" />
+        <link rel="stylesheet" type="text/css" href="/media/admin/css/manage.template.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
+        <style type="text/css">
+        body {
+        	overflow: auto;
+        }
+        h2 {
+			font-size: 31.5px;
+			font-weight: bold;
+			text-align: center;
+			padding: 10px 0
+		}
+		table.table thead th {
+			text-transform: uppercase;
+			white-space: nowrap;
+		}
+		.cur {
+			text-align: right !important;
+		}
+        </style>
+    </head>
+    <body>
+    	<table>
+    		<tr>
+    			<td>
+    				<div id="manage-template-header" class="header  clearfix">
+			    		<h1>iDecorate</h1>
+			            {% include "admin/navbar.html" %}
+			    	</div>
+    			</td>
+    		</tr> 
+    		<tr>
+    			<td>
+    				<div class="mainContent" id="manage-template-main">
+						<h2>{% trans "Inventory & Finance management report" %}</h2>
+						<table class="table table-striped table-hover table-bordered">
+							<thead>
+								<tr>
+									<th>Picture</th>
+									<th>Item Name</th>
+									<th>Item Category</th>
+									<th>Item Code</th>
+									<th>Comments</th>
+									<th>Size</th>
+									<th>Colour</th>
+									<th>Description</th>
+									<th>Unit Price (US$)</th>
+									<th>PCS/CTN</th>
+									<th>MOQ (CTNS)</th>
+									<th>MOQ (UNITS)</th>
+									<th>Cost of MOQ (US$)</th>
+									<th>QTY Sold</th>
+									<th>COGS</th>
+									<th>Retail Unit Price</th>
+									<th>Revenue</th>
+									<th>NET Profit</th>
+									<th>Excess Stock (Units)</th>
+									<th>OPPORTUNITY COST OF EXCESS (US$)</th>
+									<th>RESALE STOCK (UNITS)</th>
+									<th>RESALE PRICE @20% DISCOUNT (US$)</th>
+									<th>RESALE VALUE PAYABLE TO SELLER (US$)</th>
+									<th>NET RESALE PROFIT (US$)</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for item in products %}
+								<tr>
+									<td><img src="/media/products/{{ item.original_image_thumbnail }}" alt="" /></td>
+									<td>{{ item.name }}</td>
+									<td>{{ item|getProductCategoryName }}</td>
+									<td>{{ item.sku }}</td>
+									<td>{{ item|getProductDetail:'comment' }}</td>
+									<td>{{ item|getProductDetail:'size' }}</td>
+									<td>{{ item|getProductDetail:'colour' }}</td>
+									<td>{{ item.description|safe }}</td>
+									<td class="cur">{{ item|getProductDetail:'unitprice' }}</td>
+									<td>{{ item|getProductDetail:'pcsctn' }}</td>
+									<td>{{ item|getProductDetail:'moqctns' }}</td>
+									<td>{{ item|getProductDetail:'moqunits' }}</td>
+									<td class="cur">{{ item|getProductDetail:'costofmoq' }}</td>
+									<td>{{ item|getProductDetail:'qtysold' }}</td>
+									<td class="cur">{{ item|getProductDetail:'cogs' }}</td>
+									<td class="cur">{{ item|getProductPrice|currency }}</td>
+									<td class="cur">{{ item|getRevenue }}</td>
+									<td class="cur">{{ item|getNetProfit }}</td>
+									<td class="cur">{{ item|getExcessStock }}</td>
+								</tr> 
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+    			</td>
+    		</tr>
+    		<tr>
+    			<td>
+    				<div id="manage-template-footer" class="footer">
+						{% trans "&copy; IDecorate" %}
+					</div>
+    			</td>
+    		</tr>
+		</table>
+    </body>
+</html>
+
+
