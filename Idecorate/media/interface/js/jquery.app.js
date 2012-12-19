@@ -633,15 +633,17 @@ function box_droppable(){
             if ($(ui.draggable)[0].id != "") {
 
                 ui.helper.remove();
-                var Obj = $(ui.draggable)[0];
-                Obj = $(Obj);
+                var Obj         = $(ui.draggable)[0];
+                Obj             = $(Obj);
+                var _this       = this;
+                var this_width  = $(_this).width();
+                var this_height = $(_this).height();
 
                 if(Obj.hasClass('products')){
                     var uid         = Obj.attr('_uid');
                     var _img_src    = media_url+'products/';
                     var p_d_qty     = 1;
                     var p_g_t       = 'table';
-                    var _this       = this;
 
                     $.ajax({
                         url: PRODUCT_IMAGE_URL,
@@ -654,8 +656,6 @@ function box_droppable(){
                             var img_wo_bg   = data.no_background;
                             var p_d_qty     = data.default_quantity;
                             var p_g_t       = data.guest_table;
-                            var this_width  = $(_this).width();
-                            var this_height = $(_this).height()
 
                             //create new image using image object
                             var object = create_image_for_template({
@@ -692,9 +692,10 @@ function box_droppable(){
                     var type = Obj.attr('_type');
 
                     if(type == 'Text'){
-                        object = create_instance_em_text(em_dbID[1],e,type);
+                        //object = create_text_for_template(em_dbID[1],e,type);
                     }else{
-                        object = create_instance_embellishments(em_dbID[1],e,type);
+                        object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
+                        $(_this).html(object[0]);
                     }
                 }
             }
@@ -702,6 +703,47 @@ function box_droppable(){
     });
 }
 // functions related to template
+function create_embellishments_for_template(em_dbID,event,type,_width,_height){
+
+    var object      = $('<img/>');
+    var this_width    = 0;
+    var this_height   = 0;
+
+    object.attr({
+        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0&rand=' + new Date().getTime()
+    });
+
+    object.load(function(){
+        this_width = object.width();
+        this_height = object.height();
+
+        if(_width > _height){
+            var dim = do_aspectratio(this_width, this_height, 'height', _height/this_height);
+            console.log(dim)
+        }else{
+            console.log(dim)
+            var dim = do_aspectratio(this_width, this_height, 'width', _width/this_width);
+        }
+        object.width(dim.width).height(dim.height).css({
+            position : 'absolute',
+            top: (_height/2)-(dim.height/2),
+            left: (_width/2)-(dim.width/2)
+        });
+    });
+    
+   // if(type.toLowerCase() == 'shape' || type.toLowerCase() == 'texture' || type.toLowerCase() == 'text' || type.toLowerCase() == 'pattern'){
+   //      object.attr('_opacity', 100);
+   //      $( "#slider" ).slider({value:100});
+   //  }
+   //  slideValue = 100;
+   //  embellishment_handle_set(slideValue);
+
+    update_menu(object,true);
+    hide_canvas_menu();
+
+    return object;
+}
+
 function template_fill(){
     $('#canvas .template.box').each(function(i,val){
         if($(this).find('img').length > 0){
@@ -1855,6 +1897,10 @@ function undo_styleboard() {
         manage_subtotal();
         manage_total();
         styleboardH();
+
+        if($('.template').length > 0) {
+            box_droppable();
+        }
         
         eventTracker($('#canvas'),'undo');
     }
@@ -1880,6 +1926,10 @@ function redo_styleboard() {
         manage_subtotal();
         manage_total();
         styleboardH();
+
+        if($('.template').length > 0) {
+            box_droppable();
+        }
 
         eventTracker($('#canvas'),'redo');
     }
