@@ -66,16 +66,9 @@ $(document).ready(function(){
             }           
         }
         return false;
-    });
+    });    
     
-    // if($.browser.safari){
-    //     $('#uploadImage input[type=file]').blur(SITE.fileInputs);
-    // } else {
-        
-    // }
-    
-    
-    if($.browser.safari){
+    if($.browser.safari || $.browser.msie){
         $('#btn-from-my-computer').hide();
         $('#uploadImage .file-wrapper input[type=file]').css({
             'opacity': 100,
@@ -490,9 +483,14 @@ function hideUploadEmbellishment(){
     $('.file-wrapper input[type="button"]').hide();
     $('#form_submit_button').hide();
 }
-function showUploadEmbellishment(){    
-    $('#picture').val('');
-    if (!$.browser.safari){
+function showUploadEmbellishment(){
+    if ($.browser.msie){
+        $('#picture').replaceWith($('#picture').clone());
+    } else {
+        $('#picture').val('');
+    }
+    
+    if (!$.browser.safari && !$.browser.msie){
         $('.file-wrapper input[type="button"]').show();
         $('#form_submit_button').hide();
     } else {

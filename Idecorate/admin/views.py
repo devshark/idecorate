@@ -2092,3 +2092,10 @@ def management_reports(request):
 
 	info['products'] = products
 	return render_to_response('admin/management_reports.html',info,RequestContext(request))
+
+@csrf_exempt
+def update_qty_sold(request):
+	if request.method == "POST":
+		pass
+	else:
+		return HttpResponseNotFound()

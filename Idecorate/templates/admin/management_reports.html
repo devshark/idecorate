@@ -35,6 +35,9 @@
 		.pagination a{
 			font-size: 12px;
 		}
+		input.qtySold {
+			text-align: center
+		}
         </style>
     </head>
     <body>
@@ -96,7 +99,7 @@
 									<td>{{ item|getProductDetail:'moqctns' }}</td>
 									<td>{{ item|getProductDetail:'moqunits' }}</td>
 									<td class="cur">{{ item|getProductDetail:'costofmoq' }}</td>
-									<td>{{ item|getProductDetail:'qtysold' }}</td>
+									<td><input class="span1 qtySold" id="{{ item.id }}" type="text" name="qty_sold" value="{{ item|getProductDetail:'qtysold' }}" /></td>
 									<td class="cur">{{ item|getProductDetail:'cogs' }}</td>
 									<td class="cur">{{ item|getProductPrice|currency }}</td>
 									<td class="cur">{{ item|getRevenue }}</td>
@@ -128,7 +131,22 @@
 					</div>
     			</td>
     		</tr>
-		</table>		
+		</table>
+		<script type="text/javascript" src="/media/admin/js/jquery-1.8.0.min.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$('.qtySold').keyup(function(e){
+		        var val = $(this).val();
+		        val = val.replace(/[^0-9]/g,'');
+		        val = val.replace(/\./g, '');
+		        $(this).val(val);
+		        var url = '';		        
+		        $.post(url,{ id:$(this).attr('id') }, function(data){
+
+		        });
+		    });
+		});
+		</script>
     </body>
 </html>
 
