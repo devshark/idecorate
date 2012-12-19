@@ -526,6 +526,15 @@ def admin_edit_product(request, prod_id):
     	unit_price = productDetails.unit_price
     	pieces_carton = productDetails.pieces_carton
     	min_order_qty_carton = productDetails.min_order_qty_carton
+    	min_order_qty_pieces = 0
+    	if pieces_carton and min_order_qty_carton:
+    		min_order_qty_pieces = int(pieces_carton)*int(min_order_qty_carton)
+    	cost_min_order_qty = 0
+    	if min_order_qty_pieces and unit_price:
+    		cost_min_order_qty = decimal.Decimal(min_order_qty_pieces) * decimal.Decimal(unit_price)
+    	info['min_order_qty_pieces'] = min_order_qty_pieces
+    	info['cost_min_order_qty'] = cost_min_order_qty
+    	cost_min_order_qty = None
     except Exception as e:
     	pass
 
