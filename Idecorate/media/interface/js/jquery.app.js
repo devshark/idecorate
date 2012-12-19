@@ -310,12 +310,7 @@ $(document).ready(function () {
 
     //hide handles and menus
     $(document).click(function(e){
-        var click =  $.contains($('#canvas .handles, #canvas .handles .handle')[0],e.target) ? true : e.target == $('#canvas .handles');
-        
-        if(!click){
-            remove_handles(e);
-            eventTracker(e.target, 'unselect');
-        }
+        unselect_all(e);
 
     }).keydown(function(e){
         
@@ -344,8 +339,8 @@ $(document).ready(function () {
     $('#remove-btn').click(function(e){
         e.preventDefault();
         if($('#canvas .template').length > 0){
-            $('#canvas .template.box.active').find('img').remove();
-            $('#canvas .template.box').removeClass('notEmpty hover active').find('span').show();
+            $('#canvas .template.box.active').removeClass('notEmpty').find('img').remove();
+            $('#canvas .template.box').removeClass('hover active').find('span').show();
         }else{
             objCounter--;
             updateZIndex($('.selected'));
@@ -632,8 +627,29 @@ $(document).ready(function () {
         notEmpty = false;
     });
 
-});
+    $('#canvas').on('mousedown', '.box', function(e){
+        $(this).addClass('active').siblings('.box').removeClass('active');
+        update_menu($(this).find('img'));
+        hide_canvas_menu();
+        $(document).unbind('click');
+        setTimeout(function(){
+            $(document).click(function(){
+                unselect_all(e);
+            });
+        },100);
+    });
 
+});
+function unselect_all(e){
+    var click =  $.contains($('#canvas .handles, #canvas .handles .handle , #canvas .box')[0],e.target) ? true : e.target == $('#canvas .handles');
+        
+        $('.box').removeClass('active');
+
+        if(!click){
+            remove_handles(e);
+            eventTracker(e.target, 'unselect');
+        }
+}
 //message in ie
 function ie_message() {
     //view message if ie version < 9
