@@ -83,11 +83,11 @@ class ProductDetails(models.Model):
     comment = models.TextField(db_column='comment', null=True, blank=True)
     size = models.CharField(db_column='size', max_length=255, null=True, blank=True)
     color = models.CharField(db_column='color', max_length=100, null=True, blank=True)
-    unit_price = models.DecimalField(db_column='unit_price', max_digits=6, decimal_places=2, null=True, blank=True)
+    unit_price = models.DecimalField(db_column='unit_price', max_digits=19, decimal_places=2, null=True, blank=True)
     pieces_carton = models.PositiveIntegerField(db_column='pieces_per_carton', null=True, blank=True)
     min_order_qty_carton = models.PositiveIntegerField(db_column='min_order_qty_carton', null=True, blank=True)
     min_order_qty_pieces = models.PositiveIntegerField(db_column='min_order_qty_pieces', null=True, blank=True)
-    cost_min_order_qty = models.DecimalField(db_column='cost_min_order_qty', max_digits=6, decimal_places=2, null=True, blank=True)
+    cost_min_order_qty = models.DecimalField(db_column='cost_min_order_qty', max_digits=19, decimal_places=2, null=True, blank=True)
     qty_sold = models.PositiveIntegerField(db_column='qty_sold', null=True, blank=True)
 
     class Meta:
