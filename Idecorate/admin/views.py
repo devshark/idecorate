@@ -38,6 +38,8 @@ from models import HomeBannerImages
 import Image as pil
 from django.utils.safestring import mark_safe
 import decimal
+from django.template import loader, Context
+from django.utils import simplejson
 
 @staff_member_required
 def admin(request):
@@ -2090,12 +2092,32 @@ def management_reports(request):
 	except EmptyPage:
 		products = paginator.page(paginator.num_pages)
 
-	info['products'] = products
+	info['products'] = product_list
 	return render_to_response('admin/management_reports.html',info,RequestContext(request))
 
 @csrf_exempt
 def update_qty_sold(request):
 	if request.method == "POST":
-		pass
+		id = request.POST['id']
+		qty_sold = request.POST['qty_sold']
+		try:
+			pd = ProductDetails.objects.get(product=Product.objects.get(id=id))
+			pd.qty_sold = qty_sold
+			pd.save()
+			return HttpResponse(1)
+		except:			
+			return HttpResponse(0)
+	else:
+		return HttpResponseNotFound()
+
+@csrf_exempt
+def export_innvetory_finance_report(request):
+	if request.method == "POST":
+		data = request.POST['data']
+		jdata = simplejson.loads(data)		
+		for dd in jdata:
+			print dd[0]
+		#print jdata
+		return HttpResponse(jdata, mimetype="application/json")
 	else:
 		return HttpResponseNotFound()

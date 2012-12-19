@@ -244,9 +244,11 @@ function manage_embellishment_pagination(){
             emb_offset = emb_item_per_page;            
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
-                    $(this).remove();
-                } else 
-                    $(this).removeClass('hidden');
+                   // do nothing
+                } else {
+                    $(this).removeClass('hidden');                    
+                }
+                    
             });
 
             emb_total_pages = Math.ceil(parseInt(emb_total_item_count)/emb_item_per_page);
@@ -348,7 +350,7 @@ function manage_embellishment_resize(){
             
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
-                    $(this).remove();
+                    $(this).addClass('hidden');
                 }
             });
 

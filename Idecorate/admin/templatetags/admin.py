@@ -467,7 +467,7 @@ def get_images(home_banner_id):
 def getProductCategoryName(product):
 	res = ''
 	for p in product.categories.all():
-		res += '<span>%s</span>' % p.name
+		res += '%s<br>' % p.name
 	return mark_safe(res)
 
 def getProductDetails(product):
@@ -525,8 +525,8 @@ def currency(dollars):
 	dollars = round(float(dollars), 2)
 	return "%s%s" % (intcomma(int(dollars)), ("%0.2f" % dollars)[-3:])
 
-@register.filter
-def getRevenue(product):
+
+def getRevenueRaw(product):
 	retail_price = getProductPrice(product)
 	qty_sold = getProductDetail(product,'qtysold')
 	qs = qty_sold
@@ -536,6 +536,11 @@ def getRevenue(product):
 		qs = decimal.Decimal(qty_sold)
 
 	rev = qs*decimal.Decimal(retail_price)
+	return rev
+
+@register.filter
+def getRevenue(product):
+	rev = getRevenueRaw(product)
 	if rev <= 0:
 		rev = ''
 	else:
@@ -545,7 +550,7 @@ def getRevenue(product):
 
 @register.filter
 def getNetProfit(product):
-	rev = getRevenue(product)
+	rev = getRevenueRaw(product)	
 	cogs = getProductDetail(product,'cogs')
 	if not rev:
 		rev = 0
