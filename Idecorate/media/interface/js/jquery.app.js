@@ -740,10 +740,22 @@ function box_droppable(){
                         //object = create_text_for_template(em_dbID[1],e,type);
                     }else{
                         object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
+                        var currentProd = $(_this).find('img').attr('_uid');
+
+
+                        if(currentProd) {
+                            remove_from_cart(parseInt(currentProd,10));
+                        }
+
                         $(_this).html(object[0]);
                         if(!$(_this).hasClass('active')){
                             $(_this).addClass('active').siblings().removeClass('active');
                         }
+
+                        setTimeout(function(){
+                            eventTracker($(_this),'drop_object');
+                        },100);
+
                     }
                 }
             }
