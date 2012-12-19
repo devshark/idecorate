@@ -112,6 +112,8 @@
           background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
           /* for firefox 3.6+ */ }
         .paymentWrapper fieldset .paymentDetails1 .submit a {
+          display: block;
+          float: left;
           width: 100px !important;
           padding: 3px 3px 2px 3px;
           margin-left: 5px;
