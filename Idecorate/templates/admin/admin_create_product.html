@@ -41,7 +41,19 @@
   .treeinput {
     margin-bottom: 5px !important;
   }
-
+  /*
+  .curCode {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+    color: #555;
+  }
+  .controls {
+    position: relative;
+  }
+  .controls input[type="text"] {
+    padding-left: 13px;
+  }*/
 </style>
 {% endblock %}
 
@@ -49,7 +61,7 @@
 	<h1>{% trans "Create Product" %}</h1>
 	<div>&nbsp;</div>
 
-      {% if form.product_status.errors or form.product_sku.errors or form.product_name.errors or form.price.errors or form.product_description.errors or form.original_image.errors or form.no_background.errors or form.default_quantity.errors or form.categories.errors %}
+      {% if form.errors %}
 
       <div class="alert alert-error">
         <a class="close" data-dismiss="alert" href="#">×</a>
@@ -167,8 +179,8 @@
             <div class="span12">
               <div class="control-group">
                 <label class="control-label">{{ form.price.label }} *</label>
-                <div class="controls">$
-                  {{ form.price|add_class:"input-xlarge"|attr:"placeholder:Price" }}
+                <div class="controls">
+                  <span class="curCode">$</span> {{ form.price|add_class:"input-xlarge"|attr:"placeholder:Price" }}
                   <span class="help-block">{{ form.price.help_text }}</span>
                 </div>
               </div>
@@ -306,7 +318,7 @@
               <div class="control-group">
                 <label class="control-label">{{ form.unit_price.label }}:</label>
                 <div class="controls">
-                  $ {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
+                  <span class="curCode">$</span> {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
                 </div>
               </div>
             </div><!--/span-->          
