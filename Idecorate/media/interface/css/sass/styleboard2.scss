@@ -821,6 +821,24 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						outline:none;
 					}
 
+					.box.active{
+						background-color: rgba(255,255,255,0.6) !important;
+						outline: 1px dashed #999;
+					}
+
+					.box.active img{
+						/* IE 8 */
+						-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
+						/* IE 5-7 */
+						filter: alpha(opacity=60);
+						/* Netscape */
+						-moz-opacity: 0.6;
+						/* Safari 1.x */
+						-khtml-opacity: 0.6;
+						/* Good browsers */
+						opacity: 0.6;
+					}
+
 					.product:hover{
 						outline:1px solid #DDD;
 					}
