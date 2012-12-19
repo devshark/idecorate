@@ -27,6 +27,8 @@ import re
 from customer.services import get_styleboard_cart_item, get_user_styleboard
 from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
+from django.contrib.auth.forms import AuthenticationForm
+from common.services import ss_direct
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
@@ -178,6 +180,8 @@ class IdecorateShop(Shop):
 			'shop': self,
 		}
 
+		#print "The total is: %.2f" % order.total
+
 		if request.method == 'POST':
 			form = ConfirmationForm(request.POST, **kwargs)
 
@@ -196,13 +200,49 @@ class IdecorateShop(Shop):
 
 				if not expires:
 					card_error.append("Expires is a required field.")
+				else:
+					if not re.search('/',expires):
+						card_error.append("Invalid Expires value.")
 
 				if not cvv_code:
 					card_error.append("CVV Code is a required field.")
 
 				if len(card_error) == 0:
 
-					return form.process_confirmation()
+					url = settings.PAYDOLLAR_SS_DIRECT_URL
+					params = {}
+					pMethod = request.session.get('order-payment_method','')
+
+					if pMethod == "Visa":
+						pMethod = "VISA"
+					elif pMethod == "Mastercard":
+						pMethod = "Master"
+					else:
+						pMethod = "AMEX"
+
+					splittedExpires = str(expires).split("/")
+
+					params['orderRef'] = str(order.id)
+					params['amount'] = "%.2f" % order.total
+					params['currCode'] = settings.PAYDOLLAR_CURRENCY
+					params['lang'] = "E"
+					params['merchantId'] = settings.PAYDOLLAR_MERCHANT_ID
+					params['pMethod'] = pMethod
+					params['epMonth'] = splittedExpires[0]
+					params['epYear'] = splittedExpires[1]
+					params['cardNo'] = card_number
+					params['cardHolder'] = name_on_card
+					params['securityCode'] = cvv_code
+					params['payType'] = "N"
+
+					ret = ss_direct(params, url, True)
+
+					if int(ret['successcode']) == -1:
+
+						card_error.append(ret['errMsg'])
+						form = ConfirmationForm(**kwargs)
+					else:					
+						return form.process_confirmation()
 				else:
 					form = ConfirmationForm(**kwargs)
 		else:
@@ -219,6 +259,54 @@ class IdecorateShop(Shop):
 			'expires': expires,
 			'cvv_code': cvv_code
 		})
+
+	def checkout(self, request, order):
+		"""Handles the first step of the checkout process"""
+		if not request.user.is_authenticated():
+			if request.method == 'POST' and '_login' in request.POST:
+				loginform = AuthenticationForm(data=request.POST, prefix='login')
+
+				if loginform.is_valid():
+					user = loginform.get_user()
+					auth.login(request, user)
+
+					order.user = user
+					order.save()
+
+					return HttpResponseRedirect('.')
+			else:
+				loginform = AuthenticationForm(prefix='login')
+		else:
+			loginform = None
+
+		if order.status < order.CHECKOUT:
+			order.update_status(order.CHECKOUT, 'Checkout process started')
+
+		OrderForm = self.checkout_form(request, order)
+
+		orderform_kwargs = {
+			'prefix': 'order',
+			'instance': order,
+			'request': request,
+			'shop': self,
+			}
+
+		if request.method == 'POST' and '_checkout' in request.POST:
+			orderform = OrderForm(request.POST, **orderform_kwargs)
+
+			if orderform.is_valid():
+				orderform.save()
+				request.session['order-payment_method'] = request.POST.get('order-payment_method','') 
+				return redirect('plata_shop_discounts')
+		else:
+			orderform = OrderForm(**orderform_kwargs)
+
+		return self.render_checkout(request, {
+			'order': order,
+			'loginform': loginform,
+			'orderform': orderform,
+			'progress': 'checkout',
+			})
 
 shop = IdecorateShop(
 	contact_model=Contact,

@@ -15,6 +15,7 @@ python-magic==0.4.3
 python-memcached==1.48
 python-openid==2.2.5
 reportlab==2.5
+requests==1.0.3
 simplejson==2.6.1
 wsgiref==0.1.2
 xlwt==0.7.4

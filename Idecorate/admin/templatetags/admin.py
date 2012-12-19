@@ -543,6 +543,49 @@ def getRevenue(product):
 
 	return rev
 
+@register.filter
 def getNetProfit(product):
 	rev = getRevenue(product)
 	cogs = getProductDetail(product,'cogs')
+	if not rev:
+		rev = 0
+	else:
+		rev = decimal.Decimal(rev)
+
+	if not cogs:
+		cogs = 0
+	else:
+		rev = decimal.Decimal(cogs)
+
+	net_profit = rev-cogs
+	if not net_profit:
+		net_profit = ''
+	else:
+		net_profit = currency(net_profit)
+	return net_profit
+
+@register.filter
+def getExcessStock(product):
+	moqunits = getProductDetail(product, 'moqunits')
+	qtysold = getProductDetail(product, 'qtysold')
+
+	if not moqunits:
+		moqunits = 0
+	if not qtysold:
+		qtysold = 0
+
+	excessstock = moqunits-qtysold
+	return excessstock
+
+@register.filter
+def getOppCostExcess(product):
+	retail_price = getProductPrice(product)
+	excess = getExcessStock(product)
+
+	if not retail_price:
+		retail_price = 0
+	if not excess:
+		excess = 0
+
+
+

@@ -13,8 +13,7 @@
       color: black; }
     .staticWrapper fieldset p {
       margin: 15px 0;
-      align: justify;
-      text-indent: 25px; }
+      text-align: justify; }
     .staticWrapper fieldset div {
       margin: 10px 0; }
     .staticWrapper fieldset .end {
