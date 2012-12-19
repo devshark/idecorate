@@ -6,9 +6,9 @@
 {% endblock %}
 {% block content %}
 <div class="clearfix paymentWrapper">
-	<h3>Payment</h3>
+	<h3>PAYMENT</h3>
 	<fieldset>
-		<legend>Details</legend>
+		<legend>DETAILS</legend>
 		<div class="clearfix errorWrapper">
 			<div class="clearfix errorBlock">
 				<a href="" class="closeX">x</a>
@@ -24,27 +24,10 @@
 			<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />
 			<input type="hidden" name="terms_and_conditions" value="on" />
 			{% csrf_token %}
-			<div class="clearfix reqMessage">
-				* fields are required
-			</div>
+			
 			<div class="paymentDetails1">
-				<div class="clearfix inputWrapper">
-					<label>Payment method *</label>
-					<select>
-						<option>---------</option>
-						<option>Credit Card</option>
-						<option>PPS</option>
-						<option>CUP - China Issued</option>
-					</select>
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>Card type *</label>
-					<select>
-						<option>---------</option>
-						<option>Visa</option>
-						<option>Mastercard</option>
-						<option>American Express</option>
-					</select>
+				<div class="clearfix reqMessage">
+					* fields are required
 				</div>
 				<div class="clearfix inputWrapper">
 					<label>Card number *</label>
@@ -62,30 +45,8 @@
 					<label>CVV code *</label>
 					<input type="text" />
 				</div>
-			</div>
-			<div class="paymentDetails2">
-				<div class="clearfix inputWrapper">
-					<label>Billing address *</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>Address2 *</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>Address3 *</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>Country *</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>City *</label>
-					<input type="text" />
-				</div>
 				<div class="clearfix inputWrapper submit">
-					<input type="Submit" value="Submit" />
+					<input type="Submit" value="SUBMIT" />
 				</div>
 			</div>
 		</form>
@@ -93,6 +54,7 @@
 </div>
 {% endblock %}
 {% block javascripts %}
+<!--
 <script type="text/javascript">
 $(function(){
 
@@ -114,5 +76,5 @@ function page_H(){
 		}
 
 }
-</script>
+</script>-->
 {% endblock %}
