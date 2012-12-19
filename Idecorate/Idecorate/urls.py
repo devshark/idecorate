@@ -66,6 +66,7 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/info_graphic_upload/$', 'upload_info_graphic', {}, name='upload_info_graphic'),
     url(r'^admin/upload_temp_infographic/$', 'upload_temp_infographic', {}, name='upload_temp_infographic'),    
     url(r'^admin/set_infographic_status/$', 'set_infographic_status', {}, name='set_infographic_status'),
+    url(r'^admin/management_reports/$', 'management_reports', {}, name='management_reports'),
 
 )
 

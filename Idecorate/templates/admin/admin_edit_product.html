@@ -97,6 +97,16 @@
           {% for e in form.default_quantity.errors %}
             <li>{{ e }}</li>
           {% endfor %}
+
+          {% for e in form.unit_price.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.pieces_carton.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.min_order_qty_carton.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
         </ol> 
       </div>
 
@@ -297,9 +307,20 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
+                <label class="control-label">{{ form.color.label }}:</label>
+                <div class="controls">
+                  {{ form.color|add_class:"input-xlarge"|attr:"placeholder:Color" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
                 <label class="control-label">{{ form.unit_price.label }}:</label>
                 <div class="controls">
-                  {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
+                  $ {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
                 </div>
               </div>
             </div><!--/span-->          
@@ -322,6 +343,28 @@
                 <label class="control-label">{{ form.min_order_qty_carton.label }}:</label>
                 <div class="controls">
                   {{ form.min_order_qty_carton|add_class:"input-xlarge"|attr:"placeholder:Minimum Order Quantity/Carton" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Minmum Order Quantity/Pieces:</label>
+                <div class="controls" style="padding-top: 10px;">
+                  {{ min_order_qty_pieces }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">Cost of Minimum Order Quantity:</label>
+                <div class="controls" style="padding-top: 10px;">
+                  $ {{ cost_min_order_qty }}
                 </div>
               </div>
             </div><!--/span-->          

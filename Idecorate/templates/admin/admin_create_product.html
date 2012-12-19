@@ -82,6 +82,16 @@
           {% for e in form.default_quantity.errors %}
             <li>{{ e }}</li>
           {% endfor %}
+
+          {% for e in form.unit_price.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.pieces_carton.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.min_order_qty_carton.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
         </ol> 
       </div>
 
@@ -283,9 +293,20 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
+                <label class="control-label">{{ form.color.label }}:</label>
+                <div class="controls">
+                  {{ form.color|add_class:"input-xlarge"|attr:"placeholder:Color" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
                 <label class="control-label">{{ form.unit_price.label }}:</label>
                 <div class="controls">
-                  {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
+                  $ {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
                 </div>
               </div>
             </div><!--/span-->          

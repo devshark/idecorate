@@ -470,6 +470,7 @@ def admin_create_product(request):
 	    		productDetails.product = product
 	    		productDetails.comment = form.cleaned_data['comment']
 	    		productDetails.size = form.cleaned_data['size']
+	    		productDetails.color = form.cleaned_data['color']
 	    		productDetails.unit_price = unit_price
 	    		productDetails.pieces_carton = pieces_carton
 	    		productDetails.min_order_qty_carton = min_order_qty_carton
@@ -515,14 +516,25 @@ def admin_edit_product(request, prod_id):
     unit_price = ''
     pieces_carton = ''
     min_order_qty_carton = ''
+    color = ''
 
     try:
     	productDetails = ProductDetails.objects.get(product=product)
     	comment = productDetails.comment
     	size = productDetails.size
+    	color = productDetails.color
     	unit_price = productDetails.unit_price
     	pieces_carton = productDetails.pieces_carton
     	min_order_qty_carton = productDetails.min_order_qty_carton
+    	min_order_qty_pieces = 0
+    	if pieces_carton and min_order_qty_carton:
+    		min_order_qty_pieces = int(pieces_carton)*int(min_order_qty_carton)
+    	cost_min_order_qty = 0
+    	if min_order_qty_pieces and unit_price:
+    		cost_min_order_qty = decimal.Decimal(min_order_qty_pieces) * decimal.Decimal(unit_price)
+    	info['min_order_qty_pieces'] = min_order_qty_pieces
+    	info['cost_min_order_qty'] = cost_min_order_qty
+    	cost_min_order_qty = None
     except Exception as e:
     	pass
 
@@ -541,7 +553,8 @@ def admin_edit_product(request, prod_id):
     	'size':size,
     	'unit_price':unit_price,
     	'pieces_carton':pieces_carton,
-    	'min_order_qty_carton':min_order_qty_carton
+    	'min_order_qty_carton':min_order_qty_carton,
+    	'color':color
     }
 
     form = EditProductForm(initial=info['initial_form_data'],product_id=int(prod_id))
@@ -659,6 +672,7 @@ def admin_edit_product(request, prod_id):
 					productDetails.product = product
 				productDetails.comment = form.cleaned_data['comment']
 				productDetails.size = form.cleaned_data['size']
+				productDetails.color = form.cleaned_data['color']
 				productDetails.unit_price = unit_price
 				productDetails.pieces_carton = pieces_carton
 				productDetails.min_order_qty_carton = min_order_qty_carton
@@ -2062,3 +2076,9 @@ def clear_template_session(request):
 def new_template(request):
 	clear_template_session(request)
 	return redirect('manage_template')
+
+def management_reports(request):
+	info = {}
+	products = Product.objects.all()
+	info['products'] = products
+	return render_to_response('admin/management_reports.html',info,RequestContext(request))

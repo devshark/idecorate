@@ -5,10 +5,11 @@ from menu.models import InfoMenu, SiteMenu, FooterMenu
 from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
-from cart.models import ProductPrice
+from cart.models import ProductPrice, ProductDetails
 from customer.models import CustomerProfile
-from django.contrib.humanize.templatetags.humanize import naturaltime
+from django.contrib.humanize.templatetags.humanize import naturaltime, intcomma
 from interface.views import admin as admin2
+import decimal
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -460,4 +461,124 @@ def get_images(home_banner_id):
 		ret += '<a href="#" rel="%s">Image %s</a><br />' % (image.image, i);
 		++i
 	
-	return images	
+	return images
+
+@register.filter
+def getProductCategoryName(product):
+	res = ''
+	for p in product.categories.all():
+		res += '<span>%s</span>' % p.name
+	return mark_safe(res)
+
+def getProductDetails(product):
+	try:
+		return ProductDetails.objects.get(product=product)
+	except:
+		return False
+
+@register.filter
+def getProductDetail(product,what):
+	prod = getProductDetails(product)
+	if not prod:
+		return ''
+	else:
+		r = ''
+		if what=='comment':
+			r = mark_safe(prod.comment)
+		elif what=='size':
+			r = prod.size
+		elif what=='colour':
+			r = prod.color
+		elif what=='unitprice':
+			r = prod.unit_price
+		elif what=='pcsctn':
+			r = prod.pieces_carton
+		elif what=='moqctns':
+			r = prod.min_order_qty_carton
+		elif what=='moqunits':
+			r = prod.min_order_qty_pieces
+		elif what=='costofmoq':
+			r = prod.cost_min_order_qty
+		elif what=='qtysold':
+			r = prod.qty_sold
+		elif what=='cogs':
+			up = prod.unit_price
+			if not up:
+				up = 0
+			qs = prod.qty_sold
+			if not qs:
+				qs = 0 
+			r = decimal.Decimal(up)*decimal.Decimal(qs)
+		elif what=='rev':
+			qs = prod.qty_sold
+			if not qs:
+				qs = 0 
+
+
+		if not r:
+			r = ''
+
+		return r
+
+@register.filter
+def currency(dollars):
+	dollars = round(float(dollars), 2)
+	return "%s%s" % (intcomma(int(dollars)), ("%0.2f" % dollars)[-3:])
+
+@register.filter
+def getRevenue(product):
+	retail_price = getProductPrice(product)
+	qty_sold = getProductDetail(product,'qtysold')
+	qs = qty_sold
+	if not qs:
+		qs = 0
+	else:
+		qs = decimal.Decimal(qty_sold)
+
+	rev = qs*decimal.Decimal(retail_price)
+	if rev <= 0:
+		rev = ''
+	else:
+		rev = currency(rev)
+
+	return rev
+
+@register.filter
+def getNetProfit(product):
+	rev = getRevenue(product)
+	cogs = getProductDetail(product,'cogs')
+	if not rev:
+		rev = 0
+	else:
+		rev = decimal.Decimal(rev)
+
+	if not cogs:
+		cogs = 0
+	else:
+		rev = decimal.Decimal(cogs)
+
+	net_profit = rev-cogs
+	if not net_profit:
+		net_profit = ''
+	else:
+		net_profit = currency(net_profit)
+	return net_profit
+
+@register.filter
+def getExcessStock(product):
+	moqunits = getProductDetail(product, 'moqunits')
+	qtysold = getProductDetail(product, 'qtysold')
+
+	if not moqunits:
+		moqunits = 0
+	if not qtysold:
+		qtysold = 0
+
+	excessstock = moqunits-qtysold
+	return excessstock
+
+@register.filter
+def getOppCostExcess(product):
+	retail_price = getProductPrice(product)
+	excess = getExcessStock(product)
+
