@@ -213,7 +213,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 				#sidebar-nav{
 					display:block;
-					background-color: #FFF;
+					background-color: #EFECE6;
 
 					li{
 						display:block;
@@ -223,11 +223,9 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							display:block;
 							background-color: #EEEEEE;
 							font-size: 14em/$default_font_size;
-							color:#000;
+							color:#FFFFFF;
+							font-weight: bold;
 							position:relative;
-							-webkit-border-top-right-radius: 10px;
-							-moz-border-radius-topright: 10px;
-							border-top-right-radius: 10px;
 							padding: 8px 30px;
 							text-transform: uppercase;
 						}
@@ -238,84 +236,71 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 						a#createTab{
 							z-index: 1;
-							border-top:1px solid #99a237;
-							border-left:1px solid #99a237;
-							border-right:1px solid #99a237;
-							*background-color: #c3c97d;
-							filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c3c97d', endColorstr='#98a138',GradientType=0 ); /* for IE */
-							background: -webkit-gradient(linear, left top, left bottom, from(#c3c97d), to(#98a138)); /* for webkit browsers */
-							background: -moz-linear-gradient(top,  #c3c97d,  #98a138); /* for firefox 3.6+ */
-							background: -o-linear-gradient(top,  #c3c97d,  #98a138);
+							border-top:1px solid #666666;
+							border-left:1px solid #666666;
+							border-right:1px solid #666666;
+							*background-color: #666666;
+							background-color: #666666;
 						}
 
 						a#createTab:hover{
 							*background-color: #727629;
-							filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99a237', endColorstr='#727629',GradientType=0 ); /* for IE */
-							background: -webkit-gradient(linear, left top, left bottom, from(#99a237), to(#727629)); /* for webkit browsers */
-							background: -moz-linear-gradient(top,  #99a237,  #727629); /* for firefox 3.6+ */
-							background: -o-linear-gradient(top,  #99a237,  #727629);
 						}
 
 						a#createTab.active{
-							*background-color: #727629;
-							filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#99a237', endColorstr='#727629'); /* for IE */
-							background: -webkit-gradient(linear, left top, left bottom, from(#99a237), to(#727629)); /* for webkit browsers */
-							background: -moz-linear-gradient(top,  #99a237,  #727629); /* for firefox 3.6+ */
-							background: -o-linear-gradient(top,  #99a237,  #727629);
+							font-weight: bold;
+							color: #000000;
+							background-color: #FFFFFF;
+							*background-color: #FFFFFF;
 						}
 
 						a#buyTab{
-							*background-color: #f8e0de;
-							border-top:1px solid #FFC5C3;
-							border-left:1px solid #FFC5C3;
-							border-right:1px solid #FFC5C3;
+							*background-color: #666666;
+							background-color: #666666;
+							border-top:1px solid #666666;
+							border-left:1px solid #666666;
+							border-right:1px solid #666666;
 							padding: 8px 30px 8px 35px;
 							margin-left: -10px;
-							filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8e0de', endColorstr='#da9b94',GradientType=0 ); /* for IE */
-							background: -webkit-gradient(linear, left top, left bottom, from(#f8e0de), to(#da9b94)); /* for webkit browsers */
-							background: -moz-linear-gradient(top,  #f8e0de,  #da9b94); /* for firefox 3.6+ */
-							background: -o-linear-gradient(top,  #f8e0de,  #da9b94);
 						}
 
 						a#buyTab:hover{
-							*background-color: #C7544E;
-							filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E',GradientType=0 ); /* for IE */
-							background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */
-							background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
-							background: -o-linear-gradient(top,  #FFC5C3,  #C7544E);
+							*background-color: #666666;
+							background-color: #666666;
+							color: #FFFFFF;
 						}
 
 						a#buyTab.active{
-							*background-color: #C7544E;
-							filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E',GradientType=0 ); /* for IE */
-							background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */
-							background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
-							background: -o-linear-gradient(top,  #FFC5C3,  #C7544E);
+							*background-color: #FFFFFF;
+							background-color: #FFFFFF;
+							color: #000000;
 						}
 					}
 				}
 
 				#sidebar{
-					background-color: #fbf6f0;
+					background-color: #FFFFFF;
 					box-shadow:2px 2px 3px #999;
 
 					#sidebar-form-wrap{
 
 						h3{
-							margin: 5px;
+							margin: 5px 5px 0px 5px;
+							padding: 5px;
 							position:relative;
-							color: #000;
+							color: #FFFFFF;
+							background-color: #000000;
 							font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
 							font-size: 21px;
 
 							.myorder-edit{
-								right: 0;
-								top: 3px;
+								right: 5px;
+								top: 10px;
 								position:absolute;
 								font-size: 12px;
 
 								a{
-									color: #000;
+									color: #FFFFFF;
 								}
 
 								a:hover{
@@ -329,9 +314,11 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							}
 						}
 						fieldset{
-							margin: 5px;
+							margin: 0px 5px 5px 5px;
 							padding: 5px;
-							border-top: 2px dotted #000;
+							border-left: 1px solid;
+							border-right: 1px solid;
+							border-bottom: 1px solid;
 
 							.sidebarInputs{
 								width: 50%;
@@ -359,12 +346,18 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								width: 50%;
 								float:right;
 								margin-top: 10px;
-								text-align:right;
+								text-align: center;
 
 								h5 {
 									color:#000;
+									background-color: #efece6;
+									padding: 10px 0;
+									font-weight: bold;
+
 									span{
 										font-weight: bold;
+										margin-top: 5px;
+										display: block;
 									}
 								}
 							}
@@ -372,7 +365,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 					}
 
 					#create-tab{
-						background-color:#f0ebe5;
+						background-color:#FFFFFF;
 
 						#create-tab-nav{
 							border-bottom: 2px dotted #000;
