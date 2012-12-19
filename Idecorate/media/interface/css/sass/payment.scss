@@ -80,7 +80,7 @@
 		
 
 		.paymentDetails1 {
-			width: 340px;
+			width: 360px;
 			padding-bottom: 15px;
 			margin: 0 auto;
 
@@ -111,6 +111,7 @@
 				}
 
 				input {
+					width: 200px;
 					border: 1px solid #CCC;
 					padding: 5px;
 					-moz-border-radius: 3px;
@@ -147,13 +148,12 @@
 			        background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
 				}
 
-				a {
+				button {
 					width: 100px !important;
-					padding: 3px 3px 2px 3px;
+					padding: 3px;
 					margin-left: 5px;
 					cursor: pointer;
-					font-size: 12px !important;
-					font-weight: bold;
+					font-size: 13px !important;
 					color: #000;
 					text-decoration: none;
 					filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
@@ -168,7 +168,7 @@
 					border: 1px solid #FFC5C3;
 				}
 
-				a:hover {
+				button:hover {
 			        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E'); /* for IE */
 			        background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */
 			        background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
