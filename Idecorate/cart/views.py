@@ -26,6 +26,7 @@ import re
 
 from customer.services import get_styleboard_cart_item, get_user_styleboard
 from idecorate_settings.models import IdecorateSettings
+from django.conf import settings
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
@@ -75,7 +76,7 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         self.fields['email'] = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
         self.fields['billing_last_name'] = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
         self.fields['billing_first_name'] = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
-        self.fields['payment_method'] = forms.ChoiceField(label=_("Payment Method"), choices=(('Paypal','Paypal'),('Visa_Mastercard','Visa/Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
+        self.fields['payment_method'] = forms.ChoiceField(label=_("Payment Method"), choices=(('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
 
         shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
         
@@ -163,6 +164,13 @@ class IdecorateShop(Shop):
 
 		order.recalculate_total()
 
+		card_error = []
+
+		card_number = ""
+		name_on_card = ""
+		expires = ""
+		cvv_code = ""
+
 		ConfirmationForm = self.confirmation_form(request, order)
 		kwargs = {
 			'order': order,
@@ -174,7 +182,29 @@ class IdecorateShop(Shop):
 			form = ConfirmationForm(request.POST, **kwargs)
 
 			if form.is_valid():
-				return form.process_confirmation()
+
+				card_number = request.POST.get('card_number', "")
+				name_on_card = request.POST.get('name_on_card', "")
+				expires = request.POST.get('expires', "")
+				cvv_code = request.POST.get('cvv_code', "")
+
+				if not card_number:
+					card_error.append("Card Number is a required field.")
+
+				if not name_on_card:
+					card_error.append("Name on card is a required field.")
+
+				if not expires:
+					card_error.append("Expires is a required field.")
+
+				if not cvv_code:
+					card_error.append("CVV Code is a required field.")
+
+				if len(card_error) == 0:
+
+					return form.process_confirmation()
+				else:
+					form = ConfirmationForm(**kwargs)
 		else:
 			form = ConfirmationForm(**kwargs)
 
@@ -183,6 +213,11 @@ class IdecorateShop(Shop):
 			'form': form,
 			'confirmed': request.GET.get('confirmed', False),
 			'progress': 'confirmation',
+			'card_error': card_error,
+			'card_number': card_number,
+			'name_on_card': name_on_card,
+			'expires': expires,
+			'cvv_code': cvv_code
 		})
 
 shop = IdecorateShop(

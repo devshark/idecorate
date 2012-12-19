@@ -39,16 +39,11 @@ $(document).ready(function () {
             containment: 'body',
             drag:function(e,ui){
                 template_fill();
-                // $('#canvas .box').css({
-                //     backgroundColor : '#FFF6DC',
-                //     border: '2px dashed #666'
-                // });
+                $('#canvas .box').addClass('dragHover');
             },
             stop: function(e, ui){
-                // $('#canvas .box').css({
-                //     backgroundColor : '#FFF',
-                //     border: '2px dashed #999'
-                // });
+                template_fill();
+                $('#canvas .box').removeClass('dragHover');
             }
 
         });
@@ -61,16 +56,11 @@ $(document).ready(function () {
             containment: 'body',
             drag:function(e,ui){
                 template_fill();
-                // $('#canvas .box').css({
-                //     backgroundColor : '#FFF6DC',
-                //     border: '2px dashed #666'
-                // });
+                $('#canvas .box').addClass('dragHover');
             },
             stop: function(e, ui){
-                // $('#canvas .box').css({
-                //     backgroundColor : '#FFF',
-                //     border: '2px dashed #999'
-                // });
+                template_fill();
+                $('#canvas .box').removeClass('dragHover');
             }
         });
 
@@ -590,7 +580,6 @@ $(document).ready(function () {
 
 
     //event handlers for templates
-
     $('.template-wrap').on('click', '.thumb', function(e){
         e.preventDefault();
         if($('#canvas .template').length > 0){
@@ -602,79 +591,14 @@ $(document).ready(function () {
 
         if(objects.length > 0){
             drop_template(objects);
-            $('#canvas .template.box').droppable({
-                drop: function (e, ui) {
-
-
-                    if ($(ui.draggable)[0].id != "") {
-
-                        ui.helper.remove();
-                        var Obj = $(ui.draggable)[0];
-                        Obj = $(Obj);
-
-                        if(Obj.hasClass('products')){
-                            var uid         = Obj.attr('_uid');
-                            var _img_src    = media_url+'products/';
-                            var p_d_qty     = 1;
-                            var p_g_t       = 'table';
-                            var _this       = this;
-
-                            $.ajax({
-                                url: PRODUCT_IMAGE_URL,
-                                type: "POST",
-                                data: {product_id: uid},
-                                async:   false,
-                                success: function(data){
-                                    var img_src     = '/'+_img_src+data.original_image;
-                                    var img_w_bg    = data.original_image;
-                                    var img_wo_bg   = data.no_background;
-                                    var p_d_qty     = data.default_quantity;
-                                    var p_g_t       = data.guest_table;
-                                    var this_width  = $(_this).width();
-                                    var this_height = $(_this).height()
-
-                                    //create new image using image object
-                                    var object = create_image_for_template({
-                                                _uid     : uid,
-                                                _event   : e,
-                                                _src     : img_src,
-                                                _img_wo_b: img_wo_bg,
-                                                _img_w_b : img_w_bg,
-                                                _p_d_qty : p_d_qty,
-                                                _p_g_t   : p_g_t,
-                                                _width   : this_width,
-                                                _height  : this_height
-                                            });
-
-                                    $(_this).html(object[0]);
-                                    eventTracker($(_this),'drop_object');
-                                },
-                                error: function(msg){
-                                    alert(msg);
-                                }
-                            });
-                            
-                            template_fill();
-
-                            add_to_cart(uid, p_d_qty, p_g_t);
-
-                        }else if(Obj.hasClass('em')){
-
-                            var em_id = Obj.attr('id');
-                            var em_dbID = em_id.split('-');
-                            var type = Obj.attr('_type');
-
-                            if(type == 'Text'){
-                                object = create_instance_em_text(em_dbID[1],e,type);
-                            }else{
-                                object = create_instance_embellishments(em_dbID[1],e,type);
-                            }
-                        }
-                    }
-                }
-            });
+            box_droppable();
         }
     });
+    
+    if($('#canvas .template').length > 0){
+        $('#canvas').droppable('disable').fadeTo(1,1);
+        box_droppable();
+    }
     
     var notEmpty = false;
     $('#canvas').on('mouseenter', '.box', function(e){
@@ -701,7 +625,131 @@ function ie_message() {
         alert('Sorry! Your browser does not support the following functionalities:  rotate, flip, flop, transparency changes, and personalizing style boards.\nPlease use one of the following browsers: Chrome, Firefox, Safari, or try upgrading your Internet Explorer to version 9.');
     }
 }
+
+function box_droppable(){
+    $('#canvas .template.box').droppable({
+        drop: function (e, ui) {
+
+            if ($(ui.draggable)[0].id != "") {
+
+                ui.helper.remove();
+                var Obj         = $(ui.draggable)[0];
+                Obj             = $(Obj);
+                var _this       = this;
+                var this_width  = $(_this).width();
+                var this_height = $(_this).height();
+
+                if(Obj.hasClass('products')){
+                    var uid         = Obj.attr('_uid');
+                    var _img_src    = media_url+'products/';
+                    var p_d_qty     = 1;
+                    var p_g_t       = 'table';
+
+                    $.ajax({
+                        url: PRODUCT_IMAGE_URL,
+                        type: "POST",
+                        data: {product_id: uid},
+                        async:   false,
+                        success: function(data){
+                            //console.log($(_this).find('img').attr('_uid'));
+                            var currentProd = $(_this).find('img').attr('_uid');
+                            var img_src     = '/'+_img_src+data.original_image;
+                            var img_w_bg    = data.original_image;
+                            var img_wo_bg   = data.no_background;
+                            var p_d_qty     = data.default_quantity;
+                            var p_g_t       = data.guest_table;
+
+                            //create new image using image object
+                            var object = create_image_for_template({
+                                        _uid     : uid,
+                                        _event   : e,
+                                        _src     : img_src,
+                                        _img_wo_b: img_wo_bg,
+                                        _img_w_b : img_w_bg,
+                                        _p_d_qty : p_d_qty,
+                                        _p_g_t   : p_g_t,
+                                        _width   : this_width,
+                                        _height  : this_height
+                                    });
+
+                            if(currentProd) {
+                                remove_from_cart(parseInt(currentProd,10));
+                            }
+
+                            $(_this).html(object[0]);
+                        },
+                        error: function(msg){
+                            alert(msg);
+                        }
+                    });
+                    
+                    template_fill();
+
+                    setTimeout(function(){
+                        eventTracker($(_this),'drop_object');
+                    },100);
+
+                    add_to_cart(uid, p_d_qty, p_g_t);
+
+                }else if(Obj.hasClass('em')){
+
+                    var em_id = Obj.attr('id');
+                    var em_dbID = em_id.split('-');
+                    var type = Obj.attr('_type');
+
+                    if(type == 'Text'){
+                        //object = create_text_for_template(em_dbID[1],e,type);
+                    }else{
+                        object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
+                        $(_this).html(object[0]);
+                    }
+                }
+            }
+        }
+    });
+}
 // functions related to template
+function create_embellishments_for_template(em_dbID,event,type,_width,_height){
+
+    var object      = $('<img/>');
+    var this_width    = 0;
+    var this_height   = 0;
+
+    object.attr({
+        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0&rand=' + new Date().getTime()
+    });
+
+    object.load(function(){
+        this_width = object.width();
+        this_height = object.height();
+
+        if(_width > _height){
+            var dim = do_aspectratio(this_width, this_height, 'height', _height/this_height);
+            console.log(dim)
+        }else{
+            console.log(dim)
+            var dim = do_aspectratio(this_width, this_height, 'width', _width/this_width);
+        }
+        object.width(dim.width).height(dim.height).css({
+            position : 'absolute',
+            top: (_height/2)-(dim.height/2),
+            left: (_width/2)-(dim.width/2)
+        });
+    });
+    
+   // if(type.toLowerCase() == 'shape' || type.toLowerCase() == 'texture' || type.toLowerCase() == 'text' || type.toLowerCase() == 'pattern'){
+   //      object.attr('_opacity', 100);
+   //      $( "#slider" ).slider({value:100});
+   //  }
+   //  slideValue = 100;
+   //  embellishment_handle_set(slideValue);
+
+    update_menu(object,true);
+    hide_canvas_menu();
+
+    return object;
+}
+
 function template_fill(){
     $('#canvas .template.box').each(function(i,val){
         if($(this).find('img').length > 0){
@@ -731,11 +779,36 @@ function create_image_for_template(options){
     object.load(function(){
         this_width = object.width();
         this_height = object.height();
+
+        if(options._width > options._height){
+            var dim = do_aspectratio(this_width, this_height, 'height', options._height/this_height);
+        }else{
+            var dim = do_aspectratio(this_width, this_height, 'width', options._width/this_width);
+        }
+        object.width(dim.width).height(dim.height).css({
+            position : 'absolute',
+            top: (options._height/2)-(dim.height/2),
+            left: (options._width/2)-(dim.width/2)
+        });
     });
-    object.width('100%').height('auto');
 
     return object;
     
+}
+
+function do_aspectratio(width, height, respect, percent){
+    
+    var dimension = new Array();
+    var aspectRatio = height/width;
+    if(respect == 'height'){
+        dimension['height'] = height*percent;
+        dimension['width'] = dimension['height']/aspectRatio;
+    }else if(respect == 'width'){
+        dimension['width'] = width*percent;
+        dimension['height'] = aspectRatio*dimension['width'];
+    }
+
+    return dimension;
 }
 
 function drop_template(objects){
@@ -1830,6 +1903,10 @@ function undo_styleboard() {
         manage_subtotal();
         manage_total();
         styleboardH();
+
+        if($('.template').length > 0) {
+            box_droppable();
+        }
         
         eventTracker($('#canvas'),'undo');
     }
@@ -1855,6 +1932,10 @@ function redo_styleboard() {
         manage_subtotal();
         manage_total();
         styleboardH();
+
+        if($('.template').length > 0) {
+            box_droppable();
+        }
 
         eventTracker($('#canvas'),'redo');
     }

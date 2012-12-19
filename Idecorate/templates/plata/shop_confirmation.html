@@ -6,86 +6,49 @@
 {% endblock %}
 {% block content %}
 <div class="clearfix paymentWrapper">
-	<h3>Payment</h3>
+	<h3>PAYMENT</h3>
 	<fieldset>
-		<legend>Details</legend>
+		<legend>DETAILS</legend>
+		{% if card_error %}
 		<div class="clearfix errorWrapper">
 			<div class="clearfix errorBlock">
 				<a href="" class="closeX">x</a>
 				<h4>Please correct the following errors:</h4>
 				<ol>
-					<li>Error 1</li>
-					<li>Error 2</li>
-					<li>Error 3</li>
+				{% for c_error in card_error %}
+				<li>{{ c_error }}</li>
+				{% endfor %}
 				</ol>
 			</div>
 		</div>
+		{% endif %}
 		<form action="" method="post">
 			<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />
 			<input type="hidden" name="terms_and_conditions" value="on" />
 			{% csrf_token %}
-			<div class="clearfix reqMessage">
-				* fields are required
-			</div>
+			
 			<div class="paymentDetails1">
-				<div class="clearfix inputWrapper">
-					<label>Payment method *</label>
-					<select>
-						<option>---------</option>
-						<option>Credit Card</option>
-						<option>PPS</option>
-						<option>CUP - China Issued</option>
-					</select>
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>Card type *</label>
-					<select>
-						<option>---------</option>
-						<option>Visa</option>
-						<option>Mastercard</option>
-						<option>American Express</option>
-					</select>
+				<div class="clearfix reqMessage">
+					* fields are required
 				</div>
 				<div class="clearfix inputWrapper">
 					<label>Card number *</label>
-					<input type="text" />
+					<input type="text" name="card_number" value="{{ card_number }}" />
 				</div>
 				<div class="clearfix inputWrapper">
 					<label>Name on card *</label>
-					<input type="text" />
+					<input type="text" name="name_on_card" value="{{ name_on_card }}" />
 				</div>
 				<div class="clearfix inputWrapper">
 					<label>Expires *</label>
-					<input type="text" placeholder="ie. 01/12 for January 2012" />
+					<input type="text" placeholder="ie. 01/12 for January 2012" name="expires" value="{{ expires }}" />
 				</div>
 				<div class="clearfix inputWrapper">
 					<label>CVV code *</label>
-					<input type="text" />
-				</div>
-			</div>
-			<div class="paymentDetails2">
-				<div class="clearfix inputWrapper">
-					<label>Billing address *</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>Address2 *</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>Address3 *</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>Country *</label>
-					<input type="text" />
-				</div>
-				<div class="clearfix inputWrapper">
-					<label>City *</label>
-					<input type="text" />
+					<input type="text" name="cvv_code" value="{{ cvv_code }}" />
 				</div>
 				<div class="clearfix inputWrapper submit">
-					<input type="Submit" value="Submit" />
+					<input type="Submit" value="SUBMIT" />
 				</div>
 			</div>
 		</form>
@@ -93,6 +56,7 @@
 </div>
 {% endblock %}
 {% block javascripts %}
+<!--
 <script type="text/javascript">
 $(function(){
 
@@ -114,5 +78,5 @@ function page_H(){
 		}
 
 }
-</script>
+</script>-->
 {% endblock %}

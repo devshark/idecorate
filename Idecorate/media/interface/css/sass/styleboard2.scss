@@ -820,14 +820,13 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							text-align: center;
 						}
 					}
-					.box.hover{
-						background-color: rgba(201,198,189,0.6);
+					.box.hover, .box.dragHover{
+						background-color: rgba(201,198,189,0.6) !important;
 					}
 					.box.notEmpty{
 						background: none;
 						outline:none;
 					}
-
 
 					.product:hover{
 						outline:1px solid #DDD;
