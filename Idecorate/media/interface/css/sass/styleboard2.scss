@@ -863,24 +863,25 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									font-size: 14px;
 									padding: 7px 0;
 									text-align: center;
-									*background-color: #EEEEEE;
-									color: #999;
+									*background-color: #EFECE6;
+									color: #666666;
+									font-weight: bold;
 									border-left:1px solid #CCC;
 									border-bottom:1px solid #CCC;
 									border-right:1px solid #CCC;
-									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#DDDDDD',GradientType=0 ); /* for IE */
-									background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#DDDDDD)); /* for webkit browsers */
-									background: -moz-linear-gradient(top,  #EEEEEE,  #DDDDDD); /* for firefox 3.6+ */
-									background: -o-linear-gradient(top,  #EEEEEE,  #DDDDDD);
+									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#EFECE6',GradientType=0 ); /* for IE */
+									background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#EFECE6)); /* for webkit browsers */
+									background: -moz-linear-gradient(top,  #EEEEEE,  #EFECE6); /* for firefox 3.6+ */
+									background: -o-linear-gradient(top,  #EEEEEE,  #EFECE6);
 								}
 								a#save{
-									border:1px solid #727629;
-									color: #FFF;
+									color: #666666;
+									font-weight: bold;
 									*background-color: #c3c97d;
-									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#c3c97d', endColorstr='#98a138',GradientType=0 ); /* for IE */
-									background: -webkit-gradient(linear, left top, left bottom, from(#c3c97d), to(#98a138)); /* for webkit browsers */
-									background: -moz-linear-gradient(top,  #c3c97d,  #98a138); /* for firefox 3.6+ */
-									background: -o-linear-gradient(top,  #c3c97d,  #98a138);
+									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8e2df', endColorstr='#e6b4b1',GradientType=0 ); /* for IE */
+									background: -webkit-gradient(linear, left top, left bottom, from(#f8e2df), to(#e6b4b1)); /* for webkit browsers */
+									background: -moz-linear-gradient(top,  #f8e2df,  #e6b4b1); /* for firefox 3.6+ */
+									background: -o-linear-gradient(top,  #f8e2df,  #e6b4b1);
 								}
 							}
 						}
@@ -903,8 +904,9 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								li{
 									display:block;
 									float: left;
+									background-color: #EFECE6;/*
 								  	background-color: rgba(225, 225, 225, 0.5);
-								  	background-color: #EEE\9;
+								  	background-color: #EEE\9;*/
 
 							  		a{
 										display: block;

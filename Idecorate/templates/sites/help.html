@@ -6,7 +6,7 @@
 {% block content %}
 <div class="clearfix staticWrapper">
 	<fieldset>
-		<legend>Help</legend>
+		<legend>HELP</legend>
 		<p>
 		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus imperdiet laoreet velit, ut cursus felis tempus a. Morbi tempor lacinia nunc, sed adipiscing odio volutpat eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id erat vitae neque mollis tempor sit amet eget purus. Suspendisse at lacus ipsum. In augue orci, imperdiet ac vulputate id, ornare in erat. Morbi in neque justo. Mauris volutpat dui sit amet arcu facilisis tempor. Etiam erat felis, posuere ac auctor vitae, condimentum lobortis justo.
 		</p>
@@ -29,26 +29,4 @@
 </div>
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript">
-$(function(){
-
-	page_H();
-	$(window).resize(page_H);
-
-});
-
-function page_H(){
-		
-	var windowH = $(window).height();
-		headerH = $('#header').outerHeight(true);
-		footerH = $('#footer').outerHeight(true);
-		newHeight = windowH - headerH - footerH - 50;
-		sectionH = $('.staticWrapper').outerHeight(true);
-		
-		if(sectionH < windowH) {
-			$('.staticWrapper').height(newHeight);
-		}
-
-}
-</script>
 {% endblock %}
