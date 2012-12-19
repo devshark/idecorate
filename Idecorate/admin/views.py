@@ -2079,6 +2079,16 @@ def new_template(request):
 
 def management_reports(request):
 	info = {}
-	products = Product.objects.all()
+	product_list = Product.objects.all()
+	offset = 25
+	paginator = Paginator(product_list, offset)
+	page = request.GET.get('page')
+	try:
+		products = paginator.page(page)
+	except PageNotAnInteger:
+		products = paginator.page(1)
+	except EmptyPage:
+		products = paginator.page(paginator.num_pages)
+
 	info['products'] = products
 	return render_to_response('admin/management_reports.html',info,RequestContext(request))
