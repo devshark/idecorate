@@ -83,6 +83,28 @@ $(document).ready(function(){
     } else {
         $('#uploadImage input[type=file]').change(manage_upload);
     }
+
+    $('#manage-template-sidebar #embellishment-wrap .emItem').on('mousewheel',function(event,delta){                
+        emb_offset = emb_item_per_page;
+        if (delta > 0){
+            if (emb_current_page != 1){
+                emb_current_page = emb_current_page-1;
+                emb_next_page = emb_current_page;
+                emb_withloading = true;
+                populate_embellishment_by_page()
+            }
+        } else {
+            if(emb_current_page != emb_total_pages){
+                emb_current_page = emb_current_page+1;
+                emb_next_page = emb_current_page;
+                emb_withloading = true;
+                populate_embellishment_by_page();                        
+            }
+        }
+        $('#manage-template-sidebar .pagination .cur-page').removeClass('cur-page');
+        $('#emb-page-number-' + emb_current_page).addClass('cur-page');
+        generate_embellishment_pagination();
+    });
 });
 
 function manage_upload(e) {
@@ -228,29 +250,7 @@ function manage_embellishment_pagination(){
             });
 
             emb_total_pages = Math.ceil(parseInt(emb_total_item_count)/emb_item_per_page);
-            generate_embellishment_pagination();
-
-            $('#manage-template-sidebar #embellishment-wrap .emItem').on('mousewheel',function(event,delta){                
-                emb_offset = emb_item_per_page;
-                if (delta > 0){
-                    if (emb_current_page != 1){
-                        emb_current_page = emb_current_page-1;
-                        emb_next_page = emb_current_page;
-                        emb_withloading = true;
-                        populate_embellishment_by_page()
-                    }
-                } else {
-                    if(emb_current_page != emb_total_pages){
-                        emb_current_page = emb_current_page+1;
-                        emb_next_page = emb_current_page;
-                        emb_withloading = true;
-                        populate_embellishment_by_page();                        
-                    }
-                }
-                $('#manage-template-sidebar .pagination .cur-page').removeClass('cur-page');
-                $('#emb-page-number-' + emb_current_page).addClass('cur-page');
-                generate_embellishment_pagination();
-            });
+            generate_embellishment_pagination();            
         });
     });
     // if($.browser.msie && $.browser.version == 7.0){
