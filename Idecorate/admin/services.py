@@ -219,7 +219,9 @@ def getTemplateItems():
 
 def save_Infographics(data):
 	try:
+		set_InactiveHomeInfographics()
 		hig = HomeInfoGrapics()
+		hig.is_active = True
 		hig.image = rename_image_infographics(data['image'])
 		hig.save()
 		return True

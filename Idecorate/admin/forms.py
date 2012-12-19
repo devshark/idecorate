@@ -34,6 +34,7 @@ class AddProductForm(forms.Form):
 
 	comment = forms.CharField(label=_("Comment"), required=False, widget=forms.Textarea)
 	size = forms.CharField(label=_("Size"), required=False)
+	color = forms.CharField(label=_("Color"), required=False)
 	unit_price = forms.DecimalField(label='Unit Price', max_digits=6, decimal_places=2, required=False)
 	pieces_carton = forms.IntegerField(label='Pieces/Carton', required=False, max_value=999999, min_value=1)
 	min_order_qty_carton = forms.IntegerField(label='Minimum Order Quantity/Carton', required=False, max_value=999999, min_value=1)
@@ -96,6 +97,7 @@ class EditProductForm(forms.Form):
 
 	comment = forms.CharField(label=_("Comment"), required=False, widget=forms.Textarea)
 	size = forms.CharField(label=_("Size"), required=False)
+	color = forms.CharField(label=_("Color"), required=False)
 	unit_price = forms.DecimalField(label='Unit Price', max_digits=6, decimal_places=2, required=False)
 	pieces_carton = forms.IntegerField(label='Pieces/Carton', required=False, max_value=999999, min_value=1)
 	min_order_qty_carton = forms.IntegerField(label='Minimum Order Quantity/Carton', required=False, max_value=999999, min_value=1)

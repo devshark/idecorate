@@ -283,6 +283,17 @@
           <div class="row-fluid">
             <div class="span12">
               <div class="control-group">
+                <label class="control-label">{{ form.color.label }}:</label>
+                <div class="controls">
+                  {{ form.color|add_class:"input-xlarge"|attr:"placeholder:Color" }}
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
                 <label class="control-label">{{ form.unit_price.label }}:</label>
                 <div class="controls">
                   {{ form.unit_price|add_class:"input-xlarge"|attr:"placeholder:Unit Price" }}
