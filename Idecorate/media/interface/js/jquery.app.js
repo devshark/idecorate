@@ -344,8 +344,8 @@ $(document).ready(function () {
     $('#remove-btn').click(function(e){
         e.preventDefault();
         if($('#canvas .template').length > 0){
-            $('#canvas .template.box').find('img').remove();
-            $('#canvas .template.box').find('span').show().removeClass('notEmpty hover');
+            $('#canvas .template.box.active').find('img').remove();
+            $('#canvas .template.box').removeClass('notEmpty hover active').find('span').show();
         }else{
             objCounter--;
             updateZIndex($('.selected'));
@@ -413,7 +413,13 @@ $(document).ready(function () {
     $('#transBg-btn').click(function(e){
         e.preventDefault();
         cancelBubble(e);
-        if($('.selected').length == 1){change_img($('.selected'),false);}
+        if($('#canvas .template').length > 0){
+            var trans   = $('#canvas .template.box.active').find('img').attr('_nb');
+            var allAttr = $('#canvas .template.box.active').find('img').attr();
+            change_img_template(allAttr,false);
+        }else{
+            if($('.selected').length == 1){change_img($('.selected'),false);}
+        }
 
     });
 
@@ -421,8 +427,13 @@ $(document).ready(function () {
     $('#whiteBg-btn').click(function(e){
         e.preventDefault();
         cancelBubble(e);
-
-        if($('.selected').length == 1){change_img($('.selected'),true);}
+        if($('#canvas .template').length > 0){
+            var trans   = $('#canvas .template.box.active').find('img').attr('_nb');
+            var allAttr = $('#canvas .template.box.active').find('img').attr();
+            change_img_template(allAttr,true);
+        }else{
+            if($('.selected').length == 1){change_img($('.selected'),true);}
+        }
 
     });
 
@@ -631,6 +642,22 @@ function ie_message() {
     }
 }
 
+function change_img_template(allAttr,background){
+    var box = $('<img/>');
+    var attr = allAttr;
+    var _nb = attr._nb;
+    var _wb = attr._wb;
+    box.attr(attr);
+
+    var __src   = (background == false) ? '/'+media_url+'products/'+_nb : '/'+media_url+'products/'+_wb;
+    box.attr('src',__src);
+
+    box.load(function(){
+        $('.box.active').append(box);
+        box.siblings('img').remove();
+    });
+}
+
 function box_droppable(){
     $('#canvas .template.box').droppable({
         drop: function (e, ui) {
@@ -681,7 +708,11 @@ function box_droppable(){
                                 remove_from_cart(parseInt(currentProd,10));
                             }
 
-                            $(_this).html(object[0]);
+                            //if($(_this).find('img').length > 0){
+                                $(object[0]).appendTo($(_this)).siblings('img').remove();
+                            //}else{
+
+                            //}
                             if(!$(_this).hasClass('active')){
                                 $(_this).addClass('active').siblings().removeClass('active');
                             }
@@ -856,7 +887,7 @@ function drop_template(objects){
             object.addClass('embellishment '+val._type);
         }else{
             object.addClass(val._type);
-            object.html('<span>'+val.spantext+'<span/>');
+            object.html('<span>'+val.spantext+'</span>');
         }
 
         object.appendTo('#canvas');
