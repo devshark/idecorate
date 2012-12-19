@@ -651,6 +651,8 @@ function box_droppable(){
                         data: {product_id: uid},
                         async:   false,
                         success: function(data){
+                            //console.log($(_this).find('img').attr('_uid'));
+                            var currentProd = $(_this).find('img').attr('_uid');
                             var img_src     = '/'+_img_src+data.original_image;
                             var img_w_bg    = data.original_image;
                             var img_wo_bg   = data.no_background;
@@ -669,6 +671,10 @@ function box_droppable(){
                                         _width   : this_width,
                                         _height  : this_height
                                     });
+
+                            if(currentProd) {
+                                remove_from_cart(parseInt(currentProd,10));
+                            }
 
                             $(_this).html(object[0]);
                         },
