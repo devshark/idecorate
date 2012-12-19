@@ -58,7 +58,7 @@
             line-height: 18px;
             text-align: -webkit-match-parent; }
     .paymentWrapper fieldset .paymentDetails1 {
-      width: 340px;
+      width: 360px;
       padding-bottom: 15px;
       margin: 0 auto; }
       .paymentWrapper fieldset .paymentDetails1 .reqMessage {
@@ -81,6 +81,7 @@
           border-radius: 3px;
           -khtml-border-radius: 3px; }
         .paymentWrapper fieldset .paymentDetails1 .inputWrapper input {
+          width: 200px;
           border: 1px solid #CCC;
           padding: 5px;
           -moz-border-radius: 3px;
