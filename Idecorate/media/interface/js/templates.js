@@ -181,7 +181,7 @@ function generate_template_pagination(){
 
     //$('#templates .template-wrap').height($('#templates').outerHeight(true)-$('#templates .pagination').outerHeight(true));
     var h = $('#templates .template-wrap').outerHeight(true)+$('#templates .pagination').outerHeight(true);
-    // $('#templates').height(h);
+    //$('#templates').height(h);
     // $('#canvas').height(h);
     // $('#styleboard').height(h);
 }
