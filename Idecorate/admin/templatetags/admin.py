@@ -522,12 +522,10 @@ def getProductDetail(product,what):
 
 @register.filter
 def currency(dollars):
-	try:
-		ls = dollars.split(',')
-		dollars = ''.join(ls)
+	if dollars != '':
 		dollars = round(float(dollars), 2)
 		return "%s%s" % (intcomma(int(dollars)), ("%0.2f" % dollars)[-3:])
-	except:
+	else:
 		return '0.00'
 
 
