@@ -70,83 +70,7 @@ $(document).ready(function () {
     //height for all name container <span> on the sidebar
     
     //set dropable area for the draggable sidebar objects
-    $("#canvas").droppable({
-
-        drop: function (e, ui) {
-
-
-            if ($(ui.draggable)[0].id != "") {
-
-                ui.helper.remove();
-                //recreate an object based on dropped object
-                var Obj = $(ui.draggable)[0];
-
-                //set this oject to jquery
-                Obj = $(Obj);
-
-                if(Obj.hasClass('products')){
-                    //custom attribute uid is a refference to populate new image 
-                    var uid = Obj.attr('_uid');
-
-                    //image source can be generated using ajax 
-
-                    var _img_src = media_url+'products/';
-                    var p_d_qty = 1;
-                    var p_g_t = 'table';
-
-                    //get image filename from DB using product_id via ajax
-                    $.ajax({
-                        url: PRODUCT_IMAGE_URL,
-                        type: "POST",
-                        data: { product_id: uid},
-                        async:   false,
-                        success: function(data){
-                            //original
-                            img_src     = '/'+_img_src+data.original_image;
-                            img_w       = data.original_image_w;
-                            img_h       = data.original_image_h;
-                            img_w_bg    = data.original_image;
-                            img_wo_bg   = data.no_background;
-                            p_d_qty     = data.default_quantity;
-                            p_g_t       = data.guest_table;
-
-                            //create new image using image object
-                            var newObj = create_instance({
-                                        _uid     : uid,
-                                        _event   : e,
-                                        _src     : img_src,
-                                        _img_wo_b: img_wo_bg,
-                                        _img_w_b : img_w_bg,
-                                        _width   : img_w,
-                                        _height  : img_h,
-                                        _p_d_qty : p_d_qty,
-                                        _p_g_t   : p_g_t
-                                    });
-                        },
-                        error: function(msg) {
-                            alert(msg);
-                        }
-                    });
-
-                    //ajax add to cart
-                    add_to_cart(uid, p_d_qty, p_g_t);
-
-                }else if(Obj.hasClass('em')){
-
-                    var em_id = Obj.attr('id');
-                    var em_dbID = em_id.split('-');
-                    var type = Obj.attr('_type');
-
-                    if(type == 'Text'){
-                        object = create_instance_em_text(em_dbID[1],e,type);
-                    }else{
-                        object = create_instance_embellishments(em_dbID[1],e,type);
-                    }
-                }
-            }
-        }
-    });
-
+    droppable_all();
 
     //drag the selected product together with its handle on the fly
     $('.unselected').liveDraggable({
@@ -297,7 +221,7 @@ $(document).ready(function () {
                 reset_product();
             }
         }
-    });
+    }); 
 
 
     if(!$.browser.msie){//while IE is not yet supported
@@ -398,10 +322,12 @@ $(document).ready(function () {
     $('#clone-btn').click(function(e){
         e.preventDefault();
         cancelBubble(e);
-        //show or hide upper left menu of canvas;
+        if(!$(this).hasClass('cloneFalse')){
+            //show or hide upper left menu of canvas;
+            obj = $('.selected');
+            cloneObj(obj);
+        }
         hide_canvas_menu();
-        obj = $('.selected');
-        cloneObj(obj);
     });
 
     //make selected product image PNG
@@ -886,6 +812,11 @@ function do_aspectratio(width, height, respect, percent){
 
 function drop_template(objects){
 
+    if($('#canvas .unselected').length > 0){
+        $('#canvas .unselected').remove();
+        remove_all_cart();
+    }
+
     $.each(objects, function(i, val){
         var object  = $('<div/>');
         var img     = $('<img/>');
@@ -1307,6 +1238,85 @@ function update_text_selected(text_value,font_id){
 
 
 //product functions start
+function droppable_all(){
+    $("#canvas").droppable({
+
+        drop: function (e, ui) {
+
+
+            if ($(ui.draggable)[0].id != "") {
+
+                ui.helper.remove();
+                //recreate an object based on dropped object
+                var Obj = $(ui.draggable)[0];
+
+                //set this oject to jquery
+                Obj = $(Obj);
+
+                if(Obj.hasClass('products')){
+                    //custom attribute uid is a refference to populate new image 
+                    var uid = Obj.attr('_uid');
+
+                    //image source can be generated using ajax 
+
+                    var _img_src = media_url+'products/';
+                    var p_d_qty = 1;
+                    var p_g_t = 'table';
+
+                    //get image filename from DB using product_id via ajax
+                    $.ajax({
+                        url: PRODUCT_IMAGE_URL,
+                        type: "POST",
+                        data: { product_id: uid},
+                        async:   false,
+                        success: function(data){
+                            //original
+                            img_src     = '/'+_img_src+data.original_image;
+                            img_w       = data.original_image_w;
+                            img_h       = data.original_image_h;
+                            img_w_bg    = data.original_image;
+                            img_wo_bg   = data.no_background;
+                            p_d_qty     = data.default_quantity;
+                            p_g_t       = data.guest_table;
+
+                            //create new image using image object
+                            var newObj = create_instance({
+                                        _uid     : uid,
+                                        _event   : e,
+                                        _src     : img_src,
+                                        _img_wo_b: img_wo_bg,
+                                        _img_w_b : img_w_bg,
+                                        _width   : img_w,
+                                        _height  : img_h,
+                                        _p_d_qty : p_d_qty,
+                                        _p_g_t   : p_g_t
+                                    });
+                        },
+                        error: function(msg) {
+                            alert(msg);
+                        }
+                    });
+
+                    //ajax add to cart
+                    add_to_cart(uid, p_d_qty, p_g_t);
+
+                }else if(Obj.hasClass('em')){
+
+                    var em_id = Obj.attr('id');
+                    var em_dbID = em_id.split('-');
+                    var type = Obj.attr('_type');
+
+                    if(type == 'Text'){
+                        object = create_instance_em_text(em_dbID[1],e,type);
+                    }else{
+                        object = create_instance_embellishments(em_dbID[1],e,type);
+                    }
+                }
+            }
+        }
+    });
+}
+
 function create_instance(options){
     var object;
     var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b}).hide().load(function () {
@@ -2061,12 +2071,18 @@ function hide_canvas_menu(){
     if(objCounter < 1){
         $('.nwMenus').hide();
         $('#canvas').css('background-image','url(/media/images/canvasbg.jpg)');
-    }else if(objCounter > 50){
+    }else if(objCounter > 49){
+        if($('#canvas').hasClass('ui-droppable')){
+            $("#canvas").droppable('destroy');
+            $('#clone-btn').addClass('cloneFalse');
+        }
         $('#canvas').css('background-image','none');
         $('#object-counter').text(warning).show();
         $('.nwMenus').show();
         $('#save').unbind('click');
     }else{
+        droppable_all();
+        $('#clone-btn').removeClass('cloneFalse');
         $('#canvas').css('background-image','none');
         $('#save').bind('click',function(e){
             if ($('#canvas-wrap .unselected').length>0){
