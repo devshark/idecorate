@@ -1799,6 +1799,7 @@ function get_product_object_json(){
         var _src = $(elm_img).attr('src');
         var _nb = $(elm_img).attr('_nb');
         var _wb = $(elm_img).attr('_wb');
+        var _cls = $(elm_img).attr('class');
         var _handle = $(this).attr('_handle');
         var _uid = $(this).attr('_uid');
         var _def_qty = $(this).attr('def_qty');
@@ -1820,7 +1821,7 @@ function get_product_object_json(){
             type = 'texture';
         if($(this).hasClass('pattern'))
             type = 'pattern';
-        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
+        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style'), cls:_cls });
         product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, cls: 'template', img:_img});
     });
     var product_array = new Array();
