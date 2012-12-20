@@ -1767,6 +1767,7 @@ function get_product_object_json(){
         var _uid = $(this).attr('_uid');
         var _def_qty = $(this).attr('def_qty');
         var _gst_tb = $(this).attr('gst_tb');
+        var _angle = 0;
         if($(this).attr('_angle')){
             _angle = $(this).attr('_angle');
         } else if($(this).attr('angle')) {
@@ -1820,10 +1821,10 @@ function get_product_object_json(){
         var _def_qty = $(this).attr('def_qty');
         var _gst_tb = $(this).attr('gst_tb');
         var _angle = 0;
-        if($(this).attr('_angle')){
+        if($(this).attr('_angle')){            
             _angle = $(this).attr('_angle');
-        } else if($(this).attr('_angle')) {
-            _angle = $(this).attr('angle');
+        } else if($(this).attr('angle')) {
+            _angle = $(this).attr('angle');            
         }
         var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
         var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
