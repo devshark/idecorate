@@ -703,12 +703,13 @@
         //document.location.reload(true);
     }
     function logmeout(){
-        $.get('{% url logout %}');
+        $.get('{% url logout %}', function(e){
+            document.location.reload(true);
+        });
         $('#lnk-login-signup').parent().show();
         $('#logged_as').parent().hide();
         $('#lnk-logout').parent().hide();
         logined = false;
-        document.location.reload(true);
         return false;
     }
     function closed_modal(){
