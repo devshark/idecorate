@@ -43,6 +43,10 @@
 			top: 55px;
 			left: 20px;
 		}
+		th {
+			text-align: center !important;
+			vertical-align: top !important;
+		}
         </style>
     </head>
     <body>
@@ -71,22 +75,22 @@
 									<th>Size</th>
 									<th>Colour</th>
 									<th>Description</th>
-									<th>Unit Price (US$)</th>
+									<th>Unit Price<br>(US$)</th>
 									<th>PCS/CTN</th>
 									<th>MOQ (CTNS)</th>
 									<th>MOQ (UNITS)</th>
-									<th>Cost of MOQ (US$)</th>
+									<th>Cost of MOQ<br>(US$)</th>
 									<th>QTY Sold</th>
 									<th>COGS</th>
-									<th>Retail Unit Price</th>
+									<th>Retail Unit Price<br>(US$)</th>
 									<th>Revenue</th>
 									<th>NET Profit</th>
 									<th>Excess Stock (Units)</th>
-									<th>OPPORTUNITY COST OF EXCESS (US$)</th>
+									<th>OPPORTUNITY COST OF EXCESS<br>(US$)</th>
 									<th>RESALE STOCK (UNITS)</th>
-									<th>RESALE PRICE @20% DISCOUNT (US$)</th>
-									<th>RESALE VALUE PAYABLE TO SELLER (US$)</th>
-									<th>NET RESALE PROFIT (US$)</th>
+									<th>RESALE PRICE @20% DISCOUNT<br>(US$)</th>
+									<th>RESALE VALUE PAYABLE TO SELLER<br>(US$)</th>
+									<th>NET RESALE PROFIT<br>(US$)</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -94,7 +98,7 @@
 								<tr>
 									<td><img src="/media/products/{{ item.original_image_thumbnail }}" alt="" /></td>
 									<td>{{ item.name }}</td>
-									<td>{{ item|getProductCategoryName }}</td>
+									<td>{{ item|getProductCategories2 }}</td>
 									<td>{{ item.sku }}</td>
 									<td>{{ item|getProductDetail:'comment' }}</td>
 									<td>{{ item|getProductDetail:'size' }}</td>
@@ -142,8 +146,11 @@
 		        $(this).val(val);
 		        var _this = this;
 		        var v = $(this).val();
+		        if (v==''){
+		        	v = 0;
+		        }		        
 		        var pid = $(this).attr('id');
-		        var url = '{% url update_qty_sold %}';		        
+		        var url = '{% url update_qty_sold %}';
 		        $.post(url,{ id:pid,qty_sold: v }, function(data){
 		        	var retail_price = parseFloat($('#retail-price-'+pid).text());
 		        	var qty_sold = parseFloat(v);

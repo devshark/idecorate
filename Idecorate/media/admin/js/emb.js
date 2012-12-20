@@ -176,6 +176,7 @@ function get_embellishment_items(){
             }
         },
         success: function(response_data){
+            $('#embellishment-wrap .emCat').hide();
             var data = $.parseJSON(response_data.data);
             emb_total_item_count = response_data.product_counts;
             emb_page_number = response_data.page_number;
@@ -189,15 +190,14 @@ function get_embellishment_items(){
                 a.attr('_type',response_data.type);
                 a.addClass('thumb');
                 a.addClass('draggable');
-                a.addClass('hidden');
+                a.addClass('invisible');
                 a.addClass('em');
                 var img = $('<img />');
                 img.attr('src',img_src_url);
                 img.appendTo(a);
                 a.appendTo('#embellishment-wrap .emItem');
             });
-            manage_embellishment_pagination();
-            $('#embellishment-wrap .emCat').hide();
+            manage_embellishment_pagination();            
             setTimeout(emb_remove_overlay,0);
         },
         error: function(msg) {
@@ -240,13 +240,19 @@ function manage_embellishment_pagination(){
             if (item_per_height>_height)
                 count_by_height = count_by_height-1;
 
+            if(count_by_height<1){
+                count_by_height = 1;
+            }
+
             emb_item_per_page = count_by_width*count_by_height;
             emb_offset = emb_item_per_page;            
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
-                   // do nothing
+                    if(!$(this).hasClass('hidden')){
+                        $(this).addClass('hidden');
+                    }                   
                 } else {
-                    $(this).removeClass('hidden');                    
+                    $(this).removeClass('invisible');
                 }
                     
             });
@@ -311,7 +317,11 @@ function populate_embellishment_by_page(){
 function manage_embellishment_resize(){
     $('#embellishment-wrap .emItem a:first img').each(function(){
         getHeight($(this),function(h){
-            var elm = $('#embellishment-wrap .emItem a:first');            
+            var elm = $('#embellishment-wrap .emItem a:first');
+
+            $('#embellishment-wrap .emItem a').each(function(){
+                $(this).addClass('invisible');
+            });
 
             var _width = $('#embellishment-wrap').width();                     
             var _item_width = $(elm).outerWidth(true);            
@@ -341,8 +351,11 @@ function manage_embellishment_resize(){
             var item_per_height = _item_height*count_by_height;            
             $('#manage-template-sidebar #embellishment-wrap .emItem').height(_height);            
 
-            if (item_per_height>_height)
+            if (item_per_height>_height && count_by_height>1)
                 count_by_height = count_by_height-1;
+
+            if(count_by_height<1)
+                count_by_height = 1;
 
             emb_item_per_page = count_by_width*count_by_height;
 
@@ -351,6 +364,9 @@ function manage_embellishment_resize(){
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
                     $(this).addClass('hidden');
+                } else {
+                    $(this).removeClass('hidden');
+                    $(this).removeClass('invisible');
                 }
             });
 
@@ -395,7 +411,6 @@ function manage_embellishment_resize(){
                                         a.attr('id','emb-'+id);
                                         a.addClass('thumb');
                                         a.addClass('draggable');
-                                        a.addClass('hidden');
                                         a.addClass('em');
                                         var img = $('<img />');
                                         img.attr('src',img_src_url);
@@ -406,7 +421,7 @@ function manage_embellishment_resize(){
                                 }
                                 
                             });
-                            manage_embellishment_pagination();
+                            //manage_embellishment_pagination();
                             $('#embellishment-wrap .emCat').hide();
                             setTimeout(emb_remove_overlay,1000);
                         },
