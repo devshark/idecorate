@@ -633,7 +633,7 @@ def social_redirect(request):
 def generate_styleboard_template_view(request, id, w, h):
 	
 	styleboardItem = StyleboardTemplateItems.objects.get(id=id)
-	itemString = str(styleboardItem.item).replace(',null','')
+	itemString = str(styleboardItem.item).replace('null,','')
 	itemList = []
 	
 	imageWidth = int(w)
