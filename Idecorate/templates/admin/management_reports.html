@@ -94,7 +94,7 @@
 								<tr>
 									<td><img src="/media/products/{{ item.original_image_thumbnail }}" alt="" /></td>
 									<td>{{ item.name }}</td>
-									<td>{{ item|getProductCategoryName }}</td>
+									<td>{{ item|getProductCategories2 }}</td>
 									<td>{{ item.sku }}</td>
 									<td>{{ item|getProductDetail:'comment' }}</td>
 									<td>{{ item|getProductDetail:'size' }}</td>
