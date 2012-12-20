@@ -701,7 +701,7 @@ function box_droppable(){
                     if(type == 'Text'){
                         //object = create_text_for_template(em_dbID[1],e,type);
                     }else{
-                        object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
+                        var object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
                         var currentProd = $(_this).find('img').attr('_uid');
 
 
@@ -709,10 +709,15 @@ function box_droppable(){
                             remove_from_cart(parseInt(currentProd,10));
                         }
 
-                        $(_this).html(object[0]);
+                        //$(_this).html(object[0]);
+
+                        $(object[0]).appendTo($(_this)).siblings('img').remove();
+
                         if(!$(_this).hasClass('active')){
                             $(_this).addClass('active').siblings().removeClass('active');
                         }
+
+                        template_fill();
 
                         setTimeout(function(){
                             eventTracker($(_this),'drop_object');
