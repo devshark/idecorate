@@ -24,4 +24,5 @@ urlpatterns =  patterns('interface.views',
     url(r'^styleboard/get_cart_items$', 'get_personalize_cart_items', {}, name='get_personalize_cart_items'),
     url(r'^set_password_user/(?P<param>[\w\-]+)$', 'set_password_user', {}, name='set_password_user'),    
     url(r'^styleboard/template_details/$', 'get_template_details', {}, name='get_template_details'),
+    url(r'^checkout_login/$', 'checkout_login', {}, name='checkout_login'),
 )

@@ -156,7 +156,10 @@ class IdecorateShop(Shop):
 				self.guest_table = guestTable
 
 	def render_checkout(self, request, context):
-		context.update({'guest_table': self.guest_table})
+		try:
+			context.update({'guest_table': self.guest_table})
+		except:
+			pass
 		return self.render(request, 'plata/shop_checkout.html', self.get_context(request, context))
 	
 	def checkout_form(self, request, order):
