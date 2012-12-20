@@ -242,6 +242,9 @@ $(document).ready(function () {
             if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea') {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
+            } else if((e.keyCode == 8 || e.keyCode == 46) && $('#canvas .template.box.active').length > 0 && e.target.type != 'textarea') {
+                e.preventDefault();
+                $('#remove-btn').trigger('click');
             }
         }
     });
@@ -254,6 +257,9 @@ $(document).ready(function () {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
                 return false;
+            } else if((e.keyCode == 8 || e.keyCode == 46) && $('#canvas .template.box.active').length > 0 && e.target.type != 'textarea') {
+                e.preventDefault();
+                $('#remove-btn').trigger('click');
             }
         }
 
@@ -263,6 +269,19 @@ $(document).ready(function () {
     $('#remove-btn').click(function(e){
         e.preventDefault();
         if($('#canvas .template').length > 0){
+
+            var selected_uid = $('#canvas .template.box.active').find('img').attr('_uid');
+            var count = 0;
+
+            $('.templateImage.product').each(function(e){
+                if(selected_uid == $(this).attr('_uid')) {
+                    count++;
+                }
+            });
+
+            if (count<=1 && selected_uid != undefined)
+                remove_from_cart(parseInt(selected_uid,10));
+
             $('#canvas .template.box.active').removeClass('notEmpty').find('img').remove();
             $('#canvas .template.box').removeClass('hover active').find('span').show();
         }else{
