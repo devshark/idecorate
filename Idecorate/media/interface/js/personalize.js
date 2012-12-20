@@ -14,7 +14,11 @@ function populate_save_styleboard(){
 			elm.addClass(v._type);
 			if (v._type!='product')
 				elm.addClass('embellishment');
-			elm.addClass('unselected');
+			if (v.cls != 'template'){
+				elm.addClass('unselected');
+			} else {
+				elm.addClass('template');
+			}
 			elm.addClass('ui-draggable');
 			if (v.uid)
 				elm.attr('_uid',v.uid);
