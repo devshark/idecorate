@@ -616,6 +616,7 @@ function change_img_template(allAttr,background){
     box.load(function(){
         $('.box.active').append(box);
         box.siblings('img').remove();
+        eventTracker($(this),'change_background');
     });
 }
 
