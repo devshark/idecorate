@@ -2125,7 +2125,7 @@ function new_canvas(url){
 }
 
 function hide_canvas_menu(){
-    var warning = 'WARNING!!! Object inside the canvas exceed the 50 item limit: '+objCounter+' items.';
+    var warning = 'Warning! Canvas reached its 50-item limit. No additional items can be added.';
     if(objCounter < 1){
         $('.nwMenus').hide();
         $('#canvas').css('background-image','url(/media/images/canvasbg.jpg)');
@@ -2137,17 +2137,11 @@ function hide_canvas_menu(){
         $('#canvas').css('background-image','none');
         $('#object-counter').text(warning).show();
         $('.nwMenus').show();
-        $('#save').unbind('click');
+        //$('#save').unbind('click');
     }else{
         droppable_all();
         $('#clone-btn').removeClass('cloneFalse');
         $('#canvas').css('background-image','none');
-        $('#save').bind('click',function(e){
-            if ($('#canvas-wrap .unselected').length>0){
-                pop_save_styleboard();
-            }
-            e.preventDefault();
-        });
         $('#object-counter').hide();
         $('.nwMenus').show();
     }
