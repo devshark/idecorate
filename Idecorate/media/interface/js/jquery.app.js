@@ -284,6 +284,7 @@ $(document).ready(function () {
 
             $('#canvas .template.box.active').removeClass('notEmpty').find('img').remove();
             $('#canvas .template.box').removeClass('hover active').find('span').show();
+            notEmpty = false;
         }else{
             objCounter--;
             updateZIndex($('.selected'));
