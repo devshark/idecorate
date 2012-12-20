@@ -914,7 +914,14 @@ function update_menu(obj,img_menu){
             $('#text-change-template-wrap').show().siblings().hide();
         }else{
             $('.colorAdjustment').show();
-            $('#text-change-template-wrap').hide().siblings().show();
+            if($.browser.msie && $.browser.version < 9){
+                $('#text-change-template-wrap').hide();
+                $('#opacity-control-wrap').hide();
+                $('#text-change-wrap').hide();
+                $('#color-picker-wrap').show();
+            }else{
+                $('#text-change-template-wrap').hide().siblings().show();
+            }
             if(obj.hasClass('text') || obj.parent().hasClass('text')){
                 $('#text-change-wrap').show();
                 $('#opacity-control-wrap').css({'width':'184px'});
