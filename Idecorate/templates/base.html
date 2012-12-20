@@ -200,6 +200,7 @@
                 $('#logged_as').parent().show();
                 $('#lnk-logout').parent().show();
                 closed_modal();
+                document.location.reload(true);
             }
             var currentUrl = '{{ currentUrl }}';
             function logmeout(){
@@ -210,6 +211,7 @@
                         $('#lnk-login-signup').parent().show();
                         $('#logged_as').parent().hide();
                         $('#lnk-logout').parent().hide();
+                        document.location.reload(true);
                     }
                 });
                 return false;
