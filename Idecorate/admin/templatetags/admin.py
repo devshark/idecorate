@@ -599,3 +599,11 @@ def getOppCostExcess(product):
 	opp_cost = retail_price*excess
 
 	return currency(opp_cost)
+
+@register.filter
+def getProductCategories2(product):
+
+	categories = product.categories.all().order_by('name')
+	catList = [cat.name for cat in categories if cat.parent == None]
+
+	return mark_safe("<br>".join(catList))

@@ -2081,7 +2081,7 @@ def new_template(request):
 
 def management_reports(request):
 	info = {}
-	product_list = Product.objects.all()
+	product_list = Product.objects.all().order_by('sku')
 	offset = 25
 	paginator = Paginator(product_list, offset)
 	page = request.GET.get('page')

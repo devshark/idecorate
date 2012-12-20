@@ -71,7 +71,8 @@ ul.dropdown ul li{
 	color: #000; 
 	border-bottom: 1px solid #ccc; 
 	border-left: none; 
-	float: none; 
+	float: none;
+	display: block; 
 }
 									
 ul.dropdown ul li{
