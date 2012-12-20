@@ -49,6 +49,25 @@ def get_parent_category(value):
 
         parent_category = parent_category.order_by('order')
         tags = """
+                <ul>                
+        """
+        for cat in parent_category:
+                tags += """
+                        <li><a href="%s">%s</a></li>
+                """ % (reverse('styleboard_cat', args=[cat.id]), cat.name)
+                
+        tags += """
+                </ul>
+        """
+
+        return mark_safe(tags)
+
+@register.filter
+def get_category_nav(value):
+        parent_category = get_categories(None)
+
+        parent_category = parent_category.order_by('order')
+        tags = """
                 <ul class="dd">                
         """
         for cat in parent_category:
