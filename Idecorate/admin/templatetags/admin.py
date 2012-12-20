@@ -522,10 +522,13 @@ def getProductDetail(product,what):
 
 @register.filter
 def currency(dollars):
-	ls = dollars.split(',')
-	dollars = ''.join(ls)
-	dollars = round(float(dollars), 2)
-	return "%s%s" % (intcomma(int(dollars)), ("%0.2f" % dollars)[-3:])
+	try:
+		ls = dollars.split(',')
+		dollars = ''.join(ls)
+		dollars = round(float(dollars), 2)
+		return "%s%s" % (intcomma(int(dollars)), ("%0.2f" % dollars)[-3:])
+	except:
+		return ''
 
 
 def getRevenueRaw(product):
