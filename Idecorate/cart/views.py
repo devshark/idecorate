@@ -18,7 +18,7 @@ from cart.services import get_product, generate_unique_id, remove_from_cart_temp
 import plata
 #from plata.contact.models import Contact
 from plata.discount.models import Discount
-from plata.shop.models import Order
+from plata.shop.models import Order, OrderPayment
 from plata.shop.views import Shop
 from plata.shop import forms as shop_forms
 from django import forms
@@ -29,6 +29,7 @@ from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from common.services import ss_direct
+from interface.views import clear_styleboard_session
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
@@ -244,7 +245,8 @@ class IdecorateShop(Shop):
 
 						card_error.append(ret['errMsg'])
 						form = ConfirmationForm(**kwargs)
-					else:					
+					else:
+						#print "The payment method is: %s" % dir(order)				
 						return form.process_confirmation()
 				else:
 					form = ConfirmationForm(**kwargs)
@@ -299,7 +301,25 @@ class IdecorateShop(Shop):
 
 			if orderform.is_valid():
 				orderform.save()
-				request.session['order-payment_method'] = request.POST.get('order-payment_method','') 
+				same_as_billing = request.POST.get('order-shipping_same_as_billing')
+				delivery_address2 = request.POST.get('order-shipping_address2')
+				billing_address2 = request.POST.get('order-billing_address2')
+				delivery_date = request.POST.get('order-shipping_date')
+				delivery_state = request.POST.get('order-shipping_state')
+				billing_state = request.POST.get('order-billing_state')
+				salutation = request.POST.get('order-billing_salutation')
+
+				if same_as_billing:
+					billing_address2 = delivery_address2
+					billing_state = delivery_state
+
+				request.session['order-payment_method'] = request.POST.get('order-payment_method','')
+				request.session['delivery_address2'] = delivery_address2
+				request.session['billing_address2'] = billing_address2
+				request.session['delivery_date'] = delivery_date
+				request.session['delivery_state'] = delivery_state
+				request.session['billing_state'] = billing_state
+				request.session['salutation'] = salutation
 				return redirect('plata_shop_discounts')
 		else:
 			orderform = OrderForm(**orderform_kwargs)
@@ -310,6 +330,48 @@ class IdecorateShop(Shop):
 			'orderform': orderform,
 			'progress': 'checkout',
 			})
+
+	def order_success(self, request):
+		"""Handles order successes (e.g. when an order has been successfully paid for)"""
+		order = self.order_from_request(request)
+
+		if not order:
+			return self.order_new(request)
+
+		if not order.balance_remaining:
+			self.set_order_on_request(request, order=None)
+
+		oData = {}
+		oData['delivery_address2'] = request.session['delivery_address2']
+		oData['billing_address2'] = request.session['billing_address2']
+		oData['delivery_date'] = request.session['delivery_date']
+		oData['delivery_state'] = request.session['delivery_state']
+		oData['billing_state'] = request.session['billing_state']
+		oData['salutation'] = request.session['salutation']
+
+		oPayment = OrderPayment.objects.get(order=order)
+		oPayment.payment_method = request.session.get('order-payment_method','')
+		oPayment.data = simplejson.dumps(oData)
+		oPayment.save()
+
+		clear_styleboard_session(request)
+
+		try:
+			del request.session['order-payment_method']
+			del request.session['delivery_address2']
+			del request.session['billing_address2']
+			del request.session['delivery_date']
+			del request.session['delivery_state']
+			del request.session['billing_state']
+			del request.session['salutation']
+		except:
+			pass
+
+		return self.render(request, 'plata/shop_order_success.html',
+			self.get_context(request, {
+				'order': order,
+				'progress': 'success',
+				}))
 
 shop = IdecorateShop(
 	contact_model=Contact,

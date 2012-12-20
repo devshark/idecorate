@@ -17,7 +17,7 @@ from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
 from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails
-from plata.shop.models import TaxClass
+from plata.shop.models import TaxClass, Order
 import shutil
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -1749,9 +1749,16 @@ def admin_delete_user(request,id):
 	if customerStyleBoard:
 		request.session['mu_errors'] = [_('You cannot delete an active user.')]
 	else:
-		User.objects.get(id=id).delete()
 
-		messages.success(request, _('User deleted.'))
+		usr = User.objects.get(id=id)
+
+		uOrder = Order.objects.filter(user=usr)
+
+		if uOrder.count() == 0:
+			usr.delete()
+			messages.success(request, _('User deleted.'))
+		else:
+			request.session['mu_errors'] = [_('You cannot delete user with order.')]	
 
 	if request.session.get('manage_users_redirect', False):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])

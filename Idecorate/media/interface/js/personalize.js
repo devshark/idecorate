@@ -14,7 +14,11 @@ function populate_save_styleboard(){
 			elm.addClass(v._type);
 			if (v._type!='product')
 				elm.addClass('embellishment');
-			elm.addClass('unselected');
+			if (v.cls != 'template'){
+				elm.addClass('unselected');
+			} else {
+				elm.addClass('template');
+			}
 			elm.addClass('ui-draggable');
 			if (v.uid)
 				elm.attr('_uid',v.uid);
@@ -63,6 +67,9 @@ function populate_save_styleboard(){
 			img.attr('style',v.img[0].style);
 			img.attr('_nb',v.img[0].nb);
 			img.attr('_wb',v.img[0].wb);
+			if (v.img[0].cls){
+				img.attr('class',v.img[0].cls);
+			}
 			if($.browser.msie && $.browser.version < 9.0){
 				img.load(function(){
 					// do nothing
@@ -108,7 +115,7 @@ function make_center(){
 			plus_left		= (canvas_Width/2)-(new_box_width/2);
 		}
 
-		$('#canvas .unselected').each(function(){
+		$('#canvas .unselected, #canvas .template').each(function(){
 			var each_aspect 		= do_aspectratio($(this).width(),$(this).height(),percent);
 			var present_top 		= parseFloat($(this).css('top'));
 			var present_left 		= parseFloat($(this).css('left'));
@@ -133,7 +140,7 @@ function make_center(){
 	}else{
 		var ctr_diff = canvas_bb_ctr_diff(box.centerY,box.centerX);
 
-	    $('#canvas .unselected').each(function(){
+	    $('#canvas .unselected, #canvas .template').each(function(){
 	        $(this).css({
 	            top:parseFloat($(this).css('top'))+ctr_diff.y,
 	            left:parseFloat($(this).css('left'))+ctr_diff.x
@@ -181,7 +188,7 @@ function computeBboxDimension() {
 	var finalWidth = 0;
     var finalHeight = 0;
 
-    $('#canvas .unselected').each(function(e){
+    $('#canvas .unselected, #canvas .template').each(function(e){
             
         if(lowestTop == 0) {
             lowestTop = parseFloat($(this).css('top').replace('px',''));
