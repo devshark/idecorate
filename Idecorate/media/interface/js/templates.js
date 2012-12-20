@@ -267,8 +267,7 @@ function manage_template_resize(){
             var count_by_height = Math.round(_height/_item_height);
             var item_per_height = _item_height*count_by_height;
             
-            $('#templates .template-wrap').height(_height);
-            $('#templates').css('min-height',_height+_pagination_height);
+            $('#templates .template-wrap').height(_height);            
 
             if (item_per_height>_height && count_by_height > 1)
                 count_by_height = count_by_height-1;
