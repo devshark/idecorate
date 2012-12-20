@@ -700,6 +700,7 @@
             save_styleboard_action = false;
             save_styleboard_modal();
         }
+        //document.location.reload(true);
     }
     function logmeout(){
         $.get('{% url logout %}');
@@ -707,6 +708,7 @@
         $('#logged_as').parent().hide();
         $('#lnk-logout').parent().hide();
         logined = false;
+        document.location.reload(true);
         return false;
     }
     function closed_modal(){

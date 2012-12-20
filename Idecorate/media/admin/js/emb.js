@@ -66,16 +66,9 @@ $(document).ready(function(){
             }           
         }
         return false;
-    });
+    });    
     
-    // if($.browser.safari){
-    //     $('#uploadImage input[type=file]').blur(SITE.fileInputs);
-    // } else {
-        
-    // }
-    
-    
-    if($.browser.safari){
+    if($.browser.safari || $.browser.msie){
         $('#btn-from-my-computer').hide();
         $('#uploadImage .file-wrapper input[type=file]').css({
             'opacity': 100,
@@ -90,6 +83,28 @@ $(document).ready(function(){
     } else {
         $('#uploadImage input[type=file]').change(manage_upload);
     }
+
+    $('#manage-template-sidebar #embellishment-wrap .emItem').on('mousewheel',function(event,delta){                
+        emb_offset = emb_item_per_page;
+        if (delta > 0){
+            if (emb_current_page != 1){
+                emb_current_page = emb_current_page-1;
+                emb_next_page = emb_current_page;
+                emb_withloading = true;
+                populate_embellishment_by_page()
+            }
+        } else {
+            if(emb_current_page != emb_total_pages){
+                emb_current_page = emb_current_page+1;
+                emb_next_page = emb_current_page;
+                emb_withloading = true;
+                populate_embellishment_by_page();                        
+            }
+        }
+        $('#manage-template-sidebar .pagination .cur-page').removeClass('cur-page');
+        $('#emb-page-number-' + emb_current_page).addClass('cur-page');
+        generate_embellishment_pagination();
+    });
 });
 
 function manage_upload(e) {
@@ -229,35 +244,15 @@ function manage_embellishment_pagination(){
             emb_offset = emb_item_per_page;            
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
-                    $(this).remove();
-                } else 
-                    $(this).removeClass('hidden');
+                   // do nothing
+                } else {
+                    $(this).removeClass('hidden');                    
+                }
+                    
             });
 
             emb_total_pages = Math.ceil(parseInt(emb_total_item_count)/emb_item_per_page);
-            generate_embellishment_pagination();
-
-            $('#manage-template-sidebar #embellishment-wrap .emItem').on('mousewheel',function(event,delta){                
-                emb_offset = emb_item_per_page;
-                if (delta > 0){
-                    if (emb_current_page != 1){
-                        emb_current_page = emb_current_page-1;
-                        emb_next_page = emb_current_page;
-                        emb_withloading = true;
-                        populate_embellishment_by_page()
-                    }
-                } else {
-                    if(emb_current_page != emb_total_pages){
-                        emb_current_page = emb_current_page+1;
-                        emb_next_page = emb_current_page;
-                        emb_withloading = true;
-                        populate_embellishment_by_page();                        
-                    }
-                }
-                $('#manage-template-sidebar .pagination .cur-page').removeClass('cur-page');
-                $('#emb-page-number-' + emb_current_page).addClass('cur-page');
-                generate_embellishment_pagination();
-            });
+            generate_embellishment_pagination();            
         });
     });
     // if($.browser.msie && $.browser.version == 7.0){
@@ -355,7 +350,7 @@ function manage_embellishment_resize(){
             
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
-                    $(this).remove();
+                    $(this).addClass('hidden');
                 }
             });
 
@@ -490,9 +485,14 @@ function hideUploadEmbellishment(){
     $('.file-wrapper input[type="button"]').hide();
     $('#form_submit_button').hide();
 }
-function showUploadEmbellishment(){    
-    $('#picture').val('');
-    if (!$.browser.safari){
+function showUploadEmbellishment(){
+    if ($.browser.msie){
+        $('#picture').replaceWith($('#picture').clone());
+    } else {
+        $('#picture').val('');
+    }
+    
+    if (!$.browser.safari && !$.browser.msie){
         $('.file-wrapper input[type="button"]').show();
         $('#form_submit_button').hide();
     } else {

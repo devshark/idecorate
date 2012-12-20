@@ -77,6 +77,27 @@
         h1, h2, h3, h4, h5 {
             font-weight: normal;
         }
+        .categoryWrapper ul li a {
+            color: #fff !important;
+        }
+        .categoryWrapper li {
+            border: 0 !important;
+        }
+        .categoryWrapper .dd ul li {
+            background-color: #F5F5DC;
+        }
+        .categoryWrapper ul.dropdown li.hover,
+        .categoryWrapper ul.dropdown li:hover{ 
+            background: #F5F5DC; 
+            color: #000 !important; 
+            position: relative; 
+        }
+        .categoryWrapper ul.dropdown li a:hover{ 
+            color: #000 !important; 
+        }
+        .categoryWrapper ul.dropdown li.hover a{ 
+            color: #000 !important; 
+        }
         </style>
     </head>
     <body>
@@ -179,6 +200,7 @@
                 $('#logged_as').parent().show();
                 $('#lnk-logout').parent().show();
                 closed_modal();
+                document.location.reload(true);
             }
             var currentUrl = '{{ currentUrl }}';
             function logmeout(){
@@ -189,6 +211,7 @@
                         $('#lnk-login-signup').parent().show();
                         $('#logged_as').parent().hide();
                         $('#lnk-logout').parent().hide();
+                        document.location.reload(true);
                     }
                 });
                 return false;

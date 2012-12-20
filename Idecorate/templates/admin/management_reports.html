@@ -35,6 +35,14 @@
 		.pagination a{
 			font-size: 12px;
 		}
+		input.qtySold {
+			text-align: center
+		}
+		.download {
+			position: absolute;
+			top: 55px;
+			left: 20px;
+		}
         </style>
     </head>
     <body>
@@ -50,8 +58,9 @@
     		<tr>
     			<td>
     				<div class="mainContent" id="manage-template-main">
-						<h2>{% trans "Inventory & Finance management report" %}</h2>
-						<table class="table table-striped table-hover table-bordered">
+    					<a href="#" class="download">Download</a>
+						<h2>{% trans "Inventory & Finance Management Report" %}</h2>
+						<table class="table table-striped table-hover table-bordered" id="inventory">
 							<thead>
 								<tr>
 									<th>Picture</th>
@@ -91,32 +100,25 @@
 									<td>{{ item|getProductDetail:'size' }}</td>
 									<td>{{ item|getProductDetail:'colour' }}</td>
 									<td>{{ item.description|safe }}</td>
-									<td class="cur">{{ item|getProductDetail:'unitprice' }}</td>
+									<td id="unit-price-{{ item.id }}" class="cur">{{ item|getProductDetail:'unitprice' }}</td>
 									<td>{{ item|getProductDetail:'pcsctn' }}</td>
 									<td>{{ item|getProductDetail:'moqctns' }}</td>
-									<td>{{ item|getProductDetail:'moqunits' }}</td>
+									<td id="moq-units-{{ item.id }}">{{ item|getProductDetail:'moqunits' }}</td>
 									<td class="cur">{{ item|getProductDetail:'costofmoq' }}</td>
-									<td>{{ item|getProductDetail:'qtysold' }}</td>
-									<td class="cur">{{ item|getProductDetail:'cogs' }}</td>
-									<td class="cur">{{ item|getProductPrice|currency }}</td>
-									<td class="cur">{{ item|getRevenue }}</td>
-									<td class="cur">{{ item|getNetProfit }}</td>
-									<td>{{ item|getExcessStock }}</td>
-									<td class="cur">{{ item|getOppCostExcess }}</td>
+									<td><input class="span1 qtySold" id="{{ item.id }}" type="text" name="qty_sold" value="{{ item|getProductDetail:'qtysold' }}" /></td>
+									<td id="cogs-{{ item.id }}" class="cur">{{ item|getProductDetail:'cogs' }}</td>
+									<td id="retail-price-{{ item.id }}" class="cur">{{ item|getProductPrice|currency }}</td>
+									<td id="revenue-{{ item.id }}" class="cur">{{ item|getRevenue }}</td>
+									<td id="net-profit-{{ item.id }}" class="cur">{{ item|getNetProfit }}</td>
+									<td id="excess-stock-{{ item.id }}">{{ item|getExcessStock }}</td>
+									<td id="opp-cost-excess-{{ item.id }}" class="cur">{{ item|getOppCostExcess }}</td>
 									<td></td>
 									<td class="cur"></td>
 									<td class="cur"></td>
 									<td class="cur"></td>
 								</tr> 
 								{% endfor %}
-							</tbody>
-							<tfoot>
-								<tr>
-									<td colspan="23">
-										{% bootstrap_paginate products url_get_params=other_params %}										
-									</td>
-								</tr>
-							</tfoot>
+							</tbody>							
 						</table>						
 					</div>
     			</td>
@@ -128,7 +130,91 @@
 					</div>
     			</td>
     		</tr>
-		</table>		
+		</table>
+		<script type="text/javascript" src="/media/admin/js/jquery-1.8.0.min.js"></script>
+		<script src="/media/js/json/json2.js"></script>
+		<script type="text/javascript">
+		$(document).ready(function(){
+			$('.qtySold').keyup(function(e){
+		        var val = $(this).val();
+		        val = val.replace(/[^0-9]/g,'');
+		        val = val.replace(/\./g, '');
+		        $(this).val(val);
+		        var _this = this;
+		        var v = $(this).val();
+		        var pid = $(this).attr('id');
+		        var url = '{% url update_qty_sold %}';		        
+		        $.post(url,{ id:pid,qty_sold: v }, function(data){
+		        	var retail_price = parseFloat($('#retail-price-'+pid).text());
+		        	var qty_sold = parseFloat(v);
+		        	var revenue = retail_price*qty_sold
+		        	
+		        	var moq_units = $('#moq-units-'+pid).text() != ''?$('#moq-units-'+pid).text():0;
+		        	moq_units = parseInt(moq_units);
+		        	var excess = moq_units-parseInt(v);
+		        	
+		        	var opp_cost_excess = parseFloat(excess)*retail_price;		        	
+		        	var unit_price = $('#unit-price-'+pid).text() != ''?$('#unit-price-'+pid).text():0;
+		        	var cogs = parseFloat(unit_price)*parseFloat(v);
+
+		        	var net_profit = revenue-cogs;
+
+		        	opp_cost_excess = addCommas(opp_cost_excess.toFixed(2));
+		        	$('#opp-cost-excess-'+pid).text(opp_cost_excess);
+		        	$('#excess-stock-'+pid).text(excess);
+		        	revenue = addCommas(revenue.toFixed(2));
+		        	$('#revenue-'+pid).text(revenue);
+		        	cogs = addCommas(cogs.toFixed(2));
+		        	$('#cogs-'+pid).text(cogs);
+		        	net_profit = addCommas(net_profit.toFixed(2));
+		        	$('#net-profit-'+pid).text(net_profit);
+		        });
+		    });
+			$('.download').click(function(){
+				var items = [];				
+				$('#inventory thead tr').each(function(){
+					var head = [];
+					$(this).children('th').each(function(i,v){
+						if (i>0){
+							head.push($(this).text().toUpperCase());
+						}						
+					});
+					items.push(head);
+				});
+				$('#inventory tbody tr').each(function(){
+					var body = [];
+					$(this).children('td').each(function(ii,vv){
+						if (ii>0){
+							if(ii==2){
+								body.push($(this).html().split('<br>').join('\\n'));
+							} else if(ii==13) {
+								body.push($('input',this).val());
+							} else {
+								body.push($(this).text());	
+							}
+							
+						}
+					});
+					items.push(body);
+				});
+				var json_obj = JSON.stringify(items);
+				$.post('{% url export_innvetory_finance_report %}',{ data:json_obj }, function(){
+
+				});			
+			});
+		});
+		function addCommas(nStr){
+		    nStr += '';
+		    x = nStr.split('.');
+		    x1 = x[0];
+		    x2 = x.length > 1 ? '.' + x[1] : '';
+		    var rgx = /(\d+)(\d{3})/;
+		    while (rgx.test(x1)) {
+		        x1 = x1.replace(rgx, '$1' + ',' + '$2');
+		    }
+		    return x1 + x2;
+		}
+		</script>
     </body>
 </html>
 

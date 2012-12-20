@@ -49,12 +49,23 @@ def get_parent_category(value):
 
         parent_category = parent_category.order_by('order')
         tags = """
-                <ul>                
+                <ul class="dd">                
         """
         for cat in parent_category:
                 tags += """
-                        <li><a href="%s">%s</a></li>
+                        <li><a href="%s">%s</a>
                 """ % (reverse('styleboard_cat', args=[cat.id]), cat.name)
+
+                sub_cat = get_categories(cat.id)
+                if sub_cat.count() > 0:
+                        tags += '<ul>'
+                        for scat in sub_cat:
+                                tags += '<li><a href="%s">%s</a></li>' % (reverse('styleboard_cat', args=[scat.id]), scat.name)
+                        tags += '</ul>'
+
+                tags += """
+                        </li>
+                """
                 
         tags += """
                 </ul>
