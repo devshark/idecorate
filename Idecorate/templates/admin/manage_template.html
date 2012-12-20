@@ -106,58 +106,42 @@
     		<h1>iDecorate</h1>
             <div class="navigation">
         		<ul class="nav clearfix">
-    				<li>
-    					<a href="{% url admin %}">{% trans "Home" %}</a>
-    				</li>
-                    <li>
-                        <a href="{% url admin_manage_users %}">{% trans "Manage Users" %}</a>
+                    <li class="active"><a href="#">{% trans "MENU" %}</a></li> 
+                    <li><a href="{% url admin %}">{% trans "Home" %}</a></li>
+                    <li><a href="{% url admin_manage_users %}">{% trans "Manage Users" %}</a></li>
+                    <li><a href="{% url admin_manage_menu %}">{% trans "Manage Menu" %}</a></li>
+                    <li><a href="{% url category %}">{% trans "Manage Product Categories" %}</a></li>
+                    <li><a href="{% url admin_manage_product %}">{% trans "Manage Products" %} &#x25bc;</a>
+                        <ul>
+                            <li><a href="{% url admin_create_product %}">{% trans "Create Product" %}</a></li>
+                        </ul>
                     </li>
-    				<li>
-    					<a href="{% url admin_manage_menu %}">{% trans "Manage Menu" %}</a>
-    				</li>
-    				<li>
-    					<a href="{% url category %}">{% trans "Manage Product Categories" %}</a>
-    				</li>
-    				<li>
-    					<a href="{% url admin_manage_product %}">{% trans "Manage Products" %} &#x25bc;</a>
-    					<ul>
-    						<li>
-    							<a href="{% url admin_create_product %}">{% trans "Create Product" %}</a>
-    						</li>
-    					</ul>
-    				</li>
-    				<li>
-    					<a href="{% url admin_manage_embellishment %}">{% trans "Manage Embellishments" %} &#x25bc;</a> 
-    					<ul>
-    						<li>
-    							<a href="{% url admin_upload_embellishment %}">{% trans "Upload Embellishment" %}</a>
-    						</li>
-    					</ul>
-    				</li>
-    				<li>
-    				<a href="{% url admin_manage_font %}">{% trans "Manage Text Fonts" %} &#x25bc;</a>
-    					<ul>
-    						<li>
-    							<a href="{% url admin_manage_text_font %}">{% trans "Upload Font" %}</a>
-    						</li>
-    					</ul>
-    				</li>
-    				<li>
-    					<a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a>
-    				</li>
-    				<li>
-    					<a href="{% url manage_template %}">{% trans "Create Template" %}</a>
-    				</li>
-    				<li>
-    					<a href="{% url manage_homepage %}">{% trans "Manage Homepage" %} &#x25bc;</a>
-    					<ul>
-    	                  	<li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
-    	                </ul>
-    				</li>
-    				<li>
-    					<a href="{% url admin_logout %}">{% trans "Logout" %}</a>
-    				</li>
-    			</ul>
+                    <li><a href="{% url admin_manage_embellishment %}">{% trans "Manage Embellishments" %} &#x25bc;</a>
+                        <ul>
+                            <li><a href="{% url admin_upload_embellishment %}">{% trans "Upload Embellishment" %}</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url admin_manage_font %}">{% trans "Manage Text Fonts" %} &#x25bc;</a>
+                        <ul>
+                            <li><a href="{% url admin_manage_text_font %}">{% trans "Upload Font" %}</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a></li>
+                    <li><a href="{% url manage_template %}">{% trans "Create Template" %}</a></li>
+                    <li>
+                    <a href="{% url manage_home_info_graphic %}">{% trans "Manage Home Infographics" %} &#x25bc;</a>
+                        <ul>
+                            <li><a href="{% url upload_info_graphic %}">{% trans "Upload Home Infographics" %}</a></li>
+                        </ul>
+                    </li>              
+                    <li><a href="{% url manage_homepage %}">{% trans "Manage Homepage" %} &#x25bc;</a>
+                        <ul>
+                            <li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="{% url management_reports %}">{% trans "Inventory & Finance management report" %}</a></li>
+                    <li><a href="{% url admin_logout %}">{% trans "Logout" %}</a></li>
+                </ul>
             </div>
     	</div>
 		<div class="mainContent" id="manage-template-main">
