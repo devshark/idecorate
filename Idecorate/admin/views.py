@@ -41,6 +41,7 @@ import decimal
 from django.template import loader, Context
 from django.utils import simplejson
 import csv
+from customer.models import StyleBoardCartItems
 
 @staff_member_required
 def admin(request):
@@ -273,11 +274,17 @@ def admin_delete_product(request,id_delete):
 	
 	product = Product.objects.get(id=int(id_delete))
 
-	product.is_deleted = True
-	product.is_active = False
-	product.save()
+	stp = StyleBoardCartItems.objects.filter(product=product)
 
-	messages.success(request, _('Product deleted.'))
+	if stp.count() > 0:
+		request.session['gt_errors'] = [_('You cannot delete used product.')]
+	else:
+
+		product.is_deleted = True
+		product.is_active = False
+		product.save()
+
+		messages.success(request, _('Product deleted.'))
 
 	if request.session.get('manage_product_redirect', False):
 		return redirect(reverse('admin_manage_product') + request.session['manage_product_redirect'])
