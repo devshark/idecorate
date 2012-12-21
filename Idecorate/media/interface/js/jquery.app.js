@@ -683,7 +683,7 @@ function box_droppable(){
                                         _height  : this_height
                                     });
 
-                            var obj_id = $(object[0]).attr('_uid');
+                            var obj_id = uid;
 
                         
                             if(currentProd) {
@@ -711,8 +711,13 @@ function box_droppable(){
                             }
 
                             $(_this).children('img').remove();
-
-                            $(object[0]).appendTo($(_this));
+                            if($.browser.msie && $.browser.version == 7.0){
+                                setTimeout(function(){
+                                    $(object[0]).appendTo($(_this));  
+                                },1000);
+                            }else{
+                                $(object[0]).appendTo($(_this));   
+                            }
                             
                             if(!$(_this).hasClass('active')){
                                 $(_this).addClass('active').siblings().removeClass('active');
@@ -788,6 +793,7 @@ function create_embellishments_for_template(em_dbID,event,type,_width,_height){
     var object      = $('<img/>');
     var this_width    = 0;
     var this_height   = 0;
+    var css = {};
     var box_Width     = _width;
     var box_Height   = _height;
 
@@ -796,16 +802,22 @@ function create_embellishments_for_template(em_dbID,event,type,_width,_height){
     });
 
     object.load(function(){
-        this_width = object.width();
-        this_height = object.height();
+        // this_width = object.width();
+        // this_height = object.height();
+        
+        this_width  = object.naturalWidth();
+        this_height = object.naturalHeight();
 
         var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
     
-        object.width(dim.width).height(dim.height).css({
-            position : 'absolute',
-            top: dim.top,
-            left: dim.left
-        });
+        css.position = 'absolute';
+        css.top = dim.top;
+        css.left = dim.left;
+        css.width = dim.width;
+        css.height = dim.height;
+
+        object.css(css);
+
     });
 
     object.addClass(type.toLowerCase()+' templateEmbellishments');
@@ -837,6 +849,7 @@ function template_fill(){
 
 function create_image_for_template(options){
     var object = $('<img/>');
+    var css = {};
     var this_width;
     var this_height;
     var box_Height = options._height;
@@ -846,22 +859,26 @@ function create_image_for_template(options){
         '_uid': options._uid,
         'def_qty': options._p_d_qty,
         'gst_tb': options._p_g_t,
-        'src': options._src,
         '_nb': options._img_wo_b,
         '_wb': options._img_w_b
     }).addClass('templateImage product');
     
-    object.load(function(){
-        this_width  = object.width();
-        this_height = object.height();
+    object.attr({'src': options._src+'?random='+new Date().getTime()}).load(function(){
+        //this_width  = object.width();
+        //this_height = object.height();
+        this_width  = object.naturalWidth();
+        this_height = object.naturalHeight();
 
         var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
     
-        object.width(dim.width).height(dim.height).css({
-            position : 'absolute',
-            top: dim.top,
-            left: dim.left
-        });
+        css.position = 'absolute';
+        css.top = dim.top;
+        css.left = dim.left;
+        css.width = dim.width;
+        css.height = dim.height;
+
+        object.css(css);
+
     });
 
     update_menu(object);
@@ -2518,6 +2535,34 @@ degToRad_global = function(d) {
         }
     };
 
+}(jQuery));
+
+(function($){
+  var
+  props = ['Width', 'Height'],
+  prop;
+
+  while (prop = props.pop()) {
+    (function (natural, prop) {
+      $.fn[natural] = (natural in new Image()) ? 
+      function () {
+        return this[0][natural];
+      } : 
+      function () {
+        var 
+        node = this[0],
+        img,
+        value;
+
+        if (node.tagName.toLowerCase() === 'img') {
+          img = new Image();
+          img.src = node.src,
+          value = img[prop];
+        }
+        return value;
+      };
+    }('natural' + prop, prop.toLowerCase()));
+  }
 }(jQuery));
 
 
