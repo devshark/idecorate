@@ -68,7 +68,7 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/set_infographic_status/$', 'set_infographic_status', {}, name='set_infographic_status'),
     url(r'^admin/management_reports/$', 'management_reports', {}, name='management_reports'),
     url(r'^admin/update_qty_sold/$', 'update_qty_sold', {}, name='update_qty_sold'),
-    url(r'^admin/export_innvetory_finance_report/$', 'export_innvetory_finance_report', {}, name='export_innvetory_finance_report'),
+    url(r'^admin/export_inventory_finance_report/$', 'export_inventory_finance_report', {}, name='export_inventory_finance_report'),
 )
 
 """

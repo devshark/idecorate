@@ -554,7 +554,7 @@ def getRevenue(product):
 @register.filter
 def getNetProfit(product):
 	rev = getRevenueRaw(product)	
-	cogs = getProductDetail(product,'cogs')
+	cogs = getProductDetail(product,'cogs')	
 	if not rev:
 		rev = 0
 	else:
@@ -563,11 +563,10 @@ def getNetProfit(product):
 	if not cogs:
 		cogs = 0
 	else:
-		rev = decimal.Decimal(cogs)
-
+		cogs = decimal.Decimal(cogs)
 	net_profit = rev-cogs
 	if not net_profit:
-		net_profit = ''
+		net_profit = '0.00'
 	else:
 		net_profit = currency(net_profit)
 	return net_profit

@@ -202,7 +202,7 @@
 					items.push(body);
 				});
 				var json_obj = JSON.stringify(items);
-				$.post('{% url export_innvetory_finance_report %}',{ data:json_obj }, function(){
+				$.post('{% url export_inventory_finance_report %}',{ data:json_obj }, function(){
 
 				});			
 			});
