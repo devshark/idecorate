@@ -12,7 +12,11 @@
         <link rel="stylesheet" type="text/css" href="/media/admin/css/manage.template.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
-        <style type="text/css">   
+        <style type="text/css">
+        * {
+        	padding: 0;
+        	margin: 0;
+        }
         h2 {
 			font-size: 31.5px;
 			font-weight: bold;
@@ -145,21 +149,25 @@
 		<script type="text/javascript" src="/media/admin/js/jquery-1.8.0.min.js"></script>
 		<script src="/media/js/json/json2.js"></script>
 		<script type="text/javascript">
-		$(document).ready(function(){
-			var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-6;
+		function set_dimension(){
+			var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-$('#manage-template-footer').outerHeight(true)+1;			
 			if ($.browser.msie && $.browser.version==8.0){
 				wh -= 15;
-			}
-			if ($.browser.msie && $.browser.version==7.0){
-				wh = $('body').height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)+100;
+			} else if ($.browser.msie && $.browser.version==7.0){
+				wh = $('body').height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-$('#manage-template-footer').outerHeight(true);
+			} else if(!$.browser.mozilla){
+				wh += 13;
 			}
 			var ww = $(window).width()+15;
 			$('#report-wrap').css({
 				width:ww,
 				height:wh
 			});
+		}
+		$(document).ready(function(){
+			setTimeout(set_dimension,0);
 			$(window).resize(function(){
-				var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-25;
+				var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-$('#manage-template-footer').outerHeight(true);
 				var ww = $(window).width();
 				$('#report-wrap').css({
 					width:ww,

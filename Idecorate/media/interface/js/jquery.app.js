@@ -892,13 +892,23 @@ function drop_template(objects){
     $.each(objects, function(i, val){
         var object  = $('<div/>');
         var img     = $('<img/>');
+        var mtx     = val.matrix[0];
+
+        if($.browser.msie && $.browser.version < 9){
+            var rawMtx = rotate_global(-parseFloat(val.angle));
+            mtx.a = rawMtx.a;
+            mtx.b = rawMtx.b;
+            mtx.c = rawMtx.c;
+            mtx.d = rawMtx.d;
+        }
+
         object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
         object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
     
         object.attr({
             'opacity'   : val.opacity,
             'angle'     : val.angle,
-            '_matrix'   : '{"a":'+val.matrix[0].a+', "b":'+val.matrix[0].b+', "c":'+val.matrix[0].c+', "d":'+val.matrix[0].d+',"e":'+val.matrix[0].e+',"f":'+val.matrix[0].f+'}',
+            '_matrix'   : '{"a":'+mtx.a+', "b":'+mtx.b+', "c":'+mtx.c+', "d":'+mtx.d+',"e":'+mtx.e+',"f":'+mtx.f+'}',
             '_handle'   : val.handle,
             'rgb'       : val.rgb,
             'text'      : val.text,
@@ -906,8 +916,8 @@ function drop_template(objects){
             '_uid'      : val.uid
         }).addClass('template');
 
-        var matrix = 'matrix('+ val.matrix[0].a +', '+ val.matrix[0].b +', '+ val.matrix[0].c +', '+ val.matrix[0].d +', 0, 0)',
-            ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+val.matrix[0].a+"', M12='"+val.matrix[0].b+"', M21='"+val.matrix[0].c+"', M22='"+val.matrix[0].d+"', sizingMethod='auto expand')";         
+        var matrix = 'matrix('+ mtx.a +', '+ mtx.b +', '+ mtx.c +', '+ mtx.d +', 0, 0)',
+            ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+mtx.a+"', M12='"+mtx.b+"', M21='"+mtx.c+"', M22='"+mtx.d+"', sizingMethod='auto expand')";         
         if($.browser.msie && $.browser.version == 9.0) {
             object.css({
                 '-ms-transform'    : matrix
@@ -2406,7 +2416,7 @@ function computeBboxDimension_template() {
 rotate_global = function(degree) {
     var cos = parseFloat(parseFloat(Math.cos(degToRad_global(-degree)))),
         sin = parseFloat(parseFloat(Math.sin(degToRad_global(-degree)))),
-        mtx = [cos, sin, (-sin), cos];
+        mtx = {a:cos, b:sin, c:(-sin), d:cos};
         
     return mtx;
 };
