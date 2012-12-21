@@ -42,11 +42,21 @@ function populate_save_styleboard(){
 			elm.attr('_text',unescape(v.text));
 			elm.attr('_rgb',v.rgb);
 
-			elm.attr('_matrix','{"a":'+v.matrix[0].a+',"b":'+v.matrix[0].b+',"c":'+v.matrix[0].c+',"d":'+v.matrix[0].d+',"e":'+v.matrix[0].e+',"f":'+v.matrix[0].f+'}');
+			var mtx     = v.matrix[0];
 
-			var matrix = 'matrix('+ v.matrix[0].a +', '+ v.matrix[0].b +', '+ v.matrix[0].c +', '+ v.matrix[0].d +', 0, 0)',
-        	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+v.matrix[0].a+"', M12='"+v.matrix[0].b+"', M21='"+v.matrix[0].c+"', M22='"+v.matrix[0].d+"', sizingMethod='auto expand')";        	
-            if($.browser.msie && $.browser.version == 9.0) {
+	        if($.browser.msie && $.browser.version < 9){
+	            var rawMtx = rotate_global(-parseFloat(v.angle));
+	            mtx.a = rawMtx.a;
+	            mtx.b = rawMtx.b;
+	            mtx.c = rawMtx.c;
+	            mtx.d = rawMtx.d;
+	        }
+
+			elm.attr('_matrix','{"a":'+mtx.a+',"b":'+mtx.b+',"c":'+mtx.c+',"d":'+mtx.d+',"e":'+mtx.e+',"f":'+mtx.f+'}');
+
+			var matrix = 'matrix('+ mtx.a +', '+ mtx.b +', '+ mtx.c +', '+ mtx.d +', 0, 0)',
+        	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+mtx.a+"', M12='"+mtx.b+"', M21='"+mtx.c+"', M22='"+mtx.d+"', sizingMethod='auto expand')";        	
+            if($.browser.msie && $.browser.mtxersion == 9.0) {
                 elm.css({
                     '-ms-transform'    : matrix
                 });
@@ -128,7 +138,6 @@ function make_center(){
 
 
 			var each_aspect 		= do_aspectratio($(this).width(),$(this).height(),percent);
-			console.log(i)
 			var present_top 		= parseFloat($(this).css('top'));
 			var present_left 		= parseFloat($(this).css('left'));
 
