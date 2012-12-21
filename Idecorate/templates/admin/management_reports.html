@@ -12,7 +12,10 @@
         <link rel="stylesheet" type="text/css" href="/media/admin/css/manage.template.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
-        <style type="text/css">        
+        <style type="text/css"> 
+        body {
+        	*overflow: hidden;
+        }       
         h2 {
 			font-size: 31.5px;
 			font-weight: bold;
@@ -39,15 +42,23 @@
 			position: absolute;
 			top: 55px;
 			left: 20px;
+			*top: 80px;
 		}
 		th {
 			text-align: center !important;
 			vertical-align: top !important;
 		}
+		#report-wrap {
+			overflow: auto;
+			border-top: 1px solid #ddd;
+		}
+		.table-bordered {
+			border-top: 0;
+		}
         </style>
     </head>
     <body>
-    	<table>
+    	<table width="100%">
     		<tr>
     			<td>
     				<div id="manage-template-header" class="header  clearfix">
@@ -58,69 +69,71 @@
     		</tr> 
     		<tr>
     			<td>
-    				<div class="mainContent" id="manage-template-main">
+    				<div >
     					<a href="#" class="download">Download</a>
-						<h2>{% trans "Inventory & Finance Management Report" %}</h2>
-						<table class="table table-striped table-hover table-bordered" id="inventory">
-							<thead>
-								<tr>
-									<th>Picture</th>
-									<th>Item Name</th>
-									<th>Item Category</th>
-									<th>Item Code</th>
-									<th>Comments</th>
-									<th>Size</th>
-									<th>Colour</th>
-									<th>Description</th>
-									<th>Unit Price<br>(US$)</th>
-									<th>PCS/CTN</th>
-									<th>MOQ (CTNS)</th>
-									<th>MOQ (UNITS)</th>
-									<th>Cost of MOQ<br>(US$)</th>
-									<th>QTY Sold</th>
-									<th>COGS</th>
-									<th>Retail Unit Price<br>(US$)</th>
-									<th>Revenue</th>
-									<th>NET Profit</th>
-									<th>Excess Stock (Units)</th>
-									<th>OPPORTUNITY COST OF EXCESS<br>(US$)</th>
-									<th>RESALE STOCK (UNITS)</th>
-									<th>RESALE PRICE @20% DISCOUNT<br>(US$)</th>
-									<th>RESALE VALUE PAYABLE TO SELLER<br>(US$)</th>
-									<th>NET RESALE PROFIT<br>(US$)</th>
-								</tr>
-							</thead>
-							<tbody>
-								{% for item in products %}
-								<tr>
-									<td><img src="/media/products/{{ item.original_image_thumbnail }}" alt="" /></td>
-									<td>{{ item.name }}</td>
-									<td>{{ item|getProductCategories2 }}</td>
-									<td>{{ item.sku }}</td>
-									<td>{{ item|getProductDetail:'comment' }}</td>
-									<td>{{ item|getProductDetail:'size' }}</td>
-									<td>{{ item|getProductDetail:'colour' }}</td>
-									<td>{{ item.description|safe }}</td>
-									<td id="unit-price-{{ item.id }}" class="cur">{{ item|getProductDetail:'unitprice' }}</td>
-									<td>{{ item|getProductDetail:'pcsctn' }}</td>
-									<td>{{ item|getProductDetail:'moqctns' }}</td>
-									<td id="moq-units-{{ item.id }}">{{ item|getProductDetail:'moqunits' }}</td>
-									<td class="cur">{{ item|getProductDetail:'costofmoq' }}</td>
-									<td><input class="span1 qtySold" id="{{ item.id }}" type="text" name="qty_sold" value="{{ item|getProductDetail:'qtysold' }}" /></td>
-									<td id="cogs-{{ item.id }}" class="cur">{{ item|getProductDetail:'cogs' }}</td>
-									<td id="retail-price-{{ item.id }}" class="cur">{{ item|getProductPrice|currency }}</td>
-									<td id="revenue-{{ item.id }}" class="cur">{{ item|getRevenue }}</td>
-									<td id="net-profit-{{ item.id }}" class="cur">{{ item|getNetProfit }}</td>
-									<td id="excess-stock-{{ item.id }}">{{ item|getExcessStock }}</td>
-									<td id="opp-cost-excess-{{ item.id }}" class="cur">{{ item|getOppCostExcess }}</td>
-									<td></td>
-									<td class="cur"></td>
-									<td class="cur"></td>
-									<td class="cur"></td>
-								</tr> 
-								{% endfor %}
-							</tbody>							
-						</table>						
+						<h2 id="page-title">{% trans "Inventory & Finance Management Report" %}</h2>
+						<div id="report-wrap">
+							<table class="table table-striped table-hover table-bordered" id="inventory">
+								<thead>
+									<tr>
+										<th>Picture</th>
+										<th>Item Name</th>
+										<th>Item Category</th>
+										<th>Item Code</th>
+										<th>Comments</th>
+										<th>Size</th>
+										<th>Colour</th>
+										<th>Description</th>
+										<th>Unit Price<br>(US$)</th>
+										<th>PCS/CTN</th>
+										<th>MOQ<br>(CTNS)</th>
+										<th>MOQ<br>(UNITS)</th>
+										<th>Cost of MOQ<br>(US$)</th>
+										<th>QTY Sold</th>
+										<th>COGS <br>(US$)</th>
+										<th>Retail Unit Price<br>(US$)</th>
+										<th>Revenue <br>(US$)</th>
+										<th>NET Profit <br>(US$)</th>
+										<th>Excess Stock<br>(Units)</th>
+										<th>OPPORTUNITY COST OF EXCESS<br>(US$)</th>
+										<th>RESALE STOCK<br>(UNITS)</th>
+										<th>RESALE PRICE @20% DISCOUNT<br>(US$)</th>
+										<th>RESALE VALUE PAYABLE TO SELLER<br>(US$)</th>
+										<th>NET RESALE PROFIT<br>(US$)</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for item in products %}
+									<tr>
+										<td><img src="/media/products/{{ item.original_image_thumbnail }}" alt="" /></td>
+										<td>{{ item.name }}</td>
+										<td>{{ item|getProductCategories2 }}</td>
+										<td>{{ item.sku }}</td>
+										<td>{{ item|getProductDetail:'comment' }}</td>
+										<td>{{ item|getProductDetail:'size' }}</td>
+										<td>{{ item|getProductDetail:'colour' }}</td>
+										<td>{{ item.description|safe }}</td>
+										<td id="unit-price-{{ item.id }}" class="cur">{{ item|getProductDetail:'unitprice'|currency }}</td>
+										<td>{{ item|getProductDetail:'pcsctn'|intcomma }}</td>
+										<td>{{ item|getProductDetail:'moqctns'|intcomma }}</td>
+										<td id="moq-units-{{ item.id }}">{{ item|getProductDetail:'moqunits'|intcomma }}</td>
+										<td class="cur">{{ item|getProductDetail:'costofmoq'|currency }}</td>
+										<td><input class="span1 qtySold" id="{{ item.id }}" type="text" name="qty_sold" value="{{ item|getProductDetail:'qtysold' }}" /></td>
+										<td id="cogs-{{ item.id }}" class="cur">{{ item|getProductDetail:'cogs'|currency }}</td>
+										<td id="retail-price-{{ item.id }}" class="cur">{{ item|getProductPrice|currency }}</td>
+										<td id="revenue-{{ item.id }}" class="cur">{{ item|getRevenue }}</td>
+										<td id="net-profit-{{ item.id }}" class="cur">{{ item|getNetProfit }}</td>
+										<td id="excess-stock-{{ item.id }}">{{ item|getExcessStock|intcomma }}</td>
+										<td id="opp-cost-excess-{{ item.id }}" class="cur">{{ item|getOppCostExcess }}</td>
+										<td></td>
+										<td class="cur"></td>
+										<td class="cur"></td>
+										<td class="cur"></td>
+									</tr> 
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
 					</div>
     			</td>
     		</tr>
@@ -136,6 +149,26 @@
 		<script src="/media/js/json/json2.js"></script>
 		<script type="text/javascript">
 		$(document).ready(function(){
+			var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-6;
+			if ($.browser.msie && $.browser.version==8.0){
+				wh -= 15;
+			}
+			if ($.browser.msie && $.browser.version==7.0){
+				wh = $('body').height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)+100;
+			}
+			var ww = $(window).width()+15;
+			$('#report-wrap').css({
+				width:ww,
+				height:wh
+			});
+			$(window).resize(function(){
+				var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-25;
+				var ww = $(window).width();
+				$('#report-wrap').css({
+					width:ww,
+					height:wh
+				});
+			});
 			$('.qtySold').keyup(function(e){
 		        var val = $(this).val();
 		        val = val.replace(/[^0-9]/g,'');

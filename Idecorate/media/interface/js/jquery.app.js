@@ -654,8 +654,6 @@ function box_droppable(){
                             var p_d_qty     = data.default_quantity;
                             var p_g_t       = data.guest_table;
 
-                            $(_this).children('img').remove();
-
                             //create new image using image object
                             var object = create_image_for_template({
                                         _box     : _this,
@@ -670,9 +668,34 @@ function box_droppable(){
                                         _height  : this_height
                                     });
 
+                            var obj_id = $(object[0]).attr('_uid');
+
+                        
                             if(currentProd) {
-                                remove_from_cart(parseInt(currentProd,10));
+
+
+                                if(currentProd != obj_id) {
+
+                                    var selected_uid = currentProd;
+                                    var count = 0;
+
+                                    $('.templateImage.product').each(function(e){
+                                        if(selected_uid == $(this).attr('_uid')) {
+                                            count++;
+                                        }
+                                    });
+
+                                    if (count<=1) {
+                                        console.log('delete by product');
+                                        remove_from_cart(parseInt(selected_uid,10));
+                                    }
+
+
+                                }
+
                             }
+
+                            $(_this).children('img').remove();
 
                             $(object[0]).appendTo($(_this));
                             
@@ -707,9 +730,21 @@ function box_droppable(){
 
 
                         if(currentProd) {
-                            remove_from_cart(parseInt(currentProd,10));
-                        }
 
+                            var selected_uid = currentProd;
+                            var count = 0;
+
+                            $('.templateImage.product').each(function(e){
+                                if(selected_uid == $(this).attr('_uid')) {
+                                        count++;
+                                }
+                            });
+
+                            if (count<=1) {
+                                remove_from_cart(parseInt(selected_uid,10));
+                            }
+
+                        }
                         //$(_this).html(object[0]);
 
                         $(object[0]).appendTo($(_this)).siblings('img').remove();
