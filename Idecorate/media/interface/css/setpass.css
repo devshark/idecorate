@@ -1,65 +1,90 @@
-.setPassWrap {
-  width: 994px;
-  height: inherit;
-  padding: 15px;
-  background-color: #FFFFFF; }
-  .setPassWrap fieldset {
-    height: 450px;
-    border: 1px solid #000000;
-    padding: 15px; }
-    .setPassWrap fieldset legend {
-      font-size: 1.2em;
-      color: black;
-      padding: 0 10px;
-      margin-left: 20px; }
-    .setPassWrap fieldset .errorWrapper {
-      width: 95%;
-      margin: 15px auto; }
-      .setPassWrap fieldset .errorWrapper .errorBlock {
-        color: #B94A48;
-        padding: 8px 35px 8px 14px;
-        margin: 0 auto 15px auto;
-        background: #F2DEDE;
-        border: 1px solid #EED3D7;
-        -webkit-border-radius: 4px;
-        -moz-border-radius: 4px;
-        border-radius: 4px;
-        position: relative;
-        font-size: 12px; }
-        .setPassWrap fieldset .errorWrapper .errorBlock .closeX {
-          font-size: 20px;
-          font-weight: bold;
-          color: #000000;
-          line-height: 18px;
-          text-decoration: none;
-          text-shadow: 0 1px 0 white;
-          opacity: 0.2;
-          filter: alpha(opacity=20);
-          float: right;
-          position: relative;
-          top: -2px;
-          right: -21px; }
-        .setPassWrap fieldset .errorWrapper .errorBlock h4 {
-          font-size: 14px;
-          font-weight: bold;
-          line-height: 18px; }
-        .setPassWrap fieldset .errorWrapper .errorBlock ol {
-          padding-left: 30px; }
-          .setPassWrap fieldset .errorWrapper .errorBlock ol li {
-            display: list-item;
-            list-style: decimal;
-            line-height: 18px;
-            text-align: -webkit-match-parent; }
-    .setPassWrap fieldset .formWrapper {
-      width: 100%;
-      margin-top: 100px;
-      text-align: center; }
-      .setPassWrap fieldset .formWrapper .inputWrapper {
-        width: 320px;
-        margin: 5px auto; }
-        .setPassWrap fieldset .formWrapper .inputWrapper label {
-          display: block;
-          float: left;
-          text-align: right;
-          width: 120px;
-          padding-top: 10px; }
+/*
+Syntax error: Invalid CSS after "...   margin-top: ": expected expression (e.g. 1px, bold), was ";"
+        on line 112 of setpass.scss
+
+107: 
+108: 				#cancel{
+109: 					color: #FFFFFF;
+110: 				    font-weight: bold;
+111: 				    padding: 8px;
+112: 				    margin-top: ;
+113: 				    cursor: pointer;
+114: 				    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333');
+115: 				    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#333333));
+116: 				    background: -moz-linear-gradient(top, white, #333333);
+117: 				    background: -o-linear-gradient(top, white, #333333);
+
+Backtrace:
+setpass.scss:112
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:821:in `expected'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/script/lexer.rb:193:in `expected!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/script/parser.rb:368:in `assert_expr'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/script/parser.rb:49:in `parse'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:748:in `send'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:748:in `sass_script'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:622:in `value!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:599:in `declaration'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:370:in `declaration_or_ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:340:in `block_child'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:333:in `block_contents'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:322:in `block'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:316:in `ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:384:in `declaration_or_ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:340:in `block_child'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:333:in `block_contents'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:322:in `block'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:316:in `ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:384:in `declaration_or_ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:340:in `block_child'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:333:in `block_contents'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:322:in `block'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:316:in `ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:384:in `declaration_or_ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:340:in `block_child'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:333:in `block_contents'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:322:in `block'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:316:in `ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:384:in `declaration_or_ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:340:in `block_child'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:333:in `block_contents'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:322:in `block'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:316:in `ruleset'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:339:in `block_child'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:330:in `block_contents'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:57:in `stylesheet'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/scss/parser.rb:26:in `parse'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:283:in `_to_tree'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:262:in `_render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:233:in `render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:311:in `update_stylesheet'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:165:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:165:in `each'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:165:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:265
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/path.rb:71:in `call'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/path.rb:71:in `run_callback'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/path.rb:54:in `callback_action'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/path.rb:34:in `update'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/state/file.rb:19:in `refresh'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:17:in `run'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:17:in `each'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:17:in `run'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:15:in `loop'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:15:in `run'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/monitor.rb:24:in `run'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm.rb:17:in `monitor'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:237:in `watch'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin.rb:110:in `send'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin.rb:110:in `method_missing'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:369:in `watch_or_update'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:273:in `process_result'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:41:in `parse'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:21:in `parse!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/sass:8
+/home/ryanangeles/.gem/ruby/1.8/bin/sass:19:in `load'
+/home/ryanangeles/.gem/ruby/1.8/bin/sass:19
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Invalid CSS after \"...   margin-top: \": expected expression (e.g. 1px, bold), was \";\"\A         on line 112 of setpass.scss\A \A 107: \A 108: 				#cancel{\A 109: 					color: #FFFFFF;\A 110: 				    font-weight: bold;\A 111: 				    padding: 8px;\A 112: 				    margin-top: ;\A 113: 				    cursor: pointer;\A 114: 				    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333');\A 115: 				    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#333333));\A 116: 				    background: -moz-linear-gradient(top, white, #333333);\A 117: 				    background: -o-linear-gradient(top, white, #333333);"; }
