@@ -622,6 +622,7 @@
                         $("#create-tab .pagination").outerHeight(true)-1;
 
         var ____height  = $('.thumb.products').outerHeight(true)+10;
+        var ____height_ = $('.thumb.temp').outerHeight(true)+10;
 
         var _____height = _height-
                         $("#sidebar-nav").outerHeight(true)-
@@ -642,11 +643,20 @@
         $('#styleboard').height(_height); 
         $('#canvas').height(_height-1); 
         $('#create-tab .category-wrap').height(__height);
-        $('#embellishments, #templates').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
+        $('#embellishments').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
         $('#create-tab .product-list-wrap .product-list').height(___height).css({minHeight:____height});
         $('#buy-tab').height(_____height).css({minHeight:height_});
         $('#buy-tab .buyTableWrap .table .tbody').height(______height);        
         $('#embelishments-list-wrap').height(______height-$('#embellishments .formWrap').outerHeight(true)+17);
+
+        var height__ = _height-
+                        $("#sidebar-nav").outerHeight(true)-
+                        $("#sidebar-form-wrap").outerHeight(true)-
+                        $("#create-tab-nav").outerHeight(true)-
+                        $("#template .template-wrap").outerHeight(true)-
+                        $("#template .pagination").outerHeight(true);
+                        
+        $('#templates').height(height__).css({minHeight:____height_});
 
     }
 

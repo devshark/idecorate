@@ -2108,17 +2108,22 @@ def update_qty_sold(request):
 		id = request.POST['id']
 		qty_sold = request.POST['qty_sold']
 		try:
-			pd = ProductDetails.objects.get(product=Product.objects.get(id=id))
+			p = Product.objects.get(id=id)
+			try:
+				pd = ProductDetails.objects.get(product=p)
+			except:
+				pd = ProductDetails()
+				pd.product = p
 			pd.qty_sold = qty_sold
 			pd.save()
 			return HttpResponse(1)
-		except:			
+		except Exception as e:
 			return HttpResponse(0)
 	else:
 		return HttpResponseNotFound()
 
 @csrf_exempt
-def export_innvetory_finance_report(request):
+def export_inventory_finance_report(request):
 	if request.method == "POST":
 		data = request.POST['data']
 		jdata = simplejson.loads(data)		

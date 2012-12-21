@@ -45,17 +45,19 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
         u.hash_set_password = str(uuid4())
         u.save()
 
-        messageHTML = """
-        Welcome to iDecorate Weddings!
-        <br /><br />
-        If you would like to use this email address to login to iDecorate Weddings, you need to set your password by clicking on this link - http://%s/set_password_user/%s.
-        <br /><br />
-        Thank you for using iDecorate Weddings!
-        <br /><br />
-        iDecorate Weddings Team
-        """ % (settings.IDECORATE_HOST, u.hash_set_password)
+        if backend.__class__ == FacebookBackend:
 
-        IdecorateEmail.send_mail(mail_from='noreply@idecorateweddings.com',mail_to=User.objects.get(id=user.id).email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
+            messageHTML = """
+            Welcome to iDecorate Weddings!
+            <br /><br />
+            If you would like to use this email address to login to iDecorate Weddings, you need to set your password by clicking on this link - http://%s/set_password_user/%s.
+            <br /><br />
+            Thank you for using iDecorate Weddings!
+            <br /><br />
+            iDecorate Weddings Team
+            """ % (settings.IDECORATE_HOST, u.hash_set_password)
+
+            IdecorateEmail.send_mail(mail_from='noreply@idecorateweddings.com',mail_to=User.objects.get(id=user.id).email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
 
 
     """

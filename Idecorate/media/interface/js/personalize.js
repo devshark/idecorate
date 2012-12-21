@@ -8,6 +8,7 @@ function populate_save_styleboard(){
 		var item = eval(raw_item);
 		var canvas_height = $('#canvas').height();
 		var canvas_width = $('#canvas').width();
+		var t = '';
 		$.each(item, function(i,v){			
 			var elm = $('<div />');
 			elm.attr('_angle',v.angle);
@@ -16,8 +17,10 @@ function populate_save_styleboard(){
 				elm.addClass('embellishment');
 			if (v.cls != 'template'){
 				elm.addClass('unselected');
+				t = 'u';
 			} else {
 				elm.addClass('template');
+				t = 't';
 			}
 			elm.addClass('ui-draggable');
 			if (v.uid)
@@ -79,9 +82,13 @@ function populate_save_styleboard(){
 			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
-		
-		setTimeout(make_center,0);
-		
+
+		if(t=='u'){
+			setTimeout(make_center,0);
+		} else {
+			setTimeout(make_center_template,0);
+		}
+
 		get_cart_items();
 	}
 }

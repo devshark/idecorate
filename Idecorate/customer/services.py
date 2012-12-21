@@ -79,9 +79,11 @@ def get_user_styleboard(user=None,styleboard_id=None):
 def save_styleboard_item(data):
 	try:
 		customer_styleboard = data['customer_styleboard']
+		mode = 'new'
 		if customer_styleboard:
 			st = customer_styleboard.styleboard_item
 			csb = customer_styleboard
+			mode = 'edit'
 		else:
 			st = StyleboardItems()
 			csb = CustomerStyleBoard()
@@ -97,7 +99,7 @@ def save_styleboard_item(data):
 		csb.styleboard_item = st
 		csb.save()
 
-		manage_styleboard_cart_items(data['sessionid'],st)		
+		manage_styleboard_cart_items(data['sessionid'],st,mode)		
 		transaction.commit()
 		return csb
 	except Exception as e:		
@@ -107,11 +109,21 @@ def save_styleboard_item(data):
 def get_customer_styleboard_item(customer_styleboard):
 	return CustomerStyleBoard.objects.get(id=customer_styleboard.id)
 
-def manage_styleboard_cart_items(sessionid, styleboard_item):
+def manage_styleboard_cart_items(sessionid, styleboard_item, mode):
 	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)	
 	if cart_temp_items.count()>0:
 		for item in cart_temp_items:
 			save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
+	"""
+	delete item in StyleBoardCartItems when it is deleted
+	"""
+	if mode == 'edit':
+		styleboard_cart = StyleBoardCartItems.objects.filter(styleboard_item=styleboard_item)
+		for item_cart in styleboard_cart:
+			is_exist = CartTemp.objects.filter(sessionid=sessionid, product=item_cart.product).count()
+			if is_exist == 0:
+				item_cart.delete()
+
 
 def save_styleboard_cart_item(product, quantity, styleboard_item):	
 	try:
