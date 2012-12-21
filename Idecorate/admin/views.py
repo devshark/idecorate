@@ -17,7 +17,7 @@ from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
 from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails
-from plata.shop.models import TaxClass, Order
+from plata.shop.models import TaxClass, Order, OrderItem
 import shutil
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -275,8 +275,9 @@ def admin_delete_product(request,id_delete):
 	product = Product.objects.get(id=int(id_delete))
 
 	stp = StyleBoardCartItems.objects.filter(product=product)
+	ot = OrderItem.objects.filter(product=product)
 
-	if stp.count() > 0:
+	if stp.count() > 0 or ot.count() > 0:
 		request.session['gt_errors'] = [_('You cannot delete used product.')]
 	else:
 
