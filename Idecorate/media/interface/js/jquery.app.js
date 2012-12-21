@@ -1931,8 +1931,14 @@ function get_product_object_json(){
             type = 'texture';
         if($(this).hasClass('pattern'))
             type = 'pattern';
-        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style'), cls:_cls });
-        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, cls: 'template', img:_img});
+
+        var _spantext = '';
+        if(type=='box'){
+            _spantext = $('span',this).text();
+        }
+
+        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style'), cls:_cls, uid:$(elm_img).attr('_uid') });
+        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, cls: 'template', spantext:_spantext, img:_img});
     });
     var product_array = new Array();
     for (var i in product_objects){

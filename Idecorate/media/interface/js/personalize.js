@@ -64,8 +64,17 @@ function populate_save_styleboard(){
                 });
             }
 
+            if (v.spantext){
+            	var span = $('<span />');
+            	span.text(v.spantext);
+            	span.appendTo(elm);
+            }
+
 			var img = $('<img />');
 			var img_src = v.img[0].src.indexOf("?") != -1?v.img[0].src+'&random='+i:v.img[0].src+'?random='+i;
+			if(v.img[0].uid){
+				img.attr('_uid',v.img[0].uid);
+			}
 			img.attr('src',img_src);
 			img.attr('style',v.img[0].style);
 			img.attr('_nb',v.img[0].nb);
@@ -76,7 +85,7 @@ function populate_save_styleboard(){
 			if($.browser.msie && $.browser.version < 9.0){
 				img.load(function(){
 					// do nothing
-				}).appendTo(elm);;
+				}).appendTo(elm);
 			} else 
 				img.appendTo(elm);
 			elm.appendTo('#canvas');			
