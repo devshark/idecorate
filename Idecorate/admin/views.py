@@ -40,6 +40,7 @@ from django.utils.safestring import mark_safe
 import decimal
 from django.template import loader, Context
 from django.utils import simplejson
+import csv
 
 @staff_member_required
 def admin(request):
@@ -2122,61 +2123,68 @@ def update_qty_sold(request):
 	else:
 		return HttpResponseNotFound()
 
-class CsvOutputResponse(object):
-	"""Handles a csv file attachment object.
-	Attributes:
-	filename: String name of the csv file.
-	response: HttpResponse object.
-	writer: Csv writer object.
-	"""
-
-	def __init__(self, filename):
-		"""Initalizes the CsvOutputResponse class.
-		Args:
-		filename: String name of the csv file.
-		"""
-		self.filename = filename
-		self.response = self._InitializeResponse()
-		self.writer = csv.writer(self.response)
-
-	def _InitializeResponse(self):
-		"""Initialize a csv HttpResponse object.
-		Returns:
-		HttpResponse object.
-		"""
-		response = django_dep.HttpResponse(mimetype='text/csv')
-		response['Content-Disposition'] = ('attachment; filename=%s.csv' % self.filename)
-		return response
-
-	def WriteRow(self, content):
-		"""Write a single row to the csv file.
-		Args:
-		content: List of strings of csv field values.
-		"""
-		self.writer.writerow(content)
-
-	def WriteRows(self, content):
-		"""Write multiple row to the csv file.
-		Args:
-		content: List of lists of strings of csv field values.
-		"""
-		self.writer.writerows(content)
-
-	def GetCsvResponse(self):
-		"""Get the csv HttpResponse object.
-		Returns:
-		content: HttpResponse object.
-		"""
-		return self.response
+import csv
 
 @csrf_exempt
 def export_inventory_finance_report(request):
 	if request.method == "POST":
 		data = request.POST['data']
-		jdata = simplejson.loads(data)		
-		for dd in jdata:
-			print dd[0]
+		request.session['EXPORT_REPORT_DATA'] = data
+		# jdata = simplejson.loads(data)		
+		# for dd in jdata:
+		# 	print dd[0]
 		#print jdata
-		return HttpResponse(jdata, mimetype="application/json")
+		return HttpResponse(1)
 	else:
 		return HttpResponseNotFound()
+
+def csv_export_report(request):
+	response = HttpResponse(mimetype='text/csv')
+	response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+	writer = csv.writer(response)
+	reports = request.session['EXPORT_REPORT_DATA']
+	jdata = simplejson.loads(reports)
+
+	l = [dd[0].encode('utf-8') for dd in jdata]
+	i=0
+	for dd in jdata:		
+		# if i > 0:
+		# 	dd[0] = "'%s" % dd[0]
+		# 	dd[2] = "'%s" % dd[2]
+		# 	dd[3] = "'%s" % dd[3]
+		# 	dd[4] = "'%s" % dd[4]
+		# 	dd[5] = "'%s" % dd[5]
+		# 	dd[6] = "'%s" % dd[6]
+		# 	dd[12] = "'%s" % dd[12]
+
+		# 	if dd[7] == '0.00' or dd[7] == 0.00:
+		# 		dd[7] = ''
+		# 	if dd[11] == '0.00' or dd[11] == 0.00:
+		# 		dd[11] = ''
+		# 	if dd[13] == '0.00' or dd[13] == 0.00:
+		# 		dd[13] = ''
+		# 	if dd[14] == '0.00' or dd[14] == 0.00:
+		# 		dd[14] = ''
+		# 	else:
+		# 		try:
+		# 			if str(dd[14]).index(',') >= 0 or str(dd[14]).index('.') >= 0:
+		# 				pass
+		# 		except Exception as e:					
+		# 			dd[14] = "'%s" % dd[14]
+
+		# 	if dd[15] == '0.00' or dd[15] == 0.00:
+		# 		dd[15] = ''
+		# 	else:
+		# 		try:
+		# 			if str(dd[15]).index(',') >= 0 or str(dd[15]).index('.') >= 0:
+		# 				pass
+		# 		except:
+		# 			dd[15] = "'%s" % dd[15]
+
+		l = [unicode_convert(d) for d in dd]
+		writer.writerow(l)
+		i = i+1
+	return response
+
+def unicode_convert(strString):
+	return strString.replace("\\n","\r\n").encode('utf-8')

@@ -39,11 +39,14 @@
 		input.qtySold {
 			text-align: center
 		}
-		.download {
+		.download, .import {
 			position: absolute;
 			top: 55px;
 			left: 20px;
 			*top: 80px;
+		}
+		.import {
+			left: 100px;
 		}
 		th {
 			text-align: center !important;
@@ -72,6 +75,7 @@
     			<td>
     				<div >
     					<a href="#" class="download">Download</a>
+    					<a href="#" class="import">Import</a>
 						<h2 id="page-title">{% trans "Inventory & Finance Management Report" %}</h2>
 						<div id="report-wrap">
 							<table class="table table-striped table-hover table-bordered" id="inventory">
@@ -240,8 +244,8 @@
 					items.push(body);
 				});
 				var json_obj = JSON.stringify(items);
-				$.post('{% url export_inventory_finance_report %}',{ data:json_obj }, function(){
-
+				$.post('{% url export_inventory_finance_report %}',{ data:json_obj }, function(data){
+					window.location.href = '{% url csv_export_report %}';
 				});			
 			});
 		});
