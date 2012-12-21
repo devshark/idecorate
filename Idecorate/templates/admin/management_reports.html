@@ -39,14 +39,20 @@
 		input.qtySold {
 			text-align: center
 		}
-		.download, .import {
+		.download, .import, .import-form {
 			position: absolute;
-			top: 55px;
+			top: 45px;
 			left: 20px;
-			*top: 80px;
+			*top: 70px;
 		}
 		.import {
-			left: 100px;
+			left: 150px;
+		}
+		.import-form {
+			top: 45px;
+			left: 260px;
+			*top: 70px;
+			display: none;
 		}
 		th {
 			text-align: center !important;
@@ -65,7 +71,7 @@
     	<table width="100%">
     		<tr>
     			<td>
-    				<div id="manage-template-header" class="header  clearfix">
+    				<div id="manage-template-header" class="header clearfix">
 			    		<h1>iDecorate</h1>
 			            {% include "admin/navbar.html" %}
 			    	</div>
@@ -74,8 +80,13 @@
     		<tr>
     			<td>
     				<div >
-    					<a href="#" class="download">Download</a>
-    					<a href="#" class="import">Import</a>
+    					<a href="#" class="download btn btn-primary">Download as CSV</a>
+    					<a href="#" class="import btn btn-primary">Import as CSV</a>
+    					<div class="import-form">
+    						<form method="post">
+    							<input type="file" name="file" id="file" />
+    						</form>
+    					</div>
 						<h2 id="page-title">{% trans "Inventory & Finance Management Report" %}</h2>
 						<div id="report-wrap">
 							<table class="table table-striped table-hover table-bordered" id="inventory">
@@ -152,6 +163,7 @@
 		</table>
 		<script type="text/javascript" src="/media/admin/js/jquery-1.8.0.min.js"></script>
 		<script src="/media/js/json/json2.js"></script>
+		<script src="/media/interface/js/jquery.form.js"></script>
 		<script type="text/javascript">
 		function set_dimension(){
 			var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-$('#manage-template-footer').outerHeight(true)+1;			

@@ -2140,46 +2140,50 @@ def export_inventory_finance_report(request):
 
 def csv_export_report(request):
 	response = HttpResponse(mimetype='text/csv')
-	response['Content-Disposition'] = 'attachment; filename="somefilename.csv"'
+	now = datetime.now()
+	cvname = '%s%s%s_%s%s%s.csv' % (now.year,now.month,now.day,now.hour,now.minute,now.second)
+	print now.hour
+	response['Content-Disposition'] = 'attachment; filename="%s"' % cvname
 	writer = csv.writer(response)
 	reports = request.session['EXPORT_REPORT_DATA']
 	jdata = simplejson.loads(reports)
 
 	l = [dd[0].encode('utf-8') for dd in jdata]
 	i=0
-	for dd in jdata:		
-		# if i > 0:
-		# 	dd[0] = "'%s" % dd[0]
-		# 	dd[2] = "'%s" % dd[2]
-		# 	dd[3] = "'%s" % dd[3]
-		# 	dd[4] = "'%s" % dd[4]
-		# 	dd[5] = "'%s" % dd[5]
-		# 	dd[6] = "'%s" % dd[6]
-		# 	dd[12] = "'%s" % dd[12]
+	for dd in jdata:
+		if i > 0:
+			
+			dd[2] = "'%s" % dd[2]
+			# dd[0] = "'%s" % dd[0]
+			# dd[3] = "'%s" % dd[3]
+			# dd[4] = "'%s" % dd[4]
+			# dd[5] = "'%s" % dd[5]
+			# dd[6] = "'%s" % dd[6]
+			# dd[12] = "'%s" % dd[12]
 
-		# 	if dd[7] == '0.00' or dd[7] == 0.00:
-		# 		dd[7] = ''
-		# 	if dd[11] == '0.00' or dd[11] == 0.00:
-		# 		dd[11] = ''
-		# 	if dd[13] == '0.00' or dd[13] == 0.00:
-		# 		dd[13] = ''
-		# 	if dd[14] == '0.00' or dd[14] == 0.00:
-		# 		dd[14] = ''
-		# 	else:
-		# 		try:
-		# 			if str(dd[14]).index(',') >= 0 or str(dd[14]).index('.') >= 0:
-		# 				pass
-		# 		except Exception as e:					
-		# 			dd[14] = "'%s" % dd[14]
+			# if dd[7] == '0.00' or dd[7] == 0.00:
+			# 	dd[7] = ''
+			# if dd[11] == '0.00' or dd[11] == 0.00:
+			# 	dd[11] = ''
+			# if dd[13] == '0.00' or dd[13] == 0.00:
+			# 	dd[13] = ''
+			# if dd[14] == '0.00' or dd[14] == 0.00:
+			# 	dd[14] = ''
+			# else:
+			# 	try:
+			# 		if str(dd[14]).index(',') >= 0 or str(dd[14]).index('.') >= 0:
+			# 			pass
+			# 	except Exception as e:					
+			# 		dd[14] = "'%s" % dd[14]
 
-		# 	if dd[15] == '0.00' or dd[15] == 0.00:
-		# 		dd[15] = ''
-		# 	else:
-		# 		try:
-		# 			if str(dd[15]).index(',') >= 0 or str(dd[15]).index('.') >= 0:
-		# 				pass
-		# 		except:
-		# 			dd[15] = "'%s" % dd[15]
+			# if dd[15] == '0.00' or dd[15] == 0.00:
+			# 	dd[15] = ''
+			# else:
+			# 	try:
+			# 		if str(dd[15]).index(',') >= 0 or str(dd[15]).index('.') >= 0:
+			# 			pass
+			# 	except:
+			# 		dd[15] = "'%s" % dd[15]
 
 		l = [unicode_convert(d) for d in dd]
 		writer.writerow(l)
@@ -2187,4 +2191,5 @@ def csv_export_report(request):
 	return response
 
 def unicode_convert(strString):
-	return strString.replace("\\n","\r\n").encode('utf-8')
+	strString = '%s' % strString.replace("\\n","\r\n")		
+	return strString.encode('utf-8')
