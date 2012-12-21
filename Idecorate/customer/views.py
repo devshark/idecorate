@@ -576,7 +576,7 @@ def generate_styleboard_view(request, id, w, h):
 		try:
 			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
 			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
-			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+			imgObj = imgObj.rotate(float(iList['angle']), expand=1,resample=Image.BICUBIC)
 			"""
 			print "The width is: %s, and height is: %s" % (w,h)
 			print "The new width is: %s, and the new height is: %s" % imgObj.size
@@ -1018,7 +1018,7 @@ def generate_styleboard_template_view(request, id, w, h):
 		try:
 			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
 			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
-			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+			imgObj = imgObj.rotate(float(iList['angle']), expand=1,resample=Image.BICUBIC)
 			"""
 			print "The width is: %s, and height is: %s" % (w,h)
 			print "The new width is: %s, and the new height is: %s" % imgObj.size
