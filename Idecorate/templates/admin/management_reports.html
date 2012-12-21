@@ -41,17 +41,13 @@
 		}
 		.download, .import, .import-form {
 			position: absolute;
-			top: 45px;
 			left: 20px;
-			*top: 70px;
 		}
 		.import {
 			left: 150px;
 		}
 		.import-form {
-			top: 45px;
 			left: 260px;
-			*top: 70px;
 			display: none;
 		}
 		th {
@@ -83,8 +79,9 @@
     					<a href="#" class="download btn btn-primary">Download as CSV</a>
     					<a href="#" class="import btn btn-primary">Import as CSV</a>
     					<div class="import-form">
-    						<form method="post">
-    							<input type="file" name="file" id="file" />
+    						<form method="post" id="import-csv-form">
+    							<input type="file" name="csv" id="csv" />
+    							<input type="button" id="btn-submit-csv" value="Submit" />    							
     						</form>
     					</div>
 						<h2 id="page-title">{% trans "Inventory & Finance Management Report" %}</h2>
@@ -181,6 +178,17 @@
 			});
 		}
 		$(document).ready(function(){
+
+			$('.download').css({
+				top: $('#manage-template-header').outerHeight(true)+20	
+			});
+			$('.import').css({
+				top: $('#manage-template-header').outerHeight(true)+20	
+			});
+			$('.import-form').css({
+				top: $('#manage-template-header').outerHeight(true)+20	
+			});			
+
 			setTimeout(set_dimension,0);
 			$(window).resize(function(){
 				var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-$('#manage-template-footer').outerHeight(true);
@@ -228,7 +236,7 @@
 		        	$('#net-profit-'+pid).text(net_profit);
 		        });
 		    });
-			$('.download').click(function(){
+			$('.download').click(function(e){
 				var items = [];				
 				$('#inventory thead tr').each(function(){
 					var head = [];
@@ -258,7 +266,34 @@
 				var json_obj = JSON.stringify(items);
 				$.post('{% url export_inventory_finance_report %}',{ data:json_obj }, function(data){
 					window.location.href = '{% url csv_export_report %}';
-				});			
+				});
+				e.preventDefault;		
+			});
+			var mod = false;
+			$('.import').click(function(e){
+				if (!mod){
+					$('.import-form').show();
+					mod = true;
+				} else {
+					$('.import-form').hide();
+					mod = false;
+				}
+				e.preventDefault;
+			});
+			$('#btn-submit-csv').click(function(){
+				var f = $('#csv').val();
+				var extension = f.substr( (f.lastIndexOf('.') +1) ).toLowerCase();
+	            if (extension == 'csv'){
+	                var options = {
+	                    dataType: 'html',
+	                    url: '{% url import_csv_report %}', 
+	                    beforeSubmit:  showRequest,           
+	                    success: showResponse
+	                }
+	                $('#import-csv-form').ajaxSubmit(options); 
+	            } else {
+	                $('#btn-submit-csv').after('<span id="csv-import-error" style="color:#ff0000; font-size:12px;"> File not supported.</span>');
+	            }
 			});
 		});
 		function addCommas(nStr){
@@ -271,6 +306,14 @@
 		        x1 = x1.replace(rgx, '$1' + ',' + '$2');
 		    }
 		    return x1 + x2;
+		}
+		function showRequest(){
+			$('#btn-submit-csv').after('<span class="loading"><img src="/media/images/loader.gif" alt="loader" /></span>');
+		}
+		function showResponse(responseText, statusText, xhr, $form) {
+		    if(responseText == 1){
+		    	window.location.reload();
+		    }
 		}
 		</script>
     </body>
