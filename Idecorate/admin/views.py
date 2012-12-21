@@ -2122,6 +2122,53 @@ def update_qty_sold(request):
 	else:
 		return HttpResponseNotFound()
 
+class CsvOutputResponse(object):
+	"""Handles a csv file attachment object.
+	Attributes:
+	filename: String name of the csv file.
+	response: HttpResponse object.
+	writer: Csv writer object.
+	"""
+
+	def __init__(self, filename):
+		"""Initalizes the CsvOutputResponse class.
+		Args:
+		filename: String name of the csv file.
+		"""
+		self.filename = filename
+		self.response = self._InitializeResponse()
+		self.writer = csv.writer(self.response)
+
+	def _InitializeResponse(self):
+		"""Initialize a csv HttpResponse object.
+		Returns:
+		HttpResponse object.
+		"""
+		response = django_dep.HttpResponse(mimetype='text/csv')
+		response['Content-Disposition'] = ('attachment; filename=%s.csv' % self.filename)
+		return response
+
+	def WriteRow(self, content):
+		"""Write a single row to the csv file.
+		Args:
+		content: List of strings of csv field values.
+		"""
+		self.writer.writerow(content)
+
+	def WriteRows(self, content):
+		"""Write multiple row to the csv file.
+		Args:
+		content: List of lists of strings of csv field values.
+		"""
+		self.writer.writerows(content)
+
+	def GetCsvResponse(self):
+		"""Get the csv HttpResponse object.
+		Returns:
+		content: HttpResponse object.
+		"""
+		return self.response
+
 @csrf_exempt
 def export_inventory_finance_report(request):
 	if request.method == "POST":
