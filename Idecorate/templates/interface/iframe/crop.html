@@ -13,15 +13,15 @@
         <![endif]-->
         <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
         <style type="text/css">
-            body{
+            body#crop-wrap{
                 background-color: #FFF;
                 background-image: none;
             }
-            #page-wrap{
+            #crop-wrap #page-wrap{
                 background-color: #FFF;
                 width: 400px;
             }
-            h3{
+            #crop-wrap h3{
                 text-align: center;
                 color: #333;
                 font-size: 16px;
@@ -29,28 +29,28 @@
                 margin-bottom: 5px;
             }
 
-            h4{font-size: 10px; margin-bottom: 5px;}
+            #crop-wrap h4{font-size: 10px; margin-bottom: 5px;}
 
-            h4 a{color: #333; text-decoration: none;}
+            #crop-wrap h4 a{color: #333; text-decoration: none;}
 
-            h4 a:hover{color: #000;}
+            #crop-wrap h4 a:hover{color: #000;}
 
-            #myCanvas, #myCanvas2, #myCanvas3 {
+            #crop-wrap #myCanvas, #crop-wrap #myCanvas2, #crop-wrap #myCanvas3 {
                 border: 1px solid #9C9898;
             }
 
 
-            #myCanvas2 {
+            #crop-wrap #myCanvas2 {
                 background-image: url('/media/images/checkerboard.png');
             }
 
-            #canvas_container{
+           #crop-wrap #canvas_container{
                 width: 400px;
                 height: 400px;
 
             }
 
-            .crop_handles {
+            #crop-wrap .crop_handles {
 
                 width: 7px;
                 height: 7px;
@@ -60,11 +60,11 @@
                 z-index:4;
             }
 
-            #modal-footer{margin-top: 5px;}
+            #crop-wrap #modal-footer{margin-top: 5px;}
 
-            #modal-footer a{ color: #338DA1;text-decoration: none;}
+            #crop-wrap #modal-footer a{ color: #338DA1;text-decoration: none;}
 
-            #modal-footer span{float: right};
+            #crop-wrap #modal-footer span{float: right};
 
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
@@ -81,8 +81,8 @@
         </script>
         <script type="text/javascript" src="/media/interface/js/crop.js"></script>
     </head>
-    <body>
-        <div id="page-wrap">
+    <body id="crop-wrap">
+        <div id="page-wrap" class="cropWrap">
             <h3>Custom Crop Tool</h3>
             <h4>
                 <a href="#" id="pen">Pen Tool</a> | 
