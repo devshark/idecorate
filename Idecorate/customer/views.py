@@ -255,6 +255,7 @@ def generate_styleboard_view(request, id, w, h):
 
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1]
+			imgFile = imgFile.split('?')[0]
 			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
 
 		elif re.search('/generate_text/',iList['img'][0]['src']):
@@ -432,7 +433,14 @@ def generate_styleboard_view(request, id, w, h):
 
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1]
+			imgFile = imgFile.split('?')[0]
 			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
+
+			"""
+			if re.search('?', imgFile):
+				splRnd = imgFile.split('?')
+				imgFile = splRnd[0]
+			"""
 		elif re.search('/generate_text/',iList['img'][0]['src']):
 			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
