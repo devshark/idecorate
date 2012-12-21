@@ -654,8 +654,11 @@ function box_droppable(){
                             var p_d_qty     = data.default_quantity;
                             var p_g_t       = data.guest_table;
 
+                            $(_this).children('img').remove();
+
                             //create new image using image object
                             var object = create_image_for_template({
+                                        _box     : _this,
                                         _uid     : uid,
                                         _event   : e,
                                         _src     : img_src,
@@ -671,11 +674,8 @@ function box_droppable(){
                                 remove_from_cart(parseInt(currentProd,10));
                             }
 
-                            //if($(_this).find('img').length > 0){
-                                $(object[0]).appendTo($(_this)).siblings('img').remove();
-                            //}else{
-
-                            //}
+                            $(object[0]).appendTo($(_this));
+                            
                             if(!$(_this).hasClass('active')){
                                 $(_this).addClass('active').siblings().removeClass('active');
                             }
@@ -736,6 +736,8 @@ function create_embellishments_for_template(em_dbID,event,type,_width,_height){
     var object      = $('<img/>');
     var this_width    = 0;
     var this_height   = 0;
+    var box_Width     = _width;
+    var box_Height   = _height;
 
     object.attr({
         'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0&rand=' + new Date().getTime()
@@ -745,15 +747,12 @@ function create_embellishments_for_template(em_dbID,event,type,_width,_height){
         this_width = object.width();
         this_height = object.height();
 
-        if(_width > _height){
-            var dim = do_aspectratio(this_width, this_height, 'height', _height/this_height);
-        }else{
-            var dim = do_aspectratio(this_width, this_height, 'width', _width/this_width);
-        }
+        var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
+    
         object.width(dim.width).height(dim.height).css({
             position : 'absolute',
-            top: (_height/2)-(dim.height/2),
-            left: (_width/2)-(dim.width/2)
+            top: dim.top,
+            left: dim.left
         });
     });
 
@@ -788,6 +787,8 @@ function create_image_for_template(options){
     var object = $('<img/>');
     var this_width;
     var this_height;
+    var box_Height = options._height;
+    var box_Width = options._width;
 
     object.attr({
         '_uid': options._uid,
@@ -799,18 +800,15 @@ function create_image_for_template(options){
     }).addClass('templateImage product');
     
     object.load(function(){
-        this_width = object.width();
+        this_width  = object.width();
         this_height = object.height();
 
-        if(options._width > options._height){
-            var dim = do_aspectratio(this_width, this_height, 'height', options._height/this_height);
-        }else{
-            var dim = do_aspectratio(this_width, this_height, 'width', options._width/this_width);
-        }
+        var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
+    
         object.width(dim.width).height(dim.height).css({
             position : 'absolute',
-            top: (options._height/2)-(dim.height/2),
-            left: (options._width/2)-(dim.width/2)
+            top: dim.top,
+            left: dim.left
         });
     });
 
@@ -821,17 +819,25 @@ function create_image_for_template(options){
     
 }
 
-function do_aspectratio(width, height, respect, percent){
+function do_fit_dimension(box_Width, box_Height, this_width, this_height){
     
     var dimension = new Array();
-    var aspectRatio = height/width;
-    if(respect == 'height'){
-        dimension['height'] = height*percent;
-        dimension['width'] = dimension['height']/aspectRatio;
-    }else if(respect == 'width'){
-        dimension['width'] = width*percent;
-        dimension['height'] = aspectRatio*dimension['width'];
+    var aspectRatio = this_width/this_height;
+    var widthDiff   = box_Width-this_width;
+    var heightDiff  = box_Height-this_height;
+    console.log(widthDiff,heightDiff,aspectRatio);
+
+    if(widthDiff < heightDiff){
+        dimension['width']  = box_Width;
+        dimension['height'] = dimension['width']*aspectRatio;
+    }else{
+        dimension['height'] = box_Height;
+        dimension['width']  = dimension['height']/aspectRatio;
     }
+    dimension['top']    = (box_Height/2)-(dimension['height']/2);
+    dimension['left']   = (box_Width/2)-(dimension['width']/2);
+
+    console.log(dimension);
 
     return dimension;
 }
@@ -859,6 +865,26 @@ function drop_template(objects){
             'style'     : val.style,
             '_uid'      : val.uid
         }).addClass('template');
+
+        var matrix = 'matrix('+ val.matrix[0].a +', '+ val.matrix[0].b +', '+ val.matrix[0].c +', '+ val.matrix[0].d +', 0, 0)',
+            ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+val.matrix[0].a+"', M12='"+val.matrix[0].b+"', M21='"+val.matrix[0].c+"', M22='"+val.matrix[0].d+"', sizingMethod='auto expand')";         
+        if($.browser.msie && $.browser.version == 9.0) {
+            object.css({
+                '-ms-transform'    : matrix
+            });
+        }else if($.browser.msie && $.browser.version < 9.0){
+            object.css({
+                'filter'           : ie_matrix,
+                '-ms-filter'       : '"' + ie_matrix + '"'
+            });
+        }else{
+            object.css({
+                '-moz-transform'   : matrix,
+                '-o-transform'     : matrix,
+                '-webkit-transform': matrix,
+                'transform'        : matrix
+            });
+        }
 
         img.attr('src',val.img[0].src);
 
@@ -2218,7 +2244,7 @@ function make_center_template(){
         }
 
         $('#canvas .template').each(function(){
-            var each_aspect         = do_aspectratio_template($(this).width(),$(this).height(),percent);
+            var each_aspect         = do_aspectratio_wRespect_template($(this).width(),$(this).height(),percent);
             var present_top         = parseFloat($(this).css('top'));
             var present_left        = parseFloat($(this).css('left'));
 
@@ -2260,7 +2286,7 @@ function canvas_bb_ctr_diff_template(box_centerY, box_centerX){
     return ctr_diff;
 }
 
-function do_aspectratio_template(width, height, percent){
+function do_aspectratio_wRespect_template(width, height, percent){
     
     var dimension = new Array();
     var aspectRatio = height/width;
@@ -2332,6 +2358,60 @@ function computeBboxDimension_template() {
 
 
 (function ($) {
+    $.fn.resizeToParent = function(options) {
+      var defaults = {
+       parent: 'div'
+      }
+     
+      var options = jQuery.extend(defaults, options);
+     
+      return this.each(function() {
+        var o = options;
+        var obj = jQuery(this);
+     
+        // bind to load of image
+        obj.load(function() {
+          // dimensions of the parent
+          var parentWidth = obj.parents(o.parent).width();
+          var parentHeight = obj.parents(o.parent).height();
+     
+          // dimensions of the image
+          var imageWidth = obj.width();
+          var imageHeight = obj.height();
+     
+          // step 1 - calculate the percentage difference between image width and container width
+          var diff = imageWidth / parentWidth;
+     
+          // step 2 - if height divided by difference is smaller than container height, resize by height. otherwise resize by width
+          if ((imageHeight / diff) < parentHeight) {
+           obj.css({'width': 'auto', 'height': parentHeight});
+     
+           // set image variables to new dimensions
+           imageWidth = imageWidth / (imageHeight / parentHeight);
+           imageHeight = parentHeight;
+          }
+          else {
+           obj.css({'height': 'auto', 'width': parentWidth});
+     
+           // set image variables to new dimensions
+           imageWidth = parentWidth;
+           imageHeight = imageHeight / diff;
+          }
+     
+          // step 3 - center image in container
+          var leftOffset = (imageWidth - parentWidth) / -2;
+          var topOffset = (imageHeight - parentHeight) / -2;
+     
+          obj.css({'left': leftOffset, 'top': topOffset});
+        });
+     
+        // force ie to run the load function if the image is cached
+        if (this.complete) {
+          obj.trigger('load');
+        }
+      });
+    }
+
    $.fn.liveDraggable = function (opts) {
       this.live("mouseover", function(e) {
          if (!$(this).data("init")) {

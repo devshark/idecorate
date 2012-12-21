@@ -82,11 +82,13 @@ function populate_save_styleboard(){
 			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
+
 		if(t=='u'){
 			setTimeout(make_center,0);
 		} else {
 			setTimeout(make_center_template,0);
 		}
+
 		get_cart_items();
 	}
 }
@@ -122,8 +124,11 @@ function make_center(){
 			plus_left		= (canvas_Width/2)-(new_box_width/2);
 		}
 
-		$('#canvas .unselected, #canvas .template').each(function(){
+		$('#canvas .unselected').each(function(i,v){
+
+
 			var each_aspect 		= do_aspectratio($(this).width(),$(this).height(),percent);
+			console.log(i)
 			var present_top 		= parseFloat($(this).css('top'));
 			var present_left 		= parseFloat($(this).css('left'));
 
@@ -147,7 +152,7 @@ function make_center(){
 	}else{
 		var ctr_diff = canvas_bb_ctr_diff(box.centerY,box.centerX);
 
-	    $('#canvas .unselected, #canvas .template').each(function(){
+	    $('#canvas .unselected').each(function(){
 	        $(this).css({
 	            top:parseFloat($(this).css('top'))+ctr_diff.y,
 	            left:parseFloat($(this).css('left'))+ctr_diff.x
@@ -165,12 +170,12 @@ function canvas_bb_ctr_diff(box_centerY, box_centerX){
 }
 
 function do_aspectratio(width, height, percent){
-	
+	console.log('test')
+    console.log(width, height, percent)
 	var dimension = new Array();
     var aspectRatio = height/width;
     dimension['width'] = width*percent;
     dimension['height'] = aspectRatio*dimension['width'];
-
     return dimension;
 }
 
@@ -195,7 +200,7 @@ function computeBboxDimension() {
 	var finalWidth = 0;
     var finalHeight = 0;
 
-    $('#canvas .unselected, #canvas .template').each(function(e){
+    $('#canvas .unselected').each(function(e){
             
         if(lowestTop == 0) {
             lowestTop = parseFloat($(this).css('top').replace('px',''));
