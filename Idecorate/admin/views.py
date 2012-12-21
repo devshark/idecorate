@@ -275,7 +275,7 @@ def admin_delete_product(request,id_delete):
 	product = Product.objects.get(id=int(id_delete))
 
 	stp = StyleBoardCartItems.objects.filter(product=product)
-	ot = OrderItem.objects.filter(product=product)
+	ot = OrderItem.objects.filter(product=product,order__status=40)
 
 	if stp.count() > 0 or ot.count() > 0:
 		request.session['gt_errors'] = [_('You cannot delete used product.')]
