@@ -886,8 +886,14 @@ function drop_template(objects){
 
     if($('#canvas .unselected').length > 0){
         $('#canvas .unselected').remove();
-        remove_all_cart();
+        //remove_all_cart();
     }
+
+    $('.dynamic_qty').each(function(e){
+
+        remove_from_cart(parseInt($(this).attr('_pid'),10));
+
+    });
 
     $.each(objects, function(i, val){
         var object  = $('<div/>');
@@ -1603,15 +1609,25 @@ function update_menu(obj,img_menu){
 
     img_menu = img_menu ? img_menu : false;
     
-    $img_menus.show();
-    
+    if($('.template').length > 0) {
+
+        if($(obj).length > 0) {
+            $img_menus.show();
+        } else {
+            $img_menus.hide();
+        }
+
+    } else {
+        $img_menus.show();
+    }
+
 
     if(obj.hasClass('templateImage') || obj.hasClass('templateEmbellishments')){
         $('#customBg-btn').hide();
         $('#remove-btn').parent().siblings('li').hide();
     }
 
-    if(img_menu){
+    if(img_menu || $('.template.box.active').children('.templateEmbellishments').length > 0){
         $('.imgBgControlWrap').hide();
         if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
             $('.colorAdjustment').hide();
