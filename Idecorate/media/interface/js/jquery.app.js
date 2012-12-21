@@ -1603,8 +1603,18 @@ function update_menu(obj,img_menu){
 
     img_menu = img_menu ? img_menu : false;
     
-    $img_menus.show();
-    
+    if($('.template').length > 0) {
+
+        if($(obj).length > 0) {
+            $img_menus.show();
+        } else {
+            $img_menus.hide();
+        }
+
+    } else {
+        $img_menus.show();
+    }
+
 
     if(obj.hasClass('templateImage') || obj.hasClass('templateEmbellishments')){
         $('#customBg-btn').hide();
