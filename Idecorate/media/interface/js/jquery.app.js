@@ -1601,7 +1601,7 @@ function update_menu(obj,img_menu){
         $('#remove-btn').parent().siblings('li').hide();
     }
 
-    if(img_menu){
+    if(img_menu || $('.template.box.active').children('.templateEmbellishments').length > 0){
         $('.imgBgControlWrap').hide();
         if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
             $('.colorAdjustment').hide();
