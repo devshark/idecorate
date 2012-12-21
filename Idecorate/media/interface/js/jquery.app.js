@@ -284,6 +284,7 @@ $(document).ready(function () {
 
             $('#canvas .template.box.active').removeClass('notEmpty').find('img').remove();
             $('#canvas .template.box').removeClass('hover active').find('span').show();
+            //console.log(count);
             notEmpty = false;
         }else{
             objCounter--;
@@ -686,7 +687,7 @@ function box_droppable(){
                                     });
 
                                     if (count<=1) {
-                                        console.log('delete by product');
+                                        //console.log('delete by product');
                                         remove_from_cart(parseInt(selected_uid,10));
                                     }
 
@@ -702,6 +703,8 @@ function box_droppable(){
                             if(!$(_this).hasClass('active')){
                                 $(_this).addClass('active').siblings().removeClass('active');
                             }
+
+                            add_to_cart(uid, p_d_qty, p_g_t);
                         },
                         error: function(msg){
                             alert(msg);
@@ -714,7 +717,7 @@ function box_droppable(){
                         eventTracker($(_this),'drop_object');
                     },100);
 
-                    add_to_cart(uid, p_d_qty, p_g_t);
+                    //add_to_cart(uid, p_d_qty, p_g_t);
 
                 }else if(Obj.hasClass('em')){
 
@@ -862,7 +865,7 @@ function do_fit_dimension(box_Width, box_Height, this_width, this_height){
     var widthDiff   = box_Width-this_width;
     var heightDiff  = box_Height-this_height;
 
-    console.log(box_Width, box_Height, this_width, this_height);
+    //console.log(box_Width, box_Height, this_width, this_height);
 
     if(widthDiff < heightDiff){
         dimension['width']  = box_Width;
@@ -874,7 +877,7 @@ function do_fit_dimension(box_Width, box_Height, this_width, this_height){
     dimension['top']    = (box_Height/2)-(dimension['height']/2);
     dimension['left']   = (box_Width/2)-(dimension['width']/2);
 
-    console.log(dimension);
+    //console.log(dimension);
 
     return dimension;
 }
@@ -2399,62 +2402,21 @@ function computeBboxDimension_template() {
 
 }
 
+// Rotate Element to the Given Degree
+rotate_global = function(degree) {
+    var cos = parseFloat(parseFloat(Math.cos(degToRad_global(-degree)))),
+        sin = parseFloat(parseFloat(Math.sin(degToRad_global(-degree)))),
+        mtx = [cos, sin, (-sin), cos];
+        
+    return mtx;
+};
+
+degToRad_global = function(d) {
+    return (d * (Math.PI / 180));
+};
 
 (function ($) {
-    $.fn.resizeToParent = function(options) {
-      var defaults = {
-       parent: 'div'
-      }
-     
-      var options = jQuery.extend(defaults, options);
-     
-      return this.each(function() {
-        var o = options;
-        var obj = jQuery(this);
-     
-        // bind to load of image
-        obj.load(function() {
-          // dimensions of the parent
-          var parentWidth = obj.parents(o.parent).width();
-          var parentHeight = obj.parents(o.parent).height();
-     
-          // dimensions of the image
-          var imageWidth = obj.width();
-          var imageHeight = obj.height();
-     
-          // step 1 - calculate the percentage difference between image width and container width
-          var diff = imageWidth / parentWidth;
-     
-          // step 2 - if height divided by difference is smaller than container height, resize by height. otherwise resize by width
-          if ((imageHeight / diff) < parentHeight) {
-           obj.css({'width': 'auto', 'height': parentHeight});
-     
-           // set image variables to new dimensions
-           imageWidth = imageWidth / (imageHeight / parentHeight);
-           imageHeight = parentHeight;
-          }
-          else {
-           obj.css({'height': 'auto', 'width': parentWidth});
-     
-           // set image variables to new dimensions
-           imageWidth = parentWidth;
-           imageHeight = imageHeight / diff;
-          }
-     
-          // step 3 - center image in container
-          var leftOffset = (imageWidth - parentWidth) / -2;
-          var topOffset = (imageHeight - parentHeight) / -2;
-     
-          obj.css({'left': leftOffset, 'top': topOffset});
-        });
-     
-        // force ie to run the load function if the image is cached
-        if (this.complete) {
-          obj.trigger('load');
-        }
-      });
-    }
-
+    
    $.fn.liveDraggable = function (opts) {
       this.live("mouseover", function(e) {
          if (!$(this).data("init")) {
