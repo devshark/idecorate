@@ -1592,16 +1592,33 @@ function aspectratio(width, height, percent){
 }
 
 function remove_handles(event){
-    
-    if(event.target != $('.handles')[0] && !$(event.target).hasClass('templateImage') && !$(event.target).hasClass('templateEmbellishments')){
-    
-        $handles.css('display','none');
-        $img_menus.css('display','none');
-        if($('.unselected').hasClass('selected')){
-            $('.unselected').removeClass('selected');
-            return true;
+
+    if($.browser.msie) {
+
+        if(event.target != $('.handles')[0] && !$(event.target).hasClass('templateImage') && !$(event.target).hasClass('templateEmbellishments')){
+        
+            $handles.css('display','none');
+            $img_menus.css('display','none');
+            if($('.unselected').hasClass('selected')){
+                $('.unselected').removeClass('selected');
+                return true;
+            }
+        
         }
-    
+
+    } else {
+
+        if(event.target != $('.handles')[0]){
+        
+            $handles.css('display','none');
+            $img_menus.css('display','none');
+            if($('.unselected').hasClass('selected')){
+                $('.unselected').removeClass('selected');
+                return true;
+            }
+        
+        }
+
     }
 }
 
