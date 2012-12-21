@@ -284,6 +284,7 @@ $(document).ready(function () {
 
             $('#canvas .template.box.active').removeClass('notEmpty').find('img').remove();
             $('#canvas .template.box').removeClass('hover active').find('span').show();
+            //console.log(count);
             notEmpty = false;
         }else{
             objCounter--;
@@ -702,6 +703,8 @@ function box_droppable(){
                             if(!$(_this).hasClass('active')){
                                 $(_this).addClass('active').siblings().removeClass('active');
                             }
+
+                            add_to_cart(uid, p_d_qty, p_g_t);
                         },
                         error: function(msg){
                             alert(msg);
@@ -714,7 +717,7 @@ function box_droppable(){
                         eventTracker($(_this),'drop_object');
                     },100);
 
-                    add_to_cart(uid, p_d_qty, p_g_t);
+                    //add_to_cart(uid, p_d_qty, p_g_t);
 
                 }else if(Obj.hasClass('em')){
 
