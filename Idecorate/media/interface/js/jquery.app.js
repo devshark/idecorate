@@ -613,7 +613,8 @@ function change_img_template(allAttr,background){
     box.attr(attr);
 
     var __src   = (background == false) ? '/'+media_url+'products/'+_nb : '/'+media_url+'products/'+_wb;
-    box.attr('src',__src);
+    
+    box.attr('src',__src+'?random=' + new Date().getTime());
 
     box.load(function(){
         $('.box.active').append(box);
@@ -886,8 +887,14 @@ function drop_template(objects){
 
     if($('#canvas .unselected').length > 0){
         $('#canvas .unselected').remove();
-        remove_all_cart();
+        //remove_all_cart();
     }
+
+    $('.dynamic_qty').each(function(e){
+
+        remove_from_cart(parseInt($(this).attr('_pid'),10));
+
+    });
 
     $.each(objects, function(i, val){
         var object  = $('<div/>');
@@ -1587,15 +1594,32 @@ function aspectratio(width, height, percent){
 
 function remove_handles(event){
 
-    if(event.target != $('.handles')[0]){
-    
-        $handles.css('display','none');
-        $img_menus.css('display','none');
-        if($('.unselected').hasClass('selected')){
-            $('.unselected').removeClass('selected');
-            return true;
+    if($.browser.msie) {
+
+        if(event.target != $('.handles')[0] && !$(event.target).hasClass('templateImage') && !$(event.target).hasClass('templateEmbellishments')){
+        
+            $handles.css('display','none');
+            $img_menus.css('display','none');
+            if($('.unselected').hasClass('selected')){
+                $('.unselected').removeClass('selected');
+                return true;
+            }
+        
         }
-    
+
+    } else {
+
+        if(event.target != $('.handles')[0]){
+        
+            $handles.css('display','none');
+            $img_menus.css('display','none');
+            if($('.unselected').hasClass('selected')){
+                $('.unselected').removeClass('selected');
+                return true;
+            }
+        
+        }
+
     }
 }
 
@@ -1603,8 +1627,18 @@ function update_menu(obj,img_menu){
 
     img_menu = img_menu ? img_menu : false;
     
-    $img_menus.show();
-    
+    if($('.template').length > 0) {
+
+        if($(obj).length > 0) {
+            $img_menus.show();
+        } else {
+            $img_menus.hide();
+        }
+
+    } else {
+        $img_menus.show();
+    }
+
 
     if(obj.hasClass('templateImage') || obj.hasClass('templateEmbellishments')){
         $('#customBg-btn').hide();
