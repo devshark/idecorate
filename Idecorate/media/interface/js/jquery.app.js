@@ -606,21 +606,34 @@ function ie_message() {
 }
 
 function change_img_template(allAttr,background){
-    var box = $('<img/>');
-    var attr = allAttr;
-    var _nb = attr._nb;
-    var _wb = attr._wb;
-    box.attr(attr);
 
-    var __src   = (background == false) ? '/'+media_url+'products/'+_nb : '/'+media_url+'products/'+_wb;
-    
-    box.attr('src',__src+'?random=' + new Date().getTime());
+    //$('#canvas .template.box.active').find('img')
 
-    box.load(function(){
-        $('.box.active').append(box);
-        box.siblings('img').remove();
-        eventTracker($(this),'change_background');
-    });
+    if($.browser.msie && $.browser.version == 7.0){
+
+
+        var __src   = (background == false) ? '/'+media_url+'products/'+$('#canvas .template.box.active').find('img').attr('_nb') : '/'+media_url+'products/'+$('#canvas .template.box.active').find('img').attr('_wb');
+
+        $('#canvas .template.box.active').find('img').attr('src',__src + '?random=' + new Date().getTime());
+
+    } else {
+        var box = $('<img/>');
+        var attr = allAttr;
+        var _nb = attr._nb;
+        var _wb = attr._wb;
+        box.attr(attr);
+
+        var __src   = (background == false) ? '/'+media_url+'products/'+_nb : '/'+media_url+'products/'+_wb;
+        
+        box.attr('src',__src+'?random=' + new Date().getTime());
+
+        box.load(function(){
+            $('.box.active').append(box);
+            box.siblings('img').remove();
+            eventTracker($(this),'change_background');
+        });
+
+    }
 }
 
 function box_droppable(){
@@ -869,14 +882,14 @@ function do_fit_dimension(box_Width, box_Height, this_width, this_height){
     //console.log(box_Width, box_Height, this_width, this_height);
 
     if(widthDiff < heightDiff){
-        dimension['width']  = box_Width;
-        dimension['height'] = dimension['width']*aspectRatio;
+        dimension.width  = box_Width;
+        dimension.height = dimension.width*aspectRatio;
     }else{
-        dimension['height'] = box_Height;
-        dimension['width']  = dimension['height']/aspectRatio;
+        dimension.height = box_Height;
+        dimension.width  = dimension.height/aspectRatio;
     }
-    dimension['top']    = (box_Height/2)-(dimension['height']/2);
-    dimension['left']   = (box_Width/2)-(dimension['width']/2);
+    dimension.top    = (box_Height/2)-(dimension.height/2);
+    dimension.left   = (box_Width/2)-(dimension.width/2);
 
     //console.log(dimension);
 
