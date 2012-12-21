@@ -83,8 +83,9 @@
     					<a href="#" class="download btn btn-primary">Download as CSV</a>
     					<a href="#" class="import btn btn-primary">Import as CSV</a>
     					<div class="import-form">
-    						<form method="post">
-    							<input type="file" name="file" id="file" />
+    						<form method="post" id="import-csv-form">
+    							<input type="file" name="csv" id="csv" />
+    							<input type="button" id="btn-submit-csv" value="Submit" />    							
     						</form>
     					</div>
 						<h2 id="page-title">{% trans "Inventory & Finance Management Report" %}</h2>
@@ -181,6 +182,17 @@
 			});
 		}
 		$(document).ready(function(){
+
+			$('.download').css({
+				top: $('manage-template-header').outerHeight(true)+10	
+			});
+			$('.import').css({
+				top: $('manage-template-header').outerHeight(true)+10	
+			});
+			$('.import-form').css({
+				top: $('manage-template-header').outerHeight(true)+10	
+			});			
+
 			setTimeout(set_dimension,0);
 			$(window).resize(function(){
 				var wh = $(window).height()-$('#manage-template-header').outerHeight(true)-$('#page-title').outerHeight(true)-$('#manage-template-footer').outerHeight(true);
@@ -260,6 +272,31 @@
 					window.location.href = '{% url csv_export_report %}';
 				});			
 			});
+			var mod = false;
+			$('.import').click(function(){
+				if (!mod){
+					$('.import-form').show();
+					mod = true;
+				} else {
+					$('.import-form').hide();
+					mod = false;
+				}
+			});
+			$('#btn-submit-csv').click(function(){
+				var f = $('#csv').val();
+				var extension = f.substr( (f.lastIndexOf('.') +1) ).toLowerCase();
+	            if (extension == 'csv'){
+	                var options = {
+	                    dataType: 'html',
+	                    url: '{% url import_csv_report %}', 
+	                    beforeSubmit:  showRequest,           
+	                    success: showResponse
+	                }
+	                $('#import-csv-form').ajaxSubmit(options); 
+	            } else {
+	                $('#btn-submit-csv').after('<span id="csv-import-error" style="color:#ff0000; font-size:12px;"> File not supported.</span>');
+	            }
+			});
 		});
 		function addCommas(nStr){
 		    nStr += '';
@@ -271,6 +308,14 @@
 		        x1 = x1.replace(rgx, '$1' + ',' + '$2');
 		    }
 		    return x1 + x2;
+		}
+		function showRequest(){
+			$('#btn-submit-csv').after('<span class="loading"><img src="/media/images/loader.gif" alt="loader" /></span>');
+		}
+		function showResponse(responseText, statusText, xhr, $form) {
+		    if(responseText == 1){
+		    	window.location.reload();
+		    }
 		}
 		</script>
     </body>
