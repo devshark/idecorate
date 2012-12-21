@@ -137,7 +137,7 @@ function make_center(){
 
 
 			var each_aspect 		= do_aspectratio($(this).width(),$(this).height(),percent);
-			console.log(i)
+			//console.log(i)
 			var present_top 		= parseFloat($(this).css('top'));
 			var present_left 		= parseFloat($(this).css('left'));
 
