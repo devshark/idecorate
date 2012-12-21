@@ -62,6 +62,36 @@ def get_parent_category(value):
 
         return mark_safe(tags)
 
+@register.filter
+def get_category_nav(value):
+        parent_category = get_categories(None)
+
+        parent_category = parent_category.order_by('order')
+        tags = """
+                <ul class="dd">                
+        """
+        for cat in parent_category:
+                tags += """
+                        <li><a href="%s">%s</a>
+                """ % (reverse('styleboard_cat', args=[cat.id]), cat.name)
+
+                sub_cat = get_categories(cat.id)
+                if sub_cat.count() > 0:
+                        tags += '<ul>'
+                        for scat in sub_cat:
+                                tags += '<li><a href="%s">%s</a></li>' % (reverse('styleboard_cat', args=[scat.id]), scat.name)
+                        tags += '</ul>'
+
+                tags += """
+                        </li>
+                """
+                
+        tags += """
+                </ul>
+        """
+
+        return mark_safe(tags)
+
 def menuInterfaceRecursion(menus):
 
         element = ""

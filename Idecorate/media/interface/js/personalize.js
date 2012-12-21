@@ -8,13 +8,20 @@ function populate_save_styleboard(){
 		var item = eval(raw_item);
 		var canvas_height = $('#canvas').height();
 		var canvas_width = $('#canvas').width();
+		var t = '';
 		$.each(item, function(i,v){			
 			var elm = $('<div />');
 			elm.attr('_angle',v.angle);
 			elm.addClass(v._type);
 			if (v._type!='product')
 				elm.addClass('embellishment');
-			elm.addClass('unselected');
+			if (v.cls != 'template'){
+				elm.addClass('unselected');
+				t = 'u';
+			} else {
+				elm.addClass('template');
+				t = 't';
+			}
 			elm.addClass('ui-draggable');
 			if (v.uid)
 				elm.attr('_uid',v.uid);
@@ -35,11 +42,21 @@ function populate_save_styleboard(){
 			elm.attr('_text',unescape(v.text));
 			elm.attr('_rgb',v.rgb);
 
-			elm.attr('_matrix','{"a":'+v.matrix[0].a+',"b":'+v.matrix[0].b+',"c":'+v.matrix[0].c+',"d":'+v.matrix[0].d+',"e":'+v.matrix[0].e+',"f":'+v.matrix[0].f+'}');
+			var mtx     = v.matrix[0];
 
-			var matrix = 'matrix('+ v.matrix[0].a +', '+ v.matrix[0].b +', '+ v.matrix[0].c +', '+ v.matrix[0].d +', 0, 0)',
-        	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+v.matrix[0].a+"', M12='"+v.matrix[0].b+"', M21='"+v.matrix[0].c+"', M22='"+v.matrix[0].d+"', sizingMethod='auto expand')";        	
-            if($.browser.msie && $.browser.version == 9.0) {
+	        if($.browser.msie && $.browser.version < 9){
+	            var rawMtx = rotate_global(-parseFloat(v.angle));
+	            mtx.a = rawMtx.a;
+	            mtx.b = rawMtx.b;
+	            mtx.c = rawMtx.c;
+	            mtx.d = rawMtx.d;
+	        }
+
+			elm.attr('_matrix','{"a":'+mtx.a+',"b":'+mtx.b+',"c":'+mtx.c+',"d":'+mtx.d+',"e":'+mtx.e+',"f":'+mtx.f+'}');
+
+			var matrix = 'matrix('+ mtx.a +', '+ mtx.b +', '+ mtx.c +', '+ mtx.d +', 0, 0)',
+        	    ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+mtx.a+"', M12='"+mtx.b+"', M21='"+mtx.c+"', M22='"+mtx.d+"', sizingMethod='auto expand')";        	
+            if($.browser.msie && $.browser.mtxersion == 9.0) {
                 elm.css({
                     '-ms-transform'    : matrix
                 });
@@ -57,22 +74,40 @@ function populate_save_styleboard(){
                 });
             }
 
+            if (v.spantext){
+            	var span = $('<span />');
+            	span.text(v.spantext);
+            	span.appendTo(elm);
+            }
+
 			var img = $('<img />');
 			var img_src = v.img[0].src.indexOf("?") != -1?v.img[0].src+'&random='+i:v.img[0].src+'?random='+i;
+			if(v.img[0].uid){
+				img.attr('_uid',v.img[0].uid);
+			}
 			img.attr('src',img_src);
 			img.attr('style',v.img[0].style);
 			img.attr('_nb',v.img[0].nb);
 			img.attr('_wb',v.img[0].wb);
+			if (v.img[0].cls){
+				img.attr('class',v.img[0].cls);
+			}
 			if($.browser.msie && $.browser.version < 9.0){
 				img.load(function(){
 					// do nothing
-				}).appendTo(elm);;
+				}).appendTo(elm);
 			} else 
 				img.appendTo(elm);
 			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
-		setTimeout(make_center,0);
+
+		if(t=='u'){
+			setTimeout(make_center,0);
+		} else {
+			setTimeout(make_center_template,0);
+		}
+
 		get_cart_items();
 	}
 }
@@ -108,7 +143,9 @@ function make_center(){
 			plus_left		= (canvas_Width/2)-(new_box_width/2);
 		}
 
-		$('#canvas .unselected').each(function(){
+		$('#canvas .unselected').each(function(i,v){
+
+
 			var each_aspect 		= do_aspectratio($(this).width(),$(this).height(),percent);
 			var present_top 		= parseFloat($(this).css('top'));
 			var present_left 		= parseFloat($(this).css('left'));
@@ -151,12 +188,10 @@ function canvas_bb_ctr_diff(box_centerY, box_centerX){
 }
 
 function do_aspectratio(width, height, percent){
-	
-	var dimension = new Array();
+	var dimension = {};
     var aspectRatio = height/width;
     dimension['width'] = width*percent;
     dimension['height'] = aspectRatio*dimension['width'];
-
     return dimension;
 }
 

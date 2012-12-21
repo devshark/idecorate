@@ -8,8 +8,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
-        <link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
-        <link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+        <link rel="shortcut icon" href="/media/images/favicon.2.ico" type="image/x-icon" />
+        <link rel="icon" href="/media/images/favicon.2.ico" type="image/ico" />
         <link rel="stylesheet" type="text/css" href="/media/interface/css/styleboard2.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
@@ -187,6 +187,9 @@
         }
         #info-menu .headerColumn .dropdown ul li a:hover, #info-menu .headerColumn .dropdown ul li span:hover {
             color: #000000 !important;
+        }
+        .invisible {
+            display: none !important;
         }
         </style>
     </head>
@@ -619,6 +622,7 @@
                         $("#create-tab .pagination").outerHeight(true)-1;
 
         var ____height  = $('.thumb.products').outerHeight(true)+10;
+        var ____height_ = $('.thumb.temp').outerHeight(true)+10;
 
         var _____height = _height-
                         $("#sidebar-nav").outerHeight(true)-
@@ -639,27 +643,36 @@
         $('#styleboard').height(_height); 
         $('#canvas').height(_height-1); 
         $('#create-tab .category-wrap').height(__height);
-        $('#embellishments, #templates').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
+        $('#embellishments').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
         $('#create-tab .product-list-wrap .product-list').height(___height).css({minHeight:____height});
         $('#buy-tab').height(_____height).css({minHeight:height_});
         $('#buy-tab .buyTableWrap .table .tbody').height(______height);        
         $('#embelishments-list-wrap').height(______height-$('#embellishments .formWrap').outerHeight(true)+17);
+
+        var height__ = _height-
+                        $("#sidebar-nav").outerHeight(true)-
+                        $("#sidebar-form-wrap").outerHeight(true)-
+                        $("#create-tab-nav").outerHeight(true)-
+                        $("#template .template-wrap").outerHeight(true)-
+                        $("#template .pagination").outerHeight(true);
+                        
+        $('#templates').height(height__).css({minHeight:____height_});
 
     }
 
     $(function(e){
         styleboardH();
 
-        $('.close-modal-btn').click(function(){
+        $('.close-modal-btn').click(function(e){
+            e.preventDefault();
             $('#page-mask').hide();
             $(this).parent().parent().hide();
         });
         generate_user_nav();
         $('#save').click(function(e){
-            if ($('#canvas-wrap .product').length>0)
-                pop_save_styleboard();
-
             e.preventDefault();
+            if ($('#canvas-wrap .product').length>0 || $('.notEmpty').length > 0 || $('.embellishment.unselected').length > 0)
+                pop_save_styleboard();
         });
     });
     function generate_user_nav(){
@@ -668,16 +681,16 @@
         '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
         $('#site-menu ul.dd').append(navs);
         $('#lnk-logout').bind('click',function(e){
-            logmeout();
             e.preventDefault();
+            logmeout();
         });
         $('#logged_as').bind('click',function(e){
-            goto_profile();
             e.preventDefault();
+            goto_profile();
         });
         $('#site-menu ul a#lnk-login-signup').bind('click',function(e){
-            popup_login();
             e.preventDefault();
+            popup_login();
         });
         {% if user.is_authenticated %}        
         $('#lnk-login-signup').parent().hide();
@@ -700,9 +713,12 @@
             save_styleboard_action = false;
             save_styleboard_modal();
         }
+        //document.location.reload(true);
     }
     function logmeout(){
-        $.get('{% url logout %}');
+        $.get('{% url logout %}', function(e){
+            document.location.reload(true);
+        });
         $('#lnk-login-signup').parent().show();
         $('#logged_as').parent().hide();
         $('#lnk-logout').parent().hide();

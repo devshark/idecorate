@@ -255,6 +255,7 @@ def generate_styleboard_view(request, id, w, h):
 
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1]
+			imgFile = imgFile.split('?')[0]
 			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
 
 		elif re.search('/generate_text/',iList['img'][0]['src']):
@@ -432,7 +433,14 @@ def generate_styleboard_view(request, id, w, h):
 
 			imgFile = iList['img'][0]['src'].split('/')
 			imgFile = imgFile[len(imgFile) - 1]
+			imgFile = imgFile.split('?')[0]
 			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
+
+			"""
+			if re.search('?', imgFile):
+				splRnd = imgFile.split('?')
+				imgFile = splRnd[0]
+			"""
 		elif re.search('/generate_text/',iList['img'][0]['src']):
 			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
@@ -568,7 +576,7 @@ def generate_styleboard_view(request, id, w, h):
 		try:
 			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
 			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
-			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+			imgObj = imgObj.rotate(float(iList['angle']), expand=1,resample=Image.BICUBIC)
 			"""
 			print "The width is: %s, and height is: %s" % (w,h)
 			print "The new width is: %s, and the new height is: %s" % imgObj.size
@@ -633,7 +641,7 @@ def social_redirect(request):
 def generate_styleboard_template_view(request, id, w, h):
 	
 	styleboardItem = StyleboardTemplateItems.objects.get(id=id)
-	itemString = str(styleboardItem.item).replace(',null','')
+	itemString = str(styleboardItem.item).replace('null,','')
 	itemList = []
 	
 	imageWidth = int(w)
@@ -1010,7 +1018,7 @@ def generate_styleboard_template_view(request, id, w, h):
 		try:
 			#imgObj.thumbnail((w,h),Image.ANTIALIAS)
 			imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
-			imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+			imgObj = imgObj.rotate(float(iList['angle']), expand=1,resample=Image.BICUBIC)
 			"""
 			print "The width is: %s, and height is: %s" % (w,h)
 			print "The new width is: %s, and the new height is: %s" % imgObj.size

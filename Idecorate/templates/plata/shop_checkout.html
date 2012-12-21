@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n plata_tags idecorate_interface humanize widget_tweaks %}
+{% load i18n plata_tags idecorate_interface humanize widget_tweaks admin %}
 {% block title %}iDecorate Weddings{% endblock %}
 {%  block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/shop_checkout.css">
@@ -66,6 +66,17 @@
 			</ol>
 		</div>
 		{% endif %}
+		{% if request.session.checkout_login_error %}
+
+		<div class="clearfix errorBlock">
+			<a href="" class="closeX">x</a>
+			<h4>Please correct the following errors:</h4>
+			<ol>
+				<li>{{ request.session.checkout_login_error }}</li>
+			</ol>
+		</div>
+		{{ request|deleteSession:"checkout_login_error" }}
+		{% endif %}
 		<div class="clearfix orderTable">MY ORDER</div>
 		<fieldset>
 			<!-- <legend>Your Order</legend> -->
@@ -99,18 +110,27 @@
 			</table>
 		</fieldset>
 	</div>
-	<form method="post" action=".">
-		{% csrf_token %}
-		<input type="hidden" name="_checkout" value="1" />
+		{% if not request.user.is_authenticated %}
+		<form action="{% url checkout_login %}" method="post">
+			{% csrf_token %}
 		<div class="clearfix loginDetails">
 			<h4>ARE YOU A RETURNING CUSTOMER?</h4>
 			<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
+			<!--
 			<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
-				<input type="text" placeholder="Email" />
-				<input type="password" placeholder="Password" />
+			-->
+				<input type="text" placeholder="Email" name="checkout_email" />
+				<input type="password" placeholder="Password" name="checkout_password" />
 				<input type="submit" value="LOGIN" class="submit" />
 				<a href="#">Forgot your password?</a>
 		</div>
+		</form>
+		{% else %}
+		<div>&nbsp;</div>
+		{% endif %}
+	<form method="post" action=".">
+		{% csrf_token %}
+		<input type="hidden" name="_checkout" value="1" />
 		<div class="clearfix information">
 			<fieldset class="personal">
 				<legend>PERSONAL INFORMATION</legend>
@@ -255,6 +275,8 @@ QUESTION_ORIGINAL_SIZE = 0;
 
 	//$(window).resize(page_H);
 /*
+	test
+	test
 	function page_H(){
 			
 		var windowH = $(window).height();

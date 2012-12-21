@@ -70,83 +70,7 @@ $(document).ready(function () {
     //height for all name container <span> on the sidebar
     
     //set dropable area for the draggable sidebar objects
-    $("#canvas").droppable({
-
-        drop: function (e, ui) {
-
-
-            if ($(ui.draggable)[0].id != "") {
-
-                ui.helper.remove();
-                //recreate an object based on dropped object
-                var Obj = $(ui.draggable)[0];
-
-                //set this oject to jquery
-                Obj = $(Obj);
-
-                if(Obj.hasClass('products')){
-                    //custom attribute uid is a refference to populate new image 
-                    var uid = Obj.attr('_uid');
-
-                    //image source can be generated using ajax 
-
-                    var _img_src = media_url+'products/';
-                    var p_d_qty = 1;
-                    var p_g_t = 'table';
-
-                    //get image filename from DB using product_id via ajax
-                    $.ajax({
-                        url: PRODUCT_IMAGE_URL,
-                        type: "POST",
-                        data: { product_id: uid},
-                        async:   false,
-                        success: function(data){
-                            //original
-                            img_src     = '/'+_img_src+data.original_image;
-                            img_w       = data.original_image_w;
-                            img_h       = data.original_image_h;
-                            img_w_bg    = data.original_image;
-                            img_wo_bg   = data.no_background;
-                            p_d_qty     = data.default_quantity;
-                            p_g_t       = data.guest_table;
-
-                            //create new image using image object
-                            var newObj = create_instance({
-                                        _uid     : uid,
-                                        _event   : e,
-                                        _src     : img_src,
-                                        _img_wo_b: img_wo_bg,
-                                        _img_w_b : img_w_bg,
-                                        _width   : img_w,
-                                        _height  : img_h,
-                                        _p_d_qty : p_d_qty,
-                                        _p_g_t   : p_g_t
-                                    });
-                        },
-                        error: function(msg) {
-                            alert(msg);
-                        }
-                    });
-
-                    //ajax add to cart
-                    add_to_cart(uid, p_d_qty, p_g_t);
-
-                }else if(Obj.hasClass('em')){
-
-                    var em_id = Obj.attr('id');
-                    var em_dbID = em_id.split('-');
-                    var type = Obj.attr('_type');
-
-                    if(type == 'Text'){
-                        object = create_instance_em_text(em_dbID[1],e,type);
-                    }else{
-                        object = create_instance_embellishments(em_dbID[1],e,type);
-                    }
-                }
-            }
-        }
-    });
-
+    droppable_all();
 
     //drag the selected product together with its handle on the fly
     $('.unselected').liveDraggable({
@@ -297,7 +221,7 @@ $(document).ready(function () {
                 reset_product();
             }
         }
-    });
+    }); 
 
 
     if(!$.browser.msie){//while IE is not yet supported
@@ -318,6 +242,9 @@ $(document).ready(function () {
             if((e.keyCode == 8 || e.keyCode == 46) && $('.selected').length > 0 && e.target.type != 'textarea') {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
+            } else if((e.keyCode == 8 || e.keyCode == 46) && $('#canvas .template.box.active').length > 0 && e.target.type != 'textarea') {
+                e.preventDefault();
+                $('#remove-btn').trigger('click');
             }
         }
     });
@@ -330,6 +257,9 @@ $(document).ready(function () {
                 e.preventDefault();
                 $('#remove-btn').trigger('click');
                 return false;
+            } else if((e.keyCode == 8 || e.keyCode == 46) && $('#canvas .template.box.active').length > 0 && e.target.type != 'textarea') {
+                e.preventDefault();
+                $('#remove-btn').trigger('click');
             }
         }
 
@@ -339,8 +269,23 @@ $(document).ready(function () {
     $('#remove-btn').click(function(e){
         e.preventDefault();
         if($('#canvas .template').length > 0){
+
+            var selected_uid = $('#canvas .template.box.active').find('img').attr('_uid');
+            var count = 0;
+
+            $('.templateImage.product').each(function(e){
+                if(selected_uid == $(this).attr('_uid')) {
+                    count++;
+                }
+            });
+
+            if (count<=1 && selected_uid != undefined)
+                remove_from_cart(parseInt(selected_uid,10));
+
             $('#canvas .template.box.active').removeClass('notEmpty').find('img').remove();
             $('#canvas .template.box').removeClass('hover active').find('span').show();
+            //console.log(count);
+            notEmpty = false;
         }else{
             objCounter--;
             updateZIndex($('.selected'));
@@ -398,10 +343,12 @@ $(document).ready(function () {
     $('#clone-btn').click(function(e){
         e.preventDefault();
         cancelBubble(e);
-        //show or hide upper left menu of canvas;
+        if(!$(this).hasClass('cloneFalse')){
+            //show or hide upper left menu of canvas;
+            obj = $('.selected');
+            cloneObj(obj);
+        }
         hide_canvas_menu();
-        obj = $('.selected');
-        cloneObj(obj);
     });
 
     //make selected product image PNG
@@ -659,19 +606,34 @@ function ie_message() {
 }
 
 function change_img_template(allAttr,background){
-    var box = $('<img/>');
-    var attr = allAttr;
-    var _nb = attr._nb;
-    var _wb = attr._wb;
-    box.attr(attr);
 
-    var __src   = (background == false) ? '/'+media_url+'products/'+_nb : '/'+media_url+'products/'+_wb;
-    box.attr('src',__src);
+    //$('#canvas .template.box.active').find('img')
 
-    box.load(function(){
-        $('.box.active').append(box);
-        box.siblings('img').remove();
-    });
+    if($.browser.msie && $.browser.version == 7.0){
+
+
+        var __src   = (background == false) ? '/'+media_url+'products/'+$('#canvas .template.box.active').find('img').attr('_nb') : '/'+media_url+'products/'+$('#canvas .template.box.active').find('img').attr('_wb');
+
+        $('#canvas .template.box.active').find('img').attr('src',__src + '?random=' + new Date().getTime());
+
+    } else {
+        var box = $('<img/>');
+        var attr = allAttr;
+        var _nb = attr._nb;
+        var _wb = attr._wb;
+        box.attr(attr);
+
+        var __src   = (background == false) ? '/'+media_url+'products/'+_nb : '/'+media_url+'products/'+_wb;
+        
+        box.attr('src',__src+'?random=' + new Date().getTime());
+
+        box.load(function(){
+            $('.box.active').append(box);
+            box.siblings('img').remove();
+            eventTracker($(this),'change_background');
+        });
+
+    }
 }
 
 function box_droppable(){
@@ -709,6 +671,7 @@ function box_droppable(){
 
                             //create new image using image object
                             var object = create_image_for_template({
+                                        _box     : _this,
                                         _uid     : uid,
                                         _event   : e,
                                         _src     : img_src,
@@ -720,18 +683,42 @@ function box_droppable(){
                                         _height  : this_height
                                     });
 
+                            var obj_id = $(object[0]).attr('_uid');
+
+                        
                             if(currentProd) {
-                                remove_from_cart(parseInt(currentProd,10));
+
+
+                                if(currentProd != obj_id) {
+
+                                    var selected_uid = currentProd;
+                                    var count = 0;
+
+                                    $('.templateImage.product').each(function(e){
+                                        if(selected_uid == $(this).attr('_uid')) {
+                                            count++;
+                                        }
+                                    });
+
+                                    if (count<=1) {
+                                        //console.log('delete by product');
+                                        remove_from_cart(parseInt(selected_uid,10));
+                                    }
+
+
+                                }
+
                             }
 
-                            //if($(_this).find('img').length > 0){
-                                $(object[0]).appendTo($(_this)).siblings('img').remove();
-                            //}else{
+                            $(_this).children('img').remove();
 
-                            //}
+                            $(object[0]).appendTo($(_this));
+                            
                             if(!$(_this).hasClass('active')){
                                 $(_this).addClass('active').siblings().removeClass('active');
                             }
+
+                            add_to_cart(uid, p_d_qty, p_g_t);
                         },
                         error: function(msg){
                             alert(msg);
@@ -744,7 +731,7 @@ function box_droppable(){
                         eventTracker($(_this),'drop_object');
                     },100);
 
-                    add_to_cart(uid, p_d_qty, p_g_t);
+                    //add_to_cart(uid, p_d_qty, p_g_t);
 
                 }else if(Obj.hasClass('em')){
 
@@ -755,18 +742,35 @@ function box_droppable(){
                     if(type == 'Text'){
                         //object = create_text_for_template(em_dbID[1],e,type);
                     }else{
-                        object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
+                        var object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
                         var currentProd = $(_this).find('img').attr('_uid');
 
 
                         if(currentProd) {
-                            remove_from_cart(parseInt(currentProd,10));
-                        }
 
-                        $(_this).html(object[0]);
+                            var selected_uid = currentProd;
+                            var count = 0;
+
+                            $('.templateImage.product').each(function(e){
+                                if(selected_uid == $(this).attr('_uid')) {
+                                        count++;
+                                }
+                            });
+
+                            if (count<=1) {
+                                remove_from_cart(parseInt(selected_uid,10));
+                            }
+
+                        }
+                        //$(_this).html(object[0]);
+
+                        $(object[0]).appendTo($(_this)).siblings('img').remove();
+
                         if(!$(_this).hasClass('active')){
                             $(_this).addClass('active').siblings().removeClass('active');
                         }
+
+                        template_fill();
 
                         setTimeout(function(){
                             eventTracker($(_this),'drop_object');
@@ -784,6 +788,8 @@ function create_embellishments_for_template(em_dbID,event,type,_width,_height){
     var object      = $('<img/>');
     var this_width    = 0;
     var this_height   = 0;
+    var box_Width     = _width;
+    var box_Height   = _height;
 
     object.attr({
         'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0&rand=' + new Date().getTime()
@@ -793,15 +799,12 @@ function create_embellishments_for_template(em_dbID,event,type,_width,_height){
         this_width = object.width();
         this_height = object.height();
 
-        if(_width > _height){
-            var dim = do_aspectratio(this_width, this_height, 'height', _height/this_height);
-        }else{
-            var dim = do_aspectratio(this_width, this_height, 'width', _width/this_width);
-        }
+        var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
+    
         object.width(dim.width).height(dim.height).css({
             position : 'absolute',
-            top: (_height/2)-(dim.height/2),
-            left: (_width/2)-(dim.width/2)
+            top: dim.top,
+            left: dim.left
         });
     });
 
@@ -836,6 +839,8 @@ function create_image_for_template(options){
     var object = $('<img/>');
     var this_width;
     var this_height;
+    var box_Height = options._height;
+    var box_Width = options._width;
 
     object.attr({
         '_uid': options._uid,
@@ -847,18 +852,15 @@ function create_image_for_template(options){
     }).addClass('templateImage product');
     
     object.load(function(){
-        this_width = object.width();
+        this_width  = object.width();
         this_height = object.height();
 
-        if(options._width > options._height){
-            var dim = do_aspectratio(this_width, this_height, 'height', options._height/this_height);
-        }else{
-            var dim = do_aspectratio(this_width, this_height, 'width', options._width/this_width);
-        }
+        var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
+    
         object.width(dim.width).height(dim.height).css({
             position : 'absolute',
-            top: (options._height/2)-(dim.height/2),
-            left: (options._width/2)-(dim.width/2)
+            top: dim.top,
+            left: dim.left
         });
     });
 
@@ -869,39 +871,90 @@ function create_image_for_template(options){
     
 }
 
-function do_aspectratio(width, height, respect, percent){
+function do_fit_dimension(box_Width, box_Height, this_width, this_height){
     
-    var dimension = new Array();
-    var aspectRatio = height/width;
-    if(respect == 'height'){
-        dimension['height'] = height*percent;
-        dimension['width'] = dimension['height']/aspectRatio;
-    }else if(respect == 'width'){
-        dimension['width'] = width*percent;
-        dimension['height'] = aspectRatio*dimension['width'];
+    var dimension = {};
+    var aspectRatio = this_height/this_width;
+    var percent     = this_width
+    var widthDiff   = box_Width-this_width;
+    var heightDiff  = box_Height-this_height;
+
+    //console.log(box_Width, box_Height, this_width, this_height);
+
+    if(widthDiff < heightDiff){
+        dimension.width  = box_Width;
+        dimension.height = dimension.width*aspectRatio;
+    }else{
+        dimension.height = box_Height;
+        dimension.width  = dimension.height/aspectRatio;
     }
+    dimension.top    = (box_Height/2)-(dimension.height/2);
+    dimension.left   = (box_Width/2)-(dimension.width/2);
+
+    //console.log(dimension);
 
     return dimension;
 }
 
 function drop_template(objects){
 
+    if($('#canvas .unselected').length > 0){
+        $('#canvas .unselected').remove();
+        //remove_all_cart();
+    }
+
+    $('.dynamic_qty').each(function(e){
+
+        remove_from_cart(parseInt($(this).attr('_pid'),10));
+
+    });
+
     $.each(objects, function(i, val){
         var object  = $('<div/>');
         var img     = $('<img/>');
+        var mtx     = val.matrix[0];
+
+        if($.browser.msie && $.browser.version < 9){
+            var rawMtx = rotate_global(-parseFloat(val.angle));
+            mtx.a = rawMtx.a;
+            mtx.b = rawMtx.b;
+            mtx.c = rawMtx.c;
+            mtx.d = rawMtx.d;
+        }
+
         object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
         object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
     
         object.attr({
             'opacity'   : val.opacity,
             'angle'     : val.angle,
-            '_matrix'   : '{"a":'+val.matrix[0].a+', "b":'+val.matrix[0].b+', "c":'+val.matrix[0].c+', "d":'+val.matrix[0].d+',"e":'+val.matrix[0].e+',"f":'+val.matrix[0].f+'}',
+            '_matrix'   : '{"a":'+mtx.a+', "b":'+mtx.b+', "c":'+mtx.c+', "d":'+mtx.d+',"e":'+mtx.e+',"f":'+mtx.f+'}',
             '_handle'   : val.handle,
             'rgb'       : val.rgb,
             'text'      : val.text,
             'style'     : val.style,
             '_uid'      : val.uid
         }).addClass('template');
+
+        var matrix = 'matrix('+ mtx.a +', '+ mtx.b +', '+ mtx.c +', '+ mtx.d +', 0, 0)',
+            ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+mtx.a+"', M12='"+mtx.b+"', M21='"+mtx.c+"', M22='"+mtx.d+"', sizingMethod='auto expand')";         
+        if($.browser.msie && $.browser.version == 9.0) {
+            object.css({
+                '-ms-transform'    : matrix
+            });
+        }else if($.browser.msie && $.browser.version < 9.0){
+            object.css({
+                'filter'           : ie_matrix,
+                '-ms-filter'       : '"' + ie_matrix + '"'
+            });
+        }else{
+            object.css({
+                '-moz-transform'   : matrix,
+                '-o-transform'     : matrix,
+                '-webkit-transform': matrix,
+                'transform'        : matrix
+            });
+        }
 
         img.attr('src',val.img[0].src);
 
@@ -941,6 +994,7 @@ function get_template_details(template_id){
         data: { id: template_id},
         async:   false,
         success: function(data){
+            data = data.split('null,').join('');
             json_data =eval(data);
         },
         error: function(msg) {
@@ -1307,6 +1361,85 @@ function update_text_selected(text_value,font_id){
 
 
 //product functions start
+function droppable_all(){
+    $("#canvas").droppable({
+
+        drop: function (e, ui) {
+
+
+            if ($(ui.draggable)[0].id != "") {
+
+                ui.helper.remove();
+                //recreate an object based on dropped object
+                var Obj = $(ui.draggable)[0];
+
+                //set this oject to jquery
+                Obj = $(Obj);
+
+                if(Obj.hasClass('products')){
+                    //custom attribute uid is a refference to populate new image 
+                    var uid = Obj.attr('_uid');
+
+                    //image source can be generated using ajax 
+
+                    var _img_src = media_url+'products/';
+                    var p_d_qty = 1;
+                    var p_g_t = 'table';
+
+                    //get image filename from DB using product_id via ajax
+                    $.ajax({
+                        url: PRODUCT_IMAGE_URL,
+                        type: "POST",
+                        data: { product_id: uid},
+                        async:   false,
+                        success: function(data){
+                            //original
+                            img_src     = '/'+_img_src+data.original_image;
+                            img_w       = data.original_image_w;
+                            img_h       = data.original_image_h;
+                            img_w_bg    = data.original_image;
+                            img_wo_bg   = data.no_background;
+                            p_d_qty     = data.default_quantity;
+                            p_g_t       = data.guest_table;
+
+                            //create new image using image object
+                            var newObj = create_instance({
+                                        _uid     : uid,
+                                        _event   : e,
+                                        _src     : img_src,
+                                        _img_wo_b: img_wo_bg,
+                                        _img_w_b : img_w_bg,
+                                        _width   : img_w,
+                                        _height  : img_h,
+                                        _p_d_qty : p_d_qty,
+                                        _p_g_t   : p_g_t
+                                    });
+                        },
+                        error: function(msg) {
+                            alert(msg);
+                        }
+                    });
+
+                    //ajax add to cart
+                    add_to_cart(uid, p_d_qty, p_g_t);
+
+                }else if(Obj.hasClass('em')){
+
+                    var em_id = Obj.attr('id');
+                    var em_dbID = em_id.split('-');
+                    var type = Obj.attr('_type');
+
+                    if(type == 'Text'){
+                        object = create_instance_em_text(em_dbID[1],e,type);
+                    }else{
+                        object = create_instance_embellishments(em_dbID[1],e,type);
+                    }
+                }
+            }
+        }
+    });
+}
+
 function create_instance(options){
     var object;
     var Obj_img = $('<img />').attr({'src':options._src+ "?" + new Date().getTime(),'_nb':options._img_wo_b,'_wb':options._img_w_b}).hide().load(function () {
@@ -1464,7 +1597,7 @@ function set_ctr_attr(obj){
 
 function aspectratio(width, height, percent){
 
-    var dimension = new Array();
+    var dimension = {};
     var aspectRatio = height/width;
     dimension['width'] = width*percent;
     dimension['height'] = aspectRatio*dimension['width'];
@@ -1474,15 +1607,32 @@ function aspectratio(width, height, percent){
 
 function remove_handles(event){
 
-    if(event.target != $('.handles')[0]){
-    
-        $handles.css('display','none');
-        $img_menus.css('display','none');
-        if($('.unselected').hasClass('selected')){
-            $('.unselected').removeClass('selected');
-            return true;
+    if($.browser.msie) {
+
+        if(event.target != $('.handles')[0] && !$(event.target).hasClass('templateImage') && !$(event.target).hasClass('templateEmbellishments')){
+        
+            $handles.css('display','none');
+            $img_menus.css('display','none');
+            if($('.unselected').hasClass('selected')){
+                $('.unselected').removeClass('selected');
+                return true;
+            }
+        
         }
-    
+
+    } else {
+
+        if(event.target != $('.handles')[0]){
+        
+            $handles.css('display','none');
+            $img_menus.css('display','none');
+            if($('.unselected').hasClass('selected')){
+                $('.unselected').removeClass('selected');
+                return true;
+            }
+        
+        }
+
     }
 }
 
@@ -1490,15 +1640,25 @@ function update_menu(obj,img_menu){
 
     img_menu = img_menu ? img_menu : false;
     
-    $img_menus.show();
-    
+    if($('.template').length > 0) {
+
+        if($(obj).length > 0) {
+            $img_menus.show();
+        } else {
+            $img_menus.hide();
+        }
+
+    } else {
+        $img_menus.show();
+    }
+
 
     if(obj.hasClass('templateImage') || obj.hasClass('templateEmbellishments')){
         $('#customBg-btn').hide();
         $('#remove-btn').parent().siblings('li').hide();
     }
 
-    if(img_menu){
+    if(img_menu || $('.template.box.active').children('.templateEmbellishments').length > 0){
         $('.imgBgControlWrap').hide();
         if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
             $('.colorAdjustment').hide();
@@ -1756,7 +1916,12 @@ function get_product_object_json(){
         var _uid = $(this).attr('_uid');
         var _def_qty = $(this).attr('def_qty');
         var _gst_tb = $(this).attr('gst_tb');
-        var _angle = $(this).attr('_angle')?$(this).attr('_angle'):0;
+        var _angle = 0;
+        if($(this).attr('_angle')){
+            _angle = $(this).attr('_angle');
+        } else if($(this).attr('angle')) {
+            _angle = $(this).attr('angle');
+        }
         var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
         var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
         var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
@@ -1774,7 +1939,66 @@ function get_product_object_json(){
         if($(this).hasClass('pattern'))
             type = 'pattern';
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style') });
-        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, img:_img});
+        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, cls: 'unselected', img:_img});
+    });
+    $('.template').each(function(){
+        var elm = $(this);
+        var elm_offset = elm.offset();
+        var elm_left = elm_offset.left;
+        var elm_top = elm_offset.top;
+        var product_left = Math.round(elm_left-canvas_left);
+        var product_top = Math.round(elm_top-canvas_top);
+        var filter = {};
+        if($.browser.msie && $.browser.version == 7.0){
+            filter = {'filter':'none'};
+        }else if($.browser.msie && $.browser.version == 8.0){
+            filter = {'msfilter':'none','-ms-filter':'none'};
+        }
+        $(this).css(filter);
+        var style = $(this).attr('style');
+        var _zindex = $(this).css('z-index');
+        var _matrix = [];
+        _matrix.push($.parseJSON($(this).attr('_matrix')));        
+        var _img = [];
+        var elm_img = $(this).find('img');
+        var _src = $(elm_img).attr('src');
+        var _nb = $(elm_img).attr('_nb');
+        var _wb = $(elm_img).attr('_wb');
+        var _cls = $(elm_img).attr('class');
+        var _handle = $(this).attr('_handle');
+        var _uid = $(this).attr('_uid');
+        var _def_qty = $(this).attr('def_qty');
+        var _gst_tb = $(this).attr('gst_tb');
+        var _angle = 0;
+        if($(this).attr('_angle')){            
+            _angle = $(this).attr('_angle');
+        } else if($(this).attr('angle')) {
+            _angle = $(this).attr('angle');            
+        }
+        var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
+        var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
+        var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
+        var type = 'box';
+        if($(this).hasClass('text'))
+            type = 'text';
+        if($(this).hasClass('image'))
+            type = 'image';
+        if($(this).hasClass('border'))
+            type = 'border';
+        if($(this).hasClass('shape'))
+            type = 'shape';
+        if($(this).hasClass('texture'))
+            type = 'texture';
+        if($(this).hasClass('pattern'))
+            type = 'pattern';
+
+        var _spantext = '';
+        if(type=='box'){
+            _spantext = $('span',this).text();
+        }
+
+        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style'), cls:_cls, uid:$(elm_img).attr('_uid') });
+        product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, cls: 'template', spantext:_spantext, img:_img});
     });
     var product_array = new Array();
     for (var i in product_objects){
@@ -2057,23 +2281,23 @@ function new_canvas(url){
 }
 
 function hide_canvas_menu(){
-    var warning = 'WARNING!!! Object inside the canvas exceed the 50 item limit: '+objCounter+' items.';
+    var warning = 'Warning! Canvas reached its 50-item limit. No additional items can be added.';
     if(objCounter < 1){
         $('.nwMenus').hide();
         $('#canvas').css('background-image','url(/media/images/canvasbg.jpg)');
-    }else if(objCounter > 50){
+    }else if(objCounter > 49){
+        if($('#canvas').hasClass('ui-droppable')){
+            $("#canvas").droppable('destroy');
+            $('#clone-btn').addClass('cloneFalse');
+        }
         $('#canvas').css('background-image','none');
         $('#object-counter').text(warning).show();
         $('.nwMenus').show();
-        $('#save').unbind('click');
+        //$('#save').unbind('click');
     }else{
+        droppable_all();
+        $('#clone-btn').removeClass('cloneFalse');
         $('#canvas').css('background-image','none');
-        $('#save').bind('click',function(e){
-            if ($('#canvas-wrap .unselected').length>0){
-                pop_save_styleboard();
-            }
-            e.preventDefault();
-        });
         $('#object-counter').hide();
         $('.nwMenus').show();
     }
@@ -2123,7 +2347,7 @@ function make_center_template(){
         }
 
         $('#canvas .template').each(function(){
-            var each_aspect         = do_aspectratio_template($(this).width(),$(this).height(),percent);
+            var each_aspect         = do_aspectratio_wRespect_template($(this).width(),$(this).height(),percent);
             var present_top         = parseFloat($(this).css('top'));
             var present_left        = parseFloat($(this).css('left'));
 
@@ -2165,9 +2389,9 @@ function canvas_bb_ctr_diff_template(box_centerY, box_centerX){
     return ctr_diff;
 }
 
-function do_aspectratio_template(width, height, percent){
+function do_aspectratio_wRespect_template(width, height, percent){
     
-    var dimension = new Array();
+    var dimension = {};
     var aspectRatio = height/width;
     dimension['width'] = width*percent;
     dimension['height'] = aspectRatio*dimension['width'];
@@ -2235,8 +2459,21 @@ function computeBboxDimension_template() {
 
 }
 
+// Rotate Element to the Given Degree
+rotate_global = function(degree) {
+    var cos = parseFloat(parseFloat(Math.cos(degToRad_global(-degree)))),
+        sin = parseFloat(parseFloat(Math.sin(degToRad_global(-degree)))),
+        mtx = {a:cos, b:sin, c:(-sin), d:cos};
+        
+    return mtx;
+};
+
+degToRad_global = function(d) {
+    return (d * (Math.PI / 180));
+};
 
 (function ($) {
+    
    $.fn.liveDraggable = function (opts) {
       this.live("mouseover", function(e) {
          if (!$(this).data("init")) {

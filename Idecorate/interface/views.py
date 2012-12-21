@@ -784,3 +784,20 @@ def get_template_details(request):
 			return HttpResponse('0')
 	else:
 		return HttpResponseNotFound()
+
+def checkout_login(request):
+	if request.method == 'POST':
+		user = authenticate(username=request.POST.get('checkout_email',''), password=request.POST.get('checkout_password',''))
+		if user is not None:
+			if user.is_active:
+				login(request, user)
+			else:
+				#disabled user
+				request.session['checkout_login_error'] = 'Sorry this account is disabled.'
+		else:
+			#invalid login
+			request.session['checkout_login_error'] = 'Sorry we could not verify your username and password.'
+
+		return redirect('plata_shop_checkout')
+	else:
+		return redirect('home')

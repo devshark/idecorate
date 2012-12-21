@@ -467,7 +467,7 @@ def get_images(home_banner_id):
 def getProductCategoryName(product):
 	res = ''
 	for p in product.categories.all():
-		res += '<span>%s</span>' % p.name
+		res += '%s<br>' % p.name
 	return mark_safe(res)
 
 def getProductDetails(product):
@@ -484,7 +484,8 @@ def getProductDetail(product,what):
 	else:
 		r = ''
 		if what=='comment':
-			r = mark_safe(prod.comment)
+			if prod.comment:
+				r = mark_safe(prod.comment)				
 		elif what=='size':
 			r = prod.size
 		elif what=='colour':
@@ -522,11 +523,14 @@ def getProductDetail(product,what):
 
 @register.filter
 def currency(dollars):
-	dollars = round(float(dollars), 2)
-	return "%s%s" % (intcomma(int(dollars)), ("%0.2f" % dollars)[-3:])
+	if dollars != '':
+		dollars = round(float(dollars), 2)
+		return "%s%s" % (intcomma(int(dollars)), ("%0.2f" % dollars)[-3:])
+	else:
+		return '0.00'
 
-@register.filter
-def getRevenue(product):
+
+def getRevenueRaw(product):
 	retail_price = getProductPrice(product)
 	qty_sold = getProductDetail(product,'qtysold')
 	qs = qty_sold
@@ -536,6 +540,11 @@ def getRevenue(product):
 		qs = decimal.Decimal(qty_sold)
 
 	rev = qs*decimal.Decimal(retail_price)
+	return rev
+
+@register.filter
+def getRevenue(product):
+	rev = getRevenueRaw(product)
 	if rev <= 0:
 		rev = ''
 	else:
@@ -545,8 +554,8 @@ def getRevenue(product):
 
 @register.filter
 def getNetProfit(product):
-	rev = getRevenue(product)
-	cogs = getProductDetail(product,'cogs')
+	rev = getRevenueRaw(product)	
+	cogs = getProductDetail(product,'cogs')	
 	if not rev:
 		rev = 0
 	else:
@@ -555,11 +564,10 @@ def getNetProfit(product):
 	if not cogs:
 		cogs = 0
 	else:
-		rev = decimal.Decimal(cogs)
-
+		cogs = decimal.Decimal(cogs)
 	net_profit = rev-cogs
 	if not net_profit:
-		net_profit = ''
+		net_profit = '0.00'
 	else:
 		net_profit = currency(net_profit)
 	return net_profit
@@ -594,3 +602,11 @@ def getOppCostExcess(product):
 	opp_cost = retail_price*excess
 
 	return currency(opp_cost)
+
+@register.filter
+def getProductCategories2(product):
+
+	categories = product.categories.all().order_by('name')
+	catList = [cat.name for cat in categories if cat.parent == None]
+
+	return mark_safe("<br>".join(catList))

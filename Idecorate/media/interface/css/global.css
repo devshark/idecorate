@@ -278,8 +278,7 @@ h5 {
       font-weight: bold;
       display: inline-block;
       zoom: 1;
-      *display: inline;
-      text-align: center; }
+      *display: inline; }
       .categoryWrapper ul li a {
         padding: 0 10px;
         font-size: 1.2em;
@@ -287,6 +286,8 @@ h5 {
         color: #ffffff;
         text-decoration: none;
         text-transform: uppercase; }
+    .categoryWrapper ul ul {
+      text-align: left !important; }
 
 p {
   font-size: 1.1em;

@@ -16,6 +16,8 @@ var temp_window_height;
 var temp_window_width;
 var temp_uploaded_filename;
 var temp_error_upload = false;
+var ok = false;
+var timer;
 
 $(document).ready(function(){
 	$('a[href="#templates"]').click(function(){
@@ -28,9 +30,69 @@ $(document).ready(function(){
 		if(create_current_tab != 'templates'){
 			create_current_tab = 'templates';
 			populate_template_items();
+            timer = setInterval(_resize_document,100);
 		}
 	});
+    $(window).resize(function(){
+        _resize_template();
+    });
+
+    $('#templates .template-wrap').on('mousewheel',function(event,delta){                
+        temp_offset = temp_item_per_page;
+        if (delta > 0){
+            if (temp_current_page != 1){
+                temp_current_page = temp_current_page-1;
+                temp_next_page = temp_current_page;
+                temp_withloading = true;
+                populate_template_by_page()
+            }
+        } else {
+            if(temp_current_page != temp_total_pages){
+                temp_current_page = temp_current_page+1;
+                temp_next_page = temp_current_page;
+                temp_withloading = true;
+                populate_template_by_page();                        
+            }
+        }
+        // $('#templates .pagination .cur-page').removeClass('cur-page');
+        // $('#temp-page-number-' + temp_current_page).addClass('cur-page');
+
+        // $('#manage-template-sidebar .pagination .cur-page').removeClass('cur-page');
+        // $('#emb-page-number-' + temp_current_page).addClass('cur-page');
+        generate_template_pagination();
+    });
 });
+
+function _resize_document(){
+    if (ok){
+        var h = $('#templates .template-wrap').outerHeight(true)+$('#templates .pagination').outerHeight(true);
+        var sbwh = $('#sidebar-wrap').outerHeight(true);
+        var sbfw = $('#sidebar-form-wrap').outerHeight(true);
+        var ct = $('#create-tab').outerHeight(true);
+
+        var h11 = h+sbfw;
+        var h22 = ct+sbfw;
+        if(h11>h22){
+            $('#templates').height(h+$('#create-tab-nav').outerHeight(true)+3);
+            $('#create-tab').height(h+$('#create-tab-nav').outerHeight(true)+3);
+            $('#canvas').height($('#canvas-wrap').outerHeight(true));
+        }
+        clearInterval(timer);
+        ok = false;
+    }
+}
+
+function _resize_template(){    
+    if($.browser.msie && $.browser.version == 8.0){
+        if ( $(window).height() != temp_window_height && $(window).width() != temp_window_width ) {
+            temp_window_height = $(window).height();
+            temp_window_width = $(window).width();
+            manage_template_resize();
+        }
+    } else {
+        manage_template_resize();
+    }
+}
 
 function populate_template_items(){
 	$('#templates .template-wrap').html('');
@@ -112,14 +174,20 @@ function manage_template_pagination(){
             if (item_per_height>_height && count_by_height > 1)
                 count_by_height = count_by_height-1;
 
+            if (count_by_height<=0){
+                count_by_height = 1;
+            }
+
             temp_item_per_page = count_by_width*count_by_height;
             temp_offset = temp_item_per_page;
             
             $('#templates .template-wrap a').each(function(i,v){
                 if ((i+1)>temp_item_per_page){
-                    $(this).remove();
-                } else 
+                    $(this).addClass('invisible');
+                } else {
                     $(this).removeClass('hidden');
+                    $(this).removeClass('invisible');
+                }
             });
 
             temp_total_pages = Math.ceil(parseInt(temp_total_item_count)/temp_item_per_page);
@@ -172,8 +240,104 @@ function generate_template_pagination(){
         $('#templates .pagination .cur-page').removeClass('cur-page');
         $('#temp-page-number-' + temp_current_page).addClass('cur-page');
         //generate_embellishment_pagination();
-    });    
-    $('#templates .template-wrap').height($('#templates').outerHeight(true)-$('#templates .pagination').outerHeight(true));
+    });
+    ok = true;
+}
+
+function manage_template_resize(){
+    $('#templates a:first img').each(function(){
+        getHeight($(this),function(h){
+            var elm = $('#templates a:first');
+            var _width = $('#templates').width();
+            var _item_width = $(elm).outerWidth(true);
+            var count_by_width = Math.round(_width/_item_width);
+            var item_per_width = _item_width*count_by_width;
+            if (item_per_width > _width)
+                count_by_width = count_by_width - 1;
+
+            var _height = $('#templates').height();
+            var _pagination_height = $('#templates .pagination').outerHeight(true);
+            _height = _height-_pagination_height;
+            var _item_height = $(elm).outerHeight(true);
+            if (_item_height>_height)
+                _height = _item_height;
+            else
+                _height = _height-5;
+
+            var count_by_height = Math.round(_height/_item_height);
+            var item_per_height = _item_height*count_by_height;
+            
+            $('#templates .template-wrap').height(_height);            
+
+            if (item_per_height>_height && count_by_height > 1)
+                count_by_height = count_by_height-1;
+
+            if (count_by_height<=0){
+                count_by_height = 1;
+            }
+
+            temp_item_per_page = count_by_width*count_by_height;
+            temp_offset = temp_item_per_page;
+            
+            $('#templates .template-wrap a').each(function(i,v){
+                if ((i+1)>temp_item_per_page){
+                    $(this).addClass('invisible');
+                } else {
+                    $(this).removeClass('hidden');
+                    $(this).removeClass('invisible');
+                }
+            });
+            temp_total_item_count = parseInt(temp_total_item_count);
+            temp_total_pages = Math.ceil(parseInt(temp_total_item_count)/temp_item_per_page);            
+            temp_next_page = temp_current_page;
+            if (temp_total_item_count > temp_item_per_page){
+                if(temp_item_per_page > $('#templates .template-wrap a').length){
+                    var url = GET_TEMPLATES_LIST_URL + '?page='+temp_next_page+'&offset='+temp_offset;
+                    $.ajax({
+                        url: url,
+                        type: "POST",
+                        dataType: 'json',
+                        async:   false,
+                        beforeSend : function(a){
+                            
+                        },
+                        success: function(response_data){
+                            var data = $.parseJSON(response_data.data);
+                            temp_total_item_count = response_data.product_counts;
+                            temp_page_number = response_data.page_number;
+                            temp_num_pages = response_data.num_pages;
+                            var item_count = $('#templates .template-wrap a').length;
+                            $.each(data,function(i,v){
+                                if(item_count<temp_item_per_page){ 
+                                    var id = v.pk;
+                                    if ($('#temp-'+id).length == 0){   
+                                        var img_src_url = '/styleboard/generate_styleboard_template_view/' + id + '/139/139/'
+                                        var a = $('<a />');
+                                        a.attr('id','temp-'+id);
+                                        a.attr('_uid',id);
+                                        a.attr('_type',response_data.type);
+                                        a.addClass('thumb');
+                                        a.addClass('draggable');
+                                        a.addClass('hidden');
+                                        a.addClass('temp');
+                                        var img = $('<img />');
+                                        img.attr('src',img_src_url);
+                                        img.appendTo(a);
+                                        a.appendTo('.template-wrap');
+                                        item_count++;
+                                    }
+                                }
+                            });
+                        },
+                        error: function(msg) {
+                        }
+                    });
+                }
+            }
+            
+            generate_template_pagination();
+        });
+    });
 }
 
 function populate_template_by_page(){

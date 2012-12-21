@@ -66,16 +66,9 @@ $(document).ready(function(){
             }           
         }
         return false;
-    });
+    });    
     
-    // if($.browser.safari){
-    //     $('#uploadImage input[type=file]').blur(SITE.fileInputs);
-    // } else {
-        
-    // }
-    
-    
-    if($.browser.safari){
+    if($.browser.safari || $.browser.msie){
         $('#btn-from-my-computer').hide();
         $('#uploadImage .file-wrapper input[type=file]').css({
             'opacity': 100,
@@ -90,6 +83,28 @@ $(document).ready(function(){
     } else {
         $('#uploadImage input[type=file]').change(manage_upload);
     }
+
+    $('#manage-template-sidebar #embellishment-wrap .emItem').on('mousewheel',function(event,delta){                
+        emb_offset = emb_item_per_page;
+        if (delta > 0){
+            if (emb_current_page != 1){
+                emb_current_page = emb_current_page-1;
+                emb_next_page = emb_current_page;
+                emb_withloading = true;
+                populate_embellishment_by_page()
+            }
+        } else {
+            if(emb_current_page != emb_total_pages){
+                emb_current_page = emb_current_page+1;
+                emb_next_page = emb_current_page;
+                emb_withloading = true;
+                populate_embellishment_by_page();                        
+            }
+        }
+        $('#manage-template-sidebar .pagination .cur-page').removeClass('cur-page');
+        $('#emb-page-number-' + emb_current_page).addClass('cur-page');
+        generate_embellishment_pagination();
+    });
 });
 
 function manage_upload(e) {
@@ -161,6 +176,7 @@ function get_embellishment_items(){
             }
         },
         success: function(response_data){
+            $('#embellishment-wrap .emCat').hide();
             var data = $.parseJSON(response_data.data);
             emb_total_item_count = response_data.product_counts;
             emb_page_number = response_data.page_number;
@@ -174,15 +190,14 @@ function get_embellishment_items(){
                 a.attr('_type',response_data.type);
                 a.addClass('thumb');
                 a.addClass('draggable');
-                a.addClass('hidden');
+                a.addClass('invisible');
                 a.addClass('em');
                 var img = $('<img />');
                 img.attr('src',img_src_url);
                 img.appendTo(a);
                 a.appendTo('#embellishment-wrap .emItem');
             });
-            manage_embellishment_pagination();
-            $('#embellishment-wrap .emCat').hide();
+            manage_embellishment_pagination();            
             setTimeout(emb_remove_overlay,0);
         },
         error: function(msg) {
@@ -225,39 +240,25 @@ function manage_embellishment_pagination(){
             if (item_per_height>_height)
                 count_by_height = count_by_height-1;
 
+            if(count_by_height<1){
+                count_by_height = 1;
+            }
+
             emb_item_per_page = count_by_width*count_by_height;
             emb_offset = emb_item_per_page;            
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
-                    $(this).remove();
-                } else 
-                    $(this).removeClass('hidden');
+                    if(!$(this).hasClass('hidden')){
+                        $(this).addClass('hidden');
+                    }                   
+                } else {
+                    $(this).removeClass('invisible');
+                }
+                    
             });
 
             emb_total_pages = Math.ceil(parseInt(emb_total_item_count)/emb_item_per_page);
-            generate_embellishment_pagination();
-
-            $('#manage-template-sidebar #embellishment-wrap .emItem').on('mousewheel',function(event,delta){                
-                emb_offset = emb_item_per_page;
-                if (delta > 0){
-                    if (emb_current_page != 1){
-                        emb_current_page = emb_current_page-1;
-                        emb_next_page = emb_current_page;
-                        emb_withloading = true;
-                        populate_embellishment_by_page()
-                    }
-                } else {
-                    if(emb_current_page != emb_total_pages){
-                        emb_current_page = emb_current_page+1;
-                        emb_next_page = emb_current_page;
-                        emb_withloading = true;
-                        populate_embellishment_by_page();                        
-                    }
-                }
-                $('#manage-template-sidebar .pagination .cur-page').removeClass('cur-page');
-                $('#emb-page-number-' + emb_current_page).addClass('cur-page');
-                generate_embellishment_pagination();
-            });
+            generate_embellishment_pagination();            
         });
     });
     // if($.browser.msie && $.browser.version == 7.0){
@@ -316,7 +317,11 @@ function populate_embellishment_by_page(){
 function manage_embellishment_resize(){
     $('#embellishment-wrap .emItem a:first img').each(function(){
         getHeight($(this),function(h){
-            var elm = $('#embellishment-wrap .emItem a:first');            
+            var elm = $('#embellishment-wrap .emItem a:first');
+
+            $('#embellishment-wrap .emItem a').each(function(){
+                $(this).addClass('invisible');
+            });
 
             var _width = $('#embellishment-wrap').width();                     
             var _item_width = $(elm).outerWidth(true);            
@@ -346,8 +351,11 @@ function manage_embellishment_resize(){
             var item_per_height = _item_height*count_by_height;            
             $('#manage-template-sidebar #embellishment-wrap .emItem').height(_height);            
 
-            if (item_per_height>_height)
+            if (item_per_height>_height && count_by_height>1)
                 count_by_height = count_by_height-1;
+
+            if(count_by_height<1)
+                count_by_height = 1;
 
             emb_item_per_page = count_by_width*count_by_height;
 
@@ -355,7 +363,10 @@ function manage_embellishment_resize(){
             
             $('#embellishment-wrap .emItem a').each(function(i,v){
                 if ((i+1)>emb_item_per_page){
-                    $(this).remove();
+                    $(this).addClass('hidden');
+                } else {
+                    $(this).removeClass('hidden');
+                    $(this).removeClass('invisible');
                 }
             });
 
@@ -400,7 +411,6 @@ function manage_embellishment_resize(){
                                         a.attr('id','emb-'+id);
                                         a.addClass('thumb');
                                         a.addClass('draggable');
-                                        a.addClass('hidden');
                                         a.addClass('em');
                                         var img = $('<img />');
                                         img.attr('src',img_src_url);
@@ -411,7 +421,7 @@ function manage_embellishment_resize(){
                                 }
                                 
                             });
-                            manage_embellishment_pagination();
+                            //manage_embellishment_pagination();
                             $('#embellishment-wrap .emCat').hide();
                             setTimeout(emb_remove_overlay,1000);
                         },
@@ -490,9 +500,14 @@ function hideUploadEmbellishment(){
     $('.file-wrapper input[type="button"]').hide();
     $('#form_submit_button').hide();
 }
-function showUploadEmbellishment(){    
-    $('#picture').val('');
-    if (!$.browser.safari){
+function showUploadEmbellishment(){
+    if ($.browser.msie){
+        $('#picture').replaceWith($('#picture').clone());
+    } else {
+        $('#picture').val('');
+    }
+    
+    if (!$.browser.safari && !$.browser.msie){
         $('.file-wrapper input[type="button"]').show();
         $('#form_submit_button').hide();
     } else {

@@ -36,17 +36,6 @@
         }
         .file-wrapper input[type=file] {
             height: 30px;
-            cursor: pointer;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            font-size: 100px;
-            z-index: 2;
-            opacity: 0.0; /* Standard: FF gt 1.5, Opera, Safari */
-            filter: alpha(opacity=0); /* IE lt 8 */
-            -ms-filter: "alpha(opacity=0)"; /* IE 8 */
-            -khtml-opacity: 0.0; /* Safari 1.x */
-            -moz-opacity: 0.0; /* FF lt 1.5, Netscape */
         }
         .file-wrapper .button, .tp-button {
           cursor: pointer;
@@ -99,66 +88,18 @@
             left: 0;
             z-index: 99999;
         }
+        .emItem .invisible {
+            visibility: hidden;
+        }
+        .emItem .hidden {
+            display: none;
+        }
         </style>
     </head>
     <body>
     	<div id="manage-template-header" class="header  clearfix">
     		<h1>iDecorate</h1>
-            <div class="navigation">
-        		<ul class="nav clearfix">
-    				<li>
-    					<a href="{% url admin %}">{% trans "Home" %}</a>
-    				</li>
-                    <li>
-                        <a href="{% url admin_manage_users %}">{% trans "Manage Users" %}</a>
-                    </li>
-    				<li>
-    					<a href="{% url admin_manage_menu %}">{% trans "Manage Menu" %}</a>
-    				</li>
-    				<li>
-    					<a href="{% url category %}">{% trans "Manage Product Categories" %}</a>
-    				</li>
-    				<li>
-    					<a href="{% url admin_manage_product %}">{% trans "Manage Products" %} &#x25bc;</a>
-    					<ul>
-    						<li>
-    							<a href="{% url admin_create_product %}">{% trans "Create Product" %}</a>
-    						</li>
-    					</ul>
-    				</li>
-    				<li>
-    					<a href="{% url admin_manage_embellishment %}">{% trans "Manage Embellishments" %} &#x25bc;</a> 
-    					<ul>
-    						<li>
-    							<a href="{% url admin_upload_embellishment %}">{% trans "Upload Embellishment" %}</a>
-    						</li>
-    					</ul>
-    				</li>
-    				<li>
-    				<a href="{% url admin_manage_font %}">{% trans "Manage Text Fonts" %} &#x25bc;</a>
-    					<ul>
-    						<li>
-    							<a href="{% url admin_manage_text_font %}">{% trans "Upload Font" %}</a>
-    						</li>
-    					</ul>
-    				</li>
-    				<li>
-    					<a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a>
-    				</li>
-    				<li>
-    					<a href="{% url manage_template %}">{% trans "Create Template" %}</a>
-    				</li>
-    				<li>
-    					<a href="{% url manage_homepage %}">{% trans "Manage Homepage" %} &#x25bc;</a>
-    					<ul>
-    	                  	<li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
-    	                </ul>
-    				</li>
-    				<li>
-    					<a href="{% url admin_logout %}">{% trans "Logout" %}</a>
-    				</li>
-    			</ul>
-            </div>
+            {% include "admin/navbar.html" %}
     	</div>
 		<div class="mainContent" id="manage-template-main">
 			<table class="Content" border="0" cellpadding="0" cellspacing="0" id="main-content">
@@ -300,7 +241,25 @@
     			resize();
     		});
             $('#save').click(save_template_pop);
-            $('#close-save-styleboard-modal').click(closed_modal)
+            $('#close-save-styleboard-modal').click(closed_modal);
+
+            if (!$.browser.msie && !$.browser.safari){
+                $('.file-wrapper input[type="file"]').css({
+                    'height': 30,
+                    'cursor': 'pointer',
+                    'position': 'absolute',
+                    'top': 0,
+                    'right': 0,
+                    'font-size': 100,
+                    'z-index': 2,
+                    'opacity': 0.0,
+                    'filter': 'alpha(opacity=0)',
+                    '-ms-filter': "alpha(opacity=0)",
+                    '-khtml-opacity': 0.0,
+                    '-moz-opacity': 0.0
+                });
+            }
+
     	});
 
     	$(window).resize(resize);

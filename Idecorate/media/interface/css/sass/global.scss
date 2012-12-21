@@ -333,7 +333,6 @@ h5 {
       display:inline-block;
       zoom:1;
       *display: inline;
-      text-align: center;
 
       a {
         padding: 0 10px;
@@ -343,7 +342,9 @@ h5 {
         text-decoration: none;
         text-transform: uppercase;
       }
-
+    }
+    ul{
+        text-align: left !important;
     }
 
   }
