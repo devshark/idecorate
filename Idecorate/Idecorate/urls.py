@@ -70,6 +70,7 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/update_qty_sold/$', 'update_qty_sold', {}, name='update_qty_sold'),
     url(r'^admin/export_inventory_finance_report/$', 'export_inventory_finance_report', {}, name='export_inventory_finance_report'),
     url(r'^admin/csv_export_report/$', 'csv_export_report', {}, name='csv_export_report'),
+    url(r'^admin/import_csv_report/$', 'import_csv_report', {}, name='import_csv_report'),
 )
 
 """

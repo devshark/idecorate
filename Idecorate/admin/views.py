@@ -17,7 +17,7 @@ from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
 from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails
-from plata.shop.models import TaxClass, Order
+from plata.shop.models import TaxClass, Order, OrderItem
 import shutil
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -41,6 +41,7 @@ import decimal
 from django.template import loader, Context
 from django.utils import simplejson
 import csv
+from customer.models import StyleBoardCartItems
 
 @staff_member_required
 def admin(request):
@@ -273,11 +274,18 @@ def admin_delete_product(request,id_delete):
 	
 	product = Product.objects.get(id=int(id_delete))
 
-	product.is_deleted = True
-	product.is_active = False
-	product.save()
+	stp = StyleBoardCartItems.objects.filter(product=product)
+	ot = OrderItem.objects.filter(product=product,order__status=40)
 
-	messages.success(request, _('Product deleted.'))
+	if stp.count() > 0 or ot.count() > 0:
+		request.session['gt_errors'] = [_('You cannot delete used product.')]
+	else:
+
+		product.is_deleted = True
+		product.is_active = False
+		product.save()
+
+		messages.success(request, _('Product deleted.'))
 
 	if request.session.get('manage_product_redirect', False):
 		return redirect(reverse('admin_manage_product') + request.session['manage_product_redirect'])
@@ -2193,3 +2201,116 @@ def csv_export_report(request):
 def unicode_convert(strString):
 	strString = '%s' % strString.replace("\\n","\r\n")		
 	return strString.encode('utf-8')
+
+@csrf_exempt
+def import_csv_report(request):
+	if request.method == 'POST':
+		i=0
+		csv_data = csv.reader(request.FILES['csv'])		
+		for row in csv_data:			
+			print row[2]
+			if i > 0:
+				data = {}
+				rcount = len(row)
+				i_name = 0
+				i_item_code = 2
+				i_comment = 3
+				i_description = 6
+				i_size = 4
+				i_color = 5
+				i_unit_price = 7
+				i_pcs_ctn = 8
+				i_moq_ctns = 9
+				i_qty_sold = 12
+				i_retail_price = 14
+				if rcount > 23:
+					i_name = i_name+1
+					i_item_code += 1
+					i_comment += 1
+					i_description += 1
+					i_size += 1
+					i_color += 1
+					i_unit_price += 1
+					i_pcs_ctn += 1
+					i_moq_ctns += 1
+					i_qty_sold += 1
+					i_retail_price += 1
+
+				data['item_name'] = row[i_name]
+				data['item_code'] = row[i_item_code]			
+				data['description'] = row[i_description]
+
+				data['comment'] = row[i_comment]
+				data['size'] = row[i_size]
+				data['color'] = row[i_color]
+				data['unit_price'] = row[i_unit_price]
+				data['pcs_ctn'] = row[i_pcs_ctn]
+				data['moq_ctns'] = row[i_moq_ctns]
+				data['qty_sold'] = row[i_qty_sold]
+
+				data['retail_price'] = row[i_retail_price]
+
+				import_update_data(data)
+			i += 1
+		return HttpResponse(1)
+	else:
+		return HttpResponseNotFound()
+
+def import_update_data(data):
+	try:
+		product = Product.objects.get(sku=data['item_code'])
+		import_update_retail_price(product, data['retail_price'])
+		import_update_product_details(product, data)
+
+		product.name = data['item_name']
+		product.description = data['description']
+		product.save()
+	except Exception as e:
+		pass
+
+def import_update_retail_price(product, retail_price):
+	try:
+		retail_price = retail_price.replace(',','')
+		productPrice = ProductPrice.objects.get(product=product)
+		productPrice._unit_price = retail_price
+		productPrice.save()
+	except Exception as e:
+		pass
+
+def import_update_product_details(product, data):
+	try:
+		productDetail = ProductDetails.objects.get(product=product)		
+		productDetail.comment = data['comment']
+		productDetail.size = data['size']
+		productDetail.color = data['color']
+		try:
+			unit_price = decimal.Decimal(data['unit_price'].replace(',',''))
+		except:
+			unit_price = 0
+		productDetail.unit_price = unit_price
+		try:
+			pcs_ctn = int(data['pcs_ctn'].replace(',',''))
+		except:
+			pcs_ctn = 0
+		productDetail.pieces_carton = pcs_ctn
+		try:
+			moq_ctns = int(data['moq_ctns'].replace(',',''))
+		except:
+			moq_ctns = 0
+
+		productDetail.min_order_qty_carton = moq_ctns
+		min_order_qty_pieces = pcs_ctn*moq_ctns
+		cost_min_order_qty = decimal.Decimal(min_order_qty_pieces) * unit_price
+
+		productDetail.min_order_qty_pieces = min_order_qty_pieces
+		productDetail.cost_min_order_qty = cost_min_order_qty
+		try:
+			qty_sold = int(data['qty_sold'].replace(',',''))
+		except:
+			qty_sold = 0
+		productDetail.qty_sold = qty_sold
+
+		productDetail.save()
+	except Exception as e:
+		print e
+		pass
