@@ -117,7 +117,7 @@ class IdecorateEmail(object):
         isHTML = kwargs.get('isHTML',False)
         
         sendMail = ["/usr/sbin/sendmail", "-f", mail_from, mail_to]
-        sendMail = subprocess.Popen(sendMail, stdin=None, stdout=None, stderr=None)
+        sendMail = subprocess.Popen(sendMail, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         
         htmlHeader = "MIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1\n" if isHTML else ""
         cmd = "%sFrom: %s\nTo: %s\nSubject: %s\n\n%s\n.\n" % (htmlHeader,mail_from, mail_to, subject, body)
