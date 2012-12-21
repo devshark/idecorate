@@ -882,14 +882,14 @@ function do_fit_dimension(box_Width, box_Height, this_width, this_height){
     //console.log(box_Width, box_Height, this_width, this_height);
 
     if(widthDiff < heightDiff){
-        dimension['width']  = box_Width;
-        dimension['height'] = dimension['width']*aspectRatio;
+        dimension.width  = box_Width;
+        dimension.height = dimension.width*aspectRatio;
     }else{
-        dimension['height'] = box_Height;
-        dimension['width']  = dimension['height']/aspectRatio;
+        dimension.height = box_Height;
+        dimension.width  = dimension.height/aspectRatio;
     }
-    dimension['top']    = (box_Height/2)-(dimension['height']/2);
-    dimension['left']   = (box_Width/2)-(dimension['width']/2);
+    dimension.top    = (box_Height/2)-(dimension.height/2);
+    dimension.left   = (box_Width/2)-(dimension.width/2);
 
     //console.log(dimension);
 
