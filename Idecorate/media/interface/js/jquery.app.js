@@ -613,7 +613,8 @@ function change_img_template(allAttr,background){
     box.attr(attr);
 
     var __src   = (background == false) ? '/'+media_url+'products/'+_nb : '/'+media_url+'products/'+_wb;
-    box.attr('src',__src);
+    
+    box.attr('src',__src+'?random=' + new Date().getTime());
 
     box.load(function(){
         $('.box.active').append(box);
