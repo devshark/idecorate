@@ -484,7 +484,8 @@ def getProductDetail(product,what):
 	else:
 		r = ''
 		if what=='comment':
-			r = mark_safe(prod.comment)
+			if prod.comment:
+				r = mark_safe(prod.comment)				
 		elif what=='size':
 			r = prod.size
 		elif what=='colour':
