@@ -821,11 +821,13 @@ function create_image_for_template(options){
 
 function do_fit_dimension(box_Width, box_Height, this_width, this_height){
     
-    var dimension = new Array();
-    var aspectRatio = this_width/this_height;
+    var dimension = {};
+    var aspectRatio = this_height/this_width;
+    var percent     = this_width
     var widthDiff   = box_Width-this_width;
     var heightDiff  = box_Height-this_height;
-    console.log(widthDiff,heightDiff,aspectRatio);
+
+    console.log(box_Width, box_Height, this_width, this_height);
 
     if(widthDiff < heightDiff){
         dimension['width']  = box_Width;
@@ -1527,7 +1529,7 @@ function set_ctr_attr(obj){
 
 function aspectratio(width, height, percent){
 
-    var dimension = new Array();
+    var dimension = {};
     var aspectRatio = height/width;
     dimension['width'] = width*percent;
     dimension['height'] = aspectRatio*dimension['width'];
@@ -2288,7 +2290,7 @@ function canvas_bb_ctr_diff_template(box_centerY, box_centerX){
 
 function do_aspectratio_wRespect_template(width, height, percent){
     
-    var dimension = new Array();
+    var dimension = {};
     var aspectRatio = height/width;
     dimension['width'] = width*percent;
     dimension['height'] = aspectRatio*dimension['width'];

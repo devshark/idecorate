@@ -170,9 +170,7 @@ function canvas_bb_ctr_diff(box_centerY, box_centerX){
 }
 
 function do_aspectratio(width, height, percent){
-	console.log('test')
-    console.log(width, height, percent)
-	var dimension = new Array();
+	var dimension = {};
     var aspectRatio = height/width;
     dimension['width'] = width*percent;
     dimension['height'] = aspectRatio*dimension['width'];
