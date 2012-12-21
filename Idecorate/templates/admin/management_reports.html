@@ -74,17 +74,17 @@
 									<th>Description</th>
 									<th>Unit Price<br>(US$)</th>
 									<th>PCS/CTN</th>
-									<th>MOQ (CTNS)</th>
-									<th>MOQ (UNITS)</th>
+									<th>MOQ<br>(CTNS)</th>
+									<th>MOQ<br>(UNITS)</th>
 									<th>Cost of MOQ<br>(US$)</th>
 									<th>QTY Sold</th>
-									<th>COGS</th>
+									<th>COGS <br>(US$)</th>
 									<th>Retail Unit Price<br>(US$)</th>
-									<th>Revenue</th>
-									<th>NET Profit</th>
-									<th>Excess Stock (Units)</th>
+									<th>Revenue <br>(US$)</th>
+									<th>NET Profit <br>(US$)</th>
+									<th>Excess Stock<br>(Units)</th>
 									<th>OPPORTUNITY COST OF EXCESS<br>(US$)</th>
-									<th>RESALE STOCK (UNITS)</th>
+									<th>RESALE STOCK<br>(UNITS)</th>
 									<th>RESALE PRICE @20% DISCOUNT<br>(US$)</th>
 									<th>RESALE VALUE PAYABLE TO SELLER<br>(US$)</th>
 									<th>NET RESALE PROFIT<br>(US$)</th>
@@ -101,17 +101,17 @@
 									<td>{{ item|getProductDetail:'size' }}</td>
 									<td>{{ item|getProductDetail:'colour' }}</td>
 									<td>{{ item.description|safe }}</td>
-									<td id="unit-price-{{ item.id }}" class="cur">{{ item|getProductDetail:'unitprice' }}</td>
-									<td>{{ item|getProductDetail:'pcsctn' }}</td>
-									<td>{{ item|getProductDetail:'moqctns' }}</td>
-									<td id="moq-units-{{ item.id }}">{{ item|getProductDetail:'moqunits' }}</td>
-									<td class="cur">{{ item|getProductDetail:'costofmoq' }}</td>
+									<td id="unit-price-{{ item.id }}" class="cur">{{ item|getProductDetail:'unitprice'|currency }}</td>
+									<td>{{ item|getProductDetail:'pcsctn'|intcomma }}</td>
+									<td>{{ item|getProductDetail:'moqctns'|intcomma }}</td>
+									<td id="moq-units-{{ item.id }}">{{ item|getProductDetail:'moqunits'|intcomma }}</td>
+									<td class="cur">{{ item|getProductDetail:'costofmoq'|currency }}</td>
 									<td><input class="span1 qtySold" id="{{ item.id }}" type="text" name="qty_sold" value="{{ item|getProductDetail:'qtysold' }}" /></td>
-									<td id="cogs-{{ item.id }}" class="cur">{{ item|getProductDetail:'cogs' }}</td>
+									<td id="cogs-{{ item.id }}" class="cur">{{ item|getProductDetail:'cogs'|currency }}</td>
 									<td id="retail-price-{{ item.id }}" class="cur">{{ item|getProductPrice|currency }}</td>
 									<td id="revenue-{{ item.id }}" class="cur">{{ item|getRevenue }}</td>
 									<td id="net-profit-{{ item.id }}" class="cur">{{ item|getNetProfit }}</td>
-									<td id="excess-stock-{{ item.id }}">{{ item|getExcessStock }}</td>
+									<td id="excess-stock-{{ item.id }}">{{ item|getExcessStock|intcomma }}</td>
 									<td id="opp-cost-excess-{{ item.id }}" class="cur">{{ item|getOppCostExcess }}</td>
 									<td></td>
 									<td class="cur"></td>
