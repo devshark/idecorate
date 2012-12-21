@@ -72,7 +72,7 @@ ul.dropdown ul li{
 	border-bottom: 1px solid #ccc; 
 	border-left: none; 
 	float: none;
-	display: block;
+	display: block; 
 }
 									
 ul.dropdown ul li{
@@ -85,8 +85,6 @@ ul.dropdown ul li > span{
 	width: 100%; 
 	padding: 4px 0;
 	display: inline-block; 
-	zoom:1;
-	display: inline;
 } 
 
 /* LEVEL THREE & MORE */
