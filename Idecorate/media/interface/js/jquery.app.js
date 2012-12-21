@@ -1592,8 +1592,8 @@ function aspectratio(width, height, percent){
 }
 
 function remove_handles(event){
-
-    if(event.target != $('.handles')[0]){
+    
+    if(event.target != $('.handles')[0] && !$(event.target).hasClass('templateImage') && !$(event.target).hasClass('templateEmbellishments')){
     
         $handles.css('display','none');
         $img_menus.css('display','none');
