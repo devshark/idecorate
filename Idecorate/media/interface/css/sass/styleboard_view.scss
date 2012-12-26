@@ -11,6 +11,7 @@ aside {
     font-weight: bold;
     margin-top: 25px;
     padding: 10px 0 10px 5px;
+    text-transform: uppercase;
   }
 
   .memberName {
@@ -49,6 +50,7 @@ aside {
         *margin: 5px 0 0 65px;
         color: #FFFFFF;
         text-decoration: none;
+        text-transform: uppercase;
         cursor: pointer;
         float: right;
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#333333'); /* for IE */
@@ -106,6 +108,7 @@ aside {
     font-weight: bold;
     padding: 10px 0 0 5px;
     text-align: left !important;
+    text-transform: uppercase;
   }
   
   form {
@@ -158,6 +161,7 @@ aside {
       cursor: pointer;
       float: right;
       color: #FFFFFF;
+      text-transform: uppercase;
       background-color: #000000;
       filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#000000'); /* for IE */
       background: -webkit-gradient(linear, left top, left bottom, from(#999999), to(#000000)); /* for webkit browsers */
@@ -229,6 +233,7 @@ section {
     width: 98%;
     height: auto;
     padding: 0 0 5px 0;
+    text-transform: uppercase;
     border-bottom: 1px solid;
   }
 

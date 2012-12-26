@@ -8,7 +8,8 @@ aside {
     width: 98%;
     font-weight: bold;
     margin-top: 25px;
-    padding: 10px 0 10px 5px; }
+    padding: 10px 0 10px 5px;
+    text-transform: uppercase; }
   aside .memberName {
     width: 98%;
     font-size: 1em;
@@ -37,6 +38,7 @@ aside {
         *margin: 5px 0 0 65px;
         color: #FFFFFF;
         text-decoration: none;
+        text-transform: uppercase;
         cursor: pointer;
         float: right;
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#333333');
@@ -77,7 +79,8 @@ aside {
     width: 98%;
     font-weight: bold;
     padding: 10px 0 0 5px;
-    text-align: left !important; }
+    text-align: left !important;
+    text-transform: uppercase; }
   aside form div {
     padding: 10px 0; }
     aside form div table {
@@ -102,6 +105,7 @@ aside {
     cursor: pointer;
     float: right;
     color: #FFFFFF;
+    text-transform: uppercase;
     background-color: #000000;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#000000');
     /* for IE */
@@ -155,6 +159,7 @@ section {
     width: 98%;
     height: auto;
     padding: 0 0 5px 0;
+    text-transform: uppercase;
     border-bottom: 1px solid; }
   section .commentsBlock {
     min-height: 350px; }

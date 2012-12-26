@@ -122,7 +122,6 @@ h5 {
   font-size: 100%; }
 
 /*16px/16px*100*/
-@media screen and (max-width:800px) {}
 #compact-header {
   width: 100%;
   min-width: 800px; }
@@ -136,7 +135,7 @@ h5 {
         vertical-align: top; }
       #compact-header table thead.headWrap tr.headWraptop td#info-menu {
         padding-left: 5px;
-        width: 42.188%; }
+        width: 42.1875%; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn {
           clear: both; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .search {
@@ -168,7 +167,7 @@ h5 {
           height: 43px;
           margin: 0 auto; }
       #compact-header table thead.headWrap tr.headWraptop td#site-menu {
-        width: 42.188%;
+        width: 42.1875%;
         padding-right: 5px; }
         #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn {
           float: right;
@@ -264,7 +263,7 @@ h5 {
             display: block;
             margin-top: 5px;
             color: #666;
-            font-size: 1.063em; }
+            font-size: 1.0625em; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs input[type="text"] {
             width: 40%;
             border: 1px solid #CCC;
@@ -348,7 +347,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             outline: 1px solid #CCC;
             margin: 6px 0 0 6px;
             font-size: 0;
@@ -369,7 +368,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             border: 1px solid #CCC;
             padding: 1px;
             margin: 6px 0 0 6px;
@@ -421,7 +420,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em {
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             margin: 6px 0 0 6px;
             font-size: 0;
             min-width: 76px; }
@@ -441,7 +440,7 @@ h5 {
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap a.temp {
           display: block;
           float: left;
-          width: 18.229%;
+          width: 18.22917%;
           margin: 6px 0 0 6px;
           font-size: 0;
           min-width: 76px; }
@@ -627,6 +626,7 @@ h5 {
             font-size: 14px;
             padding: 7px 0;
             text-align: center;
+            text-transform: uppercase;
             background-color: #EFECE6;
             color: #666666;
             font-weight: bold;
@@ -671,6 +671,7 @@ h5 {
               padding: 8px 10px;
               margin: 5px;
               color: #333;
+              text-transform: uppercase;
               font-size: 0.8em; }
             #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li a:hover {
               background-color: #C7C6C3;
