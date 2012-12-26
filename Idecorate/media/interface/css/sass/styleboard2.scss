@@ -782,7 +782,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 					background-image: url('/media/images/canvasbg.jpg');
 					background-position: center center;
 					background-repeat: no-repeat;
-
+					
 					.product{
 						position: absolute;
 						font-size: 0;
@@ -792,6 +792,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 					.box{
 						outline: 1px dashed #999;
+						*border: 1px dashed #999;
 						background-color: rgba(255,255,255,0.6);
 						// /* IE 8 */
 						// -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
@@ -820,6 +821,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 					.box.notEmpty{
 						background: none;
 						outline:none;
+						*border: none;
 					}
 
 					.box.active{
@@ -863,13 +865,13 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									font-size: 14px;
 									padding: 7px 0;
 									text-align: center;
-									*background-color: #EFECE6;
+									background-color: #EFECE6;
 									color: #666666;
 									font-weight: bold;
 									border-left:1px solid #CCC;
 									border-bottom:1px solid #CCC;
 									border-right:1px solid #CCC;
-									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#EFECE6',GradientType=0 ); /* for IE */
+									//filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#EFECE6',GradientType=0 ); /* for IE */
 									background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#EFECE6)); /* for webkit browsers */
 									background: -moz-linear-gradient(top,  #EEEEEE,  #EFECE6); /* for firefox 3.6+ */
 									background: -o-linear-gradient(top,  #EEEEEE,  #EFECE6);
@@ -877,8 +879,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								a#save{
 									color: #666666;
 									font-weight: bold;
-									*background-color: #c3c97d;
-									filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8e2df', endColorstr='#e6b4b1',GradientType=0 ); /* for IE */
+									background-color: #f8e2df;
+									//filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8e2df', endColorstr='#e6b4b1',GradientType=0 ); /* for IE */
 									background: -webkit-gradient(linear, left top, left bottom, from(#f8e2df), to(#e6b4b1)); /* for webkit browsers */
 									background: -moz-linear-gradient(top,  #f8e2df,  #e6b4b1); /* for firefox 3.6+ */
 									background: -o-linear-gradient(top,  #f8e2df,  #e6b4b1);
