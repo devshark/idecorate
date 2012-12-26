@@ -4,7 +4,8 @@ section {
     width: 100%;
     border-bottom: 1px solid;
     padding-bottom: 15px;
-    margin-bottom: 15px; }
+    margin-bottom: 15px;
+    text-transform: uppercase; }
   section .user-profile {
     padding: 10px;
     height: auto;
@@ -36,7 +37,8 @@ section {
       section .user-profile .description-wrap .title {
         font-weight: bold;
         margin-bottom: 10px;
-        text-align: justify; }
+        text-align: justify;
+        text-transform: uppercase; }
       section .user-profile .description-wrap .desc {
         font-size: 1em;
         text-align: justify; }
@@ -68,7 +70,8 @@ section {
       width: 440px;
       margin: 5px 0;
       padding: 10px 5px;
-      background: #f1ccc6; }
+      background: #f1ccc6;
+      text-transform: uppercase; }
     section .featureContentWrap .featureDesc {
       width: 330px;
       height: auto;

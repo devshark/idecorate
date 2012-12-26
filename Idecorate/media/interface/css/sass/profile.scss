@@ -5,7 +5,8 @@ section {
 		width: 100%;
 		border-bottom: 1px solid;
 		padding-bottom: 15px;
-		margin-bottom: 15px
+		margin-bottom: 15px;
+		text-transform: uppercase;
 	}
 
 	.user-profile {
@@ -49,6 +50,7 @@ section {
 				font-weight: bold;
 				margin-bottom: 10px;
 				text-align: justify;
+				text-transform: uppercase;
 			}
 
 			.desc {
@@ -99,6 +101,7 @@ section {
 			margin: 5px 0;
 			padding: 10px 5px;
 			background: #f1ccc6;
+			text-transform: uppercase;
 		}
 
 		.featureDesc {

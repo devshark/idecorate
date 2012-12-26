@@ -9,6 +9,10 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
         <style type="text/css">
+            body {
+                background-color: #FFFFFF;
+                background-image: none !important;
+            }
             #login #modal-window iframe {
                 height: 450px;
             }
@@ -19,6 +23,9 @@
               -webkit-border-radius: 3px;
               border-radius: 3px;
               -khtml-border-radius: 3px;
+            }
+            #login input {
+                box-shadow: 0px 1px 3px #CCCCCC inset;
             }
             #login .loginWrapper {
                 width: 735px;
@@ -108,7 +115,12 @@
             }
             #login .action input {
                 cursor: pointer;
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
+                color: #666666;
+                text-transform: uppercase;
+                font-weight: bold;
+                background-color: #CCCCCC;
+                /*
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
                 background: -webkit-gradient(linear, left top, left bottom, from(white), to(#DA9B94));
                 background: -moz-linear-gradient(top, white, #DA9B94);
                 background: -o-linear-gradient(top, white, #DA9B94);
@@ -117,12 +129,15 @@
                 border-radius: 4px;
                 -khtml-border-radius: 4px;
                 border: 1px solid #FFC5C3;
+                */
             }
+            /*
             #login .action input:hover {
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E'); /* for IE */
-                background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */
-                background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
+                background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E));
+                background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E);
             }
+            */
             #login .social_login {
                 margin-top: 20px;
             }
@@ -136,7 +151,7 @@
                     <form method="post">
                         {% csrf_token %}
                         <fieldset>
-                            <legend>Login</legend>
+                            <legend>LOGIN</legend>
                             {{ login_form.username|attr:"placeholder:Enter E-mail Address" }}
                             {% if login_form.username.errors %}
                             {% for e in login_form.username.errors %}
@@ -168,7 +183,7 @@
                     <form method="post">
                         {% csrf_token %}
                         <fieldset>
-                            <legend>Signup</legend>
+                            <legend>SIGNUP</legend>
                             {{ signup_form.nickname|attr:"placeholder:Enter Nickname" }}
                             {% if signup_form.nickname.errors %}
                             {% for e in signup_form.nickname.errors %}

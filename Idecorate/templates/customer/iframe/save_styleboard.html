@@ -9,27 +9,40 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
         <style type="text/css">
+            body {
+                background-color: #FFFFFF;
+                background-image: none !important;
+            }
             input {
-              width: 370px;
-              border: 1px solid #CCC;
+              width: 465px;
+              border: 1px solid #CCCCCC;
               padding: 5px;
               -moz-border-radius: 3px;
               -webkit-border-radius: 3px;
               border-radius: 3px;
               -khtml-border-radius: 3px;
+              box-shadow: 0px 1px 3px #CCCCCC inset;
             }
             textarea {
-                width: 370px;
-                border: 1px solid #ccc;
+                width: 465px;
+                border: 1px solid #CCCCCC;
                 padding: 5px;
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+                -khtml-border-radius: 3px;
+                box-shadow: 0px 1px 3px #CCCCCC inset;
             }
             @-moz-document url-prefix() {
                 textarea {
-                    width: 370px;
+                    width: 465px;
                 }
             }
             fieldset {
                 padding: 10px;
+            }
+            fieldset div {
+                margin-bottom: 10px;
             }
             legend {
                 font-size: 24px;
@@ -76,7 +89,7 @@
                 text-align: center;
             }
             .action {
-                width: 382px;
+                width: 480px;
                 height: 35px;
                 margin-top: 10px;
             }
@@ -84,8 +97,10 @@
                 width: auto;
                 float: right;
                 cursor: pointer;
-                color: #333333;
-                background-color: #999999;
+                color: #666666;
+                text-transform: uppercase;
+                font-weight: bold;
+                background-color: #CCCCCC;
                 /*
                 filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
                 background: -webkit-gradient(linear, left top, left bottom, from(white), to(#DA9B94));
@@ -97,11 +112,12 @@
                 -khtml-border-radius: 4px;
                 border: 1px solid #FFC5C3;*/
             }
+            /*
             .action input:hover {
-                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E'); /* for IE */
-                background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */
-                background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
-            }
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
+                background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E));
+                background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E);
+            }*/
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
     </head>
@@ -115,7 +131,7 @@
                     {{ form.guest }}
                     {{ form.tables }}
                     <fieldset>
-                        <legend>Save my Style Board</legend>
+                        <legend>SAVE MY STYLE BOARD</legend>
                         <div class="clearfix">{{ form.name|attr:"placeholder:Name your style board" }}</div>
                         {% if form.name.errors %}
                         {% for e in form.name.errors %}
