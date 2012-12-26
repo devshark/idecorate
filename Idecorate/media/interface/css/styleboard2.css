@@ -236,7 +236,7 @@ h5 {
         position: relative;
         color: #FFFFFF;
         background-color: #000000;
-        font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+        font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
         font-size: 21px; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit {
           right: 5px;
@@ -304,7 +304,7 @@ h5 {
                 font-size: 0.875em;
                 margin: 7px 0;
                 color: #333;
-                font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+                font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
                 display: inline-block;
                 *display: inline;
                 zoom: 1;
@@ -465,7 +465,7 @@ h5 {
             margin: 0 5px;
             padding: 7px 0;
             color: #000;
-            font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+            font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
             border-bottom: 2px dotted #000; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .thead table tr th {
               width: 40%;
