@@ -44,19 +44,17 @@ aside {
       .personalize {
         width: auto;
         height: auto;
-        padding: 3px;
+        padding: 3px 5px;
         margin: 5px 0 0 0;
         *margin: 5px 0 0 65px;
-        color: #666666;
+        color: #FFFFFF;
         text-decoration: none;
         cursor: pointer;
         float: right;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
-        background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
-        background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
-        background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
-        border: 1px solid #FFC5C3;
-        box-shadow: 2px 2px 2px #999999;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#333333'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), to(#333333)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #CCCCCC,  #333333); /* for firefox 3.6+ */
+        background: -o-linear-gradient(top,  #CCCCCC,  #333333);
       }
     }
 
@@ -156,14 +154,20 @@ aside {
 
     .buyItem {
       margin: 10px 0;
+      padding: 5px;
       cursor: pointer;
       float: right;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
-      background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
-      background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
+      color: #FFFFFF;
+      background-color: #000000;
+      border: none;
+      /*
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); 
+      background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94));
+      background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94);
       background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
       border: 1px solid #FFC5C3;
-      box-shadow: 2px 2px 2px #999999;      
+      box-shadow: 2px 2px 2px #999999;
+      */
     }
 
   }
