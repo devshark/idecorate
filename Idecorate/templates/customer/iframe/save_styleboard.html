@@ -9,6 +9,10 @@
         <meta name="author" content="">
         <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
         <style type="text/css">
+            body {
+                background-color: #FFFFFF;
+                background-image: none !important;
+            }
             input {
               width: 370px;
               border: 1px solid #CCC;
@@ -118,7 +122,7 @@
                     {{ form.guest }}
                     {{ form.tables }}
                     <fieldset>
-                        <legend>Save my Style Board</legend>
+                        <legend>SAVE MY STYLE BOARD</legend>
                         <div class="clearfix">{{ form.name|attr:"placeholder:Name your style board" }}</div>
                         {% if form.name.errors %}
                         {% for e in form.name.errors %}
