@@ -285,7 +285,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							position:relative;
 							color: #FFFFFF;
 							background-color: #000000;
-							font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+							font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
 							font-size: 21px;
 
 							.myorder-edit{
@@ -379,7 +379,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										font-size: 14em/$default_font_size;
 										margin: 7px 0;
 										color: #333;
-										font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+										font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
 										display: inline-block;
 										*display: inline;
 										zoom:1;
@@ -628,7 +628,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									margin: 0 5px;
 									padding: 7px 0;
 									color: #000;
-									font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+									font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
 									border-bottom: 2px dotted #000;
 
 									table{
