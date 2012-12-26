@@ -955,15 +955,29 @@ function drop_template(objects){
 
         var matrix = 'matrix('+ mtx.a +', '+ mtx.b +', '+ mtx.c +', '+ mtx.d +', 0, 0)',
             ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+mtx.a+"', M12='"+mtx.b+"', M21='"+mtx.c+"', M22='"+mtx.d+"', sizingMethod='auto expand')";         
-        if($.browser.msie && $.browser.version == 9.0) {
-            object.css({
-                '-ms-transform'    : matrix
-            });
-        }else if($.browser.msie && $.browser.version < 9.0){
-            object.css({
-                'filter'           : ie_matrix,
-                '-ms-filter'       : '"' + ie_matrix + '"'
-            });
+        if($.browser.msie) {
+            //do nothing for box for now needs to modify and add element to support this functionality
+            
+            if(val._type != 'box' && $.browser.version < 9.0){
+                if($.browser.version == 8.0){
+                    object.css({
+                        'filter' : '"'+"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+val.img[0].src+"',sizingMethod='scale')"+'"',
+                        'filter' : ie_matrix,
+                        '-ms-filter' : '"'+ie_matrix+'"'
+                    });
+                    img.css({
+                    });
+                }else if($.browser.version < 8.0){
+                    object.css({
+                        'filter' : ie_matrix
+                    });
+                }
+            }else{
+                object.css({
+                    '-ms-transform' : matrix
+                });
+            }
+            
         }else{
             object.css({
                 '-moz-transform'   : matrix,
