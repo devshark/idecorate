@@ -610,3 +610,20 @@ def getProductCategories2(product):
 	catList = [cat.name for cat in categories if cat.parent == None]
 
 	return mark_safe("<br>".join(catList))
+
+@register.filter
+def form_field(value, classes=""):
+	field = """
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="control-group">
+					<label class="control-label">%s *</label>
+					<div class="controls">
+						%s
+						<span class="help-block">%s</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	""" % (unicode(value.name), unicode(value.label), required_marker, value, value.help_text)
+	return mark_safe(field)

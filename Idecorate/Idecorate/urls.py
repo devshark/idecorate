@@ -83,3 +83,17 @@ urlpatterns += patterns('category.views',
     url(r'^admin/order_category/$', 'order_category', {}, name='order_category'),
     url(r'^admin/category_thumbnail_upload/$', 'category_thumbnail_upload', {}, name='category_thumbnail_upload'),
     )
+
+urlpatterns += patterns('cms_item.views',
+    url(r'^admin/flatpage_admin/$', 'flatpage_admin', {}, name='flatpage_admin'),
+    url(r'^admin/add_flatpage/$', 'add_flatpage', {}, name='add_flatpage'),
+)
+
+urlpatterns += patterns('',
+    ('^pages/', include('django.contrib.flatpages.urls')),
+)
+
+# urlpatterns += patterns('django.contrib.flatpages.views',
+#     url(r'^about-us/$', 'flatpage', {'url': '/about-us/'}, name='about'),
+#     url(r'^license/$', 'flatpage', {'url': '/license/'}, name='license'),
+# )
