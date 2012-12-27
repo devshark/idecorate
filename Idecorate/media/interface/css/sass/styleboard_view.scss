@@ -11,6 +11,7 @@ aside {
     font-weight: bold;
     margin-top: 25px;
     padding: 10px 0 10px 5px;
+    text-transform: uppercase;
   }
 
   .memberName {
@@ -44,19 +45,18 @@ aside {
       .personalize {
         width: auto;
         height: auto;
-        padding: 3px;
+        padding: 3px 5px;
         margin: 5px 0 0 0;
         *margin: 5px 0 0 65px;
-        color: #666666;
+        color: #FFFFFF;
         text-decoration: none;
+        text-transform: uppercase;
         cursor: pointer;
         float: right;
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
-        background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
-        background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
-        background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
-        border: 1px solid #FFC5C3;
-        box-shadow: 2px 2px 2px #999999;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#333333'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), to(#333333)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #CCCCCC,  #333333); /* for firefox 3.6+ */
+        background: -o-linear-gradient(top,  #CCCCCC,  #333333);
       }
     }
 
@@ -108,6 +108,7 @@ aside {
     font-weight: bold;
     padding: 10px 0 0 5px;
     text-align: left !important;
+    text-transform: uppercase;
   }
   
   form {
@@ -156,14 +157,22 @@ aside {
 
     .buyItem {
       margin: 10px 0;
+      padding: 5px;
       cursor: pointer;
       float: right;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
-      background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
-      background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
-      background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
-      border: 1px solid #FFC5C3;
-      box-shadow: 2px 2px 2px #999999;      
+      color: #FFFFFF;
+      text-transform: uppercase;
+      background-color: #000000;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#000000'); /* for IE */
+      background: -webkit-gradient(linear, left top, left bottom, from(#999999), to(#000000)); /* for webkit browsers */
+      background: -moz-linear-gradient(top,  #999999,  #000000); /* for firefox 3.6+ */
+      border:1px solid #666666;
+    }
+
+    .buyItem:hover {
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#333333'); /* for IE */
+      background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), to(#333333)); /* for webkit browsers */
+      background: -moz-linear-gradient(top,  #CCCCCC,  #333333); /* for firefox 3.6+ */
     }
 
   }
@@ -224,6 +233,7 @@ section {
     width: 98%;
     height: auto;
     padding: 0 0 5px 0;
+    text-transform: uppercase;
     border-bottom: 1px solid;
   }
 

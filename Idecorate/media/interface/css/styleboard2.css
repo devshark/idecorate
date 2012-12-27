@@ -122,6 +122,7 @@ h5 {
   font-size: 100%; }
 
 /*16px/16px*100*/
+@media screen and (max-width:800px) {}
 #compact-header {
   width: 100%;
   min-width: 800px; }
@@ -135,7 +136,7 @@ h5 {
         vertical-align: top; }
       #compact-header table thead.headWrap tr.headWraptop td#info-menu {
         padding-left: 5px;
-        width: 42.1875%; }
+        width: 42.188%; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn {
           clear: both; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .search {
@@ -167,7 +168,7 @@ h5 {
           height: 43px;
           margin: 0 auto; }
       #compact-header table thead.headWrap tr.headWraptop td#site-menu {
-        width: 42.1875%;
+        width: 42.188%;
         padding-right: 5px; }
         #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn {
           float: right;
@@ -236,7 +237,7 @@ h5 {
         position: relative;
         color: #FFFFFF;
         background-color: #000000;
-        font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+        font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
         font-size: 21px; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit {
           right: 5px;
@@ -263,7 +264,7 @@ h5 {
             display: block;
             margin-top: 5px;
             color: #666;
-            font-size: 1.0625em; }
+            font-size: 1.063em; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs input[type="text"] {
             width: 40%;
             border: 1px solid #CCC;
@@ -304,7 +305,7 @@ h5 {
                 font-size: 0.875em;
                 margin: 7px 0;
                 color: #333;
-                font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+                font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
                 display: inline-block;
                 *display: inline;
                 zoom: 1;
@@ -347,7 +348,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.22917%;
+            width: 18.229%;
             outline: 1px solid #CCC;
             margin: 6px 0 0 6px;
             font-size: 0;
@@ -368,7 +369,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.22917%;
+            width: 18.229%;
             border: 1px solid #CCC;
             padding: 1px;
             margin: 6px 0 0 6px;
@@ -420,7 +421,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em {
             display: block;
             float: left;
-            width: 18.22917%;
+            width: 18.229%;
             margin: 6px 0 0 6px;
             font-size: 0;
             min-width: 76px; }
@@ -440,7 +441,7 @@ h5 {
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap a.temp {
           display: block;
           float: left;
-          width: 18.22917%;
+          width: 18.229%;
           margin: 6px 0 0 6px;
           font-size: 0;
           min-width: 76px; }
@@ -465,7 +466,7 @@ h5 {
             margin: 0 5px;
             padding: 7px 0;
             color: #000;
-            font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif;
+            font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
             border-bottom: 2px dotted #000; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .thead table tr th {
               width: 40%;
@@ -576,6 +577,7 @@ h5 {
         /*background: url('../images/fake_bg.png') 0 0  repeat;*/ }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box {
         outline: 1px dashed #999;
+        *border: 1px dashed #999;
         background-color: rgba(255, 255, 255, 0.6);
         overflow: hidden; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box span {
@@ -589,7 +591,8 @@ h5 {
         background-color: rgba(201, 198, 189, 0.6) !important; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.notEmpty {
         background: none;
-        outline: none; }
+        outline: none;
+        *border: none; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active {
         background-color: rgba(255, 255, 255, 0.6) !important;
         outline: 1px dashed #999; }
@@ -624,14 +627,13 @@ h5 {
             font-size: 14px;
             padding: 7px 0;
             text-align: center;
-            *background-color: #EFECE6;
+            text-transform: uppercase;
+            background-color: #EFECE6;
             color: #666666;
             font-weight: bold;
             border-left: 1px solid #CCC;
             border-bottom: 1px solid #CCC;
             border-right: 1px solid #CCC;
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#EFECE6',GradientType=0 );
-            /* for IE */
             background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#efece6));
             /* for webkit browsers */
             background: -moz-linear-gradient(top, #eeeeee, #efece6);
@@ -640,9 +642,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl li a#save {
             color: #666666;
             font-weight: bold;
-            *background-color: #c3c97d;
-            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8e2df', endColorstr='#e6b4b1',GradientType=0 );
-            /* for IE */
+            background-color: #f8e2df;
             background: -webkit-gradient(linear, left top, left bottom, from(#f8e2df), to(#e6b4b1));
             /* for webkit browsers */
             background: -moz-linear-gradient(top, #f8e2df, #e6b4b1);
@@ -672,6 +672,7 @@ h5 {
               padding: 8px 10px;
               margin: 5px;
               color: #333;
+              text-transform: uppercase;
               font-size: 0.8em; }
             #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li a:hover {
               background-color: #C7C6C3;

@@ -453,7 +453,7 @@ $(document).ready(function () {
         showButtons: false,
         clickoutFiresChange: true,
         move: function(color) {
-         var object = $('.selected').find('img');
+         var object = $('.selected, .box.active').find('img');
          new_img = change_color(object,color.toRgb());
         },
         change: function(color){
@@ -473,12 +473,13 @@ $(document).ready(function () {
             max: 100,
             value: slideValue,
             slide: function( event, ui ) {
-                $('.selected img').css({
+                $('.selected img,.box.active img').css({
                     'zoom': 1,
                     'opacity' : ui.value*0.01,
                     'filter': 'alpha(opacity='+ui.value+')'
                 });
                 $('.selected').attr('_opacity',ui.value);
+                $('.box.active img').attr('_opacity',ui.value);
             },
             stop: function(event, ui){
                 eventTracker($('.selected'), 'set_opacity');
@@ -498,12 +499,13 @@ $(document).ready(function () {
                 max: 100,
                 value: slideValue,
                 slide: function( event, ui ) {
-                    $('.selected img').css({
+                    $('.selected img,.box.active img').css({
                         'zoom': 1,
                         'opacity' : ui.value*0.01,
                         'filter': 'alpha(opacity='+ui.value+')'
                     });
                     $('.selected').attr('_opacity',ui.value);
+                    $('.box.active img').attr('_opacity',ui.value);
                 },
                 stop: function(event, ui){
                     eventTracker($('.selected'), 'set_opacity');
@@ -578,12 +580,16 @@ $(document).ready(function () {
         $(this).addClass('active').siblings('.box').removeClass('active');
         update_menu($(this).find('img'));
         hide_canvas_menu();
+
+        slideValue = parseInt($('img',this).attr('_opacity'));
+        embellishment_handle_set(slideValue);
+
         $(document).unbind('click');
         setTimeout(function(){
             $(document).click(function(){
                 unselect_all(e);
             });
-        },100);
+        },1000);
     });
 
 });
@@ -662,7 +668,7 @@ function box_droppable(){
                         async:   false,
                         success: function(data){
                             //console.log($(_this).find('img').attr('_uid'));
-                            var currentProd = $(_this).find('img').attr('_uid');
+                            var currentProd = $('.product',_this).find('img').attr('_uid');
                             var img_src     = '/'+_img_src+data.original_image;
                             var img_w_bg    = data.original_image;
                             var img_wo_bg   = data.no_background;
@@ -683,7 +689,7 @@ function box_droppable(){
                                         _height  : this_height
                                     });
 
-                            var obj_id = $(object[0]).attr('_uid');
+                            var obj_id = uid;
 
                         
                             if(currentProd) {
@@ -711,8 +717,13 @@ function box_droppable(){
                             }
 
                             $(_this).children('img').remove();
-
-                            $(object[0]).appendTo($(_this));
+                            if($.browser.msie && $.browser.version == 7.0){
+                                setTimeout(function(){
+                                    $(object[0]).appendTo($(_this));  
+                                },1000);
+                            }else{
+                                $(object[0]).appendTo($(_this));   
+                            }
                             
                             if(!$(_this).hasClass('active')){
                                 $(_this).addClass('active').siblings().removeClass('active');
@@ -788,24 +799,32 @@ function create_embellishments_for_template(em_dbID,event,type,_width,_height){
     var object      = $('<img/>');
     var this_width    = 0;
     var this_height   = 0;
+    var css = {};
     var box_Width     = _width;
     var box_Height   = _height;
 
     object.attr({
-        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0&rand=' + new Date().getTime()
+        'src': '/generate_embellishment/?embellishment_id='+em_dbID+'&embellishment_color=000000000&embellishment_thumbnail=0&rand=' + new Date().getTime(),
+        '_uid': em_dbID
     });
 
     object.load(function(){
-        this_width = object.width();
-        this_height = object.height();
+        // this_width = object.width();
+        // this_height = object.height();
+        
+        this_width  = object.naturalWidth();
+        this_height = object.naturalHeight();
 
         var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
     
-        object.width(dim.width).height(dim.height).css({
-            position : 'absolute',
-            top: dim.top,
-            left: dim.left
-        });
+        css.position = 'absolute';
+        css.top = dim.top;
+        css.left = dim.left;
+        css.width = dim.width;
+        css.height = dim.height;
+
+        object.css(css);
+
     });
 
     object.addClass(type.toLowerCase()+' templateEmbellishments');
@@ -837,6 +856,7 @@ function template_fill(){
 
 function create_image_for_template(options){
     var object = $('<img/>');
+    var css = {};
     var this_width;
     var this_height;
     var box_Height = options._height;
@@ -846,22 +866,26 @@ function create_image_for_template(options){
         '_uid': options._uid,
         'def_qty': options._p_d_qty,
         'gst_tb': options._p_g_t,
-        'src': options._src,
         '_nb': options._img_wo_b,
         '_wb': options._img_w_b
     }).addClass('templateImage product');
     
-    object.load(function(){
-        this_width  = object.width();
-        this_height = object.height();
+    object.attr({'src': options._src+'?random='+new Date().getTime()}).load(function(){
+        //this_width  = object.width();
+        //this_height = object.height();
+        this_width  = object.naturalWidth();
+        this_height = object.naturalHeight();
 
         var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
     
-        object.width(dim.width).height(dim.height).css({
-            position : 'absolute',
-            top: dim.top,
-            left: dim.left
-        });
+        css.position = 'absolute';
+        css.top = dim.top;
+        css.left = dim.left;
+        css.width = dim.width;
+        css.height = dim.height;
+
+        object.css(css);
+
     });
 
     update_menu(object);
@@ -938,15 +962,27 @@ function drop_template(objects){
 
         var matrix = 'matrix('+ mtx.a +', '+ mtx.b +', '+ mtx.c +', '+ mtx.d +', 0, 0)',
             ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+mtx.a+"', M12='"+mtx.b+"', M21='"+mtx.c+"', M22='"+mtx.d+"', sizingMethod='auto expand')";         
-        if($.browser.msie && $.browser.version == 9.0) {
-            object.css({
-                '-ms-transform'    : matrix
-            });
-        }else if($.browser.msie && $.browser.version < 9.0){
-            object.css({
-                'filter'           : ie_matrix,
-                '-ms-filter'       : '"' + ie_matrix + '"'
-            });
+        if($.browser.msie) {
+            //do nothing for box for now needs to modify and add element to support this functionality
+            
+            if(val._type != 'box' && $.browser.version < 9.0){
+                if($.browser.version == 8.0){
+                    object.css({
+                        'filter' : '"'+"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='"+val.img[0].src+"',sizingMethod='scale')"+'"',
+                        'filter' : ie_matrix,
+                        '-ms-filter' : '"'+ie_matrix+'"'
+                    });
+                }else if($.browser.version < 8.0){
+                    object.css({
+                        'filter' : ie_matrix
+                    });
+                }
+            }else{
+                object.css({
+                    '-ms-transform' : matrix
+                });
+            }
+            
         }else{
             object.css({
                 '-moz-transform'   : matrix,
@@ -1256,11 +1292,17 @@ function change_color(object,rgb){
     var selected        = object.parent();
     var default_style   = object.attr('style');
     var object_dbID     = selected.attr('_uid');
+    if(object.parent().hasClass('box')){
+        object_dbID = object.attr('_uid');
+    }
     var new_img         = $('<img/>');
     var new_obj_src     = '/generate_embellishment/?embellishment_id='+object_dbID+'&embellishment_color='+$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3)+'&embellishment_thumbnail=0';
     if(selected.hasClass('text')){
         new_obj_src = '/generate_text/?font_size=200&font_text='+escape(selected.attr('_text'))+'&font_color='+$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3)+'&font_id='+object_dbID+'&font_thumbnail=0';
         selected.attr('_rgb',$.strPad(rgb.r,3)+$.strPad(rgb.g,3)+$.strPad(rgb.b,3));
+    }
+    if(object.parent().hasClass('box')){
+        new_img.attr(object.attr());
     }
     object.remove();//remove old object
     new_img.attr({//append new object
@@ -1663,10 +1705,14 @@ function update_menu(obj,img_menu){
         if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
             $('.colorAdjustment').hide();
         }else{
+            $('#remove-btn').width(100).css({textAlign:'center'});
             $('.colorAdjustment').show();
             if(obj.hasClass('text') || obj.parent().hasClass('text')){
                 $('#text-change-wrap').show();
                 $('#opacity-control-wrap').css({'width':'47%','float':'left','margin-left':10});
+            }else if(obj.hasClass('templateEmbellishments')){
+                $('#text-change-wrap').hide();
+                $('#opacity-control-wrap').css({'width':'70px','float':'right','margin-left':''});
             }else{
                 $('#text-change-wrap').hide();
                 $('#opacity-control-wrap').css({'width':'87%','float':'right','margin-left':''});
@@ -2518,6 +2564,34 @@ degToRad_global = function(d) {
         }
     };
 
+}(jQuery));
+
+(function($){
+  var
+  props = ['Width', 'Height'],
+  prop;
+
+  while (prop = props.pop()) {
+    (function (natural, prop) {
+      $.fn[natural] = (natural in new Image()) ? 
+      function () {
+        return this[0][natural];
+      } : 
+      function () {
+        var 
+        node = this[0],
+        img,
+        value;
+
+        if (node.tagName.toLowerCase() === 'img') {
+          img = new Image();
+          img.src = node.src,
+          value = img[prop];
+        }
+        return value;
+      };
+    }('natural' + prop, prop.toLowerCase()));
+  }
 }(jQuery));
 
 
