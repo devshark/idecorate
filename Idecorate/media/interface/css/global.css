@@ -268,7 +268,7 @@ h5 {
 .categoryWrapper {
   width: 100%;
   height: auto;
-  padding: 10px 0;
+  padding: 5px 0;
   text-align: center;
   border-top: 2px solid #FFFFFF; }
   .categoryWrapper ul {
@@ -281,7 +281,8 @@ h5 {
       *display: inline; }
       .categoryWrapper ul li a {
         padding: 0 10px;
-        font-size: 1.2em;
+        font-family: 'futura_std_medium',Arial,Helvetica,sans-serif;
+        font-size: 12px;
         font-weight: bold;
         color: #ffffff;
         text-decoration: none;
@@ -337,11 +338,13 @@ footer {
       padding-left: 20px;
       float: left; }
       footer .footerMenu div h3 {
-        font-weight: 900; }
+        font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+        font-size: 14px; }
       footer .footerMenu div ul {
         margin-bottom: 15px; }
         footer .footerMenu div ul li a {
-          font-size: 1.2em;
+          font-family: 'futura_std_book',Arial,Helvetica,sans-serif;
+          font-size: 12px;
           color: #666;
           text-decoration: none; }
         footer .footerMenu div ul .socialIcons a {
@@ -391,14 +394,16 @@ footer {
         footer .footerLinks ul li a {
           text-decoration: none;
           color: #666666;
-          text-transform: uppercase; }
+          text-transform: uppercase;
+          font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+          font-size: 11px; }
       footer .footerLinks ul li:first-child {
         border-left: 0; }
   footer .copyright {
     margin: 10px 0 0 0;
     padding: 0 0 15px 0;
+    font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
     font-size: 10px;
-    font-weight: bold;
     text-align: center;
     text-transform: uppercase; }
 

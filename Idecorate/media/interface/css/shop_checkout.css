@@ -26,7 +26,8 @@
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    -khtml-border-radius: 3px; }
+    -khtml-border-radius: 3px;
+    box-shadow: 0px 1px 3px #CCC inset; }
   .checkout select {
     border: 1px solid #CCC;
     padding: 2px 5px;
@@ -245,36 +246,36 @@ div.leftPannel, div.rightPannel {
   width: 470px;
   height: auto;
   float: left; }
-  div.leftPannel .deliveryDate, div.leftPannel .question, div.leftPannel .paymentMethod, div.leftPannel .paymentMethod2, div.rightPannel .deliveryDate, div.rightPannel .question, div.rightPannel .paymentMethod, div.rightPannel .paymentMethod2 {
+  div.leftPannel .deliveryDate, div.leftPannel .question, div.leftPannel .paymentMethod, div.leftPannel .paymentMethod2, div.leftPannel .request, div.rightPannel .deliveryDate, div.rightPannel .question, div.rightPannel .paymentMethod, div.rightPannel .paymentMethod2, div.rightPannel .request {
     width: 465px;
     border: 1px solid #000000;
     float: left;
     padding: 10px;
     margin: 0 0 15px 0;
     display: block; }
-    div.leftPannel .deliveryDate legend, div.leftPannel .question legend, div.leftPannel .paymentMethod legend, div.leftPannel .paymentMethod2 legend, div.rightPannel .deliveryDate legend, div.rightPannel .question legend, div.rightPannel .paymentMethod legend, div.rightPannel .paymentMethod2 legend {
+    div.leftPannel .deliveryDate legend, div.leftPannel .question legend, div.leftPannel .paymentMethod legend, div.leftPannel .paymentMethod2 legend, div.leftPannel .request legend, div.rightPannel .deliveryDate legend, div.rightPannel .question legend, div.rightPannel .paymentMethod legend, div.rightPannel .paymentMethod2 legend, div.rightPannel .request legend {
       margin: 0 0 0 20px;
       padding: 0 5px;
       font-size: 14px; }
-    div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p {
+    div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.leftPannel .request p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p, div.rightPannel .request p {
       margin: 0 0 10px 15px; }
-    div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul {
+    div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.leftPannel .request ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul, div.rightPannel .request ul {
       margin: 10px 0 0 30px;
       list-style-position: inside; }
-      div.leftPannel .deliveryDate ul li, div.leftPannel .question ul li, div.leftPannel .paymentMethod ul li, div.leftPannel .paymentMethod2 ul li, div.rightPannel .deliveryDate ul li, div.rightPannel .question ul li, div.rightPannel .paymentMethod ul li, div.rightPannel .paymentMethod2 ul li {
+      div.leftPannel .deliveryDate ul li, div.leftPannel .question ul li, div.leftPannel .paymentMethod ul li, div.leftPannel .paymentMethod2 ul li, div.leftPannel .request ul li, div.rightPannel .deliveryDate ul li, div.rightPannel .question ul li, div.rightPannel .paymentMethod ul li, div.rightPannel .paymentMethod2 ul li, div.rightPannel .request ul li {
         list-style-type: disc;
         margin: 0 0 10px 15px; }
-        div.leftPannel .deliveryDate ul li a, div.leftPannel .question ul li a, div.leftPannel .paymentMethod ul li a, div.leftPannel .paymentMethod2 ul li a, div.rightPannel .deliveryDate ul li a, div.rightPannel .question ul li a, div.rightPannel .paymentMethod ul li a, div.rightPannel .paymentMethod2 ul li a {
+        div.leftPannel .deliveryDate ul li a, div.leftPannel .question ul li a, div.leftPannel .paymentMethod ul li a, div.leftPannel .paymentMethod2 ul li a, div.leftPannel .request ul li a, div.rightPannel .deliveryDate ul li a, div.rightPannel .question ul li a, div.rightPannel .paymentMethod ul li a, div.rightPannel .paymentMethod2 ul li a, div.rightPannel .request ul li a {
           color: #d89b96; }
-    div.leftPannel .deliveryDate ol, div.leftPannel .question ol, div.leftPannel .paymentMethod ol, div.leftPannel .paymentMethod2 ol, div.rightPannel .deliveryDate ol, div.rightPannel .question ol, div.rightPannel .paymentMethod ol, div.rightPannel .paymentMethod2 ol {
+    div.leftPannel .deliveryDate ol, div.leftPannel .question ol, div.leftPannel .paymentMethod ol, div.leftPannel .paymentMethod2 ol, div.leftPannel .request ol, div.rightPannel .deliveryDate ol, div.rightPannel .question ol, div.rightPannel .paymentMethod ol, div.rightPannel .paymentMethod2 ol, div.rightPannel .request ol {
       margin: 10px 0 0 30px;
       list-style-position: inside; }
-      div.leftPannel .deliveryDate ol li, div.leftPannel .question ol li, div.leftPannel .paymentMethod ol li, div.leftPannel .paymentMethod2 ol li, div.rightPannel .deliveryDate ol li, div.rightPannel .question ol li, div.rightPannel .paymentMethod ol li, div.rightPannel .paymentMethod2 ol li {
+      div.leftPannel .deliveryDate ol li, div.leftPannel .question ol li, div.leftPannel .paymentMethod ol li, div.leftPannel .paymentMethod2 ol li, div.leftPannel .request ol li, div.rightPannel .deliveryDate ol li, div.rightPannel .question ol li, div.rightPannel .paymentMethod ol li, div.rightPannel .paymentMethod2 ol li, div.rightPannel .request ol li {
         list-style-type: decimal;
         margin: 0 0 10px 45px; }
-    div.leftPannel .deliveryDate em, div.leftPannel .question em, div.leftPannel .paymentMethod em, div.leftPannel .paymentMethod2 em, div.rightPannel .deliveryDate em, div.rightPannel .question em, div.rightPannel .paymentMethod em, div.rightPannel .paymentMethod2 em {
+    div.leftPannel .deliveryDate em, div.leftPannel .question em, div.leftPannel .paymentMethod em, div.leftPannel .paymentMethod2 em, div.leftPannel .request em, div.rightPannel .deliveryDate em, div.rightPannel .question em, div.rightPannel .paymentMethod em, div.rightPannel .paymentMethod2 em, div.rightPannel .request em {
       font-style: italic; }
-    div.leftPannel .deliveryDate strong, div.leftPannel .question strong, div.leftPannel .paymentMethod strong, div.leftPannel .paymentMethod2 strong, div.rightPannel .deliveryDate strong, div.rightPannel .question strong, div.rightPannel .paymentMethod strong, div.rightPannel .paymentMethod2 strong {
+    div.leftPannel .deliveryDate strong, div.leftPannel .question strong, div.leftPannel .paymentMethod strong, div.leftPannel .paymentMethod2 strong, div.leftPannel .request strong, div.rightPannel .deliveryDate strong, div.rightPannel .question strong, div.rightPannel .paymentMethod strong, div.rightPannel .paymentMethod2 strong, div.rightPannel .request strong {
       font-weight: bold; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
@@ -308,6 +309,19 @@ div.leftPannel, div.rightPannel {
         float: left; }
       div.leftPannel .paymentMethod2 div img, div.rightPannel .paymentMethod2 div img {
         float: left; }
+  div.leftPannel .request, div.rightPannel .request {
+    margin-left: 16px; }
+    div.leftPannel .request textarea, div.rightPannel .request textarea {
+      display: block;
+      width: 425px;
+      height: 250px;
+      margin: 15px auto;
+      border: 1px solid #CCCCCC;
+      padding: 5px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      -khtml-border-radius: 3px; }
 
 .leftPannel {
   margin-right: 20px; }

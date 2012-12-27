@@ -5,11 +5,13 @@
     display: block;
     border: 1px solid #000;
     width: 964px;
-    padding: 15px; }
+    padding: 15px;
+    line-height: 1.5;
+    text-align: justify; }
     .staticWrapper fieldset legend {
       margin: 0 0 0 20px;
       padding: 0 5px;
-      font-size: 14px;
+      font-size: 16px;
       color: black;
       text-transform: uppercase; }
     .staticWrapper fieldset p {
@@ -20,4 +22,4 @@
     .staticWrapper fieldset .end {
       width: 56px;
       height: 10px;
-      margin: 0 auto; }
+      margin: 15px auto; }

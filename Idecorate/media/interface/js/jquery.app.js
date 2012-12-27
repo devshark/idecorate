@@ -642,7 +642,6 @@ function change_img_template(allAttr,background){
     }
 }
 
-
 active_index = 0;
 
 function box_droppable(){
