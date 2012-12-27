@@ -9,6 +9,11 @@
 <link href="/media/admin/css/admin.css" rel="stylesheet">
 <link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
 <link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<style type="text/css">
+#myModal {
+	width: 780px
+}
+</style>
 {% endblock %}
 
 {% block content %}
@@ -32,6 +37,14 @@
 						{% trans "Link" %}
 				  		<input type="text" class="input-large" name="general_link" placeholder="Link" />
 				  	</label>
+				  	<label class="checkbox">
+					  	<select name="ddlPages" id="ddl-pages-edit">
+				  			<option value="">-- Select Site Page Url --</option>
+				  			{% for page in pages %}
+				  			<option value="/sites{{ page.url }}">{{ page.title }}</option>
+				  			{% endfor %}
+				  		</select>
+			  		</label>
 				</form>
             </div>
             <div class="modal-footer">
@@ -125,7 +138,12 @@
 			  		{{ form_info_menu.link|add_class:"input-large"|attr:"placeholder:Link" }}
 			  	</label>
 			  	<label class="checkbox">
-			  		<select></select>
+			  		<select name="ddlPages" id="ddl-pages">
+			  			<option value="">-- Select Site Page Url --</option>
+			  			{% for page in pages %}
+			  			<option value="/sites{{ page.url }}">{{ page.title }}</option>
+			  			{% endfor %}
+			  		</select>
 			  	</label>
 			  	<button type="submit" class="btn btn-primary">Add Menu</button>
 			</form>
@@ -459,6 +477,13 @@
 	        	{% endif %}
 	        {% endif %}
 
+	        $('#ddl-pages').change(function(){
+	        	$('#id_link').val($(this).val());
+	        });
+
+	        $('#ddl-pages-edit').change(function(){
+	        	$('.input-large[name="general_link"]').val($(this).val());
+	        });
 		});
 
 
