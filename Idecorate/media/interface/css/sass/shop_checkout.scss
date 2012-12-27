@@ -36,6 +36,7 @@
 	  -webkit-border-radius: 3px;
 	  border-radius: 3px;
 	  -khtml-border-radius: 3px;
+	  box-shadow: 0px 1px 3px #CCC inset;
 	}
 
 	select {
@@ -354,7 +355,7 @@ div.leftPannel, div.rightPannel {
 	height: auto;
 	float: left;
 
-	.deliveryDate, .question, .paymentMethod, .paymentMethod2 {
+	.deliveryDate, .question, .paymentMethod, .paymentMethod2, .request {
         width: 465px;
         border: 1px solid #000000;
         float: left;
@@ -466,6 +467,24 @@ div.leftPannel, div.rightPannel {
 	        }
 
 	    }
+
+	}
+
+	.request {
+		margin-left: 16px;
+
+		textarea {
+			display: block;
+			width: 425px;
+			height: 250px;
+			margin: 15px auto;
+			border: 1px solid #CCCCCC;
+			padding: 5px;
+			-moz-border-radius: 3px;
+			-webkit-border-radius: 3px;
+			border-radius: 3px;
+			-khtml-border-radius: 3px;
+		}
 
 	}
 
