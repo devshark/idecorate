@@ -28,8 +28,8 @@
 			<td>{{ page.title }}</td>
 			<td>{{ page.url }}</td>
 			<td class="ar">
-				<a href="" class="btn btn-primary">View</a>
-				<a href="" class="btn btn-primary">Edit</a>
+				<a href="/sites{{ page.url }}" target="blank" class="btn btn-primary">View</a>
+				<a href="{% url edit_flatpage page.id %}" class="btn btn-primary">Edit</a>
 				<a href="" class="btn btn-primary">Delete</a>
 			</td>
 		</tr>

@@ -9,8 +9,18 @@
 
 {% endblock %}
 {% block content %}
-<h1>{% trans "Flat Pages" %}</h1>
+<h1>{{ mod }} {% trans "Site Page" %}</h1>
 <div>&nbsp;</div>
+{% if messages %}
+	{% for message in messages %}
+	<div class="alert alert-{{ message.tags }}">
+	  <a class="close" data-dismiss="alert" href="#">×</a>
+	  <h4 class="alert-heading">{{ message.tags }}!</h4>
+	  	{{ message }}		  
+	</div>
+	{% endfor %}
+{% endif %}
+{{ form.errors }}
 {% if form.errors %}
 <div class="alert alert-error">
 	<a class="close" data-dismiss="alert" href="#">×</a>
@@ -23,6 +33,9 @@
 		<li>{{ e }}</li>
 		{% endfor %}
 		{% for e in form.content.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% for e in form.same_url.errors %}
 		<li>{{ e }}</li>
 		{% endfor %}
 	</ol> 
