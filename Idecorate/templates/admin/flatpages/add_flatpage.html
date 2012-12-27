@@ -1,0 +1,83 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+{% block styles %}
+
+
+{% endblock %}
+{% block content %}
+<h1>{% trans "Flat Pages" %}</h1>
+<div>&nbsp;</div>
+{% if form.errors %}
+<div class="alert alert-error">
+	<a class="close" data-dismiss="alert" href="#">×</a>
+	<h4 class="alert-heading">Please correct the following errors:</h4>
+	<ol>
+		{% for e in form.url.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% for e in form.title.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% for e in form.content.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+	</ol> 
+</div>
+{% endif %}
+<div class="container-fluid">
+	<form class="form-horizontal" action="" method="post">
+		{% csrf_token %}		
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="control-group">
+					<label class="control-label">{{ form.url.label }} *</label>
+					<div class="controls">
+						{{ form.url|add_class:"input-xlarge"|attr:"placeholder:URL" }}
+						<span class="help-block">{{ form.url.help_text }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="control-group">
+					<label class="control-label">{{ form.title.label }} *</label>
+					<div class="controls">
+						{{ form.title|add_class:"input-xlarge"|attr:"placeholder:Title" }}
+						<span class="help-block">{{ form.title.help_text }}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="control-group">
+					<label class="control-label">{{ form.content.label }} *</label>
+					<div class="controls">
+						{{ form.content|add_class:"input-xlarge"|attr:"placeholder:Content" }}
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="row-fluid">
+			<div class="span12">
+				<div class="control-group">
+					<label class="control-label">{{ form.url.label }} *</label>
+					<div class="controls">
+						{{ form.url|add_class:"input-xlarge"|attr:"placeholder:URL" }}
+						<span class="help-block">{{ form.url.help_text }}</span>
+					</div>
+				</div>
+            </div>
+        </div>
+		{{ form }} -->
+		<input type="submit" value="Save" />
+	</form>
+</div>
+{% endblock %}
+{% block javascripts %}
+{% endblock %}
