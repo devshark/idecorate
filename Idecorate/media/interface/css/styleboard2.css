@@ -596,8 +596,10 @@ h5 {
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.dropHere {
         background-color: rgba(66, 61, 55, 0.6) !important; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active {
-        background-color: rgba(255, 255, 255, 0.6);
-        outline: 1px dashed #999; }
+        background-color: rgba(242, 191, 137, 0.5);
+        outline: 1px dashed #333; }
+        #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active span {
+          color: #333; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active img {
         /* IE 8 */
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";

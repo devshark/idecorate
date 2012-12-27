@@ -574,6 +574,7 @@ $(document).ready(function () {
 
     $('#canvas').on('mousedown', '.box', function(e){
         $(this).addClass('active').siblings('.box').removeClass('active');
+        $(this).addClass('subActive').siblings('.box').removeClass('subActive');
         update_menu($(this).find('img'));
         hide_canvas_menu();
 
@@ -651,6 +652,9 @@ function box_droppable(){
             $(e.target).addClass('dropHere');
             $(e.target).siblings('.box').removeClass('dropHere');
 
+        },
+        out: function(e,ui){
+            $('.box').removeClass('dropHere');
         },
         drop: function (e, ui) {
 
@@ -737,7 +741,7 @@ function box_droppable(){
                                 }
                                 
                                 if(!$(_this).hasClass('active')){
-                                    $(_this).addClass('active').siblings().removeClass('active');
+                                    $(_this).addClass('active').siblings('.box').removeClass('active');
                                 }
 
                                 add_to_cart(uid, p_d_qty, p_g_t);
@@ -865,6 +869,8 @@ function template_fill(){
         if($(this).find('img').length > 0){
             $(this).find('span').hide();
             $(this).addClass('notEmpty');
+        }else{
+            $(this).removeClass('active');
         }
     });
 }
@@ -1020,6 +1026,11 @@ function drop_template(objects){
         }else{
             object.addClass(val._type);
             object.html('<span>'+val.spantext+'</span>');
+
+            if($('.subActive').length == 0) {
+                object.addClass('subActive');
+            }
+
         }
 
         object.appendTo('#canvas');
