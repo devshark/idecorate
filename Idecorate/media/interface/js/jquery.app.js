@@ -965,8 +965,8 @@ function drop_template(objects){
         object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
     
         object.attr({
-            'opacity'   : val.opacity,
-            'angle'     : val.angle,
+            '_opacity'   : val.opacity,
+            '_angle'     : val.angle,
             '_matrix'   : '{"a":'+mtx.a+', "b":'+mtx.b+', "c":'+mtx.c+', "d":'+mtx.d+',"e":'+mtx.e+',"f":'+mtx.f+'}',
             '_handle'   : val.handle,
             'rgb'       : val.rgb,
