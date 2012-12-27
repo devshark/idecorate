@@ -1269,10 +1269,35 @@ function create_instance_embellishment_upload(fname){
         });
 
         object.addClass('image templateEmbellishments');
+
+        var currentProd = $('.template.box.subActive').find('img').attr('_uid');
+        //console.log(currentProd);
+
+        
+        if(currentProd) {
+
+            var selected_uid = currentProd;
+            var count = 0;
+
+            $('.templateImage.product').each(function(e){
+                if(selected_uid == $(this).attr('_uid')) {
+                    count++;
+                }
+            });
+
+            if (count<=1) {
+                remove_from_cart(parseInt(selected_uid,10));
+            }
+
+        }
+
         $('.template.box.subActive').children('img').remove();
         object.appendTo('.template.box.subActive');
         update_menu(object,true);
         hide_canvas_menu();
+        setTimeout(function(e){
+            eventTracker(object, 'upload_image');
+        },100);
     } else {
         var object = $('<div/>');
         var elm = $('#canvas');
