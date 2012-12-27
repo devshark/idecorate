@@ -815,17 +815,22 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							text-align: center;
 						}
 					}
-					.box.hover, .box.dragHover{
+					.box.hover,.box.dropActive{
 						background-color: rgba(201,198,189,0.6) !important;
 					}
+
 					.box.notEmpty{
 						background: none;
 						outline:none;
 						*border: none;
 					}
 
+					.box.dropHere{
+						background-color: rgba(66,61,55,0.6) !important;
+					}
+
 					.box.active{
-						background-color: rgba(255,255,255,0.6) !important;
+						background-color: rgba(255,255,255,0.6);
 						outline: 1px dashed #999;
 					}
 

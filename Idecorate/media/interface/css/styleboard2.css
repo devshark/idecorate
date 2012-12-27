@@ -587,14 +587,16 @@ h5 {
           display: block;
           width: 100%;
           text-align: center; }
-      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.hover, #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.dragHover {
+      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.hover, #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.dropActive {
         background-color: rgba(201, 198, 189, 0.6) !important; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.notEmpty {
         background: none;
         outline: none;
         *border: none; }
+      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.dropHere {
+        background-color: rgba(66, 61, 55, 0.6) !important; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active {
-        background-color: rgba(255, 255, 255, 0.6) !important;
+        background-color: rgba(255, 255, 255, 0.6);
         outline: 1px dashed #999; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active img {
         /* IE 8 */
