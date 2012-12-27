@@ -226,56 +226,57 @@ def generate_styleboard_view(request, id, w, h):
 
 	for iList in itemList:
 
-		if re.search('/media/products/',iList['img'][0]['src']):
+		try:
+			if re.search('/media/products/',iList['img'][0]['src']):
 
-			imgFile = iList['img'][0]['src'].split('/')
-			imgFile = imgFile[len(imgFile) - 1].split('?')[0]
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', unquote(imgFile))
+				imgFile = iList['img'][0]['src'].split('/')
+				imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', unquote(imgFile))
 
-		elif re.search('/generate_embellishment/', iList['img'][0]['src']):
-			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+			elif re.search('/generate_embellishment/', iList['img'][0]['src']):
+				eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
-			directory = ""
+				directory = ""
 
-			embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
+				embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
 
-			if embObj.e_type.id == 1:
-				directory = "images"
-			elif embObj.e_type.id == 2:
-				directory = "textures"
-			elif embObj.e_type.id == 3:
-				directory = "patterns"
-			elif embObj.e_type.id == 4:
-				directory = "shapes"
-			elif embObj.e_type.id == 5:
-				directory = "borders"
+				if embObj.e_type.id == 1:
+					directory = "images"
+				elif embObj.e_type.id == 2:
+					directory = "textures"
+				elif embObj.e_type.id == 3:
+					directory = "patterns"
+				elif embObj.e_type.id == 4:
+					directory = "shapes"
+				elif embObj.e_type.id == 5:
+					directory = "borders"
 
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
-		elif re.search('/media/embellishments/',iList['img'][0]['src']):
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
+			elif re.search('/media/embellishments/',iList['img'][0]['src']):
 
-			imgFile = iList['img'][0]['src'].split('/')
-			imgFile = imgFile[len(imgFile) - 1]
-			imgFile = imgFile.split('?')[0]
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
+				imgFile = iList['img'][0]['src'].split('/')
+				imgFile = imgFile[len(imgFile) - 1]
+				imgFile = imgFile.split('?')[0]
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
 
-		elif re.search('/generate_text/',iList['img'][0]['src']):
-			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+			elif re.search('/generate_text/',iList['img'][0]['src']):
+				eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
-			fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
-			font_size = int(eProperties[0].split('=')[1])
-			font_color = eProperties[2].split('=')[1]
-			font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
-			image_text = unquote(eProperties[1].split('=')[1])
-		elif re.search('/cropped/',iList['img'][0]['src']):
-			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+				fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
+				font_size = int(eProperties[0].split('=')[1])
+				font_color = eProperties[2].split('=')[1]
+				font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+				image_text = unquote(eProperties[1].split('=')[1])
+			elif re.search('/cropped/',iList['img'][0]['src']):
+				eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", unquote(eProperties[3].split('=')[1]))
-			task = eProperties[1].split('=')[1]
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", unquote(eProperties[3].split('=')[1]))
+				task = eProperties[1].split('=')[1]
 
-			splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
-
-
+				splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
+		except KeyError:
+			continue
 
 		style = iList['style']
 		splittedStyle = style.split(';')
@@ -405,59 +406,62 @@ def generate_styleboard_view(request, id, w, h):
 
 	for iList in itemList:
 
-		if re.search('/media/products/',iList['img'][0]['src']):
+		try:
+			if re.search('/media/products/',iList['img'][0]['src']):
 
-			imgFile = iList['img'][0]['src'].split('/')
-			imgFile = imgFile[len(imgFile) - 1].split('?')[0]
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', unquote(imgFile))
-		elif re.search('/generate_embellishment/', iList['img'][0]['src']):
-			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+				imgFile = iList['img'][0]['src'].split('/')
+				imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', unquote(imgFile))
+			elif re.search('/generate_embellishment/', iList['img'][0]['src']):
+				eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
-			directory = ""
+				directory = ""
 
-			embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
+				embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
 
-			if embObj.e_type.id == 1:
-				directory = "images"
-			elif embObj.e_type.id == 2:
-				directory = "textures"
-			elif embObj.e_type.id == 3:
-				directory = "patterns"
-			elif embObj.e_type.id == 4:
-				directory = "shapes"
-			elif embObj.e_type.id == 5:
-				directory = "borders"
+				if embObj.e_type.id == 1:
+					directory = "images"
+				elif embObj.e_type.id == 2:
+					directory = "textures"
+				elif embObj.e_type.id == 3:
+					directory = "patterns"
+				elif embObj.e_type.id == 4:
+					directory = "shapes"
+				elif embObj.e_type.id == 5:
+					directory = "borders"
 
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
-		elif re.search('/media/embellishments/',iList['img'][0]['src']):
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
+			elif re.search('/media/embellishments/',iList['img'][0]['src']):
 
-			imgFile = iList['img'][0]['src'].split('/')
-			imgFile = imgFile[len(imgFile) - 1]
-			imgFile = imgFile.split('?')[0]
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
+				imgFile = iList['img'][0]['src'].split('/')
+				imgFile = imgFile[len(imgFile) - 1]
+				imgFile = imgFile.split('?')[0]
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
 
-			"""
-			if re.search('?', imgFile):
-				splRnd = imgFile.split('?')
-				imgFile = splRnd[0]
-			"""
-		elif re.search('/generate_text/',iList['img'][0]['src']):
-			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+				"""
+				if re.search('?', imgFile):
+					splRnd = imgFile.split('?')
+					imgFile = splRnd[0]
+				"""
+			elif re.search('/generate_text/',iList['img'][0]['src']):
+				eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
-			fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
-			font_size = int(eProperties[0].split('=')[1])
-			font_color = eProperties[2].split('=')[1]
-			font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
-			image_text = unquote(eProperties[1].split('=')[1])
-			#print "The text is: %s" % image_text
-		elif re.search('/cropped/',iList['img'][0]['src']):
-			eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+				fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
+				font_size = int(eProperties[0].split('=')[1])
+				font_color = eProperties[2].split('=')[1]
+				font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+				image_text = unquote(eProperties[1].split('=')[1])
+				#print "The text is: %s" % image_text
+			elif re.search('/cropped/',iList['img'][0]['src']):
+				eProperties = iList['img'][0]['src'].split("?")[1].split('&')
 
-			imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", unquote(eProperties[3].split('=')[1]))
-			task = eProperties[1].split('=')[1]
+				imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", unquote(eProperties[3].split('=')[1]))
+				task = eProperties[1].split('=')[1]
 
-			splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
+				splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
+		except KeyError:
+			continue
 
 		style = iList['style']
 		splittedStyle = style.split(';')
