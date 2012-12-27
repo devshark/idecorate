@@ -1242,8 +1242,8 @@ function create_instance_embellishment_upload(fname){
         var this_width    = 0;
         var this_height   = 0;
         var css = {};
-        var box_Width     = $('.template.box.active').width();
-        var box_Height   = $('.template.box.active').height();
+        var box_Width     = $('.template.box.subActive').width();
+        var box_Height   = $('.template.box.subActive').height();
 
         object.attr({
             'src': '/media/embellishments/images/'+fname
@@ -1269,6 +1269,8 @@ function create_instance_embellishment_upload(fname){
         });
 
         object.addClass('image templateEmbellishments');
+        $('.template.box.subActive').children('img').remove();
+        object.appendTo('.template.box.subActive');
         update_menu(object,true);
         hide_canvas_menu();
     } else {

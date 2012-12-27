@@ -42,6 +42,7 @@ from django.template import loader, Context
 from django.utils import simplejson
 import csv
 from customer.models import StyleBoardCartItems
+from django.contrib.flatpages.models import FlatPage
 
 @staff_member_required
 def admin(request):
@@ -63,6 +64,8 @@ def admin_manage_menu(request):
     info_menus = InfoMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
     site_menus = SiteMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
     footer_menus = FooterMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
+
+    info['pages'] =  FlatPage.objects.all()
 
     task = request.POST.get('task', None)
 
