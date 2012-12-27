@@ -1,7 +1,7 @@
 3.3.0.alpha.3 (Bleeding Edge)
-eb16eb18e6732d8c13d9452d5b917b31c031edcb
+bf2991a7b005e4726b2c112e064c689b41826fc3
 o:Sass::Tree::RootNode
-:@template"C)#content {
+:@template"H)#content {
 	padding: 15px;
 	background: #FFFFFF;
 
@@ -229,7 +229,7 @@ eb16eb18e6732d8c13d9452d5b917b31c031edcb
 	width: auto;
 	height: auto;
 	margin: 15px auto;
-	padding: 10px;
+	padding: 20px 10px;
 	color: #FFFFFF;
 	background: #000000;
 	box-shadow: 3px 3px 3px 2px #EEEEEE;
@@ -718,7 +718,7 @@ blocko;;["padding;iœ;;;	[ ;i ;@;o;;; ;@;"
 5px 0o;;["background-color;i–;;;	[ ;i ;@;o;;; ;@;"#FFC5C3o;;["text-align;i—;;;	[ ;i ;@;o;;; ;@;"centero;;["font-weight;i“;;;	[ ;i ;@;o;;; ;@;"	bold;i ;@;i ;@;i ;@;i ;@;i ;@;i ;@;i ;@o;
 ;[".loginDetails;o;;" ;i·;[o;;[o;
 ;o;;{ ;@U;i·;[o;#;@U;["loginDetails;i·;0;i·;T;	[o;;["
-width;i‚;;;	[ ;i ;@;o;;; ;@;"	autoo;;["height;i„;;;	[ ;i ;@;o;;; ;@;"	autoo;;["margin;i‰;;;	[ ;i ;@;o;;; ;@;"15px autoo;;["padding;iÂ;;;	[ ;i ;@;o;;; ;@;"	10pxo;;["
+width;i‚;;;	[ ;i ;@;o;;; ;@;"	autoo;;["height;i„;;;	[ ;i ;@;o;;; ;@;"	autoo;;["margin;i‰;;;	[ ;i ;@;o;;; ;@;"15px autoo;;["padding;iÂ;;;	[ ;i ;@;o;;; ;@;"20px 10pxo;;["
 color;iÊ;;;	[ ;i ;@;o;;; ;@;"#FFFFFFo;;["background;iÁ;;;	[ ;i ;@;o;;; ;@;"#000000o;;["box-shadow;iË;;;	[ ;i ;@;o;;; ;@;"3px 3px 3px 2px #EEEEEEo;
 ;["h4;o;;" ;iÍ;[o;;[o;
 ;o;;{ ;@è;iÍ;[o;!	;@è;["h4;iÍ;"0;0;iÍ;T;	[o;;["font-weight;iÎ;;;	[ ;i ;@;o;;; ;@;"	boldo;;["margin;iÏ;;;	[ ;i ;@;o;;; ;@;"0 0 15px 0o;;["

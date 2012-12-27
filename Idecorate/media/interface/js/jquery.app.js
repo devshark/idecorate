@@ -266,7 +266,7 @@ $(document).ready(function () {
         e.preventDefault();
         if($('#canvas .template').length > 0){
 
-            var selected_uid = $('#canvas .template.box.active').find('img').attr('_uid');
+            var selected_uid = $('#canvas .template.box.active').find('img.templateImage.product').attr('_uid');
             var count = 0;
 
             $('.templateImage.product').each(function(e){
@@ -2035,8 +2035,7 @@ function get_product_object_json(){
             _angle = $(this).attr('_angle');
         } else if($(this).attr('angle')) {
             _angle = $(this).attr('angle');            
-        }
-        var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
+        }        
         var _text = $(this).attr('_text')?escape($(this).attr('_text')):'';
         var _rgb = $(this).attr('_rgb')?$(this).attr('_rgb'):'';
         var type = 'box';
@@ -2057,6 +2056,8 @@ function get_product_object_json(){
         if(type=='box'){
             _spantext = $('span',this).text();
         }
+
+        var _opacity = $(elm_img).attr('_opacity')?$(elm_img).attr('_opacity'):100;
 
         _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style'), cls:_cls, uid:$(elm_img).attr('_uid') });
         product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, cls: 'template', spantext:_spantext, img:_img});

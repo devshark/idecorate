@@ -86,11 +86,12 @@ urlpatterns += patterns('category.views',
 
 urlpatterns += patterns('cms_item.views',
     url(r'^admin/flatpage_admin/$', 'flatpage_admin', {}, name='flatpage_admin'),
-    url(r'^admin/add_flatpage/$', 'add_flatpage', {}, name='add_flatpage'),
+    url(r'^admin/add_page/$', 'add_flatpage', {}, name='add_flatpage'),
+    url(r'^admin/edit_page/(?P<page_id>\d+)/', 'edit_flatpage', {}, name='edit_flatpage'),
 )
 
 urlpatterns += patterns('',
-    ('^pages/', include('django.contrib.flatpages.urls')),
+    ('^sites/', include('django.contrib.flatpages.urls')),
 )
 
 # urlpatterns += patterns('django.contrib.flatpages.views',

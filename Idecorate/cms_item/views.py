@@ -9,6 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.flatpages.forms import FlatpageForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from cms_item.forms import EditFlatpageForm
 
 @staff_member_required
 def flatpage_admin(request):
@@ -34,14 +35,61 @@ def add_flatpage(request):
 		if form.is_valid():
 			try:
 				form.save()
-				messages.success(request, 'Added new flatpage.')
+				messages.success(request, 'Created new site page.')
 				return render_to_response('wallet_admin/iframe/closer.html',info,context_instance)
 			except Exception as e:
 				messages.error(request, 'An error has occurred.')
 
 	info['form'] = form
+	info['mod'] = 'Create'
 
 	return render_to_response('admin/flatpages/add_flatpage.html',info,context_instance)
+
+@staff_member_required
+def edit_flatpage(request, page_id=None):
+	context_instance = RequestContext(request)
+	info = {}
+	try:
+		flatPage = FlatPage.objects.get(id=page_id)
+	except Exception as e:
+		return redirect('flatpage_admin')
+
+	form = EditFlatpageForm(instance=flatPage)
+
+	if request.method == 'POST':
+		data = request.POST.copy()
+		data['sites'] = 1
+		data['instance'] = flatPage
+		form = EditFlatpageForm(data)
+		if form.is_valid():
+			try:
+				save_flatpage(data)
+				messages.success(request, 'Created new site page.')
+				return render_to_response('wallet_admin/iframe/closer.html',info,context_instance)
+			except Exception as e:
+				messages.error(request, 'An error has occurred.')
+
+	info['form'] = form
+	info['mod'] = 'Modify'
+
+	return render_to_response('admin/flatpages/add_flatpage.html',info,context_instance)
+
+def save_flatpage(data):
+	instance = data['instance']
+	url = data['url']
+	sites = data['sites']	
+	same_url = FlatPage.objects.filter(url=url)
+	if instance.pk:
+		same_url = same_url.exclude(pk=instance.pk)
+
+	if same_url.filter(sites__in=sites).exists():
+		for site in sites:
+			if same_url.filter(sites=site).exists():
+				pass
+
+
+
+
 
 # @staff_member_required
 # def edit_flatpage(request, flatpage_id):
