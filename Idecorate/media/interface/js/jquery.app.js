@@ -270,7 +270,7 @@ $(document).ready(function () {
         e.preventDefault();
         if($('#canvas .template').length > 0){
 
-            var selected_uid = $('#canvas .template.box.active').find('img').attr('_uid');
+            var selected_uid = $('#canvas .template.box.active').find('img.templateImage.product').attr('_uid');
             var count = 0;
 
             $('.templateImage.product').each(function(e){
