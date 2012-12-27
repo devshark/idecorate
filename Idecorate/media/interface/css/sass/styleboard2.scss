@@ -838,6 +838,12 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						}
 					}
 
+					.box.subActive{
+						span{
+							font-weight:bold;
+						}
+					}
+
 					.box.active img{
 						/* IE 8 */
 						-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";

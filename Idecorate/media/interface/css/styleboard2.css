@@ -600,6 +600,8 @@ h5 {
         outline: 1px dashed #333; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active span {
           color: #333; }
+      #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.subActive span {
+        font-weight: bold; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active img {
         /* IE 8 */
         -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
