@@ -672,8 +672,12 @@
         generate_user_nav();
         $('#save').click(function(e){
             e.preventDefault();
-            if ($('#canvas-wrap .product').length>0 || $('.notEmpty').length > 0 || $('.embellishment.unselected').length > 0)
+
+            //if ($('#canvas-wrap .product').length>0 || $('.notEmpty').length > 0 || $('.embellishment.unselected').length > 0)
+            if(objCounter > 0) {    
+
                 pop_save_styleboard();
+            }
         });
     });
     function generate_user_nav(){
