@@ -39,11 +39,9 @@ $(document).ready(function () {
             containment: 'body',
             drag:function(e,ui){
                 template_fill();
-                $('#canvas .box').addClass('dragHover');
             },
             stop: function(e, ui){
                 template_fill();
-                $('#canvas .box').removeClass('dragHover');
             }
 
         });
@@ -56,11 +54,9 @@ $(document).ready(function () {
             containment: 'body',
             drag:function(e,ui){
                 template_fill();
-                $('#canvas .box').addClass('dragHover');
             },
             stop: function(e, ui){
                 template_fill();
-                $('#canvas .box').removeClass('dragHover');
             }
         });
 
@@ -283,7 +279,7 @@ $(document).ready(function () {
                 remove_from_cart(parseInt(selected_uid,10));
 
             $('#canvas .template.box.active').removeClass('notEmpty').find('img').remove();
-            $('#canvas .template.box').removeClass('hover active').find('span').show();
+            $('#canvas .template.box.active').removeClass('active').find('span').show();
             //console.log(count);
             notEmpty = false;
         }else{
@@ -564,8 +560,8 @@ $(document).ready(function () {
     $('#canvas').on('mouseenter', '.box', function(e){
         $(this).addClass('hover');
         if($(this).hasClass('notEmpty')){
-            notEmpty = true;
             $(this).removeClass('notEmpty');
+            notEmpty = true;
         }
     });
     $('#canvas').on('mouseleave', '.box', function(e){
@@ -647,9 +643,13 @@ active_index = 0;
 function box_droppable(){
     $('#canvas .template.box').droppable({
         tolerance: "pointer",
+        activeClass: 'dropActive',
+        hoverClass: 'dropHover',
         over: function(e, ui) {
 
             active_index = $(e.target).css('z-index');
+            $(e.target).addClass('dropHere');
+            $(e.target).siblings('.box').removeClass('dropHere');
 
         },
         drop: function (e, ui) {
@@ -806,6 +806,8 @@ function box_droppable(){
                 return false;
             }
 
+            $(e.target).removeClass('dropHere');
+
         }
     });
 }
@@ -863,9 +865,6 @@ function template_fill(){
         if($(this).find('img').length > 0){
             $(this).find('span').hide();
             $(this).addClass('notEmpty');
-        }else{
-            $(this).addClass('hover');
-            //.removeClass('notEmpty');
         }
     });
 }
