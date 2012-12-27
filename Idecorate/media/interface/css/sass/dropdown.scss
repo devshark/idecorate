@@ -1,3 +1,4 @@
+@import url("/media/interface/css/idecorate.fontface.css");
 .dd{
     display: none;
     font-size: 14px;
@@ -9,6 +10,8 @@
             border-left: 2px solid #FFF;
             a,span{
                 text-transform: uppercase;
+                font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+                font-size: 12px;
                 font-weight: bold !important;
                 color: #FFF !important;
             }
@@ -38,6 +41,8 @@
             a,span{
                 text-transform: uppercase;
                 font-weight: bold !important;
+                font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+                font-size: 12px;
                 color: #FFF !important;
             }
             a:hover, span:hover {
