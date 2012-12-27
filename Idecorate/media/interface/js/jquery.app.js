@@ -643,6 +643,12 @@ function change_img_template(allAttr,background){
 }
 
 function box_droppable(){
+    $('#canvas .template.box').each(function(){
+        if($(this).has('img')){
+            $('span',this).hide();
+        }
+    });
+
     $('#canvas .template.box').droppable({
         drop: function (e, ui) {
 
