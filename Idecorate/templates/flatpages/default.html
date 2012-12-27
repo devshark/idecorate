@@ -1,15 +1,22 @@
 {% extends "base.html" %}
 {% block title %}iDecorate Weddings - {{ flatpage.title }}{% endblock %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/media/interface/css/static.css">
     <!--<link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
     <link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
 -->
 {% endblock %}
 {% block content %}
 
-{{ flatpage.title }}
-{{ flatpage.content }}
+<div class="clearfix staticWrapper">
+	<fieldset>
+		<legend>{{ flatpage.title }}</legend>
+		{{ flatpage.content }}
+		<div class="clearfix end">
+			<img src="/media/images/end.png" />
+		</div>
+	</fieldset>
+</div>
 
 {% endblock %}
 {% block javascripts %}
