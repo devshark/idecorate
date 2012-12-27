@@ -58,7 +58,7 @@
 				<div class="control-group">
 					<label class="control-label">{{ form.content.label }} *</label>
 					<div class="controls">
-						{{ form.content|add_class:"input-xlarge"|attr:"placeholder:Content" }}
+						{{ form.content|add_class:"span12 tinymce"|attr:"placeholder:Content"|attr:"rows:30" }}
 					</div>
 				</div>
 			</div>
@@ -75,9 +75,34 @@
             </div>
         </div>
 		{{ form }} -->
-		<input type="submit" value="Save" />
+		<div class="form-actions">
+			<input class="btn btn-primary btn-submit" type="submit" value="Create" />
+		</div>
 	</form>
 </div>
 {% endblock %}
 {% block javascripts %}
+<script type="text/javascript" src="/media/tinymce/jscripts/tiny_mce/jquery.tinymce.js"></script>
+<script type="text/javascript">
+	$().ready(function() {
+		$('textarea.tinymce').tinymce({
+			// Location of TinyMCE script
+			script_url : '/media/tinymce/jscripts/tiny_mce/tiny_mce.js',
+
+			// General options
+			theme : "advanced",
+			// plugins : "autolink,lists,pagebreak,style,layer,table,save,advhr,advimage,advlink,emotions,iespell,inlinepopups,insertdatetime,preview,media,searchreplace,print,contextmenu,paste,directionality,fullscreen,noneditable,visualchars,nonbreaking,xhtmlxtras,template,advlist",
+
+			// // Theme options
+			// theme_advanced_buttons1 : "save,newdocument,|,bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,justifyfull,styleselect,formatselect,fontselect,fontsizeselect",
+			// theme_advanced_buttons2 : "cut,copy,paste,pastetext,pasteword,|,search,replace,|,bullist,numlist,|,outdent,indent,blockquote,|,undo,redo,|,link,unlink,anchor,image,cleanup,help,code,|,insertdate,inserttime,preview,|,forecolor,backcolor",
+			// theme_advanced_buttons3 : "tablecontrols,|,hr,removeformat,visualaid,|,sub,sup,|,charmap,emotions,iespell,media,advhr,|,print,|,ltr,rtl,|,fullscreen",
+			// theme_advanced_buttons4 : "insertlayer,moveforward,movebackward,absolute,|,styleprops,|,cite,abbr,acronym,del,ins,attribs,|,visualchars,nonbreaking,template,pagebreak",
+			// theme_advanced_toolbar_location : "top",
+			// theme_advanced_toolbar_align : "left",
+			// theme_advanced_statusbar_location : "bottom",
+			theme_advanced_resizing : true			
+		});
+	});
+</script>
 {% endblock %}

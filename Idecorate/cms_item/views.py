@@ -34,7 +34,30 @@ def add_flatpage(request):
 		if form.is_valid():
 			try:
 				form.save()
-				messages.success(request, 'Added new flatpage.')
+				messages.success(request, 'Created new site page.')
+				return render_to_response('wallet_admin/iframe/closer.html',info,context_instance)
+			except Exception as e:
+				messages.error(request, 'An error has occurred.')
+
+	info['form'] = form
+
+	return render_to_response('admin/flatpages/add_flatpage.html',info,context_instance)
+
+@staff_member_required
+def edit_flatpage(request):
+	context_instance = RequestContext(request)
+	info = {}
+
+	form = FlatpageForm()
+
+	if request.method == 'POST':
+		data = request.POST.copy()
+		data['sites'] = 1
+		form = FlatpageForm(data)
+		if form.is_valid():
+			try:
+				form.save()
+				messages.success(request, 'Created new site page.')
 				return render_to_response('wallet_admin/iframe/closer.html',info,context_instance)
 			except Exception as e:
 				messages.error(request, 'An error has occurred.')

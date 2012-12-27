@@ -90,7 +90,7 @@ urlpatterns += patterns('cms_item.views',
 )
 
 urlpatterns += patterns('',
-    ('^pages/', include('django.contrib.flatpages.urls')),
+    ('^sites/', include('django.contrib.flatpages.urls')),
 )
 
 # urlpatterns += patterns('django.contrib.flatpages.views',
