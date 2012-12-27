@@ -81,23 +81,27 @@ function populate_save_styleboard(){
             }
 
 			var img = $('<img />');
-			var img_src = v.img[0].src.indexOf("?") != -1?v.img[0].src+'&random='+i:v.img[0].src+'?random='+i;
-			if(v.img[0].uid){
-				img.attr('_uid',v.img[0].uid);
-			}
-			img.attr('src',img_src);
-			img.attr('style',v.img[0].style);
-			img.attr('_nb',v.img[0].nb);
-			img.attr('_wb',v.img[0].wb);
-			if (v.img[0].cls){
-				img.attr('class',v.img[0].cls);
-			}
-			if($.browser.msie && $.browser.version < 9.0){
-				img.load(function(){
-					// do nothing
-				}).appendTo(elm);
-			} else 
-				img.appendTo(elm);
+			if(v.img[0].src){
+				$(span).hide();
+				var img_src = v.img[0].src.indexOf("?") != -1?v.img[0].src+'&random='+i:v.img[0].src+'?random='+i;
+				if(v.img[0].uid){
+					img.attr('_uid',v.img[0].uid);
+				}
+				img.attr('src',img_src);
+				img.attr('style',v.img[0].style);
+				img.attr('_nb',v.img[0].nb);
+				img.attr('_wb',v.img[0].wb);
+				img.attr('_opacity',v.img[0].opacity);
+				if (v.img[0].cls){
+					img.attr('class',v.img[0].cls);
+				}
+				if($.browser.msie && $.browser.version < 9.0){
+					img.load(function(){
+						// do nothing
+					}).appendTo(elm);
+				} else 
+					img.appendTo(elm);
+			}			
 			elm.appendTo('#canvas');			
 			objCounter++;			
 		});

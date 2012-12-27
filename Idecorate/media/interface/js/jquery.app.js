@@ -2056,10 +2056,14 @@ function get_product_object_json(){
         if(type=='box'){
             _spantext = $('span',this).text();
         }
+        var _opacity = $(this).attr('_opacity')?$(this).attr('_opacity'):100;
+        var _img_opacity = 100;
+        if (type=='box'){
+            _opacity = $(elm_img).attr('_opacity')?$(elm_img).attr('_opacity'):100;
+            _img_opacity = _opacity;
+        }
 
-        var _opacity = $(elm_img).attr('_opacity')?$(elm_img).attr('_opacity'):100;
-
-        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style'), cls:_cls, uid:$(elm_img).attr('_uid') });
+        _img.push({ src:_src, nb:_nb, wb:_wb, style:$(elm_img).attr('style'), cls:_cls, uid:$(elm_img).attr('_uid'), opacity:_img_opacity });
         product_objects.push({uid:_uid, _type:type, def_qty:_def_qty, gst_tb:_gst_tb, left:product_left,top:product_top,style:style,matrix:_matrix,zindex:_zindex,handle:_handle, angle:_angle, opacity:_opacity, text:_text, rgb:_rgb, cls: 'template', spantext:_spantext, img:_img});
     });
     var product_array = new Array();
