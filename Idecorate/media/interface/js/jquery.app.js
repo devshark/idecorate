@@ -668,7 +668,7 @@ function box_droppable(){
                         async:   false,
                         success: function(data){
                             //console.log($(_this).find('img').attr('_uid'));
-                            var currentProd = $('.product',_this).find('img').attr('_uid');
+                            var currentProd = $(_this).find('img').attr('_uid');
                             var img_src     = '/'+_img_src+data.original_image;
                             var img_w_bg    = data.original_image;
                             var img_wo_bg   = data.no_background;
@@ -689,7 +689,7 @@ function box_droppable(){
                                         _height  : this_height
                                     });
 
-                            var obj_id = uid;
+                            var obj_id = $(object[0]).attr('_uid');
 
                         
                             if(currentProd) {
