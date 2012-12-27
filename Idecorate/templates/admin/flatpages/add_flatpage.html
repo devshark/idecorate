@@ -25,18 +25,12 @@
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading">Please correct the following errors:</h4>
 	<ol>
-		{% for e in form.url.errors %}
-		<li>{{ e }}</li>
-		{% endfor %}
-		{% for e in form.title.errors %}
-		<li>{{ e }}</li>
-		{% endfor %}
-		{% for e in form.content.errors %}
-		<li>{{ e }}</li>
-		{% endfor %}
-		{% for e in form.same_url.errors %}
-		<li>{{ e }}</li>
-		{% endfor %}
+		{% if form.url.errors %}
+		<li>{% trans "Url is a required field." %}</li>
+		{% endif %}
+		{% if form.title.errors %}
+		<li>{% trans "Title is a required field." %}</li>
+		{% endif %}
 	</ol> 
 </div>
 {% endif %}
