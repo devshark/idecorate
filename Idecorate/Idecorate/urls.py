@@ -88,6 +88,7 @@ urlpatterns += patterns('cms_item.views',
     url(r'^admin/flatpage_admin/$', 'flatpage_admin', {}, name='flatpage_admin'),
     url(r'^admin/add_page/$', 'add_flatpage', {}, name='add_flatpage'),
     url(r'^admin/edit_page/(?P<page_id>\d+)/', 'edit_flatpage', {}, name='edit_flatpage'),
+    url(r'^admin/delete_flatpage/$', 'delete_flatpage', {}, name='delete_flatpage'),
 )
 
 urlpatterns += patterns('',
