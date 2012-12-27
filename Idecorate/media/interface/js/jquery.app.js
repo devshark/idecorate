@@ -270,7 +270,7 @@ $(document).ready(function () {
         e.preventDefault();
         if($('#canvas .template').length > 0){
 
-            var selected_uid = $('#canvas .template.box.active').find('img').attr('_uid');
+            var selected_uid = $('#canvas .template.box.active').find('img.templateImage.product').attr('_uid');
             var count = 0;
 
             $('.templateImage.product').each(function(e){
@@ -642,160 +642,170 @@ function change_img_template(allAttr,background){
     }
 }
 
-function box_droppable(){
-    $('#canvas .template.box').each(function(){
-        if($(this).has('img')){
-            $('span',this).hide();
-        }
-    });
+active_index = 0;
 
+function box_droppable(){
     $('#canvas .template.box').droppable({
+        tolerance: "pointer",
+        over: function(e, ui) {
+
+            active_index = $(e.target).css('z-index');
+
+        },
         drop: function (e, ui) {
 
-            if ($(ui.draggable)[0].id != "") {
-
-                ui.helper.remove();
-                var Obj         = $(ui.draggable)[0];
-                Obj             = $(Obj);
-                var _this       = this;
-                var this_width  = $(_this).width();
-                var this_height = $(_this).height();
-
-                if(Obj.hasClass('products')){
-                    var uid         = Obj.attr('_uid');
-                    var _img_src    = media_url+'products/';
-                    var p_d_qty     = 1;
-                    var p_g_t       = 'table';
-
-                    $.ajax({
-                        url: PRODUCT_IMAGE_URL,
-                        type: "POST",
-                        data: {product_id: uid},
-                        async:   false,
-                        success: function(data){
-                            //console.log($(_this).find('img').attr('_uid'));
-                            var currentProd = $(_this).find('img').attr('_uid');
-                            var img_src     = '/'+_img_src+data.original_image;
-                            var img_w_bg    = data.original_image;
-                            var img_wo_bg   = data.no_background;
-                            var p_d_qty     = data.default_quantity;
-                            var p_g_t       = data.guest_table;
-
-                            //create new image using image object
-                            var object = create_image_for_template({
-                                        _box     : _this,
-                                        _uid     : uid,
-                                        _event   : e,
-                                        _src     : img_src,
-                                        _img_wo_b: img_wo_bg,
-                                        _img_w_b : img_w_bg,
-                                        _p_d_qty : p_d_qty,
-                                        _p_g_t   : p_g_t,
-                                        _width   : this_width,
-                                        _height  : this_height
-                                    });
-
-                            var obj_id = $(object[0]).attr('_uid');
-
-                        
-                            if(currentProd) {
+            if(active_index == $(e.target).css('z-index')) {
 
 
-                                if(currentProd != obj_id) {
+                if ($(ui.draggable)[0].id != "") {
 
-                                    var selected_uid = currentProd;
-                                    var count = 0;
+                    ui.helper.remove();
+                    var Obj         = $(ui.draggable)[0];
+                    Obj             = $(Obj);
+                    var _this       = this;
+                    var this_width  = $(_this).width();
+                    var this_height = $(_this).height();
 
-                                    $('.templateImage.product').each(function(e){
-                                        if(selected_uid == $(this).attr('_uid')) {
-                                            count++;
+                    if(Obj.hasClass('products')){
+                        var uid         = Obj.attr('_uid');
+                        var _img_src    = media_url+'products/';
+                        var p_d_qty     = 1;
+                        var p_g_t       = 'table';
+
+                        $.ajax({
+                            url: PRODUCT_IMAGE_URL,
+                            type: "POST",
+                            data: {product_id: uid},
+                            async:   false,
+                            success: function(data){
+                                //console.log($(_this).find('img').attr('_uid'));
+                                var currentProd = $(_this).find('img').attr('_uid');
+                                var img_src     = '/'+_img_src+data.original_image;
+                                var img_w_bg    = data.original_image;
+                                var img_wo_bg   = data.no_background;
+                                var p_d_qty     = data.default_quantity;
+                                var p_g_t       = data.guest_table;
+
+                                //create new image using image object
+                                var object = create_image_for_template({
+                                            _box     : _this,
+                                            _uid     : uid,
+                                            _event   : e,
+                                            _src     : img_src,
+                                            _img_wo_b: img_wo_bg,
+                                            _img_w_b : img_w_bg,
+                                            _p_d_qty : p_d_qty,
+                                            _p_g_t   : p_g_t,
+                                            _width   : this_width,
+                                            _height  : this_height
+                                        });
+
+                                var obj_id = $(object[0]).attr('_uid');
+
+                            
+                                if(currentProd) {
+
+
+                                    if(currentProd != obj_id) {
+
+                                        var selected_uid = currentProd;
+                                        var count = 0;
+
+                                        $('.templateImage.product').each(function(e){
+                                            if(selected_uid == $(this).attr('_uid')) {
+                                                count++;
+                                            }
+                                        });
+
+                                        if (count<=1) {
+                                            //console.log('delete by product');
+                                            remove_from_cart(parseInt(selected_uid,10));
                                         }
-                                    });
 
-                                    if (count<=1) {
-                                        //console.log('delete by product');
-                                        remove_from_cart(parseInt(selected_uid,10));
+
                                     }
 
-
                                 }
 
-                            }
-
-                            $(_this).children('img').remove();
-                            if($.browser.msie && $.browser.version == 7.0){
-                                setTimeout(function(){
-                                    $(object[0]).appendTo($(_this));  
-                                },1000);
-                            }else{
-                                $(object[0]).appendTo($(_this));   
-                            }
-                            
-                            if(!$(_this).hasClass('active')){
-                                $(_this).addClass('active').siblings().removeClass('active');
-                            }
-
-                            add_to_cart(uid, p_d_qty, p_g_t);
-                        },
-                        error: function(msg){
-                            alert(msg);
-                        }
-                    });
-                    
-                    template_fill();
-
-                    setTimeout(function(){
-                        eventTracker($(_this),'drop_object');
-                    },100);
-
-                    //add_to_cart(uid, p_d_qty, p_g_t);
-
-                }else if(Obj.hasClass('em')){
-
-                    var em_id = Obj.attr('id');
-                    var em_dbID = em_id.split('-');
-                    var type = Obj.attr('_type');
-
-                    if(type == 'Text'){
-                        //object = create_text_for_template(em_dbID[1],e,type);
-                    }else{
-                        var object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
-                        var currentProd = $(_this).find('img').attr('_uid');
-
-
-                        if(currentProd) {
-
-                            var selected_uid = currentProd;
-                            var count = 0;
-
-                            $('.templateImage.product').each(function(e){
-                                if(selected_uid == $(this).attr('_uid')) {
-                                        count++;
+                                $(_this).children('img').remove();
+                                if($.browser.msie && $.browser.version == 7.0){
+                                    setTimeout(function(){
+                                        $(object[0]).appendTo($(_this));  
+                                    },1000);
+                                }else{
+                                    $(object[0]).appendTo($(_this));   
                                 }
-                            });
+                                
+                                if(!$(_this).hasClass('active')){
+                                    $(_this).addClass('active').siblings().removeClass('active');
+                                }
 
-                            if (count<=1) {
-                                remove_from_cart(parseInt(selected_uid,10));
+                                add_to_cart(uid, p_d_qty, p_g_t);
+                            },
+                            error: function(msg){
+                                alert(msg);
                             }
-
-                        }
-                        //$(_this).html(object[0]);
-
-                        $(object[0]).appendTo($(_this)).siblings('img').remove();
-
-                        if(!$(_this).hasClass('active')){
-                            $(_this).addClass('active').siblings().removeClass('active');
-                        }
-
+                        });
+                        
                         template_fill();
 
                         setTimeout(function(){
                             eventTracker($(_this),'drop_object');
                         },100);
 
+                        //add_to_cart(uid, p_d_qty, p_g_t);
+
+                    }else if(Obj.hasClass('em')){
+
+                        var em_id = Obj.attr('id');
+                        var em_dbID = em_id.split('-');
+                        var type = Obj.attr('_type');
+
+                        if(type == 'Text'){
+                            //object = create_text_for_template(em_dbID[1],e,type);
+                        }else{
+                            var object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
+                            var currentProd = $(_this).find('img').attr('_uid');
+
+
+                            if(currentProd) {
+
+                                var selected_uid = currentProd;
+                                var count = 0;
+
+                                $('.templateImage.product').each(function(e){
+                                    if(selected_uid == $(this).attr('_uid')) {
+                                            count++;
+                                    }
+                                });
+
+                                if (count<=1) {
+                                    remove_from_cart(parseInt(selected_uid,10));
+                                }
+
+                            }
+                            //$(_this).html(object[0]);
+
+                            $(object[0]).appendTo($(_this)).siblings('img').remove();
+
+                            if(!$(_this).hasClass('active')){
+                                $(_this).addClass('active').siblings().removeClass('active');
+                            }
+
+                            template_fill();
+
+                            setTimeout(function(){
+                                eventTracker($(_this),'drop_object');
+                            },100);
+
+                        }
                     }
                 }
+
+            } else {
+                return false;
             }
+
         }
     });
 }

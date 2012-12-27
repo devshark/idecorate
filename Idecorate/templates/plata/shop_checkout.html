@@ -79,7 +79,6 @@
 		{% endif %}
 		<div class="clearfix orderTable">MY ORDER</div>
 		<fieldset>
-			<!-- <legend>Your Order</legend> -->
 			<table>
 				<thead>
 					<tr>
@@ -101,7 +100,7 @@
 							<p>{{ guest_table.tables }} Tables</p>
 						</td>
 						<td>
-							<p><!-- + $100 Shipping Fee -->&nbsp;</p>
+							<p>+ $100 Shipping Fee</p>
 							<p class="totalCost">Total: ${{ order.total|floatformat:2|intcomma }}</p>
 							<button type="button" id="edit_button">EDIT</button>
 						</td>
@@ -172,6 +171,10 @@
 						{{ orderform.shipping_city|add_class:"districtList" }}
 					</div>
 					<div class="clearfix">
+						<label>Country</label>
+						{{ orderform.shipping_city|add_class:"districtList" }}
+					</div>
+					<div class="clearfix">
 						<label>Postal Code</label>
 						{{ orderform.shipping_zip_code }}
 					</div>
@@ -215,12 +218,16 @@
                         <label>City</label>
                         {{ orderform.billing_city|add_class:"districtList" }}
                     </div>
+					<div class="clearfix">
+						<label>Country</label>
+						{{ orderform.shipping_city|add_class:"districtList" }}
+					</div>
                     <div class="clearfix">
                         <label>Postal Code</label>
                         {{ orderform.billing_zip_code }}
                     </div>
             </fieldset>
-	        <fieldset class="paymentMethod2" id="payment_orig">
+            <fieldset class="paymentMethod2" id="payment_orig">
 	            <legend>PAYMENT METHOD</legend>
 				<br />
 
@@ -232,6 +239,10 @@
 	                </div>
 	                {% endfor %}
 
+	        </fieldset>
+	        <fieldset class="request">
+	        	<legend>REQUESTS/COMMENTS</legend>
+	        	<textarea></textarea>
 	        </fieldset>
 		</div>
 	</div>
@@ -269,7 +280,7 @@ QUESTION_ORIGINAL_SIZE = 0;
 		});
 		resizeUpperInfos();
 		resizeInfos();
-		hideBilling()
+		hideBilling();	
 		
 	});
 
@@ -320,8 +331,10 @@ QUESTION_ORIGINAL_SIZE = 0;
 				$('.deliveryDate').height(paymentMethodH2);
 				$('.paymentMethod2').height(paymentMethodH2);
 			}
-
-			$('.question').height(QUESTION_ORIGINAL_SIZE);
+			
+			resizeQuestion();
+			
+			//$('.question').height(QUESTION_ORIGINAL_SIZE);
 		} else {
 
 			if(deliveryDateH > paymentMethodH){
@@ -350,6 +363,20 @@ QUESTION_ORIGINAL_SIZE = 0;
 		}
 
 		resizeInfos();
+	}
+
+	function resizeQuestion() {
+		var questionH = $('.question').height();
+			requestH = $('.request').height();
+
+			if(requestH > questionH) {
+				$('.question').height(requestH);
+				$('.request').height(requestH);
+			} else {
+				$('.question').height(questionH);
+				$('.request').height(questionH);
+			}
+
 	}
 
 </script>
