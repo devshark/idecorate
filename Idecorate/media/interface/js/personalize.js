@@ -137,7 +137,19 @@ function populate_save_styleboard(){
 					img.attr('class',v.img[0].cls);
 				}
 				img.load(function(){
-					img.appendTo(elm);
+					if($.browser.msie && $.browser.version < 9.0){
+				        var imgContainer = $('<div/>');
+				        imgContainer.attr({
+				            'filter':"progid:DXImageTransform.Microsoft.AlphaImageLoader(src="+img_src+",sizingMethod='scale')",
+				            'width': '100%',
+				            'height':'100%'
+				        }).append(img);
+
+						imgContainer.appendTo(elm);
+				    }else{
+						img.appendTo(elm);
+				    }
+
 				});
 			}
 

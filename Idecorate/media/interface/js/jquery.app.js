@@ -1999,8 +1999,17 @@ function change_img(obj, background){
     var __src   = (background == false) ? '/'+media_url+'products/'+_nb : '/'+media_url+'products/'+_wb;
 
     var _img    = $('<img />').attr({'src':__src, 'style': _style, '_wb':_wb, '_nb':_nb});
-    
-    obj.html(_img);
+    if($.browser.msie && $.browser.version < 9.0){
+        var imgContainer = $('<div/>');
+        imgContainer.attr({
+            'filter':"progid:DXImageTransform.Microsoft.AlphaImageLoader(src="+__src+",sizingMethod='scale')",
+            'width': '100%',
+            'height':'100%'
+        }).append(_img);
+        obj.html(imgContainer);
+    }else{
+        obj.html(_img);
+    }
     eventTracker(obj,'change_background');
 }
 
