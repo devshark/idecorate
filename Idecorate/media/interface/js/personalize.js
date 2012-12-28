@@ -50,6 +50,10 @@ function populate_save_styleboard(){
 	            mtx.b = rawMtx.b;
 	            mtx.c = rawMtx.c;
 	            mtx.d = rawMtx.d;
+	            if(mtx.e == true || mtx.f == true){
+	            	mtx.a = -1*mtx.a;
+	            	mtx.c = -1*mtx.c;
+	            }
 	        }
 
 			elm.attr('_matrix','{"a":'+mtx.a+',"b":'+mtx.b+',"c":'+mtx.c+',"d":'+mtx.d+',"e":'+mtx.e+',"f":'+mtx.f+'}');
