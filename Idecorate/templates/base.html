@@ -187,7 +187,7 @@
                 $('#lnk-logout').bind('click',logmeout);
                 $('#logged_as').bind('click',goto_profile);
                 $('#site-menu ul a#lnk-login-signup').bind('click',popup_login);
-                {% if user.is_authenticated %}        
+                {% if user.is_authenticated %}
                 $('#lnk-login-signup').parent().hide();
                 {% else %}
                 $('#logged_as').parent().hide();
