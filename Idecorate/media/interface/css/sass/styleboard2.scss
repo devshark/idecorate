@@ -1105,9 +1105,11 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 	    			.copyright{
 						float:left;
-						font-size: 12px;
 						color: #FFF;
 						line-height: 16px;
+						font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+						font-size: 10px;
+						text-transform: uppercase;
 					}
 
 					.footerMenus{
@@ -1127,6 +1129,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 								a{
 									color: #FFF;
+									font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+									font-size: 11px;
+									text-transform: uppercase;
+									font-weight: bold;
 								}
 							}
 
