@@ -11,38 +11,48 @@ function populate_save_styleboard(){
 		var t = '';
 		$.each(item, function(i,v){			
 			var elm = $('<div />');
-			elm.attr('_angle',v.angle);
+			elm.attr({
+	        	'_handle':v.handle,
+	        	'_angle':v.angle,
+	        	'style':v.style
+	        });
+
 			elm.addClass(v._type);
-			if (v._type!='product')
-				elm.addClass('embellishment');
-			if (v.cls != 'template'){
+			if (v._type =='product'){
 				elm.addClass('unselected');
-				t = 'u';
-			} else {
-				elm.addClass('template');
-				t = 't';
+				elm.attr({
+		        	'def_qty':v.def_qty,
+		        	'gst_tb':v.gst_tb
+		        });
 			}
-			elm.addClass('ui-draggable');
-			if (v.uid)
+
+			if (v.cls != 'template' && v._type != 'product'){
+				t = 'u';
+				elm.addClass('unselected');
+				elm.addClass('embellishment');
+				elm.attr({
+		        	'_opacity':v.opacity,
+		        	'_text':unescape(v.text),
+		        	'_rgb':v.rgb
+		        });
+			}else if(v.cls == 'template'){
+				t = 't';
+				elm.addClass('template');
+			}
+
+			if (v.uid){
 				elm.attr('_uid',v.uid);
-			elm.attr('style',v.style);
+			}
+
 			var filter = {};
 			if($.browser.msie && $.browser.version == 7.0){
-	            filter = {'filter':'none'};
+	            filter = {'filter':''};
 	        }else if($.browser.msie && $.browser.version == 8.0){
-	            filter = {'msfilter':'none','-ms-filter':'none'};
+	            filter = {'msfilter':'','-ms-filter':''};
 	        }
 	        elm.css(filter);
-
-			elm.attr('_handle',v.handle);
-			elm.attr('_opacity',v.opacity);
-			elm.attr('def_qty',v.def_qty);
-			elm.attr('gst_tb',v.gst_tb);
-
-			elm.attr('_text',unescape(v.text));
-			elm.attr('_rgb',v.rgb);
-
-			var mtx     = v.matrix[0];
+	        
+	        var mtx     = v.matrix[0];
 
 	        if($.browser.msie && $.browser.version < 9){
 	            var rawMtx = rotate_global(-parseFloat(v.angle));
@@ -92,32 +102,45 @@ function populate_save_styleboard(){
 
             if (v.spantext){
             	var span = $('<span />');
-            	span.text(v.spantext);
-            	span.appendTo(elm);
+	            	span.text(v.spantext);
+	            	span.appendTo(elm);
             }
 
 			var img = $('<img />');
 			if(v.img[0].src){
 				$(span).hide();
-				var img_src = v.img[0].src.indexOf("?") != -1?v.img[0].src+'&random='+i:v.img[0].src+'?random='+i;
+				var img_src = v.img[0].src.indexOf("?") != -1?v.img[0].src+'&random='+ new Date().getTime() : v.img[0].src+'?random='+new Date().getTime();
 				if(v.img[0].uid){
 					img.attr('_uid',v.img[0].uid);
 				}
-				img.attr('src',img_src);
-				img.attr('style',v.img[0].style);
-				img.attr('_nb',v.img[0].nb);
-				img.attr('_wb',v.img[0].wb);
-				img.attr('_opacity',v.img[0].opacity);
+
+				img.attr({
+					'src':img_src,
+					'style':v.img[0].style
+
+				});
+
+				if(v._type == 'product'){
+					img.attr({
+						'_nb':v.img[0].nb,
+						'_wb':v.img[0].wb
+					});
+				}
+
+				if(v._type == 'template'){
+					img.attr({
+						'_opacity':v.img[0].opacity
+					})
+				}
+
 				if (v.img[0].cls){
 					img.attr('class',v.img[0].cls);
 				}
-				if($.browser.msie && $.browser.version < 9.0){
-					img.load(function(){
-						// do nothing
-					}).appendTo(elm);
-				} else 
+				img.load(function(){
 					img.appendTo(elm);
-			}			
+				});
+			}
+
 			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
