@@ -23,3 +23,17 @@
       width: 56px;
       height: 10px;
       margin: 15px auto; }
+    .staticWrapper fieldset strong {
+      font-weight: bold; }
+    .staticWrapper fieldset em {
+      font-style: italic; }
+    .staticWrapper fieldset ul li {
+      list-style-type: disc;
+      margin-left: 15px; }
+    .staticWrapper fieldset ol li {
+      list-style-type: decimal;
+      margin-left: 15px; }
+    .staticWrapper fieldset sub {
+      vertical-align: sub; }
+    .staticWrapper fieldset sup {
+      vertical-align: super; }

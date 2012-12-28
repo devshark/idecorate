@@ -32,6 +32,41 @@
 			height: 10px;
 			margin: 15px auto;
 		}
+
+		strong {
+			font-weight: bold;
+		}
+
+		em {
+			font-style: italic;
+		}
+
+		ul {
+
+			li {
+				list-style-type: disc;
+				margin-left: 15px;
+			}
+
+		}
+
+		ol {
+			
+			li {
+				list-style-type: decimal;
+				margin-left: 15px;
+			}
+
+		}
+
+		sub {
+			vertical-align: sub;
+		}
+
+		sup {
+			vertical-align: super;
+		}
+
 	}
 
 }

@@ -683,7 +683,7 @@ function box_droppable(){
                             async:   false,
                             success: function(data){
                                 //console.log($(_this).find('img').attr('_uid'));
-                                var currentProd = $(_this).find('img').attr('_uid');
+                                var currentProd = $(_this).find('img.product').attr('_uid');
                                 var img_src     = '/'+_img_src+data.original_image;
                                 var img_w_bg    = data.original_image;
                                 var img_wo_bg   = data.no_background;
@@ -769,7 +769,7 @@ function box_droppable(){
                             //object = create_text_for_template(em_dbID[1],e,type);
                         }else{
                             var object = create_embellishments_for_template(em_dbID[1],type,this_width,this_height);
-                            var currentProd = $(_this).find('img').attr('_uid');
+                            var currentProd = $(_this).find('img.product').attr('_uid');
 
 
                             if(currentProd) {
