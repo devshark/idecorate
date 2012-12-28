@@ -12,6 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from cms_item.forms import EditFlatpageForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound, Http404
+from django.views.decorators.csrf import csrf_exempt
 
 @staff_member_required
 def flatpage_admin(request):
@@ -102,6 +103,7 @@ def save_flatpage(data):
 	flatPage.save()
 	return True
 
+@csrf_exempt
 def delete_flatpage(request):
 	if request.method == "POST":
 		id = request.POST['id']

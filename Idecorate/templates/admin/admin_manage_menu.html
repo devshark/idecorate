@@ -494,18 +494,18 @@
 	        {% endif %}
 
 	        $('#ddl-pages').change(function(){
-	        	$('#id_link').val($(this).val());
+	        	$('#id_link').val('/sites'+$(this).val());
 	        });
 
 	        $('#ddl-pages-site').change(function(){
-	        	$('#id_link_site').val($(this).val());
+	        	$('#id_link_site').val('/sites'+$(this).val());
 	        });
 	        $('#ddl-pages-footer').change(function(){
-	        	$('#id_link_footer').val($(this).val());
+	        	$('#id_link_footer').val('/sites'+$(this).val());
 	        });
 
 	        $('#ddl-pages-edit').change(function(){
-	        	$('.input-large[name="general_link"]').val($(this).val());
+	        	$('.input-large[name="general_link"]').val('/sites'+$(this).val());
 	        });
 		});
 
