@@ -7,7 +7,7 @@ class EditFlatpageForm(forms.ModelForm):
 
     url = forms.RegexField(label=_("URL"), max_length=100, regex=r'^[-\w/\.~]+$',
         help_text = _("Example: '/about/contact/'. Make sure to have leading"
-            " and trailing slashes. Site pages will be created under the /sites/ directory."),
+            " and trailing slashes."),
         error_message = _("This value must contain only letters, numbers,"
             " dots, underscores, dashes, slashes or tildes."))  
 

@@ -5,8 +5,11 @@
     {% trans "iDecorate CMS" %}
 {% endblock %}
 {% block styles %}
-
-
+<style type="text/css">
+#id_content_styleselect {
+	display: none;
+}
+</style>
 {% endblock %}
 {% block content %}
 <h1>{{ mod }} {% trans "Site Page" %}</h1>
@@ -43,7 +46,7 @@
 					<label class="control-label">{{ form.url.label }} *</label>
 					<div class="controls">
 						{{ form.url|add_class:"input-xlarge"|attr:"placeholder:URL" }}
-						<span class="help-block">{{ form.url.help_text }}</span>
+						<span class="help-block">{{ form.url.help_text }} {% trans "Site pages will be created under the /sites/ directory." %}</span>
 					</div>
 				</div>
 			</div>
@@ -94,7 +97,8 @@
 		tinyMCE.init({
 			mode : "textareas",
 			theme : "advanced",
-            plugins : "autolink"
+            plugins : "autolink",
+            valid_styles : {'*' : 'color,font-size,font-weight,font-style,text-decoration'}
 		});		
 	});
 </script>
