@@ -50,9 +50,21 @@ function populate_save_styleboard(){
 	            mtx.b = rawMtx.b;
 	            mtx.c = rawMtx.c;
 	            mtx.d = rawMtx.d;
-	            if(mtx.e == true || mtx.f == true){
-	            	mtx.a = -1*mtx.a;
-	            	mtx.c = -1*mtx.c;
+	            if(v.angle == 0){
+	            	if(mtx.e == true){
+		            	mtx.d = -1*mtx.d;
+		            }
+		            if(mtx.f == true){
+		            	mtx.a = -1*mtx.a;
+		            }
+	            }else{
+		            if(mtx.e == true && mtx.f == true){
+		            	mtx.b = -1*mtx.b;
+		            	mtx.d = -1*mtx.d;
+		            }else if(mtx.e == true || mtx.f == true){
+		            	mtx.a = -1*mtx.a;
+		            	mtx.c = -1*mtx.c;
+		            }
 	            }
 	        }
 
