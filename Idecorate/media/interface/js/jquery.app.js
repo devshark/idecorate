@@ -574,6 +574,7 @@ $(document).ready(function () {
 
     $('#canvas').on('mousedown', '.box', function(e){
         $(this).addClass('active').siblings('.box').removeClass('active');
+        $(this).addClass('subActive').siblings('.box').removeClass('subActive');
         update_menu($(this).find('img'));
         hide_canvas_menu();
 
@@ -651,6 +652,9 @@ function box_droppable(){
             $(e.target).addClass('dropHere');
             $(e.target).siblings('.box').removeClass('dropHere');
 
+        },
+        out: function(e,ui){
+            $('.box').removeClass('dropHere');
         },
         drop: function (e, ui) {
 
@@ -737,7 +741,7 @@ function box_droppable(){
                                 }
                                 
                                 if(!$(_this).hasClass('active')){
-                                    $(_this).addClass('active').siblings().removeClass('active');
+                                    $(_this).addClass('active').siblings('.box').removeClass('active');
                                 }
 
                                 add_to_cart(uid, p_d_qty, p_g_t);
@@ -764,7 +768,7 @@ function box_droppable(){
                         if(type == 'Text'){
                             //object = create_text_for_template(em_dbID[1],e,type);
                         }else{
-                            var object = create_embellishments_for_template(em_dbID[1],e,type,this_width,this_height);
+                            var object = create_embellishments_for_template(em_dbID[1],type,this_width,this_height);
                             var currentProd = $(_this).find('img').attr('_uid');
 
 
@@ -812,7 +816,7 @@ function box_droppable(){
     });
 }
 // functions related to template
-function create_embellishments_for_template(em_dbID,event,type,_width,_height){
+function create_embellishments_for_template(em_dbID,type,_width,_height){
 
     var object      = $('<img/>');
     var this_width    = 0;
@@ -865,6 +869,8 @@ function template_fill(){
         if($(this).find('img').length > 0){
             $(this).find('span').hide();
             $(this).addClass('notEmpty');
+        }else{
+            $(this).removeClass('active');
         }
     });
 }
@@ -1020,6 +1026,11 @@ function drop_template(objects){
         }else{
             object.addClass(val._type);
             object.html('<span>'+val.spantext+'</span>');
+
+            if($('.subActive').length == 0) {
+                object.addClass('subActive');
+            }
+
         }
 
         object.appendTo('#canvas');
@@ -1226,79 +1237,141 @@ function create_instance_embellishments(em_dbID,event,type){
 function create_instance_embellishment_upload(fname){
     //GLOBAL var objCounter is for setting z-index for each created instance
     objCounter++;
+    if($('.template').length > 0){
+        var object      = $('<img/>');
+        var this_width    = 0;
+        var this_height   = 0;
+        var css = {};
+        var box_Width     = $('.template.box.subActive').width();
+        var box_Height   = $('.template.box.subActive').height();
 
-    var object = $('<div/>');
-    object.attr({
-        'class': 'image embellishment unselected'
-    }).css({
-        zIndex : objCounter,
-        position: 'absolute',
-        left: '-5000px'
-    });
+        object.attr({
+            'src': '/media/embellishments/images/'+fname
+        });
 
-    var obj_image   = $('<img/>');
-    var imgWidth    = 0;
-    var imgHeight   = 0;
+        object.load(function(){
+            // this_width = object.width();
+            // this_height = object.height();
+            
+            this_width  = object.naturalWidth();
+            this_height = object.naturalHeight();
 
-    obj_image.attr({
-        'src': '/media/embellishments/images/'+fname
-    });
-
-    obj_image.load(function(){
+            var dim = do_fit_dimension(box_Width,box_Height,this_width,this_height);
         
-        imgWidth = obj_image.width();
-        imgHeight = obj_image.height();
-        var r = 1;
-        var dimensions  = aspectratio(imgWidth, imgHeight, r);
-        dimensions = embellishment_check_upload_image_dimension(dimensions, r);
+            css.position = 'absolute';
+            css.top = dim.top;
+            css.left = dim.left;
+            css.width = dim.width;
+            css.height = dim.height;
 
-        var imgTop      = ($('#canvas').height()/2)-(dimensions['height']/2);
-        var imgLeft     = ($('#canvas').width()/2)-(dimensions['width']/2);       
+            object.css(css);
 
-        object.css({
-            left:imgLeft,
-            top:imgTop,
-            width:dimensions['width'],
-            height:dimensions['height']
         });
 
-        $(this).css({
-            width: '100%',
-            height: 'auto'
+        object.addClass('image templateEmbellishments');
+
+        var currentProd = $('.template.box.subActive').find('img').attr('_uid');
+        //console.log(currentProd);
+
+        
+        if(currentProd) {
+
+            var selected_uid = currentProd;
+            var count = 0;
+
+            $('.templateImage.product').each(function(e){
+                if(selected_uid == $(this).attr('_uid')) {
+                    count++;
+                }
+            });
+
+            if (count<=1) {
+                remove_from_cart(parseInt(selected_uid,10));
+            }
+
+        }
+
+        $('.template.box.subActive').children('img').remove();
+        object.appendTo('.template.box.subActive');
+        update_menu(object,true);
+        hide_canvas_menu();
+        setTimeout(function(e){
+            eventTracker(object, 'upload_image');
+        },100);
+    } else {
+        var object = $('<div/>');
+        var elm = $('#canvas');
+        object.attr({
+            'class': 'image embellishment unselected'
+        }).css({
+            zIndex : objCounter,
+            position: 'absolute',
+            left: '-5000px'
         });
 
-        set_ctr_attr(object);
+        var obj_image   = $('<img/>');
+        var imgWidth    = 0;
+        var imgHeight   = 0;
 
-        transform(object);
+        obj_image.attr({
+            'src': '/media/embellishments/images/'+fname
+        });
+        
+        obj_image.load(function(){
+            
+            imgWidth = obj_image.width();
+            imgHeight = obj_image.height();
+            var r = 1;
+            var dimensions  = aspectratio(imgWidth, imgHeight, r);
+            dimensions = embellishment_check_upload_image_dimension(dimensions, r, elm);
 
-        eventTracker(object, 'upload_image');
+            var imgTop      = ($('#canvas').height()/2)-(dimensions['height']/2);
+            var imgLeft     = ($('#canvas').width()/2)-(dimensions['width']/2);       
 
-    }).appendTo(object);
-    
-    object.appendTo('#canvas');
+            object.css({
+                left:imgLeft,
+                top:imgTop,
+                width:dimensions['width'],
+                height:dimensions['height']
+            });
 
-    if(!object.hasClass('selected')){
-        object.addClass('selected').siblings('.unselected').removeClass('selected');
-        object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
-        object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
+            $(this).css({
+                width: '100%',
+                height: 'auto'
+            });
+
+            set_ctr_attr(object);
+
+            transform(object);
+
+            eventTracker(object, 'upload_image');
+
+        }).appendTo(object);
+        
+        object.appendTo(elm);
+
+        if(!object.hasClass('selected')){
+            object.addClass('selected').siblings('.unselected').removeClass('selected');
+            object.attr('_matrix', '{"a":1, "b":0, "c":0, "d":1,"e":false,"f":false}');
+            object.attr('_handle', ['nw','sw','se','ne','w','s','e','n']);        
+        }
+        update_menu(object,true);
+        $handles.resizable({aspectRatio:true});
+        hide_canvas_menu();
+
+        //set handles direction 
+        change_cursor($(object).attr('_handle'));
+        return object;
     }
-    update_menu(object,true);
-    $handles.resizable({aspectRatio:true});
-    hide_canvas_menu();
-
-    //set handles direction 
-    change_cursor($(object).attr('_handle'));
-    
-    return object;
 }
 
-function embellishment_check_upload_image_dimension(dimensions,ratio){
-    var canvas_width = $('#canvas').width()-(($('#canvas').width()*10)/100);
-    var canvas_height = $('#canvas').height()-(($('#canvas').height()*10)/100);    
+function embellishment_check_upload_image_dimension(dimensions,ratio,elm){
+    var canvas_width = $(elm).width()-(($(elm).width()*10)/100);
+    var canvas_height = $(elm).height()-(($(elm).height()*10)/100);    
     if (dimensions['height'] > canvas_height || dimensions['width']>canvas_width){
         ratio = ratio-.05;
         dimensions  = aspectratio(dimensions['width'], dimensions['height'], ratio);
-        return embellishment_check_upload_image_dimension(dimensions, ratio)        
+        return embellishment_check_upload_image_dimension(dimensions, ratio, elm)        
     } else
         return dimensions;
 }

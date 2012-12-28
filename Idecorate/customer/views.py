@@ -553,8 +553,15 @@ def generate_styleboard_view(request, id, w, h):
 			"""
 			imgObj = newImg
 		else:
-
+			#print "The type is: %s and it is else" % iList['_type']
+			
 			imgObj = Image.open(imgFile).convert('RGBA')
+
+			if iList['_type'] == "box":
+				boxImage = Image.new("RGBA", (w,h), (255,255,255,0))
+				imgObj.thumbnail((w,h), Image.ANTIALIAS)
+				boxImage.paste(imgObj, ((w - imgObj.size[0]) / 2, (h - imgObj.size[1]) /2 ))
+				imgObj = boxImage
 
 		if re.search('/generate_embellishment/', iList['img'][0]['src']):
 			embellishment_color = eProperties[1].split('=')[1]
@@ -566,7 +573,8 @@ def generate_styleboard_view(request, id, w, h):
 				newImg.paste(imgObj, mask=b)
 				imgObj = newImg
 			elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
-				imgObj.paste(newImg, mask=alpha) 
+				imgObj.paste(newImg, mask=alpha)
+
 
 		#apply opacity
 		if int(iList['opacity']) != 100:

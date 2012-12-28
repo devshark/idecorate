@@ -830,8 +830,18 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 					}
 
 					.box.active{
-						background-color: rgba(255,255,255,0.6);
-						outline: 1px dashed #999;
+						background-color: rgba(242,191,137,0.5);
+						outline: 1px dashed #333;
+
+						span{
+							color: #333;
+						}
+					}
+
+					.box.subActive{
+						span{
+							font-weight:bold;
+						}
 					}
 
 					.box.active img{
