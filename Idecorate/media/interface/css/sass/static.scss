@@ -4,14 +4,12 @@
 
 	fieldset {
 		display: block;
-		border: 1px solid #000;
 		width: 964px;
 		padding: 15px;
 		line-height: 1.5;
 		text-align: justify;
 
 		legend {
-			margin: 0 0 0 20px;
 			padding: 0 5px;
 			font-size: 16px;
 			color: black;	
@@ -32,6 +30,8 @@
 			height: 10px;
 			margin: 15px auto;
 		}
+
+		/* FOR TINYMCE */
 
 		strong {
 			font-weight: bold;
