@@ -127,9 +127,11 @@ function populate_save_styleboard(){
 					});
 				}
 
-				if(v._type == 'template'){
+				if(v.cls == 'template'){
 					img.attr({
-						'_opacity':v.img[0].opacity
+						'_opacity':v.img[0].opacity,
+						'_nb':v.img[0].nb,
+						'_wb':v.img[0].wb
 					})
 				}
 
