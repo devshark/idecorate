@@ -1,5 +1,5 @@
 3.3.0.alpha.3 (Bleeding Edge)
-bf2991a7b005e4726b2c112e064c689b41826fc3
+6910162be52fec7fa04f5b87269c98d790b0088c
 o:Sass::Tree::RootNode
 :@template"H)#content {
 	padding: 15px;
@@ -39,7 +39,7 @@ bf2991a7b005e4726b2c112e064c689b41826fc3
 	  -webkit-border-radius: 3px;
 	  border-radius: 3px;
 	  -khtml-border-radius: 3px;
-	  box-shadow: 0px 1px 3px #CCC inset;
+	  box-shadow: 0px 1px 5px #999 inset;
 	}
 
 	select {
@@ -605,7 +605,7 @@ o;;["background;i#;;;	[ ;i ;@;o;;; ;@;"#FFFFFFo;
 ;["
 input;o;;" ;i%;[o;;[o;
 ;o;;{ ;@²;i%;[o;!	;@²;["
-input;i%;"0;0;i%;T;	[o;;["border;i&;;;	[ ;i ;@;o;;; ;@;"1px solid #CCCo;;["padding;i';;;	[ ;i ;@;o;;; ;@;"5pxo;;["-moz-border-radius;i(;;;	[ ;i ;@;o;;; ;@;"3pxo;;["-webkit-border-radius;i);;;	[ ;i ;@;o;;; ;@;"3pxo;;["border-radius;i*;;;	[ ;i ;@;o;;; ;@;"3pxo;;["-khtml-border-radius;i+;;;	[ ;i ;@;o;;; ;@;"3pxo;;["box-shadow;i,;;;	[ ;i ;@;o;;; ;@;"0px 1px 3px #CCC inset;i ;@o;
+input;i%;"0;0;i%;T;	[o;;["border;i&;;;	[ ;i ;@;o;;; ;@;"1px solid #CCCo;;["padding;i';;;	[ ;i ;@;o;;; ;@;"5pxo;;["-moz-border-radius;i(;;;	[ ;i ;@;o;;; ;@;"3pxo;;["-webkit-border-radius;i);;;	[ ;i ;@;o;;; ;@;"3pxo;;["border-radius;i*;;;	[ ;i ;@;o;;; ;@;"3pxo;;["-khtml-border-radius;i+;;;	[ ;i ;@;o;;; ;@;"3pxo;;["box-shadow;i,;;;	[ ;i ;@;o;;; ;@;"0px 1px 5px #999 inset;i ;@o;
 ;["select;o;;" ;i/;[o;;[o;
 ;o;;{ ;@ì;i/;[o;!	;@ì;["select;i/;"0;0;i/;T;	[o;;["border;i0;;;	[ ;i ;@;o;;; ;@;"1px solid #CCCo;;["padding;i1;;;	[ ;i ;@;o;;; ;@;"2px 5pxo;;["-moz-border-radius;i2;;;	[ ;i ;@;o;;; ;@;"3pxo;;["-webkit-border-radius;i3;;;	[ ;i ;@;o;;; ;@;"3pxo;;["border-radius;i4;;;	[ ;i ;@;o;;; ;@;"3pxo;;["-khtml-border-radius;i5;;;	[ ;i ;@;o;;; ;@;"3px;i ;@o;
 ;["#edit_button;o;;" ;i8;[o;;[o;
