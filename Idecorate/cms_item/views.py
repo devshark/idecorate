@@ -29,25 +29,25 @@ def add_flatpage(request):
 	context_instance = RequestContext(request)
 	info = {}
 
-	form = EditFlatpageForm()
+	form = FlatpageForm()
 
 	if request.method == 'POST':
 		data = request.POST.copy()
 		data['sites'] = 1
-		form = EditFlatpageForm(data)
-		if form.is_valid():
-			try:
-				data['flatPage'] = FlatPage()
-				res = save_flatpage(data)
-				if res:
+		data['flatPage'] = FlatPage()
+		res = validate_flatpage(data)
+		if res:
+			form = FlatpageForm(data)
+			if form.is_valid():
+				try:				
+					form.save()
 					messages.success(request, 'Created new site page.')
 					return redirect('add_flatpage')
-				else:
-					messages.error(request, 'Site page with url %s already exists.' % data['url'])
-				
-			except Exception as e:
-				print e
-				messages.error(request, 'An error has occurred.')
+				except Exception as e:
+					print e
+					messages.error(request, 'An error has occurred.')
+		else:
+			messages.error(request, 'Site page with url %s already exists.' % data['url'])
 
 	info['form'] = form
 	info['mod'] = 'Create'
@@ -83,6 +83,19 @@ def edit_flatpage(request, page_id=None):
 	info['mod'] = 'Modify'
 
 	return render_to_response('admin/flatpages/add_flatpage.html',info,context_instance)
+
+def validate_flatpage(data):
+	flatPage = data['flatPage']
+	url = data['url']
+	
+	same_url = FlatPage.objects.filter(url=url)
+	if flatPage.pk:
+		same_url = same_url.exclude(pk=flatPage.pk)
+
+	for u in same_url:
+		if u.url == url:
+			return False
+	return True
 
 def save_flatpage(data):
 	flatPage = data['flatPage']
