@@ -683,7 +683,7 @@ function box_droppable(){
                             async:   false,
                             success: function(data){
                                 //console.log($(_this).find('img').attr('_uid'));
-                                var currentProd = $(_this).find('img').attr('_uid');
+                                var currentProd = $(_this).find('img.product').attr('_uid');
                                 var img_src     = '/'+_img_src+data.original_image;
                                 var img_w_bg    = data.original_image;
                                 var img_wo_bg   = data.no_background;
@@ -769,38 +769,42 @@ function box_droppable(){
                             //object = create_text_for_template(em_dbID[1],e,type);
                         }else{
                             var object = create_embellishments_for_template(em_dbID[1],type,this_width,this_height);
-                            var currentProd = $(_this).find('img').attr('_uid');
+                            var currentProd = $(_this).find('img.product').attr('_uid');
 
 
-                            if(currentProd) {
+                            $(object).load(function(e){
 
-                                var selected_uid = currentProd;
-                                var count = 0;
+                                if(currentProd) {
 
-                                $('.templateImage.product').each(function(e){
-                                    if(selected_uid == $(this).attr('_uid')) {
-                                            count++;
+                                    var selected_uid = currentProd;
+                                    var count = 0;
+
+                                    $('.templateImage.product').each(function(e){
+                                        if(selected_uid == $(this).attr('_uid')) {
+                                                count++;
+                                        }
+                                    });
+
+                                    if (count<=1) {
+                                        remove_from_cart(parseInt(selected_uid,10));
                                     }
-                                });
 
-                                if (count<=1) {
-                                    remove_from_cart(parseInt(selected_uid,10));
+                                }
+                                //$(_this).html(object[0]);
+
+                                $(this).appendTo($(_this)).siblings('img').remove();
+
+                                if(!$(_this).hasClass('active')){
+                                    $(_this).addClass('active').siblings().removeClass('active');
                                 }
 
-                            }
-                            //$(_this).html(object[0]);
+                                template_fill();
 
-                            $(object[0]).appendTo($(_this)).siblings('img').remove();
+                                setTimeout(function(){
+                                    eventTracker($(_this),'drop_object');
+                                },100);
 
-                            if(!$(_this).hasClass('active')){
-                                $(_this).addClass('active').siblings().removeClass('active');
-                            }
-
-                            template_fill();
-
-                            setTimeout(function(){
-                                eventTracker($(_this),'drop_object');
-                            },100);
+                            });
 
                         }
                     }
@@ -1793,7 +1797,6 @@ function update_menu(obj,img_menu){
         if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
             $('.colorAdjustment').hide();
         }else{
-            $('#remove-btn').width(100).css({textAlign:'center'});
             $('.colorAdjustment').show();
             if(obj.hasClass('text') || obj.parent().hasClass('text')){
                 $('#text-change-wrap').show();

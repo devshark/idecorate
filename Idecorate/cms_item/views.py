@@ -12,6 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from cms_item.forms import EditFlatpageForm
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseNotFound, Http404
+from django.views.decorators.csrf import csrf_exempt
 
 @staff_member_required
 def flatpage_admin(request):
@@ -33,14 +34,20 @@ def add_flatpage(request):
 	if request.method == 'POST':
 		data = request.POST.copy()
 		data['sites'] = 1
-		form = FlatpageForm(data)
-		if form.is_valid():
-			try:
-				form.save()
-				messages.success(request, 'Created new site page.')
-				return render_to_response('wallet_admin/iframe/closer.html',info,context_instance)
-			except Exception as e:
-				messages.error(request, 'An error has occurred.')
+		data['flatPage'] = FlatPage()
+		res = validate_flatpage(data)
+		if res:
+			form = FlatpageForm(data)
+			if form.is_valid():
+				try:				
+					form.save()
+					messages.success(request, 'Created new site page.')
+					return redirect('add_flatpage')
+				except Exception as e:
+					print e
+					messages.error(request, 'An error has occurred.')
+		else:
+			messages.error(request, 'Site page with url %s already exists.' % data['url'])
 
 	info['form'] = form
 	info['mod'] = 'Create'
@@ -77,17 +84,31 @@ def edit_flatpage(request, page_id=None):
 
 	return render_to_response('admin/flatpages/add_flatpage.html',info,context_instance)
 
+def validate_flatpage(data):
+	flatPage = data['flatPage']
+	url = data['url']
+	
+	same_url = FlatPage.objects.filter(url=url)
+	if flatPage.pk:
+		same_url = same_url.exclude(pk=flatPage.pk)
+
+	for u in same_url:
+		if u.url == url:
+			return False
+	return True
+
 def save_flatpage(data):
 	flatPage = data['flatPage']
 	url = data['url']
 	sites = [data['sites']]
+	
 	same_url = FlatPage.objects.filter(url=url)
-	same_url = same_url.exclude(pk=flatPage.pk)		
+	if flatPage.pk:
+		same_url = same_url.exclude(pk=flatPage.pk)
 
-	if same_url.filter(sites__in=sites).exists():
-		for site in sites:
-			if same_url.filter(sites=site).exists():
-				return False
+	for u in same_url:
+		if u.url == url:
+			return False
 
 	flatPage.content = data['content']
 	flatPage.url = data['url']
@@ -95,6 +116,7 @@ def save_flatpage(data):
 	flatPage.save()
 	return True
 
+@csrf_exempt
 def delete_flatpage(request):
 	if request.method == "POST":
 		id = request.POST['id']
