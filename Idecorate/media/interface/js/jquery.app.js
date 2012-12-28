@@ -1793,7 +1793,6 @@ function update_menu(obj,img_menu){
         if(obj.hasClass('image') || obj.parent().hasClass('image') || obj.parent().hasClass('border') || obj.hasClass('border')){
             $('.colorAdjustment').hide();
         }else{
-            $('#remove-btn').width(100).css({textAlign:'center'});
             $('.colorAdjustment').show();
             if(obj.hasClass('text') || obj.parent().hasClass('text')){
                 $('#text-change-wrap').show();
