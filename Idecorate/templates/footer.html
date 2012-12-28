@@ -59,6 +59,7 @@
 			<!-- <li><a href="#">Invite Friends</a></li> -->
 		</ul>
 	</div>
+	{% if user.is_authenticated %}
 	<div>
 		<h3>MY ACCOUNT</h3>
 		<ul>
@@ -71,6 +72,7 @@
 			<li><a href="#">Design boards</a></li> -->
 		</ul>
 	</div>
+	{% endif %}
 </div>
 <div class="clearfix imageBorder">
 	<img src="/media/images/border.jpg" />
