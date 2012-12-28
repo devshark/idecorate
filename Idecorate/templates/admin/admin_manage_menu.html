@@ -41,7 +41,7 @@
 					  	<select name="ddlPages" id="ddl-pages-edit">
 				  			<option value="">-- Select Site Page Url --</option>
 				  			{% for page in pages %}
-				  			<option value="/sites{{ page.url }}">{{ page.title }}</option>
+				  			<option value="{{ page.url }}">{{ page.title }}</option>
 				  			{% endfor %}
 				  		</select>
 			  		</label>
@@ -141,7 +141,7 @@
 			  		<select name="ddlPages" id="ddl-pages">
 			  			<option value="">-- Select Site Page Url --</option>
 			  			{% for page in pages %}
-			  			<option value="/sites{{ page.url }}">{{ page.title }}</option>
+			  			<option value="{{ page.url }}">{{ page.title }}</option>
 			  			{% endfor %}
 			  		</select>
 			  	</label>
@@ -217,8 +217,16 @@
 			  		{{ form_site_menu.name|add_class:"input-large"|attr:"placeholder:Name" }}
 				</label>
 				<label class="checkbox">
-			  		{{ form_site_menu.link|add_class:"input-large"|attr:"placeholder:Link" }}
+			  		{{ form_site_menu.link|add_class:"input-large"|attr:"placeholder:Link"|attr:"id:id_link_site" }}
 			  	</label>
+			  	<label class="checkbox">
+				  	<select name="ddlPages" id="ddl-pages-site">
+			  			<option value="">-- Select Site Page Url --</option>
+			  			{% for page in pages %}
+			  			<option value="{{ page.url }}">{{ page.title }}</option>
+			  			{% endfor %}
+			  		</select>
+		  		</label>
 			  	<button type="submit" class="btn btn-primary">Add Menu</button>
 			</form>
 
@@ -304,8 +312,16 @@
 			  		{{ form_footer_menu.name|add_class:"input-large"|attr:"placeholder:Name" }}
 				</label>
 				<label class="checkbox">
-			  		{{ form_footer_menu.link|add_class:"input-large"|attr:"placeholder:Link" }}
+			  		{{ form_footer_menu.link|add_class:"input-large"|attr:"placeholder:Link"|attr:"id:id_link_footer" }}
 			  	</label>
+			  	<label class="checkbox">
+				  	<select name="ddlPages" id="ddl-pages-footer">
+			  			<option value="">-- Select Site Page Url --</option>
+			  			{% for page in pages %}
+			  			<option value="{{ page.url }}">{{ page.title }}</option>
+			  			{% endfor %}
+			  		</select>
+		  		</label>
 			  	<button type="submit" class="btn btn-primary">Add Menu</button>
 			</form>
 
@@ -479,6 +495,13 @@
 
 	        $('#ddl-pages').change(function(){
 	        	$('#id_link').val($(this).val());
+	        });
+
+	        $('#ddl-pages-site').change(function(){
+	        	$('#id_link_site').val($(this).val());
+	        });
+	        $('#ddl-pages-footer').change(function(){
+	        	$('#id_link_footer').val($(this).val());
 	        });
 
 	        $('#ddl-pages-edit').change(function(){

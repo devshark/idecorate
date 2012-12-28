@@ -28,18 +28,24 @@ def add_flatpage(request):
 	context_instance = RequestContext(request)
 	info = {}
 
-	form = FlatpageForm()
+	form = EditFlatpageForm()
 
 	if request.method == 'POST':
 		data = request.POST.copy()
 		data['sites'] = 1
-		form = FlatpageForm(data)
+		form = EditFlatpageForm(data)
 		if form.is_valid():
 			try:
-				form.save()
-				messages.success(request, 'Created new site page.')
-				return render_to_response('wallet_admin/iframe/closer.html',info,context_instance)
+				data['flatPage'] = FlatPage()
+				res = save_flatpage(data)
+				if res:
+					messages.success(request, 'Created new site page.')
+					return redirect('add_flatpage')
+				else:
+					messages.error(request, 'Site page with url %s already exists.' % data['url'])
+				
 			except Exception as e:
+				print e
 				messages.error(request, 'An error has occurred.')
 
 	info['form'] = form
@@ -81,13 +87,14 @@ def save_flatpage(data):
 	flatPage = data['flatPage']
 	url = data['url']
 	sites = [data['sites']]
+	
 	same_url = FlatPage.objects.filter(url=url)
-	same_url = same_url.exclude(pk=flatPage.pk)		
+	if flatPage.pk:
+		same_url = same_url.exclude(pk=flatPage.pk)
 
-	if same_url.filter(sites__in=sites).exists():
-		for site in sites:
-			if same_url.filter(sites=site).exists():
-				return False
+	for u in same_url:
+		if u.url == url:
+			return False
 
 	flatPage.content = data['content']
 	flatPage.url = data['url']

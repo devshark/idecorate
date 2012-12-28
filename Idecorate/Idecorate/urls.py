@@ -91,8 +91,12 @@ urlpatterns += patterns('cms_item.views',
     url(r'^admin/delete_flatpage/$', 'delete_flatpage', {}, name='delete_flatpage'),
 )
 
-urlpatterns += patterns('',
-    ('^sites/', include('django.contrib.flatpages.urls')),
+# urlpatterns += patterns('',
+#     ('^/', include('django.contrib.flatpages.urls')),
+# )
+
+urlpatterns += patterns('django.contrib.flatpages.views',
+    (r'^(?P<url>.*)$', 'flatpage'),
 )
 
 # urlpatterns += patterns('django.contrib.flatpages.views',

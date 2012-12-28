@@ -28,7 +28,7 @@
 			<td>{{ page.title }}</td>
 			<td>{{ page.url }}</td>
 			<td class="ar">
-				<a href="/sites{{ page.url }}" target="blank" class="btn btn-primary">View</a>
+				<a href="{{ page.url }}" target="blank" class="btn btn-primary">View</a>
 				<a href="{% url edit_flatpage page.id %}" class="btn btn-primary">Edit</a>
 				<a href="#" rel="{{ page.id }}" class="btn btn-primary btn-delete">Remove</a>
 			</td>
