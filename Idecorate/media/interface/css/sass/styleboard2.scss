@@ -125,6 +125,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 	        background-color: #000000;
 
 	        tr.headWraptop{
+
 				td{
 	        		padding-top:5px;
   					vertical-align: top;
@@ -136,36 +137,49 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 		        	.headerColumn{
 		        		clear:both;
+
+		        		.dd{
+		        			li{
+		        				border-left: 1px solid #FFFFFF;
+		        			}
+		        		}
 		        	}
 
 		        	.search {
-		        		width: 240px;
-		        		height: 28px;
-        				background-color: #FFFFFF;
-        				margin: 5px 0;
+		        		margin: 10px 0;
+				        width: 240px;
+				        height: 25px;
+				        background-color: #FFFFFF;
+				        clear: both;
 
-		        		.searchButton {
-				          display: none;
-				          visibility: hidden;
+				        .searchButton {
+							display: none;
+							visibility: hidden;
 				        }
 
 				        input[type="text"]{
-				          vertical-align: top;
-				          border: 0;
-				          width: 200px;
-				          padding-left: 5px;
-				          line-height: 23px;
+							float: left;
+							border: none;
+							padding:2px 5px;
+							width: 190px;
+							line-height: 21px;
+							height: 21px;
 				        }
 
-				        input[type="image"] {
-				          vertical-align: top;
-				          height: 21px;
-				          width: 21px;
-				          margin: 3px 0 0 0;
-				          background: #FFFFFF;
-				          padding: 1px;
+				        input[type="text"]:focus{
+				        	outline: none;
 				        }
-		        	}
+
+
+				        input[type="image"] {
+							float: right;
+							height: 19px;
+							width: 19px;
+							background: #FFFFFF;
+							padding: 3px;
+				        }
+
+				      }
 				}
 
 		        td#logo{
@@ -186,12 +200,18 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 					.headerColumn{
 		        		float: right;
-		        		/*background-color: #99A237;*/
-		        		padding: 5px;
-		        		-moz-border-radius: 4px;
-						-webkit-border-radius: 4px;
-						border-radius: 4px; 
-						-khtml-border-radius: 4px;
+		        		//background-color: #99A237;
+						// padding: 5px;
+						// -moz-border-radius: 4px;
+						// -webkit-border-radius: 4px;
+						// border-radius: 4px; 
+						// -khtml-border-radius: 4px;
+
+						.dd{
+		        			li{
+		        				border-left: 1px solid #FFFFFF;
+		        			}
+		        		}
 		        	}
 		        }
 	    	}
@@ -222,76 +242,50 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 						a{
 							display:block;
-							background-color: #EEEEEE;
-							font-size: 14em/$default_font_size;
+							font-size: 13px;
+        					font-family: 'futura_std_medium';
 							color:#FFFFFF;
-							font-weight: bold;
-							position:relative;
 							padding: 8px 30px;
 							text-transform: uppercase;
+							background-color: #808081;
+							margin-right: 10px;
 						}
 
 						a.active{
-							color: #FFF;
-						}
-
-						a#createTab{
-							z-index: 1;
-							*background-color: #666666;
-							background-color: #666666;
-						}
-
-						a#createTab:hover{
-							*background-color: #727629;
-						}
-
-						a#createTab.active{
-							font-weight: bold;
-							color: #000000;
+							color: #58595B;
 							background-color: #FFFFFF;
-							*background-color: #FFFFFF;
 						}
 
-						a#buyTab{
-							*background-color: #666666;
-							background-color: #666666;
-							padding: 8px 30px 8px 35px;
-							margin-left: -10px;
-						}
-
-						a#buyTab:hover{
-							*background-color: #666666;
-							background-color: #666666;
-							color: #FFFFFF;
-						}
-
-						a#buyTab.active{
-							*background-color: #FFFFFF;
+						a.active:hover{
 							background-color: #FFFFFF;
-							color: #000000;
+						}
+
+						a:hover{
+							background-color: #DDDDDD;
+							color: #58595B;
 						}
 					}
 				}
 
 				#sidebar{
 					background-color: #FFFFFF;
-					box-shadow:2px 2px 3px #999;
+					//box-shadow:2px 2px 3px #999;
 
 					#sidebar-form-wrap{
 
 						h3{
-							margin: 5px 5px 0px 5px;
-							padding: 5px;
 							position:relative;
+							margin: 5px 5px 0px 5px;
+							padding: 8px;
 							color: #FFFFFF;
 							background-color: #000000;
-							font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
-							font-size: 21px;
+							font-family: 'futura_std_book';
+							font-size: 14px;
 
 							.myorder-edit{
+								position:absolute;
 								right: 5px;
 								top: 10px;
-								position:absolute;
 								font-size: 12px;
 
 								a{
@@ -311,9 +305,9 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						fieldset{
 							margin: 0px 5px 5px 5px;
 							padding: 5px;
-							border-left: 1px solid;
-							border-right: 1px solid;
-							border-bottom: 1px solid;
+							border-left: 1px solid #CCCCCC;
+							border-right: 1px solid #CCCCCC;
+							border-bottom: 1px solid #CCCCCC;
 
 							.sidebarInputs{
 								width: 50%;
@@ -322,8 +316,9 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								label{
 									display:block;
 									margin-top: 5px;
-									color: #666;
-									font-size:17em/$default_font_size;
+									font-family: 'futura_std_book';
+									color: #231F20;
+									font-size:13px;
 								}
 
 								input[type="text"]{
@@ -340,17 +335,18 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							.sidebarTotals{
 								width: 50%;
 								float:right;
-								margin-top: 10px;
+								margin-top: 5px;
 								text-align: center;
 
 								h5 {
 									color:#000;
 									background-color: #efece6;
-									padding: 10px 0;
-									font-weight: bold;
+									padding: 15px 0;
+									font-family: 'futura_std_heavy';
+									font-size: 13px;
 
 									span{
-										font-weight: bold;
+										font-size: 15px;
 										margin-top: 5px;
 										display: block;
 									}
@@ -363,7 +359,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						background-color:#FFFFFF;
 
 						#create-tab-nav{
-							border-bottom: 2px dotted #000;
+							border-bottom: 2px dotted #FFFFFF;
 							margin: 0 5px;
 
 							ul{
@@ -372,14 +368,14 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 								li{
 									display:inline;
-									color:#000;
+									color:#CCC;
 									vertical-align: middle;
 
 									a{	
-										font-size: 14em/$default_font_size;
+										font-size: 13px;
 										margin: 7px 0;
-										color: #333;
-										font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
+										color: #333333;
+										font-family: 'futura_std_medium';
 										display: inline-block;
 										*display: inline;
 										zoom:1;
@@ -414,10 +410,11 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										background-color: #DDDDDD;
 										border: 1px solid #CCCCCC;
 										padding: 2px 5px;
-										*padding-bottom:4px;
+										font-family: 'futura_std_book';
 										display: inline-block;
 										zoom: 1;
 										*display: inline;
+										*padding-bottom:4px;
 									}
 
 									a:hover{
@@ -426,11 +423,12 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									}
 
 									span{
+										padding: 2px 0;
+										font-family: 'futura_std_book';
 										display: inline-block;
 										zoom: 1;
-										*display: inline;
-										padding: 2px 0;
 										*padding-bottom:4px;
+										*display: inline;
 									}
 								}
 							}
@@ -443,25 +441,26 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								display: block;
 								float: left;
 								width: 140%/768*100;
-								outline:1px solid #CCC;
 								margin: 6px 0 0 6px;  
 								font-size: 0;
 								min-width:76px;
 								cursor: pointer;
 
 								img{
+									outline:1px solid #CCC;
 									width: 100%;
 								}
 
 								span{
 									display:block;
 									margin: 10px 0 5px 0;
-									font-size:10px;
+						            font-size: 12px;
+									font-family: 'futura_std_book';
 									text-align:center;
 								}
 							}
 						
-							.thumb.categories:hover{
+							.thumb.categories:hover img{
 								outline:2px solid #333;
 							}
 						}
@@ -476,7 +475,6 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									display: block;
 									float: left;
 									width: 140%/768*100;
-									border:1px solid #CCC;
 									padding: 1px;
 									margin: 6px 0 0 6px;  
 									font-size: 0;
@@ -484,20 +482,28 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 									img{
 										width: 100%;
+										border:1px solid #CCC;
 									}
 
 									span {
 							            display: block;
-							            font-size: 10px;
+							            font-size: 12px;
+										font-family: 'futura_std_book';
 										margin: 10px 0 5px 0;
 							            text-align: center;
 							            color: #666;
 							        }
 								}
 
-								.thumb.products:hover{
-									border:2px solid #333;
-									margin: 5px -1px -1px 5px;
+								.thumb.products:hover{ 
+
+									img{
+										border:2px solid #333;
+										margin: -1px 0 0 -1px;
+									}
+									span{
+										margin-top: 9px;
+									}
 								}
 							}
 						}
@@ -628,8 +634,9 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									margin: 0 5px;
 									padding: 7px 0;
 									color: #000;
-									font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
-									border-bottom: 2px dotted #000;
+									font-family: 'futura_std_medium';
+									font-size: 13px;
+									border-bottom: 2px dotted #FFFFFF;
 
 									table{
 										tr{
@@ -668,7 +675,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 														*display:inline;
 														zoom: 1;
 														img{
-															outline: 1px solid #CCC;
+															border: 1px solid #CCC;
 														}
 													}
 
@@ -676,13 +683,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 														padding:0 3px;
 														p{
 															text-align: left;
-															font-size: 14px;
-															color: #C7544E;
+															font-family: 'futura_std_book';
+															font-size: 12px;
+															color: #414042;
 															padding:2px 0;
-														}
-
-														p + p{
-															color: #000;
 														}
 													}
 												}	
@@ -697,6 +701,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 													width: 80%;
 													border: 1px solid #CCC;
 													padding: 5px;
+													color: #414042;
 													-moz-border-radius: 3px;
 													-webkit-border-radius:3px;
 													border-radius:3px; /* future proofing */
@@ -711,24 +716,26 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 											td + td + td{
 												width: 40%;
 												text-align: center;
+												font-family: 'futura_std_book';
+												font-size: 13px;
+												color: #414042;
 											}
 										}
 									}
 								}
 
 								.tfoot{
-									border-top: 2px dotted #000;
+									border-top: 1px solid #CCCCCC;
 									margin: 0 5px;
 									padding: 5px 0;
 
 									table{
 										tr{
 											th{
+												font-family: 'futura_std_heavy';
+												font-size: 15px;
 												text-align: right;
 												color: #000;
-												span{
-													font-weight: bold;
-												}
 											}
 										}
 									}
@@ -743,14 +750,15 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 							input{
 								height: 30px;
-								-webkit-border-radius: 3px;
-								-moz-border-radius: 3px;
-								border-radius: 3px;
+								// -webkit-border-radius: 3px;
+								// -moz-border-radius: 3px;
+								// border-radius: 3px;
 							}
 
 							input#check-button{
 								color: #FFFFFF;
-								font-weight: bold;
+								font-family: 'futura_std_heavy';
+								font-size: 13px;
 								cursor: pointer;
 								vertical-align: top;
 								border: 0;
@@ -877,13 +885,13 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								a{
 									display: block;
 									width:  80px;
-									font-size: 14px;
+									font-size: 13px;
 									padding: 7px 0;
 									text-align: center;
 									text-transform: uppercase;
 									background-color: #EFECE6;
 									color: #666666;
-									font-weight: bold;
+									font-family: 'futura_std_medium';
 									border-left:1px solid #CCC;
 									border-bottom:1px solid #CCC;
 									border-right:1px solid #CCC;
@@ -893,8 +901,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									background: -o-linear-gradient(top,  #EEEEEE,  #EFECE6);
 								}
 								a#save{
-									color: #666666;
-									font-weight: bold;
+									border-top:1px solid #CCC;
+									color: #58595B;
+									font-family: 'futura_std_heavy';
+									font-size: 13px;
 									background-color: #f8e2df;
 									//filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8e2df', endColorstr='#e6b4b1',GradientType=0 ); /* for IE */
 									background: -webkit-gradient(linear, left top, left bottom, from(#f8e2df), to(#e6b4b1)); /* for webkit browsers */
@@ -912,6 +922,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						*width:294px;
 
 						.imgControlWrap {
+
 							.imgControl{
 								display: block;
 								float: right\9;
@@ -930,9 +941,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										display: block;
 										padding: 8px 10px;
 										margin: 5px;
-										color: #333;
+										color: #808080;
 										text-transform: uppercase;
-										font-size: 0.8em;
+										font-family: 'futura_std_book';
+										font-size: 10px;
 									}
 
 									a:hover{
@@ -1093,7 +1105,6 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 	width:100%;
     min-width:800px;
     background-color: #000;
-    margin-top: 5px;
 
 	table{
 		width: 100%;
@@ -1101,14 +1112,14 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		tfoot.footWrap{
 	    	tr{
 	    		td{
-	    			padding: 15px;
+	    			padding: 5px;
 
 	    			.copyright{
 						float:left;
 						color: #FFF;
+						font-family: 'futura_std_book';
+						font-size: 11px;
 						line-height: 16px;
-						font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
-						font-size: 10px;
 						text-transform: uppercase;
 					}
 
@@ -1118,21 +1129,18 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						ul{
 							font-size: 0;
 							li{
-								*white-space:nowrap;
 								display:inline-block;
 								zoom: 1;
-								*display:inline;
-								font-size: 12px;
 								padding: 3px 5px;
 								border-left:1px solid #DDD;
-								color: #FFF;
+								*display:inline;
+								*white-space:nowrap;
 
 								a{
-									color: #FFF;
-									font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+									color: #FFFFFF;
+									font-family: 'futura_std_heavy';
 									font-size: 11px;
 									text-transform: uppercase;
-									font-weight: bold;
 								}
 							}
 

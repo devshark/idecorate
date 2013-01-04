@@ -1,28 +1,32 @@
-.paymentWrapper {
-  width: 994px;
-  background-color: #FFFFFF;
-  padding: 15px;
-  font-size: 1.2em; }
-  .paymentWrapper h3 {
+#content {
+  margin-top: 20px; }
+  #content h3 {
     width: 100%;
-    height: 20px;
-    margin: 0 0 15px 0;
-    padding: 0 0 15px 0;
-    border-bottom: 2px solid black;
-    color: black;
-    font-size: 1.2em; }
-  .paymentWrapper fieldset {
-    border: 1px solid #000000;
+    font-family: 'futura_std_medium';
+    font-size: 22px;
+    color: #000000;
+    margin-bottom: 15px; }
+
+.paymentWrap {
+  padding: 12px;
+  background: #efebe4; }
+
+.payment {
+  background: #FFFFFF;
+  padding: 10px; }
+  .payment fieldset {
+    border: 1px solid #CCCCCC;
+    padding: 10px;
     display: block; }
-    .paymentWrapper fieldset legend {
-      font-size: 1.2em;
-      color: #000000;
-      padding: 0 10px;
-      margin-left: 20px; }
-    .paymentWrapper fieldset .errorWrapper {
+    .payment fieldset legend {
+      margin: 0 0 0 10px;
+      padding: 0 5px;
+      font-size: 13px;
+      font-family: futura_std_book; }
+    .payment fieldset .errorWrapper {
       width: 95%;
       margin: 15px auto; }
-      .paymentWrapper fieldset .errorWrapper .errorBlock {
+      .payment fieldset .errorWrapper .errorBlock {
         color: #B94A48;
         padding: 8px 35px 8px 14px;
         margin: 0 auto 15px auto;
@@ -33,7 +37,7 @@
         border-radius: 4px;
         position: relative;
         font-size: 12px; }
-        .paymentWrapper fieldset .errorWrapper .errorBlock .closeX {
+        .payment fieldset .errorWrapper .errorBlock .closeX {
           font-size: 20px;
           font-weight: bold;
           color: #000000;
@@ -46,33 +50,33 @@
           position: relative;
           top: -2px;
           right: -21px; }
-        .paymentWrapper fieldset .errorWrapper .errorBlock h4 {
+        .payment fieldset .errorWrapper .errorBlock h4 {
           font-size: 14px;
           font-weight: bold;
           line-height: 18px; }
-        .paymentWrapper fieldset .errorWrapper .errorBlock ol {
+        .payment fieldset .errorWrapper .errorBlock ol {
           padding-left: 30px; }
-          .paymentWrapper fieldset .errorWrapper .errorBlock ol li {
+          .payment fieldset .errorWrapper .errorBlock ol li {
             display: list-item;
             list-style: decimal;
             line-height: 18px;
             text-align: -webkit-match-parent; }
-    .paymentWrapper fieldset .paymentDetails1 {
+    .payment fieldset .paymentDetails1 {
       width: 360px;
       padding-bottom: 15px;
       margin: 0 auto; }
-      .paymentWrapper fieldset .paymentDetails1 .reqMessage {
+      .payment fieldset .paymentDetails1 .reqMessage {
         margin: 15px; }
-      .paymentWrapper fieldset .paymentDetails1 .inputWrapper {
+      .payment fieldset .paymentDetails1 .inputWrapper {
         padding: 3px; }
-        .paymentWrapper fieldset .paymentDetails1 .inputWrapper label {
+        .payment fieldset .paymentDetails1 .inputWrapper label {
           display: block;
           width: 120px;
           padding-top: 7px;
           margin-right: 15px;
           float: left;
           text-align: right; }
-        .paymentWrapper fieldset .paymentDetails1 .inputWrapper select {
+        .payment fieldset .paymentDetails1 .inputWrapper select {
           width: 185px;
           border: 1px solid #CCC;
           padding: 2px 5px;
@@ -80,7 +84,7 @@
           -webkit-border-radius: 3px;
           border-radius: 3px;
           -khtml-border-radius: 3px; }
-        .paymentWrapper fieldset .paymentDetails1 .inputWrapper input {
+        .payment fieldset .paymentDetails1 .inputWrapper input[type="text"] {
           width: 200px;
           border: 1px solid #CCC;
           padding: 5px;
@@ -88,81 +92,68 @@
           -webkit-border-radius: 3px;
           border-radius: 3px;
           -khtml-border-radius: 3px; }
-        .paymentWrapper fieldset .paymentDetails1 .inputWrapper a {
-          width: 100px !important;
-          padding: 3px;
-          margin-left: 5px;
-          cursor: pointer;
-          font-size: 13px !important;
-          color: #000;
-          text-decoration: none !important; }
-        .paymentWrapper fieldset .paymentDetails1 .inputWrapper a:hover {
-          font-weight: bold;
-          text-decoration: underline !important; }
-      .paymentWrapper fieldset .paymentDetails1 .submit {
+      .payment fieldset .paymentDetails1 .submit {
         width: 380px;
         text-align: center; }
-        .paymentWrapper fieldset .paymentDetails1 .submit input {
-          width: 100px;
-          padding: 3px;
+        .payment fieldset .paymentDetails1 .submit input[type="submit"] {
+          width: 80px;
+          padding: 5px 0 3px;
           cursor: pointer;
+          font-family: futura_std_heavy;
+          border: 1px solid #FFC5C3;
+          color: #666666;
+          font-size: 11px;
+          display: inline-block;
+          *display: inline;
+          zoom: 1;
           filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+          /* for IE */
           background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+          /* for webkit browsers */
           background: -moz-linear-gradient(top, white, #da9b94);
+          /* for firefox 3.6+ */
           background: -o-linear-gradient(top, white, #da9b94);
-          -moz-border-radius: 4px;
-          -webkit-border-radius: 4px;
-          border-radius: 4px;
-          -khtml-border-radius: 4px;
-          border: 1px solid #FFC5C3; }
-        .paymentWrapper fieldset .paymentDetails1 .submit input:hover {
+          -moz-border-radius: 0;
+          -webkit-border-radius: 0;
+          border-radius: 0;
+          /* future proofing */
+          -khtml-border-radius: 0;
+          /* for old Konqueror browsers */ }
+        .payment fieldset .paymentDetails1 .submit input[type="submit"]:hover {
           filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
           /* for IE */
           background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
           /* for webkit browsers */
           background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
           /* for firefox 3.6+ */ }
-    .paymentWrapper fieldset .paymentDetails2 {
-      width: 600px;
-      float: left;
-      padding-bottom: 15px; }
-      .paymentWrapper fieldset .paymentDetails2 .inputWrapper {
-        padding: 3px; }
-        .paymentWrapper fieldset .paymentDetails2 .inputWrapper label {
-          display: block;
-          width: 120px;
-          padding-top: 7px;
-          margin-right: 15px;
-          float: left;
-          text-align: right; }
-        .paymentWrapper fieldset .paymentDetails2 .inputWrapper input {
-          width: 350px;
-          border: 1px solid #CCC;
-          padding: 5px;
-          -moz-border-radius: 3px;
-          -webkit-border-radius: 3px;
-          border-radius: 3px;
-          -khtml-border-radius: 3px; }
-      .paymentWrapper fieldset .paymentDetails2 .submit {
-        width: 490px;
-        text-align: center; }
-        .paymentWrapper fieldset .paymentDetails2 .submit input {
-          width: 100px;
-          padding: 3px;
-          cursor: pointer;
-          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
-          background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
-          background: -moz-linear-gradient(top, white, #da9b94);
-          background: -o-linear-gradient(top, white, #da9b94);
-          -moz-border-radius: 4px;
-          -webkit-border-radius: 4px;
-          border-radius: 4px;
-          -khtml-border-radius: 4px;
-          border: 1px solid #FFC5C3; }
-        .paymentWrapper fieldset .paymentDetails2 .submit input:hover {
-          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
+        .payment fieldset .paymentDetails1 .submit a {
+          text-decoration: none;
+          display: inline-block;
+          *display: inline;
+          zoom: 1;
+          width: 70px;
+          color: #FFFFFF;
+          font-family: futura_std_heavy;
+          padding: 7px 0 6px;
+          border: 1px solid #CCCCCC;
+          font-size: 11px;
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333');
           /* for IE */
-          background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
+          background: -webkit-gradient(linear, left top, left bottom, from(white), to(#333333));
           /* for webkit browsers */
-          background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
+          background: -moz-linear-gradient(top, white, #333333);
+          /* for firefox 3.6+ */
+          background: -o-linear-gradient(top, white, #333333);
+          -moz-border-radius: 0;
+          -webkit-border-radius: 0;
+          border-radius: 0;
+          /* future proofing */
+          -khtml-border-radius: 0;
+          /* for old Konqueror browsers */ }
+        .payment fieldset .paymentDetails1 .submit a:hover {
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#666666');
+          /* for IE */
+          background: -webkit-gradient(linear, left top, left bottom, from(white), to(#666666));
+          /* for webkit browsers */
+          background: -moz-linear-gradient(top, white, #666666);
           /* for firefox 3.6+ */ }

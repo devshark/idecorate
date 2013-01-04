@@ -1,14 +1,12 @@
 #content {
-	padding: 15px;
-	background: #FFFFFF;
+	margin-top:20px;
 
 	h3{ 
 		width: 100%;
-		height: 20px;
-		margin: 0 0 15px 0;
-		padding: 0 0 15px 0;
-		border-bottom: 2px solid #000000;
+      	font-family: 'futura_std_medium';
+		font-size: 22px;
 		color: #000000;
+		margin-bottom: 15px;
 	}
 
 }
@@ -22,12 +20,19 @@
 		position: absolute;
 		top: 7px;
 		right: 17%;
+		cursor: pointer;
 	}
 
 }
 
+.checkoutWrap{
+	padding: 12px;
+	background: #efebe4;
+}
+
 .checkout{
 	background: #FFFFFF;
+	padding:10px;
 
 	input {
 	  border: 1px solid #CCC;
@@ -52,18 +57,20 @@
 		color: #FFFFFF;
 		font-weight: bold;
 		padding: 4px 8px;
-		margin-top: 10px;
+		margin-top: 5px;
 		cursor: pointer;
 		float: right;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#333333)); /* for webkit browsers */
         background: -moz-linear-gradient(top,  #FFFFFF,  #333333); /* for firefox 3.6+ */
         background: -o-linear-gradient(top,  #FFFFFF,  #333333);
-		-moz-border-radius: 4px;
-		-webkit-border-radius: 4px;
-		border-radius: 4px; /* future proofing */
-		-khtml-border-radius: 4px; /* for old Konqueror browsers */
+		// -moz-border-radius: 4px;
+		// -webkit-border-radius: 4px;
+		// border-radius: 4px; /* future proofing */
+		// -khtml-border-radius: 4px; /* for old Konqueror browsers */
 		border: 1px solid #CCCCCC;
+		font-family: futura_std_heavy;
+		font-size: 11px;
 	}
 	#edit_button:hover {
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#666666'); /* for IE */
@@ -120,10 +127,11 @@
 	}
 
 	.orderTable {
-		width: 964px;
+		width: 900px;
 		color: #FFFFFF;
-		font-weight: bold;
-		padding: 10px 15px 5px 15px;
+		font-family: futura_std_book;
+		font-size: 13px;
+		padding: 10px 8px 5px;
 		background-color: #000000;
 	}
 
@@ -148,8 +156,9 @@
 					th{
 						padding: 10px;
 						color: #000000;
-						font-weight: bold;
-						border-bottom: 2px dotted #999999;
+						font-family: futura_std_medium;
+						font-size: 13px;
+						border-bottom: 1px solid #CCCCCC;
 					}
 
 					th:first-child {
@@ -165,22 +174,28 @@
 					td{
 						padding: 10px;
 						margin: 0 auto;
+						font-family: futura_std_book;
+						font-size: 13px;
+						color: #414042;
+						vertical-align: middle;
 
 						img{
 							max-width: 50px;
 							max-height: 80px;
 							float: left;
-							border: 2px solid #999999;
+							border: 1px solid #999999;
 						}
 
 						span{
+							float: left;
+							line-height: 50px;
+							margin-left: 10px;
 							width: 400px;
 							height: auto;
 							display: block;
-							margin: 20px 0 0 60px;
-							font-size: 14px;
-							font-weight: bold;
-							color: #d89b96;
+							font-family: futura_std_book;
+							font-size: 12px;
+							color: #231F20;
 						}
 
 					}
@@ -196,20 +211,28 @@
 
 			tfoot{
 
+				tr:first-child td{
+					padding-top: 10px;
+					border-top: 1px solid #CCCCCC;
+
+					p{
+						font-family: futura_std_heavy;
+						font-size: 13px;
+						color: #000000;
+					}
+				}
 				tr{
 					td{
-						padding: 10px;
 						color: #000000;
-						border-top: 2px dotted #999999;
 
 						.totalCost {
 							display: block;
-							padding: 5px 0;
+							padding: 10px 0 7px;
 							margin-top: 5px;
+							font-family: futura_std_heavy;
+							font-size: 15px;
 							background-color: #FFC5C3;
 							text-align: center;
-							font-weight: bold;
-
 						}
 
 					}
@@ -234,16 +257,18 @@
 	box-shadow: 3px 3px 3px 2px #EEEEEE;
 
 	h4{
-		font-weight: bold;
-		margin: 0 0 15px 0;
+		font-family: futura_std_book;
+		font-size: 20px;
 		color: #FFFFFF;
 	}
 
 	p {
-		margin: 10px auto;
+		font-family: futura_std_book;
+		margin: 10px 0;
 		color: #FFFFFF;
-		font-size: 1.2em;
+		font-size: 13px;
 		font-weight: bold;
+		line-height: 1.5em;
 	}
 	
 	input{
@@ -253,17 +278,19 @@
 
 	.submit {
 		width: 80px;
-		padding: 3px;
+		padding: 5px 0 3px;
 		cursor: pointer;
+		font-family: futura_std_heavy;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
         background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
         background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
-		-moz-border-radius: 4px;
-		-webkit-border-radius: 4px;
-		border-radius: 4px; /* future proofing */
-		-khtml-border-radius: 4px; /* for old Konqueror browsers */
+		-moz-border-radius: 0;
+		-webkit-border-radius: 0;
+		border-radius: 0; /* future proofing */
+		-khtml-border-radius: 0; /* for old Konqueror browsers */
 		border: 1px solid #FFC5C3;
+		color: #666666;
 	}
 	.submit:hover {
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E'); /* for IE */
@@ -273,7 +300,8 @@
 
 	a {
 		color: #FFFFFF;
-		font-weight: bold;
+		font-family: futura_std_book;
+		font-size: 12px;
 	}
 
 }
@@ -281,107 +309,84 @@
 .information{
     width: 100%;
     height: auto;
-    margin: 0 0 15px 0;
+    margin: 0 0 12px 0;
 
     fieldset{
-        width: 465px;
-        border: 1px solid #000000;
+        width: 430px;
+        border: 1px solid #CCCCCC;
         float: left !important;
         padding: 10px;
         display: block;
 
         legend{
-            margin: 0 0 0 20px;
+            margin: 0 0 0 10px;
             padding: 0 5px;
-            font-size: 14px;
+            font-size: 13px;
+			font-family: futura_std_book;
+        }
+
+        div{
+            margin-bottom: 10px;
+
+            label {
+                display: block;
+                width: 70px;
+                height: auto;
+                padding-top: 10px;
+                float: left;
+            }
+
+            input {
+                width: 340px;
+            }
+
+            select{
+            	width: 352px;
+            }
+        }
+
+        p{
+            font-size: 13px;
+			font-family: futura_std_book;
         }
 
     }
 
     .personal{
-        margin: 0 20px 0 0;
-
-        div {
-            margin-bottom: 15px;
-        
-            label {
-                display: block;
-                width: 70px;
-                height: auto;
-                padding-top: 10px;
-                float: left;
-            }
-
-            input {
-                width: 350px;
-            }
-
-        }
-
+        margin: 0 12px 0 0;
     }
 
-    .delivery{
-
-        div {
-            margin-bottom: 15px;
-        
-            label {
-                display: block;
-                width: 70px;
-                height: auto;
-                padding-top: 10px;
-                float: left;
-            }
-
-            input {
-                width: 350px;
-            }
-
-            select {
-                width: 360px;
-            }
-
-
-        }
-
-        .checkbox {
-        	border: none !important;
-        }
-        
+    .delivery .checkbox {
+    	border: none !important;
     }
-
 }
 
 div.leftPannel, div.rightPannel {
-	width: 470px;
+	width: 450px;
 	height: auto;
 	float: left;
 
 	.deliveryDate, .question, .paymentMethod, .paymentMethod2, .request {
-        width: 465px;
-        border: 1px solid #000000;
-        float: left;
+        display: block;
+        width: 430px;
+        border: 1px solid #CCCCCC;
         padding: 10px;
-    	margin: 0 0 15px 0;
         display: block;
 
         legend{
-            margin: 0 0 0 20px;
+            margin: 0 0 0 10px;
             padding: 0 5px;
-            font-size: 14px;
-        }
-
-        p{
-            margin: 0 0 10px 15px;
+            font-size: 13px;
+			font-family: futura_std_book;
         }
 
         ul{
-            margin: 10px 0 0 30px;
+        	margin-top: 10px;
             list-style-position: inside;
 
             li{
                 list-style-type: disc;
-                margin: 0 0 10px 15px;
+                margin: 0 0 10px 10px;
 
                 a {
                     color: #d89b96;
@@ -401,99 +406,82 @@ div.leftPannel, div.rightPannel {
             }
         }
 
-        em {
-            font-style: italic;
+        p{
+            font-size: 13px;
+			font-family: futura_std_book;
         }
-
-        strong {
-            font-weight: bold;
-        }
-
     }
 
-    .deliveryDate {
-
-    	input {
-    		margin-bottom: 15px;
-
-    	}
-
-    }
-
-	.paymentMethod {
-		margin-left: 16px;
-
-		label {
-	        display: block;
-	        width: 70px;
-	        height: auto;
-	        padding-top: 10px;
-	        float: left;
-	    }
-
-	    div {
-	    	margin-bottom: 15px;
-	    }
-
-	    input {
-	        width: 350px;
-	    }
-
-	    select {
-	        width: 360px;
-	    }
+    .deliveryDate  input {
+		margin-bottom: 15px;
 	}
 
-	.paymentMethod2 {
-		margin-left: 16px;
+	// .request {
+	// 	margin-left: 16px;
 
-	    div {
-	        margin-bottom: 15px;
-	        
-	        input {
-	            float: left;
-	            margin-top: 5px;
-	            border: none;
-	        }
+	// 	textarea {
+	// 		display: block;
+	// 		width: 425px;
+	// 		height: 250px;
+	// 		margin: 15px auto;
+	// 		border: 1px solid #CCCCCC;
+	// 		padding: 5px;
+	// 		-moz-border-radius: 3px;
+	// 		-webkit-border-radius: 3px;
+	// 		border-radius: 3px;
+	// 		-khtml-border-radius: 3px;
+	// 	}
 
-	        label {
-	            display: block;
-	            width: 110px;
-	            height: auto;
-	            padding-top: 8px;
-	            float: left;
-	        }
-
-	        img {
-	            float: left;
-	        }
-
-	    }
-
-	}
-
-	.request {
-		margin-left: 16px;
-
-		textarea {
-			display: block;
-			width: 425px;
-			height: 250px;
-			margin: 15px auto;
-			border: 1px solid #CCCCCC;
-			padding: 5px;
-			-moz-border-radius: 3px;
-			-webkit-border-radius: 3px;
-			border-radius: 3px;
-			-khtml-border-radius: 3px;
-		}
-
-	}
+	// }
 
 }
 
+.rightPannel{
+	div{
+        margin-bottom: 10px;
+
+        label {
+            display: block;
+            width: 70px;
+            height: auto;
+            padding-top: 10px;
+            float: left;
+        }
+
+        input[type="text"] {
+            width: 340px;
+        }
+
+        select{
+        	width: 352px;
+        }
+    }
+
+
+	.paymentMethod2 {
+	        
+        input[type="radio"] {
+            float: left;
+            margin-top: 5px;
+            border: none;
+        }
+
+        label {
+            display: block;
+            width: 110px;
+            height: auto;
+            padding-top: 8px;
+            float: left;
+        }
+
+        img {
+            float: left;
+        }
+	}
+}
+
 .leftPannel {
-	margin-right: 20px;
+	margin-right: 14px;
 }
 
 .disclaimer{
@@ -502,11 +490,13 @@ div.leftPannel, div.rightPannel {
 	text-align: center;
 
 	p{
-		width: 600px;
-		margin: 0 auto;
-
+		text-align: center;
+		font-family: 'futura_std_book';
+		font-size: 11px;
+		color: 414042;
 		a {
-			color: #d89b96;
+			color: #000000;
+			font-family: 'futura_std_heavy';
 		}
 
 	}
@@ -516,19 +506,20 @@ div.leftPannel, div.rightPannel {
 	}
 
 	button {
-		padding: 8px;
+		padding: 5px 20px 3px;
 		cursor: pointer;
+		font-family: futura_std_heavy;
+		color: #666666;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
         background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
         background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
-		-moz-border-radius: 4px;
-		-webkit-border-radius: 4px;
-		border-radius: 4px; /* future proofing */
-		-khtml-border-radius: 4px; /* for old Konqueror browsers */
+		-moz-border-radius: 0;
+		-webkit-border-radius: 0;
+		border-radius: 0; /* future proofing */
+		-khtml-border-radius: 0; /* for old Konqueror browsers */
 		border: 1px solid #FFC5C3;
 	}
-
 	button:hover {
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */

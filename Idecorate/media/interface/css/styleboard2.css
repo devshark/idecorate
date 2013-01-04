@@ -139,27 +139,32 @@ h5 {
         width: 42.188%; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn {
           clear: both; }
+          #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn .dd li {
+            border-left: 1px solid #FFFFFF; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .search {
+          margin: 10px 0;
           width: 240px;
-          height: 28px;
+          height: 25px;
           background-color: #FFFFFF;
-          margin: 5px 0; }
+          clear: both; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .search .searchButton {
             display: none;
             visibility: hidden; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .search input[type="text"] {
-            vertical-align: top;
-            border: 0;
-            width: 200px;
-            padding-left: 5px;
-            line-height: 23px; }
+            float: left;
+            border: none;
+            padding: 2px 5px;
+            width: 190px;
+            line-height: 21px;
+            height: 21px; }
+          #compact-header table thead.headWrap tr.headWraptop td#info-menu .search input[type="text"]:focus {
+            outline: none; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .search input[type="image"] {
-            vertical-align: top;
-            height: 21px;
-            width: 21px;
-            margin: 3px 0 0 0;
+            float: right;
+            height: 19px;
+            width: 19px;
             background: #FFFFFF;
-            padding: 1px; }
+            padding: 3px; }
       #compact-header table thead.headWrap tr.headWraptop td#logo {
         width: 15.625%; }
         #compact-header table thead.headWrap tr.headWraptop td#logo .headerColumn a {
@@ -171,13 +176,9 @@ h5 {
         width: 42.188%;
         padding-right: 5px; }
         #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn {
-          float: right;
-          /*background-color: #99A237;*/
-          padding: 5px;
-          -moz-border-radius: 4px;
-          -webkit-border-radius: 4px;
-          border-radius: 4px;
-          -khtml-border-radius: 4px; }
+          float: right; }
+          #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn .dd li {
+            border-left: 1px solid #FFFFFF; }
 
 #styleboard {
   width: 100%;
@@ -195,54 +196,35 @@ h5 {
         float: left; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a {
           display: block;
-          background-color: #EEEEEE;
-          font-size: 0.875em;
+          font-size: 13px;
+          font-family: 'futura_std_medium';
           color: #FFFFFF;
-          font-weight: bold;
-          position: relative;
           padding: 8px 30px;
-          text-transform: uppercase; }
+          text-transform: uppercase;
+          background-color: #808081;
+          margin-right: 10px; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a.active {
-          color: #FFF; }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a#createTab {
-          z-index: 1;
-          *background-color: #666666;
-          background-color: #666666; }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a#createTab:hover {
-          *background-color: #727629; }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a#createTab.active {
-          font-weight: bold;
-          color: #000000;
-          background-color: #FFFFFF;
-          *background-color: #FFFFFF; }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a#buyTab {
-          *background-color: #666666;
-          background-color: #666666;
-          padding: 8px 30px 8px 35px;
-          margin-left: -10px; }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a#buyTab:hover {
-          *background-color: #666666;
-          background-color: #666666;
-          color: #FFFFFF; }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a#buyTab.active {
-          *background-color: #FFFFFF;
-          background-color: #FFFFFF;
-          color: #000000; }
+          color: #58595B;
+          background-color: #FFFFFF; }
+        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a.active:hover {
+          background-color: #FFFFFF; }
+        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a:hover {
+          background-color: #DDDDDD;
+          color: #58595B; }
     #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar {
-      background-color: #FFFFFF;
-      box-shadow: 2px 2px 3px #999; }
+      background-color: #FFFFFF; }
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 {
-        margin: 5px 5px 0px 5px;
-        padding: 5px;
         position: relative;
+        margin: 5px 5px 0px 5px;
+        padding: 8px;
         color: #FFFFFF;
         background-color: #000000;
-        font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
-        font-size: 21px; }
+        font-family: 'futura_std_book';
+        font-size: 14px; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit {
+          position: absolute;
           right: 5px;
           top: 10px;
-          position: absolute;
           font-size: 12px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit a {
             color: #FFFFFF; }
@@ -254,17 +236,18 @@ h5 {
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset {
         margin: 0px 5px 5px 5px;
         padding: 5px;
-        border-left: 1px solid;
-        border-right: 1px solid;
-        border-bottom: 1px solid; }
+        border-left: 1px solid #CCCCCC;
+        border-right: 1px solid #CCCCCC;
+        border-bottom: 1px solid #CCCCCC; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs {
           width: 50%;
           float: left; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs label {
             display: block;
             margin-top: 5px;
-            color: #666;
-            font-size: 1.063em; }
+            font-family: 'futura_std_book';
+            color: #231F20;
+            font-size: 13px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs input[type="text"] {
             width: 40%;
             border: 1px solid #CCC;
@@ -278,34 +261,35 @@ h5 {
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarTotals {
           width: 50%;
           float: right;
-          margin-top: 10px;
+          margin-top: 5px;
           text-align: center; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarTotals h5 {
             color: #000;
             background-color: #efece6;
-            padding: 10px 0;
-            font-weight: bold; }
+            padding: 15px 0;
+            font-family: 'futura_std_heavy';
+            font-size: 13px; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarTotals h5 span {
-              font-weight: bold;
+              font-size: 15px;
               margin-top: 5px;
               display: block; }
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab {
         background-color: #FFFFFF; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav {
-          border-bottom: 2px dotted #000;
+          border-bottom: 2px dotted #FFFFFF;
           margin: 0 5px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul {
             padding: 0;
             margin: 0; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul li {
               display: inline;
-              color: #000;
+              color: #CCC;
               vertical-align: middle; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul li a {
-                font-size: 0.875em;
+                font-size: 13px;
                 margin: 7px 0;
-                color: #333;
-                font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
+                color: #333333;
+                font-family: 'futura_std_medium';
                 display: inline-block;
                 *display: inline;
                 zoom: 1;
@@ -329,19 +313,21 @@ h5 {
               background-color: #DDDDDD;
               border: 1px solid #CCCCCC;
               padding: 2px 5px;
-              *padding-bottom: 4px;
+              font-family: 'futura_std_book';
               display: inline-block;
               zoom: 1;
-              *display: inline; }
+              *display: inline;
+              *padding-bottom: 4px; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li a:hover {
               background-color: #999999;
               color: #FFF; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li span {
+              padding: 2px 0;
+              font-family: 'futura_std_book';
               display: inline-block;
               zoom: 1;
-              *display: inline;
-              padding: 2px 0;
-              *padding-bottom: 4px; }
+              *padding-bottom: 4px;
+              *display: inline; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap {
           overflow: auto; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories {
@@ -349,19 +335,20 @@ h5 {
             display: block;
             float: left;
             width: 18.229%;
-            outline: 1px solid #CCC;
             margin: 6px 0 0 6px;
             font-size: 0;
             min-width: 76px;
             cursor: pointer; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories img {
+              outline: 1px solid #CCC;
               width: 100%; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories span {
               display: block;
               margin: 10px 0 5px 0;
-              font-size: 10px;
+              font-size: 12px;
+              font-family: 'futura_std_book';
               text-align: center; }
-          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories:hover {
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories:hover img {
             outline: 2px solid #333; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list {
           overflow: hidden; }
@@ -370,22 +357,25 @@ h5 {
             display: block;
             float: left;
             width: 18.229%;
-            border: 1px solid #CCC;
             padding: 1px;
             margin: 6px 0 0 6px;
             font-size: 0;
             min-width: 76px; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products img {
-              width: 100%; }
+              width: 100%;
+              border: 1px solid #CCC; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products span {
               display: block;
-              font-size: 10px;
+              font-size: 12px;
+              font-family: 'futura_std_book';
               margin: 10px 0 5px 0;
               text-align: center;
               color: #666; }
-          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products:hover {
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products:hover img {
             border: 2px solid #333;
-            margin: 5px -1px -1px 5px; }
+            margin: -1px 0 0 -1px; }
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products:hover span {
+            margin-top: 9px; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .pagination {
           display: none;
           text-align: center;
@@ -466,8 +456,9 @@ h5 {
             margin: 0 5px;
             padding: 7px 0;
             color: #000;
-            font-family: "adobe_garamond_probold",Arial,Helvetica,sans-serif !important;
-            border-bottom: 2px dotted #000; }
+            font-family: 'futura_std_medium';
+            font-size: 13px;
+            border-bottom: 2px dotted #FFFFFF; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .thead table tr th {
               width: 40%;
               text-align: center; }
@@ -491,16 +482,15 @@ h5 {
                   *display: inline;
                   zoom: 1; }
                   #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg div img {
-                    outline: 1px solid #CCC; }
+                    border: 1px solid #CCC; }
                 #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg .buyItemMeta {
                   padding: 0 3px; }
                   #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg .buyItemMeta p {
                     text-align: left;
-                    font-size: 14px;
-                    color: #C7544E;
+                    font-family: 'futura_std_book';
+                    font-size: 12px;
+                    color: #414042;
                     padding: 2px 0; }
-                  #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg .buyItemMeta p + p {
-                    color: #000; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td {
                 width: 20%;
                 min-width: 50px;
@@ -509,6 +499,7 @@ h5 {
                   width: 80%;
                   border: 1px solid #CCC;
                   padding: 5px;
+                  color: #414042;
                   -moz-border-radius: 3px;
                   -webkit-border-radius: 3px;
                   border-radius: 3px;
@@ -519,28 +510,29 @@ h5 {
                   border: 1px solid red; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td + td {
                 width: 40%;
-                text-align: center; }
+                text-align: center;
+                font-family: 'futura_std_book';
+                font-size: 13px;
+                color: #414042; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tfoot {
-            border-top: 2px dotted #000;
+            border-top: 1px solid #CCCCCC;
             margin: 0 5px;
             padding: 5px 0; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tfoot table tr th {
+              font-family: 'futura_std_heavy';
+              font-size: 15px;
               text-align: right;
               color: #000; }
-              #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tfoot table tr th span {
-                font-weight: bold; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .checkOutWrap {
           padding: 10px 5px;
           text-align: right;
           background-color: #FFFFFF; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .checkOutWrap input {
-            height: 30px;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            border-radius: 3px; }
+            height: 30px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .checkOutWrap input#check-button {
             color: #FFFFFF;
-            font-weight: bold;
+            font-family: 'futura_std_heavy';
+            font-size: 13px;
             cursor: pointer;
             vertical-align: top;
             border: 0;
@@ -630,13 +622,13 @@ h5 {
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl li a {
             display: block;
             width: 80px;
-            font-size: 14px;
+            font-size: 13px;
             padding: 7px 0;
             text-align: center;
             text-transform: uppercase;
             background-color: #EFECE6;
             color: #666666;
-            font-weight: bold;
+            font-family: 'futura_std_medium';
             border-left: 1px solid #CCC;
             border-bottom: 1px solid #CCC;
             border-right: 1px solid #CCC;
@@ -646,8 +638,10 @@ h5 {
             /* for firefox 3.6+ */
             background: -o-linear-gradient(top, #eeeeee, #efece6); }
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl li a#save {
-            color: #666666;
-            font-weight: bold;
+            border-top: 1px solid #CCC;
+            color: #58595B;
+            font-family: 'futura_std_heavy';
+            font-size: 13px;
             background-color: #f8e2df;
             background: -webkit-gradient(linear, left top, left bottom, from(#f8e2df), to(#e6b4b1));
             /* for webkit browsers */
@@ -677,9 +671,10 @@ h5 {
               display: block;
               padding: 8px 10px;
               margin: 5px;
-              color: #333;
+              color: #808080;
               text-transform: uppercase;
-              font-size: 0.8em; }
+              font-family: 'futura_std_book';
+              font-size: 10px; }
             #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li a:hover {
               background-color: #C7C6C3;
               color: #000000; }
@@ -791,38 +786,34 @@ h5 {
 #compact-footer {
   width: 100%;
   min-width: 800px;
-  background-color: #000;
-  margin-top: 5px; }
+  background-color: #000; }
   #compact-footer table {
     width: 100%; }
     #compact-footer table tfoot.footWrap tr td {
-      padding: 15px; }
+      padding: 5px; }
       #compact-footer table tfoot.footWrap tr td .copyright {
         float: left;
         color: #FFF;
+        font-family: 'futura_std_book';
+        font-size: 11px;
         line-height: 16px;
-        font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
-        font-size: 10px;
         text-transform: uppercase; }
       #compact-footer table tfoot.footWrap tr td .footerMenus {
         float: right; }
         #compact-footer table tfoot.footWrap tr td .footerMenus ul {
           font-size: 0; }
           #compact-footer table tfoot.footWrap tr td .footerMenus ul li {
-            *white-space: nowrap;
             display: inline-block;
             zoom: 1;
-            *display: inline;
-            font-size: 12px;
             padding: 3px 5px;
             border-left: 1px solid #DDD;
-            color: #FFF; }
+            *display: inline;
+            *white-space: nowrap; }
             #compact-footer table tfoot.footWrap tr td .footerMenus ul li a {
-              color: #FFF;
-              font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+              color: #FFFFFF;
+              font-family: 'futura_std_heavy';
               font-size: 11px;
-              text-transform: uppercase;
-              font-weight: bold; }
+              text-transform: uppercase; }
           #compact-footer table tfoot.footWrap tr td .footerMenus ul li:first-child {
             border-left: none; }
 

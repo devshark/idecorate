@@ -1,72 +1,74 @@
-.staticWrapper {
-	background-color: #FFF;
-	padding: 15px;
+#content {
+	margin-top:20px;
 
-	fieldset {
-		display: block;
-		width: 964px;
-		padding: 15px;
-		line-height: 1.5;
+	h3{ 
+		width: 100%;
+      	font-family: 'futura_std_medium';
+		font-size: 22px;
+		color: #000000;
+		margin-bottom: 15px;
+	}
+
+}
+
+.staticWrap{
+	padding: 12px;
+	background: #efebe4;
+}
+
+.static{
+	background: #FFFFFF;
+	padding:10px;
+
+	p {
+		margin: 10px 0;
 		text-align: justify;
+	}
 
-		legend {
-			padding: 0 5px;
-			font-size: 16px;
-			color: black;	
-			text-transform: uppercase;
+	div {
+		margin: 10px 0;
+	}
+
+	.end {
+		width: 56px;
+		height: 10px;
+		margin: 15px auto;
+	}
+
+	/* FOR TINYMCE */
+
+	strong {
+		font-weight: bold;
+	}
+
+	em {
+		font-style: italic;
+	}
+
+	ul {
+
+		li {
+			list-style-type: disc;
+			margin-left: 15px;
 		}
 
-		p {
-			margin: 15px 0;
-			text-align: justify;
+	}
+
+	ol {
+		
+		li {
+			list-style-type: decimal;
+			margin-left: 15px;
 		}
 
-		div {
-			margin: 10px 0;
-		}
+	}
 
-		.end {
-			width: 56px;
-			height: 10px;
-			margin: 15px auto;
-		}
+	sub {
+		vertical-align: sub;
+	}
 
-		/* FOR TINYMCE */
-
-		strong {
-			font-weight: bold;
-		}
-
-		em {
-			font-style: italic;
-		}
-
-		ul {
-
-			li {
-				list-style-type: disc;
-				margin-left: 15px;
-			}
-
-		}
-
-		ol {
-			
-			li {
-				list-style-type: decimal;
-				margin-left: 15px;
-			}
-
-		}
-
-		sub {
-			vertical-align: sub;
-		}
-
-		sup {
-			vertical-align: super;
-		}
-
+	sup {
+		vertical-align: super;
 	}
 
 }

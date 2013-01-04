@@ -6,11 +6,11 @@
 <link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
 <link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
 <style>
-	@-moz-document url-prefix() {
+	/*@-moz-document url-prefix() {
 		.calendarWrapper img {
 			right: 20%;
 		}
-	}
+	}*/
 </style>
 <!--[if lte IE 9]>
 	<style type="text/css">
@@ -27,230 +27,234 @@
 <![endif]-->
 {% endblock %}
 {% block content %}
-<div class="clearfix checkout">
-	<h3>CHECKOUT</h3>
-	<div class="clearfix orderWrap">
-		
-		{% if orderform.errors %}
-		<div class="clearfix errorBlock">
-			<a href="" class="closeX">x</a>
-			<h4>Please correct the following errors:</h4>
-			<ol>
-	          {% for e in orderform.billing_first_name.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-	          {% for e in orderform.billing_last_name.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-	          {% for e in orderform.email.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-	          {% for e in orderform.shipping_address.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-	          {% for e in orderform.shipping_zip_code.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-	          {% for e in orderform.billing_address.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-	          {% for e in orderform.billing_zip_code.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-	          {% for e in orderform.shipping_date.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-	          {% for e in orderform.payment_method.errors %}
-	            <li>{{ e }}</li>
-	          {% endfor %}
-			</ol>
-		</div>
-		{% endif %}
-		{% if request.session.checkout_login_error %}
+<h3>CHECKOUT</h3>
+<div class="checkoutWrap">
+	<div class="clearfix checkout">
+		<div class="clearfix orderWrap">
+			
+			{% if orderform.errors %}
+			<div class="clearfix errorBlock">
+				<a href="" class="closeX">x</a>
+				<h4>Please correct the following errors:</h4>
+				<ol>
+		          {% for e in orderform.billing_first_name.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.billing_last_name.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.email.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.shipping_address.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.shipping_zip_code.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.billing_address.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.billing_zip_code.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.shipping_date.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.payment_method.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+				</ol>
+			</div>
+			{% endif %}
+			{% if request.session.checkout_login_error %}
 
-		<div class="clearfix errorBlock">
-			<a href="" class="closeX">x</a>
-			<h4>Please correct the following errors:</h4>
-			<ol>
-				<li>{{ request.session.checkout_login_error }}</li>
-			</ol>
+			<div class="clearfix errorBlock">
+				<a href="" class="closeX">x</a>
+				<h4>Please correct the following errors:</h4>
+				<ol>
+					<li>{{ request.session.checkout_login_error }}</li>
+				</ol>
+			</div>
+			{{ request|deleteSession:"checkout_login_error" }}
+			{% endif %}
+			<div class="clearfix orderTable">MY ORDER</div>
+			<fieldset>
+				<table>
+					<thead>
+						<tr>
+							<th>Items</th>
+							<th>Unit Cost</th>
+							<th>Quantity</th>
+							<th>Total Cost</th>
+						</th>
+					</thead>
+					<tbody>
+						{{ order.items|generate_product_order_list:order }}
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="2">&nbsp;</td>
+							<td colspan="2">
+								<p>{{ guest_table.guests }} Guests</p>
+								<p>{{ guest_table.tables }} Tables</p>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="3"></td>
+							<td>
+								<!--<p> + $100 Shipping Fee &nbsp;</p>--> 
+								<p class="totalCost">Total: ${{ order.total|floatformat:2|intcomma }}</p>
+								<button type="button" id="edit_button">EDIT</button>
+							</td>
+						</tr>
+					</tfoot>
+				</table>
+			</fieldset>
 		</div>
-		{{ request|deleteSession:"checkout_login_error" }}
-		{% endif %}
-		<div class="clearfix orderTable">MY ORDER</div>
-		<fieldset>
-			<table>
-				<thead>
-					<tr>
-						<th>Items</th>
-						<th>Unit Cost</th>
-						<th>Quantity</th>
-						<th>Total Cost</th>
-					</th>
-				</thead>
-				<tbody>
-					{{ order.items|generate_product_order_list:order }}
-				</tbody>
-				<tfoot>
-					<tr>
-						<td></td>
-						<td></td>
-						<td>
-							<p>{{ guest_table.guests }} Guests</p>
-							<p>{{ guest_table.tables }} Tables</p>
-						</td>
-						<td>
-							<p><!-- + $100 Shipping Fee --> &nbsp;</p>
-							<p class="totalCost">Total: ${{ order.total|floatformat:2|intcomma }}</p>
-							<button type="button" id="edit_button">EDIT</button>
-						</td>
-					</tr>
-				</tfoot>
-			</table>
-		</fieldset>
-	</div>
-		{% if not request.user.is_authenticated %}
-		<form action="{% url checkout_login %}" method="post">
+			{% if not request.user.is_authenticated %}
+			<form action="{% url checkout_login %}" method="post">
+				{% csrf_token %}
+			<div class="clearfix loginDetails">
+				<h4>ARE YOU A RETURNING CUSTOMER?</h4>
+				<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
+				<!--
+				<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
+				-->
+					<input type="text" placeholder="Email" name="checkout_email" />
+					<input type="password" placeholder="Password" name="checkout_password" />
+					<input type="submit" value="LOGIN" class="submit" />
+					<a href="#">Forgot your password?</a>
+			</div>
+			</form>
+			{% else %}
+			<div>&nbsp;</div>
+			{% endif %}
+		<form method="post" action=".">
 			{% csrf_token %}
-		<div class="clearfix loginDetails">
-			<h4>ARE YOU A RETURNING CUSTOMER?</h4>
-			<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
-			<!--
-			<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
-			-->
-				<input type="text" placeholder="Email" name="checkout_email" />
-				<input type="password" placeholder="Password" name="checkout_password" />
-				<input type="submit" value="LOGIN" class="submit" />
-				<a href="#">Forgot your password?</a>
+			<input type="hidden" name="_checkout" value="1" />
+			<div class="clearfix information">
+				<fieldset class="personal">
+					<legend>PERSONAL INFORMATION</legend>
+					<br />
+						<div class="clearfix">
+							<label>Salutations</label>
+							{{ orderform.billing_salutation }}
+						</div>
+						<div class="clearfix">
+							<label>First Name</label>
+							{{ orderform.billing_first_name }}
+						</div>
+						<div class="clearfix">
+							<label>Last Name</label>
+							{{ orderform.billing_last_name }}
+						</div>
+						<div class="clearfix">
+							<label>Email</label>
+							{{ orderform.email }}
+						</div>
+				</fieldset>
+				<fieldset class="delivery">
+					<legend>DELIVERY ADDRESS</legend>
+					<br />
+						<div class="clearfix">
+							<label>Address 1</label>
+							{{ orderform.shipping_address }}
+						</div>
+						<div class="clearfix">
+							<label>Address 2</label>
+							{{ orderform.shipping_address2 }}
+						</div>
+						<div class="clearfix">
+							<label>State</label>
+							{{ orderform.shipping_state|add_class:"districtList" }}
+						</div>
+						<div class="clearfix">
+							<label>City</label>
+							{{ orderform.shipping_city|add_class:"districtList" }}
+						</div><!--
+						<div class="clearfix">
+							<label>Country</label>
+							{{ orderform.shipping_city|add_class:"districtList" }}
+						</div>-->
+						<div class="clearfix">
+							<label>Postal Code</label>
+							{{ orderform.shipping_zip_code }}
+						</div>
+						{{ orderform.shipping_same_as_billing|attr:"class:checkbox" }} My delivery address is the same as my billing address.
+				</fieldset>
+			</div>
+
+		<div class="clearfix" style="width: 100%; height: auto;">
+			<div class="leftPannel">
+				<fieldset class="deliveryDate">
+		            <legend>DELIVERY DATE</legend>
+					<br />
+						<div class="clearfix calendarWrapper">
+		                	{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
+		                </div>
+		             	{{ "delivery_date_note"|get_checkout_page_info }}
+		        </fieldset>
+		        <fieldset class="question">
+		            <legend>ANY QUESTIONS?</legend>
+					<br />
+		            <p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
+		        </fieldset>
+			</div>
+			<div class="rightPannel">
+	            <fieldset class="delivery paymentMethod" id="billing_orig">
+	                <legend>BILLING ADDRESS</legend>
+					<br />
+	                    <div class="clearfix">
+	                        <label>Address 1</label>
+	                        {{ orderform.billing_address }}
+	                    </div>
+	                    <div class="clearfix">
+	                        <label>Address 2</label>
+	                        {{ orderform.billing_address2 }}
+	                    </div>
+	                    <div class="clearfix">
+	                        <label>State</label>
+	                        {{ orderform.billing_state|add_class:"districtList" }}
+	                    </div>
+	                    <div class="clearfix">
+	                        <label>City</label>
+	                        {{ orderform.billing_city|add_class:"districtList" }}
+	                    </div><!--
+						<div class="clearfix">
+							<label>Country</label>
+							{{ orderform.shipping_city|add_class:"districtList" }}
+						</div>-->
+	                    <div class="clearfix">
+	                        <label>Postal Code</label>
+	                        {{ orderform.billing_zip_code }}
+	                    </div>
+	            </fieldset>
+	            <fieldset class="paymentMethod2" id="payment_orig">
+		            <legend>PAYMENT METHOD</legend>
+					<br />
+
+		                {% for choice in orderform.payment_method.field.choices %}
+		                <div class="clearfix">
+		                    <input type="radio" name="order-payment_method" value="{{ choice.0 }}" {% if orderform.payment_method.data == choice.0 %}checked="checked" {% endif %}/>
+		                    <label>{{choice.1}}</label>
+		                    {{ choice.0|getImagePaymentMethod }}
+		                </div>
+		                {% endfor %}
+
+		        </fieldset><!--
+		        <fieldset class="request">
+		        	<legend>REQUESTS/COMMENTS</legend>
+		        	<textarea></textarea>
+		        </fieldset>-->
+			</div>
+		</div>
+		<div class="clearfix disclaimer" style="clear: both;">
+			<p align="justify">{{ "t_and_c"|get_checkout_page_info }}</p>
+			<button type="submit">PROCEED TO PAYMENT</button>
 		</div>
 		</form>
-		{% else %}
-		<div>&nbsp;</div>
-		{% endif %}
-	<form method="post" action=".">
-		{% csrf_token %}
-		<input type="hidden" name="_checkout" value="1" />
-		<div class="clearfix information">
-			<fieldset class="personal">
-				<legend>PERSONAL INFORMATION</legend>
-				<br />
-					<div class="clearfix">
-						<label>Salutations</label>
-						{{ orderform.billing_salutation }}
-					</div>
-					<div class="clearfix">
-						<label>First Name</label>
-						{{ orderform.billing_first_name }}
-					</div>
-					<div class="clearfix">
-						<label>Last Name</label>
-						{{ orderform.billing_last_name }}
-					</div>
-					<div class="clearfix">
-						<label>Email</label>
-						{{ orderform.email }}
-					</div>
-			</fieldset>
-			<fieldset class="delivery">
-				<legend>DELIVERY ADDRESS</legend>
-				<br />
-					<div class="clearfix">
-						<label>Address 1</label>
-						{{ orderform.shipping_address }}
-					</div>
-					<div class="clearfix">
-						<label>Address 2</label>
-						{{ orderform.shipping_address2 }}
-					</div>
-					<div class="clearfix">
-						<label>State</label>
-						{{ orderform.shipping_state|add_class:"districtList" }}
-					</div>
-					<div class="clearfix">
-						<label>City</label>
-						{{ orderform.shipping_city|add_class:"districtList" }}
-					</div><!--
-					<div class="clearfix">
-						<label>Country</label>
-						{{ orderform.shipping_city|add_class:"districtList" }}
-					</div>-->
-					<div class="clearfix">
-						<label>Postal Code</label>
-						{{ orderform.shipping_zip_code }}
-					</div>
-					{{ orderform.shipping_same_as_billing|attr:"class:checkbox" }} My delivery address is the same as my billing address.
-			</fieldset>
-		</div>
-
-	<div class="clearfix" style="width: 100%; height: auto;">
-		<div class="leftPannel">
-			<fieldset class="deliveryDate">
-	            <legend>DELIVERY DATE</legend>
-				<br />
-					<div class="clearfix calendarWrapper">
-	                	{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker"|attr:"readonly:readonly" }}
-	                </div>
-	             	{{ "delivery_date_note"|get_checkout_page_info }}
-	        </fieldset>
-	        <fieldset class="question">
-	            <legend>ANY QUESTIONS?</legend>
-				<br />
-	            <p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
-	        </fieldset>
-		</div>
-		<div class="rightPannel">
-            <fieldset class="delivery paymentMethod" id="billing_orig">
-                <legend>BILLING ADDRESS</legend>
-				<br />
-                    <div class="clearfix">
-                        <label>Address 1</label>
-                        {{ orderform.billing_address }}
-                    </div>
-                    <div class="clearfix">
-                        <label>Address 2</label>
-                        {{ orderform.billing_address2 }}
-                    </div>
-                    <div class="clearfix">
-                        <label>State</label>
-                        {{ orderform.billing_state|add_class:"districtList" }}
-                    </div>
-                    <div class="clearfix">
-                        <label>City</label>
-                        {{ orderform.billing_city|add_class:"districtList" }}
-                    </div><!--
-					<div class="clearfix">
-						<label>Country</label>
-						{{ orderform.shipping_city|add_class:"districtList" }}
-					</div>-->
-                    <div class="clearfix">
-                        <label>Postal Code</label>
-                        {{ orderform.billing_zip_code }}
-                    </div>
-            </fieldset>
-            <fieldset class="paymentMethod2" id="payment_orig">
-	            <legend>PAYMENT METHOD</legend>
-				<br />
-
-	                {% for choice in orderform.payment_method.field.choices %}
-	                <div class="clearfix">
-	                    <input type="radio" name="order-payment_method" value="{{ choice.0 }}" {% if orderform.payment_method.data == choice.0 %}checked="checked" {% endif %}/>
-	                    <label>{{choice.1}}</label>
-	                    {{ choice.0|getImagePaymentMethod }}
-	                </div>
-	                {% endfor %}
-
-	        </fieldset><!--
-	        <fieldset class="request">
-	        	<legend>REQUESTS/COMMENTS</legend>
-	        	<textarea></textarea>
-	        </fieldset>-->
-		</div>
 	</div>
-	<div class="clearfix disclaimer" style="clear: both;">
-		<p align="justify">{{ "t_and_c"|get_checkout_page_info }}</p>
-		<button type="submit">PROCEED TO PAYMENT</button>
-	</div>
-	</form>
 </div>
 {% endblock %}
 {% block javascripts %}

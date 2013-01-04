@@ -1,38 +1,40 @@
-.staticWrapper {
-  background-color: #FFF;
-  padding: 15px; }
-  .staticWrapper fieldset {
-    display: block;
-    width: 964px;
-    padding: 15px;
-    line-height: 1.5;
-    text-align: justify;
-    /* FOR TINYMCE */ }
-    .staticWrapper fieldset legend {
-      padding: 0 5px;
-      font-size: 16px;
-      color: black;
-      text-transform: uppercase; }
-    .staticWrapper fieldset p {
-      margin: 15px 0;
-      text-align: justify; }
-    .staticWrapper fieldset div {
-      margin: 10px 0; }
-    .staticWrapper fieldset .end {
-      width: 56px;
-      height: 10px;
-      margin: 15px auto; }
-    .staticWrapper fieldset strong {
-      font-weight: bold; }
-    .staticWrapper fieldset em {
-      font-style: italic; }
-    .staticWrapper fieldset ul li {
-      list-style-type: disc;
-      margin-left: 15px; }
-    .staticWrapper fieldset ol li {
-      list-style-type: decimal;
-      margin-left: 15px; }
-    .staticWrapper fieldset sub {
-      vertical-align: sub; }
-    .staticWrapper fieldset sup {
-      vertical-align: super; }
+#content {
+  margin-top: 20px; }
+  #content h3 {
+    width: 100%;
+    font-family: 'futura_std_medium';
+    font-size: 22px;
+    color: #000000;
+    margin-bottom: 15px; }
+
+.staticWrap {
+  padding: 12px;
+  background: #efebe4; }
+
+.static {
+  background: #FFFFFF;
+  padding: 10px;
+  /* FOR TINYMCE */ }
+  .static p {
+    margin: 10px 0;
+    text-align: justify; }
+  .static div {
+    margin: 10px 0; }
+  .static .end {
+    width: 56px;
+    height: 10px;
+    margin: 15px auto; }
+  .static strong {
+    font-weight: bold; }
+  .static em {
+    font-style: italic; }
+  .static ul li {
+    list-style-type: disc;
+    margin-left: 15px; }
+  .static ol li {
+    list-style-type: decimal;
+    margin-left: 15px; }
+  .static sub {
+    vertical-align: sub; }
+  .static sup {
+    vertical-align: super; }

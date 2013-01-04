@@ -2,23 +2,17 @@
 {% block title %}iDecorate Weddings - {{ flatpage.title }}{% endblock %}
 {% block style %}
     <link rel="stylesheet" type="text/css" href="/media/interface/css/static.css">
-    <!--
-    <link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
-    <link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
-	-->
 {% endblock %}
 {% block content %}
-
-<div class="clearfix staticWrapper">
-	<fieldset>
-		<legend>{{ flatpage.title }}</legend>
+<h3>{{ flatpage.title }}</h3>
+<div class="staticWrap">
+	<div class="clearfix static">
 		{{ flatpage.content }}
 		<!--<div class="clearfix end">
 			<img src="/media/images/end.png" />
 		</div>-->
-	</fieldset>
+	</div>
 </div>
-
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">

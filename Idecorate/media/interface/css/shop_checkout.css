@@ -1,13 +1,11 @@
 #content {
-  padding: 15px;
-  background: #FFFFFF; }
+  margin-top: 20px; }
   #content h3 {
     width: 100%;
-    height: 20px;
-    margin: 0 0 15px 0;
-    padding: 0 0 15px 0;
-    border-bottom: 2px solid #000000;
-    color: #000000; }
+    font-family: 'futura_std_medium';
+    font-size: 22px;
+    color: #000000;
+    margin-bottom: 15px; }
 
 .calendarWrapper {
   width: 220px;
@@ -16,10 +14,16 @@
   .calendarWrapper img {
     position: absolute;
     top: 7px;
-    right: 17%; }
+    right: 17%;
+    cursor: pointer; }
+
+.checkoutWrap {
+  padding: 12px;
+  background: #efebe4; }
 
 .checkout {
-  background: #FFFFFF; }
+  background: #FFFFFF;
+  padding: 10px; }
   .checkout input {
     border: 1px solid #CCC;
     padding: 5px;
@@ -39,7 +43,7 @@
     color: #FFFFFF;
     font-weight: bold;
     padding: 4px 8px;
-    margin-top: 10px;
+    margin-top: 5px;
     cursor: pointer;
     float: right;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333');
@@ -49,13 +53,9 @@
     background: -moz-linear-gradient(top, white, #333333);
     /* for firefox 3.6+ */
     background: -o-linear-gradient(top, white, #333333);
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
-    /* future proofing */
-    -khtml-border-radius: 4px;
-    /* for old Konqueror browsers */
-    border: 1px solid #CCCCCC; }
+    border: 1px solid #CCCCCC;
+    font-family: futura_std_heavy;
+    font-size: 11px; }
   .checkout #edit_button:hover {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#666666');
     /* for IE */
@@ -99,10 +99,11 @@
       line-height: 18px;
       text-align: -webkit-match-parent; }
 .orderWrap .orderTable {
-  width: 964px;
+  width: 900px;
   color: #FFFFFF;
-  font-weight: bold;
-  padding: 10px 15px 5px 15px;
+  font-family: futura_std_book;
+  font-size: 13px;
+  padding: 10px 8px 5px;
   background-color: #000000; }
 .orderWrap fieldset {
   border: 1px solid #000000;
@@ -118,40 +119,53 @@
     .orderWrap fieldset table thead tr th {
       padding: 10px;
       color: #000000;
-      font-weight: bold;
-      border-bottom: 2px dotted #999999; }
+      font-family: futura_std_medium;
+      font-size: 13px;
+      border-bottom: 1px solid #CCCCCC; }
     .orderWrap fieldset table thead tr th:first-child {
       text-align: left; }
     .orderWrap fieldset table tbody tr td {
       padding: 10px;
-      margin: 0 auto; }
+      margin: 0 auto;
+      font-family: futura_std_book;
+      font-size: 13px;
+      color: #414042;
+      vertical-align: middle; }
       .orderWrap fieldset table tbody tr td img {
         max-width: 50px;
         max-height: 80px;
         float: left;
-        border: 2px solid #999999; }
+        border: 1px solid #999999; }
       .orderWrap fieldset table tbody tr td span {
+        float: left;
+        line-height: 50px;
+        margin-left: 10px;
         width: 400px;
         height: auto;
         display: block;
-        margin: 20px 0 0 60px;
-        font-size: 14px;
-        font-weight: bold;
-        color: #d89b96; }
+        font-family: futura_std_book;
+        font-size: 12px;
+        color: #231F20; }
     .orderWrap fieldset table tbody tr .productPricing {
       text-align: center;
       color: #000000; }
+    .orderWrap fieldset table tfoot tr:first-child td {
+      padding-top: 10px;
+      border-top: 1px solid #CCCCCC; }
+      .orderWrap fieldset table tfoot tr:first-child td p {
+        font-family: futura_std_heavy;
+        font-size: 13px;
+        color: #000000; }
     .orderWrap fieldset table tfoot tr td {
-      padding: 10px;
-      color: #000000;
-      border-top: 2px dotted #999999; }
+      color: #000000; }
       .orderWrap fieldset table tfoot tr td .totalCost {
         display: block;
-        padding: 5px 0;
+        padding: 10px 0 7px;
         margin-top: 5px;
+        font-family: futura_std_heavy;
+        font-size: 15px;
         background-color: #FFC5C3;
-        text-align: center;
-        font-weight: bold; }
+        text-align: center; }
 
 .loginDetails {
   width: auto;
@@ -162,21 +176,24 @@
   background: #000000;
   box-shadow: 3px 3px 3px 2px #EEEEEE; }
   .loginDetails h4 {
-    font-weight: bold;
-    margin: 0 0 15px 0;
+    font-family: futura_std_book;
+    font-size: 20px;
     color: #FFFFFF; }
   .loginDetails p {
-    margin: 10px auto;
+    font-family: futura_std_book;
+    margin: 10px 0;
     color: #FFFFFF;
-    font-size: 1.2em;
-    font-weight: bold; }
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 1.5em; }
   .loginDetails input {
     width: 250px;
     margin: 0 15px 0 0; }
   .loginDetails .submit {
     width: 80px;
-    padding: 3px;
+    padding: 5px 0 3px;
     cursor: pointer;
+    font-family: futura_std_heavy;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
     /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
@@ -184,13 +201,14 @@
     background: -moz-linear-gradient(top, white, #da9b94);
     /* for firefox 3.6+ */
     background: -o-linear-gradient(top, white, #da9b94);
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
     /* future proofing */
-    -khtml-border-radius: 4px;
+    -khtml-border-radius: 0;
     /* for old Konqueror browsers */
-    border: 1px solid #FFC5C3; }
+    border: 1px solid #FFC5C3;
+    color: #666666; }
   .loginDetails .submit:hover {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
     /* for IE */
@@ -200,72 +218,65 @@
     /* for firefox 3.6+ */ }
   .loginDetails a {
     color: #FFFFFF;
-    font-weight: bold; }
+    font-family: futura_std_book;
+    font-size: 12px; }
 
 .information {
   width: 100%;
   height: auto;
-  margin: 0 0 15px 0; }
+  margin: 0 0 12px 0; }
   .information fieldset {
-    width: 465px;
-    border: 1px solid #000000;
+    width: 430px;
+    border: 1px solid #CCCCCC;
     float: left !important;
     padding: 10px;
     display: block; }
     .information fieldset legend {
-      margin: 0 0 0 20px;
+      margin: 0 0 0 10px;
       padding: 0 5px;
-      font-size: 14px; }
-  .information .personal {
-    margin: 0 20px 0 0; }
-    .information .personal div {
-      margin-bottom: 15px; }
-      .information .personal div label {
+      font-size: 13px;
+      font-family: futura_std_book; }
+    .information fieldset div {
+      margin-bottom: 10px; }
+      .information fieldset div label {
         display: block;
         width: 70px;
         height: auto;
         padding-top: 10px;
         float: left; }
-      .information .personal div input {
-        width: 350px; }
-  .information .delivery div {
-    margin-bottom: 15px; }
-    .information .delivery div label {
-      display: block;
-      width: 70px;
-      height: auto;
-      padding-top: 10px;
-      float: left; }
-    .information .delivery div input {
-      width: 350px; }
-    .information .delivery div select {
-      width: 360px; }
+      .information fieldset div input {
+        width: 340px; }
+      .information fieldset div select {
+        width: 352px; }
+    .information fieldset p {
+      font-size: 13px;
+      font-family: futura_std_book; }
+  .information .personal {
+    margin: 0 12px 0 0; }
   .information .delivery .checkbox {
     border: none !important; }
 
 div.leftPannel, div.rightPannel {
-  width: 470px;
+  width: 450px;
   height: auto;
   float: left; }
   div.leftPannel .deliveryDate, div.leftPannel .question, div.leftPannel .paymentMethod, div.leftPannel .paymentMethod2, div.leftPannel .request, div.rightPannel .deliveryDate, div.rightPannel .question, div.rightPannel .paymentMethod, div.rightPannel .paymentMethod2, div.rightPannel .request {
-    width: 465px;
-    border: 1px solid #000000;
-    float: left;
+    display: block;
+    width: 430px;
+    border: 1px solid #CCCCCC;
     padding: 10px;
-    margin: 0 0 15px 0;
     display: block; }
     div.leftPannel .deliveryDate legend, div.leftPannel .question legend, div.leftPannel .paymentMethod legend, div.leftPannel .paymentMethod2 legend, div.leftPannel .request legend, div.rightPannel .deliveryDate legend, div.rightPannel .question legend, div.rightPannel .paymentMethod legend, div.rightPannel .paymentMethod2 legend, div.rightPannel .request legend {
-      margin: 0 0 0 20px;
+      margin: 0 0 0 10px;
       padding: 0 5px;
-      font-size: 14px; }
-    div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.leftPannel .request p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p, div.rightPannel .request p {
-      margin: 0 0 10px 15px; }
+      font-size: 13px;
+      font-family: futura_std_book; }
     div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.leftPannel .request ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul, div.rightPannel .request ul {
-      margin: 10px 0 0 30px;
+      margin-top: 10px;
       list-style-position: inside; }
       div.leftPannel .deliveryDate ul li, div.leftPannel .question ul li, div.leftPannel .paymentMethod ul li, div.leftPannel .paymentMethod2 ul li, div.leftPannel .request ul li, div.rightPannel .deliveryDate ul li, div.rightPannel .question ul li, div.rightPannel .paymentMethod ul li, div.rightPannel .paymentMethod2 ul li, div.rightPannel .request ul li {
         list-style-type: disc;
-        margin: 0 0 10px 15px; }
+        margin: 0 0 10px 10px; }
         div.leftPannel .deliveryDate ul li a, div.leftPannel .question ul li a, div.leftPannel .paymentMethod ul li a, div.leftPannel .paymentMethod2 ul li a, div.leftPannel .request ul li a, div.rightPannel .deliveryDate ul li a, div.rightPannel .question ul li a, div.rightPannel .paymentMethod ul li a, div.rightPannel .paymentMethod2 ul li a, div.rightPannel .request ul li a {
           color: #d89b96; }
     div.leftPannel .deliveryDate ol, div.leftPannel .question ol, div.leftPannel .paymentMethod ol, div.leftPannel .paymentMethod2 ol, div.leftPannel .request ol, div.rightPannel .deliveryDate ol, div.rightPannel .question ol, div.rightPannel .paymentMethod ol, div.rightPannel .paymentMethod2 ol, div.rightPannel .request ol {
@@ -274,73 +285,59 @@ div.leftPannel, div.rightPannel {
       div.leftPannel .deliveryDate ol li, div.leftPannel .question ol li, div.leftPannel .paymentMethod ol li, div.leftPannel .paymentMethod2 ol li, div.leftPannel .request ol li, div.rightPannel .deliveryDate ol li, div.rightPannel .question ol li, div.rightPannel .paymentMethod ol li, div.rightPannel .paymentMethod2 ol li, div.rightPannel .request ol li {
         list-style-type: decimal;
         margin: 0 0 10px 45px; }
-    div.leftPannel .deliveryDate em, div.leftPannel .question em, div.leftPannel .paymentMethod em, div.leftPannel .paymentMethod2 em, div.leftPannel .request em, div.rightPannel .deliveryDate em, div.rightPannel .question em, div.rightPannel .paymentMethod em, div.rightPannel .paymentMethod2 em, div.rightPannel .request em {
-      font-style: italic; }
-    div.leftPannel .deliveryDate strong, div.leftPannel .question strong, div.leftPannel .paymentMethod strong, div.leftPannel .paymentMethod2 strong, div.leftPannel .request strong, div.rightPannel .deliveryDate strong, div.rightPannel .question strong, div.rightPannel .paymentMethod strong, div.rightPannel .paymentMethod2 strong, div.rightPannel .request strong {
-      font-weight: bold; }
+    div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.leftPannel .request p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p, div.rightPannel .request p {
+      font-size: 13px;
+      font-family: futura_std_book; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
-  div.leftPannel .paymentMethod, div.rightPannel .paymentMethod {
-    margin-left: 16px; }
-    div.leftPannel .paymentMethod label, div.rightPannel .paymentMethod label {
-      display: block;
-      width: 70px;
-      height: auto;
-      padding-top: 10px;
-      float: left; }
-    div.leftPannel .paymentMethod div, div.rightPannel .paymentMethod div {
-      margin-bottom: 15px; }
-    div.leftPannel .paymentMethod input, div.rightPannel .paymentMethod input {
-      width: 350px; }
-    div.leftPannel .paymentMethod select, div.rightPannel .paymentMethod select {
-      width: 360px; }
-  div.leftPannel .paymentMethod2, div.rightPannel .paymentMethod2 {
-    margin-left: 16px; }
-    div.leftPannel .paymentMethod2 div, div.rightPannel .paymentMethod2 div {
-      margin-bottom: 15px; }
-      div.leftPannel .paymentMethod2 div input, div.rightPannel .paymentMethod2 div input {
-        float: left;
-        margin-top: 5px;
-        border: none; }
-      div.leftPannel .paymentMethod2 div label, div.rightPannel .paymentMethod2 div label {
-        display: block;
-        width: 110px;
-        height: auto;
-        padding-top: 8px;
-        float: left; }
-      div.leftPannel .paymentMethod2 div img, div.rightPannel .paymentMethod2 div img {
-        float: left; }
-  div.leftPannel .request, div.rightPannel .request {
-    margin-left: 16px; }
-    div.leftPannel .request textarea, div.rightPannel .request textarea {
-      display: block;
-      width: 425px;
-      height: 250px;
-      margin: 15px auto;
-      border: 1px solid #CCCCCC;
-      padding: 5px;
-      -moz-border-radius: 3px;
-      -webkit-border-radius: 3px;
-      border-radius: 3px;
-      -khtml-border-radius: 3px; }
+
+.rightPannel div {
+  margin-bottom: 10px; }
+  .rightPannel div label {
+    display: block;
+    width: 70px;
+    height: auto;
+    padding-top: 10px;
+    float: left; }
+  .rightPannel div input[type="text"] {
+    width: 340px; }
+  .rightPannel div select {
+    width: 352px; }
+.rightPannel .paymentMethod2 input[type="radio"] {
+  float: left;
+  margin-top: 5px;
+  border: none; }
+.rightPannel .paymentMethod2 label {
+  display: block;
+  width: 110px;
+  height: auto;
+  padding-top: 8px;
+  float: left; }
+.rightPannel .paymentMethod2 img {
+  float: left; }
 
 .leftPannel {
-  margin-right: 20px; }
+  margin-right: 14px; }
 
 .disclaimer {
   width: 100%;
   height: auto;
   text-align: center; }
   .disclaimer p {
-    width: 600px;
-    margin: 0 auto; }
+    text-align: center;
+    font-family: 'futura_std_book';
+    font-size: 11px;
+    color: 414042; }
     .disclaimer p a {
-      color: #d89b96; }
+      color: #000000;
+      font-family: 'futura_std_heavy'; }
   .disclaimer p:first-child {
     margin: 15px auto; }
   .disclaimer button {
-    padding: 8px;
+    padding: 5px 20px 3px;
     cursor: pointer;
+    font-family: futura_std_heavy;
+    color: #666666;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
     /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
@@ -348,11 +345,11 @@ div.leftPannel, div.rightPannel {
     background: -moz-linear-gradient(top, white, #da9b94);
     /* for firefox 3.6+ */
     background: -o-linear-gradient(top, white, #da9b94);
-    -moz-border-radius: 4px;
-    -webkit-border-radius: 4px;
-    border-radius: 4px;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    border-radius: 0;
     /* future proofing */
-    -khtml-border-radius: 4px;
+    -khtml-border-radius: 0;
     /* for old Konqueror browsers */
     border: 1px solid #FFC5C3; }
   .disclaimer button:hover {
