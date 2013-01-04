@@ -14,7 +14,7 @@
 	<div class="headerColumn clearfix" id="logo">
 		<a href="{% url home %}">
 			<!-- <img src="/media/images/idecorate_wedding.jpg" title="logo" /> -->
-			<img src="/media/images/logo.1.jpg" title="logo" />
+			<img src="/media/images/logo.png" title="logo" />
 		</a>
 	</div>
 	<div class="headerColumn clearfix" id="site-menu">
@@ -44,7 +44,9 @@
 	</div>
 </div>-->
 <div class="clearfix categoryWrapper">
-	{% include 'sidebar.html' %}
+	<div class="categoryWrap">
+		{% include 'sidebar.html' %}
+	</div>
 </div>
 {% block javascripts %}
 {% endblock %}

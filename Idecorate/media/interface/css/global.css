@@ -82,18 +82,10 @@ a:hover, a:active {
 	Main Styles
 =========================================*/
 body {
-  font-family: 'futura_std_lightregular',Arial,Helvetica,sans-serif;
+  font-family: 'futura_std_book';
   font-size: 12px;
-  background-color: #c2bdbd;
-  color: #666666;
-  background-image: url(/media/images/idecorate_pattern.jpg);
-  background-repeat: repeat; }
-
-#main-container {
-  width: 1024px;
-  background-color: #f0ebe5;
-  margin: 0 auto 15px auto;
-  box-shadow: 0 0 18px #333; }
+  background-color: #FFFFFF;
+  color: #666666; }
 
 h1 {
   font-size: 2em; }
@@ -111,16 +103,20 @@ h5 {
   font-size: 1em; }
 
 #header {
-  margin-bottom: 5px;
   padding-top: 10px;
-  position: relative;
   min-height: 60px;
   background-color: #000000; }
   #header .headerRowTop {
-    width: auto;
-    padding-bottom: 5px; }
+    width: 960px;
+    margin: 0 auto;
+    padding-bottom: 5px;
+    position: relative; }
     #header .headerRowTop .headerColumn {
       vertical-align: top; }
+      #header .headerRowTop .headerColumn .dd li {
+        border-left: 1px solid #FFF; }
+        #header .headerRowTop .headerColumn .dd li a {
+          letter-spacing: 1px; }
       #header .headerRowTop .headerColumn a {
         text-decoration: none !important;
         color: #333333; }
@@ -128,50 +124,49 @@ h5 {
         text-decoration: underline; }
       #header .headerRowTop .headerColumn .search {
         width: 240px;
-        height: 28px;
+        height: 25px;
         background-color: #FFFFFF;
-        margin: 5px 0 0 5px;
         position: absolute;
-        top: 95px;
+        bottom: 11px;
+        left: 0;
         clear: both; }
         #header .headerRowTop .headerColumn .search .searchButton {
           display: none;
           visibility: hidden; }
         #header .headerRowTop .headerColumn .search input[type="text"] {
-          vertical-align: top;
-          border: 0;
-          width: 200px;
-          padding-left: 5px;
-          line-height: 23px; }
+          float: left;
+          border: none;
+          padding: 2px 5px;
+          width: 190px;
+          line-height: 21px;
+          height: 21px; }
+        #header .headerRowTop .headerColumn .search input[type="text"]:focus {
+          outline: none; }
         #header .headerRowTop .headerColumn .search input[type="image"] {
-          vertical-align: top;
-          height: 21px;
-          width: 21px;
-          margin: 3px 0 0 0;
+          float: right;
+          height: 19px;
+          width: 19px;
           background: #FFFFFF;
-          padding: 1px; }
+          padding: 3px; }
     #header .headerRowTop #info-menu {
       float: left;
       width: 400px;
       color: #ffffff; }
     #header .headerRowTop #logo {
-      width: 224px;
+      width: 160px;
       float: left;
       text-align: center; }
+      #header .headerRowTop #logo a {
+        display: inline-block;
+        zoom: 1;
+        *display: inline;
+        font-size: 0; }
       #header .headerRowTop #logo h1, #header .headerRowTop #logo h3 {
         text-align: center; }
     #header .headerRowTop #site-menu {
-      margin-right: 5px;
-      max-width: 385px;
+      width: 400px;
       float: right;
-      vertical-align: top;
-      text-align: left;
-      padding: 5px;
-      /*background-color: #99A237;*/
-      -moz-border-radius: 4px;
-      -webkit-border-radius: 4px;
-      border-radius: 4px;
-      -khtml-border-radius: 4px; }
+      text-align: right; }
   #header .headerRowBottom {
     width: 100%;
     clear: both; }
@@ -270,25 +265,29 @@ h5 {
   height: auto;
   padding: 5px 0;
   text-align: center;
-  border-top: 2px solid #FFFFFF; }
+  border-top: 1px solid #FFFFFF; }
+  .categoryWrapper .categoryWrap {
+    width: 960px;
+    margin: 0 auto; }
   .categoryWrapper ul {
     font-size: 0; }
     .categoryWrapper ul li {
-      font-size: 12px;
-      font-weight: bold;
       display: inline-block;
       zoom: 1;
       *display: inline; }
       .categoryWrapper ul li a {
-        padding: 0 10px;
-        font-family: 'futura_std_medium',Arial,Helvetica,sans-serif;
+        padding: 6px 10px 3px 10px !important;
+        font-family: 'futura_std_medium';
         font-size: 12px;
-        font-weight: bold;
         color: #ffffff;
         text-decoration: none;
         text-transform: uppercase; }
     .categoryWrapper ul ul {
       text-align: left !important; }
+
+#content {
+  width: 960px;
+  margin: 0 auto; }
 
 p {
   font-size: 1.1em;
@@ -322,28 +321,29 @@ p {
   color: black; }
 
 .imageBorder {
-  width: 994px;
-  padding: 0 15px; }
+  width: 960px; }
   .imageBorder img {
     width: 100%; }
 
 footer {
+  width: 960px;
+  margin: 0 auto;
   background-color: #FFFFFF;
   padding-top: 15px; }
   footer .footerMenu {
     padding: 15px 0;
     line-height: 1.3; }
     footer .footerMenu div {
-      width: 150px;
+      width: 141px;
       padding-left: 20px;
       float: left; }
       footer .footerMenu div h3 {
-        font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+        font-family: 'futura_std_heavy';
         font-size: 14px; }
       footer .footerMenu div ul {
         margin-bottom: 15px; }
         footer .footerMenu div ul li a {
-          font-family: 'futura_std_book',Arial,Helvetica,sans-serif;
+          font-family: 'futura_std_book';
           font-size: 12px;
           color: #666;
           text-decoration: none; }
@@ -377,32 +377,31 @@ footer {
           background-position: -197px 0;
           width: 27px; }
   footer .footerLinks {
-    width: 994px;
-    padding: 15px 15px 0 15px;
+    width: 960px;
+    margin-top: 15px;
     text-align: center; }
     footer .footerLinks ul {
       font-size: 0; }
       footer .footerLinks ul li {
-        font-size: 12px;
-        font-weight: bold;
         display: inline-block;
         zoom: 1;
         *display: inline;
+        font-size: 12px;
         padding: 5px;
         border-left: 1px solid #CCCCCC;
         text-transform: uppercase; }
         footer .footerLinks ul li a {
           text-decoration: none;
-          color: #666666;
+          color: #999;
           text-transform: uppercase;
-          font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+          font-family: 'futura_std_heavy';
           font-size: 11px; }
       footer .footerLinks ul li:first-child {
         border-left: 0; }
   footer .copyright {
-    margin: 10px 0 0 0;
-    padding: 0 0 15px 0;
-    font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+    margin: 10px 0;
+    color: #999;
+    font-family: 'futura_std_heavy';
     font-size: 10px;
     text-align: center;
     text-transform: uppercase; }
