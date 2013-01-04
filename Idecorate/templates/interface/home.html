@@ -11,7 +11,7 @@
 		{% if infographic %}
 			<img src="/media/infographics/{{ infographic.image }}" alt="" />
 		{% else %}
-			<img src="http://www.doonbeglodge.com/upload/background_slideshow_images/wedding23.jpg" />
+			<img src="/media/images/banner_default.jpg" />
 		{% endif %}
 	</div>
 </div>
@@ -20,9 +20,11 @@
 	{% for list in lists %}
 	<div class="clearfix wrapper{{ list|length }}">
 		{% for l in list %}
-		<a href="{{ l.link }}">
-			<img src="/media/banners/{{ l.image }}" />
-		</a>
+			<div class="featuredWrap">
+				<a href="{{ l.link }}">
+					<img src="/media/banners/{{ l.image }}" />
+				</a>
+			</div>
 		{% endfor %}
 	</div>
 	{% endfor %}

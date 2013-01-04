@@ -1,5 +1,5 @@
 
-@font-face {
+/*@font-face {
     font-family: "adobe_garamond_proregular";
     font-style: normal;
     font-weight: normal;
@@ -25,23 +25,29 @@
     url("/media/interface/css/fonts/agaramondpro-semibolditalic-webfont.woff") format("woff"), 
     url("/media/interface/css/fonts/agaramondpro-semibolditalic-webfont.ttf") format("truetype"), 
     url("/media/interface/css/fonts/agaramondpro-semibolditalic-webfont.svg#adobe_garamond_probold_italic") format("svg");
-}
+}*/
 @font-face {
-    font-family: "futura_std_bookregular";
+    font-family: "futura_std_book";
     font-style: normal;
     font-weight: normal;
-    src: url("/media/interface/css/fonts/futurastd-book-webfont.eot?#iefix") format("embedded-opentype"), 
-    url("/media/interface/css/fonts/futurastd-book-webfont.woff") format("woff"), 
-    url("/media/interface/css/fonts/futurastd-book-webfont.ttf") format("truetype"), 
-    url("/media/interface/css/fonts/futurastd-book-webfont.svg#futura_std_bookregular") format("svg");
+    src: url("/media/interface/css/fonts/FuturaStd-Book.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/FuturaStd-Book.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/FuturaStd-Book.svg#futura_std_bookregular") format("svg");
 }
 @font-face {
-    font-family: "futura_std_lightregular";
+    font-family: "futura_std_medium";
     font-style: normal;
     font-weight: normal;
-    src: url("/media/interface/css/fonts/futurastd-light-webfont.eot?#iefix") format("embedded-opentype"), 
-    url("/media/interface/css/fonts/futurastd-light-webfont.woff") format("woff"), 
-    url("/media/interface/css/fonts/futurastd-light-webfont.ttf") format("truetype"), 
-    url("/media/interface/css/fonts/futurastd-light-webfont.svg#futura_std_lightregular") format("svg");
+    src: url("/media/interface/css/fonts/FuturaStd-Medium.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/FuturaStd-Medium.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/FuturaStd-Medium.svg#futura_std_lightregular") format("svg");
+}
+@font-face {
+    font-family: "futura_std_heavy";
+    font-style: normal;
+    font-weight: normal;
+    src: url("/media/interface/css/fonts/FuturaStd-Heavy.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/FuturaStd-Heavy.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/FuturaStd-Heavy.svg#futura_std_lightregular") format("svg");
 }
 
