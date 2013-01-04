@@ -6,7 +6,9 @@ aside {
   width: 31%; }
   aside h1 {
     width: 98%;
-    font-weight: bold;
+    font-family: 'futura_std_medium',Arial,Helvetica,sans-serif;
+    font-size: 22px;
+    /*font-weight: bold;*/
     margin-top: 25px;
     padding: 10px 0 10px 5px;
     text-transform: uppercase; }
@@ -36,6 +38,8 @@ aside {
         padding: 3px 5px;
         margin: 5px 0 0 0;
         *margin: 5px 0 0 65px;
+        font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+        font-size: 11px;
         color: #FFFFFF;
         text-decoration: none;
         text-transform: uppercase;
@@ -74,7 +78,10 @@ aside {
     height: auto;
     padding: 15px; }
     aside .styleboardDesc p {
-      margin: 10px 0; }
+      margin: 10px 0;
+      font-family: 'futura_std_book',Arial,Helvetica,sans-serif;
+      font-size: 12px;
+      color: #58595b; }
   aside h2 {
     width: 98%;
     font-weight: bold;
