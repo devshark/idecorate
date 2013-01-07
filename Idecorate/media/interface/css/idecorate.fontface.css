@@ -30,24 +30,36 @@
     font-family: "futura_std_book";
     font-style: normal;
     font-weight: normal;
-    src: url("/media/interface/css/fonts/FuturaStd-Book.eot?#iefix") format("embedded-opentype"), 
-    url("/media/interface/css/fonts/FuturaStd-Book.ttf") format("truetype"), 
+    src:url('/media/interface/css/fonts/FuturaStd-Book.eot');
+    src: local('futura std book'), local('futura_std_book'),
+    url("/media/interface/css/fonts/FuturaStd-Book.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/FuturaStd-Book.otf") format("opentype"), 
+    url("/media/interface/css/fonts/FuturaStd-Book.ttf") format("truetype"),  
+    url("/media/interface/css/fonts/FuturaStd-Book.woff") format("woff"), 
     url("/media/interface/css/fonts/FuturaStd-Book.svg#futura_std_bookregular") format("svg");
 }
 @font-face {
     font-family: "futura_std_medium";
     font-style: normal;
     font-weight: normal;
-    src: url("/media/interface/css/fonts/FuturaStd-Medium.eot?#iefix") format("embedded-opentype"), 
+    src:url('/media/interface/css/fonts/FuturaStd-Medium.eot');
+    src: local('futura std medium'), local('futura_std_medium'), 
+    url("/media/interface/css/fonts/FuturaStd-Medium.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/FuturaStd-Medium.otf") format("opentype"), 
     url("/media/interface/css/fonts/FuturaStd-Medium.ttf") format("truetype"), 
+    url("/media/interface/css/fonts/FuturaStd-Medium.woff") format("woff"), 
     url("/media/interface/css/fonts/FuturaStd-Medium.svg#futura_std_lightregular") format("svg");
 }
 @font-face {
     font-family: "futura_std_heavy";
     font-style: normal;
     font-weight: normal;
-    src: url("/media/interface/css/fonts/FuturaStd-Heavy.eot?#iefix") format("embedded-opentype"), 
-    url("/media/interface/css/fonts/FuturaStd-Heavy.ttf") format("truetype"), 
+    src:url('/media/interface/css/fonts/FuturaStd-Heavy.eot');
+    src: local('futura std heavy'), local('futura_std_heavy'),
+    url("/media/interface/css/fonts/FuturaStd-Heavy.eot?#iefix") format("embedded-opentype"), 
+    url("/media/interface/css/fonts/FuturaStd-Heavy.otf") format("opentype"),  
+    url("/media/interface/css/fonts/FuturaStd-Heavy.ttf") format("truetype"),  
+    url("/media/interface/css/fonts/FuturaStd-Heavy.woff") format("woff"), 
     url("/media/interface/css/fonts/FuturaStd-Heavy.svg#futura_std_lightregular") format("svg");
 }
 
