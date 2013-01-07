@@ -370,9 +370,15 @@
         margin: 0 12px 0 0;
     }
 
-    .delivery .checkbox {
-    	border: none !important;
-    }
+    .delivery{
+
+            font-size: 11px;
+			font-family: futura_std_book;
+
+    	.checkbox {
+	    	border: none !important;
+	    }
+    } 
 }
 
 div.leftPannel, div.rightPannel {
@@ -434,9 +440,15 @@ div.leftPannel, div.rightPannel {
         }
     }
 
-    .deliveryDate  input {
-		margin-bottom: 15px;
-	}
+    .deliveryDate{
+    	p{
+	        font-size: 13px;
+			font-family: futura_std_book;
+    	}
+    	input {
+			margin-bottom: 15px;
+		}
+	} 
 
 	// .request {
 	// 	margin-left: 16px;

@@ -262,8 +262,11 @@
       font-family: futura_std_book; }
   .information .personal {
     margin: 0 12px 0 0; }
-  .information .delivery .checkbox {
-    border: none !important; }
+  .information .delivery {
+    font-size: 11px;
+    font-family: futura_std_book; }
+    .information .delivery .checkbox {
+      border: none !important; }
 
 div.leftPannel, div.rightPannel {
   width: 450px;
@@ -302,6 +305,9 @@ div.leftPannel, div.rightPannel {
       font-family: futura_std_book; }
       div.leftPannel .deliveryDate p a, div.leftPannel .question p a, div.leftPannel .paymentMethod p a, div.leftPannel .paymentMethod2 p a, div.leftPannel .request p a, div.rightPannel .deliveryDate p a, div.rightPannel .question p a, div.rightPannel .paymentMethod p a, div.rightPannel .paymentMethod2 p a, div.rightPannel .request p a {
         color: #d89b96; }
+  div.leftPannel .deliveryDate p, div.rightPannel .deliveryDate p {
+    font-size: 13px;
+    font-family: futura_std_book; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
 
