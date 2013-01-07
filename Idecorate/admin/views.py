@@ -1002,6 +1002,11 @@ def admin_upload_embellishment(request):
     		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryName, thumbName))
 
     		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+
+    		if img.size[0] > settings.EMBELLISHMENT_MAX_WIDTH_HEIGHT or img.size[1] > settings.EMBELLISHMENT_MAX_WIDTH_HEIGHT:
+    			#resize the image
+				img.thumbnail((settings.EMBELLISHMENT_MAX_WIDTH_HEIGHT, settings.EMBELLISHMENT_MAX_WIDTH_HEIGHT), Image.ANTIALIAS)
+
 	    	img.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryName, form.cleaned_data['embellishment_image']))
 
 	    	embellishmentType = EmbellishmentsType.objects.get(id=int(form.cleaned_data['embellishment_type']))
@@ -1362,6 +1367,11 @@ def admin_edit_embellishment(request, e_id):
 	    		bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, thumbName))
 
 	    		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/temp/", form.cleaned_data['embellishment_image']))
+		    	
+	    		if img.size[0] > settings.EMBELLISHMENT_MAX_WIDTH_HEIGHT or img.size[1] > settings.EMBELLISHMENT_MAX_WIDTH_HEIGHT:
+	    			#resize the image
+					img.thumbnail((settings.EMBELLISHMENT_MAX_WIDTH_HEIGHT, settings.EMBELLISHMENT_MAX_WIDTH_HEIGHT), Image.ANTIALIAS)
+
 		    	img.save("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directoryNew, form.cleaned_data['embellishment_image']))
 
 		    	#REMOVE FILES

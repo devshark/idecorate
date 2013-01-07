@@ -523,58 +523,69 @@ def generate_text(request):
 	font_thumbnail = request.GET.get('font_thumbnail','0')
 	font_id = request.GET.get('font_id','')
 
-	fontObj = TextFonts.objects.get(id=int(font_id))
+	try:
+		fontObj = TextFonts.objects.get(id=int(font_id))
 
-	font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
-	#load font with size
-	font = ImageFont.truetype("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font), int(font_size))
-	
-	image_text = image_text.replace("\r", "")
+		font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+		#load font with size
+		font = ImageFont.truetype("%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font), int(font_size))
+		
+		image_text = image_text.replace("\r", "")
 
-	splittedTexts = image_text.split("\n")
-	totalHeight = 0
-	upperWidth = 0
-	heightList = [0]
+		splittedTexts = image_text.split("\n")
+		totalHeight = 0
+		upperWidth = 0
+		heightList = [0]
 
 
-	#compute the final width and height first
-	for splittedText in splittedTexts:
-		textSize = font.getsize(splittedText)
-		totalHeight += textSize[1]
-		heightList.append(totalHeight)
+		#compute the final width and height first
+		for splittedText in splittedTexts:
+			textSize = font.getsize(splittedText)
+			totalHeight += textSize[1]
+			heightList.append(totalHeight)
 
-		if upperWidth == 0:
-			upperWidth = textSize[0]
-		else:
-			if textSize[0] > upperWidth:
+			if upperWidth == 0:
 				upperWidth = textSize[0]
+			else:
+				if textSize[0] > upperWidth:
+					upperWidth = textSize[0]
 
-	#image with background transparent
-	img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
+		#image with background transparent
+		img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
 
-	#create draw object	
-	draw = ImageDraw.Draw(img)
+		#create draw object	
+		draw = ImageDraw.Draw(img)
 
-	#draw the text
-	ctr = 0
+		#draw the text
+		ctr = 0
 
-	for splittedText in splittedTexts:
-		#draw text
-		draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
-		ctr += 1
+		for splittedText in splittedTexts:
+			#draw text
+			draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+			ctr += 1
 
-	if font_thumbnail == "0":
-		#not thumbnail
-		response = HttpResponse(mimetype="image/png")
-		img.save(response, "PNG")
-	else:
-		#create thumbnail 
-		img.thumbnail((int(font_size),int(font_size)),Image.ANTIALIAS)
-		bgImg = Image.new('RGBA', (int(font_size),int(font_size)), (255, 255, 255, 0))
-		bgImg.paste(img,((int(font_size) - img.size[0]) / 2, (int(font_size) - img.size[1]) / 2))
+		if font_thumbnail == "0":
+			#not thumbnail
+			response = HttpResponse(mimetype="image/png")
+			img.save(response, "PNG")
+		else:
+			#create thumbnail 
+			img.thumbnail((int(font_size),int(font_size)),Image.ANTIALIAS)
+			bgImg = Image.new('RGBA', (int(font_size),int(font_size)), (255, 255, 255, 0))
+			bgImg.paste(img,((int(font_size) - img.size[0]) / 2, (int(font_size) - img.size[1]) / 2))
 
-		response = HttpResponse(mimetype="image/jpg")
-		bgImg.save(response, "JPEG")
+			response = HttpResponse(mimetype="image/jpg")
+			bgImg.save(response, "JPEG")
+	except:
+		img = Image.open("%s%s" % (settings.MEDIA_ROOT, "images/error_logo.jpg")).convert("RGBA")
+		if font_thumbnail == "0":
+			response = HttpResponse(mimetype="image/png")
+			img.save(response, "PNG")
+		else:
+			response = HttpResponse(mimetype="image/jpg")
+			img.thumbnail((settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT), Image.ANTIALIAS)
+			img.save(response, "JPEG")
+
 
 	return response
 
@@ -585,48 +596,59 @@ def generate_embellishment(request):
 	embellishment_thumbnail = request.GET.get('embellishment_thumbnail','0')
 	embellishment_size = request.GET.get('embellishment_size','')
 
-	embellishment_color = (int(embellishment_color[0:3]), int(embellishment_color[3:6]), int(embellishment_color[6:9]))
+	response = HttpResponse(mimetype="image/png")
 
 	directory = ""
 	retImage = None
 
-	embObj = Embellishments.objects.get(id=int(embellishment_id))
+	try:
 
-	if embObj.e_type.id == 1:
-		directory = "images"
-	elif embObj.e_type.id == 2:
-		directory = "textures"
-	elif embObj.e_type.id == 3:
-		directory = "patterns"
-	elif embObj.e_type.id == 4:
-		directory = "shapes"
-	elif embObj.e_type.id == 5:
-		directory = "borders"
+		embellishment_color = (int(embellishment_color[0:3]), int(embellishment_color[3:6]), int(embellishment_color[6:9]))
 
-	img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)).convert("RGBA")
-	newImg = Image.new("RGBA", img.size, embellishment_color)
-	r, g, b, alpha = img.split()
+		embObj = Embellishments.objects.get(id=int(embellishment_id))
 
-	response = HttpResponse(mimetype="image/png")
+		if embObj.e_type.id == 1:
+			directory = "images"
+		elif embObj.e_type.id == 2:
+			directory = "textures"
+		elif embObj.e_type.id == 3:
+			directory = "patterns"
+		elif embObj.e_type.id == 4:
+			directory = "shapes"
+		elif embObj.e_type.id == 5:
+			directory = "borders"
 
-	if embObj.e_type.id == 1 or embObj.e_type.id == 5:
-		retImage = img
-	elif embObj.e_type.id == 3:
-		newImg.paste(img, mask=b)
-		retImage = newImg
-	elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
-		img.paste(newImg, mask=alpha)
-		retImage = img 
+		img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)).convert("RGBA")
+		newImg = Image.new("RGBA", img.size, embellishment_color)
+		r, g, b, alpha = img.split()
 
-	if embellishment_thumbnail == "0":
-		#not thumbnail
-		retImage.save(response, "PNG")
-	else:
-		#return thumbnail
-		retImage.thumbnail((int(embellishment_size),int(embellishment_size)),Image.ANTIALIAS)
-		bgImg = Image.new('RGBA', (int(embellishment_size),int(embellishment_size)), (255, 255, 255, 0))
-		bgImg.paste(retImage,((int(embellishment_size) - retImage.size[0]) / 2, (int(embellishment_size) - retImage.size[1]) / 2))
-		bgImg.save(response, "PNG")
+		if embObj.e_type.id == 1 or embObj.e_type.id == 5:
+			retImage = img
+		elif embObj.e_type.id == 3:
+			newImg.paste(img, mask=b)
+			retImage = newImg
+		elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
+			img.paste(newImg, mask=alpha)
+			retImage = img 
+
+		if embellishment_thumbnail == "0":
+			#not thumbnail
+			retImage.save(response, "PNG")
+		else:
+			#return thumbnail
+			retImage.thumbnail((int(embellishment_size),int(embellishment_size)),Image.ANTIALIAS)
+			bgImg = Image.new('RGBA', (int(embellishment_size),int(embellishment_size)), (255, 255, 255, 0))
+			bgImg.paste(retImage,((int(embellishment_size) - retImage.size[0]) / 2, (int(embellishment_size) - retImage.size[1]) / 2))
+			bgImg.save(response, "PNG")
+
+	except:
+		img = Image.open("%s%s" % (settings.MEDIA_ROOT, "images/error_logo.jpg")).convert("RGBA")
+		if embellishment_thumbnail == "0":
+		
+			img.save(response, "PNG")
+		else:
+			img.thumbnail((settings.EMBELLISHMENT_THUMBNAIL_WIDTH, settings.EMBELLISHMENT_THUMBNAIL_HEIGHT), Image.ANTIALIAS)
+			img.save(response, "PNG")
 
 	return response
 
