@@ -28,7 +28,7 @@
 .checkout {
   background: #FFFFFF;
   padding: 10px; }
-  .checkout input {
+  .checkout input[type="text"] {
     border: 1px solid #CCC;
     padding: 5px;
     -moz-border-radius: 3px;
