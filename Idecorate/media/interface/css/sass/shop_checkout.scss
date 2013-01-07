@@ -9,6 +9,13 @@
 		margin-bottom: 15px;
 	}
 
+	input[type="text"]{
+		font-size: 11px;
+	}
+	select{
+		font-size: 11px;
+	}
+
 }
 
 .calendarWrapper {
@@ -18,8 +25,8 @@
 
 	img {
 		position: absolute;
-		top: 7px;
-		right: 17%;
+		top: 6px;
+		right: 27%;
 		cursor: pointer;
 	}
 
@@ -321,7 +328,7 @@
         legend{
             margin: 0 0 0 10px;
             padding: 0 5px;
-            font-size: 13px;
+            font-size: 14px;
 			font-family: futura_std_book;
         }
 
@@ -376,7 +383,7 @@ div.leftPannel, div.rightPannel {
         legend{
             margin: 0 0 0 10px;
             padding: 0 5px;
-            font-size: 13px;
+            font-size: 14px;
 			font-family: futura_std_book;
         }
 
@@ -450,10 +457,12 @@ div.leftPannel, div.rightPannel {
 
         input[type="text"] {
             width: 340px;
+            font-size: 11px;
         }
 
         select{
         	width: 352px;
+            font-size: 11px;
         }
     }
 

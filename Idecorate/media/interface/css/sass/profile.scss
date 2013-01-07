@@ -1,4 +1,8 @@
-section {
+#content {
+  margin-top: 20px; 
+}
+
+.profileWrap {
 	min-height: 300px;
 
 	h2 {
@@ -13,9 +17,9 @@ section {
 		padding: 10px;
 		height: auto;
 		background: #F0EBE5;
-		-webkit-box-shadow: 5px 5px 5px #CCC;
-		box-shadow: 5px 5px 5px #CCC;
-		-moz-box-shadow: 5px 5px 5px #CCC;
+		// -webkit-box-shadow: 5px 5px 5px #CCC;
+		// box-shadow: 5px 5px 5px #CCC;
+		// -moz-box-shadow: 5px 5px 5px #CCC;
 		width: 800px;
 		margin: 0 auto;
 		margin-bottom: 30px;
@@ -47,7 +51,7 @@ section {
 			text-align: justify;
 
 			.title {
-				font-family: 'futura_std_medium',Arial,Helvetica,sans-serif;
+				font-family: 'futura_std_medium';
 				font-size: 22px;
 				color: #000000;
 				/*font-weight: bold;*/
@@ -57,7 +61,7 @@ section {
 			}
 
 			.desc {
-				font-family: 'futura_std_book',Arial,Helvetica,sans-serif;
+				font-family: 'futura_std_book';
 				font-size: 12px;
 				color: #58595b;
 				text-align: justify;
@@ -79,15 +83,18 @@ section {
 	}
 
 	.featureContentWrap {
-		width: 450px;
+		background-color: #efebe4;
+		padding:12px;
 		float: left;
-		margin: 12px;
-		padding: 10px;
-		-webkit-box-shadow: 5px 5px 5px #CCC;
-		box-shadow: 5px 5px 5px #CCC;
-		-moz-box-shadow: 5px 5px 5px #CCC;
-		background: #F0EBE5;
-		position: relative;
+		margin: 0 0 12px 12px;
+		//width: 450px;
+		// margin: 12px;
+		// padding: 10px;
+		// -webkit-box-shadow: 5px 5px 5px #CCC;
+		// box-shadow: 5px 5px 5px #CCC;
+		// -moz-box-shadow: 5px 5px 5px #CCC;
+		//background: #F0EBE5;
+		//position: relative;
 
 		.featureImg {
 			width: 450px;
@@ -95,8 +102,8 @@ section {
 			background: #ffffff;
 
 			img {
-				width: 450px;
-				height: 285px;
+				width: 100%;
+				height: 100%;
 			}
 
 		}
@@ -107,6 +114,7 @@ section {
 			padding: 10px 5px;
 			background: #f1ccc6;
 			text-transform: uppercase;
+			font-family: 'futura_std_medium';
 		}
 
 		.featureDesc {
@@ -116,6 +124,7 @@ section {
 			line-height: 1.4;
 			float: left;
 			text-align: justify;
+			font-family: 'futura_std_book';
 		}
 
 		.featurePrice {
@@ -124,6 +133,7 @@ section {
 			padding: 10px 0;
 			float: left;
 			text-align: right;
+			font-family: 'futura_std_heavy';
 
 			h5 {
 				font-weight: bold;
@@ -131,6 +141,7 @@ section {
 				color: #000000;
 				text-align: center;
 				display: block;
+				font-family: 'futura_std_book';
 			}
 
 			p {
@@ -145,6 +156,7 @@ section {
 			    -webkit-border-radius: 4px;
 			    border-radius: 4px;
 			    -khtml-border-radius: 4px;
+				font-family: 'futura_std_book';
 			}
 
 		}
@@ -174,4 +186,7 @@ section {
 
 	}
 
+	.featureContentWrap:nth-child(odd) {
+		margin-left: 0;
+	}
 }

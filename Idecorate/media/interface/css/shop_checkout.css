@@ -6,6 +6,10 @@
     font-size: 22px;
     color: #000000;
     margin-bottom: 15px; }
+  #content input[type="text"] {
+    font-size: 11px; }
+  #content select {
+    font-size: 11px; }
 
 .calendarWrapper {
   width: 220px;
@@ -13,8 +17,8 @@
   position: relative; }
   .calendarWrapper img {
     position: absolute;
-    top: 7px;
-    right: 17%;
+    top: 6px;
+    right: 27%;
     cursor: pointer; }
 
 .checkoutWrap {
@@ -234,7 +238,7 @@
     .information fieldset legend {
       margin: 0 0 0 10px;
       padding: 0 5px;
-      font-size: 13px;
+      font-size: 14px;
       font-family: futura_std_book; }
     .information fieldset div {
       margin-bottom: 10px; }
@@ -269,7 +273,7 @@ div.leftPannel, div.rightPannel {
     div.leftPannel .deliveryDate legend, div.leftPannel .question legend, div.leftPannel .paymentMethod legend, div.leftPannel .paymentMethod2 legend, div.leftPannel .request legend, div.rightPannel .deliveryDate legend, div.rightPannel .question legend, div.rightPannel .paymentMethod legend, div.rightPannel .paymentMethod2 legend, div.rightPannel .request legend {
       margin: 0 0 0 10px;
       padding: 0 5px;
-      font-size: 13px;
+      font-size: 14px;
       font-family: futura_std_book; }
     div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.leftPannel .request ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul, div.rightPannel .request ul {
       margin-top: 10px;
@@ -300,9 +304,11 @@ div.leftPannel, div.rightPannel {
     padding-top: 10px;
     float: left; }
   .rightPannel div input[type="text"] {
-    width: 340px; }
+    width: 340px;
+    font-size: 11px; }
   .rightPannel div select {
-    width: 352px; }
+    width: 352px;
+    font-size: 11px; }
 .rightPannel .paymentMethod2 input[type="radio"] {
   float: left;
   margin-top: 5px;

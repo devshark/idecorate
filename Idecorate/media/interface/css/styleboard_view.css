@@ -6,7 +6,7 @@ aside {
   width: 31%; }
   aside h1 {
     width: 98%;
-    font-family: 'futura_std_medium',Arial,Helvetica,sans-serif;
+    font-family: 'futura_std_medium';
     font-size: 22px;
     /*font-weight: bold;*/
     margin-top: 25px;
@@ -35,10 +35,10 @@ aside {
       aside .memberName table .personalize {
         width: auto;
         height: auto;
-        padding: 3px 5px;
+        padding: 7px 5px 5px;
         margin: 5px 0 0 0;
         *margin: 5px 0 0 65px;
-        font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
+        font-family: 'futura_std_heavy';
         font-size: 11px;
         color: #FFFFFF;
         text-decoration: none;
@@ -79,7 +79,7 @@ aside {
     padding: 15px; }
     aside .styleboardDesc p {
       margin: 10px 0;
-      font-family: 'futura_std_book',Arial,Helvetica,sans-serif;
+      font-family: 'futura_std_book';
       font-size: 12px;
       color: #58595b; }
   aside h2 {
@@ -104,9 +104,10 @@ aside {
           margin: 5px 0;
           text-align: left; }
   aside form .total {
-    width: 99%%%%;
+    width: 99%;
     text-align: right; }
   aside form .buyItem {
+    font-family: 'futura_std_heavy';
     margin: 10px 0;
     padding: 5px;
     cursor: pointer;
@@ -130,11 +131,11 @@ aside {
     /* for firefox 3.6+ */ }
 
 section {
-  width: 68%;
+  width: 60%;
   height: auto;
   margin-left: 10px; }
   section .canvass {
-    width: 680px;
+    width: 576px;
     height: 500px;
     background: #ffffff; }
   section .socialMediaWrapper {
@@ -170,3 +171,7 @@ section {
     border-bottom: 1px solid; }
   section .commentsBlock {
     min-height: 350px; }
+
+#lnk-profile {
+  font-family: 'futura_std_heavy';
+  color: #000; }

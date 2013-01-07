@@ -1,32 +1,32 @@
-section {
+#content {
+  margin-top: 20px; }
+
+.profileWrap {
   min-height: 300px; }
-  section h2 {
+  .profileWrap h2 {
     width: 100%;
     border-bottom: 1px solid;
     padding-bottom: 15px;
     margin-bottom: 15px;
     text-transform: uppercase; }
-  section .user-profile {
+  .profileWrap .user-profile {
     padding: 10px;
     height: auto;
     background: #F0EBE5;
-    -webkit-box-shadow: 5px 5px 5px #CCC;
-    box-shadow: 5px 5px 5px #CCC;
-    -moz-box-shadow: 5px 5px 5px #CCC;
     width: 800px;
     margin: 0 auto;
     margin-bottom: 30px; }
-    section .user-profile .picture-wrap, section .user-profile .description-wrap {
+    .profileWrap .user-profile .picture-wrap, .profileWrap .user-profile .description-wrap {
       display: inline-block;
       *display: inline;
       zoom: 1; }
-    section .user-profile .picture-wrap {
+    .profileWrap .user-profile .picture-wrap {
       width: 150px; }
-      section .user-profile .picture-wrap img {
+      .profileWrap .user-profile .picture-wrap img {
         width: 148px;
         height: 148px;
         border: 1px solid #ccc; }
-    section .user-profile .description-wrap {
+    .profileWrap .user-profile .description-wrap {
       width: 630px;
       margin: 10px;
       margin-right: 0;
@@ -34,69 +34,68 @@ section {
       font-size: 1.2em;
       line-height: 1.1;
       text-align: justify; }
-      section .user-profile .description-wrap .title {
-        font-family: 'futura_std_medium',Arial,Helvetica,sans-serif;
+      .profileWrap .user-profile .description-wrap .title {
+        font-family: 'futura_std_medium';
         font-size: 22px;
         color: #000000;
         /*font-weight: bold;*/
         margin-bottom: 10px;
         text-align: justify;
         text-transform: uppercase; }
-      section .user-profile .description-wrap .desc {
-        font-family: 'futura_std_book',Arial,Helvetica,sans-serif;
+      .profileWrap .user-profile .description-wrap .desc {
+        font-family: 'futura_std_book';
         font-size: 12px;
         color: #58595b;
         text-align: justify; }
-  section .no-image {
+  .profileWrap .no-image {
     width: 150px;
     height: 150px;
     border: 1px solid #ccc;
     background: #fff; }
-  section .create-wrap {
+  .profileWrap .create-wrap {
     margin-bottom: 20px; }
-  section .featureContentWrap {
-    width: 450px;
+  .profileWrap .featureContentWrap {
+    background-color: #efebe4;
+    padding: 12px;
     float: left;
-    margin: 12px;
-    padding: 10px;
-    -webkit-box-shadow: 5px 5px 5px #CCC;
-    box-shadow: 5px 5px 5px #CCC;
-    -moz-box-shadow: 5px 5px 5px #CCC;
-    background: #F0EBE5;
-    position: relative; }
-    section .featureContentWrap .featureImg {
+    margin: 0 0 12px 12px; }
+    .profileWrap .featureContentWrap .featureImg {
       width: 450px;
       height: 285px;
       background: #ffffff; }
-      section .featureContentWrap .featureImg img {
-        width: 450px;
-        height: 285px; }
-    section .featureContentWrap h3 {
+      .profileWrap .featureContentWrap .featureImg img {
+        width: 100%;
+        height: 100%; }
+    .profileWrap .featureContentWrap h3 {
       width: 440px;
       margin: 5px 0;
       padding: 10px 5px;
       background: #f1ccc6;
-      text-transform: uppercase; }
-    section .featureContentWrap .featureDesc {
+      text-transform: uppercase;
+      font-family: 'futura_std_medium'; }
+    .profileWrap .featureContentWrap .featureDesc {
       width: 330px;
       height: auto;
       padding: 10px 10px 10px 0;
       line-height: 1.4;
       float: left;
-      text-align: justify; }
-    section .featureContentWrap .featurePrice {
+      text-align: justify;
+      font-family: 'futura_std_book'; }
+    .profileWrap .featureContentWrap .featurePrice {
       width: 105px;
       height: auto;
       padding: 10px 0;
       float: left;
-      text-align: right; }
-      section .featureContentWrap .featurePrice h5 {
+      text-align: right;
+      font-family: 'futura_std_heavy'; }
+      .profileWrap .featureContentWrap .featurePrice h5 {
         font-weight: bold;
         font-size: 1em;
         color: #000000;
         text-align: center;
-        display: block; }
-      section .featureContentWrap .featurePrice p {
+        display: block;
+        font-family: 'futura_std_book'; }
+      .profileWrap .featureContentWrap .featurePrice p {
         width: auto;
         padding: 5px 0;
         margin-top: 5px;
@@ -107,17 +106,20 @@ section {
         -moz-border-radius: 4px;
         -webkit-border-radius: 4px;
         border-radius: 4px;
-        -khtml-border-radius: 4px; }
-    section .featureContentWrap .featureFooter {
+        -khtml-border-radius: 4px;
+        font-family: 'futura_std_book'; }
+    .profileWrap .featureContentWrap .featureFooter {
       width: 440px;
       margin: 5px 0 0 0;
       padding: 3px 5px;
       background: #e7e0da; }
-      section .featureContentWrap .featureFooter img {
+      .profileWrap .featureContentWrap .featureFooter img {
         margin-left: 5px;
         float: left; }
-      section .featureContentWrap .featureFooter span {
+      .profileWrap .featureContentWrap .featureFooter span {
         display: block;
         float: left; }
-        section .featureContentWrap .featureFooter span p {
+        .profileWrap .featureContentWrap .featureFooter span p {
           padding: 5px 0 0 5px; }
+  .profileWrap .featureContentWrap:nth-child(odd) {
+    margin-left: 0; }

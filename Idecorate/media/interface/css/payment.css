@@ -21,7 +21,7 @@
     .payment fieldset legend {
       margin: 0 0 0 10px;
       padding: 0 5px;
-      font-size: 13px;
+      font-size: 14px;
       font-family: futura_std_book; }
     .payment fieldset .errorWrapper {
       width: 95%;
@@ -83,7 +83,8 @@
           -moz-border-radius: 3px;
           -webkit-border-radius: 3px;
           border-radius: 3px;
-          -khtml-border-radius: 3px; }
+          -khtml-border-radius: 3px;
+          font-size: 11px; }
         .payment fieldset .paymentDetails1 .inputWrapper input[type="text"] {
           width: 200px;
           border: 1px solid #CCC;
@@ -91,7 +92,8 @@
           -moz-border-radius: 3px;
           -webkit-border-radius: 3px;
           border-radius: 3px;
-          -khtml-border-radius: 3px; }
+          -khtml-border-radius: 3px;
+          font-size: 11px; }
       .payment fieldset .paymentDetails1 .submit {
         width: 380px;
         text-align: center; }
