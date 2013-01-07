@@ -9,7 +9,7 @@
   #content input[type="text"] {
     font-size: 11px; }
   #content select {
-    font-size: 11px; }
+    font-size: 13px; }
 
 .calendarWrapper {
   width: 220px;
@@ -42,7 +42,8 @@
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     border-radius: 3px;
-    -khtml-border-radius: 3px; }
+    -khtml-border-radius: 3px;
+    font-size: 13px; }
   .checkout #edit_button {
     color: #FFFFFF;
     font-weight: bold;
@@ -193,6 +194,8 @@
   .loginDetails input {
     width: 250px;
     margin: 0 15px 0 0; }
+  .loginDetails input[type="text"] {
+    font-size: 11px; }
   .loginDetails .submit {
     width: 80px;
     padding: 5px 0 3px;
@@ -247,11 +250,13 @@
         width: 70px;
         height: auto;
         padding-top: 10px;
+        font-size: 13px;
         float: left; }
       .information fieldset div input {
         width: 340px; }
       .information fieldset div select {
-        width: 352px; }
+        width: 352px;
+        font-size: 13px; }
     .information fieldset p {
       font-size: 13px;
       font-family: futura_std_book; }
@@ -264,6 +269,8 @@ div.leftPannel, div.rightPannel {
   width: 450px;
   height: auto;
   float: left; }
+  div.leftPannel fieldset, div.rightPannel fieldset {
+    margin-bottom: 12px; }
   div.leftPannel .deliveryDate, div.leftPannel .question, div.leftPannel .paymentMethod, div.leftPannel .paymentMethod2, div.leftPannel .request, div.rightPannel .deliveryDate, div.rightPannel .question, div.rightPannel .paymentMethod, div.rightPannel .paymentMethod2, div.rightPannel .request {
     display: block;
     width: 430px;
@@ -280,7 +287,8 @@ div.leftPannel, div.rightPannel {
       list-style-position: inside; }
       div.leftPannel .deliveryDate ul li, div.leftPannel .question ul li, div.leftPannel .paymentMethod ul li, div.leftPannel .paymentMethod2 ul li, div.leftPannel .request ul li, div.rightPannel .deliveryDate ul li, div.rightPannel .question ul li, div.rightPannel .paymentMethod ul li, div.rightPannel .paymentMethod2 ul li, div.rightPannel .request ul li {
         list-style-type: disc;
-        margin: 0 0 10px 10px; }
+        margin: 0 0 10px 10px;
+        font-size: 11px; }
         div.leftPannel .deliveryDate ul li a, div.leftPannel .question ul li a, div.leftPannel .paymentMethod ul li a, div.leftPannel .paymentMethod2 ul li a, div.leftPannel .request ul li a, div.rightPannel .deliveryDate ul li a, div.rightPannel .question ul li a, div.rightPannel .paymentMethod ul li a, div.rightPannel .paymentMethod2 ul li a, div.rightPannel .request ul li a {
           color: #d89b96; }
     div.leftPannel .deliveryDate ol, div.leftPannel .question ol, div.leftPannel .paymentMethod ol, div.leftPannel .paymentMethod2 ol, div.leftPannel .request ol, div.rightPannel .deliveryDate ol, div.rightPannel .question ol, div.rightPannel .paymentMethod ol, div.rightPannel .paymentMethod2 ol, div.rightPannel .request ol {
@@ -290,8 +298,10 @@ div.leftPannel, div.rightPannel {
         list-style-type: decimal;
         margin: 0 0 10px 45px; }
     div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.leftPannel .request p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p, div.rightPannel .request p {
-      font-size: 13px;
+      font-size: 11px;
       font-family: futura_std_book; }
+      div.leftPannel .deliveryDate p a, div.leftPannel .question p a, div.leftPannel .paymentMethod p a, div.leftPannel .paymentMethod2 p a, div.leftPannel .request p a, div.rightPannel .deliveryDate p a, div.rightPannel .question p a, div.rightPannel .paymentMethod p a, div.rightPannel .paymentMethod2 p a, div.rightPannel .request p a {
+        color: #d89b96; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
 
@@ -302,7 +312,8 @@ div.leftPannel, div.rightPannel {
     width: 70px;
     height: auto;
     padding-top: 10px;
-    float: left; }
+    float: left;
+    font-size: 13px; }
   .rightPannel div input[type="text"] {
     width: 340px;
     font-size: 11px; }

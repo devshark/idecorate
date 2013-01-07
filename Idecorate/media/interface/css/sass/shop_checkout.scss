@@ -13,7 +13,7 @@
 		font-size: 11px;
 	}
 	select{
-		font-size: 11px;
+		font-size: 13px;
 	}
 
 }
@@ -58,6 +58,7 @@
 	  -webkit-border-radius: 3px;
 	  border-radius: 3px;
 	  -khtml-border-radius: 3px;
+		font-size: 13px;
 	}
 
 	#edit_button {
@@ -282,6 +283,10 @@
 		width: 250px;
 		margin: 0 15px 0 0;
 	}
+	
+	input[type="text"]{
+		font-size: 11px;
+	}
 
 	.submit {
 		width: 80px;
@@ -340,6 +345,7 @@
                 width: 70px;
                 height: auto;
                 padding-top: 10px;
+            	font-size: 13px;
                 float: left;
             }
 
@@ -349,6 +355,7 @@
 
             select{
             	width: 352px;
+            	font-size: 13px;
             }
         }
 
@@ -373,6 +380,10 @@ div.leftPannel, div.rightPannel {
 	height: auto;
 	float: left;
 
+	fieldset{
+		margin-bottom: 12px;
+	}
+
 	.deliveryDate, .question, .paymentMethod, .paymentMethod2, .request {
         display: block;
         width: 430px;
@@ -394,6 +405,7 @@ div.leftPannel, div.rightPannel {
             li{
                 list-style-type: disc;
                 margin: 0 0 10px 10px;
+            	font-size: 11px;
 
                 a {
                     color: #d89b96;
@@ -414,8 +426,11 @@ div.leftPannel, div.rightPannel {
         }
 
         p{
-            font-size: 13px;
+            font-size: 11px;
 			font-family: futura_std_book;
+			a {
+                color: #d89b96;
+            }
         }
     }
 
@@ -453,6 +468,7 @@ div.leftPannel, div.rightPannel {
             height: auto;
             padding-top: 10px;
             float: left;
+            font-size: 13px;
         }
 
         input[type="text"] {
