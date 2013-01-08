@@ -143,6 +143,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.flatpages',
     'admin',
     'interface',
     'category',
@@ -163,7 +164,6 @@ INSTALLED_APPS = (
     'social_auth',
     'embellishments',
     'common',
-    'django.contrib.flatpages',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -252,7 +252,7 @@ HOME_BANNER_HEIGHT = 285
 MAX_BANNER_SIZE = 2621440
 
 HOME_INFO_GRAPHICS_WIDTH = 960
-HOME_INFO_GRAPHICS_HEIGHT = 340
+HOME_INFO_GRAPHICS_HEIGHT = 470
 HOME_INFO_GRAPHICS_SIZE = 2621440
 
 

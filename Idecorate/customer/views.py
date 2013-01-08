@@ -31,6 +31,7 @@ from urllib import unquote
 from admin.services import getExtensionAndFileName
 from cart.services import generate_unique_id
 from embellishments.models import StyleboardTemplateItems
+from django.utils.html import strip_tags
 
 def login_signup(request):
 
@@ -158,7 +159,6 @@ def save_styleboard(request):
 					if int(personalize_styleboard.user.id) == int(request.user.id):
 						customer_styleboard = personalize_styleboard
 
-	print customer_styleboard
 	if customer_styleboard:
 		form = SaveStyleboardForm(initial={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description})
 	else:
@@ -170,6 +170,7 @@ def save_styleboard(request):
 			cleaned_datas['user'] = request.user
 			cleaned_datas['customer_styleboard'] = customer_styleboard
 			cleaned_datas['sessionid'] = request.session.get('cartsession',generate_unique_id())
+			cleaned_datas['description'] = strip_tags(cleaned_datas['description'])			
 			res = save_styleboard_item(cleaned_datas)
 			request.session['customer_styleboard'] = res
 			info['action'] = 'save_styleboard'

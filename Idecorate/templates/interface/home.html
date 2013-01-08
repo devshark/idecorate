@@ -8,11 +8,13 @@
 {% block content %}
 <div class="defaultContent clearfix">
 	<div class="banner clearfix">
+		<a href="{% url styleboard %}">
 		{% if infographic %}
 			<img src="/media/infographics/{{ infographic.image }}" alt="" />
 		{% else %}
 			<img src="/media/images/banner_default.jpg" />
 		{% endif %}
+		</a>
 	</div>
 </div>
 

@@ -1,30 +1,13 @@
 {% extends "base.html" %}
-{% block title %}iDecorate Weddings{% endblock %}
+{% block title %}iDecorate Weddings - About Us{% endblock %}
 {% block style %}
 <link rel="stylesheet" type="text/css" href="/media/interface/css/static.css">
 {% endblock %}
 {% block content %}
-<h3>About Us Page</h3>
+<h3>{{ flatPage.title }}</h3>
 <div class="staticWrap">
 	<div class="clearfix static">
-		<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus imperdiet laoreet velit, ut cursus felis tempus a. Morbi tempor lacinia nunc, sed adipiscing odio volutpat eget. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi id erat vitae neque mollis tempor sit amet eget purus. Suspendisse at lacus ipsum. In augue orci, imperdiet ac vulputate id, ornare in erat. Morbi in neque justo. Mauris volutpat dui sit amet arcu facilisis tempor. Etiam erat felis, posuere ac auctor vitae, condimentum lobortis justo.
-		</p>
-		<p>
-		Nam elementum, nisi et interdum malesuada, mauris sapien euismod nibh, vel elementum mi lacus quis dui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam lacinia arcu sit amet elit facilisis vel sollicitudin lectus laoreet. Ut sed purus malesuada odio posuere aliquet. Cras aliquet venenatis tortor, ac aliquam dui fermentum quis. Aliquam erat volutpat. Integer varius, purus ac varius luctus, augue mi venenatis leo, vitae tempus dolor lorem vitae mi. Praesent sit amet cursus massa. Praesent quis turpis et justo blandit ornare quis in diam. Praesent sapien arcu, consequat vel commodo tempor, adipiscing non dui. Duis egestas erat mi. Proin eu neque vel ligula ultricies malesuada et sit amet nisi. Vivamus vel tortor sit amet nisl fringilla rhoncus. Cras tempor ipsum nec dolor consequat non aliquet erat vestibulum. Aenean tincidunt risus eu tortor tincidunt feugiat.
-		</p>
-		<p>
-		Quisque sed aliquet ante. Donec nisl metus, ullamcorper vitae sodales eget, malesuada eu nisl. Fusce venenatis arcu a sem tristique nec elementum dolor placerat. Donec volutpat interdum nulla, nec suscipit neque interdum eget. Aliquam imperdiet felis in quam lacinia quis aliquet neque viverra. Etiam vel nisl leo. Nulla tellus risus, consectetur id bibendum sed, dictum ac sapien. Pellentesque justo erat, ultrices id lacinia vitae, fringilla feugiat mi. Nullam eget ligula sem, ac rutrum massa. Cras quis neque mi.
-		</p>
-		<p>
-		Nullam lorem sem, tincidunt fermentum pharetra eget, blandit a nunc. Nullam porttitor velit ac arcu porta eget convallis nisi tempor. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Curabitur vitae nisl sed sem mattis gravida in a enim. Maecenas dictum velit et nisl convallis consectetur. Nullam sit amet pretium nisl. Donec posuere, sem ac cursus tempus, neque ante pellentesque ligula, eget aliquet urna metus at justo. Donec sem arcu, pharetra ac scelerisque eget, euismod eget quam. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Proin lacinia laoreet nisl, quis ultrices felis feugiat sed. Integer at leo felis. Praesent scelerisque, tortor in placerat consectetur, quam odio fringilla ipsum, eget consectetur quam nisi in nibh. Curabitur eu sapien ut diam lobortis iaculis. Duis vestibulum justo risus, a luctus diam. Nunc mollis dignissim ligula at mattis. Curabitur sed vestibulum tortor.
-		</p>
-		<p>
-		Nam porttitor sollicitudin lorem, sed iaculis nibh rhoncus a. Aliquam vulputate laoreet lorem vel luctus. Cras ullamcorper tempus auctor. Nunc nec metus non sem iaculis venenatis. Nullam sit amet ipsum lacus, et placerat lacus. Nam id erat et felis consequat fermentum. Nam et magna lorem. Phasellus ante ligula, tincidunt eu accumsan at, sollicitudin a diam.
-		</p>
-		<div class="clearfix end">
-			<img src="/media/images/end.png" />
-		</div>
+		{{ flatPage.content|safe }}
 	</div>
 </div>
 {% endblock %}
