@@ -52,12 +52,15 @@
 		</ul>
 		<br />
 		<br />
+
+		{% if not user.is_authenticated %}
 		<h3>JOIN NOW</h3>
 		<ul>
 			<li><a href="#" class="loginTrigger">Login</a></li>
 			<li><a href="#" class="loginTrigger">Register</a></li>
 			<!-- <li><a href="#">Invite Friends</a></li> -->
 		</ul>
+		{% endif %}
 	</div>
 	{% if user.is_authenticated %}
 	<div>
