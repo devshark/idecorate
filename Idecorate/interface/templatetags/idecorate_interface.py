@@ -302,8 +302,8 @@ def set_last_page_idecorate(request):
         return ""
 
 def replace_space_rec(val):
-        if ' ' in val:
-                val = val.replace(' ','&nbsp;')
+        if '  ' in val:
+                val = val.replace('  ','&nbsp;&nbsp;')
                 if ' ' in val:
                         val =replace_space_rec(val)
         
