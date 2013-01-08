@@ -1,7 +1,7 @@
 .banner {
   float: left;
   width: 960px;
-  height: 340px;
+  height: 470px;
   margin: 20px 0 10px; }
   .banner img {
     width: 100%;
@@ -50,6 +50,26 @@
 section {
   height: 100%;
   background: #FFFFFF; }
+  section .featuredWrap {
+    text-align: center; }
+    section .featuredWrap .featuredLinks {
+      margin-top: 10px;
+      font-size: 0; }
+      section .featuredWrap .featuredLinks li {
+        display: inline-block;
+        border-right: 1px solid #CCCCCC;
+        border-left: 1px solid #FFFFFF;
+        white-space: nowrap;
+        padding: 3px 0 1px; }
+        section .featuredWrap .featuredLinks li a {
+          width: auto;
+          height: auto;
+          padding: 0 8px;
+          text-transform: uppercase;
+          text-decoration: none;
+          font-family: 'futura_std_medium';
+          color: #999999;
+          font-size: 12px; }
   section .wrapper1 {
     width: 100%;
     height: auto;

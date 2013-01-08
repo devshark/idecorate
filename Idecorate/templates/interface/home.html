@@ -24,6 +24,10 @@
 				<a href="{{ l.link }}">
 					<img src="/media/banners/{{ l.image }}" />
 				</a>
+				<ul class="featuredLinks">
+					<li><a class="shareModal" href="{{ l.id }}">Share</a></li>
+					<li><a href="/styleboard">Create &amp; Buy</a></li>
+				</ul>
 			</div>
 		{% endfor %}
 	</div>
@@ -36,6 +40,10 @@ $(function(){
 	if($(window).height() > $('#main-container').outerHeight()){
 		page_H();
 	}
+	$('.featuredLinks').each(function(i,val){
+		$('li:last', val).css({borderRight:'none'});
+		$('li:first',val).css({borderLeft:'none'});
+	});
 });
 
 function page_H(){

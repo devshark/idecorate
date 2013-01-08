@@ -5,7 +5,7 @@ $padding15:15px;
 .banner{
 	float: left;
 	width: 960px;
-	height: 340px;
+	height: 470px;
 	margin: 20px 0 10px;
 
 	img{
@@ -74,6 +74,32 @@ section{
 	height: 100%;
 	background: #FFFFFF;
 	//padding: 15px;
+
+	.featuredWrap{
+		text-align:center;
+		.featuredLinks{
+			margin-top: 10px;
+			font-size: 0;
+			li{
+				display: inline-block;
+				border-right:1px solid #CCCCCC;
+				border-left:1px solid #FFFFFF;
+				white-space: nowrap;
+				padding:3px 0 1px;
+				a{
+					width: auto;
+					height: auto;
+					padding: 0 8px;
+					text-transform: uppercase;
+					text-decoration: none;
+					font-family: 'futura_std_medium';
+					color: #999999;
+					font-size: 12px;
+				}
+
+			}
+		}
+	}
 
 	.wrapper1 {
 		width: 100%;
