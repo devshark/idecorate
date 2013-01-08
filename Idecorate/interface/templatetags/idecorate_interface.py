@@ -300,3 +300,15 @@ def set_last_page_idecorate(request):
         #print request.get_full_path()
 
         return ""
+
+def replace_space_rec(val):
+        if ' ' in val:
+                val = val.replace(' ','&nbsp;')
+                if ' ' in val:
+                        val =replace_space_rec(val)
+        
+        return val
+
+@register.filter
+def replace_space(val):
+        return mark_safe(replace_space_rec(val))
