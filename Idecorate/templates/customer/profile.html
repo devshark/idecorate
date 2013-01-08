@@ -95,6 +95,10 @@ $(function(){
 			$(val).prev().find('.featureTitle').height($(val).find('.featureTitle').height());
 		}
 	});
+	//for IE 7 and 8
+	$('.featureContentWrap:even').each(function(i,val){
+		$(val).css({'margin-left': 0});
+	});
 
 });
 /*

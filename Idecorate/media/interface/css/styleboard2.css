@@ -405,9 +405,11 @@ h5 {
               border: 1px solid #000;
               padding: 5px 5px 8px 5px; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap #upload-embel fieldset legend {
+                font-size: 14px;
                 margin: 0 10px;
+                padding: 0 5px;
                 color: #000;
-                font-family: "adobe_garamond_probold", Arial, Helvetica, sans-serif; }
+                font-family: 'futura_std_medium'; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em {
             display: block;
             float: left;
@@ -653,13 +655,14 @@ h5 {
         margin-top: 5px;
         margin-right: 5px;
         display: none;
-        *width: 294px; }
+        *width: 310px; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl {
           display: block;
           float: right\9;
           position: relative;
           padding: 0;
-          z-index: 99999; }
+          z-index: 99999;
+          *width: 310px; }
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li {
             display: block;
             float: left;
