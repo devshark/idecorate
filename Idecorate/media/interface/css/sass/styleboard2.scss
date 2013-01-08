@@ -543,9 +543,11 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										border: 1px solid #000;
 										padding: 5px 5px 8px 5px;
 										legend{
+											font-size: 14px;
 											margin: 0 10px;
+											padding:0 5px;
 											color: #000;
-											font-family: $timenewroman;
+											font-family: 'futura_std_medium';
 										}
 									}
 								}
@@ -919,7 +921,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						margin-top: 5px;
 						margin-right: 5px;
 						display: none;
-						*width:294px;
+						*width:310px;
 
 						.imgControlWrap {
 
@@ -929,6 +931,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								position: relative;
 								padding:0;
 								z-index: 99999;
+								*width:310px;
 
 								li{
 									display:block;
