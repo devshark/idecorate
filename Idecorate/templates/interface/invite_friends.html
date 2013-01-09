@@ -20,27 +20,15 @@
 	<div class="clearfix inviteFriends">
 		{% if user.is_authenticated %}
 		<ul class="friendList">
+			{% for fb_friend in fb_friends %}
 			<li>
 				<div class="fbData clearfix">
-					<span class="fbImg"><img src="" /></span>
-					<span class="fbName">ryan the pogi</span>
+					<span class="fbImg"><img src="{{ fb_friend.friend_image }}" alt="" /></span>
+					<span class="fbName">{{ fb_friend.friend_name }}</span>
 				</div>
-				<a class="inviteBtn" href="">Invite</a>
+				<a class="inviteBtn" href="#" onclick="inviteFriendsNow('{{ fb_friend.friend_id }}')">Invite</a>
 			</li>
-			<li>
-				<div class="fbData clearfix">
-					<span class="fbImg"><img src="" /></span>
-					<span class="fbName">ryan the pogi</span>
-				</div>
-				<a class="inviteBtn" href="">Invite</a>
-			</li>
-			<li>
-				<div class="fbData clearfix">
-					<span class="fbImg"><img src="" /></span>
-					<span class="fbName">ryan the pogi</span>
-				</div>
-				<a class="inviteBtn" href="">Invite</a>
-			</li>
+			{% endfor %}
 		</ul>
 		{% else %}
 		<div class="inviteLogoff">
@@ -76,6 +64,25 @@ function page_H(){
 	$("#content").height(newHeight);
 
 }
+
+
+	      FB.init({appId: "250262231769530", status: true, cookie: true});
+
+	      function inviteFriendsNow(to) {
+
+	        // calling the API ...
+	        var obj = {
+	          method: 'apprequests',
+	          to: to,
+	          message: 'We help you create a wedding style, choose products within your budget, we source & then deliver your décor. Our products & packages seek to make weddings more stylish, less stressful & more affordable. Now anyone online can afford a stylist.'
+	        };
+
+	        function invite_callback(response) {
+	          
+	        }
+
+	        FB.ui(obj, invite_callback);
+	      }
 
 </script>
 <!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
