@@ -27,7 +27,7 @@
 					<img src="/media/banners/{{ l.image }}" />
 				</a>
 				<ul class="featuredLinks">
-					<li><a class="shareModal" href="{{ l.id }}">Share</a></li>
+					<li><a class="shareModal" href="{{ l.link }}&/media/banners/{{ l.image }}">Share</a></li>
 					<li><a href="/styleboard">Create &amp; Buy</a></li>
 				</ul>
 			</div>
@@ -35,6 +35,9 @@
 	</div>
 	{% endfor %}
 </section>
+<div class="modal">
+
+</div>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
@@ -42,9 +45,17 @@ $(function(){
 	if($(window).height() > $('#main-container').outerHeight()){
 		page_H();
 	}
+	
 	$('.featuredLinks').each(function(i,val){
 		$('li:last', val).css({borderRight:'none'});
 		$('li:first',val).css({borderLeft:'none'});
+	});
+
+	$('.shareModal').each(function(i,val){
+		$(val).click(function(e){
+			e.preventDefault();
+			var param = $(this).attr('href').split('&');
+		});	
 	});
 });
 
