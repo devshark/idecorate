@@ -823,3 +823,8 @@ def checkout_login(request):
 		return redirect('plata_shop_checkout')
 	else:
 		return redirect('home')
+
+def invite_friends(request):
+	info = {}
+	
+	return render_to_response('interface/invite_friends.html', info,RequestContext(request))
