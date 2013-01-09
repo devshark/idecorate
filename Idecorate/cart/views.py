@@ -290,6 +290,8 @@ class IdecorateShop(Shop):
 
 		OrderForm = self.checkout_form(request, order)
 
+
+
 		orderform_kwargs = {
 			'prefix': 'order',
 			'instance': order,
@@ -299,7 +301,7 @@ class IdecorateShop(Shop):
 
 		if request.method == 'POST' and '_checkout' in request.POST:
 			orderform = OrderForm(request.POST, **orderform_kwargs)
-
+			#print request.POST
 			if orderform.is_valid():
 				orderform.save()
 				same_as_billing = request.POST.get('order-shipping_same_as_billing')
@@ -321,6 +323,12 @@ class IdecorateShop(Shop):
 				request.session['delivery_state'] = delivery_state
 				request.session['billing_state'] = billing_state
 				request.session['salutation'] = salutation
+
+				"""
+				added notes
+				"""
+				notes = request.POST.get('order-notes')
+				request.session['notes'] = notes
 				return redirect('plata_shop_discounts')
 		else:
 			orderform = OrderForm(**orderform_kwargs)
@@ -355,6 +363,13 @@ class IdecorateShop(Shop):
 		oPayment.data = simplejson.dumps(oData)
 		oPayment.save()
 
+		"""
+		order update note
+		"""
+		notes = request.session.get('notes','')
+		order.notes = notes
+		order.save()
+
 		clear_styleboard_session(request)
 
 		try:
@@ -365,6 +380,7 @@ class IdecorateShop(Shop):
 			del request.session['delivery_state']
 			del request.session['billing_state']
 			del request.session['salutation']
+			del request.session['notes']
 		except:
 			pass
 
@@ -438,7 +454,6 @@ def add_to_cart_ajax(request):
 
 def update_cart(request):
 	if request.method == "POST":
-		print request.POST
 		product_id = request.POST.get('prod_id')
 		quantity = request.POST.get('quantity',1)
 		guests = request.POST.get('guests', 1)
