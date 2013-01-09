@@ -57,6 +57,8 @@ section {
       font-size: 0; }
       section .featuredWrap .featuredLinks li {
         display: inline-block;
+        *display: inline;
+        zoom: 1;
         border-right: 1px solid #CCCCCC;
         border-left: 1px solid #FFFFFF;
         white-space: nowrap;

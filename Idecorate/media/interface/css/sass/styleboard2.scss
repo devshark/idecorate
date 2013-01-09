@@ -132,7 +132,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 	        	}
 
 				td#info-menu{
-					padding-left:5px;
+					padding-left:10px;
 		        	width: 810%/$doc_width*100;
 
 		        	.headerColumn{
@@ -140,7 +140,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 		        		.dd{
 		        			li{
-		        				border-left: 1px solid #FFFFFF;
+        						border-left: 1px solid #999999;
 		        			}
 		        		}
 		        	}
@@ -196,7 +196,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 				td#site-menu{
 		        	width: 810%/$doc_width*100;
-					padding-right:5px;
+					padding-right:10px;
 
 					.headerColumn{
 		        		float: right;
@@ -209,7 +209,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 						.dd{
 		        			li{
-		        				border-left: 1px solid #FFFFFF;
+        						border-left: 1px solid #999999 ;
 		        			}
 		        		}
 		        	}
