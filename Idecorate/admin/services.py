@@ -261,7 +261,7 @@ def manage_infographic(f, width, height, force=True):
 		if not force:
 			img.thumbnail((max_width, max_height), pil.ANTIALIAS)		
 		else:
-			img = ImageOps.fit(img, (max_width, max_height), method=pil.ANTIALIAS)
+			img = ImageOps.fit(img, (max_width, max_height), method=pil.BICUBIC)
 		newFileName = '%s%s' % ('temp_',newFileName)
 		new_path = "%s%s%s" % (settings.MEDIA_ROOT, "infographics/", newFileName)
 		try:

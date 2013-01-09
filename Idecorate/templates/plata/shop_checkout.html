@@ -11,6 +11,31 @@
 			right: 20%;
 		}
 	}*/
+	.checkout textarea {
+		border: 1px solid #CCC;
+		padding: 5px;
+		-moz-border-radius: 3px;
+		-webkit-border-radius: 3px;
+		border-radius: 3px;
+		-khtml-border-radius: 3px;
+		box-shadow: 0px 1px 5px #999 inset;
+		width: 418px;
+		height: 120px;
+	}
+	.specialRequests {
+		display: block;
+		width: 430px;
+		border: 1px solid #CCC;
+		padding: 10px;
+		display: block;
+	}
+	.specialRequests legend {
+		text-transform: uppercase;
+		font-size: 14px;
+		font-family: futura_std_book;
+		margin: 0 0 0 10px;
+		padding: 0 5px;
+	}
 </style>
 <!--[if lte IE 9]>
 	<style type="text/css">
@@ -195,7 +220,7 @@
 		                </div>
 		             	{{ "delivery_date_note"|get_checkout_page_info }}
 		        </fieldset>
-		        <fieldset class="specialRequests deliveryDate">
+		        <fieldset class="specialRequests">
 		        	<legend>{{ orderform.notes.label }}</legend>
 		        	{{ orderform.notes }}
 		        </fieldset>
@@ -290,8 +315,8 @@ QUESTION_ORIGINAL_SIZE = 0;
 		resizeUpperInfos();
 		resizeInfos();
 		hideBilling();
-
-		$('.question').height($('.specialRequests').height());
+		$('.specialRequests').height($('.deliveryDate').height());
+		$('.question').height($('.deliveryDate').height());
 		
 	});
 
@@ -325,7 +350,6 @@ QUESTION_ORIGINAL_SIZE = 0;
 			$('.personal').height(personalH);
 		}
 	}
-		
 	function resizeInfos() {
 
 		var deliveryDateH = $('.deliveryDate').height(),
@@ -336,8 +360,8 @@ QUESTION_ORIGINAL_SIZE = 0;
 
 		if($('input[name="order-shipping_same_as_billing"]:checked').val() == 'on') {
 			if(deliveryDateH > paymentMethodH2){
-				$('.deliveryDate').height(deliveryDateH);
-				$('.paymentMethod2').height(deliveryDateH);
+				$('.deliveryDate').height($('.specialRequests').height());
+				$('.paymentMethod2').height($('.specialRequests').height());
 			}else{
 				$('.deliveryDate').height(paymentMethodH2);
 				$('.paymentMethod2').height(paymentMethodH2);
@@ -356,13 +380,13 @@ QUESTION_ORIGINAL_SIZE = 0;
 				$('.paymentMethod').height(paymentMethodH);
 			}
 
-			if(questionH > paymentMethodH2){
-				$('.question').height(questionH);
-				$('.paymentMethod2').height(questionH);
-			}else{
-				$('.paymentMethod2').height(paymentMethodH2);
-				$('.question').height(paymentMethodH2);
-			}
+			// if(questionH > paymentMethodH2){
+			// 	$('.question').height(questionH);
+			// 	$('.paymentMethod2').height(questionH);
+			// }else{
+			// 	$('.paymentMethod2').height(paymentMethodH2);
+			// 	$('.question').height(paymentMethodH2);
+			// }
 		}
 	}
 
@@ -377,16 +401,16 @@ QUESTION_ORIGINAL_SIZE = 0;
 	}
 
 	function resizeQuestion() {
-		var questionH = $('.question').height();
-			requestH = $('.request').height();
+		// var questionH = $('.question').height();
+		// 	requestH = $('.request').height();
 
-			if(requestH > questionH) {
-				$('.question').height(requestH);
-				$('.request').height(requestH);
-			} else {
-				$('.question').height(questionH);
-				$('.request').height(questionH);
-			}
+		// 	if(requestH > questionH) {
+		// 		$('.question').height(requestH);
+		// 		$('.request').height(requestH);
+		// 	} else {
+		// 		$('.question').height(questionH);
+		// 		$('.request').height(questionH);
+		// 	}
 
 	}
 
