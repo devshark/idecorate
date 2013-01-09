@@ -253,6 +253,7 @@ def get_sub_total(price,quantity):
 @register.filter
 def linebreak(txt):
         return mark_safe(txt.replace("\n", '<br />'))
+        #return txt.replace("\n", '<br />')
 
 @register.filter
 def getEmbellishmentThumbnail(id):
@@ -286,9 +287,11 @@ def get_host(request):
 def truncateDescription(desc):
 
         if(len(desc) > 50):
-                return mark_safe("%s%s" % (desc[0:50], "..."))
+                #return mark_safe("%s%s" % (desc[0:50], "..."))
+                return "%s%s" % (desc[0:50], "...")
         else:
-                return mark_safe(desc)
+                #return mark_safe(desc)
+                return desc
 
 @register.filter
 def set_last_page_idecorate(request):
