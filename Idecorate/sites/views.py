@@ -6,7 +6,7 @@ def help(request):
 	flatPage = get_flatpage_details('Help')
 	info['flatPage'] = flatPage
 	info['user'] = request.user
-	return render_to_response('sites/help.html')
+	return render_to_response('sites/help.html', info)
 
 def about(request):
 	info = {}

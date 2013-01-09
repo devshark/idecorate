@@ -195,10 +195,9 @@
 		                </div>
 		             	{{ "delivery_date_note"|get_checkout_page_info }}
 		        </fieldset>
-		        <fieldset class="question">
-		            <legend>ANY QUESTIONS?</legend>
-					<br />
-		            <p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
+		        <fieldset class="specialRequests deliveryDate">
+		        	<legend>{{ orderform.notes.label }}</legend>
+		        	{{ orderform.notes }}
 		        </fieldset>
 			</div>
 			<div class="rightPannel">
@@ -242,7 +241,13 @@
 		                </div>
 		                {% endfor %}
 
-		        </fieldset><!--
+		        </fieldset>
+		        <fieldset class="question">
+		            <legend>ANY QUESTIONS?</legend>
+					<br />
+		            <p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
+		        </fieldset>
+		        <!--
 		        <fieldset class="request">
 		        	<legend>REQUESTS/COMMENTS</legend>
 		        	<textarea></textarea>
@@ -284,7 +289,9 @@ QUESTION_ORIGINAL_SIZE = 0;
 		});
 		resizeUpperInfos();
 		resizeInfos();
-		hideBilling();	
+		hideBilling();
+
+		$('.question').height($('.specialRequests').height());
 		
 	});
 
