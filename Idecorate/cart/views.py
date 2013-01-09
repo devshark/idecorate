@@ -80,6 +80,7 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         self.fields['billing_last_name'] = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
         self.fields['billing_first_name'] = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
         self.fields['payment_method'] = forms.ChoiceField(label=_("Payment Method"), choices=(('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
+        self.fields['notes'] = forms.CharField(label=_("Special Requests and Comments"), widget=forms.Textarea)
 
         shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
         
