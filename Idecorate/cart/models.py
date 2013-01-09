@@ -136,7 +136,6 @@ class Contact(models.Model):
     city = models.CharField(_('city'), max_length=100)
     shipping_same_as_billing = models.BooleanField(_('shipping address equals billing address'),default=True)
     currency = CurrencyField(help_text=_('Preferred currency.'))
-    notes = models.TextField(_('notes'), blank=True)
 
     def __unicode__(self):
         return unicode(self.user)
