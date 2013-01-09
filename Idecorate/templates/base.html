@@ -178,6 +178,8 @@
                 $('input[type="text"]').placeholder();
                 $('.loginTrigger').click(popup_login);
             });
+
+            //global functions
             function generate_user_nav(){
                 var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
                 '<li><a id="lnk-logout" href="#">Logout</a></li>' + 
@@ -185,7 +187,7 @@
                 $('#site-menu ul.dd').append(navs);
                 $('#lnk-logout').bind('click',logmeout);
                 $('#logged_as').bind('click',goto_profile);
-                $('#site-menu ul a#lnk-login-signup').bind('click',popup_login);
+                $('#site-menu ul a#lnk-login-signup ,#login-btn').bind('click',popup_login);
                 {% if user.is_authenticated %}
                 $('#lnk-login-signup').parent().hide();
                 {% else %}
@@ -231,18 +233,18 @@
                 $('#page-mask').css({display:'block'});
                 modal.css({display:'block',left:_left});
             }
-            $(function() {
-                   var zIndexNumber = 1000;
-                   // Put your target element(s) in the selector below!
-                   $("ul.dropdown li").each(function() {
-                           $(this).css('zIndex', zIndexNumber);
-                           zIndexNumber -= 10;
-                   });
-                   $("ul.dropdown2 li").each(function() {
-                           $(this).css('zIndex', zIndexNumber);
-                           zIndexNumber -= 10;
-                   });
-            });
+            // $(function() {
+            //        var zIndexNumber = 1000;
+            //        // Put your target element(s) in the selector below!
+            //        $("ul.dropdown li").each(function() {
+            //                $(this).css('zIndex', zIndexNumber);
+            //                zIndexNumber -= 10;
+            //        });
+            //        $("ul.dropdown2 li").each(function() {
+            //                $(this).css('zIndex', zIndexNumber);
+            //                zIndexNumber -= 10;
+            //        });
+            // });
             
         </script>
         <script type="text/javascript">
