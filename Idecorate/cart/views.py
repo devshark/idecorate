@@ -74,7 +74,7 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         self.fields['shipping_state'] = forms.ChoiceField(label=_("Shipping State"), choices=states, required=True,widget=forms.Select)
         self.fields['shipping_city'] = forms.ChoiceField(label=_("Shipping City"), choices=cities, required=True,widget=forms.Select)
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
-        self.fields['shipping_date'] = forms.CharField(label=_("Shipping Date"), required=True, error_messages={'required':_('Delivery Date is a required field.')})
+        self.fields['shipping_date'] = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
         self.fields['shipping_zip_code'] = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
         self.fields['email'] = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
         self.fields['billing_last_name'] = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
