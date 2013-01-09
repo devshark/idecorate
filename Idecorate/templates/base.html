@@ -173,7 +173,10 @@
                 });
                 **/
 
-                $('#close-login-signup-modal').click(closed_modal);
+                $('#close-login-signup-modal').click(function(e){
+                    e.preventDefault();
+                    closed_modal();
+                });
                 generate_user_nav();
                 $('input[type="text"]').placeholder();
                 $('.loginTrigger').click(popup_login);
@@ -187,7 +190,10 @@
                 $('#site-menu ul.dd').append(navs);
                 $('#lnk-logout').bind('click',logmeout);
                 $('#logged_as').bind('click',goto_profile);
-                $('#site-menu ul a#lnk-login-signup ,#login-btn').bind('click',popup_login);
+                $('#site-menu ul a#lnk-login-signup ,#login-btn').bind('click',function(e){
+                    e.preventDefault();
+                    popup_login();
+                });
                 {% if user.is_authenticated %}
                 $('#lnk-login-signup').parent().hide();
                 {% else %}
