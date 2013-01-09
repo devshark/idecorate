@@ -135,12 +135,12 @@ h5 {
         padding-top: 5px;
         vertical-align: top; }
       #compact-header table thead.headWrap tr.headWraptop td#info-menu {
-        padding-left: 5px;
+        padding-left: 10px;
         width: 42.188%; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn {
           clear: both; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn .dd li {
-            border-left: 1px solid #FFFFFF; }
+            border-left: 1px solid #999999; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .search {
           margin: 10px 0;
           width: 240px;
@@ -174,11 +174,11 @@ h5 {
           margin: 0 auto; }
       #compact-header table thead.headWrap tr.headWraptop td#site-menu {
         width: 42.188%;
-        padding-right: 5px; }
+        padding-right: 10px; }
         #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn {
           float: right; }
           #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn .dd li {
-            border-left: 1px solid #FFFFFF; }
+            border-left: 1px solid #999999; }
 
 #styleboard {
   width: 100%;
