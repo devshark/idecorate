@@ -10,7 +10,7 @@ from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, Search
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
 HomeBannerForm, HomeInfoGraphicForm
 from menu.services import addMenu
-from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright
+from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu
 from django.contrib.sites.models import Site
 from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
@@ -57,6 +57,7 @@ def admin_manage_menu(request):
     form_info_menu = MenuAddForm(initial={'menu_type':'1'})
     form_site_menu = MenuAddForm(initial={'menu_type':'2'})
     form_footer_menu = MenuAddForm(initial={'menu_type':'3'})
+    fat_form_footer_menu = MenuAddForm(initial={'menu_type':'4'})
 
     footer_copyright = FooterCopyright.objects.get(id=1)
     form_footer_copyright = FooterCopyRightForm(initial={'task':'copyright','menu_type':'3','copyright':footer_copyright.copyright})
@@ -64,6 +65,7 @@ def admin_manage_menu(request):
     info_menus = InfoMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
     site_menus = SiteMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
     footer_menus = FooterMenu.objects.filter(parent__id=None,deleted=False).order_by('order')
+    fat_footer_menus = FatFooterMenu.objects.filter(deleted=False).order_by('order')
 
     info['pages'] =  FlatPage.objects.all()
 
@@ -249,6 +251,7 @@ def admin_manage_menu(request):
     info['site_menus'] = site_menus
     info['footer_menus'] = footer_menus
     info['form_footer_copyright'] = form_footer_copyright
+    info['fat_footer_menus'] = fat_footer_menus
     return render_to_response('admin/admin_manage_menu.html',info,RequestContext(request))
 
 
