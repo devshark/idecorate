@@ -10,7 +10,7 @@
     position: relative; }
     #content h3 .searchFriends {
       width: 240px;
-      height: 25px;
+      height: 22px;
       background-color: #FFFFFF;
       position: absolute;
       bottom: 0;
@@ -25,16 +25,17 @@
         border: none;
         padding: 2px 5px;
         width: 190px;
-        line-height: 21px;
-        height: 21px; }
+        line-height: 18px;
+        height: 18px;
+        font-size: 10px; }
       #content h3 .searchFriends input[type="text"]:focus {
         outline: none; }
       #content h3 .searchFriends input[type="image"] {
         float: right;
-        height: 19px;
-        width: 19px;
+        height: 14px;
+        width: 14px;
         background: #FFFFFF;
-        padding: 3px; }
+        padding: 4px; }
   #content input[type="text"] {
     font-size: 11px; }
   #content select {
@@ -62,6 +63,9 @@
             width: 50px;
             height: 50px;
             background-color: #EEEEEE; }
+            .inviteFriendsWrap .inviteFriends .friendList li .fbData .fbImg img {
+              width: 100%;
+              height: 100%; }
           .inviteFriendsWrap .inviteFriends .friendList li .fbData .fbName {
             margin-left: 10px;
             line-height: 50px;
@@ -95,3 +99,9 @@
           /* for webkit browsers */
           background: -moz-linear-gradient(top, white, #666666);
           /* for firefox 3.6+ */ }
+    .inviteFriendsWrap .inviteFriends .inviteLogoff {
+      margin: 50px 0;
+      text-align: center; }
+      .inviteFriendsWrap .inviteFriends .inviteLogoff p {
+        margin-bottom: 20px;
+        font-family: futura_std_book; }
