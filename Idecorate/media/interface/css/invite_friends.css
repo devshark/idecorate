@@ -1,0 +1,97 @@
+#content {
+  margin-top: 20px; }
+  #content h3 {
+    width: 100%;
+    font-family: 'futura_std_medium';
+    font-size: 22px;
+    color: #000000;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    position: relative; }
+    #content h3 .searchFriends {
+      width: 240px;
+      height: 25px;
+      background-color: #FFFFFF;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      clear: both;
+      border: 1px solid #CCCCCC; }
+      #content h3 .searchFriends .searchButton {
+        display: none;
+        visibility: hidden; }
+      #content h3 .searchFriends input[type="text"] {
+        float: left;
+        border: none;
+        padding: 2px 5px;
+        width: 190px;
+        line-height: 21px;
+        height: 21px; }
+      #content h3 .searchFriends input[type="text"]:focus {
+        outline: none; }
+      #content h3 .searchFriends input[type="image"] {
+        float: right;
+        height: 19px;
+        width: 19px;
+        background: #FFFFFF;
+        padding: 3px; }
+  #content input[type="text"] {
+    font-size: 11px; }
+  #content select {
+    font-size: 13px; }
+
+.inviteFriendsWrap {
+  padding: 12px;
+  background: #efebe4; }
+  .inviteFriendsWrap .inviteFriends {
+    background: #FFFFFF;
+    padding: 10px; }
+    .inviteFriendsWrap .inviteFriends .friendList {
+      margin: 0;
+      padding: 0; }
+      .inviteFriendsWrap .inviteFriends .friendList li {
+        border-bottom: 1px solid #CCCCCC;
+        position: relative; }
+        .inviteFriendsWrap .inviteFriends .friendList li .fbData {
+          padding: 10px 0; }
+          .inviteFriendsWrap .inviteFriends .friendList li .fbData span {
+            display: block;
+            float: left; }
+          .inviteFriendsWrap .inviteFriends .friendList li .fbData .fbImg {
+            border: 1px solid #CCCCCC;
+            width: 50px;
+            height: 50px;
+            background-color: #EEEEEE; }
+          .inviteFriendsWrap .inviteFriends .friendList li .fbData .fbName {
+            margin-left: 10px;
+            line-height: 50px;
+            text-transform: uppercase; }
+        .inviteFriendsWrap .inviteFriends .friendList li .inviteBtn {
+          position: absolute;
+          right: 0;
+          top: 20px;
+          color: #FFFFFF;
+          padding: 7px 10px 5px;
+          margin-top: 5px;
+          cursor: pointer;
+          float: right;
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333');
+          /* for IE */
+          background: -webkit-gradient(linear, left top, left bottom, from(white), to(#333333));
+          /* for webkit browsers */
+          background: -moz-linear-gradient(top, white, #333333);
+          /* for firefox 3.6+ */
+          background: -o-linear-gradient(top, white, #333333);
+          border: 1px solid #CCCCCC;
+          font-family: futura_std_heavy;
+          font-size: 11px;
+          text-transform: uppercase;
+          text-decoration: none; }
+        .inviteFriendsWrap .inviteFriends .friendList li .inviteBtn:hover {
+          color: #666666;
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#666666');
+          /* for IE */
+          background: -webkit-gradient(linear, left top, left bottom, from(white), to(#666666));
+          /* for webkit browsers */
+          background: -moz-linear-gradient(top, white, #666666);
+          /* for firefox 3.6+ */ }

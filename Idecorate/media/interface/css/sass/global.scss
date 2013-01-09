@@ -127,15 +127,15 @@ h5 {
     .headerColumn {
       vertical-align: top;
 
-      .dd{
+      // .dd{
 
-        li{
-          border-left:1px solid #FFF;
-          a{
-            letter-spacing: 1px;
-          }
-        }
-      }
+      //   li{
+      //     border-left:1px solid #FFF;
+      //     a{
+      //       letter-spacing: 1px;
+      //     }
+      //   }
+      // }
 
       a {
         text-decoration: none !important;
@@ -206,6 +206,7 @@ h5 {
         }
     }
     #site-menu {
+      margin-top: 25px;
       width: 400px; 
       float: right;
       text-align: right;
@@ -215,6 +216,36 @@ h5 {
       // -webkit-border-radius: 4px;
       // border-radius: 4px; 
       // -khtml-border-radius: 4px;
+
+      #invite {
+        display: block;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        text-transform: uppercase;
+        text-align: center;
+        width: 120px;
+        padding: 8px 6px 5px;
+        cursor: pointer;
+        font-family: futura_std_heavy;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
+        background: -o-linear-gradient(top,  #FFFFFF,  #da9b94);
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0; /* future proofing */
+        -khtml-border-radius: 0; /* for old Konqueror browsers */
+        border: 1px solid #FFC5C3;
+        color: #666666;
+        font-size: 14px;
+      }
+      #invite:hover {
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#FFC5C3), to(#C7544E)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #FFC5C3,  #C7544E); /* for firefox 3.6+ */
+        color: #FFFFFF;
+      }
     }
     
   }

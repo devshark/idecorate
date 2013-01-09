@@ -113,10 +113,6 @@ h5 {
     position: relative; }
     #header .headerRowTop .headerColumn {
       vertical-align: top; }
-      #header .headerRowTop .headerColumn .dd li {
-        border-left: 1px solid #FFF; }
-        #header .headerRowTop .headerColumn .dd li a {
-          letter-spacing: 1px; }
       #header .headerRowTop .headerColumn a {
         text-decoration: none !important;
         color: #333333; }
@@ -164,9 +160,45 @@ h5 {
       #header .headerRowTop #logo h1, #header .headerRowTop #logo h3 {
         text-align: center; }
     #header .headerRowTop #site-menu {
+      margin-top: 25px;
       width: 400px;
       float: right;
       text-align: right; }
+      #header .headerRowTop #site-menu #invite {
+        display: block;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        text-transform: uppercase;
+        text-align: center;
+        width: 120px;
+        padding: 8px 6px 5px;
+        cursor: pointer;
+        font-family: futura_std_heavy;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
+        /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
+        /* for webkit browsers */
+        background: -moz-linear-gradient(top, white, #da9b94);
+        /* for firefox 3.6+ */
+        background: -o-linear-gradient(top, white, #da9b94);
+        -moz-border-radius: 0;
+        -webkit-border-radius: 0;
+        border-radius: 0;
+        /* future proofing */
+        -khtml-border-radius: 0;
+        /* for old Konqueror browsers */
+        border: 1px solid #FFC5C3;
+        color: #666666;
+        font-size: 14px; }
+      #header .headerRowTop #site-menu #invite:hover {
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
+        /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
+        /* for webkit browsers */
+        background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
+        /* for firefox 3.6+ */
+        color: #FFFFFF; }
   #header .headerRowBottom {
     width: 100%;
     clear: both; }

@@ -63,7 +63,6 @@
 
 	#edit_button {
 		color: #FFFFFF;
-		font-weight: bold;
 		padding: 4px 8px;
 		margin-top: 5px;
 		cursor: pointer;
@@ -81,6 +80,7 @@
 		font-size: 11px;
 	}
 	#edit_button:hover {
+		color:#666666;
         filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#666666'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#666666)); /* for webkit browsers */
         background: -moz-linear-gradient(top,  #FFFFFF,  #666666); /* for firefox 3.6+ */

@@ -2,67 +2,65 @@
 .dd{
     display: none;
     font-size: 14px;
+    >li{
+        border-left: 1px solid #999999;
+        a,span{
+            text-transform: uppercase;
+            font-family: 'futura_std_medium';
+            font-size: 12px;
+            color: #CCCCCC !important;
+            //border-bottom: 1px dotted #000000;
+            .arrow{
+                padding-left:5px;
+            }
+        }
+        ul.sub-menu{
+            li{
+                background-color: #4D4D4D;
+                border-bottom: none;
+                > a,span{
+                    color: #CCCCCC !important;
+                    padding-top: 7px; 
+                    padding-bottom: 5px;
+                }
+                
+            }
+            li:hover{
+                background-color: #CCCCCC !important;
+                > a,span{
+                    color: #333333 !important;
+                }
+                
+            }
+        }
+    }
+
+    li.hover,li:hover{
+        background-color: #000000 !important;
+        a,span{
+            color: #FFFFFF !important;
+            //border-bottom: 1px dotted #FFFFFF;
+        }
+
+    } 
+}
+
+#info-menu{
+    .dd{
+
+        > li:first-child{ 
+            a{
+                padding-left: 0 !important; 
+            }
+        }
+    }
 }
 
 #site-menu{
     .dd{
-        li{
-            border-left: 2px solid #FFF;
-            a,span{
-                text-transform: uppercase;
-                font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
-                font-size: 12px;
-                font-weight: bold !important;
-                color: #FFF !important;
-            }
-        }
-        li.hover,li:hover{
-            background-color: #F5F5DC;
-            a,span{
-                color: #000 !important;
-            }
-
-        }
-
-        ul li{
-            background-color: #F5F5DC;
-            a,span{
-                color: #000 !important;
-            }
-            
+        #lnk-logout,#lnk-login-signup{
+            padding-right: 0 !important; 
         }
     }
-}
 
-#info-menu {
-    .dd{
-        li{
-            border-left: 2px solid #FFF;
-            a,span{
-                text-transform: uppercase;
-                font-weight: bold !important;
-                font-family: 'futura_std_heavy',Arial,Helvetica,sans-serif;
-                font-size: 12px;
-                color: #FFF !important;
-            }
-            a:hover, span:hover {
-                color: #000 !important;
-            }
-        }
-        li.hover,li:hover{
-            background-color: #F5F5DC;
-            a,span{
-                color: #000 !important;
-            }
-
-        }
-        ul li {
-            background-color: #F5F5DC;
-            a,span{
-                text-transform: uppercase;
-                font-weight: bolder;
-                color: #000 !important;
-            }
-        }
-    }
 }

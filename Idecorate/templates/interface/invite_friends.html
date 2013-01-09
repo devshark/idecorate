@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% load widget_tweaks %}
+{% block title %}iDecorate Weddings{% endblock %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/media/interface/css/invite_friends.css">
+    <link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+	<link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />>
+{% endblock %}
+{% block content %}
+<h3>Invite Friends
+	<div class="searchFriends clearfix">
+		<form action="" method="POST">
+			<input type="text" name="search" id="search" placeholder="Search Friends" > 
+			<input type="image" src="/media/images/search.png" class="searchIcon" />
+			<input type="submit" value="Search" class="searchButton">
+		</form>
+	</div>
+</h3>
+<div class="inviteFriendsWrap">
+	<div class="clearfix inviteFriends">
+		{% if user.is_authenticated %}
+		<ul class="friendList">
+			<li>
+				<div class="fbData clearfix">
+					<span class="fbImg"><img src="" /></span>
+					<span class="fbName">ryan the pogi</span>
+				</div>
+				<a class="inviteBtn" href="">Invite</a>
+			</li>
+			<li>
+				<div class="fbData clearfix">
+					<span class="fbImg"><img src="" /></span>
+					<span class="fbName">ryan the pogi</span>
+				</div>
+				<a class="inviteBtn" href="">Invite</a>
+			</li>
+			<li>
+				<div class="fbData clearfix">
+					<span class="fbImg"><img src="" /></span>
+					<span class="fbName">ryan the pogi</span>
+				</div>
+				<a class="inviteBtn" href="">Invite</a>
+			</li>
+		</ul>
+		{% else %}
+		{% endif %}
+	</div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+$(function(){
+	if($(window).height() > $('#main-container').outerHeight()){
+		page_H();
+	}
+
+	$('#cancel').click(function(e){
+
+		document.location = '/';
+
+	});
+
+});
+
+function page_H(){
+
+ 	var windowH = $(window).height();
+		headerH = $('#header').outerHeight(true);
+		footerH = $('#footer').outerHeight(true);
+		newHeight = windowH-(headerH+footerH+15);
+		
+	$("#content").height(newHeight);
+
+}
+
+</script>
+<!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
+{% endblock %}

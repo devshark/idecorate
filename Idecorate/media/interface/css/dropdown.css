@@ -2,39 +2,33 @@
 .dd {
   display: none;
   font-size: 14px; }
+  .dd > li {
+    border-left: 1px solid #999999; }
+    .dd > li a, .dd > li span {
+      text-transform: uppercase;
+      font-family: 'futura_std_medium';
+      font-size: 12px;
+      color: #CCCCCC !important; }
+      .dd > li a .arrow, .dd > li span .arrow {
+        padding-left: 5px; }
+    .dd > li ul.sub-menu li {
+      background-color: #4D4D4D;
+      border-bottom: none; }
+      .dd > li ul.sub-menu li > a, .dd > li ul.sub-menu li span {
+        color: #CCCCCC !important;
+        padding-top: 7px;
+        padding-bottom: 5px; }
+    .dd > li ul.sub-menu li:hover {
+      background-color: #CCCCCC !important; }
+      .dd > li ul.sub-menu li:hover > a, .dd > li ul.sub-menu li:hover span {
+        color: #333333 !important; }
+  .dd li.hover, .dd li:hover {
+    background-color: #000000 !important; }
+    .dd li.hover a, .dd li.hover span, .dd li:hover a, .dd li:hover span {
+      color: #FFFFFF !important; }
 
-#site-menu .dd li {
-  border-left: 2px solid #FFF; }
-  #site-menu .dd li a, #site-menu .dd li span {
-    text-transform: uppercase;
-    font-family: 'futura_std_heavy';
-    font-size: 12px;
-    color: #FFF !important; }
-#site-menu .dd li.hover, #site-menu .dd li:hover {
-  background-color: #F5F5DC; }
-  #site-menu .dd li.hover a, #site-menu .dd li.hover span, #site-menu .dd li:hover a, #site-menu .dd li:hover span {
-    color: #000 !important; }
-#site-menu .dd ul li {
-  background-color: #F5F5DC; }
-  #site-menu .dd ul li a, #site-menu .dd ul li span {
-    color: #000 !important; }
+#info-menu .dd > li:first-child a {
+  padding-left: 0 !important; }
 
-#info-menu .dd li {
-  border-left: 2px solid #FFF; }
-  #info-menu .dd li a, #info-menu .dd li span {
-    text-transform: uppercase;
-    font-family: 'futura_std_heavy';
-    font-size: 12px;
-    color: #FFF !important; }
-  #info-menu .dd li a:hover, #info-menu .dd li span:hover {
-    color: #000 !important; }
-#info-menu .dd li.hover, #info-menu .dd li:hover {
-  background-color: #F5F5DC; }
-  #info-menu .dd li.hover a, #info-menu .dd li.hover span, #info-menu .dd li:hover a, #info-menu .dd li:hover span {
-    color: #000 !important; }
-#info-menu .dd ul li {
-  background-color: #F5F5DC; }
-  #info-menu .dd ul li a, #info-menu .dd ul li span {
-    text-transform: uppercase;
-    font-weight: bolder;
-    color: #000 !important; }
+#site-menu .dd #lnk-logout, #site-menu .dd #lnk-login-signup {
+  padding-right: 0 !important; }

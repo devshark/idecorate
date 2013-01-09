@@ -53,17 +53,10 @@
 		<br />
 		<br />
 
-		{% if not user.is_authenticated %}
-		<h3>JOIN NOW</h3>
-		<ul>
-			<li><a href="#" class="loginTrigger">Login</a></li>
-			<li><a href="#" class="loginTrigger">Register</a></li>
-			<!-- <li><a href="#">Invite Friends</a></li> -->
-		</ul>
-		{% endif %}
+		
 	</div>
-	{% if user.is_authenticated %}
 	<div>
+	{% if user.is_authenticated %}
 		<h3>MY ACCOUNT</h3>
 		<ul>
 			<li><a href="{% url profile %}">Profile</a></li>
@@ -74,8 +67,15 @@
 			<li><a href="#">Cart</a></li>
 			<li><a href="#">Design boards</a></li> -->
 		</ul>
-	</div>
+	{% else %}
+		<h3>JOIN NOW</h3>
+		<ul>
+			<li><a href="#" class="loginTrigger">Login</a></li>
+			<li><a href="#" class="loginTrigger">Register</a></li>
+			<!-- <li><a href="#">Invite Friends</a></li> -->
+		</ul>
 	{% endif %}
+	</div>
 </div>
 <div class="clearfix imageBorder">
 	<img src="/media/images/border.jpg" />
