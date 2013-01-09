@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from category.models import Categories
-from menu.models import InfoMenu, SiteMenu, FooterMenu
+from menu.models import InfoMenu, SiteMenu, FooterMenu, FatFooterMenu
 from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
@@ -78,6 +78,8 @@ def menuRecursion(menus, id):
 			menuType = 1
 		elif menus.model == type(SiteMenu()):
 			menuType = 2
+		elif menus.model == type(FatFooterMenu()):
+			menuType = 4
 		else:
 			menuType = 3
 

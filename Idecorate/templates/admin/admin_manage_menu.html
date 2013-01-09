@@ -17,115 +17,101 @@
 {% endblock %}
 
 {% block content %}
+<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="myModalLabel">Edit Menu</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-inline" action="" method="post" id="general_edit">
+			{% csrf_token %}
+			<input type="hidden" name="general_id" value="" />
+			<input type="hidden" name="menu_type" value="" />
+			<input type="hidden" name="task" value="edit" />
+			<label class="checkbox">
+				{% trans "Name" %}
+				<input type="text" class="input-large" name="general_name" placeholder="Name" />
+			</label>
+			<label class="checkbox">
+				{% trans "Link" %}
+				<input type="text" class="input-large" name="general_link" placeholder="Link" />
+			</label>
+			<label class="checkbox">
+				<select name="ddlPages" id="ddl-pages-edit">
+					<option value="">-- Select Site Page Url --</option>
+					{% for page in pages %}
+					<option value="{{ page.url }}">{{ page.title }}</option>
+					{% endfor %}
+				</select>
+			</label>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Close</button>
+		<button class="btn btn-primary" id="edit_save">Save changes</button>
+	</div>
+</div>
+<div id="myModal2" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="myModalLabel">Delete Menu</h3>
+	</div>
+	<div class="modal-body">
+		<p>Do you want to delete this?</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Close</button>
+		<button class="btn btn-primary" id="delete_menu">Delete</button>
+	</div>
+</div>
 
-          <div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3 id="myModalLabel">Edit Menu</h3>
-            </div>
-            <div class="modal-body">
-				<form class="form-inline" action="" method="post" id="general_edit">
-					{% csrf_token %}
-					<input type="hidden" name="general_id" value="" />
-					<input type="hidden" name="menu_type" value="" />
-					<input type="hidden" name="task" value="edit" />
-					<label class="checkbox">
-						{% trans "Name" %}
-				  		<input type="text" class="input-large" name="general_name" placeholder="Name" />
-					</label>
-					<label class="checkbox">
-						{% trans "Link" %}
-				  		<input type="text" class="input-large" name="general_link" placeholder="Link" />
-				  	</label>
-				  	<label class="checkbox">
-					  	<select name="ddlPages" id="ddl-pages-edit">
-				  			<option value="">-- Select Site Page Url --</option>
-				  			{% for page in pages %}
-				  			<option value="{{ page.url }}">{{ page.title }}</option>
-				  			{% endfor %}
-				  		</select>
-			  		</label>
-				</form>
-            </div>
-            <div class="modal-footer">
-              <button class="btn" data-dismiss="modal">Close</button>
-              <button class="btn btn-primary" id="edit_save">Save changes</button>
-            </div>
-          </div>
+<h1>{% trans "Manage Menu" %}</h1>
+<div>&nbsp;</div>
+<div>
+	<ul class="nav nav-tabs" id="manage_menu">
+		<li class="active"><a href="#info_manage_menu">{% trans "Info Menu" %}</a></li>
+		<li><a href="#site_manage_menu">{% trans "Site Menu" %}</a></li>
+		<li><a href="#fat_footer_manage_menu">{% trans "Fat Footer" %}</a></li>
+		<li><a href="#footer_manage_menu">{% trans "Footer" %}</a></li>
+	</ul>
 
-
-          <div id="myModal2" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-            <div class="modal-header">
-              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-              <h3 id="myModalLabel">Delete Menu</h3>
-            </div>
-            <div class="modal-body">
-            	<p>Do you want to delete this?</p>
-            </div>
-            <div class="modal-footer">
-              <button class="btn" data-dismiss="modal">Close</button>
-              <button class="btn btn-primary" id="delete_menu">Delete</button>
-            </div>
-          </div>
-
-
-	<h1>{% trans "Manage Menu" %}</h1>
-	<div>&nbsp;</div>
-	<div>
-		<ul class="nav nav-tabs" id="manage_menu">
-		  <li class="active"><a href="#info_manage_menu">{% trans "Info Menu" %}</a></li>
-		  <li><a href="#site_manage_menu">{% trans "Site Menu" %}</a></li>
-		  <li><a href="#footer_manage_menu">{% trans "Footer" %}</a></li>
-		</ul>
-		 
-		<div class="tab-content">
-		  <div class="tab-pane active" id="info_manage_menu">
-
+	<div class="tab-content">
+		<div class="tab-pane active" id="info_manage_menu">
 			{% if form_info_menu.name.errors or form_info_menu.link.errors  %}
-
 			<div class="alert alert-error">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Please correct the following errors:</h4>
-			  <ol>
-			  	{% if form_info_menu.name.errors %}
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					{% if form_info_menu.name.errors %}
 					{% for e in form_info_menu.name.errors %}
-						<li>{{ e }}</li>
+					<li>{{ e }}</li>
 					{% endfor %}
-			  	{% endif %}
-			  	{% if form_info_menu.link.errors %}
+					{% endif %}
+					{% if form_info_menu.link.errors %}
 					{% for e in form_info_menu.link.errors %}
-						<li>{{ e }}</li>
+					<li>{{ e }}</li>
 					{% endfor %}
-			  	{% endif %}
-			  </ol>
+					{% endif %}
+				</ol>
 			</div>
-
 			{% endif %}	
-
-
 			{% if error_edit and info_message  %}
-
 			<div class="alert alert-error">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Please correct the following errors:</h4>
-			  <ol>
-				<li>{% trans "Name is a required field." %}</li>
-			  </ol>
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					<li>{% trans "Name is a required field." %}</li>
+				</ol>
 			</div>
-
 			{% endif %}
-
-
 			{% if messages and info_message  %}
-
 			<div class="alert alert-success">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Success!</h4>
-			  {% for message in messages %}
-			  	{{ message }}
-			  {% endfor %}
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Success!</h4>
+				{% for message in messages %}
+				{{ message }}
+				{% endfor %}
 			</div>
-
 			{% endif %}	
 
 			<form class="form-inline" action="" method="post">
@@ -159,55 +145,44 @@
   				<button type="button" class="btn btn-primary">Save changes</button>
   				</form>
 			</div>
-
-		  </div>
-		  <div class="tab-pane" id="site_manage_menu">
-
-
+		</div>
+		<div class="tab-pane" id="site_manage_menu">
 			{% if form_site_menu.name.errors or form_site_menu.link.errors  %}
-
 			<div class="alert alert-error">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Please correct the following errors:</h4>
-			  <ol>
-			  	{% if form_site_menu.name.errors %}
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					{% if form_site_menu.name.errors %}
 					{% for e in form_site_menu.name.errors %}
-						<li>{{ e }}</li>
+					<li>{{ e }}</li>
 					{% endfor %}
-			  	{% endif %}
-			  	{% if form_site_menu.link.errors %}
+					{% endif %}
+					{% if form_site_menu.link.errors %}
 					{% for e in form_site_menu.link.errors %}
-						<li>{{ e }}</li>
+					<li>{{ e }}</li>
 					{% endfor %}
-			  	{% endif %}
-			  </ol>
+					{% endif %}
+				</ol>
 			</div>
-
 			{% endif %}
-
 			{% if error_edit and site_message  %}
-
 			<div class="alert alert-error">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Please correct the following errors:</h4>
-			  <ol>
-				<li>{% trans "Name is a required field." %}</li>
-			  </ol>
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					<li>{% trans "Name is a required field." %}</li>
+				</ol>
 			</div>
-
 			{% endif %}
-
 
 			{% if messages and site_message  %}
-
 			<div class="alert alert-success">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Success!</h4>
-			  {% for message in messages %}
-			  	{{ message }}
-			  {% endfor %}
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Success!</h4>
+				{% for message in messages %}
+				{{ message }}
+				{% endfor %}
 			</div>
-
 			{% endif %}	
 
 			<form class="form-inline" action="" method="post">
@@ -241,68 +216,140 @@
   				<button type="button" class="btn btn-primary">Save changes</button>
   				</form>
 			</div>
+		</div>
 
-		  </div>
-		  <div class="tab-pane" id="footer_manage_menu">
+		<div class="tab-pane" id="fat_footer_manage_menu">
 
 			{% if form_footer_menu.name.errors or form_footer_menu.link.errors  %}
-
 			<div class="alert alert-error">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Please correct the following errors:</h4>
-			  <ol>
-			  	{% if form_footer_menu.name.errors %}
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					{% if form_footer_menu.name.errors %}
 					{% for e in form_footer_menu.name.errors %}
-						<li>{{ e }}</li>
+					<li>{{ e }}</li>
 					{% endfor %}
-			  	{% endif %}
-			  	{% if form_footer_menu.link.errors %}
+					{% endif %}
+					{% if form_footer_menu.link.errors %}
 					{% for e in form_footer_menu.link.errors %}
-						<li>{{ e }}</li>
+					<li>{{ e }}</li>
 					{% endfor %}
-			  	{% endif %}
-			  </ol>
+					{% endif %}
+				</ol>
 			</div>
+			{% endif %}	
 
+			{% if error_edit and fat_footer_message  %}
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					<li>{% trans "Name is a required field." %}</li>
+				</ol>
+			</div>
+			{% endif %}
+
+			{% if messages and fat_footer_message  %}
+			<div class="alert alert-success">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Success!</h4>
+				{% for message in messages %}
+				{{ message }}
+				{% endfor %}
+			</div>
+			{% endif %}	
+
+			<form class="form-inline" action="" method="post">
+				{% csrf_token %}
+				{{ form_fat_footer_menu.menu_type }}
+				<label class="checkbox">
+			  		{{ form_fat_footer_menu.name|add_class:"input-large"|attr:"placeholder:Name"|attr:"id:id_name_fat_footer" }}
+				</label>
+				<label class="checkbox">
+			  		{{ form_fat_footer_menu.link|add_class:"input-large"|attr:"placeholder:Link"|attr:"id:id_link_fat_footer" }}
+			  	</label>
+			  	<label class="checkbox">
+				  	<select name="ddlPages" id="ddl-pages-fat-footer">
+			  			<option value="">-- Select Site Page Url --</option>
+			  			{% for page in pages %}
+			  			<option value="{{ page.url }}">{{ page.title }}</option>
+			  			{% endfor %}
+			  		</select>
+		  		</label>
+			  	<button type="submit" class="btn btn-primary">Add Menu</button>
+			</form>
+
+			<h4>About US</h4>
+
+			{{ fat_footer_menus|getMenus:"sortable3" }}
+
+			<div class="form-actions">
+				<div class="pull-left">
+					<form action="" method="post" id="footer_arrange">
+					{% csrf_token %}
+					<input type="hidden" name="menu_type" value="3" />
+					<input type="hidden" name="task" value="arrange" />
+					<input type="hidden" name="arrangement" value="" />
+	  				<button type="button" class="btn btn-primary">Save changes</button>
+	  				</form>
+  				</div> 
+  				<div class="pull-left span10" style="padding-top: 5px">				
+  					Browse, Create, Follow Us, Join Now/My Account menu items are automatically generated by the system.
+  				</div>
+			</div>
+		</div>
+
+		<div class="tab-pane" id="footer_manage_menu">
+
+			{% if form_footer_menu.name.errors or form_footer_menu.link.errors  %}
+			<div class="alert alert-error">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					{% if form_footer_menu.name.errors %}
+					{% for e in form_footer_menu.name.errors %}
+					<li>{{ e }}</li>
+					{% endfor %}
+					{% endif %}
+					{% if form_footer_menu.link.errors %}
+					{% for e in form_footer_menu.link.errors %}
+					<li>{{ e }}</li>
+					{% endfor %}
+					{% endif %}
+				</ol>
+			</div>
 			{% endif %}	
 
 			{% if error_edit and footer_message  %}
-
 			<div class="alert alert-error">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Please correct the following errors:</h4>
-			  <ol>
-				<li>{% trans "Name is a required field." %}</li>
-			  </ol>
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					<li>{% trans "Name is a required field." %}</li>
+				</ol>
 			</div>
-
 			{% endif %}
 
 			{% if form_footer_copyright.copyright.errors %}
-
 			<div class="alert alert-error">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Please correct the following errors:</h4>
-			  <ol>
-				{% for e in form_footer_copyright.copyright.errors %}
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Please correct the following errors:</h4>
+				<ol>
+					{% for e in form_footer_copyright.copyright.errors %}
 					<li>{{ e }}</li>
-				{% endfor %}
-			  </ol>
+					{% endfor %}
+				</ol>
 			</div>
-
 			{% endif %}	
 
-
 			{% if messages and footer_message  %}
-
 			<div class="alert alert-success">
-			  <a class="close" data-dismiss="alert" href="#">×</a>
-			  <h4 class="alert-heading">Success!</h4>
-			  {% for message in messages %}
-			  	{{ message }}
-			  {% endfor %}
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Success!</h4>
+				{% for message in messages %}
+				{{ message }}
+				{% endfor %}
 			</div>
-
 			{% endif %}	
 
 			<form class="form-inline" action="" method="post">
@@ -346,169 +393,168 @@
   				<button type="button" class="btn btn-primary">Save changes</button>
   				</form>
 			</div>
-
-		  </div>
 		</div>
-	</div>	
+	</div>
+</div>	
 {% endblock %}
 {% block javascripts %}
-	<script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
-	<script type="text/javascript">
+<script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
+<script type="text/javascript">
 
-		globalURL = "";
+	globalURL = "";
 
-		function setGlobalURL(url) {
-			globalURL = url;
-		}
+	function setGlobalURL(url) {
+		globalURL = url;
+	}
 
-		function deleteMenu() {
+	function deleteMenu() {
 
-			//if(confirm('Do you want to delete this?')) {
-			document.location = globalURL;
-			//}
-		}
+		//if(confirm('Do you want to delete this?')) {
+		document.location = globalURL;
+		//}
+	}
 
-		function setEdit(id, name, link, menuType) {
-			$('#general_edit input[name="general_id"]').val(id)
-			$('#general_edit input[name="general_name"]').val(name)
-			$('#general_edit input[name="general_link"]').val(link)
-			$('#general_edit input[name="menu_type"]').val(menuType)
-		}
+	function setEdit(id, name, link, menuType) {
+		$('#general_edit input[name="general_id"]').val(id)
+		$('#general_edit input[name="general_name"]').val(name)
+		$('#general_edit input[name="general_link"]').val(link)
+		$('#general_edit input[name="menu_type"]').val(menuType)
+	}
 
-		function getMenuHiearchy(id) {
+	function getMenuHiearchy(id) {
 
-			/**
-				ID:INDEX:PARENT
-			**/
+		/**
+			ID:INDEX:PARENT
+		**/
 
-			str = "";
-			ctr = 0;
+		str = "";
+		ctr = 0;
 
-			$("#" + id + " li").each(function(e,v){
-
-
-				$(this).find('span.menu_id').each(function(e,v){
-					if(e == 0) {
-						str += $(this).text();
-					}
-				});
-
-				str += ':' + ($(this).index() + 1);
+		$("#" + id + " li").each(function(e,v){
 
 
-				if($(this).parents('li').find('span.menu_id').text() == "") {
-					str += ':None;';
-				} else {
-					$(this).parents('li').find('span.menu_id').each(function(e,v){
-						if(e == 0) {
-							str += ':' + $(this).text() + ';';
-						}
-					});	
+			$(this).find('span.menu_id').each(function(e,v){
+				if(e == 0) {
+					str += $(this).text();
 				}
-
-
 			});
 
-			return str;
-		}
+			str += ':' + ($(this).index() + 1);
 
-		function submitArrangement(id,sortable) {
-			
-			hi = getMenuHiearchy(sortable);
 
-			$(id + ' input[name="arrangement"]').val(hi);
+			if($(this).parents('li').find('span.menu_id').text() == "") {
+				str += ':None;';
+			} else {
+				$(this).parents('li').find('span.menu_id').each(function(e,v){
+					if(e == 0) {
+						str += ':' + $(this).text() + ';';
+					}
+				});	
+			}
 
-			$(id).submit();
-		}
 
-		$(function(e){
-
-			$('#delete_menu').click(function(e){
-				deleteMenu();
-			});
-
-			$('#edit_save').click(function(e){
-				$('#general_edit').submit();
-			});
-
-			$('#info_arrange .btn').click(function(e){
-
-				submitArrangement('#info_arrange','sortable1');
-			});
-
-			$('#site_arrange .btn').click(function(e){
-
-				submitArrangement('#site_arrange','sortable2');
-			});
-
-			$('#footer_arrange .btn').click(function(e){
-
-				submitArrangement('#footer_arrange','sortable3');
-			});
-
-			$('#manage_menu a').click(function (e) {
-  				e.preventDefault();
-  				$(this).tab('show');
-			});
-
-	        $('#sortable1, #sortable2').nestedSortable({
-				disableNesting: 'no-nest',
-				forcePlaceholderSize: true,
-				handle: 'div',
-				helper:	'clone',
-				items: 'li',
-				maxLevels: 0,
-				opacity: .6,
-				placeholder: 'placeholder',
-				revert: 250,
-				tabSize: 25,
-				tolerance: 'pointer',
-				toleranceElement: '> div'
-	        });
-
-	        $('#sortable3').nestedSortable({
-				disableNesting: 'no-nest',
-				forcePlaceholderSize: true,
-				handle: 'div',
-				helper:	'clone',
-				items: 'li',
-				maxLevels: 1,
-				opacity: .6,
-				placeholder: 'placeholder',
-				revert: 250,
-				tabSize: 25,
-				tolerance: 'pointer',
-				toleranceElement: '> div'
-	        });
-
-	        {% if menu_type %}
-	        	{% if menu_type == "1" %}
-	        $('#manage_menu a[href="#info_manage_menu"]').tab('show');
-	        	{% endif %}
-	        	{% if menu_type == "2" %}
-	        $('#manage_menu a[href="#site_manage_menu"]').tab('show');
-	        	{% endif %}
-	        	{% if menu_type == "3" %}
-	        $('#manage_menu a[href="#footer_manage_menu"]').tab('show');
-	        	{% endif %}
-	        {% endif %}
-
-	        $('#ddl-pages').change(function(){
-	        	$('#id_link').val('/sites'+$(this).val());
-	        });
-
-	        $('#ddl-pages-site').change(function(){
-	        	$('#id_link_site').val('/sites'+$(this).val());
-	        });
-	        $('#ddl-pages-footer').change(function(){
-	        	$('#id_link_footer').val('/sites'+$(this).val());
-	        });
-
-	        $('#ddl-pages-edit').change(function(){
-	        	$('.input-large[name="general_link"]').val('/sites'+$(this).val());
-	        });
 		});
 
+		return str;
+	}
 
-	</script>
+	function submitArrangement(id,sortable) {
+		
+		hi = getMenuHiearchy(sortable);
+
+		$(id + ' input[name="arrangement"]').val(hi);
+
+		$(id).submit();
+	}
+
+	$(function(e){
+
+		$('#delete_menu').click(function(e){
+			deleteMenu();
+		});
+
+		$('#edit_save').click(function(e){
+			$('#general_edit').submit();
+		});
+
+		$('#info_arrange .btn').click(function(e){
+
+			submitArrangement('#info_arrange','sortable1');
+		});
+
+		$('#site_arrange .btn').click(function(e){
+
+			submitArrangement('#site_arrange','sortable2');
+		});
+
+		$('#footer_arrange .btn').click(function(e){
+
+			submitArrangement('#footer_arrange','sortable3');
+		});
+
+		$('#manage_menu a').click(function (e) {
+				e.preventDefault();
+				$(this).tab('show');
+		});
+
+        $('#sortable1, #sortable2').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			helper:	'clone',
+			items: 'li',
+			maxLevels: 0,
+			opacity: .6,
+			placeholder: 'placeholder',
+			revert: 250,
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div'
+        });
+
+        $('#sortable3').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			helper:	'clone',
+			items: 'li',
+			maxLevels: 1,
+			opacity: .6,
+			placeholder: 'placeholder',
+			revert: 250,
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div'
+        });
+
+        {% if menu_type %}
+        	{% if menu_type == "1" %}
+        $('#manage_menu a[href="#info_manage_menu"]').tab('show');
+        	{% endif %}
+        	{% if menu_type == "2" %}
+        $('#manage_menu a[href="#site_manage_menu"]').tab('show');
+        	{% endif %}
+        	{% if menu_type == "3" %}
+        $('#manage_menu a[href="#footer_manage_menu"]').tab('show');
+        	{% endif %}
+        {% endif %}
+
+        $('#ddl-pages').change(function(){
+        	$('#id_link').val('/sites'+$(this).val());
+        });
+
+        $('#ddl-pages-site').change(function(){
+        	$('#id_link_site').val('/sites'+$(this).val());
+        });
+        $('#ddl-pages-footer').change(function(){
+        	$('#id_link_footer').val('/sites'+$(this).val());
+        });
+
+        $('#ddl-pages-edit').change(function(){
+        	$('.input-large[name="general_link"]').val('/sites'+$(this).val());
+        });
+	});
+
+
+</script>
 {% endblock %}
