@@ -140,7 +140,7 @@ h5 {
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn {
           clear: both; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn .dd li {
-            border-left: 1px solid #999999; }
+            border-left: 1px solid #333333; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .search {
           margin: 10px 0;
           width: 240px;
