@@ -76,10 +76,11 @@ def admin_manage_menu(request):
     	del request.session['menu_type']
 
     	if str(info['menu_type']) == "3":
-
     		info['footer_message'] = True
     	elif str(info['menu_type']) == "2":
     		info['site_message'] = True
+    	elif str(info['menu_type']) == "4":
+    		info['fat_footer_message'] = True
     	else:
     		info['info_message'] = True
 
@@ -307,6 +308,8 @@ def admin_delete_menu(request,id_delete,menuType):
 		menu = InfoMenu.objects.get(id=int(id_delete))
 	elif str(menuType) == "2":
 		menu = SiteMenu.objects.get(id=int(id_delete))
+	elif str(menuType) == "4":
+		menu = FatFooterMenu.objects.get(id=int(id_delete))
 	else:
 		menu = FooterMenu.objects.get(id=int(id_delete))
 
