@@ -38,3 +38,5 @@
   padding-right: 0 !important; }
 #site-menu .dd li a, #site-menu .dd li span {
   font-size: 15px !important; }
+  #site-menu .dd li a .arrow, #site-menu .dd li span .arrow {
+    font-size: 12px !important; }
