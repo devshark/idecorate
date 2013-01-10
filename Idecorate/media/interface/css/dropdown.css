@@ -14,7 +14,8 @@
         font-size: 8px !important;
         vertical-align: top !important; }
     .dd > li ul.sub-menu {
-      background-color: #4D4D4D !important; }
+      background-color: #4D4D4D !important;
+      margin-left: 7px; }
       .dd > li ul.sub-menu li {
         background-color: #4D4D4D;
         border-bottom: none; }
@@ -26,6 +27,8 @@
         background-color: #CCCCCC !important; }
         .dd > li ul.sub-menu li:hover > a, .dd > li ul.sub-menu li:hover span {
           color: #333333 !important; }
+      .dd > li ul.sub-menu ul.sub-menu {
+        margin-left: 0; }
   .dd li.hover, .dd li:hover {
     background-color: #000000 !important; }
     .dd li.hover a, .dd li.hover span, .dd li:hover a, .dd li:hover span {
