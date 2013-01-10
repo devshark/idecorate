@@ -64,6 +64,12 @@
         #lnk-logout,#lnk-login-signup{
             padding-right: 0 !important; 
         }
+
+        li{
+            a,span{
+                font-size: 15px !important;
+            }
+        }
     }
 
 }
