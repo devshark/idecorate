@@ -40,6 +40,7 @@ def get_interface_info(infoType):
                         element += '<li>%s</li>' % link
 
                 element += '</ul>'
+                return mark_safe(element)
         elif infoType == 'fat_footer':
                 element = '<ul>'
 
