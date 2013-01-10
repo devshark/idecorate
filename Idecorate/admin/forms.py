@@ -273,3 +273,7 @@ class HomeBannerForm(forms.Form):
 
 class HomeInfoGraphicForm(forms.Form):
 	image = forms.CharField(widget=forms.HiddenInput, error_messages={'required':_('Image is a required field.')})
+
+class ItemMenuForm(forms.Form):
+	name = forms.CharField(error_messages={'required':_('Menu Name is a required field.')})
+	link = forms.CharField(error_messages={'required':_('Menu Link is a required field.')})

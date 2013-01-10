@@ -390,9 +390,9 @@ h5 {
       border:none !important;
 
       a {
-        padding: 6px 10px 3px 10px !important;
+        padding: 6px 7px 3px !important;
         font-family: 'futura_std_medium';
-        font-size: 12px;
+        font-size: 10px;
         color: #CCCCCC !important;
         text-decoration: none;
         text-transform: uppercase;
@@ -541,7 +541,7 @@ footer {
 
   .footerLinks {
     width: 960px;
-    margin-top: 15px;
+    margin-top: 5px;
     text-align: center;
 
     ul {
@@ -552,7 +552,7 @@ footer {
         zoom:1;
         *display: inline;
         font-size: 12px;
-        padding: 5px;
+        padding: 3px 5px;
         border-left: 1px solid #CCCCCC;
         text-transform: uppercase;
 
@@ -575,7 +575,7 @@ footer {
   }
 
   .copyright {
-    margin: 10px 0;
+    margin: 5px 0 15px;
     color: #999;
     font-family: 'futura_std_heavy';
     font-size: 10px;

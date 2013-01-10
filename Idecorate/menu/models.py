@@ -66,3 +66,16 @@ class FatFooterMenu(models.Model):
 		db_table = 'fat_footer_menu'
 		ordering = ["id"]
 		verbose_name = _("Fat Footer Menu")
+
+class ItemMenu(models.Model):
+	id = models.AutoField(db_column='ID', primary_key= True)
+	name = models.CharField(db_column='name', max_length=250, blank=True)
+	link = models.CharField(db_column='link', max_length=250, blank=True)
+	order = models.IntegerField(db_column='order')
+	created = models.DateField(db_column='created', auto_now_add= True, blank=True)
+	deleted = models.BooleanField(db_column='deleted', default=False)
+
+	class Meta:
+		db_table = 'item_menu'
+		ordering = ['id']
+		verbose_name = _("Item Menu")

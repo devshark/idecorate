@@ -144,7 +144,7 @@ h5 {
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .search {
           margin: 10px 0;
           width: 240px;
-          height: 25px;
+          height: 22px;
           background-color: #FFFFFF;
           clear: both; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .search .searchButton {
@@ -155,16 +155,17 @@ h5 {
             border: none;
             padding: 2px 5px;
             width: 190px;
-            line-height: 21px;
-            height: 21px; }
+            line-height: 18px;
+            height: 18px;
+            font-size: 10px; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .search input[type="text"]:focus {
             outline: none; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .search input[type="image"] {
             float: right;
-            height: 19px;
-            width: 19px;
+            height: 14px;
+            width: 14px;
             background: #FFFFFF;
-            padding: 3px; }
+            padding: 4px; }
       #compact-header table thead.headWrap tr.headWraptop td#logo {
         width: 15.625%; }
         #compact-header table thead.headWrap tr.headWraptop td#logo .headerColumn a {

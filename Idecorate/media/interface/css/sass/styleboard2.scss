@@ -144,11 +144,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		        			}
 		        		}
 		        	}
-
 		        	.search {
 		        		margin: 10px 0;
 				        width: 240px;
-				        height: 25px;
+				        height: 22px;
 				        background-color: #FFFFFF;
 				        clear: both;
 
@@ -162,8 +161,9 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							border: none;
 							padding:2px 5px;
 							width: 190px;
-							line-height: 21px;
-							height: 21px;
+							line-height: 18px;
+							height: 18px;
+          					font-size: 10px;
 				        }
 
 				        input[type="text"]:focus{
@@ -173,10 +173,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 				        input[type="image"] {
 							float: right;
-							height: 19px;
-							width: 19px;
+							height: 14px;
+							width: 14px;
 							background: #FFFFFF;
-							padding: 3px;
+							padding: 4px;
 				        }
 
 				      }

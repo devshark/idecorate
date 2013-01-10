@@ -7,14 +7,17 @@
         a,span{
             text-transform: uppercase;
             font-family: 'futura_std_medium';
-            font-size: 12px;
+            font-size: 10px;
             color: #CCCCCC !important;
             //border-bottom: 1px dotted #000000;
             .arrow{
                 padding-left:5px;
+                font-size: 8px !important;
+                vertical-align: top !important;
             }
         }
         ul.sub-menu{
+            background-color: #4D4D4D !important;
             li{
                 background-color: #4D4D4D;
                 border-bottom: none;

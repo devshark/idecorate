@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
-HomeBannerForm, HomeInfoGraphicForm
-from menu.services import addMenu
-from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu
+HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm
+from menu.services import addMenu, saveItemMenu
+from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
 from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
@@ -2330,3 +2330,22 @@ def import_update_product_details(product, data):
 	except Exception as e:
 		print e
 		pass
+
+@staff_member_required
+def item_menu(request):
+	info = {}
+	menus = ItemMenu.objects.filter(deleted=0)
+	form = ItemMenuForm()
+	if request.method == 'POST':
+		task = request.POST.get('task',None)
+		if task == 'arrange':
+			arrange = request.POST.get('arrangement')
+			arrange =arrange.split('|')
+			arrangeItemMenu(arrange)
+		else:
+			form = ItemMenuForm(request.POST)
+			if form.is_valid():
+				saveItemMenu(form.cleaned_data)
+	info['form'] = form
+	info['menus'] = menus
+	return render_to_response('admin/admin_item_menu.html',info,RequestContext(request))

@@ -7,21 +7,25 @@
     .dd > li a, .dd > li span {
       text-transform: uppercase;
       font-family: 'futura_std_medium';
-      font-size: 12px;
+      font-size: 10px;
       color: #CCCCCC !important; }
       .dd > li a .arrow, .dd > li span .arrow {
-        padding-left: 5px; }
-    .dd > li ul.sub-menu li {
-      background-color: #4D4D4D;
-      border-bottom: none; }
-      .dd > li ul.sub-menu li > a, .dd > li ul.sub-menu li span {
-        color: #CCCCCC !important;
-        padding-top: 7px;
-        padding-bottom: 5px; }
-    .dd > li ul.sub-menu li:hover {
-      background-color: #CCCCCC !important; }
-      .dd > li ul.sub-menu li:hover > a, .dd > li ul.sub-menu li:hover span {
-        color: #333333 !important; }
+        padding-left: 5px;
+        font-size: 8px !important;
+        vertical-align: top !important; }
+    .dd > li ul.sub-menu {
+      background-color: #4D4D4D !important; }
+      .dd > li ul.sub-menu li {
+        background-color: #4D4D4D;
+        border-bottom: none; }
+        .dd > li ul.sub-menu li > a, .dd > li ul.sub-menu li span {
+          color: #CCCCCC !important;
+          padding-top: 7px;
+          padding-bottom: 5px; }
+      .dd > li ul.sub-menu li:hover {
+        background-color: #CCCCCC !important; }
+        .dd > li ul.sub-menu li:hover > a, .dd > li ul.sub-menu li:hover span {
+          color: #333333 !important; }
   .dd li.hover, .dd li:hover {
     background-color: #000000 !important; }
     .dd li.hover a, .dd li.hover span, .dd li:hover a, .dd li:hover span {
