@@ -1,6 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
-from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu
+from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu, FatFooterMenu
 from category.services import get_categories, category_tree_crumb, get_cat
 from django.core.urlresolvers import reverse
 from idecorate_settings.models import IdecorateSettings
@@ -28,6 +28,22 @@ def get_interface_info(infoType):
                 element = '<ul>'
 
                 footer_menus = FooterMenu.objects.filter(parent=None,deleted=False).order_by('order')
+                link = ""
+
+                for menu in footer_menus:
+
+                        if menu.link == "":
+                                link = menu.name
+                        else:
+                                link = '<a href="%s">%s</a>' % (menu.link, menu.name)
+
+                        element += '<li>%s</li>' % link
+
+                element += '</ul>'
+        elif infoType == 'fat_footer':
+                element = '<ul>'
+
+                footer_menus = FatFooterMenu.objects.filter(deleted=False).order_by('order')
                 link = ""
 
                 for menu in footer_menus:

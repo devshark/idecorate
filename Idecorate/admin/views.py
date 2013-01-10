@@ -57,7 +57,7 @@ def admin_manage_menu(request):
     form_info_menu = MenuAddForm(initial={'menu_type':'1'})
     form_site_menu = MenuAddForm(initial={'menu_type':'2'})
     form_footer_menu = MenuAddForm(initial={'menu_type':'3'})
-    fat_form_footer_menu = MenuAddForm(initial={'menu_type':'4'})
+    form_fat_footer_menu = MenuAddForm(initial={'menu_type':'4'})
 
     footer_copyright = FooterCopyright.objects.get(id=1)
     form_footer_copyright = FooterCopyRightForm(initial={'task':'copyright','menu_type':'3','copyright':footer_copyright.copyright})
@@ -244,6 +244,48 @@ def admin_manage_menu(request):
 					form_footer_menu = MenuAddForm(initial={'menu_type':'3'})
 					messages.success(request, _('Menu saved.'))
 
+		elif request.POST.get('menu_type') == "4":
+
+			if task == "arrange":
+				arrangement = request.POST.get('arrangement')
+
+				arrangementList = arrangement.split(';')
+
+				for a in arrangementList:
+					if a != "":
+						splitValues = a.split(':')
+						arrange_footer = FatFooterMenu.objects.get(id=int(splitValues[0]))
+						arrange_footer.order = int(splitValues[1])
+						arrange_footer.save()
+				info['fat_footer_message'] = True
+				messages.success(request, _('Arrangement saved.'))			
+			elif task == "edit":
+				general_name = request.POST.get('general_name', '')
+				general_id = request.POST.get('general_id','')
+				general_link = request.POST.get('general_link','')
+
+				info['fat_footer_message'] = True
+
+				if general_name.strip() == "":
+					info['error_edit'] = True
+				else:
+					footer_menu = FatFooterMenu.objects.get(id=int(general_id))
+					footer_menu.name = general_name
+					footer_menu.link = general_link
+					footer_menu.save()
+
+					messages.success(request, _('Menu saved.'))	
+			else:
+
+				form_fat_footer_menu = MenuAddForm(request.POST)
+
+				info['fat_footer_message'] = True
+
+				if form_fat_footer_menu.is_valid():
+					addMenu(form_fat_footer_menu.cleaned_data['name'], form_fat_footer_menu.cleaned_data['link'], form_fat_footer_menu.cleaned_data['menu_type'])
+					form_fat_footer_menu = MenuAddForm(initial={'menu_type':'4'})
+					messages.success(request, _('Menu saved.'))
+
     info['form_info_menu'] = form_info_menu
     info['form_site_menu'] = form_site_menu
     info['form_footer_menu'] = form_footer_menu
@@ -252,6 +294,7 @@ def admin_manage_menu(request):
     info['footer_menus'] = footer_menus
     info['form_footer_copyright'] = form_footer_copyright
     info['fat_footer_menus'] = fat_footer_menus
+    info['form_fat_footer_menu'] = form_fat_footer_menu
     return render_to_response('admin/admin_manage_menu.html',info,RequestContext(request))
 
 

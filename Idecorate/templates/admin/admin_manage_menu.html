@@ -281,13 +281,13 @@
 
 			<h4>About US</h4>
 
-			{{ fat_footer_menus|getMenus:"sortable3" }}
+			{{ fat_footer_menus|getMenus:"sortable4" }}
 
 			<div class="form-actions">
 				<div class="pull-left">
-					<form action="" method="post" id="footer_arrange">
+					<form action="" method="post" id="fat_footer_arrange">
 					{% csrf_token %}
-					<input type="hidden" name="menu_type" value="3" />
+					<input type="hidden" name="menu_type" value="4" />
 					<input type="hidden" name="task" value="arrange" />
 					<input type="hidden" name="arrangement" value="" />
 	  				<button type="button" class="btn btn-primary">Save changes</button>
@@ -492,6 +492,11 @@
 			submitArrangement('#footer_arrange','sortable3');
 		});
 
+		$('#fat_footer_arrange .btn').click(function(e){
+
+			submitArrangement('#fat_footer_arrange','sortable4');
+		});
+
 		$('#manage_menu a').click(function (e) {
 				e.preventDefault();
 				$(this).tab('show');
@@ -512,7 +517,7 @@
 			toleranceElement: '> div'
         });
 
-        $('#sortable3').nestedSortable({
+        $('#sortable3, #sortable4').nestedSortable({
 			disableNesting: 'no-nest',
 			forcePlaceholderSize: true,
 			handle: 'div',
@@ -529,13 +534,16 @@
 
         {% if menu_type %}
         	{% if menu_type == "1" %}
-        $('#manage_menu a[href="#info_manage_menu"]').tab('show');
+        		$('#manage_menu a[href="#info_manage_menu"]').tab('show');
         	{% endif %}
         	{% if menu_type == "2" %}
-        $('#manage_menu a[href="#site_manage_menu"]').tab('show');
+        		$('#manage_menu a[href="#site_manage_menu"]').tab('show');
         	{% endif %}
         	{% if menu_type == "3" %}
-        $('#manage_menu a[href="#footer_manage_menu"]').tab('show');
+        		$('#manage_menu a[href="#footer_manage_menu"]').tab('show');
+        	{% endif %}
+        	{% if menu_type == "4" %}
+        		$('#manage_menu a[href="#fat_footer_manage_menu"]').tab('show');
         	{% endif %}
         {% endif %}
 
@@ -548,6 +556,9 @@
         });
         $('#ddl-pages-footer').change(function(){
         	$('#id_link_footer').val('/sites'+$(this).val());
+        });
+        $('#ddl-pages-fat-footer').change(function(){
+        	$('#id_link_fat_footer').val('/sites'+$(this).val());
         });
 
         $('#ddl-pages-edit').change(function(){

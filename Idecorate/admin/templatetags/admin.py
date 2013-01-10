@@ -64,14 +64,19 @@ def menuRecursion(menus, id):
 	menuType = 0
 
 	for menu in menus:
-		if menu.parent is None:
+		try:
+			if menu.parent is None:
+				if needToOpen:
+					element += '<ol class="sortable" id="%s">' % id
+					needToOpen = False
+
+			else:
+				if needToOpen:
+					element += '<ol>'
+					needToOpen = False
+		except:
 			if needToOpen:
 				element += '<ol class="sortable" id="%s">' % id
-				needToOpen = False
-
-		else:
-			if needToOpen:
-				element += '<ol>'
 				needToOpen = False
 
 		if menus.model == type(InfoMenu()):
@@ -93,7 +98,7 @@ def menuRecursion(menus, id):
 		elif menus.model == type(SiteMenu()):
 			sub_menus = SiteMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuRecursion(sub_menus, "")
-		else:
+		elif menus.model == type(FooterMenu()):
 			sub_menus = FooterMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
 			element += menuRecursion(sub_menus, "")
 
