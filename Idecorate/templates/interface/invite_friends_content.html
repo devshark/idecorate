@@ -1,0 +1,9 @@
+			{% for fb_friend in fb_friends %}
+			<li style="opacity:0;-moz-opacity: 0;filter: alpha(opacity=0);">
+				<div class="fbData clearfix">
+					<span class="fbImg"><img src="{{ fb_friend.friend_image }}" alt="" /></span>
+					<span class="fbName">{{ fb_friend.friend_name }}</span>
+				</div>
+				<a class="inviteBtn" href="#" onclick="inviteFriendsNow('{{ fb_friend.friend_id }}')">Invite</a>
+			</li>
+			{% endfor %}
