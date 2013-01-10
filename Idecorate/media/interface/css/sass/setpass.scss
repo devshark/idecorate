@@ -1,13 +1,31 @@
-.setPassWrap {
-	width: 994px;
-	height: inherit;
-	padding: 15px;
-	background-color: #FFFFFF;
+#content {
+	margin-top:20px;
+
+	h3{ 
+		width: 100%;
+      	font-family: 'futura_std_medium';
+		font-size: 22px;
+		color: #000000;
+		margin-bottom: 15px;
+	}
+
+}
+
+.setPassWrap{
+	padding: 12px;
+	background: #efebe4;
+}
+
+.setPass{
+	background: #FFFFFF;
+	padding:10px;
+	// width: 994px;
+	// height: inherit;
 
 	fieldset {
 		height: 450px;
-		border: 1px solid #000000;
-		padding: 15px;
+        border: 1px solid #CCCCCC;
+        padding: 10px;
 
 		legend {
 			font-size: 1.2em;
@@ -87,19 +105,23 @@
 				}
 
 				#submit{
-					padding: 8px;
+					padding: 8px 8px 5px;
 				    cursor: pointer;
 				    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
 				    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
 				    background: -moz-linear-gradient(top, white, #da9b94);
 				    background: -o-linear-gradient(top, white, #da9b94);
-				    -moz-border-radius: 4px;
-				    -webkit-border-radius: 4px;
-				    border-radius: 4px;
-				    -khtml-border-radius: 4px;
 				    border: 1px solid #FFC5C3; 
+      				font-family: 'futura_std_heavy';
+      				font-size: 12px;
+					color: #FFFFFF;
+				    // -moz-border-radius: 4px;
+				    // -webkit-border-radius: 4px;
+				    // border-radius: 4px;
+				    // -khtml-border-radius: 4px;
 				}
 				#submit:hover{
+					color: #CCCCCC;
 					filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFC5C3', endColorstr='#C7544E');
 				    background: -webkit-gradient(linear, left top, left bottom, from(#ffc5c3), to(#c7544e));
 				    background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
@@ -107,18 +129,19 @@
 
 				#cancel{
 					color: #FFFFFF;
-				    font-weight: bold;
-				    padding: 8px;
+					padding: 8px 8px 5px;
 				    cursor: pointer;
 				    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#333333');
 				    background: -webkit-gradient(linear, left top, left bottom, from(white), to(#333333));
 				    background: -moz-linear-gradient(top, white, #333333);
 				    background: -o-linear-gradient(top, white, #333333);
-				    -moz-border-radius: 4px;
-				    -webkit-border-radius: 4px;
-				    border-radius: 4px;
-				    -khtml-border-radius: 4px;
+				    // -moz-border-radius: 4px;
+				    // -webkit-border-radius: 4px;
+				    // border-radius: 4px;
+				    // -khtml-border-radius: 4px;
+      				font-family: 'futura_std_heavy';
 				    border: 1px solid #CCCCCC;
+      				font-size: 12px;
 				}
 
 			}

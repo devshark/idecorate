@@ -28,7 +28,7 @@ from customer.services import get_user_styleboard, get_styleboard_cart_item
 import admin
 from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems
-from customer.models import CustomerProfile
+from customer.models import CustomerProfile, CustomerFacebookFriends
 from forms import SetPasswordForm
 
 def home(request):
@@ -826,5 +826,6 @@ def checkout_login(request):
 
 def invite_friends(request):
 	info = {}
+	info['fb_friends'] = CustomerFacebookFriends.objects.filter(user__id=request.user.id)
 	
 	return render_to_response('interface/invite_friends.html', info,RequestContext(request))

@@ -16,6 +16,17 @@ class CustomerProfile(models.Model):
 		db_table = 'customer_profiles'
 		verbose_name = _("Customer Profiles")
 
+class CustomerFacebookFriends(models.Model):
+	id = models.AutoField(db_column='id', primary_key=True)
+	user = models.ForeignKey(User, db_column='user_id')
+	friend_id = models.CharField(db_column='friend_id', max_length=256)
+	friend_name = models.CharField(db_column='friend_name', max_length=256)
+	friend_image = models.CharField(db_column='friend_image', max_length=256)
+
+	class Meta:
+		db_table = 'customer_facebook_friends'
+		verbose_name = _("Customer Facebook Friends")
+
 class StyleboardItems(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
 	name = models.CharField(db_column="name", max_length=256, null=True)
