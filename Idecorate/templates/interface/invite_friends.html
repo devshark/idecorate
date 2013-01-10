@@ -5,12 +5,25 @@
     <link rel="stylesheet" type="text/css" href="/media/interface/css/invite_friends.css">
     <link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
 	<link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+	<style type="text/css">
+
+	.loading {
+		text-align:center;
+		display:none;
+	}
+
+	.loading2 {
+		text-align: center;
+	}
+
+	</style>
 {% endblock %}
 {% block content %}
 <h3>Invite Friends
 	<div class="searchFriends clearfix">
-		<form action="" method="POST">
-			<input type="text" name="search" id="search" placeholder="Search Friends" > 
+		<form action="" method="post">
+			{% csrf_token %}
+			{{ search_form_fb.search_name|attr:"placeholder:Search Friends" }}
 			<input type="image" src="/media/images/search.png" class="searchIcon" />
 			<input type="submit" value="Search" class="searchButton">
 		</form>
@@ -19,17 +32,14 @@
 <div class="inviteFriendsWrap">
 	<div class="clearfix inviteFriends">
 		{% if user.is_authenticated %}
-		<ul class="friendList">
-			{% for fb_friend in fb_friends %}
-			<li>
-				<div class="fbData clearfix">
-					<span class="fbImg"><img src="{{ fb_friend.friend_image }}" alt="" /></span>
-					<span class="fbName">{{ fb_friend.friend_name }}</span>
-				</div>
-				<a class="inviteBtn" href="#" onclick="inviteFriendsNow('{{ fb_friend.friend_id }}')">Invite</a>
-			</li>
-			{% endfor %}
+			{% if fb_friends %}
+		<ul class="friendList" id="content_friends">
 		</ul>
+		<div class="loading" id="loading">Wait a moment... it's loading!</div>
+		<div class="loading" id="nomoreresults">Sorry, no more results.</div>
+			{% else %}
+		<div class="loading2" style="">Sorry, no more results.</div>
+			{% endif %}
 		{% else %}
 		<div class="inviteLogoff">
 			<p>We Couldn't find any of your friends from Facebook because you haven't<br/>logged-in to your facebook account.Click the button below to connect</p>
@@ -40,49 +50,72 @@
 </div>
 {% endblock %}
 {% block javascripts %}
+
 <script type="text/javascript">
-$(function(){
-	if($(window).height() > $('#main-container').outerHeight()){
-		page_H();
-	}
 
-	$('#cancel').click(function(e){
-
-		document.location = '/';
-
-	});
-
+$(function(e){
+	FB.init({appId: "250262231769530", status: true, cookie: true});
 });
 
-function page_H(){
 
- 	var windowH = $(window).height();
-		headerH = $('#header').outerHeight(true);
-		footerH = $('#footer').outerHeight(true);
-		newHeight = windowH-(headerH+footerH+15);
-		
-	$("#content").height(newHeight);
-
+function invite_callback(response) {
+	          
 }
 
+function inviteFriendsNow(to) {
 
-	      FB.init({appId: "250262231769530", status: true, cookie: true});
+	// calling the API ...
+	var obj = {
+		method: 'apprequests',
+		to: to,
+		message: 'We help you create a wedding style, choose products within your budget, we source & then deliver your décor. Our products & packages seek to make weddings more stylish, less stressful & more affordable. Now anyone online can afford a stylist.'
+	};
 
-	      function inviteFriendsNow(to) {
 
-	        // calling the API ...
-	        var obj = {
-	          method: 'apprequests',
-	          to: to,
-	          message: 'We help you create a wedding style, choose products within your budget, we source & then deliver your décor. Our products & packages seek to make weddings more stylish, less stressful & more affordable. Now anyone online can afford a stylist.'
-	        };
 
-	        function invite_callback(response) {
-	          
-	        }
+	FB.ui(obj, invite_callback);
+}
 
-	        FB.ui(obj, invite_callback);
-	      }
+page_fb = 1;
+friends_count = {{ friends_count }};
+friend_name = '{{ friend_name }}';
+
+</script>
+<script type="text/javascript" src="/media/interface/js/scrollpagination.js"></script>
+
+<script type="text/javascript">
+$(function(){
+
+	$('#content_friends').scrollPagination({
+		'contentPage': '{% url invite_friends_content %}', // the url you are fetching the results
+		'contentData': {}, // these are the variables you can pass to the request, for example: children().size() to know which page you are
+		'scrollTarget': $(window), // who gonna scroll? in this example, the full window
+		'heightOffset': 10, // it gonna request when scroll is 10 pixels before the page ends
+		'beforeLoad': function(){ // before load function, you can display a preloader div
+			$('#loading').fadeIn();	
+		},
+		'afterLoad': function(elementsLoaded){ // after loading content, you can use this function to animate your new elements
+			 $('#loading').fadeOut();
+			 var i = 0;
+			 $(elementsLoaded).fadeInWithDelay();
+			 if ($('#content_friends').children().size() > friends_count){ // if more than 100 results already loaded, then stop pagination (only for testing)
+			 	$('#nomoreresults').fadeIn();
+				$('#content_friends').stopScrollPagination();
+			 }
+		}
+	});
+
+	// code for fade in element by element
+	$.fn.fadeInWithDelay = function(){
+		var delay = 0;
+		return this.each(function(){
+			$(this).delay(delay).animate({opacity:1}, 200);
+			delay += 100;
+		});
+	};
+
+
+});
 
 </script>
 <!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->

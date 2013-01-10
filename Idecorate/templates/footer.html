@@ -5,17 +5,7 @@
 <div class="clearfix footerMenu">
 	<div>
 		<h3>ABOUT US</h3>
-		<ul>
-			<li>
-				<a href="{% url about %}">About iDECORATE</a>
-			</li>
-			<li>
-				<a href="{% url contact %}">Contact Us</a>
-			</li>
-			<li>
-				<a href="{% url help %}">Help</a>
-			</li>
-		</ul>
+		{{ "fat_footer"|get_interface_info }}		
 	</div>
 	<div>
 		<h3>BROWSE</h3>
@@ -60,6 +50,7 @@
 		<h3>MY ACCOUNT</h3>
 		<ul>
 			<li><a href="{% url profile %}">Profile</a></li>
+			<li><a href="{% url invite_friends %}">Invite Friends</a></li>
 			<!-- <li><a href="#">News feed</a></li>
 			<li><a href="#">Keep box</a></li>
 			<li><a href="#">Share record</a></li>

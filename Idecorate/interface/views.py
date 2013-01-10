@@ -29,7 +29,7 @@ import admin
 from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems
 from customer.models import CustomerProfile, CustomerFacebookFriends
-from forms import SetPasswordForm
+from forms import SetPasswordForm, SearchFriendsForm
 
 def home(request):
 	info = {}
@@ -826,6 +826,43 @@ def checkout_login(request):
 
 def invite_friends(request):
 	info = {}
-	info['fb_friends'] = CustomerFacebookFriends.objects.filter(user__id=request.user.id)
+	fb_friends = CustomerFacebookFriends.objects.filter(user__id=request.user.id)
+	search_form_fb = SearchFriendsForm()
+	friend_name = ''
+
+	if request.method == 'POST':
+		search_form_fb = SearchFriendsForm(request.POST)
+
+		if search_form_fb.is_valid():
+			friend_name = search_form_fb.cleaned_data['search_name']
+			fb_friends = fb_friends.filter(friend_name__icontains=friend_name)
+
+	info['friend_name'] = friend_name
+	info['search_form_fb'] = search_form_fb
+	info['fb_friends'] = fb_friends
+	info['friends_count'] = fb_friends.count()
 	
 	return render_to_response('interface/invite_friends.html', info,RequestContext(request))
+
+@csrf_exempt
+def invite_friends_content(request):
+	info = {}
+	fb_friends = None
+
+	if request.method == "POST":
+		page = request.POST.get('page','')
+		friend_name = request.POST.get('friend_name','')
+		fb_friends = CustomerFacebookFriends.objects.filter(user__id=request.user.id, friend_name__icontains=friend_name)
+		paginator = Paginator(fb_friends, 15)
+
+		try:
+			fb_friends = paginator.page(page)
+		except PageNotAnInteger:
+			fb_friends = paginator.page(1)
+		except EmptyPage:
+			fb_friends = paginator.page(paginator.num_pages)
+
+	info['fb_friends'] = fb_friends
+	return render_to_response('interface/invite_friends_content.html', info,RequestContext(request))
+
+

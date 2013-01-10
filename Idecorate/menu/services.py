@@ -1,4 +1,4 @@
-from models import InfoMenu, SiteMenu, FooterMenu, ItemMenu
+from models import InfoMenu, SiteMenu, FooterMenu, FatFooterMenu, ItemMenu
 from django.db.models import Max
 
 def addMenu(name, link, menuType):
@@ -9,9 +9,12 @@ def addMenu(name, link, menuType):
 	elif menuType == "2":
 		menu = SiteMenu()
 		max_order = SiteMenu.objects.filter(parent__id=None).aggregate(Max('order'))
-	else:
+	elif menuType == "3":
 		menu = FooterMenu()
 		max_order = FooterMenu.objects.filter(parent__id=None).aggregate(Max('order'))
+	else:
+		menu = FatFooterMenu()
+		max_order = FatFooterMenu.objects.all().aggregate(Max('order'))
 
 
 	menu.name = name
