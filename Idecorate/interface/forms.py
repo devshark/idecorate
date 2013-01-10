@@ -31,3 +31,7 @@ class SetPasswordForm(forms.Form):
 			return confirm_password
 		except MultiValueDictKeyError as e:
 			return ""
+
+class SearchFriendsForm(forms.Form):
+
+	search_name = forms.CharField(max_length=100,label=_("Search Name"), required=False)

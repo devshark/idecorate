@@ -29,7 +29,7 @@ import admin
 from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems
 from customer.models import CustomerProfile, CustomerFacebookFriends
-from forms import SetPasswordForm
+from forms import SetPasswordForm, SearchFriendsForm
 
 def home(request):
 	info = {}
@@ -826,6 +826,17 @@ def checkout_login(request):
 
 def invite_friends(request):
 	info = {}
-	info['fb_friends'] = CustomerFacebookFriends.objects.filter(user__id=request.user.id)
+	fb_friends = CustomerFacebookFriends.objects.filter(user__id=request.user.id)
+	search_form_fb = SearchFriendsForm()
+
+	if request.method == 'POST':
+		search_form_fb = SearchFriendsForm(request.POST)
+
+		if search_form_fb.is_valid():
+			fb_friends = fb_friends.filter(friend_name__icontains=search_form_fb.cleaned_data['search_name'])
+
+
+	info['search_form_fb'] = search_form_fb
+	info['fb_friends'] = fb_friends
 	
 	return render_to_response('interface/invite_friends.html', info,RequestContext(request))

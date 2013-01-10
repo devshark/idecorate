@@ -9,8 +9,9 @@
 {% block content %}
 <h3>Invite Friends
 	<div class="searchFriends clearfix">
-		<form action="" method="POST">
-			<input type="text" name="search" id="search" placeholder="Search Friends" > 
+		<form action="" method="post">
+			{% csrf_token %}
+			{{ search_form_fb.search_name|attr:"placeholder:Search Friends" }}
 			<input type="image" src="/media/images/search.png" class="searchIcon" />
 			<input type="submit" value="Search" class="searchButton">
 		</form>
