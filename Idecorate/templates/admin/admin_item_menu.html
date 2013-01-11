@@ -1,0 +1,158 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<style type="text/css">
+	#myModal {width: 780px}
+	/*=========================================
+	Clearfix for self clearing floated children
+	=========================================*/
+	.clearfix:before,
+	.clearfix:after {content: "";display: table; }
+	.clearfix:after {clear: both; }
+	.clearfix {zoom: 1;/* For IE 6/7 (trigger hasLayout) */ }
+	.menuDataWrap .menuData{float: left; background: none; padding: 0; border: none;}
+	.menuDataWrap .menuData span{display: inline-block;zoom:1;*display: inline;vertical-align: top;}
+	.menuDataWrap .menuData span.menuID{display: none;}
+	.menuDataWrap .menuAction{float: right; background: none;padding: 0; border: none;}
+</style>
+{% endblock %}
+
+{% block content %}
+<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="myModalLabel">Edit Menu</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-inline" action="" method="post" id="general_edit">
+			{% csrf_token %}
+			<input type="hidden" name="general_id" value="" />
+			<input type="hidden" name="menu_type" value="" />
+			<input type="hidden" name="task" value="edit" />
+			<label class="checkbox">
+				{% trans "Name" %}
+				<input type="text" class="input-large" name="general_name" placeholder="Name" />
+			</label>
+			<label class="checkbox">
+				{% trans "Link" %}
+				<input type="text" class="input-large" name="general_link" placeholder="Link" />
+			</label>
+			<label class="checkbox">
+				<select name="ddlPages" id="ddl-pages-edit">
+					<option value="">-- Select Site Page Url --</option>
+					{% for page in pages %}
+					<option value="{{ page.url }}">{{ page.title }}</option>
+					{% endfor %}
+				</select>
+			</label>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Close</button>
+		<button class="btn btn-primary" id="edit_save">Save changes</button>
+	</div>
+</div>
+<div id="myModal2" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="myModalLabel">Delete Menu</h3>
+	</div>
+	<div class="modal-body">
+		<p>Do you want to delete this?</p>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal">Close</button>
+		<button class="btn btn-primary" id="delete_menu">Delete</button>
+	</div>
+</div>
+<h3>Add Item Menu</h3>
+{% if form.name.errors or form.link.errors  %}
+<div class="alert alert-error">
+	<a class="close" data-dismiss="alert" href="#">×</a>
+	<h4 class="alert-heading">Please correct the following errors:</h4>
+	<ol>
+		{% if form.name.errors %}
+		{% for e in form.name.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% endif %}
+		{% if form.link.errors %}
+		{% for e in form.link.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% endif %}
+	</ol>
+</div>
+{% endif %}	
+<form class="form-inline" action="" method="post">
+	{% csrf_token %}
+	{{ form.name|attr:'placeholder:menu name' }}
+	{{ form.link|attr:'placeholder:menu link' }}
+	<input type="submit" value="Add Menu" class="btn btn-primary"/>
+</form>
+<ol class="sortable">
+	{% for menu in menus %}
+	<li class="ui-state-default" id="{{ menu.id }}">
+		<div class="menuDataWrap clearfix">
+			<div class="menuData">
+				<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+				<span class="menuName">{{ menu.name }}</span>
+			</div>
+			<div class="menuAction"><a href="{{ menu.id }}" id="edit_{{ menu.id }}">Edit</a> | <a href="{{ menu.id }}" id="delete_{{ menu.id }}">Delete</a></div>
+		</div>
+	</li>
+	{% endfor %}
+</ol>
+<div class="form-actions">
+	<form action="" method="post" id="menu_arrange">
+		{% csrf_token %}
+		<input type="hidden" name="task" value="arrange" />
+		<input type="hidden" name="arrangement" value="" />
+		<button type="button" id="save-menu-changes" class="btn btn-primary">Save changes</button>
+	</form>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
+<script type="text/javascript">
+	$(function(){
+		$('.sortable').nestedSortable({
+			disableNesting: 'no-nest',
+			forcePlaceholderSize: true,
+			handle: 'div',
+			helper:	'clone',
+			items: 'li',
+			maxLevels: 1,
+			opacity: .6,
+			placeholder: 'placeholder',
+			revert: 250,
+			tabSize: 25,
+			tolerance: 'pointer',
+			toleranceElement: '> div'
+        });
+
+		$('#save-menu-changes').click(function(e){
+			$('input[name="arrangement"]').val(getMenuHiearchy());
+			$('#menu_arrange').submit();
+		});
+	});
+
+
+	function getMenuHiearchy(){
+		var menuHiearchy = [];
+		$('.sortable li').each(function(i,val){
+			var menuID = $(this).attr('id');
+			menuHiearchy.push(menuID);
+		});
+
+		return menuHiearchy.join('|');
+	}
+</script>
+{% endblock %}
