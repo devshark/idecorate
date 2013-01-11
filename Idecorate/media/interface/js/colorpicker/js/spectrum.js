@@ -12,6 +12,7 @@
         change: noop,
         show: noop,
         hide: noop,
+        move_stopped: noop,
 
         // Options
         color: false,
@@ -127,7 +128,8 @@
             'change': bind(opts.change, callbackContext),
             'show': bind(opts.show, callbackContext),
             'hide': bind(opts.hide, callbackContext),
-            'beforeShow': bind(opts.beforeShow, callbackContext)
+            'beforeShow': bind(opts.beforeShow, callbackContext),
+            'move_stopped': bind(opts.move_stopped, callbackContext),
         };
 
         return opts;
@@ -190,7 +192,7 @@
             colorOnShow = false,
             preferredFormat = opts.preferredFormat,
             currentPreferredFormat = preferredFormat,
-            clickoutFiresChange = !opts.showButtons || opts.clickoutFiresChange;
+            clickoutFiresChange = opts.clickoutFiresChange;//!opts.showButtons || opts.clickoutFiresChange;
 
         chooseButton.text(opts.chooseText);
         cancelButton.text(opts.cancelText);
@@ -388,6 +390,11 @@
         }
         function dragStop() {
             container.removeClass(draggingClass);
+            callbacks.move_stopped(get());
+
+            //if(!clickoutFiresChange) {
+            callbacks.change(get());
+            //}
         }
         function setFromTextInput() {
             var tiny = tinycolor(textInput.val());

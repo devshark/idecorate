@@ -447,13 +447,13 @@ $(document).ready(function () {
         color: "#000",
         preferredFormat: "rgb",
         showButtons: false,
-        clickoutFiresChange: true,
-        move: function(color) {
-         var object = $('.selected, .box.active').find('img');
-         new_img = change_color(object,color.toRgb());
-        },
+        clickoutFiresChange: false,
         change: function(color){
             eventTracker(new_img, 'change_color');
+        },
+        move_stopped: function(color) {
+            var object = $('.selected, .box.active').find('img');
+            new_img = change_color(object,color.toRgb());
         }
     });
 
@@ -1802,6 +1802,20 @@ function update_menu(obj,img_menu){
             $('.colorAdjustment').hide();
         }else{
             $('.colorAdjustment').show();
+
+            try {
+                var thisColor = obj.attr('src').toString().match(/embellishment_color=[0-9]{9}/gm).toString().match(/[0-9]{9}$/gm).toString();
+                var thisRgbColor = tinycolor("rgb (" + thisColor.substr(0,3) + "," + thisColor.substr(3,3) + "," + thisColor.substr(6,3) + ")").toString();
+                $("#colorPicker").spectrum("set",thisRgbColor);
+            } catch(e1) {
+                try {
+                    var thisColor = obj.attr('src').toString().match(/font_color=[0-9]{9}/gm).toString().match(/[0-9]{9}$/gm).toString();
+                    var thisRgbColor = tinycolor("rgb (" + thisColor.substr(0,3) + "," + thisColor.substr(3,3) + "," + thisColor.substr(6,3) + ")").toString();
+                    $("#colorPicker").spectrum("set",thisRgbColor);
+                }catch(e2) {
+                }
+            }
+
             if(obj.hasClass('text') || obj.parent().hasClass('text')){
                 $('#text-change-wrap').show();
                 $('#opacity-control-wrap').css({'width':'47%','float':'left','margin-left':10});
