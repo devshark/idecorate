@@ -63,6 +63,8 @@
             var GET_TEMPLATES_LIST_URL      = '{% url get_template_items %}';
             var create_current_tab          = 'products';
             var GET_TEMPLATES_DETAIL_URL    = '{% url get_template_details %}';
+            var BROWSER_WIDTH               = 0;
+            var BROWSER_HEIGHT              = 0;
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -515,6 +517,34 @@
 
     $(document).ready( function() {
 
+        BROWSER_HEIGHT = $(window).height();
+        BROWSER_WIDTH = $(window).width();
+
+        $(window).resize(function(e){
+
+            if(BROWSER_WIDTH != $(window).width() || BROWSER_HEIGHT != $(window).height()) {
+                BROWSER_HEIGHT = $(window).height();
+                BROWSER_WIDTH = $(window).width();
+
+                styleboardH();
+                _resize_embellisment();
+
+                if($.browser.msie && $.browser.version == 8.0){
+                    if ( $(window).height() != window_height && $(window).width() != window_width ) {
+                        window_height = $(window).height();
+                        window_width = $(window).width();
+                        setTimeout(manage_product_resize,0);
+                    }
+                } else {
+                    setTimeout(manage_product_resize,0);
+                }
+
+                _resize_template();
+
+            }
+
+        });
+
         $(':input[placeholder]').placeholder();
         
         $('.dd').dropdown({
@@ -580,7 +610,6 @@
 <script src="/media/interface/js/search.js"></script>
 <script type="text/javascript">
 
-    $(window).resize(styleboardH);
 
     function styleboardH() {
 

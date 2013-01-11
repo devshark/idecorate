@@ -2356,7 +2356,13 @@ function undo_styleboard() {
         attachEventToQty();
         manage_subtotal();
         manage_total();
-        styleboardH();
+
+        if(BROWSER_WIDTH != $(window).width() || BROWSER_HEIGHT != $(window).height()) {
+            BROWSER_HEIGHT = $(window).height();
+            BROWSER_WIDTH = $(window).width();
+
+            styleboardH();
+        }
 
         if($('.template').length > 0) {
             box_droppable();
@@ -2385,7 +2391,13 @@ function redo_styleboard() {
         attachEventToQty();
         manage_subtotal();
         manage_total();
-        styleboardH();
+        
+        if(BROWSER_WIDTH != $(window).width() || BROWSER_HEIGHT != $(window).height()) {
+            BROWSER_HEIGHT = $(window).height();
+            BROWSER_WIDTH = $(window).width();
+
+            styleboardH();
+        }
 
         if($('.template').length > 0) {
             box_droppable();

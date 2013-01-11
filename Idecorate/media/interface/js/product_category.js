@@ -28,17 +28,6 @@ $(document).ready( function() {
         return false;
     });
 
-    $(window).resize(function(){
-    	if($.browser.msie && $.browser.version == 8.0){
-    		if ( $(window).height() != window_height && $(window).width() != window_width ) {
-    			window_height = $(window).height();
-    			window_width = $(window).width();
-    			setTimeout(manage_product_resize,0);
-    		}
-    	} else {
-    		setTimeout(manage_product_resize,0);
-    	}
-    });
     $('#buyTab').click(function(){
         $('#idecorate-tooltip').hide();
     });

@@ -33,9 +33,6 @@ $(document).ready(function(){
             timer = setInterval(_resize_document,100);
 		}
 	});
-    $(window).resize(function(){
-        _resize_template();
-    });
 
     $('#templates .template-wrap').on('mousewheel',function(event,delta){                
         temp_offset = temp_item_per_page;

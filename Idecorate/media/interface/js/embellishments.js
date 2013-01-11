@@ -45,9 +45,7 @@ $(document).ready(function(){
         get_embellishment_items();
         e.preventDefault();
     });
-    $(window).resize(function(){
-        _resize_embellisment();
-    });
+
     $('#embellishments #embelishments-list-wrap .emItem').on('mousewheel',function(event,delta){
         emb_offset = emb_item_per_page;
         if (delta > 0){
