@@ -14,7 +14,11 @@ def addMenu(name, link, menuType):
 		max_order = FooterMenu.objects.filter(parent__id=None).aggregate(Max('order'))
 	else:
 		menu = FatFooterMenu()
-		max_order = FatFooterMenu.objects.all().aggregate(Max('order'))
+		if FatFooterMenu.objects.all().count() > 0:
+			max_order = FatFooterMenu.objects.all().aggregate(Max('order'))
+		else:
+			max_order = {}
+			max_order['order__max'] = 0
 
 
 	menu.name = name
