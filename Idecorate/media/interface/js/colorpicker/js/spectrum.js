@@ -129,7 +129,7 @@
             'show': bind(opts.show, callbackContext),
             'hide': bind(opts.hide, callbackContext),
             'beforeShow': bind(opts.beforeShow, callbackContext),
-            'move_stopped': bind(opts.move_stopped, callbackContext),
+            'move_stopped': bind(opts.move_stopped, callbackContext)
         };
 
         return opts;
