@@ -41,5 +41,19 @@ def saveItemMenu(data):
 	newItem.save()
 
 def arrangeItemMenu(arrangement):
-	for i in arrangement:
-		itemMenus 		= ItemMenu.objects.get(id = i)
+	# for i in arrangement:
+	# 	itemMenus 		= ItemMenu.objects.get(id = i)
+
+	# 	if a != "":
+	# 		splitValues = a.split(':')
+	# 		arrange_footer = FooterMenu.objects.get(id=int(splitValues[0]))
+	# 		arrange_footer.order = int(splitValues[1])
+
+	# 		if splitValues[2].strip() == "None":
+	# 			arrange_footer.parent = None
+	# 		else:
+	# 			arrange_footer.parent = FooterMenu.objects.get(id=int(splitValues[2]))
+
+	# 		arrange_footer.save()
+	# info['footer_message'] = True
+	# messages.success(request, _('Arrangement saved.'))

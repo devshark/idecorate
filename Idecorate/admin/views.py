@@ -9,7 +9,7 @@ from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
 HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm
-from menu.services import addMenu, saveItemMenu
+from menu.services import addMenu, saveItemMenu, arrangeItemMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
 from django.views.decorators.csrf import csrf_exempt

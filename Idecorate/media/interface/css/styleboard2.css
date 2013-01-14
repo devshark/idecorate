@@ -423,10 +423,10 @@ h5 {
               outline: 1px solid #CCC; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em span {
               display: block;
-              font-size: 10px;
+              font-size: 12px;
               margin: 10px 0 5px 0;
               text-align: center;
-              color: #000; }
+              color: #666666; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em:hover img {
             outline: 2px solid #000; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap .emItem .thumb {

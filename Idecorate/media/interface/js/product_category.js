@@ -55,9 +55,9 @@ $(document).ready( function() {
 });
 var recur = false;
 function set_category_label_height(){    
-    if ($('.product-list-wrap .category-wrap .thumb.categories span').length >0){
+    if ($('.product-list-wrap .category-wrap .thumb.categories span, #embelishments-list-wrap .emCat .em span').length >0){
         var max_h = 0;
-        $('.product-list-wrap .category-wrap .thumb.categories span').each(function(){
+        $('.product-list-wrap .category-wrap .thumb.categories span, #embelishments-list-wrap .emCat .em span').each(function(){
             if ($(this).height()>max_h)
                 max_h = $(this).height();
         });        
@@ -67,7 +67,7 @@ function set_category_label_height(){
                 set_category_label_height();                
             }
         } else {
-            $('.product-list-wrap .category-wrap .thumb.categories span').height(max_h);
+            $('.product-list-wrap .category-wrap .thumb.categories span, #embelishments-list-wrap .emCat .em span').height(max_h);
             $('.category-wrap .thumb.categories').removeClass('hidden');
         }
     }
