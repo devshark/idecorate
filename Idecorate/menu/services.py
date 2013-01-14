@@ -41,6 +41,7 @@ def saveItemMenu(data):
 	newItem.save()
 
 def arrangeItemMenu(arrangement):
+	pass
 	# for i in arrangement:
 	# 	itemMenus 		= ItemMenu.objects.get(id = i)
 
