@@ -262,6 +262,7 @@ function populate_embellishment_by_page(){
 }
 
 function get_embellishment_items(){
+
     $('#embelishments-list-wrap .emItem a').each(function(){
         $(this).remove();
     });
@@ -319,6 +320,7 @@ function get_embellishment_items(){
 
 function manage_embellishment_resize(){
     is_window_resized = true;
+
     $('#embelishments-list-wrap .emItem a:first img').each(function(){
         getHeight($(this),function(h){
             var elm = $('#embelishments-list-wrap .emItem a:first');            

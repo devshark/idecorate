@@ -170,6 +170,10 @@
         .invisible {
             display: none !important;
         }
+
+        .tempShow{
+            visibility:hidden;
+        }
         </style>
     </head>
     <body>
@@ -516,6 +520,18 @@
 <script type="text/javascript">
 
     $(document).ready( function() {
+        $('#embellishments').show().addClass('tempShow');
+        var tempHeight = 0;
+        $('#embelishments-list-wrap .emCat .em span').each(function(i, val){
+            if($(val).height() > tempHeight){
+                tempHeight = $(val).height();
+            }
+            if(i == $('#embelishments-list-wrap .emCat .em span').length-1){
+                $('#embellishments').hide().removeClass('tempShow');
+            }
+        });
+        $('#embelishments-list-wrap .emCat .em span').height(tempHeight);
+        
 
         BROWSER_HEIGHT = $(window).height();
         BROWSER_WIDTH = $(window).width();
