@@ -64,6 +64,7 @@ ul.dropdown ul{
 	top: 100%; 
 	left: 0; 
 	background-color: #f6f6f6; 
+	z-index: 10;
 }
 
 ul.dropdown ul li{ 
