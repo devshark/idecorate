@@ -34,7 +34,6 @@
 		<form class="form-inline" action="" method="post" id="general_edit">
 			{% csrf_token %}
 			<input type="hidden" name="general_id" value="" />
-			<input type="hidden" name="menu_type" value="" />
 			<input type="hidden" name="task" value="edit" />
 			<label class="checkbox">
 				{% trans "Name" %}
@@ -44,14 +43,14 @@
 				{% trans "Link" %}
 				<input type="text" class="input-large" name="general_link" placeholder="Link" />
 			</label>
-			<label class="checkbox">
+			<!-- <label class="checkbox">
 				<select name="ddlPages" id="ddl-pages-edit">
 					<option value="">-- Select Site Page Url --</option>
 					{% for page in pages %}
 					<option value="{{ page.url }}">{{ page.title }}</option>
 					{% endfor %}
 				</select>
-			</label>
+			</label> -->
 		</form>
 	</div>
 	<div class="modal-footer">
@@ -72,6 +71,8 @@
 		<button class="btn btn-primary" id="delete_menu">Delete</button>
 	</div>
 </div>
+
+
 <h3>Add Item Menu</h3>
 {% if form.name.errors or form.link.errors  %}
 <div class="alert alert-error">
@@ -90,7 +91,48 @@
 		{% endif %}
 	</ol>
 </div>
+{% endif %}
+
+{% if is_edit_error and menu_message  %}
+<div class="alert alert-error">
+	<a class="close" data-dismiss="alert" href="#">×</a>
+	<h4 class="alert-heading">Please correct the following errors:</h4>
+	<ol>
+		<li>{{ menu_message }}</li>
+	</ol>
+</div>
+{% endif %}
+
+{% if messages and is_edit_success %}
+	<div class="alert alert-success">
+		<a class="close" data-dismiss="alert" href="#">×</a>
+		<h4 class="alert-heading">Success!</h4>
+		{% for message in messages %}
+		{{ message }}
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% if messages and request.session.is_deleted %}
+	<div class="alert alert-success">
+		<a class="close" data-dismiss="alert" href="#">×</a>
+		<h4 class="alert-heading">Success!</h4>
+		{% for message in messages %}
+		{{ message }}
+		{% endfor %}
+	</div>
+{% endif %}
+
+{% if messages and is_arrange_message  %}
+<div class="alert alert-success">
+	<a class="close" data-dismiss="alert" href="#">×</a>
+	<h4 class="alert-heading">Success!</h4>
+	{% for message in messages %}
+	{{ message }}
+	{% endfor %}
+</div>
 {% endif %}	
+
 <form class="form-inline" action="" method="post">
 	{% csrf_token %}
 	{{ form.name|attr:'placeholder:menu name' }}
@@ -105,7 +147,10 @@
 				<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
 				<span class="menuName">{{ menu.name }}</span>
 			</div>
-			<div class="menuAction"><a href="{{ menu.id }}" id="edit_{{ menu.id }}">Edit</a> | <a href="{{ menu.id }}" id="delete_{{ menu.id }}">Delete</a></div>
+			<div class="menuAction">
+				<a data-toggle="modal" href="#myModal" class="editItemMenu" data-item="{{ menu.id }}|{{ menu.name }}|{{ menu.link }}" id="edit_">Edit</a> | 
+				<a data-toggle="modal" href="#myModal2" class="delItemMenu" id="{{ menu.id }}">Delete</a>
+			</div>
 		</div>
 	</li>
 	{% endfor %}
@@ -122,6 +167,8 @@
 {% block javascripts %}
 <script type="text/javascript" src="/media/admin/js/jquery.mjs.nestedSortable.js"></script>
 <script type="text/javascript">
+	globalURL = "";
+
 	$(function(){
 		$('.sortable').nestedSortable({
 			disableNesting: 'no-nest',
@@ -142,8 +189,36 @@
 			$('input[name="arrangement"]').val(getMenuHiearchy());
 			$('#menu_arrange').submit();
 		});
+
+		$('.menuDataWrap .menuAction').each(function(i,val){
+			$('.editItemMenu', val).click(function(e){
+				setEdit($(this).attr('data-item'));
+			});
+			$('.delItemMenu', val).click(function(e){
+				setGlobalURL($(this).attr('id'));
+			});
+		});
+
+		$('#edit_save').click(function(e){
+			$('#general_edit').submit();
+		});
+
+		$('#delete_menu').click(function(e){
+			deleteMenu();
+		});
+	
 	});
 
+	function setGlobalURL(url) { globalURL = '/admin/admin_delete_item_menu/'+url+'/';}
+
+	function deleteMenu() {document.location = globalURL;}
+
+	function setEdit(val) {
+		var val = val.split('|');
+		$('#general_edit input[name="general_id"]').val(val[0])
+		$('#general_edit input[name="general_name"]').val(val[1])
+		$('#general_edit input[name="general_link"]').val(val[2])
+	}
 
 	function getMenuHiearchy(){
 		var menuHiearchy = [];

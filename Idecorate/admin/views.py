@@ -9,7 +9,7 @@ from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
 HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm
-from menu.services import addMenu, saveItemMenu, arrangeItemMenu
+from menu.services import addMenu, saveItemMenu, arrangeItemMenu, updateItemMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
 from django.views.decorators.csrf import csrf_exempt
@@ -2380,7 +2380,7 @@ def import_update_product_details(product, data):
 @staff_member_required
 def item_menu(request):
 	info = {}
-	menus = ItemMenu.objects.filter(deleted=0)
+	menus = ItemMenu.objects.filter(deleted=0).order_by('order')
 	form = ItemMenuForm()
 	if request.method == 'POST':
 		task = request.POST.get('task',None)
@@ -2388,10 +2388,36 @@ def item_menu(request):
 			arrange = request.POST.get('arrangement')
 			arrange =arrange.split('|')
 			arrangeItemMenu(arrange)
+			info['is_arrange_message'] = True	
+			messages.success(request, _('Arrangement saved.'))
+		elif task == 'edit':
+			data = {'id':request.POST.get('general_id',''), 'name':request.POST.get('general_name', ''), 'link':request.POST.get('general_link','')}
+			if data['name'].strip() == "":
+				info['is_edit_error'] = True	
+				info['menu_message'] = 'Menu Name is a required field.'	
+			else:
+				updateItemMenu(data)
+				info['is_edit_success'] = True	
+				messages.success(request, _('%s updated.' % data['name']))
 		else:
 			form = ItemMenuForm(request.POST)
 			if form.is_valid():
 				saveItemMenu(form.cleaned_data)
+				info['is_create_message'] = True	
+				messages.success(request, _('%s saved.' % request.POST.get('name') ))
+				return redirect('admin_item_menu')
 	info['form'] = form
 	info['menus'] = menus
 	return render_to_response('admin/admin_item_menu.html',info,RequestContext(request))
+
+@staff_member_required
+def admin_delete_item_menu(request,id_delete):
+	menu = None
+
+	menu = ItemMenu.objects.get(id=int(id_delete))
+	menu.deleted = True
+	menu.save()
+	request.session['is_deleted'] = True
+	messages.success(request, _('%s Menu deleted.' % menu.name))
+
+	return redirect('admin_item_menu')
