@@ -2380,7 +2380,7 @@ def import_update_product_details(product, data):
 @staff_member_required
 def item_menu(request):
 	info = {}
-	menus = ItemMenu.objects.filter(deleted=0).order_by('order')
+	menus = ItemMenu.objects.filter(deleted=0,parent=None).order_by('order')
 	form = ItemMenuForm()
 	if request.method == 'POST':
 		task = request.POST.get('task',None)

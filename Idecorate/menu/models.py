@@ -69,6 +69,7 @@ class FatFooterMenu(models.Model):
 
 class ItemMenu(models.Model):
 	id 		= models.AutoField(db_column='ID', primary_key= True)
+	parent 	= models.ForeignKey('self',db_column='parent_id', null=True)
 	name 	= models.CharField(db_column='name', max_length=250, blank=True)
 	link 	= models.CharField(db_column='link', max_length=250, blank=True)
 	order 	= models.IntegerField(db_column='order')

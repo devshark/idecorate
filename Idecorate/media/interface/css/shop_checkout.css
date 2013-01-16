@@ -46,7 +46,6 @@
     font-size: 13px; }
   .checkout #edit_button {
     color: #FFFFFF;
-    font-weight: bold;
     padding: 4px 8px;
     margin-top: 5px;
     cursor: pointer;
@@ -62,6 +61,7 @@
     font-family: futura_std_heavy;
     font-size: 11px; }
   .checkout #edit_button:hover {
+    color: #666666;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#666666');
     /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(white), to(#666666));
@@ -274,37 +274,52 @@ div.leftPannel, div.rightPannel {
   float: left; }
   div.leftPannel fieldset, div.rightPannel fieldset {
     margin-bottom: 12px; }
-  div.leftPannel .deliveryDate, div.leftPannel .question, div.leftPannel .paymentMethod, div.leftPannel .paymentMethod2, div.leftPannel .request, div.rightPannel .deliveryDate, div.rightPannel .question, div.rightPannel .paymentMethod, div.rightPannel .paymentMethod2, div.rightPannel .request {
+  div.leftPannel .deliveryDate, div.leftPannel .question, div.leftPannel .paymentMethod, div.leftPannel .paymentMethod2, div.leftPannel .specialRequests, div.rightPannel .deliveryDate, div.rightPannel .question, div.rightPannel .paymentMethod, div.rightPannel .paymentMethod2, div.rightPannel .specialRequests {
     display: block;
     width: 430px;
     border: 1px solid #CCCCCC;
     padding: 10px;
     display: block; }
-    div.leftPannel .deliveryDate legend, div.leftPannel .question legend, div.leftPannel .paymentMethod legend, div.leftPannel .paymentMethod2 legend, div.leftPannel .request legend, div.rightPannel .deliveryDate legend, div.rightPannel .question legend, div.rightPannel .paymentMethod legend, div.rightPannel .paymentMethod2 legend, div.rightPannel .request legend {
+    div.leftPannel .deliveryDate legend, div.leftPannel .question legend, div.leftPannel .paymentMethod legend, div.leftPannel .paymentMethod2 legend, div.leftPannel .specialRequests legend, div.rightPannel .deliveryDate legend, div.rightPannel .question legend, div.rightPannel .paymentMethod legend, div.rightPannel .paymentMethod2 legend, div.rightPannel .specialRequests legend {
       margin: 0 0 0 10px;
       padding: 0 5px;
       font-size: 14px;
-      font-family: futura_std_book; }
-    div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.leftPannel .request ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul, div.rightPannel .request ul {
+      font-family: futura_std_book;
+      text-transform: uppercase; }
+    div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.leftPannel .specialRequests ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul, div.rightPannel .specialRequests ul {
       margin-top: 10px;
       list-style-position: inside; }
-      div.leftPannel .deliveryDate ul li, div.leftPannel .question ul li, div.leftPannel .paymentMethod ul li, div.leftPannel .paymentMethod2 ul li, div.leftPannel .request ul li, div.rightPannel .deliveryDate ul li, div.rightPannel .question ul li, div.rightPannel .paymentMethod ul li, div.rightPannel .paymentMethod2 ul li, div.rightPannel .request ul li {
+      div.leftPannel .deliveryDate ul li, div.leftPannel .question ul li, div.leftPannel .paymentMethod ul li, div.leftPannel .paymentMethod2 ul li, div.leftPannel .specialRequests ul li, div.rightPannel .deliveryDate ul li, div.rightPannel .question ul li, div.rightPannel .paymentMethod ul li, div.rightPannel .paymentMethod2 ul li, div.rightPannel .specialRequests ul li {
         list-style-type: disc;
         margin: 0 0 10px 10px;
         font-size: 11px; }
-        div.leftPannel .deliveryDate ul li a, div.leftPannel .question ul li a, div.leftPannel .paymentMethod ul li a, div.leftPannel .paymentMethod2 ul li a, div.leftPannel .request ul li a, div.rightPannel .deliveryDate ul li a, div.rightPannel .question ul li a, div.rightPannel .paymentMethod ul li a, div.rightPannel .paymentMethod2 ul li a, div.rightPannel .request ul li a {
+        div.leftPannel .deliveryDate ul li a, div.leftPannel .question ul li a, div.leftPannel .paymentMethod ul li a, div.leftPannel .paymentMethod2 ul li a, div.leftPannel .specialRequests ul li a, div.rightPannel .deliveryDate ul li a, div.rightPannel .question ul li a, div.rightPannel .paymentMethod ul li a, div.rightPannel .paymentMethod2 ul li a, div.rightPannel .specialRequests ul li a {
           color: #d89b96; }
-    div.leftPannel .deliveryDate ol, div.leftPannel .question ol, div.leftPannel .paymentMethod ol, div.leftPannel .paymentMethod2 ol, div.leftPannel .request ol, div.rightPannel .deliveryDate ol, div.rightPannel .question ol, div.rightPannel .paymentMethod ol, div.rightPannel .paymentMethod2 ol, div.rightPannel .request ol {
+    div.leftPannel .deliveryDate ol, div.leftPannel .question ol, div.leftPannel .paymentMethod ol, div.leftPannel .paymentMethod2 ol, div.leftPannel .specialRequests ol, div.rightPannel .deliveryDate ol, div.rightPannel .question ol, div.rightPannel .paymentMethod ol, div.rightPannel .paymentMethod2 ol, div.rightPannel .specialRequests ol {
       margin: 10px 0 0 30px;
       list-style-position: inside; }
-      div.leftPannel .deliveryDate ol li, div.leftPannel .question ol li, div.leftPannel .paymentMethod ol li, div.leftPannel .paymentMethod2 ol li, div.leftPannel .request ol li, div.rightPannel .deliveryDate ol li, div.rightPannel .question ol li, div.rightPannel .paymentMethod ol li, div.rightPannel .paymentMethod2 ol li, div.rightPannel .request ol li {
+      div.leftPannel .deliveryDate ol li, div.leftPannel .question ol li, div.leftPannel .paymentMethod ol li, div.leftPannel .paymentMethod2 ol li, div.leftPannel .specialRequests ol li, div.rightPannel .deliveryDate ol li, div.rightPannel .question ol li, div.rightPannel .paymentMethod ol li, div.rightPannel .paymentMethod2 ol li, div.rightPannel .specialRequests ol li {
         list-style-type: decimal;
         margin: 0 0 10px 45px; }
-    div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.leftPannel .request p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p, div.rightPannel .request p {
+    div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.leftPannel .specialRequests p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p, div.rightPannel .specialRequests p {
       font-size: 11px;
       font-family: futura_std_book; }
-      div.leftPannel .deliveryDate p a, div.leftPannel .question p a, div.leftPannel .paymentMethod p a, div.leftPannel .paymentMethod2 p a, div.leftPannel .request p a, div.rightPannel .deliveryDate p a, div.rightPannel .question p a, div.rightPannel .paymentMethod p a, div.rightPannel .paymentMethod2 p a, div.rightPannel .request p a {
+      div.leftPannel .deliveryDate p a, div.leftPannel .question p a, div.leftPannel .paymentMethod p a, div.leftPannel .paymentMethod2 p a, div.leftPannel .specialRequests p a, div.rightPannel .deliveryDate p a, div.rightPannel .question p a, div.rightPannel .paymentMethod p a, div.rightPannel .paymentMethod2 p a, div.rightPannel .specialRequests p a {
         color: #d89b96; }
+    div.leftPannel .deliveryDate textarea, div.leftPannel .question textarea, div.leftPannel .paymentMethod textarea, div.leftPannel .paymentMethod2 textarea, div.leftPannel .specialRequests textarea, div.rightPannel .deliveryDate textarea, div.rightPannel .question textarea, div.rightPannel .paymentMethod textarea, div.rightPannel .paymentMethod2 textarea, div.rightPannel .specialRequests textarea {
+      border: 1px solid #CCC;
+      padding: 5px;
+      -moz-border-radius: 3px;
+      -webkit-border-radius: 3px;
+      border-radius: 3px;
+      -khtml-border-radius: 3px;
+      box-shadow: 0px 1px 5px #999 inset;
+      resize: none; }
+  div.leftPannel .specialRequests textarea, div.rightPannel .specialRequests textarea {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 418px;
+    height: 100px; }
   div.leftPannel .deliveryDate p, div.rightPannel .deliveryDate p {
     font-size: 13px;
     font-family: futura_std_book; }

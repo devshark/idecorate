@@ -1,7 +1,7 @@
 from django import template
 from django.utils.safestring import mark_safe
 from category.models import Categories
-from menu.models import InfoMenu, SiteMenu, FooterMenu, FatFooterMenu
+from menu.models import InfoMenu, SiteMenu, FooterMenu, FatFooterMenu, ItemMenu
 from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
@@ -51,6 +51,41 @@ def checkPasswordError(request, isControlGroup):
 				return mark_safe('<span class="help-inline"><ul class="errorlist"><li>This field is required.</li></ul></span>') 
 
 	return ""
+
+@register.filter
+def getItemMenu(menus,is_sub=False):
+	menuStr = ""
+	if is_sub:
+		menuStr += '<ol>'
+	else:
+		menuStr += '<ol class="sortable">'
+
+	for menu in menus: 
+		#LI
+		menuStr += """
+			<li class="ui-state-default" id="%s">
+				<div class="menuDataWrap clearfix">
+					<div class="menuData">
+						<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+						<span class="menuName">%s</span>
+					</div>
+					<div class="menuAction">
+						<a data-toggle="modal" href="#myModal" class="editItemMenu" data-item="%s|%s|%s" id="edit_">Edit</a> | 
+						<a data-toggle="modal" href="#myModal2" class="delItemMenu" id="%s">Delete</a>
+					</div>
+				</div>
+			""" % (menu.id, menu.name, menu.id, menu.name, menu.link, menu.id)
+		#</li> 
+			
+		sub_menus = ItemMenu.objects.filter(parent=menu.id,deleted=0).order_by('order')
+		if sub_menus.count() > 0:
+			menuStr += getItemMenu(sub_menus,True)
+
+		menuStr += "</li>"
+
+	menuStr += "</ol>"
+
+	return mark_safe(menuStr)
 
 @register.filter
 def getMenus(menus, id):
