@@ -41,20 +41,22 @@ def saveItemMenu(data):
 	newItem.save()
 
 def arrangeItemMenu(arrangement):
-	pass
-	# for i in arrangement:
-	# 	itemMenus 		= ItemMenu.objects.get(id = i)
+	for i,val in enumerate(arrangement):
+		itemMenus 		= ItemMenu.objects.get(id = val)
+		itemMenus.order = int(i+1)
+		itemMenus.save()
 
-	# 	if a != "":
-	# 		splitValues = a.split(':')
-	# 		arrange_footer = FooterMenu.objects.get(id=int(splitValues[0]))
-	# 		arrange_footer.order = int(splitValues[1])
+def updateItemMenu(data):
+	item_menu_id 	= data['id']
+	item_menu_name 	= data['name']
+	item_menu_link 	= data['link']
 
-	# 		if splitValues[2].strip() == "None":
-	# 			arrange_footer.parent = None
-	# 		else:
-	# 			arrange_footer.parent = FooterMenu.objects.get(id=int(splitValues[2]))
+	#info['fat_footer_message'] = True
 
-	# 		arrange_footer.save()
-	# info['footer_message'] = True
-	# messages.success(request, _('Arrangement saved.'))
+	if item_menu_name.strip() == "":
+		info['error_edit'] = True
+	else:
+		item_menu = ItemMenu.objects.get(id=int(item_menu_id))
+		item_menu.name = item_menu_name
+		item_menu.link = item_menu_link
+		item_menu.save()

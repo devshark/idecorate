@@ -1,6 +1,6 @@
 from django import template
 from django.utils.safestring import mark_safe
-from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu, FatFooterMenu
+from menu.models import FooterCopyright, InfoMenu, SiteMenu, FooterMenu, FatFooterMenu, ItemMenu
 from category.services import get_categories, category_tree_crumb, get_cat
 from django.core.urlresolvers import reverse
 from idecorate_settings.models import IdecorateSettings
@@ -84,9 +84,13 @@ def get_category_nav(value):
         parent_category = get_categories(None)
 
         parent_category = parent_category.order_by('order')
+        item_menu       = ItemMenu.objects.filter(deleted=0).order_by('order')
         tags = """
                 <ul class="dd">                
         """
+        for menu in item_menu:
+                tags += '<li><a href="%s">%s</a>' % (menu.link, menu.name)
+                tags += '</li>'
         for cat in parent_category:
                 tags += """
                         <li><a href="%s">%s</a>

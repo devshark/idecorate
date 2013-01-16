@@ -72,6 +72,8 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/csv_export_report/$', 'csv_export_report', {}, name='csv_export_report'),
     url(r'^admin/import_csv_report/$', 'import_csv_report', {}, name='import_csv_report'),
     url(r'^admin/admin_item_menu/$', 'item_menu', {}, name='admin_item_menu'),
+    url(r'^admin/admin_delete_item_menu/(?P<id_delete>\d+)/$','admin_delete_item_menu', {}, name='admin_delete_item_menu'),
+    
 )
 
 """
