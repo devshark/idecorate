@@ -42,16 +42,16 @@ def saveItemMenu(data):
 
 def arrangeItemMenu(arrangement):
 	for i,val in enumerate(arrangement):
-		itemMenus 		= ItemMenu.objects.get(id = val)
-		itemMenus.order = int(i+1)
+		val = val.split(':')
+		itemMenus 		= ItemMenu.objects.get(id = val[0])
+		itemMenus.order = int(val[1])
+		itemMenus.parent_id = None if  val[2] == 'None'  else int(val[2])
 		itemMenus.save()
 
 def updateItemMenu(data):
 	item_menu_id 	= data['id']
 	item_menu_name 	= data['name']
 	item_menu_link 	= data['link']
-
-	#info['fat_footer_message'] = True
 
 	if item_menu_name.strip() == "":
 		info['error_edit'] = True

@@ -134,28 +134,25 @@
 </div>
 {% endif %}	
 
+{% if messages and is_create_message  %}
+<div class="alert alert-success">
+	<a class="close" data-dismiss="alert" href="#">×</a>
+	<h4 class="alert-heading">Success!</h4>
+	{% for message in messages %}
+	{{ message }}
+	{% endfor %}
+</div>
+{% endif %}	
+
 <form class="form-inline" action="" method="post">
 	{% csrf_token %}
 	{{ form.name|attr:'placeholder:menu name' }}
 	{{ form.link|attr:'placeholder:menu link' }}
 	<input type="submit" value="Add Menu" class="btn btn-primary"/>
 </form>
-<ol class="sortable">
-	{% for menu in menus %}
-	<li class="ui-state-default" id="{{ menu.id }}">
-		<div class="menuDataWrap clearfix">
-			<div class="menuData">
-				<span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
-				<span class="menuName">{{ menu.name }}</span>
-			</div>
-			<div class="menuAction">
-				<a data-toggle="modal" href="#myModal" class="editItemMenu" data-item="{{ menu.id }}|{{ menu.name }}|{{ menu.link }}" id="edit_">Edit</a> | 
-				<a data-toggle="modal" href="#myModal2" class="delItemMenu" id="{{ menu.id }}">Delete</a>
-			</div>
-		</div>
-	</li>
-	{% endfor %}
-</ol>
+
+{{ menus|getItemMenu }}
+
 <div class="form-actions">
 	<form action="" method="post" id="menu_arrange">
 		{% csrf_token %}
@@ -177,7 +174,7 @@
 			handle: 'div',
 			helper:	'clone',
 			items: 'li',
-			maxLevels: 1,
+			maxLevels: 0,
 			opacity: .6,
 			placeholder: 'placeholder',
 			revert: 250,
@@ -188,6 +185,7 @@
 
 		$('#save-menu-changes').click(function(e){
 			$('input[name="arrangement"]').val(getMenuHiearchy());
+			//return false;
 			$('#menu_arrange').submit();
 		});
 
@@ -222,9 +220,22 @@
 	}
 
 	function getMenuHiearchy(){
+		/**
+			each menuID = ID:INDEX:PARENT
+		**/
 		var menuHiearchy = [];
+		var menuID = '';
 		$('.sortable li').each(function(i,val){
-			var menuID = $(this).attr('id');
+			var parentLI 	= $(val).parent().parent('li');
+			var ID 			= $(val).attr('id');
+			var ORDER 		= $(val).index()+1;
+			menuID = ID+':'+ORDER+':';
+
+			if(parentLI.length){
+				menuID += parentLI.attr('id');
+			}else{
+				menuID += 'None';
+			}
 			menuHiearchy.push(menuID);
 		});
 

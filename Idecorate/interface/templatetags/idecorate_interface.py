@@ -84,13 +84,13 @@ def get_category_nav(value):
         parent_category = get_categories(None)
 
         parent_category = parent_category.order_by('order')
-        item_menu       = ItemMenu.objects.filter(deleted=0).order_by('order')
-        tags = """
+        item_menu = ItemMenu.objects.filter(deleted=0,parent=None).order_by('order')
+
+        tags = menuItemInterface(item_menu)
+
+        tags += """
                 <ul class="dd">                
         """
-        for menu in item_menu:
-                tags += '<li><a href="%s">%s</a>' % (menu.link, menu.name)
-                tags += '</li>'
         for cat in parent_category:
                 tags += """
                         <li><a href="%s">%s</a>
@@ -112,6 +112,26 @@ def get_category_nav(value):
         """
 
         return mark_safe(tags)
+
+def menuItemInterface(item_menu,is_sub=False):
+        menus = ""
+
+        if is_sub:
+                menus += "<ul>"
+        else:
+                menus += "<ul class=\"dd\">"
+
+        for menu in item_menu:
+                menus += '<li><a href="%s">%s</a>' % (menu.link, menu.name)
+                sub_menus = ItemMenu.objects.filter(parent=menu.id,deleted=0)
+                if sub_menus.count() > 0:
+                        menus += menuItemInterface(sub_menus,True)
+                menus += '</li>'
+
+        menus += "</ul>"
+
+        return menus
+
 
 def menuInterfaceRecursion(menus):
 
