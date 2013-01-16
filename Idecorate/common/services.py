@@ -36,6 +36,7 @@ def ss_direct(params, url, secure=False):
     try:
         response = requests.post(url, data=params, headers=headers, verify=True)
         result = flatten_response(urlparse.parse_qs(response.text))
+        #print "The result is: %s" % result
     except requests.ConnectionError:
         #logger.debug("Connection Error: url=%s, result=%s" % (url, str(result)))
         print "Connection Error: url=%s, result=%s" % (url, str(result))

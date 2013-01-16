@@ -231,7 +231,7 @@ class IdecorateShop(Shop):
 
 					splittedExpires = str(expires).split("/")
 
-					params['orderRef'] = str(order.id)
+					params['orderRef'] = str("%34d" % int(order.id)).replace(' ','0')
 					params['amount'] = "%.2f" % order.total
 					params['currCode'] = settings.PAYDOLLAR_CURRENCY
 					params['lang'] = "E"
@@ -242,11 +242,11 @@ class IdecorateShop(Shop):
 					params['cardNo'] = card_number
 					params['cardHolder'] = name_on_card
 					params['securityCode'] = cvv_code
-					params['payType'] = "N"
+					params['payType'] = "N" #N or H
 
 					ret = ss_direct(params, url, True)
 
-					if int(ret['successcode']) == -1:
+					if int(ret['successcode']) == -1 or int(ret['successcode']) == 1:
 
 						card_error.append(ret['errMsg'])
 						form = ConfirmationForm(**kwargs)
