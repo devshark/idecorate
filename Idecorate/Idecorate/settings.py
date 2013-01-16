@@ -164,6 +164,7 @@ INSTALLED_APPS = (
     'social_auth',
     'embellishments',
     'common',
+    'paypal',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -296,6 +297,16 @@ PLATA_SHOP_PRODUCT = 'cart.Product'
 PLATA_SHOP_CONTACT = 'cart.Contact'
 CURRENCIES = ('USD',)
 #End of Plata Settings
+
+#Idecorate Paypal Settings
+PAYPAL_PDT_TOKEN = '8Ddb2VFSiDE2l4Kzfe3d8d1oLDqX_Ux9oi2GeTFKU4L9hatKExbRMAukwcG'
+PAYPAL_EMAIL = 'seller_1358214077_biz@yahoo.com'
+PAYPAL_RETURN_URL = 'http://127.0.0.1:8000'
+
+#Sandbox
+PAYPAL_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
+PAYPAL_PDT_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
+#End of Idecorate Paypal Settings
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
