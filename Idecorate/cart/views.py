@@ -30,6 +30,10 @@ from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from common.services import ss_direct
 from interface.views import clear_styleboard_session
+from paypal import PayPal, PayPalItem
+from django.core.urlresolvers import reverse
+from datetime import datetime
+from decimal import Decimal
 
 class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     class Meta:
@@ -79,7 +83,7 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         self.fields['email'] = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
         self.fields['billing_last_name'] = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
         self.fields['billing_first_name'] = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
-        self.fields['payment_method'] = forms.ChoiceField(label=_("Payment Method"), choices=(('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
+        self.fields['payment_method'] = forms.ChoiceField(label=_("Payment Method"), choices=(('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
         self.fields['notes'] = forms.CharField(label=_("Special Requests and Comments"), widget=forms.Textarea, required=False)
 
         shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
@@ -299,6 +303,12 @@ class IdecorateShop(Shop):
 			'shop': self,
 			}
 
+		paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
+		paypal_orders = order.items.filter().order_by('-id')
+
+		for paypal_order in paypal_orders:
+			paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))
+
 		if request.method == 'POST' and '_checkout' in request.POST:
 			orderform = OrderForm(request.POST, **orderform_kwargs)
 			#print request.POST
@@ -338,6 +348,8 @@ class IdecorateShop(Shop):
 			'loginform': loginform,
 			'orderform': orderform,
 			'progress': 'checkout',
+			'paypal_url': settings.PAYPAL_URL,
+			'paypal_form': mark_safe(paypal.generateInputForm())
 			})
 
 	def order_success(self, request):
@@ -564,6 +576,39 @@ def checkout_from_view_styleboard(request):
 		return redirect('plata_shop_checkout')
 	else:
 		return redirect('styleboard')
+
+def paypal_return_url(request):
+
+	if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
+		
+		request.session['delivery_address2'] = ''
+		request.session['billing_address2'] = ''
+		request.session['delivery_date'] = ''
+		request.session['delivery_state'] = ''
+		request.session['billing_state'] = ''
+		request.session['salutation'] = ''
+		request.session['order-payment_method'] = 'PayPal'
+
+		order = shop.order_from_request(request, create=True)
+		
+		payment = order.payments.model(
+			order=order,
+			payment_module="COD"
+		)
+
+		payment.currency = request.GET.get('cc','USD')
+		payment.amount = Decimal(request.GET.get('amt','0.00'))
+		payment.authorized = datetime.now()
+		payment.payment_method = payment.payment_module
+		payment.status = OrderPayment.AUTHORIZED
+		payment.save()
+		order = order.reload()
+		
+		return redirect('plata_order_success')
+
+	else:
+		request.session['checkout_login_error'] = _('An error occurred while processing your payment through Paypal.')
+		return redirect('plata_shop_checkout')
 
 """
 def payment(request):

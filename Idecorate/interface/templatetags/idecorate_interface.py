@@ -238,7 +238,9 @@ def get_checkout_page_info(inf):
 def getImagePaymentMethod(met):
         ret = ""
 
-        if met == "Visa":
+        if met == "PayPal":
+                ret = mark_safe('<img src="/media/images/paypal.jpg" align="bottom" />')
+        elif met == "Visa":
                 ret = mark_safe('<img src="/media/images/visa.jpg" align="bottom" />')
         elif met == "Mastercard":
                 ret = mark_safe('<img src="/media/images/mastercard.jpg" />')
