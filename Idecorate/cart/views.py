@@ -590,6 +590,7 @@ def paypal_return_url(request):
 		request.session['order-payment_method'] = 'PayPal'
 
 		order = shop.order_from_request(request, create=True)
+
 		
 		payment = order.payments.model(
 			order=order,
@@ -602,6 +603,8 @@ def paypal_return_url(request):
 		payment.payment_method = payment.payment_module
 		payment.status = OrderPayment.AUTHORIZED
 		payment.save()
+		order.user = request.user if request.user.is_authenticated() else None
+		order.save()
 		order = order.reload()
 		
 		return redirect('plata_order_success')
