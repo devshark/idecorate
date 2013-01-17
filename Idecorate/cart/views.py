@@ -40,10 +40,21 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
         fields = ['email'] + ['billing_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_same_as_billing']
         model = Order
 
+    def save(self,**kwargs):
+    	order = super(IdecorateCheckoutForm, self).save()
+    	notes = kwargs.get('notes')
+
+    	if notes:
+    		order.notes = notes
+    		order.save()
+
+    	return order
+
     def __init__(self, *args, **kwargs):
         shop = kwargs.get('shop')
         request = kwargs.get('request')
         contact = shop.contact_from_user(request.user)
+        order = shop.order_from_request(request)
 
         states = tuple(sorted((('Australian Capital Territory','Australian Capital Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory'))))
         cities = tuple(sorted((
@@ -68,6 +79,7 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
                 kwargs['initial'] = initial
 
             initial['email'] = contact.user.email
+            initial['notes'] = order.notes
 
         super(IdecorateCheckoutForm, self).__init__(*args, **kwargs)
 
@@ -317,9 +329,10 @@ class IdecorateShop(Shop):
 
 		if request.method == 'POST' and '_checkout' in request.POST:
 			orderform = OrderForm(request.POST, **orderform_kwargs)
+			notes = request.POST.get('order-notes')
 			#print request.POST
 			if orderform.is_valid():
-				orderform.save()
+				orderform.save(notes=notes)
 				same_as_billing = request.POST.get('order-shipping_same_as_billing')
 				delivery_address2 = request.POST.get('order-shipping_address2')
 				billing_address2 = request.POST.get('order-billing_address2')
@@ -343,7 +356,6 @@ class IdecorateShop(Shop):
 				"""
 				added notes
 				"""
-				notes = request.POST.get('order-notes')
 				request.session['notes'] = notes
 				return redirect('plata_shop_discounts')
 		else:
