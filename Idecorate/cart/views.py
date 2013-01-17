@@ -231,7 +231,7 @@ class IdecorateShop(Shop):
 
 					splittedExpires = str(expires).split("/")
 
-					params['orderRef'] = str(order.id)
+					params['orderRef'] = str("%34d" % int(order.id)).replace(' ','0')
 					params['amount'] = "%.2f" % order.total
 					params['currCode'] = settings.PAYDOLLAR_CURRENCY
 					params['lang'] = "E"
@@ -242,11 +242,11 @@ class IdecorateShop(Shop):
 					params['cardNo'] = card_number
 					params['cardHolder'] = name_on_card
 					params['securityCode'] = cvv_code
-					params['payType'] = "N"
+					params['payType'] = "N" #N or H
 
 					ret = ss_direct(params, url, True)
 
-					if int(ret['successcode']) == -1:
+					if int(ret['successcode']) == -1 or int(ret['successcode']) == 1:
 
 						card_error.append(ret['errMsg'])
 						form = ConfirmationForm(**kwargs)
@@ -370,10 +370,13 @@ class IdecorateShop(Shop):
 		oData['billing_state'] = request.session['billing_state']
 		oData['salutation'] = request.session['salutation']
 
+		#try:
 		oPayment = OrderPayment.objects.get(order=order)
 		oPayment.payment_method = request.session.get('order-payment_method','')
 		oPayment.data = simplejson.dumps(oData)
 		oPayment.save()
+		#except:
+		#	pass
 
 		"""
 		order update note
@@ -594,19 +597,24 @@ def paypal_return_url(request):
 		
 		payment = order.payments.model(
 			order=order,
-			payment_module="COD"
+			payment_module="cod"
 		)
 
 		payment.currency = request.GET.get('cc','USD')
 		payment.amount = Decimal(request.GET.get('amt','0.00'))
 		payment.authorized = datetime.now()
-		payment.payment_method = payment.payment_module
+		payment.payment_method = 'PayPal'
+		payment.payment_module_key = 'cod'
+		payment.module = 'Cash on delivery'
 		payment.status = OrderPayment.AUTHORIZED
+		payment.transaction_id = request.GET.get('tx','')
 		payment.save()
 		order.user = request.user if request.user.is_authenticated() else None
+		order.paid = Decimal(request.GET.get('amt','0.00'))
+		order.status = 40
 		order.save()
 		order = order.reload()
-		
+
 		return redirect('plata_order_success')
 
 	else:
