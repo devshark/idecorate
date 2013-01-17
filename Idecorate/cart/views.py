@@ -244,7 +244,13 @@ class IdecorateShop(Shop):
 					params['securityCode'] = cvv_code
 					params['payType'] = "N" #N or H
 
-					ret = ss_direct(params, url, True)
+					if settings.SKIPPING_MODE:
+						ret = {
+							'successcode': '0'
+						}
+					else:
+
+						ret = ss_direct(params, url, True)
 
 					if int(ret['successcode']) == -1 or int(ret['successcode']) == 1:
 
@@ -538,7 +544,11 @@ def checkout(request):
 	if cart_item.count() > 0:
 		guest_table = GuestTableTemp.objects.get(sessionid=sessionid)
 		for cart in cart_item:
-			order.modify_item(cart.product, absolute=cart.quantity)
+			try:
+				order.modify_item(cart.product, absolute=cart.quantity)
+			except:
+				CartTemp.objects.filter(sessionid=sessionid).delete()
+				return shop.order_new(request)
 			#remove_from_cart_temp(cart.id)
 		shop.modify_guest_table(request, guest_table.guests, guest_table.tables, order)
 
@@ -584,6 +594,12 @@ def paypal_return_url(request):
 
 	if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
 		
+		try:
+			OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
+			return redirect('styleboard')
+		except:
+			pass
+
 		request.session['delivery_address2'] = ''
 		request.session['billing_address2'] = ''
 		request.session['delivery_date'] = ''

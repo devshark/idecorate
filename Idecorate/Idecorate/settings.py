@@ -308,6 +308,10 @@ PAYPAL_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
 PAYPAL_PDT_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
 #End of Idecorate Paypal Settings
 
+#Other Idecorate Weddings Setup
+SKIPPING_MODE = True #Used to skip some code block if True
+IDECORATE_MAIL = "noreply@idecorateweddings.com"
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

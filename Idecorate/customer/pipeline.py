@@ -95,7 +95,8 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
             iDecorate Weddings Team
             """ % (settings.IDECORATE_HOST, u.hash_set_password)
 
-            IdecorateEmail.send_mail(mail_from='noreply@idecorateweddings.com',mail_to=User.objects.get(id=user.id).email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
+            if not settings.SKIPPING_MODE:
+                IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=User.objects.get(id=user.id).email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
 
 
     """
