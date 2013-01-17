@@ -4,6 +4,37 @@
     <link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
     <link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
 	<link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+	<style type="text/css">
+		.modal{
+			background-color: #EEEEEE;
+			border: 1px solid #CCC;
+			padding: 7px;
+			-moz-border-radius: 5px;
+			-webkit-border-radius: 5px;
+			border-radius: 5px;
+			-khtml-border-radius: 5px;
+			font-size: 0;
+			position: absolute;
+			display: none;
+		}
+
+		.modal > div{
+			display: inline-block;
+			*display: inline;
+			margin-left: 3px;
+			zoom:1;
+		}
+
+		.modal .email a{
+			display: block;
+			height: 20px;
+		}
+		.modal .email a img{
+			height: 100%;
+			width: auto;
+		}
+
+	</style>
 {% endblock %}
 {% block content %}
 <div class="defaultContent clearfix">
@@ -36,7 +67,45 @@
 	{% endfor %}
 </section>
 <div class="modal">
+	<div class="facebookShare">
+		<a href="#" onclick="postToFeed()">
+			<img border="0" src="/media/images/fb_share.png" />
+		</a>
+	</div>
+	<div class="tumblerShare">
+		<a href="http://www.tumblr.com/share" title="Share on Tumblr" class="tumbler-share-button" target="_blank">
+			<img src='/media/images/tumblr.png' border="0" />
+		</a>
+	</div>
+	<div class="twitterShare">
+		<a href="https://twitter.com/share" class="twitter-share-button" data-count="none">Tweet</a>
+		<script>
+			!function(d,s,id){
+				var js,fjs=d.getElementsByTagName(s)[0];
+				if(!d.getElementById(id)){
+					js=d.createElement(s);js.id=id;
+					js.src="//platform.twitter.com/widgets.js";
+					fjs.parentNode.insertBefore(js,fjs);
+				}}
+				(document,"script","twitter-wjs");
+		</script>
+	</div>
+	<div class="pinterestShare">
+		<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url=">
+			<img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" />
+		</a>
+	</div>
+	<div class="googleShare">
+		<div class="g-plusone" data-size="medium" data-annotation="none" data-href=""></div>
+	</div>
+	<div class="email">
+		<a href="mailto:?subject=iDecorate%20Weddings%20|%20&body=Check%20this%20styleboard%20I%20made%20" target="_blank">
+			<img src="/media/images/email.jpg" />
+		</a>
+	</div>
+	<span class="arrowDown">
 
+	</span>
 </div>
 {% endblock %}
 {% block javascripts %}
@@ -45,18 +114,25 @@ $(function(){
 	if($(window).height() > $('#main-container').outerHeight()){
 		page_H();
 	}
+
+	$(document).click(function(e){
+		if(!$(e.target).hasClass('modal') && !$(e.target).hasClass('shareModal')){
+			$('.modal').hide();
+		}
+	});
+
+	$('a.shareModal').click(function(e){
+		e.preventDefault();
+
+		$('.modal').show().css({top:this.offsetTop+15,left:this.offsetLeft});
+		var param = $(this).attr('href').split('&');
+	});
 	
 	$('.featuredLinks').each(function(i,val){
 		$('li:last', val).css({borderRight:'none'});
 		$('li:first',val).css({borderLeft:'none'});
 	});
 
-	$('.shareModal').each(function(i,val){
-		$(val).click(function(e){
-			e.preventDefault();
-			var param = $(this).attr('href').split('&');
-		});	
-	});
 });
 
 function page_H(){
