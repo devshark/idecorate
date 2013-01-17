@@ -43,6 +43,70 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
     def save(self,**kwargs):
     	order = super(IdecorateCheckoutForm, self).save()
     	notes = kwargs.get('notes')
+    	billing_salutation = kwargs.get('billing_salutation')
+
+    	contact = self.shop.contact_from_user(self.request.user)
+
+    	shipping_address = kwargs.get('shipping_address')
+    	shipping_address2 = kwargs.get('shipping_address2')
+    	shipping_state = kwargs.get('shipping_state')
+    	shipping_city = kwargs.get('shipping_city')
+    	shipping_zip_code =kwargs.get('shipping_zip_code')
+
+    	billing_address = kwargs.get('billing_address')
+    	billing_address2 = kwargs.get('billing_address2')
+    	billing_state = kwargs.get('billing_state')
+    	billing_city = kwargs.get('billing_city')
+    	billing_zip_code = kwargs.get('billing_zip_code')
+    	same_as_billing = kwargs.get('same_as_billing')
+
+    	if same_as_billing:
+    		contact.shipping_same_as_billing = same_as_billing
+    		contact.save()
+
+    	if shipping_address:
+    		contact.address = shipping_address
+    		contact.save()
+
+    	if billing_address:
+    		contact.address2 = billing_address
+    		contact.save()
+
+    	if shipping_address2:
+    		contact.shipping_address2 = shipping_address2
+    		contact.save()
+
+    	if billing_address2:
+    		contact.billing_address2 = billing_address2
+    		contact.save()
+
+    	if shipping_state:
+    		contact.shipping_state = shipping_state
+    		contact.save()
+
+    	if billing_state:
+    		contact.billing_state = billing_state
+    		contact.save()
+
+    	if shipping_city:
+    		contact.city = shipping_city
+    		contact.save()
+
+    	if billing_city:
+    		contact.city2 = billing_city
+    		contact.save()
+
+    	if billing_salutation:
+    		contact.billing_salutation = billing_salutation
+    		contact.save()
+
+    	if shipping_zip_code:
+    		contact.zip_code = shipping_zip_code
+    		contact.save()
+
+    	if billing_zip_code:
+    		contact.zip_code2 = billing_zip_code
+    		contact.save()
 
     	if notes:
     		order.notes = notes
@@ -80,6 +144,18 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
 
             initial['email'] = contact.user.email
             initial['notes'] = order.notes
+            initial['billing_salutation'] = contact.billing_salutation
+            initial['shipping_same_as_billing'] = contact.shipping_same_as_billing
+            initial['shipping_address'] = contact.address
+            initial['billing_address'] = contact.address2
+            initial['shipping_address2'] = contact.shipping_address2
+            initial['billing_address2'] = contact.billing_address2
+            initial['shipping_state'] = contact.shipping_state
+            initial['billing_state'] = contact.billing_state
+            initial['shipping_city'] = contact.city
+            initial['billing_city'] = contact.city2
+            initial['shipping_zip_code'] = contact.zip_code
+            initial['billing_zip_code'] = contact.zip_code2
 
         super(IdecorateCheckoutForm, self).__init__(*args, **kwargs)
 
@@ -329,21 +405,29 @@ class IdecorateShop(Shop):
 
 		if request.method == 'POST' and '_checkout' in request.POST:
 			orderform = OrderForm(request.POST, **orderform_kwargs)
-			notes = request.POST.get('order-notes')
 			#print request.POST
 			if orderform.is_valid():
-				orderform.save(notes=notes)
+				notes = request.POST.get('order-notes')
 				same_as_billing = request.POST.get('order-shipping_same_as_billing')
+				delivery_address = request.POST.get('order-shipping_address')
+				billing_address = request.POST.get('order-billing_address')
 				delivery_address2 = request.POST.get('order-shipping_address2')
 				billing_address2 = request.POST.get('order-billing_address2')
 				delivery_date = request.POST.get('order-shipping_date')
 				delivery_state = request.POST.get('order-shipping_state')
 				billing_state = request.POST.get('order-billing_state')
+				delivery_city = request.POST.get('order-shipping_city')
+				billing_city = request.POST.get('order-billing_city')
+				delivery_zip_code = request.POST.get('order-shipping_zip_code')
+				billing_zip_code = request.POST.get('order-billing_zip_code')
 				salutation = request.POST.get('order-billing_salutation')
 
 				if same_as_billing:
+					billing_address = delivery_address
 					billing_address2 = delivery_address2
 					billing_state = delivery_state
+					billing_city = delivery_city
+					billing_zip_code = delivery_zip_code
 
 				request.session['order-payment_method'] = request.POST.get('order-payment_method','')
 				request.session['delivery_address2'] = delivery_address2
@@ -352,6 +436,22 @@ class IdecorateShop(Shop):
 				request.session['delivery_state'] = delivery_state
 				request.session['billing_state'] = billing_state
 				request.session['salutation'] = salutation
+
+				orderform.save(
+					notes=notes, 
+					billing_salutation=salutation,
+					same_as_billing=True if same_as_billing else False,
+					shipping_address=delivery_address,
+					billing_address=billing_address,
+					shipping_address2=delivery_address2,
+					billing_address2=delivery_address2,
+					shipping_state=delivery_state,
+					billing_state=billing_state,
+					shipping_city=delivery_city,
+					billing_city=billing_city,
+					shipping_zip_code=delivery_zip_code,
+					billing_zip_code=billing_zip_code
+				)
 
 				"""
 				added notes
