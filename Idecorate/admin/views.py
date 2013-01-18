@@ -1018,10 +1018,10 @@ def admin_manage_checkout(request):
 @staff_member_required
 def admin_upload_embellishment(request):
     info = {}
-    form = UploadEmbellishmentForm()
+    form = UploadEmbellishmentForm(emb_types=EmbellishmentsType.objects.filter().order_by('id'))
 
     if request.method == "POST":
-    	form = UploadEmbellishmentForm(request.POST)
+    	form = UploadEmbellishmentForm(request.POST, emb_types=EmbellishmentsType.objects.filter().order_by('id'))
 
     	if form.is_valid():
 
@@ -1206,7 +1206,7 @@ def admin_generate_text_thumbnail(request):
 def admin_manage_embellishment(request):
     info = {}
 
-    form = SearchEmbellishmentForm()
+    form = SearchEmbellishmentForm(emb_types=EmbellishmentsType.objects.filter().order_by('id'))
     initial_form = {}
 
     order_by = request.GET.get('order_by','description')
@@ -1227,7 +1227,7 @@ def admin_manage_embellishment(request):
 
     if request.method == "POST":
 
-    	form = SearchEmbellishmentForm(request.POST)
+    	form = SearchEmbellishmentForm(request.POST, emb_types=EmbellishmentsType.objects.filter().order_by('id'))
 
     	embellishment_description = request.POST.get('embellishment_description','')
     	embellishment_status = request.POST.get('embellishment_status','')
@@ -1247,7 +1247,7 @@ def admin_manage_embellishment(request):
     	if embellishment_type:
     		initial_form.update({'embellishment_type':embellishment_type})
 
-    	form = SearchEmbellishmentForm(initial=initial_form)
+    	form = SearchEmbellishmentForm(initial=initial_form, emb_types=EmbellishmentsType.objects.filter().order_by('id'))
 
     q = None
     if embellishment_description:
@@ -1349,6 +1349,21 @@ def admin_edit_embellishment(request, e_id):
     info = {}
 
     embellishment = Embellishments.objects.get(id=int(e_id))
+
+
+    directoryOld = ''
+
+    if embellishment.e_type.id == 1:
+    	directoryOld = 'images'
+    elif embellishment.e_type.id == 2:
+    	directoryOld = 'textures'
+    elif embellishment.e_type.id == 3:
+    	directoryOld = 'patterns'
+    elif embellishment.e_type.id == 4:
+    	directoryOld = 'shapes'
+    elif embellishment.e_type.id == 5:
+    	directoryOld = 'borders'
+
     info['embellishment'] = embellishment
 
     info['initial_form_data'] = {
@@ -1358,26 +1373,13 @@ def admin_edit_embellishment(request, e_id):
     	'embellishment_type':str(int(embellishment.e_type.id)),
     }
 
-    form = EditEmbellishmentForm(initial=info['initial_form_data'])
+    form = EditEmbellishmentForm(initial=info['initial_form_data'], emb_types=EmbellishmentsType.objects.filter().order_by('id'))
 
     if request.method == "POST":
 
-    	form = EditEmbellishmentForm(request.POST)
+    	form = EditEmbellishmentForm(request.POST, emb_types=EmbellishmentsType.objects.filter().order_by('id'))
 
     	if form.is_valid():
-
-    		directoryOld = ''
-
-    		if embellishment.e_type.id == 1:
-    			directoryOld = 'images'
-    		elif embellishment.e_type.id == 2:
-    			directoryOld = 'textures'
-    		elif embellishment.e_type.id == 3:
-    			directoryOld = 'patterns'
-    		elif embellishment.e_type.id == 4:
-    			directoryOld = 'shapes'
-    		elif embellishment.e_type.id == 5:
-    			directoryOld = 'borders'
 
     		directoryNew = ''
 
@@ -1449,7 +1451,7 @@ def admin_edit_embellishment(request, e_id):
     		else:
     			return redirect('admin_manage_embellishment')
 
-    info['current_directory'] = "%s%s" % (str(embellishment.e_type.name).lower(), "s")
+    info['current_directory'] = directoryOld
     info['form'] = form
     return render_to_response('admin/admin_edit_embellishment.html',info,RequestContext(request))
 

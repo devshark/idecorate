@@ -30,6 +30,7 @@ from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems
 from customer.models import CustomerProfile, CustomerFacebookFriends
 from forms import SetPasswordForm, SearchFriendsForm
+from social_auth.models import UserSocialAuth
 
 def home(request):
 	info = {}
@@ -826,6 +827,19 @@ def checkout_login(request):
 
 def invite_friends(request):
 	info = {}
+	associated = False
+	fb_auth_error = ''
+
+	if 'fb_auth_error' in request.session:
+		fb_auth_error = request.session.get('fb_auth_error')
+		del request.session['fb_auth_error']
+
+	try:
+		UserSocialAuth.objects.get(user__id=request.user.id, provider='facebook')
+		associated = True
+	except:
+		CustomerFacebookFriends.objects.filter(user__id=request.user.id).delete()
+
 	fb_friends = CustomerFacebookFriends.objects.filter(user__id=request.user.id)
 	search_form_fb = SearchFriendsForm()
 	friend_name = ''
@@ -841,6 +855,8 @@ def invite_friends(request):
 	info['search_form_fb'] = search_form_fb
 	info['fb_friends'] = fb_friends
 	info['friends_count'] = fb_friends.count()
+	info['associated'] = associated
+	info['fb_auth_error'] = fb_auth_error
 	
 	return render_to_response('interface/invite_friends.html', info,RequestContext(request))
 

@@ -1,5 +1,7 @@
 from social_auth.middleware import SocialAuthExceptionMiddleware
 from django.conf import settings
+from social_auth.exceptions import AuthAlreadyAssociated
+#from django.contrib import messages
 
 class IdecorateMiddleware(SocialAuthExceptionMiddleware):
     def raise_exception(self, request, exception):
@@ -7,3 +9,9 @@ class IdecorateMiddleware(SocialAuthExceptionMiddleware):
 
     def get_redirect_uri(self, request, exception):
     	return settings.LOGIN_REDIRECT_URL
+
+    def get_message(self, request, exception):
+    	if isinstance(exception, AuthAlreadyAssociated):
+    		request.session['fb_auth_error'] = 'That Facebook account is already associated with another iDecorate user.'
+
+    	return super(IdecorateMiddleware, self).get_message(request, exception)

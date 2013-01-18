@@ -134,6 +134,7 @@
 			{{ paypal_form }}
 		</form>
 		<form method="post" action="." id="plata_form">
+			<input value="on" type="hidden" name="order-create_account" id="id_order-create_account" />
 			{% csrf_token %}
 			<input type="hidden" name="_checkout" value="1" />
 			<div class="clearfix information">

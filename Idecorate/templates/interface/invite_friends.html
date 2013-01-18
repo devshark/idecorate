@@ -31,7 +31,7 @@
 </h3>
 <div class="inviteFriendsWrap">
 	<div class="clearfix inviteFriends">
-		{% if user.is_authenticated %}
+		{% if user.is_authenticated and associated %}
 			{% if fb_friends %}
 		<ul class="friendList" id="content_friends">
 		</ul>
@@ -41,10 +41,18 @@
 		<div class="loading2" style="">Sorry, no more results.</div>
 			{% endif %}
 		{% else %}
+
+			{% if fb_auth_error %}
+		<div class="inviteLogoff error">
+			<p>{{ fb_auth_error }}</p>
+			<a id="login-btn" href="/login/facebook/"><img src="/media/images/fbinvite_btn.jpg" alt="login" /></a>
+		</div>
+			{% else %}
 		<div class="inviteLogoff">
 			<p>We Couldn't find any of your friends from Facebook because you haven't<br/>logged-in to your facebook account.Click the button below to connect</p>
-			<a id="login-btn" href="#"><img src="/media/images/fbinvite_btn.jpg" alt="login" /></a>
+			<a id="login-btn" href="/login/facebook/"><img src="/media/images/fbinvite_btn.jpg" alt="login" /></a>
 		</div>
+			{% endif %}
 		{% endif %}
 	</div>
 </div>

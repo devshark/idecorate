@@ -126,6 +126,7 @@ class Contact(models.Model):
     first_name = models.CharField(_('first name'), max_length=100)
     last_name = models.CharField(_('last name'), max_length=100)
     address = models.TextField(_('address'))
+    address2 = models.TextField(_('address_2'))
     shipping_address2 = models.TextField(_('address2'))
     billing_address2 = models.TextField(_('address2'))
     shipping_state = models.CharField(_('state'), max_length=100)
@@ -133,7 +134,9 @@ class Contact(models.Model):
     shipping_salutation = models.CharField(_('salutation'), max_length=100)
     billing_salutation = models.CharField(_('salutation'), max_length=100)
     zip_code = models.CharField(_('ZIP code'), max_length=50)
+    zip_code2 = models.CharField(_('ZIP code2'), max_length=50)
     city = models.CharField(_('city'), max_length=100)
+    city2 = models.CharField(_('city2'), max_length=100)
     shipping_same_as_billing = models.BooleanField(_('shipping address equals billing address'),default=True)
     currency = CurrencyField(help_text=_('Preferred currency.'))
 
