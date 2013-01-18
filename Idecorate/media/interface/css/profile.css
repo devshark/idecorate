@@ -80,7 +80,8 @@
       line-height: 1.4;
       float: left;
       text-align: justify;
-      font-family: 'futura_std_book'; }
+      font-family: 'futura_std_book';
+      word-wrap: break-word; }
     .profileWrap .featureContentWrap .featurePrice {
       width: 105px;
       height: auto;
