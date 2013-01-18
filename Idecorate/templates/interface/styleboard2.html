@@ -281,7 +281,7 @@
                                         <div class="emCat">
                                             <a href="{% url get_embellishment_items %}" rel="1" class="image em">
                                                 {{ 1|getEmbellishmentThumbnail }}
-                                                <span>Images</span>
+                                                <span>{{ 1|getEmbellishmentTitle }}</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="text" class="text em">
                                                 {{ "TEXT"|getTextThumbnail }}
@@ -289,19 +289,19 @@
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="5" class="border em">
                                                 {{ 5|getEmbellishmentThumbnail }}
-                                                <span>Frames and Borders</span>
+                                                <span>{{ 5|getEmbellishmentTitle }}</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
                                                 {{ 4|getEmbellishmentThumbnail }}
-                                                <span>Colours and Textures</span>
+                                                <span>{{ 4|getEmbellishmentTitle }}</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
                                                 {{ 2|getEmbellishmentThumbnail }}
-                                                <span>Venue</span>
+                                                <span>{{ 2|getEmbellishmentTitle }}</span>
                                             </a>
                                             <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
                                                 {{ 3|getEmbellishmentThumbnail }}
-                                                <span>Inspiration</span>
+                                                <span>{{ 3|getEmbellishmentTitle }}</span>
                                             </a>
                                         </div>
                                         <div class="emItem">
