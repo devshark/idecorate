@@ -9,7 +9,7 @@ from cart.services import get_product
 
 from customer.services import customer_profile, get_save_styleboard_total
 from cart.models import ProductPrice
-from admin.models import Embellishments, TextFonts
+from admin.models import Embellishments, TextFonts, EmbellishmentsType
 from django.conf import settings
 
 register = template.Library()
@@ -307,6 +307,18 @@ def getEmbellishmentThumbnail(id):
 
         ret = '<img src="/generate_embellishment/?embellishment_id=%s&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100">' % e.id
         return mark_safe(ret)
+
+@register.filter
+def getEmbellishmentTitle(id):
+
+        ret = ''
+
+        try:
+                title = EmbellishmentsType.objects.get(id=int(id)).name
+        except:
+                pass
+
+        return ret
 
 @register.filter
 def getTextThumbnail(dummy):
