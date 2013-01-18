@@ -4,6 +4,8 @@ import logging
 import requests
 import urlparse
 import urllib
+import urllib2
+import re
 
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -124,3 +126,12 @@ class IdecorateEmail(object):
         cmd = "%sFrom: %s\nTo: %s\nSubject: %s\n\n%s\n.\n" % (htmlHeader,mail_from, mail_to, subject, body)
         
         sendMail.communicate(cmd)
+
+def tinyurl(url):
+    
+    if not re.search('^http:\/\/',str(url).strip()):
+        url = "%s%s" % ('http://', str(url).strip())
+
+    httpResponse = urllib2.urlopen('http://tinyurl.com/api-create.php?url=%s' % url)
+
+    return str(httpResponse.read()) 

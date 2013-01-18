@@ -1,5 +1,6 @@
 import os
 import Image as pil
+from common.services import tinyurl
 from cStringIO import StringIO
 from PIL import ImageOps
 from django.conf import settings
@@ -149,6 +150,7 @@ def save_home_banner_image(img,link,home_banner):
 	hbi.home_banner = home_banner
 	hbi.image = rename_image_banner(img)
 	hbi.link = link
+	hbi.tinyUrl = tinyurl(link)
 	hbi.save()	
 
 def validate_home_banner_form(data):

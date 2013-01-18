@@ -72,6 +72,7 @@ class HomeBannerImages(models.Model):
 	home_banner = models.ForeignKey(HomeBanners)
 	image = models.CharField(db_column='image', max_length=256)
 	link = models.CharField(db_column='link', max_length=256)
+	tinyUrl = models.CharField(db_column='tinyurl', max_length=256)
 
 	class Meta:
 		db_table = 'home_banner_images'
