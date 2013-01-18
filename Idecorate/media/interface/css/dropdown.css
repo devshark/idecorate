@@ -1,7 +1,9 @@
 @import url("/media/interface/css/idecorate.fontface.css");
 .dd {
   display: none;
-  font-size: 14px; }
+  font-size: 14px;
+  *position: relative;
+  *z-index: 2; }
   .dd > li {
     border-left: 1px solid #999999; }
     .dd > li a, .dd > li span {

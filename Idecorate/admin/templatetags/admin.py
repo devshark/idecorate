@@ -53,10 +53,6 @@ def checkPasswordError(request, isControlGroup):
 	return ""
 
 @register.filter
-def httpToUrlStr(url):
-
-	
-@register.filter
 def getItemMenu(menus,is_sub=False):
 	menuStr = ""
 	if is_sub:

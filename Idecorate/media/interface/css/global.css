@@ -110,7 +110,8 @@ h5 {
     width: 960px;
     margin: 0 auto;
     padding-bottom: 5px;
-    position: relative; }
+    position: relative;
+    *z-index: 1; }
     #header .headerRowTop .headerColumn {
       vertical-align: top; }
       #header .headerRowTop .headerColumn a {
@@ -201,17 +202,24 @@ h5 {
         background: -moz-linear-gradient(top, #ffc5c3, #c7544e);
         /* for firefox 3.6+ */
         color: #FFFFFF; }
+      #header .headerRowTop #site-menu .dd li {
+        text-align: left !important; }
 
 .categoryWrapper {
   width: 100%;
   height: auto;
   text-align: center;
-  border-top: 1px solid #FFFFFF; }
+  border-top: 1px solid #FFFFFF;
+  font-size: 0; }
   .categoryWrapper .categoryWrap {
     width: 960px;
     margin: 0 auto; }
   .categoryWrapper ul {
-    font-size: 0; }
+    display: inline-block;
+    zoom: 1;
+    *display: inline;
+    *position: relative;
+    *z-index: 1; }
     .categoryWrapper ul li {
       display: inline-block;
       zoom: 1;
