@@ -878,6 +878,8 @@ def invite_friends_content(request):
 		except EmptyPage:
 			fb_friends = paginator.page(paginator.num_pages)
 
+	#print "The fb friends count is: %s" % len(fb_friends)
+
 	info['fb_friends'] = fb_friends
 	return render_to_response('interface/invite_friends_content.html', info,RequestContext(request))
 

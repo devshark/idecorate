@@ -644,11 +644,15 @@ def generate_styleboard_view(request, id, w, h):
 
 def social_redirect(request):
 
-	if "last_page_idecorate" in request.session:
-		print request.session['last_page_idecorate']
-		return redirect(request.session.get('last_page_idecorate'))
+	if 'fb_auth_error' in request.session:
+		return redirect('invite_friends')
 	else:
-		return redirect('/')
+
+		if "last_page_idecorate" in request.session:
+			print request.session['last_page_idecorate']
+			return redirect(request.session.get('last_page_idecorate'))
+		else:
+			return redirect('/')
 
 
 def generate_styleboard_template_view(request, id, w, h):

@@ -54,6 +54,8 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
                 returnString = connection.read()
                 connection.close()
 
+                friends_count = 0
+
                 exec("friendlistsid=%s" % returnString)
 
                 for d in friendlistsid['data']:
@@ -68,12 +70,33 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
 
                     for f in friends['data']:
                         if CustomerFacebookFriends.objects.filter(user=fb_u, friend_id=f['id']).count() == 0:
+                            friends_count += 1
                             fb_friends = CustomerFacebookFriends()
                             fb_friends.user = fb_u
                             fb_friends.friend_id = f['id']
                             fb_friends.friend_name = f['name']
                             fb_friends.friend_image = "http://graph.facebook.com/%s/picture?type=small" % f['id']
                             fb_friends.save()
+
+                if friends_count == 0:
+
+                    url_friendlists_all = "https://graph.facebook.com/me/friends?%s" % urllib.urlencode({'access_token': response['access_token']})
+                    connection = urllib2.urlopen(url_friendlists_all)
+                    returnString = connection.read()
+                    connection.close()
+
+                    exec("friends=%s" % returnString)
+
+                    for f in friends['data']:
+                        if CustomerFacebookFriends.objects.filter(user=fb_u, friend_id=f['id']).count() == 0:
+                            friends_count += 1
+                            fb_friends = CustomerFacebookFriends()
+                            fb_friends.user = fb_u
+                            fb_friends.friend_id = f['id']
+                            fb_friends.friend_name = f['name']
+                            fb_friends.friend_image = "http://graph.facebook.com/%s/picture?type=small" % f['id']
+                            fb_friends.save()
+
 
         except Exception as e:
             print "The error is: %s" % e

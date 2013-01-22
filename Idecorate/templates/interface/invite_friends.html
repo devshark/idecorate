@@ -44,6 +44,11 @@
 
 			{% if fb_auth_error %}
 		<div class="inviteLogoff error">
+			<!--
+				{% for message in messages %}
+					{{ message }}
+				{% endfor %}   
+			-->
 			<p>{{ fb_auth_error }}</p>
 			<a id="login-btn" href="/login/facebook/"><img src="/media/images/fbinvite_btn.jpg" alt="login" /></a>
 		</div>
@@ -86,6 +91,7 @@ function inviteFriendsNow(to) {
 
 page_fb = 1;
 friends_count = {{ friends_count }};
+friends_loaded = 0;
 friend_name = '{{ friend_name }}';
 
 </script>
@@ -105,11 +111,16 @@ $(function(){
 		'afterLoad': function(elementsLoaded){ // after loading content, you can use this function to animate your new elements
 			 $('#loading').fadeOut();
 			 var i = 0;
+
+			 friends_loaded += $(elementsLoaded).length;
+
 			 $(elementsLoaded).fadeInWithDelay();
-			 if ($('#content_friends').children().size() > friends_count){ // if more than 100 results already loaded, then stop pagination (only for testing)
+
+			 if (friends_loaded >= friends_count){
 			 	$('#nomoreresults').fadeIn();
 				$('#content_friends').stopScrollPagination();
 			 }
+
 		}
 	});
 
