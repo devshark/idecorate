@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
 from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard, StyleBoardCartItems
 from cart.models import CartTemp, ProductPrice
+import urllib2, urllib
 
 @transaction.commit_manually
 def register_user(data):
@@ -154,4 +155,29 @@ def get_styleboard_cart_item(styleboard_item=None,styleboard_item_id=None):
 	elif styleboard_item_id:
 		return StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id).order_by('id')
 	return False
+
+def get_facebook_friends(access_token, name, limit, offset):
+
+	#"https://graph.facebook.com/%s/members?%s" % (d['id'], urllib.urlencode({'access_token': response['access_token']}))
+	if name:
+		fql = "SELECT name, uid FROM user WHERE uid IN(SELECT uid2 FROM friend WHERE uid1 = me()) AND strpos(lower(name),lower('%s')) >=0 ORDER BY name LIMIT %s,%s" % (name, offset, limit)
+	else:
+		fql = "SELECT name, uid FROM user WHERE uid IN(SELECT uid2 FROM friend WHERE uid1 = me()) ORDER BY name LIMIT %s,%s" % (offset, limit)
+
+	fql_url = "https://graph.facebook.com/fql?%s" % urllib.urlencode({'q':fql, 'access_token': access_token})
+	ret = {}
+	try:
+		connection = urllib2.urlopen(fql_url)
+		responseString = connection.read()
+		connection.close()
+
+		print "The fql is: %s" % fql
+		#print "The url is: %s" % fql_url
+		#print "The responseString is: %s" % responseString
+
+		exec("ret=%s" % responseString)
+		return ret
+	except Exception as e:
+		print "Error fetching friends: %s" % e
+		return ret
 

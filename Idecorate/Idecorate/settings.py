@@ -189,6 +189,8 @@ FACEBOOK_API_SECRET = '95a3252b750cb86fb27e5df6e575eb6b'
 FACEBOOK_EXTENDED_PERMISSIONS = ['email','read_friendlists', 'publish_stream']
 FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
 
+FACEBOOK_INVITE_FRIENDS_PER_PAGE = 15
+
 
 #LOGIN_URL          = '/login-form/'
 LOGIN_REDIRECT_URL = '/social_redirect/'

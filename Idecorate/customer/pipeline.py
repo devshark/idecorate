@@ -1,11 +1,11 @@
 from social_auth.backends.twitter import TwitterBackend
 from social_auth.backends.facebook import FacebookBackend
-from customer.models import CustomerProfile, CustomerFacebookFriends
+from customer.models import CustomerProfile #, CustomerFacebookFriends
 from django.contrib.auth.models import User
 from common.services import IdecorateEmail
 from uuid import uuid4
 from django.conf import settings
-import urllib2, urllib
+import urllib
 
 def get_user_avatar(backend, details, response, social_user, uid, user, *args, **kwargs):
 
@@ -42,6 +42,7 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
         prof.picture = url
         prof.save()
 
+    """
     if backend.__class__ == FacebookBackend:
         try:
             #try to sync friends list
@@ -100,6 +101,7 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
 
         except Exception as e:
             print "The error is: %s" % e
+    """
 
     if User.objects.get(id=user.id).password == "!":
         u = CustomerProfile.objects.get(user__id=user.id)
@@ -120,15 +122,3 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
 
             if not settings.SKIPPING_MODE:
                 IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=User.objects.get(id=user.id).email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
-
-
-    """
-    if url:
-        profile = user.get_profile()
-        avatar = urlopen(url).read()
-        fout = open(filepath, "wb")
-        fout.write(avatar)
-        fout.close()
-        profile.photo = url_to_image
-        profile.save()
-    """
