@@ -171,6 +171,8 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 SOCIAL_AUTH_ENABLED_BACKENDS = ('twitter', 'facebook',)  
 SOCIAL_AUTH_CREATE_USERS          = True
 SOCIAL_AUTH_FORCE_RANDOM_USERNAME = False
@@ -206,12 +208,14 @@ SOCIAL_AUTH_PIPELINE = (
     #'social_auth.backends.pipeline.social.associate_user',
     #'social_auth.backends.pipeline.social.load_extra_data',
     #'social_auth.backends.pipeline.user.update_user_details',
-    'social_auth.backends.pipeline.social.social_auth_user',
-    'social_auth.backends.pipeline.associate.associate_by_email',
+    #'social_auth.backends.pipeline.social.social_auth_user',
+    #'social_auth.backends.pipeline.associate.associate_by_email',
+    'customer.pipeline.social_auth_user',
+    'customer.pipeline.associate_by_username',
     'social_auth.backends.pipeline.user.get_username',
     'social_auth.backends.pipeline.user.create_user',
     'social_auth.backends.pipeline.social.associate_user',
-    'social_auth.backends.pipeline.user.update_user_details',
+    #'social_auth.backends.pipeline.user.update_user_details',
     'social_auth.backends.pipeline.social.load_extra_data',
     'customer.pipeline.get_user_avatar',
 )
