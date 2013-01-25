@@ -126,7 +126,7 @@ $(function(){
 			e.preventDefault();
 			//set icons for modal share
 			setModalIcons($(this).siblings('.shareButtons'));
-			$('.modal').show().css({top:this.offsetTop+15,left:this.offsetLeft});
+			$('.modal').show().css({top:e.pageY+15,left:e.pageX});
 		});
 	});
 	
