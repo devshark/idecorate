@@ -20,11 +20,12 @@ import plata
 from plata.discount.models import Discount
 from plata.shop.models import Order, OrderPayment
 from plata.shop.views import Shop
-from plata.shop import forms as shop_forms
+from plata.shop import signals
 from django import forms
 import re
 
 from customer.services import get_styleboard_cart_item, get_user_styleboard
+from customer.models import CustomerProfile
 from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
@@ -35,7 +36,77 @@ from django.core.urlresolvers import reverse
 from datetime import datetime
 from decimal import Decimal
 
-class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
+from django.core.validators import email_re
+
+class BaseCheckoutForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        self.shop = kwargs.pop('shop')
+        self.request = kwargs.pop('request')
+        super(BaseCheckoutForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        data = super(BaseCheckoutForm, self).clean()
+
+        email = data.get('email')
+        create_account = data.get('create_account')
+
+        if email:
+            users = list(User.objects.filter(username=email))
+
+            if users:
+                if self.request.user not in users:
+                    if self.request.user.is_authenticated():
+                        self._errors['email'] = self.error_class([_('This e-mail address belongs to a different account.')])
+                    else:
+                        self._errors['email'] = self.error_class([_('This e-mail address might belong to you, but we cannot know for sure because you are not authenticated yet.')])
+
+        return data
+
+    def save(self):
+
+        order = super(BaseCheckoutForm, self).save(commit=False)
+        contact = self.shop.contact_from_user(self.request.user)
+
+        if contact:
+            order.user = contact.user
+        elif self.request.user.is_authenticated():
+            order.user = self.request.user
+
+        if (self.cleaned_data.get('create_account') and not contact) or (not contact and self.request.user.is_authenticated()):
+
+            password = None
+            email = self.cleaned_data.get('email')
+
+            if not self.request.user.is_authenticated():
+                password = User.objects.make_random_password()
+                user = User.objects.create_user(email, email, password)
+                user = auth.authenticate(username=email, password=password)
+                auth.login(self.request, user)
+            else:
+                user = self.request.user
+                
+                if not email_re.search(user.username):
+                    #print "creating......."
+                    user = User.objects.get(id=user.id)
+                    user.username = email
+                    user.email = email
+                    user.save()
+
+            contact = self.shop.contact_model(user=user)
+            order.user = user
+
+            signals.contact_created.send(sender=self.shop, user=user,contact=contact, password=password)
+
+        order.save()
+
+        if contact:
+            contact.update_from_order(order, request=self.request)
+            contact.save()
+
+        return order
+
+class IdecorateCheckoutForm(BaseCheckoutForm):
     class Meta:
         fields = ['email'] + ['billing_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_same_as_billing']
         model = Order
@@ -142,7 +213,7 @@ class IdecorateCheckoutForm(shop_forms.BaseCheckoutForm):
                 initial['shipping_%s' % f] = getattr(contact, f)
                 kwargs['initial'] = initial
 
-            initial['email'] = contact.user.email
+            initial['email'] = contact.user.username
             initial['notes'] = order.notes
             initial['billing_salutation'] = contact.billing_salutation
             initial['shipping_same_as_billing'] = contact.shipping_same_as_billing
