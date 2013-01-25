@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+{% load admin idecorate_interface humanize %}
+{% block title %}Ideas{% endblock %}
+{%  block style %}
+<link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
+<link rel="stylesheet" type="text/css" href="/media/interface/css/profile.css">
+<link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+{% endblock %}
+{% block content %}
+<div class="profileWrap">
+	<h2>Ideas</h2>
+	{% if styleboards %}	
+	<div class="clearfix styleboardWrapper">
+		{% for item in styleboards %}
+
+		<div class="featureContentWrap clearfix">
+			<div class="clearfix featureImg">
+				<a href="{% url styleboard_view item.styleboard_item.id %}"><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /></a> 
+			</div>
+			<h3 class="clearfix featureTitle">{{ item.styleboard_item.name }}</h3>
+			<div class="clearfix">
+				<div class="featureDesc">
+					{{ item.styleboard_item.description|force_escape|replace_space|linebreak }}
+				</div>
+				<div class="featurePrice">
+					<h5 class="clearfix">${{ item.styleboard_item.id|get_emb_save_total|intcomma }}</h5>
+					<p>{% if item.styleboard_item.item_guest %}{{ item.styleboard_item.item_guest }}{% else %}{{ global_default_quantity }}{% endif %} guests</p>
+					<p>{% if item.styleboard_item.item_tables %}{{ item.styleboard_item.item_tables }}{% else %}{{ global_guest_table }}{% endif %} tables</p>
+				</div>
+			</div>
+			<div class="clearfix featureFooter">
+				{{item.user_id|get_userprofile }}
+			</div>
+		</div>
+
+		{% endfor %}
+
+	</div>
+	{{ styleboards|interface_paginate }}
+	{% endif %}
+</section>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+$(function(){
+	$('.featureContentWrap:odd').each(function(i,val){
+		if($(val).height() < $(val).prev().height()){
+			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
+			$(val).prev().find('.featureDesc').height($(val).prev().find('.featureDesc').height());
+
+			$(val).find('.featureTitle').height($(val).prev().find('.featureTitle').height());
+			$(val).prev().find('.featureTitle').height($(val).prev().find('.featureTitle').height());
+		}else{
+			$(val).find('.featureDesc').height($(val).find('.featureDesc').height());
+			$(val).prev().find('.featureDesc').height($(val).find('.featureDesc').height());
+
+			$(val).find('.featureTitle').height($(val).find('.featureTitle').height());
+			$(val).prev().find('.featureTitle').height($(val).find('.featureTitle').height());
+		}
+	});
+	//for IE 7 and 8
+	$('.featureContentWrap:even').each(function(i,val){
+		$(val).css({'margin-left': 0});
+	});
+});
+</script>
+{% endblock %}
