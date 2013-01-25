@@ -86,14 +86,14 @@ def save_home_banner(data):
 		hb.save()	
 		s = int(data['sizes']) 
 		if s==1:
-			save_home_banner_image(data['image11'],data['wholelink'],hb)
+			save_home_banner_image(data['image11'],data['wholelink'],data['wholename'],data['wholedescription'],hb)
 		elif s==2:
-			save_home_banner_image(data['image21'],data['half1link'],hb)
-			save_home_banner_image(data['image22'],data['half2link'],hb)
+			save_home_banner_image(data['image21'],data['half1link'],data['half1name'],data['half1description'],hb)
+			save_home_banner_image(data['image22'],data['half2link'],data['half2name'],data['half2description'],hb)
 		else:
-			save_home_banner_image(data['image31'],data['third1link'],hb)
-			save_home_banner_image(data['image32'],data['third2link'],hb)
-			save_home_banner_image(data['image33'],data['third3link'],hb)
+			save_home_banner_image(data['image31'],data['third1link'],data['third1name'],data['third1description'],hb)
+			save_home_banner_image(data['image32'],data['third2link'],data['third2name'],data['third2description'],hb)
+			save_home_banner_image(data['image33'],data['third3link'],data['third3name'],data['third3description'],hb)
 
 		return True
 	except Exception as e:
@@ -107,14 +107,14 @@ def save_edit_home_banner(data):
 	s = int(data['sizes'])
 	delete_home_banner_images(hb)
 	if s==1:
-		save_home_banner_image(data['image11'],data['wholelink'],hb)
+		save_home_banner_image(data['image11'],data['wholelink'],data['wholename'],data['wholedescription'],hb)
 	elif s==2:
-		save_home_banner_image(data['image21'],data['half1link'],hb)
-		save_home_banner_image(data['image22'],data['half2link'],hb)
+		save_home_banner_image(data['image21'],data['half1link'],data['half1name'],data['half1description'],hb)
+		save_home_banner_image(data['image22'],data['half2link'],data['half2name'],data['half2description'],hb)
 	else:
-		save_home_banner_image(data['image31'],data['third1link'],hb)
-		save_home_banner_image(data['image32'],data['third2link'],hb)
-		save_home_banner_image(data['image33'],data['third3link'],hb)
+		save_home_banner_image(data['image31'],data['third1link'],data['third1name'],data['third1description'],hb)
+		save_home_banner_image(data['image32'],data['third2link'],data['third2name'],data['third2description'],hb)
+		save_home_banner_image(data['image33'],data['third3link'],data['third3name'],data['third3description'],hb)
 
 def delete_home_banner_images(home_banner):
 	images = HomeBannerImages.objects.filter(home_banner=home_banner)
@@ -146,11 +146,13 @@ def generate_banner_thumb(img):
 	thumb_path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/thumb/", img)
 	background.save(thumb_path)
 
-def save_home_banner_image(img,link,home_banner):	
+def save_home_banner_image(img,link,name,description,home_banner):	
 	hbi = HomeBannerImages()
 	hbi.home_banner = home_banner
 	hbi.image = rename_image_banner(img)
 	hbi.link = link
+	hbi.name = name
+	hbi.description = description
 	hbi.tinyUrl = tinyurl(link)
 	hbi.save()	
 
@@ -164,7 +166,13 @@ def validate_home_banner_form(data):
 			validation['image11'] = _('Image is a required field.')
 		if (len(data['wholelink'])==0):
 			error = True
-			validation['link'] = _('Link is a required field.')			
+			validation['link'] = _('Link is a required field.')	
+		if (len(data['wholename'])==0):
+			error = True
+			validation['name'] = _('Name is a required field.')	
+		if (len(data['wholedescription'])==0):
+			error = True
+			validation['description'] = _('Description is a required field.')			
 	elif s==2:
 		if(len(data['image21'])==0):
 			error = True
@@ -175,6 +183,12 @@ def validate_home_banner_form(data):
 		if (len(data['half1link'])==0 or len(data['half2link'])==0):
 			error = True
 			validation['link'] = _('Link is a required field.')
+		if (len(data['half1name'])==0 or len(data['half2name'])==0):
+			error = True
+			validation['name'] = _('Name is a required field.')	
+		if (len(data['half1description'])==0 or len(data['half2description'])==0):
+			error = True
+			validation['description'] = _('Description is a required field.')
 	else:
 		if(len(data['image31'])==0):
 			error = True
@@ -188,6 +202,12 @@ def validate_home_banner_form(data):
 		if (len(data['third1link'])==0 or len(data['third2link'])==0 or len(data['third3link'])==0):
 			error = True
 			validation['link'] = _('Link is a required field.')
+		if (len(data['third1name'])==0 or len(data['third2name'])==0 or len(data['third3name'])==0):
+			error = True
+			validation['name'] = _('Name is a required field.')	
+		if (len(data['third1description'])==0 or len(data['third2description'])==0 or len(data['third3description'])==0):
+			error = True
+			validation['description'] = _('Description is a required field.')
 
 	if not error:
 		validation = False

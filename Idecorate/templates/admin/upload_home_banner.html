@@ -116,6 +116,12 @@
 				{% if validated.link %}
 				<li>{{ validated.link }}</li>
 				{% endif %}
+				{% if validated.name %}
+				<li>{{ validated.name }}</li>
+				{% endif %}
+				{% if validated.description %}
+				<li>{{ validated.description }}</li>
+				{% endif %}
 			</ol>
 		</div>
 		{% endif %}
@@ -138,6 +144,8 @@
 						<a id="btn-browse-whole" class="button btn btn-primary brw" rel="11">Choose a Photo</a>
 						<br /><br />
 						{{ form.wholelink|attr:"placeholder:Link" }}
+						{{ form.wholename|attr:"placeholder:Name" }}
+						{{ form.wholedescription|attr:"placeholder:Description" }}
 					</div>
 				</div>
 				<div id="wrap-half" class="hidden">
@@ -151,6 +159,8 @@
 							<a id="btn-browse-half1" class="button btn btn-primary brw" rel="21">Choose a Photo</a>
 							<br /><br />
 							{{ form.half1link|attr:"placeholder:Link" }}
+							{{ form.half1name|attr:"placeholder:Name" }}
+							{{ form.half1description|attr:"placeholder:Description" }}
 						</div>
 						<div class="spacer"></div>
 						<div class="wrap-preview">
@@ -162,6 +172,8 @@
 							<a id="btn-browse-half2" class="button btn btn-primary brw" rel="22">Choose a Photo</a>
 							<br /><br />
 							{{ form.half2link|attr:"placeholder:Link" }}
+							{{ form.half2name|attr:"placeholder:Name" }}
+							{{ form.half2description|attr:"placeholder:Description" }}
 						</div>
 					</div>
 				</div>
@@ -175,6 +187,8 @@
 						<a id="btn-browse-third1" class="button btn btn-primary brw" rel="31">Choose a Photo</a>
 						<br /><br />
 						{{ form.third1link|attr:"placeholder:Link" }}
+						{{ form.third1name|attr:"placeholder:Name" }}
+						{{ form.third1description|attr:"placeholder:Description" }}
 					</div>
 					<div class="spacer"></div>
 					<div class="wrap-preview">
@@ -186,6 +200,8 @@
 						<a id="btn-browse-third2" class="button btn btn-primary brw" rel="32">Choose a Photo</a>
 						<br /><br />
 						{{ form.third2link|attr:"placeholder:Link" }}
+						{{ form.third2name|attr:"placeholder:Name" }}
+						{{ form.third2description|attr:"placeholder:Description" }}
 					</div>
 					<div class="spacer"></div>
 					<div class="wrap-preview">
@@ -197,6 +213,8 @@
 						<a id="btn-browse-third3" class="button btn btn-primary brw" rel="33">Choose a Photo</a>
 						<br /><br />
 						{{ form.third3link|attr:"placeholder:Link" }}
+						{{ form.third3name|attr:"placeholder:Name" }}
+						{{ form.third3description|attr:"placeholder:Description" }}
 					</div>
 				</div>
 			</td>

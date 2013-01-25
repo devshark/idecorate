@@ -1,0 +1,191 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin idecorate_interface humanize bootstrap_pagination %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<style type="text/css">
+	.featureContentWrap:nth-child(2n+3){
+		margin-left: 0;
+	}
+	.manageStyleboardFilter label,.manageStyleboardFilter input,.manageStyleboardFilter select{
+		display: inline-block;
+		vertical-align: top;
+	}
+	.manageStyleboardFilter label{
+		vertical-align: middle;
+	}
+	.styleboards thead th{
+		white-space: nowrap;
+	}
+	.styleboards thead th span{
+		display: inline-block;
+		white-space: nowrap;
+	}
+</style>
+<script type="text/javascript">
+	var STYLEBOARD_STATUS_UPDATE_URL = '{% url update_styleboard_status %}'
+</script>
+{% endblock %}
+
+{% block content %}
+<h1>Manage Styleboard</h1>
+<br/>
+<h3>Show only styleboard where</h3>
+<br/>
+<div class="manageStyleboardFilter">
+	<form action="" method="post" id="filter-styleboard">
+		{% csrf_token %}
+		{{ filter.name|attr:'placeholder:Styleboard name' }}
+		{{ filter.email|attr:'placeholder:User' }}
+		{{ filter.date|attr:'placeholder:Date' }}
+		{{ filter.guest|attr:'placeholder:Guests' }}
+		{{ filter.table|attr:'placeholder:Table' }}
+		{{ filter.total|attr:'placeholder:Total' }}
+		<label>{{ filter.featured.label}}</label> {{ filter.featured }}
+		<button type="button" id="save-menu-changes" class="btn btn-primary">Filter</button>
+		<a href='{% url admin_manage_styleboard %}' class="btn btn-primary btn-inverse">Reset</a>
+	</form>
+</div>
+<table class="styleboards table table-bordered table-hover">
+	<thead>
+		<th>Image</th>
+		<th>
+			<div style="min-width:100px">
+				<span class="tbtitle">Name</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_styleboard %}{{ name_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_styleboard %}{{ name_asc_link }}">∇</a>
+				</span>
+			</div>
+		</th>
+		<th>
+			<div>
+				<span class="tbtitle">User</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_styleboard %}{{ email_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_styleboard %}{{ email_asc_link }}">∇</a>
+				</span>
+			</div>
+		</th>
+		<th>
+			<div style="width:120px;">
+				<span class="tbtitle">Last Saved</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_styleboard %}{{ date_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_styleboard %}{{ date_asc_link }}">∇</a>
+				</span>
+			</div>
+		</th>
+		<th>
+			<div style="width:120px;">
+				<span class="tbtitle">No of Guests</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_styleboard %}{{ guest_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_styleboard %}{{ guest_asc_link }}">∇</a>
+				</span>
+			</div>
+		</th>
+		<th>
+			<div style="width:120px;">
+				<span class="tbtitle">No of Tables</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_styleboard %}{{ table_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_styleboard %}{{ table_asc_link }}">∇</a>
+				</span>
+			</div>
+		</th>
+		<th>
+			<div style="width:100px;">
+				<span class="tbtitle">Total Price</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_styleboard %}{{ total_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_styleboard %}{{ total_asc_link }}">∇</a>
+				</span>
+			</div>
+		</th>
+		<th>Description</th>
+		<th>Operations</th>
+	</thead>
+
+	{% if styleboards %}
+	<tbody>
+		{% for item in styleboards %}
+				
+			<tr>
+				<td><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/120/100/" /></td>
+				<td>{{ item.styleboard_item.name }}</td>
+				<td>{{item.user.username }}</td>
+				<td style="white-space: nowrap;">{{item.styleboard_item.created }}</td>
+				<td>{{item.styleboard_item.item_guest }}</td>
+				<td>{{item.styleboard_item.item_tables }}</td>
+				<td>${{ item.total_price|intcomma }}</td>
+				<td>{{ item.styleboard_item.description|truncateDescription:30 }}</td>
+				<td style="text-align: center;">
+					<a href="{% url styleboard_view item.styleboard_item.id %}">View</a> | 
+					<a href="{% url styleboard %}?sbid={{ item.styleboard_item.id }}">Edit</a><br/><br/>
+					<button id="{{item.id}}" class="btn" value="{{item.active}}" data-toggle="dropdown"></button>
+				</td>
+			</tr>
+
+		{% endfor %}
+	</tbody>
+	{% endif %}
+</table>
+{% bootstrap_paginate styleboards url_get_params=urlFilter %}	
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+	$(function(){
+		update_buttons();
+
+		$('#save-menu-changes').click(function(e){
+			e.preventDefault();
+			$('#filter-styleboard').submit();
+		});
+
+		$('.styleboards tbody td .btn').click(function(e){
+			
+			var _this = this;
+
+		    $.ajax({
+		        url: STYLEBOARD_STATUS_UPDATE_URL,
+		        type: 'POST',
+		        data: {styleboard_id:$(_this).attr('id')},
+		        success: function(data){
+	     
+		        	$(_this).val(data);   	
+
+					if($(_this).val() == 'True'){
+						$(_this).addClass('btn-inverse').removeClass('btn-success').text('Unfeature');
+					} else {
+						$(_this).addClass('btn-success').removeClass('btn-inverse').text('Feature');
+					}
+		        },
+		        error: function(msg) {
+
+		        }
+		    });
+
+		});
+
+	});
+
+	function update_buttons(){
+		$('.styleboards tbody td .btn').each(function(i){
+			if($(this).val() == 'True'){
+				$(this).addClass('btn-inverse').removeClass('btn-success').text('Unfeature');
+			}else if($(this).val() == 'False'){
+				$(this).addClass('btn-success').removeClass('btn-inverse').text('Feature');
+			}
+		});
+
+	}
+
+</script>
+{% endblock %}

@@ -919,7 +919,7 @@ def invite_friends_content(request):
 
 def ideas(request):
 	info = {}
-	styleboards = CustomerStyleBoard.objects.filter(active=True)
+	styleboards = CustomerStyleBoard.objects.filter(active=True).order_by('-created')
 
 	paginator = Paginator(styleboards, 10)
 	page = request.GET.get('page','')
