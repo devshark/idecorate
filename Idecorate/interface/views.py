@@ -24,12 +24,12 @@ import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
 from admin.models import TextFonts, Embellishments, EmbellishmentsType, HomeInfoGrapics
-from customer.services import get_user_styleboard, get_styleboard_cart_item
+from customer.services import get_user_styleboard, get_styleboard_cart_item, get_facebook_friends
 import admin
 from customer.models import CustomerStyleBoard
 from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems
-from customer.models import CustomerProfile, CustomerFacebookFriends
+from customer.models import CustomerProfile #, CustomerFacebookFriends
 from forms import SetPasswordForm, SearchFriendsForm
 from social_auth.models import UserSocialAuth
 
@@ -832,32 +832,44 @@ def invite_friends(request):
 	info = {}
 	associated = False
 	fb_auth_error = ''
+	user_fb = None
+	fb_friends = []
+	page_fb = 0
+	per_page_fb = settings.FACEBOOK_INVITE_FRIENDS_PER_PAGE
+	search_form_fb = SearchFriendsForm()
+	friend_name = ''
+	access_token = ''
 
 	if 'fb_auth_error' in request.session:
 		fb_auth_error = request.session.get('fb_auth_error')
 		del request.session['fb_auth_error']
 
 	try:
-		UserSocialAuth.objects.get(user__id=request.user.id, provider='facebook')
+		user_fb = UserSocialAuth.objects.get(user__id=request.user.id, provider='facebook')
 		associated = True
 	except:
-		CustomerFacebookFriends.objects.filter(user__id=request.user.id).delete()
-
-	fb_friends = CustomerFacebookFriends.objects.filter(user__id=request.user.id)
-	search_form_fb = SearchFriendsForm()
-	friend_name = ''
+		pass
+		#CustomerFacebookFriends.objects.filter(user__id=request.user.id).delete()
 
 	if request.method == 'POST':
 		search_form_fb = SearchFriendsForm(request.POST)
 
-		if search_form_fb.is_valid():
+		if search_form_fb.is_valid() and user_fb:
 			friend_name = search_form_fb.cleaned_data['search_name']
-			fb_friends = fb_friends.filter(friend_name__icontains=friend_name)
 
+	if user_fb:
+		access_token = user_fb.tokens['access_token']
+		fb_api = get_facebook_friends(access_token, friend_name, per_page_fb, page_fb)
+
+		if 'data' in fb_api:
+			fb_friends = fb_api['data']
+
+	info['page_fb'] = page_fb
+	info['per_page_fb'] = per_page_fb
 	info['friend_name'] = friend_name
 	info['search_form_fb'] = search_form_fb
 	info['fb_friends'] = fb_friends
-	info['friends_count'] = fb_friends.count()
+	info['friends_count'] = len(fb_friends)
 	info['associated'] = associated
 	info['fb_auth_error'] = fb_auth_error
 	
@@ -866,11 +878,31 @@ def invite_friends(request):
 @csrf_exempt
 def invite_friends_content(request):
 	info = {}
-	fb_friends = None
+	fb_friends = []
+	access_token = ''
+	user_fb = None
 
 	if request.method == "POST":
-		page = request.POST.get('page','')
+		page = request.POST.get('page','0')
+		per_page = request.POST.get('per_page',str(settings.FACEBOOK_INVITE_FRIENDS_PER_PAGE))
 		friend_name = request.POST.get('friend_name','')
+
+		try:
+			user_fb = UserSocialAuth.objects.get(user__id=request.user.id, provider='facebook')
+
+			if user_fb:
+				access_token = user_fb.tokens['access_token']
+				fb_api = get_facebook_friends(access_token, friend_name, per_page, page)
+
+				if 'data' in fb_api:
+					fb_friends = fb_api['data']
+					#print fb_friends
+
+		except:
+			pass
+		
+
+		"""
 		fb_friends = CustomerFacebookFriends.objects.filter(user__id=request.user.id, friend_name__icontains=friend_name)
 		paginator = Paginator(fb_friends, 15)
 
@@ -880,6 +912,7 @@ def invite_friends_content(request):
 			fb_friends = paginator.page(1)
 		except EmptyPage:
 			fb_friends = paginator.page(paginator.num_pages)
+		"""
 
 	info['fb_friends'] = fb_friends
 	return render_to_response('interface/invite_friends_content.html', info,RequestContext(request))

@@ -15,7 +15,7 @@ class CustomerProfile(models.Model):
 	class Meta:
 		db_table = 'customer_profiles'
 		verbose_name = _("Customer Profiles")
-
+"""
 class CustomerFacebookFriends(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
 	user = models.ForeignKey(User, db_column='user_id')
@@ -26,6 +26,7 @@ class CustomerFacebookFriends(models.Model):
 	class Meta:
 		db_table = 'customer_facebook_friends'
 		verbose_name = _("Customer Facebook Friends")
+"""
 
 class StyleboardItems(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)

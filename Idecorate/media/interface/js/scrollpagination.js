@@ -36,7 +36,7 @@
   $.fn.scrollPagination.loadContent = function(obj, opts){
 	 var target = opts.scrollTarget;
 	 var mayLoadContent = $(target).scrollTop()+opts.heightOffset >= $(document).height() - $(target).height();
-	 if (mayLoadContent){
+	 if (mayLoadContent && !fb_loading){
 		 if (opts.beforeLoad != null){
 			opts.beforeLoad(); 
 		 }
@@ -44,16 +44,16 @@
 		 $.ajax({
 			  type: 'POST',
 			  url: opts.contentPage,
-			  data: {page: page_fb, friend_name: friend_name},
+			  data: {page: page_fb, friend_name: friend_name, per_page: per_page_fb},
 			  success: function(data){
 				$(obj).append(data); 
 				var objectsRendered = $(obj).children('[rel!=loaded]');
 				
 				if (opts.afterLoad != null){
-					opts.afterLoad(objectsRendered);	
+					opts.afterLoad(objectsRendered, data);	
 				}
 
-				page_fb++;
+				page_fb += per_page_fb;
 			  },
 			  dataType: 'html'
 		 });

@@ -12,6 +12,7 @@ from cart.models import ProductPrice
 from admin.models import Embellishments, TextFonts, EmbellishmentsType
 from django.conf import settings
 import math
+import re
 
 register = template.Library()
 
@@ -373,7 +374,6 @@ def replace_space_rec(val):
 def replace_space(val):
         return mark_safe(replace_space_rec(val))
 
-
 @register.filter
 def interface_paginate(object_list,page_of_page=False):
         total_pages     = object_list.paginator.num_pages
@@ -403,3 +403,9 @@ def interface_paginate(object_list,page_of_page=False):
         pagination += """</ul></div>"""
 
         return mark_safe(pagination)
+
+@register.filter
+def convert_unicode_to_entity(val):
+
+        return mark_safe(val.decode('unicode-escape').encode('ascii','xmlcharrefreplace'))
+
