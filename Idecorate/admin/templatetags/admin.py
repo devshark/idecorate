@@ -7,8 +7,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from cart.models import ProductPrice, ProductDetails
 from customer.models import CustomerProfile
+from customer.services import customer_profile
 from django.contrib.humanize.templatetags.humanize import naturaltime, intcomma
 from interface.views import admin as admin2
+from django.contrib.auth.models import User
 import decimal
 #from django.utils.translation import ugettext_lazy as _
 
@@ -669,3 +671,17 @@ def form_field(value, classes=""):
 		</div>
 	""" % (unicode(value.name), unicode(value.label), required_marker, value, value.help_text)
 	return mark_safe(field)
+
+@register.filter
+def get_userprofile(user_id):
+	user 	= User.objects.get(id=user_id)
+	profile = customer_profile(user=user)
+
+	if profile['picture']:
+		p_user = """<img src="%s" style="width:23px;height:23px;" alt="" />""" % (profile['picture'])
+	else:
+		p_user = """<img src="/media/images/man.png" alt="" />"""
+	
+	p_user += """<span class="member" style="margin-left:10px;">by %s</span>""" % (profile['nickname'])
+		
+	return mark_safe(p_user)

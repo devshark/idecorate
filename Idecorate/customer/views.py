@@ -170,7 +170,8 @@ def save_styleboard(request):
 			cleaned_datas['user'] = request.user
 			cleaned_datas['customer_styleboard'] = customer_styleboard
 			cleaned_datas['sessionid'] = request.session.get('cartsession',generate_unique_id())
-			cleaned_datas['description'] = strip_tags(cleaned_datas['description'])			
+			cleaned_datas['description'] = strip_tags(cleaned_datas['description'])
+			cleaned_datas['session_in_request'] = request.session		
 			res = save_styleboard_item(cleaned_datas)
 			request.session['customer_styleboard'] = res
 			info['action'] = 'save_styleboard'

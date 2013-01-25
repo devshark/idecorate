@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
-HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm
+HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm
 from menu.services import addMenu, saveItemMenu, arrangeItemMenu, updateItemMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
@@ -29,10 +29,10 @@ from django.http import QueryDict
 import urllib #urlencode
 from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
-from customer.models import CustomerProfile, CustomerStyleBoard
+from customer.models import CustomerProfile, CustomerStyleBoard, StyleBoardCartItems
 from django.http import HttpResponseNotFound
 from admin.services import home_banner, validate_banner, save_home_banner, validate_home_banner_form, get_home_banners, get_home_banner, get_home_banner_images,\
-save_Infographics, manage_infographic, get_HomeInfographics, set_HomeInfographicStatus, validate_Infographic
+save_Infographics, manage_infographic, get_HomeInfographics, set_HomeInfographicStatus, validate_Infographic, get_all_styleboards
 from cart.services import generate_unique_id
 from models import HomeBannerImages
 import Image as pil
@@ -41,7 +41,7 @@ import decimal
 from django.template import loader, Context
 from django.utils import simplejson
 import csv
-from customer.models import StyleBoardCartItems
+#from customer.models import StyleBoardCartItems, CustomerStyleBoard
 from django.contrib.flatpages.models import FlatPage
 
 @staff_member_required
@@ -2423,3 +2423,205 @@ def admin_delete_item_menu(request,id_delete):
 	messages.success(request, _('%s Menu deleted.' % menu.name))
 
 	return redirect('admin_item_menu')
+
+
+@staff_member_required
+def manage_styleboard(request):
+	#pass
+	info 			= {}
+	filters 		= {}
+	initial_form 	= {}
+	form 			= filterStyleboardForm()
+
+	order_by 	= request.GET.get('order_by','created')
+	sort_type 	= request.GET.get('sort_type','desc')
+	s_type 		= order_by
+
+	if order_by == 'status':
+		if sort_type == 'asc':
+			s_type = "-%s" % order_by
+	else:
+		if sort_type == 'desc':
+			s_type = "-%s" % order_by
+
+	styleboards = get_all_styleboards(None,s_type)
+
+	if request.method == "POST":
+		form 			= filterStyleboardForm(request.POST)
+		styleboard_name = request.POST.get('name','')
+		email 			= request.POST.get('email','')
+		date 			= request.POST.get('date','')
+		guest 			= request.POST.get('guest','')
+		table 			= request.POST.get('table','')
+		total 			= request.POST.get('total','')
+		status 			= request.POST.get('featured','')
+	else:
+		styleboard_name = request.GET.get('name','')
+		email 			= request.GET.get('email','')
+		date 			= request.GET.get('date','')
+		guest 			= request.GET.get('guest','')
+		table 			= request.GET.get('table','')
+		total 			= request.GET.get('total','')
+		status 			= request.GET.get('featured','')
+		
+		if styleboard_name:
+			initial_form.update({'name':styleboard_name})
+		if email:
+			initial_form.update({'email':email})
+		if date:
+			initial_form.update({'date':date})
+		if guest:
+			initial_form.update({'guest':guest})
+		if table:
+			initial_form.update({'table':table})
+		if total:
+			initial_form.update({'total':total})
+		if status:
+			initial_form.update({'featured':status})
+
+		form = filterStyleboardForm(initial=initial_form)
+
+	query = None
+	if styleboard_name:
+		filters.update({'name':styleboard_name})
+		if query is not None:
+			query.add(Q(styleboard_item__name__icontains=styleboard_name), Q.AND)
+
+		else:
+			query = Q(styleboard_item__name__icontains=styleboard_name)
+
+	if email:
+
+		filters.update({'email':email})
+
+		if query is not None:
+			query.add(Q(user__username__icontains=email), Q.AND)
+
+		else:
+			query = Q(user__username__icontains=email)
+
+	if date:
+
+		filters.update({'date':date})
+
+		if query is not None:
+			query.add(Q(created=date), Q.AND)
+
+		else:
+			query = Q(created=date)
+
+	if guest:
+
+		filters.update({'guest':guest})
+
+		if query is not None:
+			query.add(Q(styleboard_item__item_guest=guest), Q.AND)
+
+		else:
+			query = Q(styleboard_item__item_guest=guest)
+
+	if table:
+
+		filters.update({'table':table})
+
+		if query is not None:
+			query.add(Q(styleboard_item__item_tables=table), Q.AND)
+
+		else:
+			query = Q(styleboard_item__item_tables=table)
+
+	if status:
+		if status != 'any':
+			filters.update({'featured':status})
+
+			if query is not None:
+				query.add(Q(active=bool(int(status))), Q.AND)
+
+			else:
+				query = Q(active=bool(int(status)))
+
+	if total:
+		filters.update({'total_price':total})
+		if query is not None:
+			query.add(Q(total_price=total), Q.AND)
+
+		else:
+			query = Q(total_price=total)
+
+	if query is not None:
+		styleboards = get_all_styleboards(query,s_type)
+
+	filters.update({'order_by':order_by, 'sort_type':sort_type}) 
+	urlFilter = QueryDict(urllib.urlencode(filters))
+
+	paginator = Paginator(styleboards, 20)
+	page = request.GET.get('page','')
+
+	filters['order_by'] = 'styleboard_item__name'
+	filters['sort_type'] = 'asc'
+	info['name_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['name_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'user__username'
+	filters['sort_type'] = 'asc'
+	info['email_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['email_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'created'
+	filters['sort_type'] = 'asc'
+	info['date_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['date_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'styleboard_item__item_guest'
+	filters['sort_type'] = 'asc'
+	info['guest_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['guest_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'styleboard_item__item_tables'
+	filters['sort_type'] = 'asc'
+	info['table_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['table_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'total_price'
+	filters['sort_type'] = 'asc'
+	info['total_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['total_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	try:
+		styleboards = paginator.page(page)
+	except PageNotAnInteger:
+		styleboards = paginator.page(1)
+	except EmptyPage:
+		styleboards = paginator.page(paginator.num_pages)
+
+	info['urlFilter'] 	= urlFilter
+	info['filter'] 		= form
+	info['styleboards'] = styleboards
+
+	return render_to_response('admin/admin_manage_styleboard.html',info,RequestContext(request))
+
+@staff_member_required
+def update_styleboard_status(request):
+
+	ret = "Error"
+
+	if request.method == "POST":
+
+		styleboard = CustomerStyleBoard.objects.get(id=int(request.POST.get('styleboard_id','')))
+		ret = not styleboard.active
+		styleboard.active = ret
+		styleboard.save()
+
+	return HttpResponse(ret)

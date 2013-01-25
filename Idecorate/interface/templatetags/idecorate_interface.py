@@ -11,6 +11,7 @@ from customer.services import customer_profile, get_save_styleboard_total
 from cart.models import ProductPrice
 from admin.models import Embellishments, TextFonts, EmbellishmentsType
 from django.conf import settings
+import math
 
 register = template.Library()
 
@@ -281,8 +282,9 @@ def get_nickname(user):
                 return ""
 
 @register.filter
-def get_emb_save_total(styleboard_item_id):        
+def get_emb_save_total(styleboard_item_id):  
         return mark_safe("%.2f" % get_save_styleboard_total(styleboard_item_id))
+        
 
 @register.filter
 def get_product_price(product):
@@ -339,11 +341,11 @@ def get_host(request):
         return request.get_host()
 
 @register.filter
-def truncateDescription(desc):
+def truncateDescription(desc,length=50):
 
-        if(len(desc) > 50):
+        if(len(desc) > length):
                 #return mark_safe("%s%s" % (desc[0:50], "..."))
-                return "%s%s" % (desc[0:50], "...")
+                return "%s%s" % (desc[0:length], "...")
         else:
                 #return mark_safe(desc)
                 return desc
@@ -370,3 +372,34 @@ def replace_space_rec(val):
 @register.filter
 def replace_space(val):
         return mark_safe(replace_space_rec(val))
+
+
+@register.filter
+def interface_paginate(object_list,page_of_page=False):
+        total_pages     = object_list.paginator.num_pages
+        current_page    = object_list.number
+        item_perpage    = object_list.paginator.per_page
+        max_link        = 3
+
+        pagination = """<div class="pagination"><ul>"""
+        
+        if page_of_page: #show page of pages
+                pagination += """<li><span class="pageofpage">Page %s of %s.</span></li>""" % (object_list.number,object_list.paginator.num_pages)
+        
+        if object_list.has_previous():
+                pagination += """<li><a class="prev" href="?page=%s">Previous</a></li>""" % (object_list.previous_page_number())
+
+        if object_list.paginator.page_range and len(object_list.paginator.page_range) > 1:
+                
+                for page in object_list.paginator.page_range:
+                        if page == current_page:
+                                pagination += """<li><span class="current">%s</span></li>""" % (page)
+                        else:
+                                pagination += """<li><a href="?page=%s">%s</a></li>""" % (page,page)
+        
+        if object_list.has_next():
+                pagination += """<li><a class="next" href="?page=%s">Next</a></li>""" % (object_list.next_page_number())
+        
+        pagination += """</ul></div>"""
+
+        return mark_safe(pagination)

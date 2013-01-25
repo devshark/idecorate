@@ -46,6 +46,8 @@ class CustomerStyleBoard(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
 	user = models.ForeignKey(User, db_column='user_id')
 	styleboard_item = models.ForeignKey(StyleboardItems, db_column='styleboard_item_id', blank=True)
+	active = models.BooleanField(db_column='active', default=False)
+	total_price = models.DecimalField(db_column='total_price', max_digits=19, decimal_places=2, null=True, blank=True)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 
 	class Meta:

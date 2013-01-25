@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
-from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, CustomerStyleBoard, StyleBoardCartItems
+from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, StyleBoardCartItems
 from cart.models import CartTemp, ProductPrice
 
 @transaction.commit_manually
@@ -96,13 +96,20 @@ def save_styleboard_item(data):
 		st.save()
 
 		csb.user = data['user']
+		
+		if 'product_positions' in data['session_in_request']:
+			p_position = data['session_in_request'].get('product_positions')
+			if 'total' in p_position:
+				csb.total_price = p_position.get('total','0.00')
+
 		csb.styleboard_item = st
 		csb.save()
 
 		manage_styleboard_cart_items(data['sessionid'],st,mode)		
 		transaction.commit()
 		return csb
-	except Exception as e:		
+	except Exception as e:
+		print "The error is: %s" % e	
 		transaction.rollback()
 		return False
 
@@ -154,4 +161,3 @@ def get_styleboard_cart_item(styleboard_item=None,styleboard_item_id=None):
 	elif styleboard_item_id:
 		return StyleBoardCartItems.objects.filter(styleboard_item__id=styleboard_item_id).order_by('id')
 	return False
-

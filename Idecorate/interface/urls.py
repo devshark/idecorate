@@ -27,4 +27,5 @@ urlpatterns =  patterns('interface.views',
     url(r'^checkout_login/$', 'checkout_login', {}, name='checkout_login'),
     url(r'^invite_friends/$', 'invite_friends', {}, name='invite_friends'),
     url(r'^invite_friends_content/$', 'invite_friends_content', {}, name='invite_friends_content'),
+    url(r'^ideas/$', 'ideas', {}, name='ideas'),
 )

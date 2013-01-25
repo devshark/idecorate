@@ -26,6 +26,7 @@ from idecorate_settings.models import IdecorateSettings
 from admin.models import TextFonts, Embellishments, EmbellishmentsType, HomeInfoGrapics
 from customer.services import get_user_styleboard, get_styleboard_cart_item
 import admin
+from customer.models import CustomerStyleBoard
 from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems
 from customer.models import CustomerProfile, CustomerFacebookFriends
@@ -112,6 +113,8 @@ def styleboard(request, cat_id=None):
 		pass
 	sbid = request.GET.get('sbid',None)
 	if sbid:
+		#request.session['sbid'] = sbid
+
 		personalize_styleboard = get_user_styleboard(None, sbid)
 		if personalize_styleboard:
 			if personalize_styleboard.user.id:
@@ -881,4 +884,20 @@ def invite_friends_content(request):
 	info['fb_friends'] = fb_friends
 	return render_to_response('interface/invite_friends_content.html', info,RequestContext(request))
 
+def ideas(request):
+	info = {}
+	styleboards = CustomerStyleBoard.objects.filter(active=True)
 
+	paginator = Paginator(styleboards, 10)
+	page = request.GET.get('page','')
+
+	try:
+		styleboards = paginator.page(page)
+	except PageNotAnInteger:
+		styleboards = paginator.page(1)
+	except EmptyPage:
+		styleboards = paginator.page(paginator.num_pages)
+
+	info['styleboards'] = styleboards
+
+	return render_to_response('interface/ideas.html', info,RequestContext(request))

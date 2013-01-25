@@ -135,6 +135,8 @@ $(function(){
 		$('li:first',val).css({borderLeft:'none'});
 	});
 
+	FB.init({appId: "250262231769530", status: true, cookie: true});
+
 });
 
 function setModalIcons(object){
@@ -175,27 +177,25 @@ function page_H(){
 </script>
 <!-- Social Media Buttons -->
 <script> 
-	FB.init({appId: "250262231769530", status: true, cookie: true});
+function postToFeed(url,image) {
 
-	function postToFeed(url,image) {
+	// calling the API ...
+	var obj = {
+		method: 'feed',
+		redirect_uri: 'http://www.facebook.com',
+		link:url,//page link here
+		picture: 'http://{{ request|get_host }}'+image, //add image link of product here 
+		name: 'Featured Image', //styleboard title
+		caption: 'iDecorate Weddings',
+		description: 'Featured image from idecorate weddings' //description
+	};
 
-		// calling the API ...
-		var obj = {
-			method: 'feed',
-			redirect_uri: 'http://www.facebook.com',
-			link:url,//page link here
-			picture: 'http://{{ request|get_host }}'+image, //add image link of product here 
-			name: 'Featured Image', //styleboard title
-			caption: 'iDecorate Weddings',
-			description: 'Featured image from idecorate weddings' //description
-		};
-
-		function callback(response) {
-			document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
-		}
-
-		FB.ui(obj, callback);
+	function callback(response) {
+		document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
 	}
+
+	FB.ui(obj, callback);
+}
 
 </script>
 <script src="http://platform.tumblr.com/v1/share.js"></script>

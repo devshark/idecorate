@@ -113,14 +113,44 @@
       width: 440px;
       margin: 5px 0 0 0;
       padding: 3px 5px;
-      background: #e7e0da; }
+      background: #e7e0da;
+      vertical-align: middle; }
       .profileWrap .featureContentWrap .featureFooter img {
-        margin-left: 5px;
-        float: left; }
+        vertical-align: middle; }
       .profileWrap .featureContentWrap .featureFooter span {
-        display: block;
-        float: left; }
-        .profileWrap .featureContentWrap .featureFooter span p {
-          padding: 5px 0 0 5px; }
+        margin-left: 5px; }
   .profileWrap .featureContentWrap:nth-child(odd) {
     margin-left: 0; }
+
+.pagination {
+  text-align: center; }
+  .pagination ul {
+    margin: 0;
+    padding: 0; }
+    .pagination ul li {
+      display: inline-block;
+      font-size: 0;
+      *display: inline;
+      zoom: 1;
+      padding: 0 1px; }
+      .pagination ul li span {
+        color: #333333;
+        font-family: 'futura_std_book';
+        font-size: 12px;
+        display: block;
+        padding: 5px; }
+      .pagination ul li span.current {
+        font-family: 'futura_std_medium';
+        font-size: 13px; }
+      .pagination ul li a {
+        display: block;
+        padding: 5px;
+        font-size: 12px;
+        text-decoration: none;
+        font-family: 'futura_std_book';
+        color: #666666;
+        background-color: #EFEBE4; }
+      .pagination ul li a.prev, .pagination ul li a.next {
+        font-size: 13px;
+        background: none;
+        font-family: 'futura_std_medium'; }

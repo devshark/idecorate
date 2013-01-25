@@ -1,3 +1,4 @@
+
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.template.defaultfilters import filesizeformat
@@ -303,3 +304,14 @@ class HomeInfoGraphicForm(forms.Form):
 class ItemMenuForm(forms.Form):
 	name = forms.CharField(error_messages={'required':_('Menu Name is a required field.')})
 	link = forms.CharField(error_messages={'required':_('Menu Link is a required field.')})
+
+class filterStyleboardForm(forms.Form):
+
+	name 		= forms.CharField(max_length=100,label=_("Styleboard Name"), required=False)
+	email 		= forms.CharField(max_length=100,label=_("Email"), required=False)
+	date 		= forms.CharField(max_length=100,label=_("Date"), required=False)
+	guest 		= forms.CharField(max_length=100,label=_("Guests"), required=False)
+	table 		= forms.CharField(max_length=100,label=_("Tables"), required=False)
+	total 		= forms.CharField(max_length=100,label=_("Total"), required=False)
+	featured 	= forms.ChoiceField(label=_("Featured"), choices=(('any','Any'),('1','Featured'),('0','Not featured'),), required=False,widget=forms.Select)
+	

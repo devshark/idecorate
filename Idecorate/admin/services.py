@@ -10,6 +10,7 @@ from admin.models import HomeBanners, HomeBannerImages, HomeInfoGrapics
 from django.db import DatabaseError, transaction
 from django.template.defaultfilters import filesizeformat
 from embellishments.models import StyleboardTemplateItems
+from customer.models import CustomerStyleBoard
 
 def getExtensionAndFileName(filename):
 
@@ -318,3 +319,7 @@ def validate_Infographic(image=None):
 
 def get_HomeInfographics():
 	return HomeInfoGrapics.objects.filter(is_deleted=0)
+
+def get_all_styleboards(filters=None,order_by='created'):
+
+	return CustomerStyleBoard.objects.filter().order_by(order_by) if filters is None else CustomerStyleBoard.objects.filter(filters).order_by(order_by)
