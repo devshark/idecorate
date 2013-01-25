@@ -13,6 +13,7 @@ from admin.models import Embellishments, TextFonts, EmbellishmentsType
 from django.conf import settings
 import math
 import re
+from interface.views import clear_styleboard_session
 
 register = template.Library()
 
@@ -408,4 +409,10 @@ def interface_paginate(object_list,page_of_page=False):
 def convert_unicode_to_entity(val):
 
         return mark_safe(val.decode('unicode-escape').encode('ascii','xmlcharrefreplace'))
+
+@register.filter
+def clear_styleboard_session_tag(request):
+
+        clear_styleboard_session(request)
+        return None
 

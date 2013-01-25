@@ -1,3 +1,4 @@
+{% load idecorate_interface %}
 <script type="text/javascript">
 /**
 
@@ -6,6 +7,8 @@
 	{{ e }}
 
 {% endfor %}
+
+{{ request|clear_styleboard_session_tag }}
 
 **/
 
