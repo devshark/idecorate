@@ -1940,21 +1940,35 @@ def homepage_edit_banner(request,hbid=None):
 
 	image11 = ''
 	wholelink = ''
+	wholename = ''
+	wholedescription = ''
 	image21 = ''
 	image22 = ''
 	half1link = ''
 	half2link = ''
+	half1name = ''
+	half2name = ''
+	half1description = ''
+	half2description = ''
 	image31 = ''
 	image32 = ''
 	image33 = ''
 	third1link = ''
 	third2link = ''
 	third3link = ''
+	third1name = ''
+	third2name = ''
+	third3name = ''
+	third1description = ''
+	third2description = ''
+	third3description = ''
 
 	count = hb_images.count()
 	if count==1:
 		image11 = hb_images[0].image		
 		wholelink = hb_images[0].link
+		wholename = hb_images[0].name
+		wholedescription = hb_images[0].description
 
 		info['image11'] = image11
 	if count==2:
@@ -1962,6 +1976,10 @@ def homepage_edit_banner(request,hbid=None):
 		image22 = hb_images[1].image
 		half1link = hb_images[0].link
 		half2link = hb_images[1].link
+		half1name = hb_images[0].name
+		half2name = hb_images[1].name
+		half1description = hb_images[0].description
+		half2description = hb_images[1].description
 
 		info['image21'] = image21
 		info['image22'] = image22
@@ -1972,6 +1990,12 @@ def homepage_edit_banner(request,hbid=None):
 		third1link = hb_images[0].link
 		third2link = hb_images[1].link
 		third3link = hb_images[2].link
+		third1name = hb_images[0].name
+		third2name = hb_images[1].name
+		third3name = hb_images[2].name
+		third1description = hb_images[0].description
+		third2description = hb_images[1].description
+		third3description = hb_images[2].description
 
 		image31 = hb_images[0].image
 		image32 = hb_images[1].image
@@ -2001,16 +2025,28 @@ def homepage_edit_banner(request,hbid=None):
 			'sizes': home_banner_item.size, 
 			'image11':image11, 
 			'wholelink':wholelink,
+			'wholename':wholename,
+			'wholedescription':wholedescription,
 			'image21':image21,
 			'image22':image22,
 			'half1link':half1link,
 			'half2link':half2link,
+			'half1name':half1name,
+			'half2name':half2name,
+			'half1description':half1description,
+			'half2description':half2description,
 			'image31':image31,
 			'image32':image32,
 			'image33':image33,
 			'third1link':third1link,
 			'third2link':third2link,
-			'third3link':third3link
+			'third3link':third3link,
+			'third1name':third1name,
+			'third2name':third2name,
+			'third3name':third3name,
+			'third1description':third1description,
+			'third2description':third2description,
+			'third3description':third3description
 			})
 	info['form'] = form
 	info['mode'] = 'edit'

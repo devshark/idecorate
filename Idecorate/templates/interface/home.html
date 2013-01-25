@@ -64,24 +64,24 @@
 						<a class="shareModal" href="#">Share</a>
 						<span class="shareButtons" style="display:none;">
 							<div class="facebookShare">
-								<a href="#" onclick="postToFeed('{{ l.tinyUrl }}','/media/banners/{{ l.image }}')">
+								<a href="#" onclick="postToFeed('{{ l.tinyUrl }}','/media/banners/{{ l.image }}','{{ l.name }}','{{ l.description }}')">
 									<img border="0" src="/media/images/fb_share.png" />
 								</a>
 							</div>
 							<div class="tumblerShare">
-								<a href="http://www.tumblr.com/share/link?url={{ l.tinyUrl|urlencode:'' }}&name=Featured%20image&description=Featured%20image%20from%20idecorate%20weddings" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank">
+								<a href="http://www.tumblr.com/share/link?url={{ l.tinyUrl|urlencode:'' }}&name={{ l.name|urlencode }}&description={{ l.description|urlencore }}" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank">
 									<img src='/media/images/tumblr.png' border="0" />
 								</a>
 							</div>
 							<div class="twitterShare">
-								<a href="https://twitter.com/share" class="twitter-share-button" data-text="Featured image from idecorate weddings" data-url="{{ l.tinyUrl }}" data-lang="en" data-related="anywhere:Idecorate Featured Image" data-count="none">Tweet</a>
+								<a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ l.description }}" data-url="{{ l.tinyUrl }}" data-lang="en" data-related="anywhere:{{ l.name }}" data-count="none">Tweet</a>
 								</div>
 							<div class="pinterestShare">
-								<a data-pin-config="none" data-pin-do="buttonPin" target="_blank" href="//pinterest.com/pin/create/button/?url={{l.tinyUrl|urlencode:''}}&media=http://{{ request|get_host|urlencode:'' }}/media/banners/{{ l.image }}&description=Featured%20image%20from%20Idecorate%20Weddings"></a>
+								<a data-pin-config="none" data-pin-do="buttonPin" target="_blank" href="//pinterest.com/pin/create/button/?url={{l.tinyUrl|urlencode:''}}&media=http://{{ request|get_host|urlencode:'' }}/media/banners/{{ l.image }}&description={{ l.description|urlencore }}"></a>
 							</div>
 							<div class="googleShare">
-								<p itemprop="name" style="display:none;">Featured Image</p>
-								<p itemprop="description" style="display:none;">Featured image from idecorate weddings</p>
+								<p itemprop="name" style="display:none;">{{ l.name }}</p>
+								<p itemprop="description" style="display:none;">{{ l.description }}</p>
 								<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{l.tinyUrl}}"></div>
 								<script type="text/javascript">
 								  (function() {
@@ -177,7 +177,7 @@ function page_H(){
 </script>
 <!-- Social Media Buttons -->
 <script> 
-function postToFeed(url,image) {
+function postToFeed(url,image,name,description) {
 
 	// calling the API ...
 	var obj = {
@@ -185,9 +185,9 @@ function postToFeed(url,image) {
 		redirect_uri: 'http://www.facebook.com',
 		link:url,//page link here
 		picture: 'http://{{ request|get_host }}'+image, //add image link of product here 
-		name: 'Featured Image', //styleboard title
+		name: name, //styleboard title
 		caption: 'iDecorate Weddings',
-		description: 'Featured image from idecorate weddings' //description
+		description: description //description
 	};
 
 	function callback(response) {
