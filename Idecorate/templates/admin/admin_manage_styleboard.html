@@ -153,7 +153,7 @@
 				<td style="white-space: nowrap;">{{item.styleboard_item.created }}</td>
 				<td>{{item.styleboard_item.item_guest }}</td>
 				<td>{{item.styleboard_item.item_tables }}</td>
-				<td>${{ item.total_price|intcomma }}</td>
+				<td>${{ item.total_price|floatformat:2|intcomma }}</td>
 				<td>{{ item.styleboard_item.description|truncateDescription:30 }}</td>
 				<td style="text-align: center;">
 					<a href="{% url styleboard_view item.styleboard_item.id %}">View</a> | 
