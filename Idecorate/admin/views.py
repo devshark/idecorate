@@ -2468,6 +2468,7 @@ def manage_styleboard(request):
 	filters 		= {}
 	initial_form 	= {}
 	form 			= filterStyleboardForm()
+	form_error	 	= False
 
 	order_by 	= request.GET.get('order_by','created')
 	sort_type 	= request.GET.get('sort_type','desc')
@@ -2483,14 +2484,18 @@ def manage_styleboard(request):
 	styleboards = get_all_styleboards(None,s_type)
 
 	if request.method == "POST":
-		form 			= filterStyleboardForm(request.POST)
-		styleboard_name = request.POST.get('name','')
-		email 			= request.POST.get('email','')
-		date 			= request.POST.get('date','')
-		guest 			= request.POST.get('guest','')
-		table 			= request.POST.get('table','')
-		total 			= request.POST.get('total','')
-		status 			= request.POST.get('featured','')
+		form = filterStyleboardForm(request.POST)
+
+		if form.is_valid():
+			styleboard_name = request.POST.get('name','')
+			email 			= request.POST.get('email','')
+			date 			= request.POST.get('date','')
+			guest 			= request.POST.get('guest','')
+			table 			= request.POST.get('table','')
+			total 			= request.POST.get('total','')
+			status 			= request.POST.get('featured','')
+		else:
+			form_error = True
 	else:
 		styleboard_name = request.GET.get('name','')
 		email 			= request.GET.get('email','')
@@ -2518,74 +2523,75 @@ def manage_styleboard(request):
 		form = filterStyleboardForm(initial=initial_form)
 
 	query = None
-	if styleboard_name:
-		filters.update({'name':styleboard_name})
-		if query is not None:
-			query.add(Q(styleboard_item__name__icontains=styleboard_name), Q.AND)
-
-		else:
-			query = Q(styleboard_item__name__icontains=styleboard_name)
-
-	if email:
-
-		filters.update({'email':email})
-
-		if query is not None:
-			query.add(Q(user__username__icontains=email), Q.AND)
-
-		else:
-			query = Q(user__username__icontains=email)
-
-	if date:
-
-		filters.update({'date':date})
-
-		if query is not None:
-			query.add(Q(created=date), Q.AND)
-
-		else:
-			query = Q(created=date)
-
-	if guest:
-
-		filters.update({'guest':guest})
-
-		if query is not None:
-			query.add(Q(styleboard_item__item_guest=guest), Q.AND)
-
-		else:
-			query = Q(styleboard_item__item_guest=guest)
-
-	if table:
-
-		filters.update({'table':table})
-
-		if query is not None:
-			query.add(Q(styleboard_item__item_tables=table), Q.AND)
-
-		else:
-			query = Q(styleboard_item__item_tables=table)
-
-	if status:
-		if status != 'any':
-			filters.update({'featured':status})
-
+	if not form_error:
+		if styleboard_name:
+			filters.update({'name':styleboard_name})
 			if query is not None:
-				query.add(Q(active=bool(int(status))), Q.AND)
+				query.add(Q(styleboard_item__name__icontains=styleboard_name), Q.AND)
 
 			else:
-				query = Q(active=bool(int(status)))
+				query = Q(styleboard_item__name__icontains=styleboard_name)
 
-	if total:
-		filters.update({'total_price':total})
+		if email:
+
+			filters.update({'email':email})
+
+			if query is not None:
+				query.add(Q(user__username__icontains=email), Q.AND)
+
+			else:
+				query = Q(user__username__icontains=email)
+
+		if date:
+
+			filters.update({'date':date})
+
+			if query is not None:
+				query.add(Q(created=date), Q.AND)
+
+			else:
+				query = Q(created=date)
+
+		if guest:
+
+			filters.update({'guest':guest})
+
+			if query is not None:
+				query.add(Q(styleboard_item__item_guest=guest), Q.AND)
+
+			else:
+				query = Q(styleboard_item__item_guest=guest)
+
+		if table:
+
+			filters.update({'table':table})
+
+			if query is not None:
+				query.add(Q(styleboard_item__item_tables=table), Q.AND)
+
+			else:
+				query = Q(styleboard_item__item_tables=table)
+
+		if status:
+			if status != 'any':
+				filters.update({'featured':status})
+
+				if query is not None:
+					query.add(Q(active=bool(int(status))), Q.AND)
+
+				else:
+					query = Q(active=bool(int(status)))
+
+		if total:
+			filters.update({'total_price':total})
+			if query is not None:
+				query.add(Q(total_price=total), Q.AND)
+
+			else:
+				query = Q(total_price=total)
+
 		if query is not None:
-			query.add(Q(total_price=total), Q.AND)
-
-		else:
-			query = Q(total_price=total)
-
-	if query is not None:
-		styleboards = get_all_styleboards(query,s_type)
+			styleboards = get_all_styleboards(query,s_type)
 
 	filters.update({'order_by':order_by, 'sort_type':sort_type}) 
 	urlFilter = QueryDict(urllib.urlencode(filters))

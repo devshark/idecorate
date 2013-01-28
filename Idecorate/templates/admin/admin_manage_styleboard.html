@@ -9,6 +9,7 @@
 <link href="/media/admin/css/admin.css" rel="stylesheet">
 <link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
 <link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
 <style type="text/css">
 	.featureContentWrap:nth-child(2n+3){
 		margin-left: 0;
@@ -38,6 +39,34 @@
 <br/>
 <h3>Show only styleboard where</h3>
 <br/>
+{% if filter.date.errors or filter.total.errors or filter.table.errors or filter.guest.errors   %}
+<div class="alert alert-error">
+	<a class="close" data-dismiss="alert" href="#">×</a>
+	<h4 class="alert-heading">Please correct the following errors:</h4>
+	<ol>
+		{% if filter.date.errors %}
+		{% for e in filter.date.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% endif %}
+		{% if filter.guest.errors %}
+		{% for e in filter.guest.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% endif %}
+		{% if filter.table.errors %}
+		{% for e in filter.table.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% endif %}
+		{% if filter.total.errors %}
+		{% for e in filter.total.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% endif %}
+	</ol>
+</div>
+{% endif %}
 <div class="manageStyleboardFilter">
 	<form action="" method="post" id="filter-styleboard">
 		{% csrf_token %}
@@ -140,8 +169,16 @@
 {% bootstrap_paginate styleboards url_get_params=urlFilter %}	
 {% endblock %}
 {% block javascripts %}
+<script src="/media/interface/js/jquery-ui.js"></script>
 <script type="text/javascript">
 	$(function(){
+		$( 'input[name="date"]' ).datepicker({
+			dateFormat: 'yy-mm-dd',
+			changeYear: true,
+            changeMonth: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+		});
 		update_buttons();
 
 		$('#save-menu-changes').click(function(e){
