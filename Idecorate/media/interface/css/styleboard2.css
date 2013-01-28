@@ -287,19 +287,17 @@ h5 {
               color: #CCC;
               vertical-align: middle; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul li a {
-                font-size: 13px;
+                font-size: 14px;
                 margin: 7px 0;
                 color: #333333;
                 font-family: 'futura_std_medium';
                 display: inline-block;
                 *display: inline;
-                zoom: 1;
-                border-bottom: 1px solid #f0ebe5; }
+                zoom: 1; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul li a:hover {
                 color: #000; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul li.activeTab a {
-              color: #000;
-              border-bottom: 1px dotted #000; }
+              color: #000; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb {
           margin: 5px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li {

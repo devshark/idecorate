@@ -156,49 +156,47 @@
                     }
                 });
 
-                $('.dd').dropdown({
-                    subClass: 'sub-menu'
-                }).show();
-
-                /**
-                $( "#datepicker" ).datepicker({
-                    showOn: "button",
-                    buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-                    buttonImageOnly: true ,
-                    changeMonth: true,
-                    changeYear: true,
-                    showOtherMonths: true,
-                    selectOtherMonths: true,
-                    showButtonPanel: true
-                });
-                **/
-
                 $('#close-login-signup-modal').click(function(e){
                     e.preventDefault();
                     closed_modal();
                 });
+
                 generate_user_nav();
                 $('input[type="text"]').placeholder();
                 $('.loginTrigger').click(popup_login);
+
+
+                $('.dd').dropdown({
+                    subClass: 'sub-menu'
+                }).show();
             });
 
             //global functions
             function generate_user_nav(){
-                var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
-                '<li><a id="lnk-logout" href="#">Logout</a></li>' + 
-                '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
+                var navs = '<li>';
+                    navs += '<a href="#" id="logged_as">{{ user|get_nickname }}</a>';
+                    navs += '<ul>';
+                    navs += '<li><a id="lnk-styleboards" href="#">My Styleboards</a></li>';
+                    navs += '<li><a id="lnk-edit" href="#">Edit Profile</a></li>';                
+                    navs += '<li><a id="lnk-logout" href="#">Logout</a></li>';                
+                    navs += '</ul>';
+                    navs += '</li>';
+                    navs += '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';
+                                    
                 $('#site-menu ul.dd').append(navs);
                 $('#lnk-logout').bind('click',logmeout);
-                $('#logged_as').bind('click',goto_profile);
+                $('#lnk-styleboards').bind('click',goto_profile);
                 $('#site-menu ul a#lnk-login-signup').bind('click',function(e){
                     e.preventDefault();
                     popup_login();
                 });
+                $('#logged_as').click(function(e){ e.preventDefault();});
+
                 {% if user.is_authenticated %}
-                $('#lnk-login-signup').parent().hide();
+                    $('#lnk-login-signup').parent().hide();
                 {% else %}
-                $('#logged_as').parent().hide();
-                $('#lnk-logout').parent().hide();
+                    $('#logged_as').parent().hide();
+                    $('#lnk-logout').parent().hide();
                 {% endif %}
             }
             function goto_profile(){
@@ -238,19 +236,6 @@
 
                 $('#page-mask').css({display:'block'});
                 modal.css({display:'block',left:_left});
-            }
-            // $(function() {
-            //        var zIndexNumber = 1000;
-            //        // Put your target element(s) in the selector below!
-            //        $("ul.dropdown li").each(function() {
-            //                $(this).css('zIndex', zIndexNumber);
-            //                zIndexNumber -= 10;
-            //        });
-            //        $("ul.dropdown2 li").each(function() {
-            //                $(this).css('zIndex', zIndexNumber);
-            //                zIndexNumber -= 10;
-            //        });
-            // });
             
         </script>
         <script type="text/javascript">

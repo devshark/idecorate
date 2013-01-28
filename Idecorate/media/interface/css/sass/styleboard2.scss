@@ -372,14 +372,14 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									vertical-align: middle;
 
 									a{	
-										font-size: 13px;
+										font-size: 14px;
 										margin: 7px 0;
 										color: #333333;
 										font-family: 'futura_std_medium';
 										display: inline-block;
 										*display: inline;
 										zoom:1;
-										border-bottom:1px solid #f0ebe5;
+										// border-bottom:1px solid #f0ebe5;
 									}
 									a:hover{
 										color:#000;
@@ -388,7 +388,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 								li.activeTab a{
 									color:#000;
-									border-bottom:1px dotted #000;
+									// border-bottom:1px dotted #000;
 								}
 							}
 						}
