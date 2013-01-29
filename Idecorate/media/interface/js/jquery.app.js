@@ -2577,6 +2577,10 @@ function do_aspectratio_wRespect_template(width, height, percent){
     return dimension;
 }
 
+function back_onestep_category(){
+    var back = '<a href="#" id="step-back"> &lt; Back</a>';
+}
+
 function computeBboxDimension_template() {
 
     var lowestTop = 0;
