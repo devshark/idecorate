@@ -228,6 +228,10 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
             initial['shipping_zip_code'] = contact.zip_code
             initial['billing_zip_code'] = contact.zip_code2
 
+        if request.POST.get('order-shipping_date') is None:
+            if 'delivery_date' in request.session:
+                initial['shipping_date'] = request.session['delivery_date']
+
         super(IdecorateCheckoutForm, self).__init__(*args, **kwargs)
 
         self.fields['shipping_address2'] = forms.CharField(max_length=200, label=_("Shipping Address2"), required=False)
