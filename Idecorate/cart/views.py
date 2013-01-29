@@ -751,7 +751,10 @@ def checkout_from_view_styleboard(request):
 	if request.method=='POST':
 
 		sessionid = request.session.get('cartsession',None)
-		if not sessionid:
+		if sessionid:
+			CartTemp.objects.filter(sessionid=sessionid).delete()
+			GuestTableTemp.objects.filter(sessionid=sessionid).delete()
+		else:		
 			sessionid = generate_unique_id()
 			request.session['cartsession'] = sessionid
 
@@ -774,7 +777,23 @@ def checkout_from_view_styleboard(request):
 
 		if cart_items.count() > 0:
 			for cart in cart_items:
-				order.modify_item(cart.product, absolute=cart.quantity)
+				data = {}
+				data['product'] = cart.product
+				data['sessionid'] = sessionid
+				data['quantity'] = cart.quantity
+				data['guests'] = guests
+				data['tables'] = tables
+				add_to_cart(data)
+
+		cart_items = CartTemp.objects.filter(sessionid=sessionid).order_by('-id')
+
+		if cart_items.count() > 0:
+			for cart in cart_items:
+				try:
+					order.modify_item(cart.product, absolute=cart.quantity)
+				except:
+					CartTemp.objects.filter(sessionid=sessionid).delete()
+					return shop.order_new(request)
 
 			shop.modify_guest_table(request, guests, tables, order)
 
