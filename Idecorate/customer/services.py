@@ -25,7 +25,7 @@ def register_user(data):
 		return None
 
 def is_registered(uname):
-	return User.objects.filter(username=uname).exists()
+	return User.objects.filter(username=uname).exists() or User.objects.filter(email=uname).exists()
 
 def customer_profile(user):
 	profile = {}
