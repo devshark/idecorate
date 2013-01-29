@@ -164,6 +164,8 @@
 #confirm-order {
   width: 70%;
   margin: 0 auto; }
+  #confirm-order > p {
+    margin-top: 15px; }
   #confirm-order .myOrderTable {
     border: 1px solid #CCCCCC;
     margin-top: 15px; }
