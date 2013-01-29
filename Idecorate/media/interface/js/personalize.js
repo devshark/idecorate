@@ -26,15 +26,20 @@ function populate_save_styleboard(){
 		        });
 			}
 
-			if (v.cls != 'template' && v._type != 'product'){
+			//needs to check if working properly damn revising
+			if (v.cls != 'template'){
 				t = 'u';
-				elm.addClass('unselected');
-				elm.addClass('embellishment');
-				elm.attr({
-		        	'_opacity':v.opacity,
-		        	'_text':unescape(v.text),
-		        	'_rgb':v.rgb
-		        });
+
+				if( v._type != 'product'){
+					
+					elm.addClass('unselected');
+					elm.addClass('embellishment');
+					elm.attr({
+			        	'_opacity':v.opacity,
+			        	'_text':unescape(v.text),
+			        	'_rgb':v.rgb
+			        });
+				 }
 			}else if(v.cls == 'template'){
 				t = 't';
 				elm.addClass('template');
@@ -158,7 +163,6 @@ function populate_save_styleboard(){
 			elm.appendTo('#canvas');			
 			objCounter++;			
 		});
-
 		if(t=='u'){
 			setTimeout(make_center,0);
 		} else {
