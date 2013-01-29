@@ -416,3 +416,7 @@ def clear_styleboard_session_tag(request):
         clear_styleboard_session(request)
         return None
 
+@register.filter
+def get_session_by_key(request, key):
+        return request.session.get(key, '') 
+

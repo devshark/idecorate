@@ -240,7 +240,7 @@
 
 		                {% for choice in orderform.payment_method.field.choices %}
 		                <div class="clearfix">
-		                    <input type="radio" name="order-payment_method" value="{{ choice.0 }}" {% if orderform.payment_method.data == choice.0 %}checked="checked" {% endif %}/>
+		                    <input type="radio" name="order-payment_method" value="{{ choice.0 }}" {% if orderform.payment_method.data == choice.0 or request|get_session_by_key:"order-payment_method" == choice.0 %}checked="checked" {% endif %}/>
 		                    <label>{{choice.1}}</label>
 		                    {{ choice.0|getImagePaymentMethod }}
 		                </div>
