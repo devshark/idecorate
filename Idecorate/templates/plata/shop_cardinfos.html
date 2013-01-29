@@ -1,0 +1,52 @@
+<h3>PAYMENT</h3>
+<div class="paymentWrap">
+	<div class="payment clearfix">
+		<fieldset>
+			<legend>DETAILS</legend>
+			{% if card_error %}
+			<div class="clearfix errorWrapper">
+				<div class="clearfix errorBlock">
+					<a href="" class="closeX">x</a>
+					<h4>Please correct the following errors:</h4>
+					<ol>
+					{% for c_error in card_error %}
+					<li>{{ c_error }}</li>
+					{% endfor %}
+					</ol>
+				</div>
+			</div>
+			{% endif %}
+			<form action="" method="post">
+				<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />
+				<input type="hidden" name="terms_and_conditions" value="on" />
+				{% csrf_token %}
+				
+				<div class="paymentDetails1">
+					<div class="clearfix reqMessage">
+						* fields are required
+					</div>
+					<div class="clearfix inputWrapper">
+						<label>Card number *</label>
+						<input type="text" name="card_number" value="{{ card_number }}" />
+					</div>
+					<div class="clearfix inputWrapper">
+						<label>Name on card *</label>
+						<input type="text" name="name_on_card" value="{{ name_on_card }}" />
+					</div>
+					<div class="clearfix inputWrapper">
+						<label>Expires *</label>
+						<input type="text" placeholder="ie. 01/2012 for January 2012" name="expires" value="{{ expires }}" />
+					</div>
+					<div class="clearfix inputWrapper">
+						<label>CVV code *</label>
+						<input type="text" name="cvv_code" value="{{ cvv_code }}" />
+					</div>
+					<div class="clearfix inputWrapper submit">
+						<input type="Submit" value="SUBMIT" />
+						<a href="{% url checkout %}" />CANCEL</a>
+					</div>
+				</div>
+			</form>
+		</fieldset>
+	</div>
+</div>

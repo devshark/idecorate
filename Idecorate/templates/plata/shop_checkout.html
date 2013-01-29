@@ -130,9 +130,11 @@
 			{% else %}
 			<div>&nbsp;</div>
 			{% endif %}
+		<!--
 		<form id="paypal_form" method="post" action="{{ paypal_url }}">
 			{{ paypal_form }}
 		</form>
+		-->
 		<form method="post" action="." id="plata_form">
 			<input value="on" type="hidden" name="order-create_account" id="id_order-create_account" />
 			{% csrf_token %}
@@ -240,7 +242,7 @@
 
 		                {% for choice in orderform.payment_method.field.choices %}
 		                <div class="clearfix">
-		                    <input type="radio" name="order-payment_method" value="{{ choice.0 }}" {% if orderform.payment_method.data == choice.0 %}checked="checked" {% endif %}/>
+		                    <input type="radio" name="order-payment_method" value="{{ choice.0 }}" {% if orderform.payment_method.data == choice.0 or request|get_session_by_key:"order-payment_method" == choice.0 %}checked="checked" {% endif %}/>
 		                    <label>{{choice.1}}</label>
 		                    {{ choice.0|getImagePaymentMethod }}
 		                </div>
@@ -308,12 +310,15 @@ QUESTION_ORIGINAL_SIZE = 0;
 		});
 
 		$('#p_button').click(function(e){
-
+			/**
 			if($('input[name="order-payment_method"]:checked').val() == "PayPal") {
 				$("#paypal_form").submit();
 			} else {
+			**/
 				$("#plata_form").submit();
+			/**
 			}
+			**/
 
 		});
 		
