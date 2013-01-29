@@ -177,7 +177,7 @@
                     navs += '<a href="#" id="logged_as">{{ user|get_nickname }}</a>';
                     navs += '<ul>';
                     navs += '<li><a id="lnk-styleboards" href="#">My Styleboards</a></li>';
-                    navs += '<li><a id="lnk-edit" href="#">Edit Profile</a></li>';                
+                    navs += '<li><a id="lnk-edit" href="{% url edit_profile %}">Edit Profile</a></li>';                
                     navs += '<li><a id="lnk-logout" href="#">Logout</a></li>';                
                     navs += '</ul>';
                     navs += '</li>';

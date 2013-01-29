@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load idecorate_interface humanize %}
+{{ request|set_last_page_idecorate }}
+{% block title %}Edit Profile{% endblock %}
+{%  block style %}
+<link rel="stylesheet" type="text/css" href="/media/interface/css/static.css">
+<link rel="stylesheet" type="text/css" href="/media/interface/css/edit_profile.css">
+<link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+{% endblock %}
+
+{% block content %}
+<h3>EDIT PROFILE</h3>
+<div class="staticWrap">
+	<div class="clearfix static editProfile">
+		<form>
+			<fieldset class="personalInfo">
+				<legend>PERSONAL INFORMATION</legend>
+				<div class="formr">
+					<label>Salutation</label>
+					<select name="salutation">
+						<option value="">Mr.</option>
+						<option value="">Mrs.</option>
+						<option value="">Ms.</option>
+					</select>
+				</div>
+				<div class="formr">
+					<label>First Name</label>
+					<input type="text" value="" name="firstname" />
+				</div>
+				<div class="formr">
+					<label>Last Name</label>
+					<input type="text" value="" name="lastname" />
+				</div>
+				<div class="formr">
+					<label>Image</label>
+					<div class="imageWrap">
+						<div class="image"></div>
+						<input type="file" value="" name="photo" />
+						<button class="btn" id="get-FB-image">Reload From Facebook</button>
+					</div>
+				</div>
+				<div class="formr">
+					<label>About</label>
+					<textarea name="about"></textarea>
+				</div>
+			</fieldset>
+			<fieldset class="accountSetting">
+				<legend>USER ACCOUNT SETTINGS</legend>
+				<div class="formr">
+					<label>Email Address</label>
+					<input type="text" value="" name="email" />
+				</div>
+				<div class="formr">
+					<label>Password</label>
+					<button id="change-password" class="btn">Change Password</button>
+				</div>
+				<div class="formr">
+					<label>Language</label>
+					<select name="salutation">
+						<option value="">English</option>
+					</select>
+				</div>
+				<div class="formr">
+					<label>Gender</label>
+					<input type="radio" name="gender" value="0"/> Male
+					<input type="radio" name="gender" value="1"/> Female
+				</div>
+			</fieldset>
+			<fieldset class="deliverySetting">
+				<legend>DELIVERY ADDRESS</legend>
+				<div class="formr">
+					<label>Address 1</label>
+					<input type="text" value="" name="address1" />
+				</div>
+				<div class="formr">
+					<label>Address 2</label>
+					<input type="text" value="" name="address2" />
+				</div>
+				<div class="formr">
+					<label>State</label>
+					<input type="text" value="" name="state" />
+				</div>
+				<div class="formr">
+					<label>City</label>
+					<input type="text" value="" name="city" />
+				</div>
+				<div class="formr">
+					<label>Postal Code</label>
+					<input type="text" value="" name="postal_code" />
+				</div>
+				<p><input type="checkbox" name="billng" value=""/> My delivery address is the same as my billing address</p>
+			</fieldset>
+			<fieldset class="socialNetwork">
+				<legend>SOCIAL NETWORK</legend>
+				<div class="formr">
+					<label>Facebook</label>
+					<input type="checkbox" name="facebook" value=""/> Login with Facebook
+				</div>
+				<div class="formr">
+					<label>Twitter</label>
+					<input type="checkbox" name="twitter" value=""/> Login with Twitter
+				</div>
+			</fieldset>
+			<button class="btn submit">Save Profile</button>
+		</form>
+	</div>
+</div>
+{% endblock %}
+
+{%  block javascript %}
+{% endblock %}

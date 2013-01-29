@@ -145,6 +145,12 @@ def profile(request):
 
 	return render_to_response('customer/profile.html', info, RequestContext(request))
 
+def edit_profile(request):
+
+	info = {}
+
+	return render_to_response('customer/edit_profile.html', info, RequestContext(request))
+
 def save_styleboard(request):
 	if not request.user.is_authenticated():
 		return redirect('styleboard')

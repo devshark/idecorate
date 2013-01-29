@@ -563,6 +563,8 @@
 
         $(':input[placeholder]').placeholder();
         
+        generate_user_nav();
+        
         $('.dd').dropdown({
             subClass: 'sub-menu'
         }).show();
@@ -627,6 +629,25 @@
 <script type="text/javascript">
 
 
+    $(function(e){
+        styleboardH();
+
+        $('.close-modal-btn').click(function(e){
+            e.preventDefault();
+            $('#page-mask').hide();
+            $(this).parent().parent().hide();
+        });
+        $('#save').click(function(e){
+            e.preventDefault();
+
+            //if ($('#canvas-wrap .product').length>0 || $('.notEmpty').length > 0 || $('.embellishment.unselected').length > 0)
+            if(objCounter > 0) {    
+
+                pop_save_styleboard();
+            }
+        });
+    });
+
     function styleboardH() {
 
 
@@ -681,50 +702,34 @@
         $('#templates').height(height__).css({minHeight:____height_});
 
     }
-
-    $(function(e){
-        styleboardH();
-
-        $('.close-modal-btn').click(function(e){
-            e.preventDefault();
-            $('#page-mask').hide();
-            $(this).parent().parent().hide();
-        });
-        generate_user_nav();
-        $('#save').click(function(e){
-            e.preventDefault();
-
-            //if ($('#canvas-wrap .product').length>0 || $('.notEmpty').length > 0 || $('.embellishment.unselected').length > 0)
-            if(objCounter > 0) {    
-
-                pop_save_styleboard();
-            }
-        });
-    });
     function generate_user_nav(){
-        var navs = '<li><a href="#" id="logged_as">{{ user|get_nickname }}</a></li>' + 
-        '<li><a id="lnk-logout" href="#">Logout</a></li>' + 
-        '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';        
+        var navs = '<li>';
+            navs += '<a href="#" id="logged_as">{{ user|get_nickname }}</a>';
+            navs += '<ul>';
+            navs += '<li><a id="lnk-styleboards" href="#">My Styleboards</a></li>';
+            navs += '<li><a id="lnk-edit" href="{% url edit_profile %}">Edit Profile</a></li>';                
+            navs += '<li><a id="lnk-logout" href="#">Logout</a></li>';                
+            navs += '</ul>';
+            navs += '</li>';
+            navs += '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';
+                            
         $('#site-menu ul.dd').append(navs);
-        $('#lnk-logout').bind('click',function(e){
-            e.preventDefault();
-            logmeout();
-        });
-        $('#logged_as').bind('click',function(e){
-            e.preventDefault();
-            goto_profile();
-        });
+        $('#lnk-logout').bind('click',logmeout);
+        $('#lnk-styleboards').bind('click',goto_profile);
         $('#site-menu ul a#lnk-login-signup').bind('click',function(e){
             e.preventDefault();
             popup_login();
         });
-        {% if user.is_authenticated %}        
-        $('#lnk-login-signup').parent().hide();
+        $('#logged_as').click(function(e){ e.preventDefault();});
+
+        {% if user.is_authenticated %}
+            $('#lnk-login-signup').parent().hide();
         {% else %}
-        $('#logged_as').parent().hide();
-        $('#lnk-logout').parent().hide();
+            $('#logged_as').parent().hide();
+            $('#lnk-logout').parent().hide();
         {% endif %}
     }
+    
     function goto_profile(){
         window.location.href = '{% url profile %}';
     }
