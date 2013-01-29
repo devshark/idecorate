@@ -673,6 +673,11 @@ def clear_styleboard_session(request):
 	except:
 		pass
 
+	try:
+		del request.session['personalize_id']
+	except:
+		pass
+
 def new_styleboard(request):
 	clear_styleboard_session(request)
 	return redirect('styleboard')
