@@ -271,3 +271,118 @@
 	}
 
 }
+
+#confirm-order{
+	width: 70%;
+	margin: 0 auto;
+
+	.myOrderTable{
+		border: 1px solid #CCCCCC;
+		margin-top: 15px;
+		h4{
+			background-color: #000000;
+			color: #FFFFFF;
+			padding: 10px;
+			text-transform: uppercase;
+		}
+		table{
+			width: 95%;
+			margin: 0 auto;
+
+			thead tr th{
+				padding: 13px 0;
+				color: #000000;
+				font-size: 15px;
+				border-bottom: 1px solid #CCCCCC;
+			}
+			thead tr th:first-child{
+				text-align: left;
+				width: 55%;
+			}
+
+			tbody tr td{
+				padding:10px 0;
+				text-align: center;
+				color: #000000;
+				font-size: 13px;
+			}
+
+			tbody tr td:first-child{
+				text-align: left;
+			}
+
+			tfoot tr td{
+				padding:15px 0;
+				border-top: 1px solid #CCCCCC;
+			}
+
+			tfoot tr td{
+				text-align: right;
+
+				p{
+					font-size: 13px;
+					color: #000000;
+				}
+				span.total{
+					display: block;
+					padding: 10px 0 7px;
+					margin-top: 5px;
+					font-family: futura_std_heavy;
+					font-size: 15px;
+					background-color: #FFC5C3;
+					text-align: center;
+					color: #000000;
+				}
+
+				h5{
+					font-family: futura_std_medium;
+					line-height: 20px;
+					font-size: 14px;
+					color: #000000;
+					margin-right:15px;
+				}
+			}
+		}
+	}
+
+	fieldset{
+		margin-top: 15px;
+		padding-top: 15px;
+		padding-bottom: 15px;
+
+		span, h5{
+			color: #333333;
+			font-size: 13px;
+		}
+
+		span{
+			display: block;
+			float: left;
+			line-height: 20px;
+		}
+
+		span.label, h5{
+			margin-left: 15px;
+			width: 120px;
+			clear: both;
+		}
+	}
+
+	.btn{
+		margin: 15px 0;
+		display: inline-block;
+		padding:8px 15px;
+		font-size: 14px;
+		font-family: futura_std_heavy;
+		color: #FFFFFF;
+		text-decoration: none;
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#666666'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#EEEEEE), to(#666666)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #EEEEEE,  #666666); /* for firefox 3.6+ */
+	}
+	.submit{
+		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#000000'); /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#999999), to(#000000)); /* for webkit browsers */
+        background: -moz-linear-gradient(top,  #999999,  #000000); /* for firefox 3.6+ */
+	}
+}

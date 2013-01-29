@@ -160,3 +160,92 @@
           /* for webkit browsers */
           background: -moz-linear-gradient(top, white, #666666);
           /* for firefox 3.6+ */ }
+
+#confirm-order {
+  width: 70%;
+  margin: 0 auto; }
+  #confirm-order .myOrderTable {
+    border: 1px solid #CCCCCC;
+    margin-top: 15px; }
+    #confirm-order .myOrderTable h4 {
+      background-color: #000000;
+      color: #FFFFFF;
+      padding: 10px;
+      text-transform: uppercase; }
+    #confirm-order .myOrderTable table {
+      width: 95%;
+      margin: 0 auto; }
+      #confirm-order .myOrderTable table thead tr th {
+        padding: 13px 0;
+        color: #000000;
+        font-size: 15px;
+        border-bottom: 1px solid #CCCCCC; }
+      #confirm-order .myOrderTable table thead tr th:first-child {
+        text-align: left;
+        width: 55%; }
+      #confirm-order .myOrderTable table tbody tr td {
+        padding: 10px 0;
+        text-align: center;
+        color: #000000;
+        font-size: 13px; }
+      #confirm-order .myOrderTable table tbody tr td:first-child {
+        text-align: left; }
+      #confirm-order .myOrderTable table tfoot tr td {
+        padding: 15px 0;
+        border-top: 1px solid #CCCCCC; }
+      #confirm-order .myOrderTable table tfoot tr td {
+        text-align: right; }
+        #confirm-order .myOrderTable table tfoot tr td p {
+          font-size: 13px;
+          color: #000000; }
+        #confirm-order .myOrderTable table tfoot tr td span.total {
+          display: block;
+          padding: 10px 0 7px;
+          margin-top: 5px;
+          font-family: futura_std_heavy;
+          font-size: 15px;
+          background-color: #FFC5C3;
+          text-align: center;
+          color: #000000; }
+        #confirm-order .myOrderTable table tfoot tr td h5 {
+          font-family: futura_std_medium;
+          line-height: 20px;
+          font-size: 14px;
+          color: #000000;
+          margin-right: 15px; }
+  #confirm-order fieldset {
+    margin-top: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px; }
+    #confirm-order fieldset span, #confirm-order fieldset h5 {
+      color: #333333;
+      font-size: 13px; }
+    #confirm-order fieldset span {
+      display: block;
+      float: left;
+      line-height: 20px; }
+    #confirm-order fieldset span.label, #confirm-order fieldset h5 {
+      margin-left: 15px;
+      width: 120px;
+      clear: both; }
+  #confirm-order .btn {
+    margin: 15px 0;
+    display: inline-block;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-family: futura_std_heavy;
+    color: #FFFFFF;
+    text-decoration: none;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#EEEEEE', endColorstr='#666666');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#666666));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, #eeeeee, #666666);
+    /* for firefox 3.6+ */ }
+  #confirm-order .submit {
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#000000');
+    /* for IE */
+    background: -webkit-gradient(linear, left top, left bottom, from(#999999), to(black));
+    /* for webkit browsers */
+    background: -moz-linear-gradient(top, #999999, black);
+    /* for firefox 3.6+ */ }
