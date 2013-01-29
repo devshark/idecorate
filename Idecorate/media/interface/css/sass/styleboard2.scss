@@ -447,7 +447,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								cursor: pointer;
 
 								img{
-									outline:1px solid #CCC;
+									// outline:1px solid #CCC;
 									width: 100%;
 								}
 
@@ -461,7 +461,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 							}
 						
 							.thumb.categories:hover img{
-								outline:2px solid #333;
+								// outline:2px solid #333;
+								outline:1px solid #CCC;
 							}
 						}
 
@@ -482,7 +483,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 									img{
 										width: 100%;
-										border:1px solid #CCC;
+										// border:1px solid #CCC;
 									}
 
 									span {
@@ -498,7 +499,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								.thumb.products:hover{ 
 
 									img{
-										border:2px solid #333;
+										// border:2px solid #333;
+										border:1px solid #CCC;
 										margin: -1px 0 0 -1px;
 									}
 									span{
@@ -563,7 +565,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 									img{
 										width: 100%;
-										outline:1px solid #CCC;
+										// outline:1px solid #CCC;
 									}
 
 									span {
@@ -577,7 +579,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 
 								a.em:hover{
 									img{
-										outline:2px solid #000;
+										outline:1px solid #CCC;
+										// outline:2px solid #000;
 									}
 								}
 
