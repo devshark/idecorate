@@ -344,6 +344,7 @@ class IdecorateShop(Shop):
 		name_on_card = ""
 		expires = ""
 		cvv_code = ""
+		show_confirm_infos = False
 
 		ConfirmationForm = self.confirmation_form(request, order)
 		kwargs = {
@@ -381,6 +382,8 @@ class IdecorateShop(Shop):
 
 				if len(card_error) == 0:
 
+					show_confirm_infos = True
+					"""
 					url = settings.PAYDOLLAR_SS_DIRECT_URL
 					params = {}
 					pMethod = request.session.get('order-payment_method','')
@@ -422,6 +425,8 @@ class IdecorateShop(Shop):
 					else:
 						#print "The payment method is: %s" % dir(order)				
 						return form.process_confirmation()
+					"""
+					form = ConfirmationForm(**kwargs) #TEMPORARY ONLY
 				else:
 					form = ConfirmationForm(**kwargs)
 		else:
@@ -436,7 +441,8 @@ class IdecorateShop(Shop):
 			'card_number': card_number,
 			'name_on_card': name_on_card,
 			'expires': expires,
-			'cvv_code': cvv_code
+			'cvv_code': cvv_code,
+			'show_confirm_infos':show_confirm_infos
 		})
 
 	def checkout(self, request, order):
