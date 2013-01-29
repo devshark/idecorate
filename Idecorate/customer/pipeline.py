@@ -12,6 +12,9 @@ from social_auth.exceptions import AuthException, AuthAlreadyAssociated
 from django.utils.translation import ugettext
 from social_auth.backends.pipeline.social import social_auth_user
 
+class AuthEmailTaken(AuthException):
+    pass
+
 def associate_by_username(details, user=None, *args, **kwargs):   
     
     if user:
@@ -35,7 +38,7 @@ def associate_by_username(details, user=None, *args, **kwargs):
                     social = UserSocialAuth.objects.get(user=user, provider=backend.name)
                     msg = ugettext('This %(provider)s account is already in use.')
                     
-                    raise AuthAlreadyAssociated(backend, msg % {
+                    raise AuthEmailTaken(backend, msg % {
                         'provider': backend.name
                     })
 

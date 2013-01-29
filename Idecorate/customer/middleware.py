@@ -1,6 +1,7 @@
 from social_auth.middleware import SocialAuthExceptionMiddleware
 from django.conf import settings
 from social_auth.exceptions import AuthAlreadyAssociated
+from pipeline import AuthEmailTaken
 #from django.contrib import messages
 
 class IdecorateMiddleware(SocialAuthExceptionMiddleware):
@@ -13,5 +14,7 @@ class IdecorateMiddleware(SocialAuthExceptionMiddleware):
     def get_message(self, request, exception):
     	if isinstance(exception, AuthAlreadyAssociated):
     		request.session['fb_auth_error'] = 'That Facebook account is already associated with another iDecorate user.'
+    	elif isinstance(exception, AuthEmailTaken):
+    		request.session['fb_auth_error'] = 'Sorry, this email already has an iDecorate account.'
 
     	return super(IdecorateMiddleware, self).get_message(request, exception)
