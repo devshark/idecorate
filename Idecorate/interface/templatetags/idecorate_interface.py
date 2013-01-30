@@ -418,5 +418,11 @@ def clear_styleboard_session_tag(request):
 
 @register.filter
 def get_session_by_key(request, key):
-        return request.session.get(key, '') 
+        return request.session.get(key, '')
 
+@register.filter
+def add_http_prefix(url):
+        if not re.search('^http:\/\/',str(url).strip()):
+                url = "%s%s" % ('http://', str(url).strip())
+
+        return mark_safe(url)
