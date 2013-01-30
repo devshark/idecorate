@@ -322,8 +322,8 @@ class filterStyleboardForm(forms.Form):
 	name 		= forms.CharField(max_length=100,label=_("Styleboard Name"), required=False)
 	email 		= forms.CharField(max_length=100,label=_("Email"), required=False)
 	date 		= forms.DateField(error_messages={'invalid':_('Please follow the format for date field.')}, input_formats=['%Y-%m-%d'], label=_("Date"), required=False)
-	guest 		= forms.DecimalField(error_messages={'invalid':_('Guest field requires a number.')}, max_digits=19, decimal_places=2, label=_("Guests"), required=False)
-	table 		= forms.DecimalField(error_messages={'invalid':_('Table field requires a number.')}, max_digits=19, decimal_places=2, label=_("Tables"), required=False)
+	guest 		= forms. IntegerField(error_messages={'invalid':_('Guest field requires whole number.')}, label=_("Guests"), required=False)
+	table 		= forms. IntegerField(error_messages={'invalid':_('Table field requires whole number.')}, label=_("Tables"), required=False)
 	total 		= forms.DecimalField(error_messages={'invalid':_('Total field requires a number.')}, max_digits=19, decimal_places=2, label=_("Total"), required=False)
 	featured 	= forms.ChoiceField(label=_("Featured"), choices=(('any','Any'),('1','Featured'),('0','Not featured'),), required=False,widget=forms.Select)
 	
