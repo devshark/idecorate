@@ -549,7 +549,7 @@ class IdecorateShop(Shop):
 					shipping_address=delivery_address,
 					billing_address=billing_address,
 					shipping_address2=delivery_address2,
-					billing_address2=delivery_address2,
+					billing_address2=billing_address2,
 					shipping_state=delivery_state,
 					billing_state=billing_state,
 					shipping_city=delivery_city,
