@@ -39,7 +39,7 @@
 <br/>
 <h3>Show only styleboard where</h3>
 <br/>
-{% if filter.date.errors or filter.total.errors or filter.table.errors or filter.guest.errors   %}
+{% if filter.date.errors or filter.total.errors or filter.table.errors or filter.guest.errors %}
 <div class="alert alert-error">
 	<a class="close" data-dismiss="alert" href="#">×</a>
 	<h4 class="alert-heading">Please correct the following errors:</h4>
@@ -177,7 +177,7 @@
 			changeYear: true,
             changeMonth: true,
             showOtherMonths: true,
-            selectOtherMonths: true,
+            selectOtherMonths: true
 		});
 		update_buttons();
 

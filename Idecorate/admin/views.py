@@ -2469,6 +2469,8 @@ def manage_styleboard(request):
 	initial_form 	= {}
 	form 			= filterStyleboardForm()
 	form_error	 	= False
+	info['table']	= ''
+	info['guest']	= ''
 
 	order_by 	= request.GET.get('order_by','created')
 	sort_type 	= request.GET.get('sort_type','desc')
@@ -2494,6 +2496,7 @@ def manage_styleboard(request):
 			table 			= request.POST.get('table','')
 			total 			= request.POST.get('total','')
 			status 			= request.POST.get('featured','')
+
 		else:
 			form_error = True
 	else:
