@@ -9,6 +9,8 @@ import re
 
 from django.conf import settings
 from django.template.loader import render_to_string
+from uuid import uuid4
+from customer.models import CustomerProfile
 
 def ss_direct(params, url, secure=False):
     """
@@ -134,4 +136,22 @@ def tinyurl(url):
 
     httpResponse = urllib2.urlopen('http://tinyurl.com/api-create.php?url=%s' % url)
 
-    return str(httpResponse.read()) 
+    return str(httpResponse.read())
+
+def send_email_set_pass(user_id):
+    u = CustomerProfile.objects.get(user__id=int(user_id))
+    u.hash_set_password = str(uuid4())
+    u.save()
+
+    messageHTML = """
+    Welcome to iDecorate Weddings!
+    <br /><br />
+    If you would like to use this email address to login to iDecorate Weddings, you need to set your password by clicking on this link - http://%s/set_password_user/%s.
+    <br /><br />
+    Thank you for using iDecorate Weddings!
+    <br /><br />
+    iDecorate Weddings Team
+    """ % (settings.IDECORATE_HOST, u.hash_set_password)
+    print "SENDING EMAIL...."
+    if not settings.SKIPPING_MODE:
+        IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=u.user.email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)

@@ -29,7 +29,7 @@ from customer.models import CustomerProfile
 from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-from common.services import ss_direct
+from common.services import ss_direct, send_email_set_pass
 from interface.views import clear_styleboard_session
 from paypal import PayPal, PayPalItem
 from django.core.urlresolvers import reverse
@@ -38,6 +38,7 @@ from decimal import Decimal
 
 from django.core.validators import email_re
 from django.contrib import auth
+from uuid import uuid4
 
 class BaseCheckoutForm(forms.ModelForm):
 
@@ -90,7 +91,12 @@ class BaseCheckoutForm(forms.ModelForm):
                 password = User.objects.make_random_password()
                 user = User.objects.create_user(email, email, password)
                 user = auth.authenticate(username=email, password=password)
+                customer_profile = CustomerProfile()
+                customer_profile.user = user
+                customer_profile.nickname = email
+                customer_profile.save()
                 auth.login(self.request, user)
+                send_email_set_pass(user.id)
             else:
                 user = self.request.user
                 

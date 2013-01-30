@@ -2,7 +2,7 @@ from social_auth.backends.twitter import TwitterBackend
 from social_auth.backends.facebook import FacebookBackend
 from customer.models import CustomerProfile #, CustomerFacebookFriends
 from django.contrib.auth.models import User
-from common.services import IdecorateEmail
+from common.services import IdecorateEmail, send_email_set_pass
 from uuid import uuid4
 from django.conf import settings
 import urllib
@@ -110,21 +110,6 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
         user.save()
 
     if User.objects.get(id=user.id).password == "!":
-        u = CustomerProfile.objects.get(user__id=user.id)
-        u.hash_set_password = str(uuid4())
-        u.save()
 
         if backend.__class__ == FacebookBackend:
-
-            messageHTML = """
-            Welcome to iDecorate Weddings!
-            <br /><br />
-            If you would like to use this email address to login to iDecorate Weddings, you need to set your password by clicking on this link - http://%s/set_password_user/%s.
-            <br /><br />
-            Thank you for using iDecorate Weddings!
-            <br /><br />
-            iDecorate Weddings Team
-            """ % (settings.IDECORATE_HOST, u.hash_set_password)
-
-            if not settings.SKIPPING_MODE:
-                IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=User.objects.get(id=user.id).email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
+            send_email_set_pass(user.id)
