@@ -2599,7 +2599,7 @@ def manage_styleboard(request):
 	filters.update({'order_by':order_by, 'sort_type':sort_type}) 
 	urlFilter = QueryDict(urllib.urlencode(filters))
 
-	paginator = Paginator(styleboards, 5)
+	paginator = Paginator(styleboards, 20)
 	page = request.GET.get('page','')
 
 	filters['order_by'] = 'styleboard_item__name'
