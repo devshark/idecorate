@@ -37,6 +37,7 @@ from datetime import datetime
 from decimal import Decimal
 
 from django.core.validators import email_re
+from django.contrib import auth
 
 class BaseCheckoutForm(forms.ModelForm):
 
@@ -60,7 +61,14 @@ class BaseCheckoutForm(forms.ModelForm):
                         self._errors['email'] = self.error_class([_('This e-mail address belongs to a different account.')])
                     else:
                         self._errors['email'] = self.error_class([_('This e-mail address might belong to you, but we cannot know for sure because you are not authenticated yet.')])
-
+            else:
+            	users = list(User.objects.filter(email=email))
+            	if users:
+	                if self.request.user not in users:
+	                    if self.request.user.is_authenticated():
+	                        self._errors['email'] = self.error_class([_('This e-mail address belongs to a different account.')])
+	                    else:
+	                        self._errors['email'] = self.error_class([_('This e-mail address might belong to you, but we cannot know for sure because you are not authenticated yet.')])
         return data
 
     def save(self):
