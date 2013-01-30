@@ -46,12 +46,18 @@
 $(function(){
 	$('.featureContentWrap:odd').each(function(i,val){
 		if($(val).height() < $(val).prev().height()){
+			$(val).height($(val).prev().height())
+			$(val).prev().height($(val).prev().height())
+
 			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
 			$(val).prev().find('.featureDesc').height($(val).prev().find('.featureDesc').height());
-
+			
 			$(val).find('.featureTitle').height($(val).prev().find('.featureTitle').height());
 			$(val).prev().find('.featureTitle').height($(val).prev().find('.featureTitle').height());
 		}else{
+			$(val).height($(val).height())
+			$(val).prev().height($(val).height())
+
 			$(val).find('.featureDesc').height($(val).find('.featureDesc').height());
 			$(val).prev().find('.featureDesc').height($(val).find('.featureDesc').height());
 
