@@ -130,11 +130,7 @@
 			{% else %}
 			<div>&nbsp;</div>
 			{% endif %}
-		<!--
-		<form id="paypal_form" method="post" action="{{ paypal_url }}">
-			{{ paypal_form }}
-		</form>
-		-->
+			
 		<form method="post" action="." id="plata_form">
 			<input value="on" type="hidden" name="order-create_account" id="id_order-create_account" />
 			{% csrf_token %}

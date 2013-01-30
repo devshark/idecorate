@@ -21,27 +21,18 @@
 {% endif %}
 {% endblock %}
 {% block javascripts %}
-<!--
 <script type="text/javascript">
-$(function(){
 
-	page_H();
-	$(window).resize(page_H);
+	$(function(e){
 
-});
+		$('#conf_order').click(function(e){
 
-function page_H(){
-		
-	var windowH = $(window).height();
-		headerH = $('#header').outerHeight(true);
-		footerH = $('#footer').outerHeight(true);
-		newHeight = windowH - headerH - footerH - 50;
-		sectionH = $('.paymentWrapper').outerHeight(true);
-		
-		if(sectionH < windowH) {
-			$('.paymentWrapper').height(newHeight);
-		}
+			$('#conf_form').submit();
 
-}
-</script>-->
+		});
+
+
+	});
+
+</script>
 {% endblock %}

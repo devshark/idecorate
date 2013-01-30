@@ -345,6 +345,7 @@ class IdecorateShop(Shop):
 		expires = ""
 		cvv_code = ""
 		show_confirm_infos = False
+		process_now_the_order = False
 
 		ConfirmationForm = self.confirmation_form(request, order)
 		kwargs = {
@@ -359,6 +360,11 @@ class IdecorateShop(Shop):
 			form = ConfirmationForm(request.POST, **kwargs)
 
 			if form.is_valid():
+
+				process_it = request.POST.get('process_now_the_order')
+				
+				if process_it is not None:
+					process_now_the_order = True
 
 				card_number = request.POST.get('card_number', "")
 				name_on_card = request.POST.get('name_on_card', "")
@@ -383,54 +389,62 @@ class IdecorateShop(Shop):
 				if len(card_error) == 0:
 
 					show_confirm_infos = True
-					"""
-					url = settings.PAYDOLLAR_SS_DIRECT_URL
-					params = {}
-					pMethod = request.session.get('order-payment_method','')
 
-					if pMethod == "Visa":
-						pMethod = "VISA"
-					elif pMethod == "Mastercard":
-						pMethod = "Master"
-					else:
-						pMethod = "AMEX"
+					if process_now_the_order:
 
-					splittedExpires = str(expires).split("/")
+						url = settings.PAYDOLLAR_SS_DIRECT_URL
+						params = {}
+						pMethod = request.session.get('order-payment_method','')
 
-					params['orderRef'] = str("%34d" % int(order.id)).replace(' ','0')
-					params['amount'] = "%.2f" % order.total
-					params['currCode'] = settings.PAYDOLLAR_CURRENCY
-					params['lang'] = "E"
-					params['merchantId'] = settings.PAYDOLLAR_MERCHANT_ID
-					params['pMethod'] = pMethod
-					params['epMonth'] = splittedExpires[0]
-					params['epYear'] = splittedExpires[1]
-					params['cardNo'] = card_number
-					params['cardHolder'] = name_on_card
-					params['securityCode'] = cvv_code
-					params['payType'] = "N" #N or H
+						if pMethod == "Visa":
+							pMethod = "VISA"
+						elif pMethod == "Mastercard":
+							pMethod = "Master"
+						else:
+							pMethod = "AMEX"
 
-					if settings.SKIPPING_MODE:
-						ret = {
-							'successcode': '0'
-						}
-					else:
+						splittedExpires = str(expires).split("/")
 
-						ret = ss_direct(params, url, True)
+						params['orderRef'] = str("%34d" % int(order.id)).replace(' ','0')
+						params['amount'] = "%.2f" % order.total
+						params['currCode'] = settings.PAYDOLLAR_CURRENCY
+						params['lang'] = "E"
+						params['merchantId'] = settings.PAYDOLLAR_MERCHANT_ID
+						params['pMethod'] = pMethod
+						params['epMonth'] = splittedExpires[0]
+						params['epYear'] = splittedExpires[1]
+						params['cardNo'] = card_number
+						params['cardHolder'] = name_on_card
+						params['securityCode'] = cvv_code
+						params['payType'] = "N" #N or H
 
-					if int(ret['successcode']) == -1 or int(ret['successcode']) == 1:
+						if settings.SKIPPING_MODE:
+							ret = {
+								'successcode': '0'
+							}
+						else:
 
-						card_error.append(ret['errMsg'])
-						form = ConfirmationForm(**kwargs)
-					else:
-						#print "The payment method is: %s" % dir(order)				
-						return form.process_confirmation()
-					"""
-					form = ConfirmationForm(**kwargs) #TEMPORARY ONLY
+							ret = ss_direct(params, url, True)
+
+						if int(ret['successcode']) == -1 or int(ret['successcode']) == 1:
+
+							card_error.append(ret['errMsg'])
+							form = ConfirmationForm(**kwargs)
+						else:
+							#print "The payment method is: %s" % dir(order)				
+							return form.process_confirmation()
+						
+						#form = ConfirmationForm(**kwargs) #TEMPORARY ONLY
 				else:
 					form = ConfirmationForm(**kwargs)
 		else:
 			form = ConfirmationForm(**kwargs)
+
+		paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
+		paypal_orders = order.items.filter().order_by('-id')
+
+		for paypal_order in paypal_orders:
+			paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))
 
 		return self.render_confirmation(request, {
 			'order': order,
@@ -442,7 +456,9 @@ class IdecorateShop(Shop):
 			'name_on_card': name_on_card,
 			'expires': expires,
 			'cvv_code': cvv_code,
-			'show_confirm_infos':show_confirm_infos
+			'show_confirm_infos':show_confirm_infos,
+			'paypal_url': settings.PAYPAL_URL,
+			'paypal_form': mark_safe(paypal.generateInputForm())
 		})
 
 	def checkout(self, request, order):
@@ -477,12 +493,6 @@ class IdecorateShop(Shop):
 			'request': request,
 			'shop': self,
 			}
-
-		paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
-		paypal_orders = order.items.filter().order_by('-id')
-
-		for paypal_order in paypal_orders:
-			paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))
 
 		if request.method == 'POST' and '_checkout' in request.POST:
 			orderform = OrderForm(request.POST, **orderform_kwargs)
@@ -546,9 +556,7 @@ class IdecorateShop(Shop):
 			'order': order,
 			'loginform': loginform,
 			'orderform': orderform,
-			'progress': 'checkout',
-			'paypal_url': settings.PAYPAL_URL,
-			'paypal_form': mark_safe(paypal.generateInputForm())
+			'progress': 'checkout'
 			})
 
 	def order_success(self, request):

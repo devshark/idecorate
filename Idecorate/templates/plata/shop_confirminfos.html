@@ -1,7 +1,24 @@
+{% load i18n plata_tags idecorate_interface %}
 <h3>ORDER CONFIRMATION</h3>
 <div class="paymentWrap">
 	<div class="payment clearfix">
 		<div id="confirm-order">
+
+			{% if request|get_session_by_key:"order-payment_method" == "PayPal" %}
+			<form id="conf_form" method="post" action="{{ paypal_url }}">
+			{{ paypal_form }}
+			{% else %}
+			<form id="conf_form" action="" method="post">
+				<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />
+				<input type="hidden" name="terms_and_conditions" value="on" />
+				<input type="hidden" name="process_now_the_order" value="yes" />
+				<input type="hidden" name="card_number" value="{{ card_number }}" />
+				<input type="hidden" name="name_on_card" value="{{ name_on_card }}" />
+				<input type="hidden" name="expires" value="{{ expires }}" />
+				<input type="hidden" name="cvv_code" value="{{ cvv_code }}" />
+			{% endif %}
+			{% csrf_token %}
+
 			<p>You are almost complete. Please review the details below and click "Submit Order" if all the information is correct. You may use "Back" button to make changes to your order if necessary.</p>
 			<div class="myOrderTable">
 				<h4>My Order</h4>
@@ -80,8 +97,9 @@
 				<legend>PAYMENT METHOD</legend>
 				<h5>PayPal</h5>
 			</fieldset>
-			<a class="btn cancel" href="#">BACK</a>
-			<a class="btn submit" href="#">SUBMIT ORDER</a>
+			<a class="btn cancel" href="/cart/checkout">BACK</a>
+			<a class="btn submit" id="conf_order" href="#">SUBMIT ORDER</a>
+			</form>
 		</div>
 	</div>
 </div>
