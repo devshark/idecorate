@@ -23,7 +23,7 @@ $(document).ready( function() {
         has_change_mode = true;
         return false;
     });
-    $('#products .breadcrumb a').click(function(){
+    $('a[href="#products"],#products .breadcrumb a').click(function(){
         browse_categories(this.rel);
         has_change_mode = true;
         return false;

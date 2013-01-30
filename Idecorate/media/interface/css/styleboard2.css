@@ -339,7 +339,6 @@ h5 {
             min-width: 76px;
             cursor: pointer; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories img {
-              outline: 1px solid #CCC;
               width: 100%; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories span {
               display: block;
@@ -348,7 +347,7 @@ h5 {
               font-family: 'futura_std_book';
               text-align: center; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories:hover img {
-            outline: 2px solid #333; }
+            outline: 1px solid #CCC; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list {
           overflow: hidden; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products {
@@ -361,8 +360,7 @@ h5 {
             font-size: 0;
             min-width: 76px; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products img {
-              width: 100%;
-              border: 1px solid #CCC; }
+              width: 100%; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products span {
               display: block;
               font-size: 12px;
@@ -371,7 +369,7 @@ h5 {
               text-align: center;
               color: #666; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products:hover img {
-            border: 2px solid #333;
+            border: 1px solid #CCC;
             margin: -1px 0 0 -1px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products:hover span {
             margin-top: 9px; }
@@ -417,8 +415,7 @@ h5 {
             font-size: 0;
             min-width: 76px; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em img {
-              width: 100%;
-              outline: 1px solid #CCC; }
+              width: 100%; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em span {
               display: block;
               font-size: 12px;
@@ -426,7 +423,7 @@ h5 {
               text-align: center;
               color: #666666; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em:hover img {
-            outline: 2px solid #000; }
+            outline: 1px solid #CCC; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap .emItem .thumb {
             cursor: pointer; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap a.temp {
