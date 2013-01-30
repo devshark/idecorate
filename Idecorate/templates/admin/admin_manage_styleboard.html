@@ -68,7 +68,7 @@
 </div>
 {% endif %}
 <div class="manageStyleboardFilter">
-	<form action="" method="post" id="filter-styleboard">
+	<form action="{% url admin_manage_styleboard %}" method="post" id="filter-styleboard">
 		{% csrf_token %}
 		{{ filter.name|attr:'placeholder:Styleboard name' }}
 		{{ filter.email|attr:'placeholder:User' }}
@@ -167,6 +167,7 @@
 	{% endif %}
 </table>
 {% bootstrap_paginate styleboards url_get_params=urlFilter %}	
+
 {% endblock %}
 {% block javascripts %}
 <script src="/media/interface/js/jquery-ui.js"></script>
