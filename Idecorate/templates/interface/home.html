@@ -64,7 +64,7 @@
 						<a class="shareModal" href="#">Share</a>
 						<span class="shareButtons" style="display:none;">
 							<div class="facebookShare">
-								<a href="#" onclick="postToFeed('{{ l.tinyUrl }}','/media/banners/{{ l.image }}','{{ l.name }}','{{ l.description|urlencode }}')">
+								<a href="#" onclick="postToFeed('{{ l.tinyUrl }}','/media/banners/{{ l.image }}','{{ l.name }}','{{ l.description|escapejs }}')">
 									<img border="0" src="/media/images/fb_share.png" />
 								</a>
 							</div>
@@ -81,7 +81,7 @@
 							</div>
 							<div class="googleShare">
 								<p itemprop="name" style="display:none;">{{ l.name }}</p>
-								<p itemprop="description" style="display:none;">{{ l.description|urlencode }}</p>
+								<p itemprop="description" style="display:none;">{{ l.description }}</p>
 								<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{l.tinyUrl}}"></div>
 								<script type="text/javascript">
 								  (function() {
