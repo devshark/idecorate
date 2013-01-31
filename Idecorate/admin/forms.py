@@ -167,6 +167,7 @@ class UploadEmbellishmentForm(forms.Form):
 		emb_types = kwargs.pop('emb_types')
 		super(UploadEmbellishmentForm, self).__init__(*args, **kwargs)
 
+		"""
 		if emb_types:
 			ch = []
 			for emb_type in emb_types:
@@ -175,6 +176,15 @@ class UploadEmbellishmentForm(forms.Form):
 			ch = tuple(ch)
 
 			self.fields['embellishment_type'] = forms.ChoiceField(label=_("Type"), choices=ch, required=True,widget=forms.Select, error_messages={'required':_('Type is a required field.')})
+		"""
+		ch = (
+			(1,'Image'),
+			(2,'Words'),
+			(3, 'Inspiration'),
+			(4, 'Textures'),
+			(5, 'Frames and borders')
+		)
+		self.fields['embellishment_type'] = forms.ChoiceField(label=_("Type"), choices=ch, required=True,widget=forms.Select, error_messages={'required':_('Type is a required field.')})
 
 class UploadFontForm(forms.Form):
 
