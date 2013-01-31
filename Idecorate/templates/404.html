@@ -1,1 +1,28 @@
-<h1>404</h1>
+{% extends "base.html" %}
+{% block title %}iDecorate Weddings - {{ flatpage.title }}{% endblock %}
+{% block style %}
+    <link rel="stylesheet" type="text/css" href="/media/interface/css/static.css">
+     <style type="text/css">
+		.static{
+			padding: 30px;
+			text-align: center;
+		}
+    	.static h1{
+    		margin-bottom: 40px;
+    	}
+
+    	.static h3{
+    		font-size: 1.3em !important;
+    	}
+    </style>
+{% endblock %}
+{% block content %}
+<h3>{{ flatpage.title }}</h3>
+<div class="staticWrap">
+	<div class="clearfix static">
+		<h1>404! Page not found</h1>
+		<h3>No page could be found at this address.</h3>
+	</div>
+</div>
+{% endblock %}
+{% block javascripts %}
