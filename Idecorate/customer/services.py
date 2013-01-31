@@ -9,14 +9,14 @@ def register_user(data):
 	try:
 		user = User.objects.create_user(data['username'], "", data['password'])
 		user.email = data['username']
-		user.first_name = ''
-		user.last_name = ''
+		user.first_name = data['firstname']
+		user.last_name = data['lastname']
 		user.is_active = True
 		user.save()
 
 		cp = CustomerProfile()
 		cp.user = user
-		cp.nickname = data['nickname']
+		cp.nickname = data['username']
 		cp.save()
 		transaction.commit()
 		return user

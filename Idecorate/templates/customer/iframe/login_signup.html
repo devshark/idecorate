@@ -187,12 +187,21 @@
                         {% csrf_token %}
                         <fieldset>
                             <legend>SIGNUP</legend>
-                            {{ signup_form.nickname|attr:"placeholder:Enter Nickname" }}
-                            {% if signup_form.nickname.errors %}
-                            {% for e in signup_form.nickname.errors %}
+
+                            {{ signup_form.firstname|attr:"placeholder:Enter First Name" }}
+                            {% if signup_form.firstname.errors %}
+                            {% for e in signup_form.firstname.errors %}
                             <p class="error">{{ e }}</p>
                             {% endfor %}
                             {% endif %}
+
+                            {{ signup_form.lastname|attr:"placeholder:Enter Last Name" }}
+                            {% if signup_form.lastname.errors %}
+                            {% for e in signup_form.lastname.errors %}
+                            <p class="error">{{ e }}</p>
+                            {% endfor %}
+                            {% endif %}
+
                             {{ signup_form.username|attr:"placeholder:Enter E-mail Address" }}
                             {% if signup_form.username.errors %}
                             {% for e in signup_form.username.errors %}

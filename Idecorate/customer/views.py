@@ -146,7 +146,8 @@ def profile(request):
 	return render_to_response('customer/profile.html', info, RequestContext(request))
 
 def edit_profile(request):
-
+	if not request.user.is_authenticated():
+		return redirect('home')
 	info = {}
 
 	return render_to_response('customer/edit_profile.html', info, RequestContext(request))
