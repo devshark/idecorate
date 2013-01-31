@@ -4,17 +4,19 @@ from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from django.utils.datastructures import MultiValueDictKeyError
 from services import is_registered
-
 class LoginForm(forms.Form):	
 	username = forms.EmailField(label=_("Enter Email"), error_messages={'required':_('Enter a valid e-mail address.')})
 	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid password.')})
 
 class SignupForm(forms.Form):
-	nickname = forms.CharField( label=_("Enter Nickname"), error_messages={'required':_('Enter your nickname.')})
+	firstname = forms.CharField(max_length=100, label=_("First Name"), required=True, error_messages={'required':_('Enter your first name.')})
+	lastname = forms.CharField(max_length=100, label=_("Last Name"), required=True, error_messages={'required':_('Enter your last name.')})
+	#nickname = forms.CharField( label=_("Enter Nickname"), error_messages={'required':_('Enter your nickname.')})
 	username = forms.EmailField(label=_("Enter Email"), error_messages={'required':_('Enter a valid e-mail address.')})
 	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid password.')})
 	confirm_password = forms.CharField( label=_("Enter Password Again"), widget=forms.PasswordInput, error_messages={'required':_('Re-enter password.')})
 
+	"""
 	def clean_nickname(self):
 		try:
 			nickname = self.cleaned_data['nickname']
@@ -23,6 +25,7 @@ class SignupForm(forms.Form):
 			return nickname
 		except MultiValueDictKeyError as e:
 			return ""
+	"""
 
 	def clean_password(self):
 		try:
