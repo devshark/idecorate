@@ -361,6 +361,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						#create-tab-nav{
 							border-bottom: 2px dotted #FFFFFF;
 							margin: 0 5px;
+							position: relative;
 
 							ul{
 								padding:0;
@@ -389,6 +390,19 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 								li.activeTab a{
 									color:#000;
 									// border-bottom:1px dotted #000;
+								}
+							}
+
+							#back-wrap{
+								position: absolute;
+								top: 120%;
+								right: 0; 
+
+								a{
+									text-decoration: none;
+									color: #FF413C;
+									font-size: 14px;
+									font-family: 'futura_std_book';
 								}
 							}
 						}

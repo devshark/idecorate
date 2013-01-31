@@ -13,7 +13,6 @@ var slideValue = 0;
 DEFAULT_TEXT_E = "I Love iDecorate";
 active_object = null;
 
-
 $(document).ready(function () {
 
      //remove edit button on buy tab
@@ -2579,7 +2578,25 @@ function do_aspectratio_wRespect_template(width, height, percent){
 }
 
 function back_onestep_category(){
-    var back = '<a href="#" id="step-back"> &lt; Back</a>';
+    var id = $('.breadcrumb li.active').prev().prev().find('a').attr('rel');
+    if(id == undefined){
+        var back = $('<a href="#" id="step-back"> &lt; Back</a>');
+         back.click(function(e){
+            e.preventDefault();
+            browse_categories($(this).attr('rel'));
+            $('#step-back').remove();
+        });
+    }else{
+        var back = $('<a href="#" rel="'+id+'" id="step-back"> &lt; Back</a>');
+         back.click(function(e){
+            e.preventDefault();
+            browse_categories($(this).attr('rel'));
+        });
+    }
+    $('#back-wrap').html(back);
+
+   
+        
 }
 
 function computeBboxDimension_template() {

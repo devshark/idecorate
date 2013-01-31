@@ -278,7 +278,8 @@ h5 {
         background-color: #FFFFFF; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav {
           border-bottom: 2px dotted #FFFFFF;
-          margin: 0 5px; }
+          margin: 0 5px;
+          position: relative; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul {
             padding: 0;
             margin: 0; }
@@ -298,6 +299,15 @@ h5 {
                 color: #000; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul li.activeTab a {
               color: #000; }
+          #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav #back-wrap {
+            position: absolute;
+            top: 120%;
+            right: 0; }
+            #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav #back-wrap a {
+              text-decoration: none;
+              color: #FF413C;
+              font-size: 14px;
+              font-family: 'futura_std_book'; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb {
           margin: 5px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li {

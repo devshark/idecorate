@@ -23,7 +23,7 @@ $(document).ready( function() {
         has_change_mode = true;
         return false;
     });
-    $('a[href="#products"],#products .breadcrumb a').click(function(){
+    $('a[href="#products"], #products .breadcrumb a').click(function(){
         browse_categories(this.rel);
         has_change_mode = true;
         return false;
@@ -189,6 +189,13 @@ function browse_categories(elm_id){
     });
 
     styleboardH();
+
+    if(elm_id != ""){
+        back_onestep_category();
+    }else{
+        $('#step-back').remove();
+    }
+
 }
 
 function get_products(){
