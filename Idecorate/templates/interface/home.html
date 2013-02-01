@@ -80,16 +80,7 @@
 								<a data-pin-config="none" data-pin-do="buttonPin" target="_blank" href="//pinterest.com/pin/create/button/?url={{l.link|add_http_prefix|urlencode:''}}&media=http://{{ request|get_host|urlencode:'' }}/media/banners/{{ l.image }}&description={{ l.description|urlencode }}"></a>
 							</div>
 							<div class="googleShare">
-								<p itemprop="name" style="display:none;">{{ l.name }}</p>
-								<p itemprop="description" style="display:none;">{{ l.description }}</p>
 								<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{l.tinyUrl}}"></div>
-								<script type="text/javascript">
-								  (function() {
-								    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-								    po.src = 'https://apis.google.com/js/plusone.js';
-								    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-								  })();
-								</script>
 							</div>
 							<div class="email">
 								<a href="mailto:?subject=iDecorate%20Weddings%20|%20&body=Check%20this%20featured%20image%20from%20idecorate%20weddings%20{{ l.tinyUrl }}" target="_blank">
@@ -97,8 +88,8 @@
 								</a>
 							</div>
 						</span>
-					</li
->					<li><a href="/styleboard">Create &amp; Buy</a></li>
+					</li>					
+					<li><a href="/styleboard">Create &amp; Buy</a></li>
 				</ul>
 			</div>
 		{% endfor %}
@@ -106,6 +97,13 @@
 	{% endfor %}
 </section>
 <div class="modal"></div>
+<script type="text/javascript">
+	(function() {
+		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+		po.src = 'https://apis.google.com/js/plusone.js';
+		var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+	})();
+</script>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
