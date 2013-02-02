@@ -8,7 +8,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from cart.services import get_product
 
 from customer.services import customer_profile, get_save_styleboard_total
-from cart.models import ProductPrice
+from cart.models import ProductPrice, Contact
 from admin.models import Embellishments, TextFonts, EmbellishmentsType
 from django.conf import settings
 import math
@@ -216,6 +216,25 @@ def get_breadcrumb(parent_id):
         return ''
 
 @register.filter
+def generate_product_order_list2(obj,objMain):
+        products = obj.filter().order_by('-id')
+
+        ret = ""
+
+        for product in products:
+
+                ret += """
+                                                <tr>
+                                                        <td>%sx %s</td>
+                                                        <td>%s%s</td>
+                                                        <td>%s%s</td>
+                                                </tr>
+                """ % (product.quantity, product.product.sku, "$", intcomma("%.2f" % product.unit_price), "$", intcomma("%.2f" % product.discounted_subtotal))
+
+        return mark_safe(ret)
+
+
+@register.filter
 def generate_product_order_list(obj,objMain):
         products = obj.filter().order_by('-id')
 
@@ -273,6 +292,22 @@ def getImagePaymentMethod(met):
                 ret = mark_safe('<img src="/media/images/mastercard.jpg" />')
         else:
                 ret = mark_safe('<img src="/media/images/american_express.jpg" />')
+        return ret
+
+@register.filter
+def getPmethodBlah(request):
+
+        met = request.session.get('order-payment_method','')
+        ret = ""
+
+        if met == "PayPal":
+                ret = mark_safe('PayPal')
+        elif met == "Visa":
+                ret = mark_safe('Visa')
+        elif met == "Mastercard":
+                ret = mark_safe('Master Card')
+        else:
+                ret = mark_safe('American Express')
         return ret
 
 @register.filter
@@ -426,3 +461,4 @@ def add_http_prefix(url):
                 url = "%s%s" % ('http://', str(url).strip())
 
         return mark_safe(url)
+

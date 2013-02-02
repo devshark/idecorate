@@ -349,6 +349,7 @@ class IdecorateShop(Shop):
 		return IdecorateCheckoutForm
 
 	def confirmation(self, request, order):
+		#print type(order.addresses)
 
 		order.recalculate_total()
 
@@ -360,6 +361,15 @@ class IdecorateShop(Shop):
 		cvv_code = ""
 		show_confirm_infos = False
 		process_now_the_order = False
+
+		try:
+			thisContact = Contact.objects.get(user__id=int(request.user.id))
+		except:
+			thisContact = None	
+
+		kwargs = {}
+		kwargs['contact'] = thisContact
+
 
 		ConfirmationForm = self.confirmation_form(request, order)
 		kwargs = {
@@ -458,7 +468,7 @@ class IdecorateShop(Shop):
 		paypal_orders = order.items.filter().order_by('-id')
 
 		for paypal_order in paypal_orders:
-			paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))
+			paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))	
 
 		return self.render_confirmation(request, {
 			'order': order,
@@ -472,7 +482,9 @@ class IdecorateShop(Shop):
 			'cvv_code': cvv_code,
 			'show_confirm_infos':show_confirm_infos,
 			'paypal_url': settings.PAYPAL_URL,
-			'paypal_form': mark_safe(paypal.generateInputForm())
+			'paypal_form': mark_safe(paypal.generateInputForm()),
+            'shop':self,
+            'contact': thisContact
 		})
 
 	def checkout(self, request, order):

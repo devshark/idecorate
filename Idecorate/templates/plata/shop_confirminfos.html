@@ -1,4 +1,4 @@
-{% load i18n plata_tags idecorate_interface %}
+{% load i18n plata_tags idecorate_interface humanize %}
 <h3>ORDER CONFIRMATION</h3>
 <div class="paymentWrap">
 	<div class="payment clearfix">
@@ -31,31 +31,17 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>5x Product_001</td>
-							<td>$100.00</td>
-							<td>$500.00</td>
-						</tr>
-						<tr>
-							<td>5x Product_002</td>
-							<td>$100.00</td>
-							<td>$500.00</td>
-						</tr>
-						<tr>
-							<td>5x Product_003</td>
-							<td>$100.00</td>
-							<td>$500.00</td>
-						</tr>
+						{{ order.items|generate_product_order_list2:order }}
 					</tbody>
 					<tfoot>
 						<tr>
 							<td colspan="2">
-								<h5>100 Guests</h5>
-								<h5>10 Tables</h5>
+								<h5>{{ shop.guest_table.guests }} Guests</h5>
+								<h5>{{ shop.guest_table.tables }} Tables</h5>
 							</td>
 							<td>
-								<p>+$20 Shipping fee</p>
-								<span class="total">Total: $1,520.00</span>
+								<p><!-- +$20 Shipping fee --></p>
+								<span class="total">Total: ${{ order.total|floatformat:2|intcomma }}</span>
 							</td>
 						</tr>
 					</tfoot>
@@ -64,38 +50,41 @@
 
 			<fieldset class="clearfix">
 				<legend>PERSONAL INFORMATION</legend>
-				<span class="label">Salutation</span><span class="value">Mr.</span>
-				<span class="label">First Name</span><span class="value">Ferdinand</span>
-				<span class="label">Last Name</span><span class="value">Silva</span>
-				<span class="label">Email</span><span class="value">ferdi135@yahoo.com</span>
+				<span class="label">Salutation</span><span class="value">{{ request.session.salutation }}</span>
+				<span class="label">First Name</span><span class="value">{{ order.billing_first_name }}</span>
+				<span class="label">Last Name</span><span class="value">{{ order.billing_last_name }}</span>
+				<span class="label">Email</span><span class="value">{{ order.email }}</span>
 			</fieldset>
 
 			<fieldset class="clearfix">
 				<legend>DELIVERY ADDRESS</legend>
-				<span class="label">Address 1</span><span class="value">test</span>
-				<span class="label">Address 2</span><span class="value">test</span>
-				<span class="label">State</span><span class="value">test</span>
-				<span class="label">City</span><span class="value">test</span>
-				<span class="label">Postal Code</span><span class="value">123</span>
+				<span class="label">Address 1</span><span class="value">{{ contact.address }}</span>
+				<span class="label">Address 2</span><span class="value">{{ contact.shipping_address2 }}</span>
+				<span class="label">State</span><span class="value">{{ contact.shipping_state }}</span>
+				<span class="label">City</span><span class="value">{{ contact.city }}</span>
+				<span class="label">Postal Code</span><span class="value">{{ contact.zip_code }}</span>
 			</fieldset>
 
 			<fieldset class="clearfix">
 				<legend>BILLING ADDRESS</legend>
-				<span class="label">Address 1</span><span class="value">test</span>
-				<span class="label">Address 2</span><span class="value">test</span>
-				<span class="label">State</span><span class="value">test</span>
-				<span class="label">City</span><span class="value">test</span>
-				<span class="label">Postal Code</span><span class="value">123</span>
+				<span class="label">Address 1</span><span class="value">{{ contact.address2 }}</span>
+				<span class="label">Address 2</span><span class="value">{{ contact.billing_address2 }}</span>
+				<span class="label">State</span><span class="value">{{ contact.billing_state }}</span>
+				<span class="label">City</span><span class="value">{{ contact.city2 }}</span>
+				<span class="label">Postal Code</span><span class="value">{{ contact.zip_code2 }}</span>
 			</fieldset>
+
+			{% if request.session.delivery_date %}
 
 			<fieldset class="clearfix">
 				<legend>DELIVERY DATE</legend>
-				<h5>06/06/13</h5>
+				<h5>{{ request.session.delivery_date }}</h5>
 			</fieldset>
+			{% endif %}
 
 			<fieldset class="clearfix">
 				<legend>PAYMENT METHOD</legend>
-				<h5>PayPal</h5>
+				<h5>{{ request|getPmethodBlah }}</h5>
 			</fieldset>
 			<a class="btn cancel" href="/cart/checkout">BACK</a>
 			<a class="btn submit" id="conf_order" href="#">SUBMIT ORDER</a>
