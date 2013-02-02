@@ -16,10 +16,10 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
-from models import StyleboardItems
+from models import StyleboardItems, CustomerProfile
 from django.contrib.auth.models import User
 
-from forms import LoginForm, SignupForm, SaveStyleboardForm
+from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
 	get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
@@ -32,6 +32,7 @@ from admin.services import getExtensionAndFileName
 from cart.services import generate_unique_id
 from embellishments.models import StyleboardTemplateItems
 from django.utils.html import strip_tags
+from cart.models import Contact
 
 def login_signup(request):
 
@@ -148,7 +149,31 @@ def profile(request):
 def edit_profile(request):
 	if not request.user.is_authenticated():
 		return redirect('home')
+	
 	info = {}
+
+	u = User.objects.get(id=request.user.id)
+
+	try:
+		u_prof = CustomerProfile.objects.get(user=u)
+	except:
+		u_prof = CustomerProfile()
+		u_prof.nickname = u.email
+		u_prof.user = u
+		u_prof.save()
+
+	try:
+		u_contact = Contact.objects.get(user=u)
+	except:
+		u_contact = Contact()
+		u_contact.user = u
+		u_contact.save()
+
+	form = EditProfileForm(this_user=u)
+
+	info['idecorate_user'] = u
+	info['idecorate_profile'] = u_prof
+	info['idecorate_contact'] = u_contact
 
 	return render_to_response('customer/edit_profile.html', info, RequestContext(request))
 
