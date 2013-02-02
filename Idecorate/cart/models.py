@@ -137,6 +137,8 @@ class Contact(models.Model):
     zip_code2 = models.CharField(_('ZIP code2'), max_length=50)
     city = models.CharField(_('city'), max_length=100)
     city2 = models.CharField(_('city2'), max_length=100)
+    countries = models.CharField(_('countries'), max_length=100)
+    countries2 = models.CharField(_('countries22'), max_length=100)
     shipping_same_as_billing = models.BooleanField(_('shipping address equals billing address'),default=True)
     currency = CurrencyField(help_text=_('Preferred currency.'))
 

@@ -39,6 +39,7 @@ from decimal import Decimal
 from django.core.validators import email_re
 from django.contrib import auth
 from uuid import uuid4
+from common.models import Countries
 
 class BaseCheckoutForm(forms.ModelForm):
 
@@ -137,12 +138,14 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
     	shipping_state = kwargs.get('shipping_state')
     	shipping_city = kwargs.get('shipping_city')
     	shipping_zip_code =kwargs.get('shipping_zip_code')
+        shipping_country = kwargs.get('shipping_country')
 
     	billing_address = kwargs.get('billing_address')
     	billing_address2 = kwargs.get('billing_address2')
     	billing_state = kwargs.get('billing_state')
     	billing_city = kwargs.get('billing_city')
     	billing_zip_code = kwargs.get('billing_zip_code')
+        billing_country = kwargs.get('billing_country')
     	same_as_billing = kwargs.get('same_as_billing')
 
     	if same_as_billing:
@@ -193,6 +196,14 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
     		contact.zip_code2 = billing_zip_code
     		contact.save()
 
+        if shipping_country:
+            contact.countries = shipping_country
+            contact.save()
+
+        if billing_country:
+            contact.countries2 = billing_country
+            contact.save()
+
     	if notes:
     		order.notes = notes
     		order.save()
@@ -216,6 +227,15 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         	('Traralgon','Traralgon'), ('Wangaratta','Wangaratta'), ('Warrnambool','Warrnambool'), ('Wodonga','Wodonga'), ('Perth','Perth'), ('Albany','Albany'), ('Bunbury','Bunbury'), ('Busselton','Busselton'), ('Fremantle','Fremantle'), ('Geraldton','Geraldton'), ('Joondalup','Joondalup'), ('Kalgoorlie','Kalgoorlie'), ('Mandurah','Mandurah'), ('Rockingham','Rockingham'), ('City of Armadale','City of Armadale'), ('City of Bayswater','City of Bayswater'), ('City of Canning','City of Canning'), ('City of Cockburn','City of Cockburn'), ('City of Gosnells','City of Gosnells'), 
         	('City of Melville','City of Melville'), ('City of Nedlands','City of Nedlands'), ('City of South Perth','City of South Perth'), ('City of Stirling','City of Stirling'), ('City of Subiaco','City of Subiaco'), ('City of Swan','City of Swan'), ('City of Wanneroo','City of Wanneroo')
         )))
+
+        country_choices = []
+
+        c = Countries.objects.filter()
+
+        for cc in c:
+            country_choices.append((cc.name,cc.name))
+
+        country_choices = tuple(country_choices)
 
         if contact:
             initial = {}
@@ -241,6 +261,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
             initial['billing_city'] = contact.city2
             initial['shipping_zip_code'] = contact.zip_code
             initial['billing_zip_code'] = contact.zip_code2
+            initial['billing_country'] = contact.countries2
+            initial['shipping_country'] = contact.countries
 
         if request.POST.get('order-shipping_date') is None:
             if 'delivery_date' in request.session:
@@ -252,8 +274,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['shipping_address'] = forms.CharField(max_length=200, label=_("Shipping Address"), required=True, error_messages={'required':_('Delivery Address is a required field.')})
         self.fields['shipping_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=False,widget=forms.Select, error_messages={'required':_('Salutation is a required field.')})
         self.fields['billing_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
-        self.fields['shipping_state'] = forms.ChoiceField(label=_("Shipping State"), choices=states, required=True,widget=forms.Select)
-        self.fields['shipping_city'] = forms.ChoiceField(label=_("Shipping City"), choices=cities, required=True,widget=forms.Select)
+        self.fields['shipping_state'] = forms.CharField(max_length=150,label=_("Shipping State"),required=True)
+        self.fields['shipping_city'] = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True)
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
         self.fields['shipping_date'] = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
         self.fields['shipping_zip_code'] = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
@@ -262,6 +284,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['billing_first_name'] = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
         self.fields['payment_method'] = forms.ChoiceField(label=_("Payment Method"), choices=(('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
         self.fields['notes'] = forms.CharField(label=_("Special Requests and Comments"), widget=forms.Textarea, required=False)
+        self.fields['shipping_country'] = forms.ChoiceField(choices=country_choices,label=_("Shipping Country"), required=True, error_messages={'required':_('Shipping Country is a required field.')})
+        self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a requimax_length=150,red field.')})
 
         shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
         
@@ -269,15 +293,17 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 	        self.fields['billing_zip_code'] = forms.CharField(label=_("Billing Zip Code"), required=False, error_messages={'required':_('Billing Zip Code is a required field.')})
 	        self.fields['billing_address'] = forms.CharField(max_length=200, label=_("Billing Address"), required=False, error_messages={'required':_('Billing Address is a required field.')})
 	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
-	        self.fields['billing_state'] = forms.ChoiceField(label=_("Billing State"), choices=states, required=False,widget=forms.Select)
-	        self.fields['billing_city'] = forms.ChoiceField(label=_("Billing City"), choices=cities, required=False,widget=forms.Select)
+	        self.fields['billing_state'] = forms.CharField(max_length=150,label=_("Billing State"), required=False)
+	        self.fields['billing_city'] = forms.CharField(max_length=150,label=_("Billing City"), required=False)
+	        self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=False, error_messages={'required':_('Billing Country is a required field.')})
         else:
 	        self.fields['billing_zip_code'] = forms.CharField(label=_("Billing Zip Code"), required=True, error_messages={'required':_('Billing Zip Code is a required field.')})
 	        self.fields['billing_address'] = forms.CharField(max_length=200, label=_("Billing Address"), required=True, error_messages={'required':_('Billing Address is a required field.')})
-	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
-	        self.fields['billing_state'] = forms.ChoiceField(label=_("Billing State"), choices=states, required=True,widget=forms.Select)
-	        self.fields['billing_city'] = forms.ChoiceField(label=_("Billing City"), choices=cities, required=True,widget=forms.Select)
-
+	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=True)
+	        self.fields['billing_state'] = forms.CharField(max_length=150,label=_("Billing State"), required=True)
+	        self.fields['billing_city'] = forms.CharField(max_length=150,label=_("Billing City"), required=True)
+	        self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a required field.')})
+        
         if not contact:
             self.fields['create_account'] = forms.BooleanField(
                 label=_('create account'),
@@ -538,6 +564,8 @@ class IdecorateShop(Shop):
 				delivery_zip_code = request.POST.get('order-shipping_zip_code')
 				billing_zip_code = request.POST.get('order-billing_zip_code')
 				salutation = request.POST.get('order-billing_salutation')
+				billing_country = request.POST.get('order-billing_country')
+				delivery_country = request.POST.get('order-shipping_country')
 
 				if same_as_billing:
 					billing_address = delivery_address
@@ -545,6 +573,7 @@ class IdecorateShop(Shop):
 					billing_state = delivery_state
 					billing_city = delivery_city
 					billing_zip_code = delivery_zip_code
+					billing_country = delivery_country
 
 				request.session['order-payment_method'] = request.POST.get('order-payment_method','')
 				request.session['delivery_address2'] = delivery_address2
@@ -553,6 +582,8 @@ class IdecorateShop(Shop):
 				request.session['delivery_state'] = delivery_state
 				request.session['billing_state'] = billing_state
 				request.session['salutation'] = salutation
+				request.session['billing_country'] = billing_country
+				request.session['shipping_country'] = delivery_country
 
 				orderform.save(
 					notes=notes, 
@@ -567,7 +598,9 @@ class IdecorateShop(Shop):
 					shipping_city=delivery_city,
 					billing_city=billing_city,
 					shipping_zip_code=delivery_zip_code,
-					billing_zip_code=billing_zip_code
+					billing_zip_code=billing_zip_code,
+					billing_country=billing_country,
+					shipping_country=delivery_country
 				)
 
 				"""
@@ -629,6 +662,8 @@ class IdecorateShop(Shop):
 			del request.session['billing_state']
 			del request.session['salutation']
 			del request.session['notes']
+			del request.session['billing_country']
+			del request.session['shipping_country']
 		except:
 			pass
 
