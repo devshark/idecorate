@@ -225,7 +225,8 @@ def generate_product_order_list2(obj,objMain):
 
                 ret += """
                                                 <tr>
-                                                        <td>%sx %s/%s</td>
+                                                        <td>%s x %s/%s</td>
+
                                                         <td>%s%s</td>
                                                         <td>%s%s</td>
                                                 </tr>
