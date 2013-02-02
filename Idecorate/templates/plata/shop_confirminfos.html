@@ -63,6 +63,7 @@
 				<span class="label">State</span><span class="value">{{ contact.shipping_state }}</span>
 				<span class="label">City</span><span class="value">{{ contact.city }}</span>
 				<span class="label">Postal Code</span><span class="value">{{ contact.zip_code }}</span>
+				<span class="label">Country</span><span class="value">{{ contact.countries }}</span>
 			</fieldset>
 
 			<fieldset class="clearfix">
@@ -72,6 +73,7 @@
 				<span class="label">State</span><span class="value">{{ contact.billing_state }}</span>
 				<span class="label">City</span><span class="value">{{ contact.city2 }}</span>
 				<span class="label">Postal Code</span><span class="value">{{ contact.zip_code2 }}</span>
+				<span class="label">Country</span><span class="value">{{ contact.countries2 }}</span>
 			</fieldset>
 
 			{% if request.session.delivery_date %}
