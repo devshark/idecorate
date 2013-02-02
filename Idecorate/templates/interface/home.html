@@ -10,7 +10,7 @@
 		.modal{
 			background-color: #EEEEEE;
 			border: 1px solid #CCC;
-			padding: 7px;
+			padding: 7px !important;
 			-moz-border-radius: 5px;
 			-webkit-border-radius: 5px;
 			border-radius: 5px;
@@ -18,6 +18,11 @@
 			font-size: 0;
 			position: absolute;
 			display: none;
+			top: 110%;
+			left: 10px;
+			width: auto;
+			height: auto;
+			width: 250px;
 		}
 
 		.modal > div{
@@ -25,15 +30,21 @@
 			*display: inline;
 			margin-left: 3px;
 			zoom:1;
+			height: 20px;
+		}
+
+		.modal a{
+			padding: 0 !important;
 		}
 
 		.modal .email a{
 			display: block;
 			height: 20px;
 		}
+
 		.modal .email a img{
-			height: 100%;
-			width: auto;
+			height: 20px !important;
+			width: auto !important;
 		}
 
 	</style>
@@ -57,12 +68,12 @@
 		{% for l in list %}
 			<div class="featuredWrap">
 				<a href="{{ l.tinyUrl }}">
-					<img itemprop="image" src="/media/banners/{{ l.image }}" />
+					<img src="/media/banners/{{ l.image }}" />
 				</a>
 				<ul class="featuredLinks">
-					<li>
+					<li style="position:relative;">
 						<a class="shareModal" href="#">Share</a>
-						<span class="shareButtons" style="display:none;">
+						<div class="modal">
 							<div class="facebookShare">
 								<a href="#" onclick="postToFeed('{{ l.tinyUrl }}','/media/banners/{{ l.image }}','{{ l.name }}','{{ l.description|escapejs }}')">
 									<img border="0" src="/media/images/fb_share.png" />
@@ -80,32 +91,29 @@
 								<a data-pin-config="none" data-pin-do="buttonPin" target="_blank" href="//pinterest.com/pin/create/button/?url={{l.link|add_http_prefix|urlencode:''}}&media=http://{{ request|get_host|urlencode:'' }}/media/banners/{{ l.image }}&description={{ l.description|urlencode }}"></a>
 							</div>
 							<div class="googleShare">
-								<p itemprop="name" style="display:none;">{{ l.name }}</p>
-								<p itemprop="description" style="display:none;">{{ l.description }}</p>
 								<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{l.tinyUrl}}"></div>
-								<script type="text/javascript">
-								  (function() {
-								    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-								    po.src = 'https://apis.google.com/js/plusone.js';
-								    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-								  })();
-								</script>
 							</div>
 							<div class="email">
 								<a href="mailto:?subject=iDecorate%20Weddings%20|%20&body=Check%20this%20featured%20image%20from%20idecorate%20weddings%20{{ l.tinyUrl }}" target="_blank">
 									<img src="/media/images/email.jpg" />
 								</a>
 							</div>
-						</span>
-					</li
->					<li><a href="/styleboard">Create &amp; Buy</a></li>
+						</div>
+					</li>					
+					<li><a href="/styleboard">Create &amp; Buy</a></li>
 				</ul>
 			</div>
 		{% endfor %}
 	</div>
 	{% endfor %}
 </section>
-<div class="modal"></div>
+<script type="text/javascript">
+(function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://apis.google.com/js/plusone.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+</script>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
@@ -124,9 +132,7 @@ $(function(){
 	$('a.shareModal').each(function(i,val){
 		$(val).click(function(e){
 			e.preventDefault();
-			//set icons for modal share
-			setModalIcons($(this).siblings('.shareButtons'));
-			$('.modal').show().css({top:e.pageY+15,left:e.pageX});
+			setModalIcons($(this));
 		});
 	});
 	
@@ -141,8 +147,8 @@ $(function(){
 
 function setModalIcons(object){
 
-	var object = object.clone().removeAttr('style');
-	$('.modal').html($(object[0]).html());
+	$('.modal').hide();
+	object.siblings('.modal').show();
 	$('.modal').find('a').click(function(e){e.preventDefault()});
 	var windowSizeArray = [ "width=200,height=200","width=600,height=400,scrollbars=yes" ];
 	$('.pinterestShare a, .email a, .tumblerShare a').click(function(e){
