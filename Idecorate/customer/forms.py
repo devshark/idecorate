@@ -138,7 +138,7 @@ class EditProfileForm(forms.Form):
 			return ""
 
 class PassForm(forms.Form):
-	current_password = forms.CharField( label=_("Current Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter you current password.')})
+	current_password = forms.CharField( label=_("Current Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter your current password.')})
 	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid password.')})
 	confirm_password = forms.CharField( label=_("Enter Password Again"), widget=forms.PasswordInput, error_messages={'required':_('Re-enter password.')})
 
@@ -150,7 +150,7 @@ class PassForm(forms.Form):
 		current_password = self.cleaned_data['current_password']
 
 		if not self.this_user.check_password(current_password):
-			raise forms.ValidationError(_('Current password did not matched.'))
+			raise forms.ValidationError(_('Current password did not match.'))
 
 		return current_password
 
@@ -171,7 +171,7 @@ class PassForm(forms.Form):
 			confirm_password = self.cleaned_data['confirm_password']            
 			if password:
 				if password != confirm_password:
-					raise forms.ValidationError(_("Confirm password not match to password."))
+					raise forms.ValidationError(_("Confirm password did not match."))
 			return confirm_password
 		except MultiValueDictKeyError as e:
 			return ""

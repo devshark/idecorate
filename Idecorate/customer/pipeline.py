@@ -94,6 +94,11 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
             prof.picture =  url
             prof.save()
 
+        if backend.__class__ == FacebookBackend:
+            if prof.picture != url:
+                prof.picture = url
+                prof.save()
+
         if str(prof.description).strip() == "":
             prof.description = desc
             prof.save()

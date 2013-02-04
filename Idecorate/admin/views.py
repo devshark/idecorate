@@ -1721,9 +1721,24 @@ def admin_manage_users(request):
 		if u_type != "any":
 			other_params_dict.update({'u_type':u_type})
 			if q is not None:
-				q.add(Q(is_staff=bool(int(u_type))), Q.AND)
+
+				if int(u_type) == 0:
+					q.add(Q(is_staff=0), Q.AND)
+					q.add(Q(is_superuser=0), Q.AND)
+				elif int(u_type) == 1:
+					q.add(Q(is_superuser=1), Q.AND)
+				else:
+					q.add(Q(is_superuser=0), Q.AND)
+					q.add(Q(is_staff=1), Q.AND)
 			else:
-				q = Q(is_staff=bool(int(u_type)))
+				if int(u_type) == 0:
+					q = Q(is_staff=0)
+					q.add(Q(is_superuser=0), Q.AND)
+				elif int(u_type) == 1:
+					q = Q(is_superuser=1)
+				else:
+					q = Q(is_superuser=0)
+					q.add(Q(is_staff=1), Q.AND)
 
 	if status:
 		if status != "any":
