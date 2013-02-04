@@ -231,12 +231,14 @@ def edit_profile(request):
 				u_prof.gender = c_data['gender']
 				u_prof.language = c_data['language']
 
-				if c_data['user_image'] != u_prof.picture:
-					if re.search('^http', c_data['user_image']):
-						u_prof.picture = c_data['user_image']
-					else:
-						shutil.move("%s%s" % (settings.MEDIA_ROOT, "profiles/temp/%s" % c_data['user_image']), "%s%s" % (settings.MEDIA_ROOT, "profiles/%s" % c_data['user_image']))
-						u_prof.picture = "/media/profiles/%s" % c_data['user_image']
+				if c_data['user_image']:
+
+					if c_data['user_image'] != u_prof.picture:
+						if re.search('^http', c_data['user_image']):
+							u_prof.picture = c_data['user_image']
+						else:
+							shutil.move("%s%s" % (settings.MEDIA_ROOT, "profiles/temp/%s" % c_data['user_image']), "%s%s" % (settings.MEDIA_ROOT, "profiles/%s" % c_data['user_image']))
+							u_prof.picture = "/media/profiles/%s" % c_data['user_image']
 
 				u_prof.save()
 
