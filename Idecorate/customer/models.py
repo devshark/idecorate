@@ -11,6 +11,8 @@ class CustomerProfile(models.Model):
 	picture = models.CharField(db_column='picture', max_length=256, null=True)
 	description = models.TextField(db_column='description', null=True)
 	hash_set_password = models.CharField(db_column='hash_set_password', max_length=256, null=True)
+	gender = models.CharField(db_column='gender', max_length=256, null=True)
+	language = models.CharField(db_column='language', max_length=256, null=True)
 
 	class Meta:
 		db_table = 'customer_profiles'
