@@ -65,6 +65,10 @@
             var GET_TEMPLATES_DETAIL_URL    = '{% url get_template_details %}';
             var BROWSER_WIDTH               = 0;
             var BROWSER_HEIGHT              = 0;
+            var back_one_cat = false;
+            {% if mode != 'search' %}
+            back_one_cat = true;
+            {% endif %}
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
@@ -708,6 +712,7 @@
             navs += '<a href="#" id="logged_as">{{ user|get_nickname }}</a>';
             navs += '<ul>';
             navs += '<li><a id="lnk-styleboards" href="#">My Styleboards</a></li>';
+            navs += '<li><a href="{%url invite_friends %}">Invite Friends</a></li>';
             navs += '<li><a id="lnk-edit" href="{% url edit_profile %}">Edit Profile</a></li>';                
             navs += '<li><a id="lnk-logout" href="#">Logout</a></li>';                
             navs += '</ul>';

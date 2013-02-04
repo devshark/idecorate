@@ -2670,3 +2670,10 @@ def update_styleboard_status(request):
 		styleboard.save()
 
 	return HttpResponse(ret)
+
+
+
+@staff_member_required
+def admin_manage_order(request):
+	info = {}
+	return render_to_response('admin/admin_manage_order.html',info,RequestContext(request))

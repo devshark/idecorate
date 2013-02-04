@@ -15,7 +15,13 @@ var ie8_current_page = 1;
 var window_height;
 var window_width;
 $(document).ready( function() {
-
+    
+    if(back_one_cat == true){
+        back_onestep_category();
+    }
+    $('a[href="#embellishments"]').click(function(e){
+        $('#step-back').remove();
+    });
     window_height = $(window).height();
 	window_width = $(window).width();
     $('.categories').click(function(){

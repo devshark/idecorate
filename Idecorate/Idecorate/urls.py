@@ -75,6 +75,8 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_delete_item_menu/(?P<id_delete>\d+)/$','admin_delete_item_menu', {}, name='admin_delete_item_menu'),
     url(r'^admin/admin_manage_styleboard/$', 'manage_styleboard', {}, name='admin_manage_styleboard'),
     url(r'^admin/update_styleboard_status/$', 'update_styleboard_status', {}, name='update_styleboard_status'),
+    url(r'^admin/admin_manage_order/$', 'admin_manage_order', {}, name='admin_manage_order'),
+    
 )
 
 """
