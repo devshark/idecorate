@@ -49,8 +49,10 @@
 	{% if user.is_authenticated %}
 		<h3>MY ACCOUNT</h3>
 		<ul>
-			<li><a href="{% url profile %}">Profile</a></li>
+			<li><a href="{% url profile %}">My Styleboards</a></li>
+			<li><a href="{% url edit_profile %}">Edit Profile</a></li>
 			<li><a href="{% url invite_friends %}">Invite Friends</a></li>
+			<li><a href="{% url logout %}">Logout</a></li>
 			<!-- <li><a href="#">News feed</a></li>
 			<li><a href="#">Keep box</a></li>
 			<li><a href="#">Share record</a></li>
