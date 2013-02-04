@@ -65,10 +65,9 @@
             var GET_TEMPLATES_DETAIL_URL    = '{% url get_template_details %}';
             var BROWSER_WIDTH               = 0;
             var BROWSER_HEIGHT              = 0;
-            var back_one_cat = false;
-            {% if mode != 'search' %}
-            back_one_cat = true;
-            {% endif %}
+            var back_one_cat                = false;
+            var cat                         = {{cat_id}};
+            if(cat != 0){back_one_cat = true;}
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
