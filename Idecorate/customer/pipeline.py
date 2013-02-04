@@ -94,7 +94,7 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
             prof.picture =  url
             prof.save()
 
-        if prof.description != desc:
+        if str(prof.description).strip() == "":
             prof.description = desc
             prof.save()
 
