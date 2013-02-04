@@ -90,7 +90,7 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
     try:
         prof = CustomerProfile.objects.get(user__id=user.id)
 
-        if prof.picture != url:
+        if str(prof.picture).strip() == "":
             prof.picture =  url
             prof.save()
 
