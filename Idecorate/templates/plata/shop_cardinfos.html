@@ -19,6 +19,8 @@
 			<form action="" method="post">
 				<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />
 				<input type="hidden" name="terms_and_conditions" value="on" />
+				<input type="hidden" name="process_now_the_order" value="yes" />
+				<input type="hidden" name="process_now_the_payment" value="yes" />
 				{% csrf_token %}
 				
 				<div class="paymentDetails1">

@@ -385,8 +385,9 @@ class IdecorateShop(Shop):
 		name_on_card = ""
 		expires = ""
 		cvv_code = ""
-		show_confirm_infos = False
+		show_confirm_infos = True
 		process_now_the_order = False
+		process_now_the_payment = False
 
 		try:
 			thisContact = Contact.objects.get(user__id=int(request.user.id))
@@ -409,38 +410,43 @@ class IdecorateShop(Shop):
 		if request.method == 'POST':
 			form = ConfirmationForm(request.POST, **kwargs)
 
-			if form.is_valid():
+			process_it = request.POST.get('process_now_the_order')
+			process_pay = request.POST.get('process_now_the_payment')
 
-				process_it = request.POST.get('process_now_the_order')
+			if form.is_valid():
 				
 				if process_it is not None:
+					show_confirm_infos = False
 					process_now_the_order = True
 
-				card_number = request.POST.get('card_number', "")
-				name_on_card = request.POST.get('name_on_card', "")
-				expires = request.POST.get('expires', "")
-				cvv_code = request.POST.get('cvv_code', "")
+				if process_pay is not None:
+					process_now_the_payment = True
 
-				if not card_number:
-					card_error.append("Card Number is a required field.")
+				if process_now_the_payment:
+					#pass
+					card_number = request.POST.get('card_number', "")
+					name_on_card = request.POST.get('name_on_card', "")
+					expires = request.POST.get('expires', "")
+					cvv_code = request.POST.get('cvv_code', "")
 
-				if not name_on_card:
-					card_error.append("Name on card is a required field.")
+					if not card_number:
+						card_error.append("Card Number is a required field.")
 
-				if not expires:
-					card_error.append("Expires is a required field.")
-				else:
-					if not re.search('/',expires):
-						card_error.append("Invalid Expires value.")
+					if not name_on_card:
+						card_error.append("Name on card is a required field.")
 
-				if not cvv_code:
-					card_error.append("CVV Code is a required field.")
+					if not expires:
+						card_error.append("Expires is a required field.")
+					else:
+						if not re.search('/',expires):
+							card_error.append("Invalid Expires value.")
 
-				if len(card_error) == 0:
+					if not cvv_code:
+						card_error.append("CVV Code is a required field.")
 
-					show_confirm_infos = True
+					if len(card_error) == 0:
 
-					if process_now_the_order:
+						#if process_now_the_order:
 
 						url = settings.PAYDOLLAR_SS_DIRECT_URL
 						params = {}
@@ -483,10 +489,10 @@ class IdecorateShop(Shop):
 						else:
 							#print "The payment method is: %s" % dir(order)				
 							return form.process_confirmation()
-						
-						#form = ConfirmationForm(**kwargs) #TEMPORARY ONLY
-				else:
-					form = ConfirmationForm(**kwargs)
+							
+							#form = ConfirmationForm(**kwargs) #TEMPORARY ONLY
+					else:
+						form = ConfirmationForm(**kwargs)
 		else:
 			form = ConfirmationForm(**kwargs)
 
