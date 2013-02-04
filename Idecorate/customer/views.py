@@ -16,10 +16,10 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
-from models import StyleboardItems
+from models import StyleboardItems, CustomerProfile
 from django.contrib.auth.models import User
 
-from forms import LoginForm, SignupForm, SaveStyleboardForm
+from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
 	get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
@@ -32,6 +32,10 @@ from admin.services import getExtensionAndFileName
 from cart.services import generate_unique_id
 from embellishments.models import StyleboardTemplateItems
 from django.utils.html import strip_tags
+from cart.models import Contact
+from social_auth.models import UserSocialAuth
+from django.template.defaultfilters import filesizeformat
+import shutil
 
 def login_signup(request):
 
@@ -148,9 +152,154 @@ def profile(request):
 def edit_profile(request):
 	if not request.user.is_authenticated():
 		return redirect('home')
+	
 	info = {}
 
+	u = User.objects.get(id=request.user.id)
+
+	try:
+		u_prof = CustomerProfile.objects.get(user=u)
+	except:
+		u_prof = CustomerProfile()
+		u_prof.nickname = u.email
+		u_prof.user = u
+		u_prof.save()
+
+	try:
+		u_contact = Contact.objects.get(user=u)
+	except:
+		u_contact = Contact()
+		u_contact.user = u
+		u_contact.save()
+
+	try:
+		user_twitter = UserSocialAuth.objects.get(user=u, provider='twitter')
+	except:
+		user_twitter = None
+
+	try:
+		user_facebook = UserSocialAuth.objects.get(user=u, provider='facebook')
+	except:
+		user_facebook = None
+
+	initial_form_data = {
+		'firstname': u.first_name,
+		'lastname': u.last_name,
+		'salutation': u_contact.billing_salutation,
+		'user_image': u_prof.picture,
+		'about': u_prof.description,
+		'username': u.username,
+		'gender': u_prof.gender,
+		'language': u_prof.language,
+		'shipping_same_as_billing': u_contact.shipping_same_as_billing,
+		'shipping_address': u_contact.address,
+		'shipping_address2': u_contact.shipping_address2,
+		'shipping_state':u_contact.shipping_state,
+		'shipping_city': u_contact.city,
+		'shipping_country': u_contact.countries,
+		'shipping_zip_code':u_contact.zip_code,
+		'billing_address': u_contact.address2,
+		'billing_address2': u_contact.billing_address2,
+		'billing_state':u_contact.billing_state,
+		'billing_city': u_contact.city2,
+		'billing_country': u_contact.countries2,
+		'billing_zip_code':u_contact.zip_code2,
+	}
+
+	form = EditProfileForm(this_user=u, initial=initial_form_data, request=request)
+
+	pass_form = PassForm()
+
+	if request.method == "POST":
+
+		task = request.POST.get('task','1')
+
+		if int(task) == 1:
+			initial_form_data = {}
+			form = EditProfileForm(request.POST,this_user=u, request=request)
+
+			if form.is_valid():
+				c_data = form.cleaned_data
+				u.first_name = c_data['firstname']
+				u.last_name = c_data['lastname']
+				u.save()
+
+				u_prof.description = c_data['about']
+				u_prof.gender = c_data['gender']
+				u_prof.language = c_data['language']
+
+				if c_data['user_image'] != u_prof.picture:
+					if re.search('^http', c_data['user_image']):
+						u_prof.picture = c_data['user_image']
+					else:
+						shutil.move("%s%s" % (settings.MEDIA_ROOT, "profiles/temp/%s" % c_data['user_image']), "%s%s" % (settings.MEDIA_ROOT, "profiles/%s" % c_data['user_image']))
+						u_prof.picture = "/media/profiles/%s" % c_data['user_image']
+
+				u_prof.save()
+
+				u_contact.billing_salutation = c_data['salutation']
+				u_contact.shipping_same_as_billing = c_data['shipping_same_as_billing']
+				u_contact.address = c_data['shipping_address']
+				u_contact.shipping_address2 = c_data['shipping_address2']
+				u_contact.shipping_state = c_data['shipping_state']
+				u_contact.city = c_data['shipping_city']
+				u_contact.countries = c_data['shipping_country']
+				u_contact.zip_code = c_data['shipping_zip_code']
+				u_contact.address2 = c_data['billing_address']
+				u_contact.billing_address2 = c_data['billing_address2']
+				u_contact.billing_state = c_data['billing_state']
+				u_contact.city2 = c_data['billing_city']
+				u_contact.countries2 = c_data['billing_country']
+				u_contact.zip_code2 = c_data['billing_zip_code']
+				u_contact.save()
+
+				messages.success(request, _('Profile saved.'))
+				return redirect('edit_profile')
+		else:
+			pass_form = PassForm(request.POST)
+
+			if pass_form.is_valid():
+				u.set_password(pass_form.cleaned_data['password'])
+				u.save()
+
+				messages.success(request, _('Password changed.'))
+				return redirect('edit_profile')
+
+	info['idecorate_user'] = u
+	info['idecorate_profile'] = u_prof
+	info['idecorate_contact'] = u_contact
+	info['user_twitter'] = user_twitter
+	info['user_facebook'] = user_facebook
+	info['form'] = form
+	info['pass_form'] = pass_form
+	info['initial_form_data'] = initial_form_data
+
 	return render_to_response('customer/edit_profile.html', info, RequestContext(request))
+
+@csrf_exempt
+def customer_upload_image(request):
+
+	if request.method == "POST":
+
+		uploaded = request.FILES['image']
+		content_type = uploaded.content_type.split('/')[0]
+
+		if content_type in settings.CONTENT_TYPES:
+			if int(uploaded.size) > int(settings.MAX_UPLOAD_PROFILE_PIC):
+				return HttpResponse(_('notok:Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_PROFILE_PIC), filesizeformat(uploaded.size)))
+			else:
+				splittedName = getExtensionAndFileName(uploaded.name)
+				newFileName = "%s-%s%s" % (splittedName[0],datetime.now().strftime('%b-%d-%I%M%s%p-%G'),splittedName[1])
+
+				destination = open("%s%s%s" % (settings.MEDIA_ROOT, "profiles/temp/", newFileName), 'wb+')
+				for chunk in uploaded.chunks():
+					destination.write(chunk)
+
+				destination.close()
+
+				return HttpResponse('ok:%s' % newFileName)
+		else:
+			return HttpResponse(_('notok:File type is not supported').encode('utf-8'))
 
 def save_styleboard(request):
 	if not request.user.is_authenticated():

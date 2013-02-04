@@ -225,11 +225,12 @@ def generate_product_order_list2(obj,objMain):
 
                 ret += """
                                                 <tr>
-                                                        <td>%s x %s</td>
+                                                        <td>%s x %s/%s</td>
+
                                                         <td>%s%s</td>
                                                         <td>%s%s</td>
                                                 </tr>
-                """ % (product.quantity, product.product.sku, "$", intcomma("%.2f" % product.unit_price), "$", intcomma("%.2f" % product.discounted_subtotal))
+                """ % (product.quantity, product.product.sku, product.product.name, "$", intcomma("%.2f" % product.unit_price), "$", intcomma("%.2f" % product.discounted_subtotal))
 
         return mark_safe(ret)
 
