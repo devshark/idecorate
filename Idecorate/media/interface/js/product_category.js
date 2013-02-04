@@ -16,9 +16,8 @@ var window_height;
 var window_width;
 $(document).ready( function() {
     
-    if(back_one_cat == true){
-        back_onestep_category();
-    }
+    if(back_one_cat){back_onestep_category();}
+    
     $('a[href="#embellishments"]').click(function(e){
         $('#step-back').remove();
     });
