@@ -36,6 +36,7 @@ from cart.models import Contact
 from social_auth.models import UserSocialAuth
 from django.template.defaultfilters import filesizeformat
 import shutil
+from cart.views import shop
 
 def login_signup(request):
 
@@ -170,7 +171,9 @@ def edit_profile(request):
 	except:
 		u_contact = Contact()
 		u_contact.user = u
+		u_contact.currency = "USD"
 		u_contact.save()
+		#shop.contact_model(user=u)
 
 	try:
 		user_twitter = UserSocialAuth.objects.get(user=u, provider='twitter')

@@ -228,7 +228,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         	('City of Melville','City of Melville'), ('City of Nedlands','City of Nedlands'), ('City of South Perth','City of South Perth'), ('City of Stirling','City of Stirling'), ('City of Subiaco','City of Subiaco'), ('City of Swan','City of Swan'), ('City of Wanneroo','City of Wanneroo')
         )))
 
-        country_choices = []
+        country_choices = [('','-Select-')]
 
         c = Countries.objects.filter()
 
@@ -274,8 +274,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['shipping_address'] = forms.CharField(max_length=200, label=_("Shipping Address"), required=True, error_messages={'required':_('Delivery Address is a required field.')})
         self.fields['shipping_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=False,widget=forms.Select, error_messages={'required':_('Salutation is a required field.')})
         self.fields['billing_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
-        self.fields['shipping_state'] = forms.CharField(max_length=150,label=_("Shipping State"),required=True)
-        self.fields['shipping_city'] = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True)
+        self.fields['shipping_state'] = forms.CharField(max_length=150,label=_("Shipping State"),required=True, error_messages={'required':_('Delivery State is a required field.')})
+        self.fields['shipping_city'] = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True, error_messages={'required':_('Delivery City is a required field.')})
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
         self.fields['shipping_date'] = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
         self.fields['shipping_zip_code'] = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
@@ -284,7 +284,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['billing_first_name'] = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
         self.fields['payment_method'] = forms.ChoiceField(label=_("Payment Method"), choices=(('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
         self.fields['notes'] = forms.CharField(label=_("Special Requests and Comments"), widget=forms.Textarea, required=False)
-        self.fields['shipping_country'] = forms.ChoiceField(choices=country_choices,label=_("Shipping Country"), required=True, error_messages={'required':_('Shipping Country is a required field.')})
+        self.fields['shipping_country'] = forms.ChoiceField(choices=country_choices,label=_("Shipping Country"), required=True, error_messages={'required':_('Delivery Country is a required field.')})
         self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a requimax_length=150,red field.')})
 
         shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
@@ -299,9 +299,9 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         else:
 	        self.fields['billing_zip_code'] = forms.CharField(label=_("Billing Zip Code"), required=True, error_messages={'required':_('Billing Zip Code is a required field.')})
 	        self.fields['billing_address'] = forms.CharField(max_length=200, label=_("Billing Address"), required=True, error_messages={'required':_('Billing Address is a required field.')})
-	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=True)
-	        self.fields['billing_state'] = forms.CharField(max_length=150,label=_("Billing State"), required=True)
-	        self.fields['billing_city'] = forms.CharField(max_length=150,label=_("Billing City"), required=True)
+	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
+	        self.fields['billing_state'] = forms.CharField(max_length=150,label=_("Billing State"), required=True, error_messages={'required':_('Billing State is a required field.')})
+	        self.fields['billing_city'] = forms.CharField(max_length=150,label=_("Billing City"), required=True, error_messages={'required':_('Billing City is a required field.')})
 	        self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a required field.')})
         
         if not contact:
@@ -525,7 +525,7 @@ class IdecorateShop(Shop):
 
 					order.user = user
 					order.save()
-
+					print "testing"
 					return HttpResponseRedirect('.')
 			else:
 				loginform = AuthenticationForm(prefix='login')
@@ -810,11 +810,13 @@ def checkout(request):
 		for cart in cart_item:
 			try:
 				order.modify_item(cart.product, absolute=cart.quantity)
-			except:
+			except Exception as e:
 				CartTemp.objects.filter(sessionid=sessionid).delete()
+				print "The error is: %s" % e
 				return shop.order_new(request)
 			#remove_from_cart_temp(cart.id)
 		shop.modify_guest_table(request, guest_table.guests, guest_table.tables, order)
+
 
 	return redirect('plata_shop_checkout')
 
