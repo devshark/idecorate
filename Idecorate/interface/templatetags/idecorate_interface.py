@@ -314,8 +314,12 @@ def getPmethodBlah(request):
 @register.filter
 def get_nickname(user):
         try:
-                profile = customer_profile(user)
-                return profile['nickname']
+                if str(user.first_name).strip() != "":
+                        return user.first_name
+                else:
+                        return user.username
+                #profile = customer_profile(user)
+                #return profile['nickname']
         except:
                 return ""
 
