@@ -138,8 +138,21 @@ class EditProfileForm(forms.Form):
 			return ""
 
 class PassForm(forms.Form):
+	current_password = forms.CharField( label=_("Current Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter you current password.')})
 	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid password.')})
 	confirm_password = forms.CharField( label=_("Enter Password Again"), widget=forms.PasswordInput, error_messages={'required':_('Re-enter password.')})
+
+	def __init__(self, *args, **kwargs):
+		self.this_user = kwargs.pop('this_user')
+		super(PassForm, self).__init__(*args,**kwargs)
+
+	def clean_current_password(self):
+		current_password = self.cleaned_data['current_password']
+
+		if not self.this_user.check_password(current_password):
+			raise forms.ValidationError(_('Current password did not matched.'))
+
+		return current_password
 
 	def clean_password(self):
 		try:

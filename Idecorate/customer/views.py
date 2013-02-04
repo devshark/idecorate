@@ -211,7 +211,7 @@ def edit_profile(request):
 
 	form = EditProfileForm(this_user=u, initial=initial_form_data, request=request)
 
-	pass_form = PassForm()
+	pass_form = PassForm(this_user=u)
 
 	if request.method == "POST":
 
@@ -259,7 +259,7 @@ def edit_profile(request):
 				messages.success(request, _('Profile saved.'))
 				return redirect('edit_profile')
 		else:
-			pass_form = PassForm(request.POST)
+			pass_form = PassForm(request.POST,this_user=u)
 
 			if pass_form.is_valid():
 				u.set_password(pass_form.cleaned_data['password'])

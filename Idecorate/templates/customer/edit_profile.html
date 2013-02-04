@@ -152,6 +152,9 @@
 				<a href="#" class="closeX">x</a>
 				<h4>Please correct the following errors:</h4>
 				<ol>
+					{% for e in pass_form.current_password.errors %}
+					<li>{{ e }}</li>
+					{% endfor %}
 					{% for e in pass_form.password.errors %}
 					<li>{{ e }}</li>
 					{% endfor %}
@@ -290,6 +293,10 @@
 					{{ form.username }}
 				</div>
 				<div class="formr changePassword">
+					<span>
+						<label>Current Password</label>
+						{{ pass_form.current_password }}
+					</span>
 					<span>
 						<label>Password</label>
 						{{ pass_form.password }}
