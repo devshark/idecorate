@@ -693,6 +693,11 @@ def clear_styleboard_session(request):
 	except:
 		pass
 
+	try:
+		del request.session['style_board_in_session']
+	except:
+		pass
+
 def new_styleboard(request):
 	clear_styleboard_session(request)
 	return redirect('styleboard')
@@ -957,5 +962,19 @@ def ideas(request):
 
 @csrf_exempt
 def save_styleboard_to_session(request):
+	if request.method == "POST":
+		djsn = request.POST.get('djsn','')
+		guest = request.POST.get('guest','')
+		table = request.POST.get('table','')
+		bwsr = request.POST.get('bwsr','')
+
+		style_board_in_session = {
+			'djsn':djsn,
+			'guest':guest,
+			'table':table,
+			'bwsr':bwsr
+		}
+
+		request.session['style_board_in_session'] = style_board_in_session
 
 	return HttpResponse('ok')
