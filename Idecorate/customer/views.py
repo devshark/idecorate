@@ -225,6 +225,8 @@ def edit_profile(request):
 				c_data = form.cleaned_data
 				u.first_name = c_data['firstname']
 				u.last_name = c_data['lastname']
+				u.email = c_data['username']
+				u.username = c_data['username']
 				u.save()
 
 				u_prof.description = c_data['about']
