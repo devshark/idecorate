@@ -160,9 +160,13 @@ def send_email_set_pass(user_id):
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=u.user.email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
 
-def send_email_order(order, user, shop):
+def send_email_order(order, user, shop, sbid):
 
     itemsHTML = ""
+    board = "http://%s/media/images/styleboard.jpg" % settings.IDECORATE_HOST
+    
+    if sbid:
+    	board = "http://%s/styleboard/generate_styleboard_view/%s/560/200/" % (settings.IDECORATE_HOST, sbid)
 
     products = order.items.filter().order_by('-id')
 
@@ -208,7 +212,7 @@ def send_email_order(order, user, shop):
     <!--Styleboard -->
     <tr>
         <td colspan="5" style="text-align:center; vertical-align:middle; padding:10px 5px;">
-            <img src="http://%s/media/images/styleboard.jpg" width="560" height="200" alt="" style="border:10px solid #f0ece5;" ></td>
+            <img src="%s" width="560" height="200" alt="" style="border:10px solid #f0ece5;" ></td>
     </tr>
     <!--Thank you message -->
     <tr>
@@ -398,7 +402,7 @@ def st_save_helper(request,order):
 
     going_to_save = {}
 
-    if 'style_board_in_session' in request.session:
+    if 'style_board_in_session' in request.session or 'personalize_id' in request.session:
 
         style_board_in_session = request.session.get('style_board_in_session')
 
@@ -420,10 +424,17 @@ def st_save_helper(request,order):
                 'description':order.order_id
             }
 
-        going_to_save['browser'] = style_board_in_session['bwsr']
-        going_to_save['item'] = style_board_in_session['djsn']
-        going_to_save['guest'] = style_board_in_session['guest']
-        going_to_save['tables'] = style_board_in_session['table']
+        if style_board_in_session:
+        	going_to_save['browser'] = style_board_in_session['bwsr']
+        	going_to_save['item'] = style_board_in_session['djsn']
+        	going_to_save['guest'] = style_board_in_session['guest']
+        	going_to_save['tables'] = style_board_in_session['table']
+        else:
+        	going_to_save['browser'] = personalize_styleboard.styleboard_item.browser
+        	going_to_save['item'] = personalize_styleboard.styleboard_item.item
+        	going_to_save['guest'] = personalize_styleboard.styleboard_item.item_guest
+        	going_to_save['tables'] = personalize_styleboard.styleboard_item.item_tables
+        
         going_to_save['user'] = request.user
         going_to_save['customer_styleboard'] = customer_styleboard
         going_to_save['sessionid'] = request.session.get('cartsession',generate_unique_id())

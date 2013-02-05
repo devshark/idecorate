@@ -687,15 +687,16 @@ class IdecorateShop(Shop):
 		order.save()
 
 		st_save_helper(request, order)
+		sbid = None
 
 		if 'customer_styleboard' in request.session:
-			print "There's a saved styleboard"
+			sbid = request.session.get('customer_styleboard').id
 
 		if 'personalize_id' in request.session:
 			print "There's a personalize_id"
 
 		current_user = User.objects.get(id=int(request.user.id))
-		send_email_order(order, current_user, self)
+		send_email_order(order, current_user, self, sbid)
 		clear_styleboard_session(request)
 
 		try:
