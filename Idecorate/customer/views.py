@@ -368,7 +368,7 @@ def styleboard_view(request,sid=None):
 	return render_to_response('customer/styleboard_view.html', info, RequestContext(request))
 
 
-def generate_styleboard_view(request, id, w, h, any):
+def generate_styleboard_view(request, id, w, h):
 	
 	styleboardItem = StyleboardItems.objects.get(id=id)
 	itemString = str(styleboardItem.item).replace(',null','')

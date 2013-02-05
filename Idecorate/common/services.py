@@ -166,7 +166,7 @@ def send_email_order(order, user, shop, sbid):
     board = "http://%s/media/images/styleboard.jpg" % settings.IDECORATE_HOST
     
     if sbid:
-    	board = "http://%s/styleboard/generate_styleboard_view/%s/560/200/styleboard.png" % (settings.IDECORATE_HOST, sbid)
+    	board = "http://%s/styleboard/generate_styleboard_view/%s/560/200/" % (settings.IDECORATE_HOST, sbid)
 
     products = order.items.filter().order_by('-id')
 
