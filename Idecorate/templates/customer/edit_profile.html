@@ -482,18 +482,37 @@
 
 		$('#fb_chkbox').click(function(e){
 			if($(this).is(':checked')) {
-				window.location.href = '/login/facebook/';
+
+				if(confirm('Are you sure you want to associate your iDecorate account with your Facebook account?')) {
+					window.location.href = '/login/facebook/';
+				} else {
+					$(this).attr('checked', false);
+				}
+
+				
 			} else {
-				window.location.href = '/disconnect/facebook/';
+				if(confirm('Are you sure you want to disconnect your iDecorate account with your Facebook account?')) {
+					window.location.href = '/disconnect/facebook/';
+				} else {
+					$(this).attr('checked',true);
+				}
 			}
 			
 		});
 
 		$('#tw_chkbox').click(function(e){
 			if($(this).is(':checked')) {
-				window.location.href = '/login/twitter/';
+				if(confirm('Are you sure you want to associate your iDecorate account with your Twitter account?')) {
+					window.location.href = '/login/twitter/';
+				} else {
+					$(this).attr('checked', false);
+				}
 			} else {
-				window.location.href = '/disconnect/twitter/';
+				if(confirm('Are you sure you want to disconnect your iDecorate account with your Twitter account?')) {
+					window.location.href = '/disconnect/twitter/';
+				} else {
+					$(this).attr('checked', true);
+				}
 			}
 		});
 
