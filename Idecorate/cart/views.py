@@ -87,11 +87,16 @@ class BaseCheckoutForm(forms.ModelForm):
 
             password = None
             email = self.cleaned_data.get('email')
+            first_name = self.cleaned_data.get('billing_first_name')
+            last_name = self.cleaned_data.get('billing_last_name')
 
             if not self.request.user.is_authenticated():
                 password = User.objects.make_random_password()
                 user = User.objects.create_user(email, email, password)
                 user = auth.authenticate(username=email, password=password)
+                user.first_name = first_name
+                user.last_name = last_name
+                user.save()
                 customer_profile = CustomerProfile()
                 customer_profile.user = user
                 customer_profile.nickname = email
