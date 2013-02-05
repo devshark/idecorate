@@ -152,6 +152,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
     	billing_zip_code = kwargs.get('billing_zip_code')
         billing_country = kwargs.get('billing_country')
     	same_as_billing = kwargs.get('same_as_billing')
+    	billing_first_name = kwargs.get('billing_first_name')
+    	billing_last_name = kwargs.get('billing_last_name')
 
     	if same_as_billing:
     		contact.shipping_same_as_billing = same_as_billing
@@ -213,6 +215,22 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
     		order.notes = notes
     		order.save()
 
+        if billing_first_name:
+            contact.first_name = billing_first_name
+            contact.save()
+
+            c_user = User.objects.get(id=int(self.request.user.id))
+            c_user.first_name = billing_first_name
+            c_user.save()
+
+        if billing_last_name:
+            contact.last_name = billing_last_name
+            contact.save()
+
+            c_user = User.objects.get(id=int(self.request.user.id))
+            c_user.last_name = billing_last_name
+            c_user.save()
+
     	return order
 
     def __init__(self, *args, **kwargs):
@@ -253,6 +271,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
                 kwargs['initial'] = initial
 
             initial['email'] = contact.user.username
+            initial['billing_first_name'] = contact.user.first_name
+            initial['billing_last_name'] = contact.user.last_name
             initial['notes'] = order.notes
             initial['billing_salutation'] = contact.billing_salutation
             initial['shipping_same_as_billing'] = contact.shipping_same_as_billing
@@ -577,6 +597,8 @@ class IdecorateShop(Shop):
 				salutation = request.POST.get('order-billing_salutation')
 				billing_country = request.POST.get('order-billing_country')
 				delivery_country = request.POST.get('order-shipping_country')
+				billing_first_name = request.POST.get('order-billing_first_name')
+				billing_last_name = request.POST.get('order-billing_last_name')
 
 				if same_as_billing:
 					billing_address = delivery_address
@@ -611,7 +633,9 @@ class IdecorateShop(Shop):
 					shipping_zip_code=delivery_zip_code,
 					billing_zip_code=billing_zip_code,
 					billing_country=billing_country,
-					shipping_country=delivery_country
+					shipping_country=delivery_country,
+                    billing_first_name=billing_first_name,
+                    billing_last_name=billing_last_name
 				)
 
 				"""

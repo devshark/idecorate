@@ -258,6 +258,8 @@ def edit_profile(request):
 				u_contact.city2 = c_data['billing_city']
 				u_contact.countries2 = c_data['billing_country']
 				u_contact.zip_code2 = c_data['billing_zip_code']
+				u_contact.first_name = c_data['firstname']
+				u_contact.last_name = c_data['lastname']
 				u_contact.save()
 
 				messages.success(request, _('Profile saved.'))
