@@ -954,3 +954,8 @@ def ideas(request):
 	info['styleboards'] = styleboards
 
 	return render_to_response('interface/ideas.html', info,RequestContext(request))
+
+@csrf_exempt
+def save_styleboard_to_session(request):
+
+	return HttpResponse('ok')

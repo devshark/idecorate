@@ -13,7 +13,8 @@ $(document).ready(function(){
 
         if ( !error ){
             setProductPositions(function(){
-                window.location.href = CHECKOUT_URL;    
+                //here
+                save_styleboard_to_session();    
             });
             
         } else {

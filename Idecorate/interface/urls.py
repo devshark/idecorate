@@ -28,4 +28,5 @@ urlpatterns =  patterns('interface.views',
     url(r'^invite_friends/$', 'invite_friends', {}, name='invite_friends'),
     url(r'^invite_friends_content/$', 'invite_friends_content', {}, name='invite_friends_content'),
     url(r'^ideas/$', 'ideas', {}, name='ideas'),
+    url(r'^save_styleboard_to_session/$', 'save_styleboard_to_session', {}, name='save_styleboard_to_session'),
 )
