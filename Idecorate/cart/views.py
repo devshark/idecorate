@@ -29,7 +29,7 @@ from customer.models import CustomerProfile
 from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-from common.services import ss_direct, send_email_set_pass, send_email_order
+from common.services import ss_direct, send_email_set_pass, send_email_order, st_save_helper
 from interface.views import clear_styleboard_session, st_man
 from paypal import PayPal, PayPalItem
 from django.core.urlresolvers import reverse
@@ -685,6 +685,8 @@ class IdecorateShop(Shop):
 		notes = request.session.get('notes','')
 		order.notes = notes
 		order.save()
+
+		st_save_helper(request, order)
 
 		if 'customer_styleboard' in request.session:
 			print "There's a saved styleboard"

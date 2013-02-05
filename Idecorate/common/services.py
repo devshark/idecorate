@@ -12,6 +12,9 @@ from django.template.loader import render_to_string
 from uuid import uuid4
 from customer.models import CustomerProfile
 from cart.models import Contact
+from cart.services import generate_unique_id
+from django.utils.html import strip_tags
+from customer.services import get_user_styleboard, save_styleboard_item
 
 def ss_direct(params, url, secure=False):
     """
@@ -391,3 +394,42 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=user.email,subject='iDecorate Weddings Order Confirmation',body=messageHTML,isHTML=True)
 
+def st_save_helper(request,order):
+
+    going_to_save = {}
+
+    if 'style_board_in_session' in request.session:
+
+        style_board_in_session = request.session.get('style_board_in_session')
+
+        customer_styleboard = request.session.get('customer_styleboard',None)
+        if not customer_styleboard:
+            sbid = request.session.get('personalize_id', None)
+            if sbid:
+                personalize_styleboard = get_user_styleboard(None, sbid)
+                if personalize_styleboard:
+                    if personalize_styleboard.user.id:              
+                        if int(personalize_styleboard.user.id) == int(request.user.id):
+                            customer_styleboard = personalize_styleboard
+
+        if customer_styleboard:
+            going_to_save={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description}
+        else:
+            going_to_save={
+                'name':order.order_id,
+                'description':order.order_id
+            }
+
+        going_to_save['browser'] = style_board_in_session['bwsr']
+        going_to_save['item'] = style_board_in_session['djsn']
+        going_to_save['guest'] = style_board_in_session['guest']
+        going_to_save['tables'] = style_board_in_session['table']
+        going_to_save['user'] = request.user
+        going_to_save['customer_styleboard'] = customer_styleboard
+        going_to_save['sessionid'] = request.session.get('cartsession',generate_unique_id())
+        going_to_save['description'] = strip_tags(going_to_save['description'])
+        going_to_save['session_in_request'] = request.session       
+        res = save_styleboard_item(going_to_save)
+        request.session['customer_styleboard'] = res
+
+    return going_to_save
