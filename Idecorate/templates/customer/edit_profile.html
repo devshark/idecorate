@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load idecorate_interface humanize %}
+{% load idecorate_interface humanize admin %}
 {{ request|set_last_page_idecorate }}
 {% block title %}Edit Profile{% endblock %}
 {%  block style %}
@@ -147,11 +147,14 @@
 
 {% block content %}
 <h3>EDIT PROFILE</h3>
-			{% if form.errors or pass_form.errors %}
+			{% if form.errors or pass_form.errors or request.session.fb_auth_error %}
 			<div class="clearfix errorBlock">
 				<a href="#" class="closeX">x</a>
 				<h4>Please correct the following errors:</h4>
 				<ol>
+					{% if request.session.fb_auth_error %}
+					<li>{{ request.session.fb_auth_error }}</li>
+					{% endif %}
 					{% for e in pass_form.current_password.errors %}
 					<li>{{ e }}</li>
 					{% endfor %}
@@ -232,7 +235,16 @@
 			</div>
 			{% endif %}
 
-{% if messages %}
+{% if request.session.fb_auth_error %}
+{{ request|deleteSession:"fb_auth_error" }}
+<!-- 
+	{% for message in messages %}
+	{{ message }}
+	{% endfor %}
+-->
+{% else %}
+
+	{% if messages %}
 <div class="alert alert-success clearfix">
         <a class="closeX" href="#">×</a>
         <h4>Success!</h4>
@@ -242,6 +254,7 @@
         	{% endfor %}
         </ul>
  </div>
+	{% endif %}
 {% endif %}
 <div class="staticWrap">
 	<div class="clearfix static editProfile">

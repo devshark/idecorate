@@ -809,7 +809,11 @@ def generate_styleboard_view(request, id, w, h):
 def social_redirect(request):
 
 	if 'fb_auth_error' in request.session:
-		return redirect('invite_friends')
+		if "last_page_idecorate" in request.session:
+			if re.search('edit_profile', request.session['last_page_idecorate']):
+				return redirect('edit_profile')
+			else:
+				return redirect('invite_friends')
 	else:
 
 		if "last_page_idecorate" in request.session:
