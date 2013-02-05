@@ -274,7 +274,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['shipping_address'] = forms.CharField(max_length=200, label=_("Shipping Address"), required=True, error_messages={'required':_('Delivery Address is a required field.')})
         self.fields['shipping_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=False,widget=forms.Select, error_messages={'required':_('Salutation is a required field.')})
         self.fields['billing_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
-        self.fields['shipping_state'] = forms.CharField(max_length=150,label=_("Shipping State"),required=True, error_messages={'required':_('Delivery State is a required field.')})
+        self.fields['shipping_state'] = forms.CharField(max_length=150,label=_("Shipping State"),required=True, error_messages={'required':_('Delivery State is a required field. If None, indicate None or N/A')})
         self.fields['shipping_city'] = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True, error_messages={'required':_('Delivery City is a required field.')})
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
         self.fields['shipping_date'] = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
@@ -300,7 +300,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 	        self.fields['billing_zip_code'] = forms.CharField(label=_("Billing Zip Code"), required=True, error_messages={'required':_('Billing Zip Code is a required field.')})
 	        self.fields['billing_address'] = forms.CharField(max_length=200, label=_("Billing Address"), required=True, error_messages={'required':_('Billing Address is a required field.')})
 	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
-	        self.fields['billing_state'] = forms.CharField(max_length=150,label=_("Billing State"), required=True, error_messages={'required':_('Billing State is a required field.')})
+	        self.fields['billing_state'] = forms.CharField(max_length=150,label=_("Billing State"), required=True, error_messages={'required':_('Billing State is a required field. If None, indicate None or N/A')})
 	        self.fields['billing_city'] = forms.CharField(max_length=150,label=_("Billing City"), required=True, error_messages={'required':_('Billing City is a required field.')})
 	        self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a required field.')})
         
