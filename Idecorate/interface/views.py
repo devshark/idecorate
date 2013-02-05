@@ -112,7 +112,19 @@ def styleboard(request, cat_id=None):
 	except:
 		pass
 	"""
+	sms = st_man(request)
+	info.update(sms)					
+
+	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
+
+def st_man(request):
+	info = {}
 	sbid = request.GET.get('sbid',None)
+
+	if not sbid:
+		if request.method == "POST":
+			sbid = request.POST.get('sid', None)
+
 	if sbid:
 		#request.session['sbid'] = sbid
 
@@ -128,10 +140,12 @@ def styleboard(request, cat_id=None):
 					if int(personalize_styleboard.user.id) == int(request.user.id):
 						info['sbid'] = sbid
 						request.session['customer_styleboard'] = personalize_styleboard
+					else:
+						request.session['personalize_id'] = personalize_styleboard.id
 				else:
 					request.session['personalize_styleboard'] = personalize_styleboard					
 
-	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
+	return info
 
 def styleboard_product_ajax(request):
 	if request.method == "POST":

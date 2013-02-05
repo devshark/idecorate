@@ -30,7 +30,7 @@ from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 from common.services import ss_direct, send_email_set_pass, send_email_order
-from interface.views import clear_styleboard_session
+from interface.views import clear_styleboard_session, st_man
 from paypal import PayPal, PayPalItem
 from django.core.urlresolvers import reverse
 from datetime import datetime
@@ -686,6 +686,12 @@ class IdecorateShop(Shop):
 		order.notes = notes
 		order.save()
 
+		if 'customer_styleboard' in request.session:
+			print "There's a saved styleboard"
+
+		if 'personalize_id' in request.session:
+			print "There's a personalize_id"
+
 		current_user = User.objects.get(id=int(request.user.id))
 		send_email_order(order, current_user, self)
 		clear_styleboard_session(request)
@@ -905,7 +911,8 @@ def checkout_from_view_styleboard(request):
 
 			shop.modify_guest_table(request, guests, tables, order)
 
-		request.session['personalize_id'] = styleboard.id
+		sms = st_man(request)
+		#request.session['personalize_id'] = styleboard.id
 		return redirect('plata_shop_checkout')
 	else:
 		return redirect('styleboard')
