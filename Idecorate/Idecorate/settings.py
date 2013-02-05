@@ -214,7 +214,9 @@ SOCIAL_AUTH_PIPELINE = (
     #'social_auth.backends.pipeline.social.associate_user',
     #'social_auth.backends.pipeline.social.load_extra_data',
     #'social_auth.backends.pipeline.user.update_user_details',
+    
     'social_auth.backends.pipeline.social.social_auth_user',
+    
     #'social_auth.backends.pipeline.associate.associate_by_email',
     #'customer.pipeline.social_auth_user',
     'customer.pipeline.associate_by_username',

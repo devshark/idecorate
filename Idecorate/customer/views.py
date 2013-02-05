@@ -817,7 +817,7 @@ def social_redirect(request):
 	else:
 
 		if "last_page_idecorate" in request.session:
-			print request.session['last_page_idecorate']
+			#print request.session['last_page_idecorate']
 			return redirect(request.session.get('last_page_idecorate'))
 		else:
 			return redirect('/')
