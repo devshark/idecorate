@@ -106,11 +106,12 @@ def styleboard(request, cat_id=None):
 
 	"""
 	save styleboard personalize or modify
-	"""
+	
 	try:
 		del request.session['customer_styleboard']
 	except:
 		pass
+	"""
 	sbid = request.GET.get('sbid',None)
 	if sbid:
 		#request.session['sbid'] = sbid
