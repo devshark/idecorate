@@ -109,6 +109,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     'plata.context_processors.plata_context',
     'social_auth.context_processors.social_auth_by_type_backends',
+    'common.context_processors.social_network_settings',
 )
 
 MIDDLEWARE_CLASSES = (
