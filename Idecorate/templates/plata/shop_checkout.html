@@ -49,10 +49,22 @@
 		          {% for e in orderform.shipping_address.errors %}
 		            <li>{{ e }}</li>
 		          {% endfor %}
+		          {% for e in orderform.shipping_city.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.shipping_state.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
 		          {% for e in orderform.shipping_zip_code.errors %}
 		            <li>{{ e }}</li>
 		          {% endfor %}
 		          {% for e in orderform.billing_address.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.billing_city.errors %}
+		            <li>{{ e }}</li>
+		          {% endfor %}
+		          {% for e in orderform.billing_state.errors %}
 		            <li>{{ e }}</li>
 		          {% endfor %}
 		          {% for e in orderform.billing_zip_code.errors %}
@@ -273,7 +285,7 @@
 		</div>
 		<div class="clearfix disclaimer" style="clear: both;">
 			{{ "t_and_c"|get_checkout_page_info }}
-			<button id="p_button" type="button">PROCEED TO PAYMENT</button>
+			<button id="p_button" type="button">REVIEW ORDER</button>
 		</div>
 		</form>
 	</div>

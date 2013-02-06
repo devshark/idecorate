@@ -29,8 +29,8 @@ from customer.models import CustomerProfile
 from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-from common.services import ss_direct, send_email_set_pass, send_email_order
-from interface.views import clear_styleboard_session
+from common.services import ss_direct, send_email_set_pass, send_email_order, st_save_helper
+from interface.views import clear_styleboard_session, st_man
 from paypal import PayPal, PayPalItem
 from django.core.urlresolvers import reverse
 from datetime import datetime
@@ -87,11 +87,16 @@ class BaseCheckoutForm(forms.ModelForm):
 
             password = None
             email = self.cleaned_data.get('email')
+            first_name = self.cleaned_data.get('billing_first_name')
+            last_name = self.cleaned_data.get('billing_last_name')
 
             if not self.request.user.is_authenticated():
                 password = User.objects.make_random_password()
                 user = User.objects.create_user(email, email, password)
                 user = auth.authenticate(username=email, password=password)
+                user.first_name = first_name
+                user.last_name = last_name
+                user.save()
                 customer_profile = CustomerProfile()
                 customer_profile.user = user
                 customer_profile.nickname = email
@@ -147,6 +152,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
     	billing_zip_code = kwargs.get('billing_zip_code')
         billing_country = kwargs.get('billing_country')
     	same_as_billing = kwargs.get('same_as_billing')
+    	billing_first_name = kwargs.get('billing_first_name')
+    	billing_last_name = kwargs.get('billing_last_name')
 
     	if same_as_billing:
     		contact.shipping_same_as_billing = same_as_billing
@@ -208,6 +215,22 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
     		order.notes = notes
     		order.save()
 
+        if billing_first_name:
+            contact.first_name = billing_first_name
+            contact.save()
+
+            c_user = User.objects.get(id=int(self.request.user.id))
+            c_user.first_name = billing_first_name
+            c_user.save()
+
+        if billing_last_name:
+            contact.last_name = billing_last_name
+            contact.save()
+
+            c_user = User.objects.get(id=int(self.request.user.id))
+            c_user.last_name = billing_last_name
+            c_user.save()
+
     	return order
 
     def __init__(self, *args, **kwargs):
@@ -248,6 +271,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
                 kwargs['initial'] = initial
 
             initial['email'] = contact.user.username
+            initial['billing_first_name'] = contact.user.first_name
+            initial['billing_last_name'] = contact.user.last_name
             initial['notes'] = order.notes
             initial['billing_salutation'] = contact.billing_salutation
             initial['shipping_same_as_billing'] = contact.shipping_same_as_billing
@@ -274,7 +299,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['shipping_address'] = forms.CharField(max_length=200, label=_("Shipping Address"), required=True, error_messages={'required':_('Delivery Address is a required field.')})
         self.fields['shipping_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=False,widget=forms.Select, error_messages={'required':_('Salutation is a required field.')})
         self.fields['billing_salutation'] = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
-        self.fields['shipping_state'] = forms.CharField(max_length=150,label=_("Shipping State"),required=True, error_messages={'required':_('Delivery State is a required field.')})
+        self.fields['shipping_state'] = forms.CharField(max_length=150,label=_("Shipping State"),required=True, error_messages={'required':_('Delivery State is a required field. If None, indicate None or N/A')})
         self.fields['shipping_city'] = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True, error_messages={'required':_('Delivery City is a required field.')})
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
         self.fields['shipping_date'] = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
@@ -300,7 +325,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 	        self.fields['billing_zip_code'] = forms.CharField(label=_("Billing Zip Code"), required=True, error_messages={'required':_('Billing Zip Code is a required field.')})
 	        self.fields['billing_address'] = forms.CharField(max_length=200, label=_("Billing Address"), required=True, error_messages={'required':_('Billing Address is a required field.')})
 	        self.fields['billing_address2'] = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
-	        self.fields['billing_state'] = forms.CharField(max_length=150,label=_("Billing State"), required=True, error_messages={'required':_('Billing State is a required field.')})
+	        self.fields['billing_state'] = forms.CharField(max_length=150,label=_("Billing State"), required=True, error_messages={'required':_('Billing State is a required field. If None, indicate None or N/A')})
 	        self.fields['billing_city'] = forms.CharField(max_length=150,label=_("Billing City"), required=True, error_messages={'required':_('Billing City is a required field.')})
 	        self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a required field.')})
         
@@ -385,8 +410,9 @@ class IdecorateShop(Shop):
 		name_on_card = ""
 		expires = ""
 		cvv_code = ""
-		show_confirm_infos = False
+		show_confirm_infos = True
 		process_now_the_order = False
+		process_now_the_payment = False
 
 		try:
 			thisContact = Contact.objects.get(user__id=int(request.user.id))
@@ -409,38 +435,43 @@ class IdecorateShop(Shop):
 		if request.method == 'POST':
 			form = ConfirmationForm(request.POST, **kwargs)
 
-			if form.is_valid():
+			process_it = request.POST.get('process_now_the_order')
+			process_pay = request.POST.get('process_now_the_payment')
 
-				process_it = request.POST.get('process_now_the_order')
+			if form.is_valid():
 				
 				if process_it is not None:
+					show_confirm_infos = False
 					process_now_the_order = True
 
-				card_number = request.POST.get('card_number', "")
-				name_on_card = request.POST.get('name_on_card', "")
-				expires = request.POST.get('expires', "")
-				cvv_code = request.POST.get('cvv_code', "")
+				if process_pay is not None:
+					process_now_the_payment = True
 
-				if not card_number:
-					card_error.append("Card Number is a required field.")
+				if process_now_the_payment:
+					#pass
+					card_number = request.POST.get('card_number', "")
+					name_on_card = request.POST.get('name_on_card', "")
+					expires = request.POST.get('expires', "")
+					cvv_code = request.POST.get('cvv_code', "")
 
-				if not name_on_card:
-					card_error.append("Name on card is a required field.")
+					if not card_number:
+						card_error.append("Card Number is a required field.")
 
-				if not expires:
-					card_error.append("Expires is a required field.")
-				else:
-					if not re.search('/',expires):
-						card_error.append("Invalid Expires value.")
+					if not name_on_card:
+						card_error.append("Name on card is a required field.")
 
-				if not cvv_code:
-					card_error.append("CVV Code is a required field.")
+					if not expires:
+						card_error.append("Expires is a required field.")
+					else:
+						if not re.search('/',expires):
+							card_error.append("Invalid Expires value.")
 
-				if len(card_error) == 0:
+					if not cvv_code:
+						card_error.append("CVV Code is a required field.")
 
-					show_confirm_infos = True
+					if len(card_error) == 0:
 
-					if process_now_the_order:
+						#if process_now_the_order:
 
 						url = settings.PAYDOLLAR_SS_DIRECT_URL
 						params = {}
@@ -483,10 +514,10 @@ class IdecorateShop(Shop):
 						else:
 							#print "The payment method is: %s" % dir(order)				
 							return form.process_confirmation()
-						
-						#form = ConfirmationForm(**kwargs) #TEMPORARY ONLY
-				else:
-					form = ConfirmationForm(**kwargs)
+							
+							#form = ConfirmationForm(**kwargs) #TEMPORARY ONLY
+					else:
+						form = ConfirmationForm(**kwargs)
 		else:
 			form = ConfirmationForm(**kwargs)
 
@@ -566,6 +597,8 @@ class IdecorateShop(Shop):
 				salutation = request.POST.get('order-billing_salutation')
 				billing_country = request.POST.get('order-billing_country')
 				delivery_country = request.POST.get('order-shipping_country')
+				billing_first_name = request.POST.get('order-billing_first_name')
+				billing_last_name = request.POST.get('order-billing_last_name')
 
 				if same_as_billing:
 					billing_address = delivery_address
@@ -600,7 +633,9 @@ class IdecorateShop(Shop):
 					shipping_zip_code=delivery_zip_code,
 					billing_zip_code=billing_zip_code,
 					billing_country=billing_country,
-					shipping_country=delivery_country
+					shipping_country=delivery_country,
+                    billing_first_name=billing_first_name,
+                    billing_last_name=billing_last_name
 				)
 
 				"""
@@ -651,8 +686,17 @@ class IdecorateShop(Shop):
 		order.notes = notes
 		order.save()
 
+		st_save_helper(request, order)
+		sbid = None
+
+		if 'customer_styleboard' in request.session:
+			sbid = request.session.get('customer_styleboard').id
+
+		if 'personalize_id' in request.session:
+			print "There's a personalize_id"
+
 		current_user = User.objects.get(id=int(request.user.id))
-		send_email_order(order, current_user, self)
+		send_email_order(order, current_user, self, sbid)
 		clear_styleboard_session(request)
 
 		try:
@@ -870,7 +914,8 @@ def checkout_from_view_styleboard(request):
 
 			shop.modify_guest_table(request, guests, tables, order)
 
-		request.session['personalize_id'] = styleboard.id
+		sms = st_man(request)
+		#request.session['personalize_id'] = styleboard.id
 		return redirect('plata_shop_checkout')
 	else:
 		return redirect('styleboard')

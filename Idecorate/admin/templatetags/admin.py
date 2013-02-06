@@ -468,7 +468,14 @@ def getUserNicknameOnly(user):
 @register.filter
 def getUserType(user):
 
-	return 'Admin' if user.is_staff else 'Member'
+	if user.is_staff and user.is_superuser:
+		return 'Admin'
+	elif user.is_staff and not user.is_superuser:
+		return 'Store Manager'
+	else:
+		return 'Member'
+
+	#return 'Admin' if user.is_staff else 'Member'
 
 @register.filter
 def getUserActivity(user):

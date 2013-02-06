@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load idecorate_interface humanize %}
+{% load idecorate_interface humanize admin %}
 {{ request|set_last_page_idecorate }}
 {% block title %}Edit Profile{% endblock %}
 {%  block style %}
@@ -138,16 +138,26 @@
   div.preview.loading img {
     display: none; 
   }
+
+.editProfile fieldset .formr select {
+	width: 65%;
+}
 </style>
 {% endblock %}
 
 {% block content %}
 <h3>EDIT PROFILE</h3>
-			{% if form.errors or pass_form.errors %}
+			{% if form.errors or pass_form.errors or request.session.fb_auth_error %}
 			<div class="clearfix errorBlock">
 				<a href="#" class="closeX">x</a>
 				<h4>Please correct the following errors:</h4>
 				<ol>
+					{% if request.session.fb_auth_error %}
+					<li>{{ request.session.fb_auth_error }}</li>
+					{% endif %}
+					{% for e in pass_form.current_password.errors %}
+					<li>{{ e }}</li>
+					{% endfor %}
 					{% for e in pass_form.password.errors %}
 					<li>{{ e }}</li>
 					{% endfor %}
@@ -225,7 +235,16 @@
 			</div>
 			{% endif %}
 
-{% if messages %}
+{% if request.session.fb_auth_error %}
+{{ request|deleteSession:"fb_auth_error" }}
+<!-- 
+	{% for message in messages %}
+	{{ message }}
+	{% endfor %}
+-->
+{% else %}
+
+	{% if messages %}
 <div class="alert alert-success clearfix">
         <a class="closeX" href="#">×</a>
         <h4>Success!</h4>
@@ -235,6 +254,7 @@
         	{% endfor %}
         </ul>
  </div>
+	{% endif %}
 {% endif %}
 <div class="staticWrap">
 	<div class="clearfix static editProfile">
@@ -261,16 +281,17 @@
 						<!--
 						<div class="image">{% if idecorate_profile.picture %}<img src="{{ idecorate_profile.picture }}" alt="" />{% else %}<img src="/media/images/nopic.jpg" alt="" />{% endif %}</div>
 						-->
+						<div id="error_1" style="color:red">&nbsp;</div>
 	                  <div class="preview" id="preview1" style="text-align:center;">
-	                    <img id="thumb_original" style="position:relative;max-height:150px;max-width:150px" src="/media/admin/images/bg_transparent.png" alt="" />
+	                    <img id="thumb_original" style="position:relative;height:150px;width:150px" src="/media/admin/images/bg_transparent.png" alt="" />
 	                  </div>
-	                  <div id="error_1" style="color:red">&nbsp;</div>
+
 
 						{{ form.user_image }}
 						<!--
 						<input type="file" value="" name="photo" />
 						-->
-						<button class="btn" id="btn_orginal_image" type="button">Browse...</button>
+						<button class="btn" id="btn_orginal_image" type="button">Upload Image</button>
 						<button class="btn" id="get-FB-image" type="button">Reload From Facebook</button>
 					</div>
 				</div>
@@ -286,6 +307,10 @@
 					{{ form.username }}
 				</div>
 				<div class="formr changePassword">
+					<span>
+						<label>Current Password</label>
+						{{ pass_form.current_password }}
+					</span>
 					<span>
 						<label>Password</label>
 						{{ pass_form.password }}
@@ -321,12 +346,12 @@
 					{{ form.shipping_address2 }}
 				</div>
 				<div class="formr">
-					<label>State</label>
-					{{ form.shipping_state }}
-				</div>
-				<div class="formr">
 					<label>City</label>
 					{{ form.shipping_city }}
+				</div>
+				<div class="formr">
+					<label>State</label>
+					{{ form.shipping_state }}
 				</div>
 				<div class="formr">
 					<label>Postal Code</label>
@@ -349,12 +374,12 @@
 					{{ form.billing_address2 }}
 				</div>
 				<div class="formr">
-					<label>State</label>
-					{{ form.billing_state }}
-				</div>
-				<div class="formr">
 					<label>City</label>
 					{{ form.billing_city }}
+				</div>
+				<div class="formr">
+					<label>State</label>
+					{{ form.billing_state }}
 				</div>
 				<div class="formr">
 					<label>Postal Code</label>
@@ -470,18 +495,37 @@
 
 		$('#fb_chkbox').click(function(e){
 			if($(this).is(':checked')) {
-				window.location.href = '/login/facebook/';
+
+				if(confirm('Are you sure you want to associate your iDecorate account with your Facebook account?')) {
+					window.location.href = '/login/facebook/';
+				} else {
+					$(this).attr('checked', false);
+				}
+
+				
 			} else {
-				window.location.href = '/disconnect/facebook/';
+				if(confirm('Are you sure you want to disconnect your iDecorate account with your Facebook account?')) {
+					window.location.href = '/disconnect/facebook/';
+				} else {
+					$(this).attr('checked',true);
+				}
 			}
 			
 		});
 
 		$('#tw_chkbox').click(function(e){
 			if($(this).is(':checked')) {
-				window.location.href = '/login/twitter/';
+				if(confirm('Are you sure you want to associate your iDecorate account with your Twitter account?')) {
+					window.location.href = '/login/twitter/';
+				} else {
+					$(this).attr('checked', false);
+				}
 			} else {
-				window.location.href = '/disconnect/twitter/';
+				if(confirm('Are you sure you want to disconnect your iDecorate account with your Twitter account?')) {
+					window.location.href = '/disconnect/twitter/';
+				} else {
+					$(this).attr('checked', true);
+				}
 			}
 		});
 

@@ -106,12 +106,25 @@ def styleboard(request, cat_id=None):
 
 	"""
 	save styleboard personalize or modify
-	"""
+	
 	try:
 		del request.session['customer_styleboard']
 	except:
 		pass
+	"""
+	sms = st_man(request)
+	info.update(sms)					
+
+	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
+
+def st_man(request):
+	info = {}
 	sbid = request.GET.get('sbid',None)
+
+	if not sbid:
+		if request.method == "POST":
+			sbid = request.POST.get('sid', None)
+
 	if sbid:
 		#request.session['sbid'] = sbid
 
@@ -127,10 +140,12 @@ def styleboard(request, cat_id=None):
 					if int(personalize_styleboard.user.id) == int(request.user.id):
 						info['sbid'] = sbid
 						request.session['customer_styleboard'] = personalize_styleboard
+					else:
+						request.session['personalize_id'] = personalize_styleboard.id
 				else:
 					request.session['personalize_styleboard'] = personalize_styleboard					
 
-	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
+	return info
 
 def styleboard_product_ajax(request):
 	if request.method == "POST":
@@ -678,6 +693,11 @@ def clear_styleboard_session(request):
 	except:
 		pass
 
+	try:
+		del request.session['style_board_in_session']
+	except:
+		pass
+
 def new_styleboard(request):
 	clear_styleboard_session(request)
 	return redirect('styleboard')
@@ -939,3 +959,22 @@ def ideas(request):
 	info['styleboards'] = styleboards
 
 	return render_to_response('interface/ideas.html', info,RequestContext(request))
+
+@csrf_exempt
+def save_styleboard_to_session(request):
+	if request.method == "POST":
+		djsn = request.POST.get('djsn','')
+		guest = request.POST.get('guest','')
+		table = request.POST.get('table','')
+		bwsr = request.POST.get('bwsr','')
+
+		style_board_in_session = {
+			'djsn':djsn,
+			'guest':guest,
+			'table':table,
+			'bwsr':bwsr
+		}
+
+		request.session['style_board_in_session'] = style_board_in_session
+
+	return HttpResponse('ok')

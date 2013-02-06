@@ -1721,9 +1721,24 @@ def admin_manage_users(request):
 		if u_type != "any":
 			other_params_dict.update({'u_type':u_type})
 			if q is not None:
-				q.add(Q(is_staff=bool(int(u_type))), Q.AND)
+
+				if int(u_type) == 0:
+					q.add(Q(is_staff=0), Q.AND)
+					q.add(Q(is_superuser=0), Q.AND)
+				elif int(u_type) == 1:
+					q.add(Q(is_superuser=1), Q.AND)
+				else:
+					q.add(Q(is_superuser=0), Q.AND)
+					q.add(Q(is_staff=1), Q.AND)
 			else:
-				q = Q(is_staff=bool(int(u_type)))
+				if int(u_type) == 0:
+					q = Q(is_staff=0)
+					q.add(Q(is_superuser=0), Q.AND)
+				elif int(u_type) == 1:
+					q = Q(is_superuser=1)
+				else:
+					q = Q(is_superuser=0)
+					q.add(Q(is_staff=1), Q.AND)
 
 	if status:
 		if status != "any":
@@ -1851,7 +1866,17 @@ def admin_edit_user(request):
 
 			user = User.objects.get(id=int(form.cleaned_data['u_id']))
 			user.username = form.cleaned_data['email']
-			user.is_staff = bool(int(form.cleaned_data['u_type']))
+			
+			if int(form.cleaned_data['u_type']) == 0:
+				user.is_staff = False
+				user.is_superuser = False
+			elif int(form.cleaned_data['u_type']) == 1:
+				user.is_staff = True
+				user.is_superuser = True
+			else:
+				user.is_staff = True
+				user.is_superuser = False
+
 			user.is_active = bool(int(form.cleaned_data['status']))
 			user.first_name = form.cleaned_data['first_name']
 			user.last_name = form.cleaned_data['last_name']

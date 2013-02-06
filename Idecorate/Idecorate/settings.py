@@ -109,6 +109,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     'plata.context_processors.plata_context',
     'social_auth.context_processors.social_auth_by_type_backends',
+    'common.context_processors.social_network_settings',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -189,6 +190,11 @@ TWITTER_CONSUMER_SECRET = 'duHZCipNTNZd6oU9KeP5sOi2BImJjjaymmDy1jtKpo'
 
 FACEBOOK_APP_ID = '250262231769530'
 FACEBOOK_API_SECRET = '95a3252b750cb86fb27e5df6e575eb6b'
+
+#STAGING SETTINGS
+#FACEBOOK_APP_ID = '267814813348756'
+#FACEBOOK_API_SECRET = '70a26a68da9c86ef7faeb0de14bfc3ef'
+
 FACEBOOK_EXTENDED_PERMISSIONS = ['email','read_friendlists', 'publish_stream']
 FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
 
@@ -208,7 +214,9 @@ SOCIAL_AUTH_PIPELINE = (
     #'social_auth.backends.pipeline.social.associate_user',
     #'social_auth.backends.pipeline.social.load_extra_data',
     #'social_auth.backends.pipeline.user.update_user_details',
+    
     'social_auth.backends.pipeline.social.social_auth_user',
+    
     #'social_auth.backends.pipeline.associate.associate_by_email',
     #'customer.pipeline.social_auth_user',
     'customer.pipeline.associate_by_username',

@@ -228,7 +228,7 @@ class SearchUsersForm(forms.Form):
 
 	nickname = forms.CharField(max_length=100,label=_("Nickname"), required=False)
 	email = forms.CharField(max_length=100,label=_("Email"), required=False)
-	u_type = forms.ChoiceField(label=_("Type"), choices=(('any','Any'),('1','Admin'),('0','Member'),), required=False,widget=forms.Select)
+	u_type = forms.ChoiceField(label=_("Type"), choices=(('any','Any'),('1','Admin'),('2','Store Manager'),('0','Member'),), required=False,widget=forms.Select)
 	status = forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('1','Active'),('0','Inactive'),), required=False,widget=forms.Select)
 
 class EditUsersForm(forms.Form):
@@ -240,7 +240,7 @@ class EditUsersForm(forms.Form):
 	password = forms.CharField(max_length=80,label=_("Password"), required=False, widget=forms.PasswordInput)
 	confirm_password = forms.CharField(max_length=80,label=_("Confirm Password"), required=False, widget=forms.PasswordInput)
 	email = forms.EmailField(max_length=80,label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email.'),'required':_('Email is a required field.')})
-	u_type = forms.ChoiceField(label=_("Type"), choices=(('1','Admin'),('0','Member'),), required=True,widget=forms.Select, error_messages={'required':_('Type is a required field.')})
+	u_type = forms.ChoiceField(label=_("Type"), choices=(('1','Admin'),('2','Store Manager'),('0','Member'),), required=True,widget=forms.Select, error_messages={'required':_('Type is a required field.')})
 	status = forms.ChoiceField(label=_("Status"), choices=(('1','Active'),('0','Inactive'),), required=True,widget=forms.Select, error_messages={'required':_('Status is a required field.')})
 
 	def __init__(self, *args, **kwargs):

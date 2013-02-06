@@ -211,7 +211,7 @@ def edit_profile(request):
 
 	form = EditProfileForm(this_user=u, initial=initial_form_data, request=request)
 
-	pass_form = PassForm()
+	pass_form = PassForm(this_user=u)
 
 	if request.method == "POST":
 
@@ -225,18 +225,22 @@ def edit_profile(request):
 				c_data = form.cleaned_data
 				u.first_name = c_data['firstname']
 				u.last_name = c_data['lastname']
+				u.email = c_data['username']
+				u.username = c_data['username']
 				u.save()
 
 				u_prof.description = c_data['about']
 				u_prof.gender = c_data['gender']
 				u_prof.language = c_data['language']
 
-				if c_data['user_image'] != u_prof.picture:
-					if re.search('^http', c_data['user_image']):
-						u_prof.picture = c_data['user_image']
-					else:
-						shutil.move("%s%s" % (settings.MEDIA_ROOT, "profiles/temp/%s" % c_data['user_image']), "%s%s" % (settings.MEDIA_ROOT, "profiles/%s" % c_data['user_image']))
-						u_prof.picture = "/media/profiles/%s" % c_data['user_image']
+				if c_data['user_image']:
+
+					if c_data['user_image'] != u_prof.picture:
+						if re.search('^http', c_data['user_image']):
+							u_prof.picture = c_data['user_image']
+						else:
+							shutil.move("%s%s" % (settings.MEDIA_ROOT, "profiles/temp/%s" % c_data['user_image']), "%s%s" % (settings.MEDIA_ROOT, "profiles/%s" % c_data['user_image']))
+							u_prof.picture = "/media/profiles/%s" % c_data['user_image']
 
 				u_prof.save()
 
@@ -254,12 +258,14 @@ def edit_profile(request):
 				u_contact.city2 = c_data['billing_city']
 				u_contact.countries2 = c_data['billing_country']
 				u_contact.zip_code2 = c_data['billing_zip_code']
+				u_contact.first_name = c_data['firstname']
+				u_contact.last_name = c_data['lastname']
 				u_contact.save()
 
 				messages.success(request, _('Profile saved.'))
 				return redirect('edit_profile')
 		else:
-			pass_form = PassForm(request.POST)
+			pass_form = PassForm(request.POST,this_user=u)
 
 			if pass_form.is_valid():
 				u.set_password(pass_form.cleaned_data['password'])
@@ -805,11 +811,15 @@ def generate_styleboard_view(request, id, w, h):
 def social_redirect(request):
 
 	if 'fb_auth_error' in request.session:
-		return redirect('invite_friends')
+		if "last_page_idecorate" in request.session:
+			if re.search('edit_profile', request.session['last_page_idecorate']):
+				return redirect('edit_profile')
+			else:
+				return redirect('invite_friends')
 	else:
 
 		if "last_page_idecorate" in request.session:
-			print request.session['last_page_idecorate']
+			#print request.session['last_page_idecorate']
 			return redirect(request.session.get('last_page_idecorate'))
 		else:
 			return redirect('/')

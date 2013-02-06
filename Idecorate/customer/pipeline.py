@@ -6,6 +6,7 @@ from common.services import IdecorateEmail, send_email_set_pass
 from uuid import uuid4
 from django.conf import settings
 import urllib
+import urllib2
 from django.core.exceptions import MultipleObjectsReturned, ObjectDoesNotExist
 from social_auth.models import UserSocialAuth, SOCIAL_AUTH_MODELS_MODULE
 from social_auth.exceptions import AuthException, AuthAlreadyAssociated
@@ -58,6 +59,7 @@ def associate_by_username(details, user=None, *args, **kwargs):
 
 """
 def social_auth_user(backend, uid, user=None, *args, **kwargs):
+
     social_user = UserSocialAuth.get_social_auth(backend.name, uid)
     if social_user:
         if user and social_user.user != user:
@@ -66,8 +68,7 @@ def social_auth_user(backend, uid, user=None, *args, **kwargs):
                 'provider': backend.name
             })
         elif not user:
-            user = None
-
+            user = social_user.user
     return {'social_user': social_user, 'user': user}
 """
 
@@ -81,6 +82,12 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
         url = "http://graph.facebook.com/%s/picture?type=large" % response['id']
         #url_friendlists = "https://graph.facebook.com/me/friendlists?%s" % urllib.urlencode({'access_token': response['access_token']})
 
+        try:
+            con = urllib2.urlopen(url)
+            url = con.geturl()
+        except Exception as e:
+            print "The error is: %s" % e
+
     elif backend.__class__ == TwitterBackend:
         desc = response.get('description','')
         url = response.get('profile_image_url', '').replace('_normal', '')
@@ -90,11 +97,16 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
     try:
         prof = CustomerProfile.objects.get(user__id=user.id)
 
-        if prof.picture != url:
+        if str(prof.picture).strip() == "":
             prof.picture =  url
             prof.save()
 
-        if prof.description != desc:
+        if backend.__class__ == FacebookBackend:
+            if prof.picture != url:
+                prof.picture = url
+                prof.save()
+
+        if str(prof.description).strip() == "":
             prof.description = desc
             prof.save()
 
