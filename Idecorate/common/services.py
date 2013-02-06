@@ -390,7 +390,7 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         settings.IDECORATE_HOST,
         shop.guest_table.guests,
         shop.guest_table.tables,
-        "%.2f" % order.total,
+        "$%.2f" % order.total,
         settings.IDECORATE_HOST,
         settings.IDECORATE_HOST
     )
