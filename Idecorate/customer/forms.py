@@ -144,13 +144,17 @@ class PassForm(forms.Form):
 
 	def __init__(self, *args, **kwargs):
 		self.this_user = kwargs.pop('this_user')
+
 		super(PassForm, self).__init__(*args,**kwargs)
+		
+		if self.this_user.password == "!":
+			self.fields['current_password'] = forms.CharField(required=False,label=_("Current Password"), widget=forms.PasswordInput)
 
 	def clean_current_password(self):
 		current_password = self.cleaned_data['current_password']
-
-		if not self.this_user.check_password(current_password):
-			raise forms.ValidationError(_('Current password did not match.'))
+		if self.this_user.password != "!":
+			if not self.this_user.check_password(current_password):
+				raise forms.ValidationError(_('Current password did not match.'))
 
 		return current_password
 

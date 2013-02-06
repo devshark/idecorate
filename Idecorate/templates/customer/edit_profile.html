@@ -307,10 +307,12 @@
 					{{ form.username }}
 				</div>
 				<div class="formr changePassword">
+					{% if idecorate_user.password != "!" %}
 					<span>
 						<label>Current Password</label>
 						{{ pass_form.current_password }}
 					</span>
+					{% endif %}
 					<span>
 						<label>Password</label>
 						{{ pass_form.password }}

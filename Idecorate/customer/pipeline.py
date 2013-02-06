@@ -125,6 +125,7 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
     	send_email_set_pass(user.id)
     elif User.objects.get(id=user.id).email == "" and User.objects.get(id=user.id).password == "!":
     	kwargs['request'].session['last_page_idecorate'] = '/edit_profile/'
+        kwargs['request'].session['fb_auth_error'] = 'Please update your email and set your password.'
     	"""
     	if backend.__class__ == FacebookBackend:
     		send_email_set_pass(user.id)
