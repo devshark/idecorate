@@ -2899,41 +2899,6 @@ def admin_view_order(request):
 def admin_edit_order(request):
 	pass
 	
-	#user = User.objects.get(id=id)
-
-	if request.method == "POST":
-		form = EditUsersForm(request.POST, user_id=request.POST.get('u_id'))
-
-		if form.is_valid():
-
-			user = User.objects.get(id=int(form.cleaned_data['u_id']))
-			user.username = form.cleaned_data['email']
-			user.is_staff = bool(int(form.cleaned_data['u_type']))
-			user.is_active = bool(int(form.cleaned_data['status']))
-			user.first_name = form.cleaned_data['first_name']
-			user.last_name = form.cleaned_data['last_name']
-
-			passwd = form.cleaned_data['password']
-
-			if passwd:
-				user.set_password(passwd)
-
-			user.save()
-
-			try:
-				prof = CustomerProfile.objects.get(user=user)
-				prof.nickname = form.cleaned_data['nickname']
-				prof.save()
-			except:
-				prof = CustomerProfile()
-				prof.nickname = form.cleaned_data['nickname']
-				prof.user = user
-				prof.save()
-
-			messages.success(request, _('Changes Saved.'))
-		else:
-			request.session['mo_errors'] = form['u_id'].errors + form['nickname'].errors + form['email'].errors + form['u_type'].errors + form['status'].errors + form['password'].errors + form['confirm_password'].errors
-
 	if request.session.get('manage_order_redirect', False):
 		return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])
 	else:
