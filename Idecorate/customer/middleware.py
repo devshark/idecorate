@@ -13,7 +13,7 @@ class IdecorateMiddleware(SocialAuthExceptionMiddleware):
 
     def get_message(self, request, exception):
     	if isinstance(exception, AuthAlreadyAssociated):
-    		request.session['fb_auth_error'] = 'That Facebook account is already associated with another iDecorate user.'
+    		request.session['fb_auth_error'] = 'That %s account is already associated with another iDecorate user.' % exception.backend.name.capitalize()
     	elif isinstance(exception, AuthEmailTaken):
     		request.session['fb_auth_error'] = 'Sorry, this email already has an iDecorate account.'
 
