@@ -284,11 +284,11 @@ def send_email_order(order, user, shop, sbid, comment):
         <td width="184" colspan="2" style="padding:5px 0 0 5px;" >%s</td>
         </tr>
         <tr>
-        <td colspan="3" style="padding:5px 0 0 10px;">State </td>
+        <td colspan="3" style="padding:5px 0 0 10px;">City</td>
         <td width="184" colspan="2" style="padding:5px 0 0 5px;" >%s</td>
         </tr>
         <tr>
-        <td colspan="3" style="padding:5px 0 0 10px;">City</td>
+        <td colspan="3" style="padding:5px 0 0 10px;">State </td>
         <td width="184" colspan="2" style="padding:5px 0 0 5px;" >%s</td>
         </tr>
         <tr>
@@ -310,11 +310,11 @@ def send_email_order(order, user, shop, sbid, comment):
         <td width="184" colspan="2" style="padding:5px 0 0 5px;" >%s</td>
         </tr>
         <tr>
-        <td colspan="3" style="padding:5px 0 0 10px;">State </td>
+        <td colspan="3" style="padding:5px 0 0 10px;">City</td>
         <td width="184" colspan="2" style="padding:5px 0 0 5px;" >%s</td>
         </tr>
         <tr>
-        <td colspan="3" style="padding:5px 0 0 10px;">City</td>
+        <td colspan="3" style="padding:5px 0 0 10px;">State </td>
         <td width="184" colspan="2" style="padding:5px 0 0 5px;" >%s</td>
         </tr>
         <tr>
@@ -396,13 +396,13 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         user.email,
         contact.address,
         contact.shipping_address2,
-        contact.shipping_state,
         contact.city,
+        contact.shipping_state,
         contact.zip_code,
         contact.address2,
         contact.billing_address2,
-        contact.billing_state,
         contact.city2,
+        contact.billing_state,
         contact.zip_code2,
         order.order_id,
         order.created,
