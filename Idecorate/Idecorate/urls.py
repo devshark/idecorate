@@ -76,6 +76,8 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_manage_styleboard/$', 'manage_styleboard', {}, name='admin_manage_styleboard'),
     url(r'^admin/update_styleboard_status/$', 'update_styleboard_status', {}, name='update_styleboard_status'),
     url(r'^admin/admin_manage_order/$', 'admin_manage_order', {}, name='admin_manage_order'),
+    url(r'^admin/admin_view_order/$', 'admin_view_order', {}, name='admin_view_order'),
+    url(r'^admin/admin_edit_order/$', 'admin_edit_order', {}, name='admin_edit_order'),
     
 )
 

@@ -17,7 +17,10 @@ time, mark, audio, video {
   border: 0;
   font-size: 100%;
   font: inherit;
-  vertical-align: baseline; }
+  vertical-align: baseline; 
+  white-space: normal !important;
+  line-height: 1.5em;
+}
 
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure,

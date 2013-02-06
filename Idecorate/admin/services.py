@@ -11,6 +11,7 @@ from django.db import DatabaseError, transaction
 from django.template.defaultfilters import filesizeformat
 from embellishments.models import StyleboardTemplateItems
 from customer.models import CustomerStyleBoard
+from plata.shop.models import Order
 
 def getExtensionAndFileName(filename):
 
@@ -343,3 +344,7 @@ def get_HomeInfographics():
 def get_all_styleboards(filters=None,order_by='created'):
 
 	return CustomerStyleBoard.objects.filter().order_by(order_by) if filters is None else CustomerStyleBoard.objects.filter(filters).order_by(order_by)
+
+def get_all_orders(filters=None,order_by='created'):
+
+	return Order.objects.filter().order_by(order_by) if filters is None else Order.objects.filter(filters).order_by(order_by)
