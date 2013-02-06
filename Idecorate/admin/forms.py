@@ -234,7 +234,7 @@ class SearchUsersForm(forms.Form):
 class EditUsersForm(forms.Form):
 
 	u_id = forms.CharField(label=_("ID"), widget=forms.HiddenInput, required=True, error_messages={'required':_('User ID is a required field.')})
-	nickname = forms.CharField(max_length=80,label=_("Nickname"), required=True, error_messages={'required':_('Nickname is a required field.')})
+	#nickname = forms.CharField(max_length=80,label=_("Nickname"), required=True, error_messages={'required':_('Nickname is a required field.')})
 	first_name = forms.CharField(max_length=80,label=_("First Name"), required=False)
 	last_name = forms.CharField(max_length=80,label=_("Last Name"), required=False)
 	password = forms.CharField(max_length=80,label=_("Password"), required=False, widget=forms.PasswordInput)
@@ -261,6 +261,53 @@ class EditUsersForm(forms.Form):
 
 			if user:
 				raise forms.ValidationError(_("Email must be unique."))			
+
+		return email
+
+	def clean_password(self):
+		try:
+			password = self.cleaned_data['password']
+
+			if password != "":
+
+				if len(password)<6:
+					raise forms.ValidationError(_("Password entered should be minimum of 6 chars."))
+				if len(password)>80:
+					raise forms.ValidationError(_("Password entered should be maximum of 80 chars."))
+			return password
+		except MultiValueDictKeyError as e:
+			return ""
+
+	def clean_confirm_password(self):
+		try:
+			password = self.data['password']
+			confirm_password = self.cleaned_data['confirm_password']            
+			if password:
+				if password != confirm_password:
+					raise forms.ValidationError(_("Confirm password not match to password."))
+			return confirm_password
+		except MultiValueDictKeyError as e:
+			return ""
+
+class AddUsersForm(forms.Form):
+	first_name = forms.CharField(max_length=80,label=_("First Name"), required=False)
+	last_name = forms.CharField(max_length=80,label=_("Last Name"), required=False)
+	password = forms.CharField(max_length=80,label=_("Password"), required=False, widget=forms.PasswordInput)
+	confirm_password = forms.CharField(max_length=80,label=_("Confirm Password"), required=False, widget=forms.PasswordInput)
+	email = forms.EmailField(max_length=80,label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email.'),'required':_('Email is a required field.')})
+	u_type = forms.ChoiceField(label=_("Type"), choices=(('1','Admin'),('2','Store Manager'),('0','Member'),), required=True,widget=forms.Select, error_messages={'required':_('Type is a required field.')})
+
+	def clean_email(self):
+
+		email = self.cleaned_data['email']
+
+		try:
+			user = User.objects.get(username=email)
+		except Exception as e:
+			user = None
+
+		if user:
+			raise forms.ValidationError(_("Email must be unique."))			
 
 		return email
 

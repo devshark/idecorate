@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
-HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm
+HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm, AddUsersForm
 from menu.services import addMenu, saveItemMenu, arrangeItemMenu, updateItemMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
@@ -1631,6 +1631,7 @@ def admin_manage_users(request):
 
 	form = SearchUsersForm()
 	edit_form = EditUsersForm()
+	add_form = AddUsersForm()
 	initial_form = {}
 
 	order_by = request.GET.get('order_by','last_login')
@@ -1688,7 +1689,7 @@ def admin_manage_users(request):
 		splittedNicks = nickname.split(' ')
 
 		for splittedNick in splittedNicks:
-
+			"""
 			customerProfiles = CustomerProfile.objects.filter(nickname__icontains=splittedNick)
 			cList = [int(customerProfile.user.id) for customerProfile in customerProfiles]
 
@@ -1696,6 +1697,7 @@ def admin_manage_users(request):
 				q.add(Q(id__in=cList), Q.OR)
 			else:
 				q = Q(id__in=cList)
+			"""
 
 			if q is not None:
 				q.add(Q(first_name__icontains=splittedNick), Q.OR)
@@ -1798,6 +1800,7 @@ def admin_manage_users(request):
 	info['form'] = form
 	info['users'] = users
 	info['edit_form'] = edit_form
+	info['add_form'] = add_form
 
 	return render_to_response('admin/admin_manage_users.html',info,RequestContext(request))
 
@@ -1866,6 +1869,7 @@ def admin_edit_user(request):
 
 			user = User.objects.get(id=int(form.cleaned_data['u_id']))
 			user.username = form.cleaned_data['email']
+			user.email = form.cleaned_data['email']
 			
 			if int(form.cleaned_data['u_type']) == 0:
 				user.is_staff = False
@@ -1890,17 +1894,17 @@ def admin_edit_user(request):
 
 			try:
 				prof = CustomerProfile.objects.get(user=user)
-				prof.nickname = form.cleaned_data['nickname']
+				prof.nickname = form.cleaned_data['email']
 				prof.save()
 			except:
 				prof = CustomerProfile()
-				prof.nickname = form.cleaned_data['nickname']
+				prof.nickname = form.cleaned_data['email']
 				prof.user = user
 				prof.save()
 
 			messages.success(request, _('Changes Saved.'))
 		else:
-			request.session['mu_errors'] = form['u_id'].errors + form['nickname'].errors + form['email'].errors + form['u_type'].errors + form['status'].errors + form['password'].errors + form['confirm_password'].errors
+			request.session['mu_errors'] = form['u_id'].errors + form['email'].errors + form['u_type'].errors + form['status'].errors + form['password'].errors + form['confirm_password'].errors
 
 	if request.session.get('manage_users_redirect', False):
 		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])

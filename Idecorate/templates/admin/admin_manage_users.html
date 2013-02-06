@@ -61,13 +61,7 @@
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
-              <div class="control-group">
-                <label class="control-label">{{ edit_form.nickname.label }} *</label>
-                <div class="controls">
-                  {{ edit_form.nickname|add_class:"input-large"|attr:"placeholder:Enter Nickname" }}
-                  <span class="help-block">&nbsp;</span>
-                </div>
-              </div>
+
               <div class="control-group">
                 <label class="control-label">{{ edit_form.first_name.label }}</label>
                 <div class="controls">
@@ -101,6 +95,66 @@
             <div class="modal-footer">
               <button class="btn" data-dismiss="modal" id="edit_close">Close</button>
               <button class="btn btn-primary" id="edit_save">Save changes</button>
+            </div>
+          </div>
+
+
+          <div id="myModal2" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModal2Label" aria-hidden="true">
+            <div class="modal-header">
+              <button id="add_close2" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModal2Label">{% trans "Add User" %}</h3>
+            </div>
+            <div class="modal-body">
+        <form class="form-horizontal" action="" method="post" id="user_add">
+          {% csrf_token %}
+              <div class="control-group">
+                <label class="control-label">{{ add_form.email.label }} *</label>
+                <div class="controls">
+                  {{ add_form.email|add_class:"input-large"|attr:"placeholder:Enter Email" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ add_form.password.label }}</label>
+                <div class="controls">
+                  {{ add_form.password|add_class:"input-large"|attr:"placeholder:Enter Password" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ add_form.confirm_password.label }}</label>
+                <div class="controls">
+                  {{ add_form.confirm_password|add_class:"input-large"|attr:"placeholder:Confirm Password" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+
+              <div class="control-group">
+                <label class="control-label">{{ add_form.first_name.label }}</label>
+                <div class="controls">
+                  {{ add_form.first_name|add_class:"input-large"|attr:"placeholder:Enter First Name" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ add_form.last_name.label }}</label>
+                <div class="controls">
+                  {{ add_form.last_name|add_class:"input-large"|attr:"placeholder:Enter Last Name" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+              <div class="control-group">
+                <label class="control-label">{{ add_form.u_type.label }} *</label>
+                <div class="controls">
+                  {{ add_form.u_type|add_class:"input-large" }}
+                  <span class="help-block">&nbsp;</span>
+                </div>
+              </div>
+        </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal" id="add_close">Close</button>
+              <button class="btn btn-primary" id="add_save">Add User</button>
             </div>
           </div>
 
@@ -167,7 +221,7 @@
           <th><span class="tbtitle">Type</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ type_desc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ type_asc_link }}">∇</a></span></th>
           <th><span class="tbtitle">Status</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ status_desc_link }}">∇</a></span></th>
           <th><span class="tbtitle">Last Activity</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ act_desc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ act_asc_link }}">∇</a></span></th>
-          <th style="width:155px;">Operations</th>
+          <th style="width:190px;">Operations</th>
         </thead>
 
         {% if users %}
@@ -175,11 +229,11 @@
           {% for user in users %}
           <tr>
             <td>{{ user.username }}</td>
-            <td>{{ user|getUserNickname }}</td>
+            <td>{{ user.first_name }} {{ user.last_name }}</td>
             <td>{{ user|getUserType }}</td>
             <td>{{ user|getUserStatus }}</td>
             <td>{{ user|getUserActivity }}</td>
-            <td><a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.first_name }}','{{ user.last_name }}','{{ user.id }}','{{ user|getUserNicknameOnly }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
+            <td><a data-toggle="modal" href="#myModal2">Add</a> | <a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.first_name }}','{{ user.last_name }}','{{ user.id }}','{{ user|getUserNicknameOnly }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
           </tr>
           {% endfor %}
         </tbody>
