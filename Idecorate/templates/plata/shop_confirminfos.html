@@ -19,13 +19,13 @@
 			{% endif %}
 			{% csrf_token %}
 
-			<p>Your order is almost complete. Please review the details below and click "Submit Order" if all the information is correct. You may use the "Back" button to make changes to your order if necessary.</p>
+			<p>Your order is almost complete. Please review the details below and click "Proceed to Payment" if all the information is correct. You may use the "Back" button to make changes to your order if necessary.</p>
 			<div class="myOrderTable">
 				<h4>My Order</h4>
 				<table>
 					<thead>
 						<tr>
-							<th>Item</th>
+							<th colspan="2">Item</th>
 							<th>Unit Cost</th>
 							<th>Price</th>
 						</tr>
@@ -35,7 +35,7 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="2">
+							<td colspan="3">
 								<h5>{{ shop.guest_table.guests }} Guests</h5>
 								<h5>{{ shop.guest_table.tables }} Tables</h5>
 							</td>
@@ -88,6 +88,14 @@
 				<legend>PAYMENT METHOD</legend>
 				<h5>{{ request|getPmethodBlah }}</h5>
 			</fieldset>
+		        
+		     <fieldset class="clearfix">
+				<legend>SPECIAL REQUESTS AND COMMENTS</legend>
+				{% if request.session.order_notes %}
+				<p class="comment">{{ request.session.order_notes }}</p>
+				{% endif %}
+			</fieldset>   
+
 			<a class="btn cancel" href="/cart/checkout">BACK</a>
 			<a class="btn submit" id="conf_order" href="#">PROCEED TO PAYMENT</a>
 			</form>

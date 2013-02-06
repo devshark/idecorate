@@ -609,6 +609,7 @@ class IdecorateShop(Shop):
 					billing_country = delivery_country
 
 				request.session['order-payment_method'] = request.POST.get('order-payment_method','')
+				request.session['order_notes'] = request.POST.get('order-notes','')
 				request.session['delivery_address2'] = delivery_address2
 				request.session['billing_address2'] = billing_address2
 				request.session['delivery_date'] = delivery_date
