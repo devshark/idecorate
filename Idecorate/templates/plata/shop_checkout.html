@@ -303,10 +303,14 @@ QUESTION_ORIGINAL_SIZE = 0;
 
 		$('#edit_button').click(function(e){
 			var url = '{% url styleboard %}';
-			{% if request.session.personalize_id %}
-				url = url+'?sbid={{ request.session.personalize_id }}';
+			{% if request.session.customer_styleboard %}
+				url += '?sbid={{ request.session.customer_styleboard.id }}';
+			{% else %}
+				{% if request.session.personalize_id %}
+				url += '?sbid={{ request.session.personalize_id }}';
+				{% endif %}
 			{% endif %}
-			url = url + '#buy-tab';
+			url += '#buy-tab';
 			window.location = url;
 			
 		});
