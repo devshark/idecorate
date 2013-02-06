@@ -121,7 +121,11 @@ def get_user_avatar(backend, details, response, social_user, uid, user, *args, *
         user.last_name = details['last_name']
         user.save()
 
-    if User.objects.get(id=user.id).password == "!":
-
-        if backend.__class__ == FacebookBackend:
-            send_email_set_pass(user.id)
+    if User.objects.get(id=user.id).password == "!" and User.objects.get(id=user.id).email != "":
+    	send_email_set_pass(user.id)
+    elif User.objects.get(id=user.id).email == "" and User.objects.get(id=user.id).password == "!":
+    	kwargs['request'].session['last_page_idecorate'] = '/edit_profile/'
+    	"""
+    	if backend.__class__ == FacebookBackend:
+    		send_email_set_pass(user.id)
+    	"""
