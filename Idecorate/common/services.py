@@ -368,7 +368,7 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
 </html>
     """ % (
         settings.IDECORATE_HOST,
-        settings.IDECORATE_HOST,
+        board,
         contact.billing_salutation,
         user.first_name,
         user.last_name,
