@@ -88,13 +88,13 @@
 				<legend>PAYMENT METHOD</legend>
 				<h5>{{ request|getPmethodBlah }}</h5>
 			</fieldset>
-		        
+		     
+		     {% if request.session.order_notes %}
 		     <fieldset class="clearfix">
 				<legend>SPECIAL REQUESTS AND COMMENTS</legend>
-				{% if request.session.order_notes %}
 				<p class="comment">{{ request.session.order_notes }}</p>
-				{% endif %}
 			</fieldset>   
+			{% endif %}
 
 			<a class="btn cancel" href="/cart/checkout">BACK</a>
 			<a class="btn submit" id="conf_order" href="#">PROCEED TO PAYMENT</a>
