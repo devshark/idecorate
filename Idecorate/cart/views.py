@@ -696,7 +696,7 @@ class IdecorateShop(Shop):
 			print "There's a personalize_id"
 
 		current_user = User.objects.get(id=int(request.user.id))
-		send_email_order(order, current_user, self, sbid)
+		send_email_order(order, current_user, self, sbid, notes)
 		clear_styleboard_session(request)
 
 		try:

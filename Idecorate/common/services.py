@@ -160,13 +160,33 @@ def send_email_set_pass(user_id):
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=u.user.email,subject='Welcome To iDecorate Weddings',body=messageHTML,isHTML=True)
 
-def send_email_order(order, user, shop, sbid):
+def send_email_order(order, user, shop, sbid, comment):
 
     itemsHTML = ""
     board = "http://%s/media/images/styleboard.jpg" % settings.IDECORATE_HOST
     
     if sbid:
     	board = "http://%s/styleboard/generate_styleboard_view/%s/560/200/" % (settings.IDECORATE_HOST, sbid)
+
+    c_block = ""
+    if comment:
+        c_block = """
+    <tr>
+    <td colspan="5" style="text-align:center; padding:10px 10px;  font-size:14px; ">SPECIAL REQUESTS AND COMMENTS</td>
+    </tr>    
+    <tr>
+        <td colspan="5" style="vertical-align:top; font-size:23px; padding:0 10px;">
+        <table width="580" border="0" cellpadding="0" cellspacing="0" style=" border:1px solid #bfbfbf; font-size:13px;" >
+        <tr>
+        <td colspan="3" style="padding:10px; font-size:12px;">
+        %s
+        </td>
+       
+        </tr>
+        </table>
+       </td>
+    </tr>
+        """ % comment
 
     products = order.items.filter().order_by('-id')
 
@@ -355,6 +375,7 @@ def send_email_order(order, user, shop, sbid):
             <img src="http://%s/media/images/line_2.jpg" width="600" height="3" alt=""></td>
     </tr>
     <!--Footer-->
+    %s
     <tr>
         <td colspan="5" style="height:55px; font-size:11px; text-align:center;">This is just an automated request. Please do not reply to this email.<br>
 Follow this <a href="http://%s/">link</a> if you wish to get in touch with us. 
@@ -392,6 +413,7 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         shop.guest_table.tables,
         "$%.2f" % order.total,
         settings.IDECORATE_HOST,
+        c_block,
         settings.IDECORATE_HOST
     )
 
