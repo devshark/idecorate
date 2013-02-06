@@ -83,63 +83,65 @@
 </div>
 <table class="styleboards table table-bordered table-hover">
 	<thead>
-		<th>Image</th>
-		<th>
-			<div style="min-width:100px">
-				<span class="tbtitle">Name</span> 
-				<span class="tbsorter">
-					<a href="{% url admin_manage_styleboard %}{{ name_desc_link }}">Δ</a>
-					<a href="{% url admin_manage_styleboard %}{{ name_asc_link }}">∇</a>
-				</span>
-			</div>
-		</th>
-		<th>
-			<div>
-				<span class="tbtitle">User</span> 
-				<span class="tbsorter">
-					<a href="{% url admin_manage_styleboard %}{{ email_desc_link }}">Δ</a>
-					<a href="{% url admin_manage_styleboard %}{{ email_asc_link }}">∇</a>
-				</span>
-			</div>
-		</th>
-		<th>
-			<div style="width:120px;">
-				<span class="tbtitle">Last Saved</span> 
-				<span class="tbsorter">
-					<a href="{% url admin_manage_styleboard %}{{ date_desc_link }}">Δ</a>
-					<a href="{% url admin_manage_styleboard %}{{ date_asc_link }}">∇</a>
-				</span>
-			</div>
-		</th>
-		<th>
-			<div style="width:120px;">
-				<span class="tbtitle">No of Guests</span> 
-				<span class="tbsorter">
-					<a href="{% url admin_manage_styleboard %}{{ guest_desc_link }}">Δ</a>
-					<a href="{% url admin_manage_styleboard %}{{ guest_asc_link }}">∇</a>
-				</span>
-			</div>
-		</th>
-		<th>
-			<div style="width:120px;">
-				<span class="tbtitle">No of Tables</span> 
-				<span class="tbsorter">
-					<a href="{% url admin_manage_styleboard %}{{ table_desc_link }}">Δ</a>
-					<a href="{% url admin_manage_styleboard %}{{ table_asc_link }}">∇</a>
-				</span>
-			</div>
-		</th>
-		<th>
-			<div style="width:100px;">
-				<span class="tbtitle">Total Price</span> 
-				<span class="tbsorter">
-					<a href="{% url admin_manage_styleboard %}{{ total_desc_link }}">Δ</a>
-					<a href="{% url admin_manage_styleboard %}{{ total_asc_link }}">∇</a>
-				</span>
-			</div>
-		</th>
-		<th>Description</th>
-		<th>Operations</th>
+		<tr>
+			<th>Image</th>
+			<th>
+				<div style="min-width:100px">
+					<span class="tbtitle">Name</span> 
+					<span class="tbsorter">
+						<a href="{% url admin_manage_styleboard %}{{ name_desc_link }}">Δ</a>
+						<a href="{% url admin_manage_styleboard %}{{ name_asc_link }}">∇</a>
+					</span>
+				</div>
+			</th>
+			<th>
+				<div>
+					<span class="tbtitle">User</span> 
+					<span class="tbsorter">
+						<a href="{% url admin_manage_styleboard %}{{ email_desc_link }}">Δ</a>
+						<a href="{% url admin_manage_styleboard %}{{ email_asc_link }}">∇</a>
+					</span>
+				</div>
+			</th>
+			<th>
+				<div style="width:120px;">
+					<span class="tbtitle">Last Saved</span> 
+					<span class="tbsorter">
+						<a href="{% url admin_manage_styleboard %}{{ date_desc_link }}">Δ</a>
+						<a href="{% url admin_manage_styleboard %}{{ date_asc_link }}">∇</a>
+					</span>
+				</div>
+			</th>
+			<th>
+				<div style="width:120px;">
+					<span class="tbtitle">No of Guests</span> 
+					<span class="tbsorter">
+						<a href="{% url admin_manage_styleboard %}{{ guest_desc_link }}">Δ</a>
+						<a href="{% url admin_manage_styleboard %}{{ guest_asc_link }}">∇</a>
+					</span>
+				</div>
+			</th>
+			<th>
+				<div style="width:120px;">
+					<span class="tbtitle">No of Tables</span> 
+					<span class="tbsorter">
+						<a href="{% url admin_manage_styleboard %}{{ table_desc_link }}">Δ</a>
+						<a href="{% url admin_manage_styleboard %}{{ table_asc_link }}">∇</a>
+					</span>
+				</div>
+			</th>
+			<th>
+				<div style="width:100px;">
+					<span class="tbtitle">Total Price</span> 
+					<span class="tbsorter">
+						<a href="{% url admin_manage_styleboard %}{{ total_desc_link }}">Δ</a>
+						<a href="{% url admin_manage_styleboard %}{{ total_asc_link }}">∇</a>
+					</span>
+				</div>
+			</th>
+			<th>Description</th>
+			<th>Operations</th>
+		</tr>
 	</thead>
 
 	{% if styleboards %}

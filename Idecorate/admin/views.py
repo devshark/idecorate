@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
-HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm
+HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm
 from menu.services import addMenu, saveItemMenu, arrangeItemMenu, updateItemMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
@@ -32,7 +32,7 @@ from django.contrib.auth.models import User
 from customer.models import CustomerProfile, CustomerStyleBoard, StyleBoardCartItems
 from django.http import HttpResponseNotFound
 from admin.services import home_banner, validate_banner, save_home_banner, validate_home_banner_form, get_home_banners, get_home_banner, get_home_banner_images,\
-save_Infographics, manage_infographic, get_HomeInfographics, set_HomeInfographicStatus, validate_Infographic, get_all_styleboards
+save_Infographics, manage_infographic, get_HomeInfographics, set_HomeInfographicStatus, validate_Infographic, get_all_styleboards,get_all_orders
 from cart.services import generate_unique_id
 from models import HomeBannerImages
 import Image as pil
@@ -2469,8 +2469,6 @@ def manage_styleboard(request):
 	initial_form 	= {}
 	form 			= filterStyleboardForm()
 	form_error	 	= False
-	info['table']	= ''
-	info['guest']	= ''
 
 	order_by 	= request.GET.get('order_by','created')
 	sort_type 	= request.GET.get('sort_type','desc')
@@ -2675,5 +2673,243 @@ def update_styleboard_status(request):
 
 @staff_member_required
 def admin_manage_order(request):
-	info = {}
+	info 			= {}
+	filters 		= {}
+	initial_form 	= {}
+	form 			= filterOrderForm()
+	form_error	 	= False
+
+	order_by 	= request.GET.get('order_by','created')
+	sort_type 	= request.GET.get('sort_type','desc')
+	s_type 		= order_by
+
+	if order_by == 'status':
+		if sort_type == 'asc':
+			s_type = "-%s" % order_by
+	else:
+		if sort_type == 'desc':
+			s_type = "-%s" % order_by
+	
+	orders = get_all_orders(~Q(status=20),s_type) #dont show result with status of 20||CHECKOUT
+
+	if request.method == "POST":
+		form = filterOrderForm(request.POST)
+
+		if form.is_valid():
+			order_id 	= request.POST.get('order_id','')
+			created 	= request.POST.get('created','')
+			name 		= request.POST.get('name','')
+			email 		= request.POST.get('email','')
+			status 		= request.POST.get('status','')
+
+		else:
+			form_error = True
+	else:
+		order_id 	= request.GET.get('order_id','')
+		created 	= request.GET.get('created','')
+		name 		= request.GET.get('name','')
+		email 		= request.GET.get('email','')
+		status 		= request.GET.get('status','')
+		
+		if order_id:
+			initial_form.update({'order_id':order_id})
+		if created:
+			initial_form.update({'created':created})
+		if name:
+			initial_form.update({'name':name})
+		if email:
+			initial_form.update({'email':email})
+		if status:
+			initial_form.update({'status':status})
+		
+		form = filterOrderForm(initial=initial_form)
+
+	query = None
+	if not form_error:
+		if order_id:
+			filters.update({'order_id':order_id})
+			if query is not None:
+				query.add(Q(_order_id=order_id), Q.AND)
+
+			else:
+				query = Q(_order_id=order_id)
+
+		if created:
+
+			filters.update({'created':created})
+
+			if query is not None:
+				query.add(Q(created=created), Q.AND)
+
+			else:
+				query = Q(created=created)
+
+		if name:
+
+			other_params_dict.update({'name':name})
+
+			splittedNames = name.split(' ')
+
+			for splittedName in splittedNames:
+
+				if q is not None:
+					q.add(Q(billing_first_name__icontains=splittedName), Q.OR)
+				else:
+					q = Q(billing_first_name__icontains=splittedName)
+
+				if q is not None:
+					q.add(Q(billing_last_name__icontains=splittedName), Q.OR)
+				else:
+					q = Q(billing_last_name__icontains=splittedName)
+
+		if email:
+
+			filters.update({'email':email})
+
+			if query is not None:
+				query.add(Q(email__icontains=email), Q.AND)
+
+			else:
+				query = Q(email__icontains=email)
+
+		if status:
+			if status != 'any':
+				filters.update({'status':status})
+
+				if query is not None:
+					query.add(Q(status=bool(int(status))), Q.AND)
+
+				else:
+					query = Q(status=bool(int(status)))
+
+		if query is not None:
+			query.add(~Q(status=20), Q.AND) #dont show result with status of 20||CHECKOUT
+
+			orders = get_all_orders(query,s_type)
+
+
+	filters.update({'order_by':order_by, 'sort_type':sort_type}) 
+	urlFilter = QueryDict(urllib.urlencode(filters))
+
+	paginator = Paginator(orders, 20)
+	page = request.GET.get('page','')
+
+	request.session['manage_order_redirect'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = '_order_id'
+	filters['sort_type'] = 'asc'
+	info['order_id_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['order_id_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'created'
+	filters['sort_type'] = 'asc'
+	info['created_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['created_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'billing_last_name'
+	filters['sort_type'] = 'asc'
+	info['name_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['name_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'email'
+	filters['sort_type'] = 'asc'
+	info['email_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['email_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'total'
+	filters['sort_type'] = 'asc'
+	info['total_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['total_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['order_by'] = 'status'
+	filters['sort_type'] = 'asc'
+	info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	filters['sort_type'] = 'desc'
+	info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+
+	try:
+		orders = paginator.page(page)
+	except PageNotAnInteger:
+		orders = paginator.page(1)
+	except EmptyPage:
+		orders = paginator.page(paginator.num_pages)
+
+	info['edit_form']	= editOrderForm()
+	info['urlFilter'] 	= urlFilter
+	info['filter'] 		= form
+	info['orders'] 		= orders
+
 	return render_to_response('admin/admin_manage_order.html',info,RequestContext(request))
+
+@staff_member_required
+def admin_view_order(request):
+
+	if request.GET.get('order', ''):
+
+		info = {}
+		order_id 			= request.GET.get('order', '')
+		order 				= Order.objects.get(id=order_id)
+		order_items 		= OrderItem.objects.filter(order=order_id)
+		info['order']		= order
+		info['order_items'] = order_items
+
+		return render_to_response('admin/admin_view_order.html',info,RequestContext(request))
+
+	else:
+
+		return redirect('admin_manage_order')
+
+@staff_member_required
+def admin_edit_order(request):
+	pass
+	
+	#user = User.objects.get(id=id)
+
+	if request.method == "POST":
+		form = EditUsersForm(request.POST, user_id=request.POST.get('u_id'))
+
+		if form.is_valid():
+
+			user = User.objects.get(id=int(form.cleaned_data['u_id']))
+			user.username = form.cleaned_data['email']
+			user.is_staff = bool(int(form.cleaned_data['u_type']))
+			user.is_active = bool(int(form.cleaned_data['status']))
+			user.first_name = form.cleaned_data['first_name']
+			user.last_name = form.cleaned_data['last_name']
+
+			passwd = form.cleaned_data['password']
+
+			if passwd:
+				user.set_password(passwd)
+
+			user.save()
+
+			try:
+				prof = CustomerProfile.objects.get(user=user)
+				prof.nickname = form.cleaned_data['nickname']
+				prof.save()
+			except:
+				prof = CustomerProfile()
+				prof.nickname = form.cleaned_data['nickname']
+				prof.user = user
+				prof.save()
+
+			messages.success(request, _('Changes Saved.'))
+		else:
+			request.session['mo_errors'] = form['u_id'].errors + form['nickname'].errors + form['email'].errors + form['u_type'].errors + form['status'].errors + form['password'].errors + form['confirm_password'].errors
+
+	if request.session.get('manage_order_redirect', False):
+		return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])
+	else:
+		return redirect('admin_manage_order')

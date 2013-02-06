@@ -11,12 +11,227 @@
 <link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
 <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
 <style type="text/css">
+	
+	.manageOrdersFilter label,.manageOrdersFilter input,.manageOrdersFilter select,.manageOrdersFilter .btn{
+		display: inline-block;
+		vertical-align: top;
+	}
+	.manageOrdersFilter label{
+		padding: 5px;
+	}
 </style>
 {% endblock %}
 
 {% block content %}
+<div id="myModal" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-header">
+		<button id="edit_close2" type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 id="myModalLabel">{% trans "Edit Order" %}</h3>
+	</div>
+	<div class="modal-body">
+		<form class="form-horizontal" action="{% url admin_edit_order %}" method="post" id="order_edit">
+		{% csrf_token %}
+		{{ edit_form.order_id }}
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.status.label }} *</label>
+			<div class="controls">
+				{{ edit_form.status|add_class:"input-large" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.payment_method.label }} *</label>
+			<div class="controls">
+				{{ edit_form.payment_method|add_class:"input-large" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.first_name.label }} *</label>
+			<div class="controls">
+				{{ edit_form.first_name|add_class:"input-large"|attr:"placeholder:Enter First Name" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.last_name.label }} *</label>
+			<div class="controls">
+				{{ edit_form.last_name|add_class:"input-large"|attr:"placeholder:Enter Last Name" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.email.label }} *</label>
+			<div class="controls">
+				{{ edit_form.email|add_class:"input-large"|attr:"placeholder:Enter Email" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.delivery_date.label }}</label>
+			<div class="controls">
+				{{ edit_form.delivery_date|add_class:"input-large datepicker"|attr:"placeholder:Enter Delivery Date" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.delivery_address.label }} *</label>
+			<div class="controls">
+				{{ edit_form.delivery_address|add_class:"input-large"|attr:"placeholder:Enter Delivery Address" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.billing_address.label }} *</label>
+			<div class="controls">
+				{{ edit_form.billing_address|add_class:"input-large"|attr:"placeholder:Enter Billng Address" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.note.label }}</label>
+			<div class="controls">
+				{{ edit_form.note }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		</form>
+	</div>
+	<div class="modal-footer">
+		<button class="btn" data-dismiss="modal" id="edit_close">Close</button>
+		<button class="btn btn-primary" id="edit_save">Save changes</button>
+	</div>
+</div>
+<h1>Manage Orders</h1>
+<br/>
+<h3>Show only orders where</h3>
+<br/>
+{% if filter.created.errors %}
+<div class="alert alert-error">
+	<a class="close" data-dismiss="alert" href="#">×</a>
+	<h4 class="alert-heading">Please correct the following errors:</h4>
+	<ol>
+		{% if filter.created.errors %}
+		{% for e in filter.created.errors %}
+		<li>{{ e }}</li>
+		{% endfor %}
+		{% endif %}
+	</ol>
+</div>
+{% endif %}
+<div class="manageOrdersFilter">
+	<form action="{% url admin_manage_order %}" method="post" id="filter-orders-form">
+		{% csrf_token %}
+		{{ filter.order_id|attr:'placeholder:Order ID' }}
+		{{ filter.created|attr:'placeholder:Date Created "yyyy-mm-dd"' }}
+		{{ filter.name|attr:'placeholder:Customer Name' }}
+		{{ filter.email|attr:'placeholder:Email Address' }}
+		<label>{{ filter.status.label}}</label> {{ filter.status }}
+		<button type="button" id="filter-orders" class="btn btn-primary">Filter</button>
+		<a href='{% url admin_manage_order %}' class="btn btn-primary btn-inverse">Reset</a>
+	</form>
+</div>
+<table class="orders table table-bordered table-hover">
+	<thead>
+		<tr>
+			<th>
+				<span class="tbtitle">Order ID</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_order %}{{ order_id_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_order %}{{ order_id_asc_link }}">∇</a>
+				</span>
+			</th>
+			<th>
+				<span class="tbtitle">Date created</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_order %}{{ created_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_order %}{{ created_asc_link }}">∇</a>
+				</span>
+			</th>
+			<th>
+				<span class="tbtitle">Customer name</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_order %}{{ name_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_order %}{{ name_asc_link }}">∇</a>
+				</span>
+			</th>
+			<th>
+				<span class="tbtitle">Email</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_order %}{{ email_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_order %}{{ email_asc_link }}">∇</a>
+				</span>
+			</th>
+			<th>
+				<span class="tbtitle">Total</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_order %}{{ total_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_order %}{{ total_asc_link }}">∇</a>
+				</span>
+			</th>
+			<th>
+				<span class="tbtitle">Status</span> 
+				<span class="tbsorter">
+					<a href="{% url admin_manage_order %}{{ status_desc_link }}">Δ</a>
+					<a href="{% url admin_manage_order %}{{ status_asc_link }}">∇</a>
+				</span>
+			</th>
+			<th>Operation</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for order in orders %}
+		<tr>
+			<td>{{order.order_id}}</td>
+			<td>{{order.created}}</td>
+			<td>{{order.billing_first_name}} {{order.billing_last_name}}</td>
+			<td>{{order.email}}</td>
+			<td>{{order.total|floatformat:2|intcomma}}</td>
+			<td>{{order.status|readable_status}}</td>
+			<td style="text-align:center;">
+				<a href="{% url admin_view_order %}?order={{order.id}}">View</a> | 
+				<a data-toggle="modal" href="#myModal" onclick="setEdit({{order|get_order}})">Edit</a>
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+{% bootstrap_paginate orders url_get_params=urlFilter %}
+
 {% endblock %}
 
 {% block javascripts %}
-{% endblock %}
+<script type="text/javascript">
+	$(function(){
+		$( 'input[name="created"]' ).datepicker({
+			dateFormat: 'yy-mm-dd',
+			changeYear: true,
+            changeMonth: true,
+            showOtherMonths: true,
+            selectOtherMonths: true
+		});
 
+		$('#filter-orders').click(function(e){
+			e.preventDefault();
+			$('#filter-orders-form').submit();
+		});
+	});
+
+
+
+	function setEdit(options) {
+
+		$('#id_order_id').val(options.order_id);		
+		$('#id_first_name').val(options.first_name);
+		$('#id_last_name').val(options.last_name); 			
+		$('#id_email').val(options.email);			
+		$('#id_delivery_date').val(options.delivery_date);		
+		$('#id_delivery_address').val(options.delivery_address);	
+		$('#id_billing_address').val(options.billing_address);	
+		$('#id_note').val(options.note);
+		$('#id_status[value="'+options.status+'"]').attr('selected',true);	
+		$('#id_payment_method[value="'+options.status+'"]').attr('selected',true);
+
+	}
+</script>
+{% endblock %}

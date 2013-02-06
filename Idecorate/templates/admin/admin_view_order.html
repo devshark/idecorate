@@ -1,0 +1,160 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin idecorate_interface humanize bootstrap_pagination %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
+<style type="text/css">
+	.totalWrap{
+		float: right;
+		font-size: 1.1em;
+		border-top: 1px solid #DDDDDD;
+	}
+	
+	.totalWrap tr{
+		border-right: 1px solid #DDDDDD;
+		border-left: 1px solid #DDDDDD;
+	}
+
+	.totalWrap tr td{
+		padding: 5px 2px 5px 20px;
+		background-color: #EEEEEE;
+	}
+
+	.totalWrap tr td + td{
+		padding: 5px 20px 5px 2px;
+		background-color: #EEEEEE;
+	}
+
+	.totalWrap tr.backWrap{
+		border: none;
+	}
+
+	.totalWrap .total td{
+		font-weight: bold;
+	}
+
+	.totalWrap tr.backWrap td{
+		background: none;
+		border-top: 1px solid #DDDDDD;
+	}
+	h1{
+		margin-bottom: 15px;
+	}
+	.well{
+		margin-top: 15px;
+	}
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>View Order</h1>
+<h4>Order ID: {{order.order_id}}</h4>
+<h4>Date Created: {{order.created}}</h4>
+<h4>Status: {{order.status|readable_status}}</h4>
+<div class="well">
+	<table cellpadding="5" cellspacing="0" border="0">
+		<tbody>
+			<tr>
+				<td style="text-align:right;">First Name :</td>
+				<td>{{order.billing_first_name}}</td>
+				<td rowspan="6"style="width:50px;">&nbsp;</td>
+				<td style="text-align:right;">Payment Method :</td>
+				<td>{{order|get_order_detail:'payment_method'}}</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Last Name :</td>
+				<td>{{order.billing_last_name}}</td>
+				<td style="text-align:right;">Payment Notes :</td>
+				<td>{{order|get_order_detail:'note'}}</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Email Address :</td>
+				<td>{{order.email}}</td>
+				<td rowspan="4" style="text-align:right; vertical-align:top;">Order Notes :</td>
+				<td rowspan="4" style="vertical-align:top;">{{order|get_order_detail:'note'}}</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Delivery Date :</td>
+				<td>{{order.email}}</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Delivery Address :</td>
+				<td>{{order|get_order_detail:'delivery_address'}}</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Billing Address :</td>
+				<td>{{order.billing_address}}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
+<table class="order table table-bordered table-hover">
+	<thead> 
+		<tr>
+			<th>Image</th>
+			<th>Product name</th>
+			<th>Comments</th>
+			<th>Unit Price</th>
+			<th>Quantity</th>
+			<th>Total</th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for order_item in order_items %}
+		<tr>
+			<td style="text-align:center;"><img src="/media/products/{{order_item.product.original_image_thumbnail}}" width="50" height="50" /></td>
+			<td>{{order_item.name}}</td>
+			<td>{{order_item.product|getProductDetail:'comment'}}</td>
+			<td>${{order_item.unit_price|floatformat:2|intcomma}}</td>
+			<td>{{order_item.quantity}}</td>
+			<td>${{order_item.unit_price|multiply:order_item.quantity|floatformat:2|intcomma}}</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+<table class="totalWrap" cellpadding="5">
+	<tbody>
+		<tr>
+			<td style="text-align:right;">Subtotal : </td>
+			<td>${{order.items_subtotal|floatformat:2|intcomma}}</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">Delivery Fee : </td>
+			<td>${{order.shipping_cost|floatformat:2|intcomma}}</td>
+		</tr>
+		<tr class="total">
+			<td style="text-align:right;">Total : </td>
+			<td>${{order.total|floatformat:2|intcomma}}</td>
+		</tr>
+		<tr class="backWrap">
+			<td colspan="2" style="text-align:right;">
+				<button id="back" class="btn btn btn-inverse">Back</button>
+			</td>
+		</tr>
+	</tbody>
+</table>
+
+{% endblock %}
+
+{% block javascripts %}
+<script type="text/javascript">
+	$(function(){
+		$('#back').click(function(e){
+			var url = '{% url admin_manage_order %}';
+			{% if request.session.manage_order_redirect %}
+				url = url+'{{ request.session.manage_order_redirect }}';
+			{% endif %}
+			window.location = url;
+		});
+	});
+</script>
+{% endblock %}
+
+

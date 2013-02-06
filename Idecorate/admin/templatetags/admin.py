@@ -5,13 +5,14 @@ from menu.models import InfoMenu, SiteMenu, FooterMenu, FatFooterMenu, ItemMenu
 from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
-from cart.models import ProductPrice, ProductDetails
+from cart.models import ProductPrice, ProductDetails, Contact
 from customer.models import CustomerProfile
 from customer.services import customer_profile
 from django.contrib.humanize.templatetags.humanize import naturaltime, intcomma
 from interface.views import admin as admin2
 from django.contrib.auth.models import User
 import decimal
+from plata.shop.models import OrderPayment
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -685,3 +686,44 @@ def get_userprofile(user_id):
 	p_user += """<span class="member" style="margin-left:10px;">by %s</span>""" % (profile['nickname'])
 		
 	return mark_safe(p_user)
+
+@register.filter
+def readable_status(value):
+	#: Order object is a cart.
+    #CART = 10
+    #: Checkout process has started.
+    #CHECKOUT = 20
+    #: Order has been confirmed, but it not (completely) paid for yet.
+    #CONFIRMED = 30
+    #: Order has been completely paid for.
+    #PAID = 40
+    #: Order has been completed. Plata itself never sets this state,
+    #: it is only mean
+    data = {'10':'Cart','20':'Checkout','30':'Confirmed','40':'Paid'}
+    return data[str(value)]
+
+@register.filter
+def get_order_detail(order,what):
+	return get_order(order)[what]
+
+@register.filter
+def get_order(order):
+	oPayment = OrderPayment.objects.get(order=order)
+	contact = Contact.objects.get(user=order.user)
+	o = {}
+	o['id'] 				= str(order.id)
+	o['status'] 			= str(order.status)
+	o['payment_method'] 	= str(oPayment.payment_method)
+	o['first_name'] 		= str(order.billing_first_name)
+	o['last_name'] 			= str(order.billing_last_name)
+	o['email'] 				= str(order.email)
+	o['delivery_date'] 		= str(oPayment.data['delivery_date'])
+	o['delivery_address'] 	= str(contact.address)
+	o['billing_address'] 	= str(order.billing_address)
+	o['note'] 				= str(order.notes)
+
+	return o
+
+@register.filter
+def multiply(val1, val2):
+	return val1*val2
