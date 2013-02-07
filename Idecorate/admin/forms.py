@@ -292,8 +292,8 @@ class EditUsersForm(forms.Form):
 class AddUsersForm(forms.Form):
 	first_name = forms.CharField(max_length=80,label=_("First Name"), required=False)
 	last_name = forms.CharField(max_length=80,label=_("Last Name"), required=False)
-	password = forms.CharField(max_length=80,label=_("Password"), required=False, widget=forms.PasswordInput)
-	confirm_password = forms.CharField(max_length=80,label=_("Confirm Password"), required=False, widget=forms.PasswordInput)
+	password = forms.CharField(max_length=80,label=_("Password"), required=True, widget=forms.PasswordInput,error_messages={'required':_('Password is a required field.')})
+	confirm_password = forms.CharField(max_length=80,label=_("Confirm Password"), required=True, widget=forms.PasswordInput,error_messages={'required':_('Confirm Password is a required field.')})
 	email = forms.EmailField(max_length=80,label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email.'),'required':_('Email is a required field.')})
 	u_type = forms.ChoiceField(label=_("Type"), choices=(('1','Admin'),('2','Store Manager'),('0','Member'),), required=True,widget=forms.Select, error_messages={'required':_('Type is a required field.')})
 
@@ -305,6 +305,12 @@ class AddUsersForm(forms.Form):
 			user = User.objects.get(username=email)
 		except Exception as e:
 			user = None
+
+		if not user:
+			try:
+				user = User.objects.get(email=email)
+			except:
+				user = None
 
 		if user:
 			raise forms.ValidationError(_("Email must be unique."))			

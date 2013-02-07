@@ -105,26 +105,26 @@
               <h3 id="myModal2Label">{% trans "Add User" %}</h3>
             </div>
             <div class="modal-body">
-        <form class="form-horizontal" action="" method="post" id="user_add">
+        <form class="form-horizontal" action="{% url admin_add_user %}" method="post" id="user_add">
           {% csrf_token %}
               <div class="control-group">
                 <label class="control-label">{{ add_form.email.label }} *</label>
                 <div class="controls">
-                  {{ add_form.email|add_class:"input-large"|attr:"placeholder:Enter Email" }}
+                  {{ add_form.email|add_class:"input-large"|attr:"placeholder:Enter Email"|attr:"id:id_email2" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">{{ add_form.password.label }}</label>
+                <label class="control-label">{{ add_form.password.label }} *</label>
                 <div class="controls">
-                  {{ add_form.password|add_class:"input-large"|attr:"placeholder:Enter Password" }}
+                  {{ add_form.password|add_class:"input-large"|attr:"placeholder:Enter Password"|attr:"id:id_password2" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
               <div class="control-group">
-                <label class="control-label">{{ add_form.confirm_password.label }}</label>
+                <label class="control-label">{{ add_form.confirm_password.label }} *</label>
                 <div class="controls">
-                  {{ add_form.confirm_password|add_class:"input-large"|attr:"placeholder:Confirm Password" }}
+                  {{ add_form.confirm_password|add_class:"input-large"|attr:"placeholder:Confirm Password"|attr:"id:id_confirm_password2" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
@@ -132,21 +132,21 @@
               <div class="control-group">
                 <label class="control-label">{{ add_form.first_name.label }}</label>
                 <div class="controls">
-                  {{ add_form.first_name|add_class:"input-large"|attr:"placeholder:Enter First Name" }}
+                  {{ add_form.first_name|add_class:"input-large"|attr:"placeholder:Enter First Name"|attr:"id:id_first_name2" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">{{ add_form.last_name.label }}</label>
                 <div class="controls">
-                  {{ add_form.last_name|add_class:"input-large"|attr:"placeholder:Enter Last Name" }}
+                  {{ add_form.last_name|add_class:"input-large"|attr:"placeholder:Enter Last Name"|attr:"id:id_last_name2" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
               <div class="control-group">
                 <label class="control-label">{{ add_form.u_type.label }} *</label>
                 <div class="controls">
-                  {{ add_form.u_type|add_class:"input-large" }}
+                  {{ add_form.u_type|add_class:"input-large"|attr:"id:id_u_type2" }}
                   <span class="help-block">&nbsp;</span>
                 </div>
               </div>
@@ -233,7 +233,7 @@
             <td>{{ user|getUserType }}</td>
             <td>{{ user|getUserStatus }}</td>
             <td>{{ user|getUserActivity }}</td>
-            <td><a data-toggle="modal" href="#myModal2">Add</a> | <a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.first_name }}','{{ user.last_name }}','{{ user.id }}','{{ user|getUserNicknameOnly }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
+            <td><a data-toggle="modal" href="#myModal2" onclick="clearUserFields()">Add</a> | <a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.first_name }}','{{ user.last_name }}','{{ user.id }}','{{ user|getUserNicknameOnly }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -281,6 +281,14 @@
 
   }
 
+  function clearUserFields() {
+    $('#id_email2').val('');
+    $('#id_password2').val('');
+    $('#id_confirm_password2').val('');
+    $('#id_first_name2').val('');
+    $('#id_last_name2').val('');
+  }
+
 
   $(function(e){
 
@@ -313,6 +321,11 @@
     $('#edit_save').click(function(e){
 
       $('#user_edit').submit();
+
+    });
+
+    $('#add_save').click(function(e){
+      $('#user_add').submit();
 
     });
 

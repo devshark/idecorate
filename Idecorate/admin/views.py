@@ -1912,6 +1912,53 @@ def admin_edit_user(request):
 		return redirect('admin_manage_users')
 
 @staff_member_required
+def admin_add_user(request):
+
+	if request.method == "POST":
+		form = AddUsersForm(request.POST)
+
+		if form.is_valid():
+
+			user = User()
+			user.username = form.cleaned_data['email']
+			user.email = form.cleaned_data['email']
+			
+			if int(form.cleaned_data['u_type']) == 0:
+				user.is_staff = False
+				user.is_superuser = False
+			elif int(form.cleaned_data['u_type']) == 1:
+				user.is_staff = True
+				user.is_superuser = True
+			else:
+				user.is_staff = True
+				user.is_superuser = False
+
+			user.is_active = True
+			user.first_name = form.cleaned_data['first_name']
+			user.last_name = form.cleaned_data['last_name']
+			user.set_password(form.cleaned_data['password'])
+			user.save()
+
+			try:
+				prof = CustomerProfile.objects.get(user=user)
+				prof.nickname = form.cleaned_data['email']
+				prof.save()
+			except:
+				prof = CustomerProfile()
+				prof.nickname = form.cleaned_data['email']
+				prof.user = user
+				prof.save()
+
+			messages.success(request, _('New user added.'))
+		else:
+			request.session['mu_errors'] = form['email'].errors + form['u_type'].errors + form['password'].errors + form['confirm_password'].errors
+
+	if request.session.get('manage_users_redirect', False):
+		return redirect(reverse('admin_manage_users') + request.session['manage_users_redirect'])
+	else:
+		return redirect('admin_manage_users')
+
+@staff_member_required
 def manage_template(request):
     info = {}
     info['max_emb_size'] = settings.MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE
