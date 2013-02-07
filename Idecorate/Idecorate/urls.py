@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.conf import settings
+from common.views import disconnect
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
@@ -20,12 +21,16 @@ urlpatterns = patterns('',
     url(r'', include('customer.urls')),
     url(r'', include('cart.urls')),
     url(r'', include('embellishments.urls')),
+    url(r'^disconnect/(?P<backend>[^/]+)/$', disconnect,
+        name='socialauth_disconnect'),
+    url(r'^disconnect/(?P<backend>[^/]+)/(?P<association_id>[^/]+)/$',
+        disconnect, name='socialauth_disconnect_individual'),
     url(r'', include('social_auth.urls')),
     url(r'', include('sites.urls')),
 )
 
 """
-	BOS URL
+    BOS URL
 """
 urlpatterns += patterns('admin.views',
     url(r'^admin/$', 'admin', {}, name='admin'),
