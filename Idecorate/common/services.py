@@ -295,6 +295,10 @@ def send_email_order(order, user, shop, sbid, comment):
         <td colspan="3" style="padding:5px 0 10px 10px;">Postal Code</td>
         <td width="184" colspan="2" style="padding:5px 0 10px 5px;">%s</td>
         </tr>
+        <tr>
+        <td colspan="3" style="padding:5px 0 10px 10px;">Country</td>
+        <td width="184" colspan="2" style="padding:5px 0 10px 5px;">%s</td>
+        </tr>
         </table>
         </td>
         <!--Billing Address -->
@@ -319,6 +323,10 @@ def send_email_order(order, user, shop, sbid, comment):
         </tr>
         <tr>
         <td colspan="3" style="padding:5px 0 10px 10px;">Postal Code</td>
+        <td width="184" colspan="2" style="padding:5px 0 10px 5px;">%s</td>
+        </tr>
+        <tr>
+        <td colspan="3" style="padding:5px 0 10px 10px;">Country</td>
         <td width="184" colspan="2" style="padding:5px 0 10px 5px;">%s</td>
         </tr>
         </table>
@@ -399,11 +407,13 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         contact.city,
         contact.shipping_state,
         contact.zip_code,
+        contact.countries,
         contact.address2,
         contact.billing_address2,
         contact.city2,
         contact.billing_state,
         contact.zip_code2,
+        contact.countries2,
         order.order_id,
         order.created,
         settings.IDECORATE_HOST,
