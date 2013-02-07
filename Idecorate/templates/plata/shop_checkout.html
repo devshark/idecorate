@@ -308,6 +308,8 @@ QUESTION_ORIGINAL_SIZE = 0;
 			{% else %}
 				{% if request.session.personalize_id %}
 				url += '?sbid={{ request.session.personalize_id }}';
+				{% else %}
+				url += '?sbid={{ request.session.personalize_id_logged_out }}';
 				{% endif %}
 			{% endif %}
 			url += '#buy-tab';

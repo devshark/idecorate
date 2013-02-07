@@ -143,7 +143,7 @@ def st_man(request):
 					else:
 						request.session['personalize_id'] = personalize_styleboard.id
 				else:
-					request.session['personalize_id'] = personalize_styleboard.id
+					request.session['personalize_id_logged_out'] = personalize_styleboard.id
 					request.session['personalize_styleboard'] = personalize_styleboard					
 
 	return info
@@ -696,6 +696,11 @@ def clear_styleboard_session(request):
 
 	try:
 		del request.session['style_board_in_session']
+	except:
+		pass
+
+	try:
+		del request.session['personalize_id_logged_out']
 	except:
 		pass
 

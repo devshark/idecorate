@@ -292,7 +292,7 @@ def send_email_order(order, user, shop, sbid, comment):
         <td width="184" colspan="2" style="padding:5px 0 0 5px;" >%s</td>
         </tr>
         <tr>
-        <td colspan="3" style="padding:5px 0 10px 10px;">Postal Code</td>
+        <td colspan="3" style="padding:5px 0 0 10px;">Postal Code</td>
         <td width="184" colspan="2" style="padding:5px 0 10px 5px;">%s</td>
         </tr>
         <tr>
@@ -322,7 +322,7 @@ def send_email_order(order, user, shop, sbid, comment):
         <td width="184" colspan="2" style="padding:5px 0 0 5px;" >%s</td>
         </tr>
         <tr>
-        <td colspan="3" style="padding:5px 0 10px 10px;">Postal Code</td>
+        <td colspan="3" style="padding:5px 0 0 10px;">Postal Code</td>
         <td width="184" colspan="2" style="padding:5px 0 10px 5px;">%s</td>
         </tr>
         <tr>
@@ -434,13 +434,17 @@ def st_save_helper(request,order):
 
     going_to_save = {}
 
-    if 'style_board_in_session' in request.session or 'personalize_id' in request.session:
+    if 'style_board_in_session' in request.session or 'personalize_id' in request.session or 'personalize_id_logged_out' in request.session:
 
         style_board_in_session = request.session.get('style_board_in_session')
 
         customer_styleboard = request.session.get('customer_styleboard',None)
         if not customer_styleboard:
             sbid = request.session.get('personalize_id', None)
+
+            if not sbid:
+            	sbid = request.session.get('personalize_id_logged_out', None)
+
             if sbid:
                 personalize_styleboard = get_user_styleboard(None, sbid)
                 if personalize_styleboard:
