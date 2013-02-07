@@ -61,6 +61,7 @@ def login_signup(request):
 						login(request, user)
 						profile = customer_profile(user)
 						info['username'] = profile['nickname']
+						info['idecorate_user'] = user
 						#Successfull login, delete all the log attempts
 						LoginLog.objects.filter(ip_address=ip).delete()
 
@@ -93,6 +94,7 @@ def login_signup(request):
 					login(request, user)
 					profile = customer_profile(user)
 					info['username'] = profile['nickname']
+					info['idecorate_user'] = user
 					personalize_styleboard = request.session.get('personalize_styleboard',None)
 					if personalize_styleboard:
 						if personalize_styleboard.user.id == user.id:

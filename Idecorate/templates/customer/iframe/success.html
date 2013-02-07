@@ -1,3 +1,4 @@
+{% load idecorate_interface %}
 <!DOCTYPE HTML>
 <html>
   	<head>
@@ -9,7 +10,7 @@
         <script type="text/javascript">
         if(window.parent){
             {% if action == "login_signup" %}
-        	   parent.logged('{{ username }}');
+        	   parent.logged('{{ idecorate_user|get_nickname }}');
             {% else %}
                 {% if action == "save_styleboard" %}
                     var msg = '{{ msg }}';                    
