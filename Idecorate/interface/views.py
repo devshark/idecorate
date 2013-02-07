@@ -143,6 +143,7 @@ def st_man(request):
 					else:
 						request.session['personalize_id'] = personalize_styleboard.id
 				else:
+					request.session['personalize_id'] = personalize_styleboard.id
 					request.session['personalize_styleboard'] = personalize_styleboard					
 
 	return info
