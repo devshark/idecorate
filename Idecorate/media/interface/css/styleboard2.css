@@ -122,7 +122,6 @@ h5 {
   font-size: 100%; }
 
 /*16px/16px*100*/
-@media screen and (max-width:800px) {}
 #compact-header {
   width: 100%;
   min-width: 800px; }
@@ -136,7 +135,7 @@ h5 {
         vertical-align: top; }
       #compact-header table thead.headWrap tr.headWraptop td#info-menu {
         padding-left: 10px;
-        width: 42.188%; }
+        width: 42.1875%; }
         #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn {
           clear: both; }
           #compact-header table thead.headWrap tr.headWraptop td#info-menu .headerColumn .dd li {
@@ -174,7 +173,7 @@ h5 {
           height: 43px;
           margin: 0 auto; }
       #compact-header table thead.headWrap tr.headWraptop td#site-menu {
-        width: 42.188%;
+        width: 42.1875%;
         padding-right: 10px; }
         #compact-header table thead.headWrap tr.headWraptop td#site-menu .headerColumn {
           float: right; }
@@ -231,15 +230,15 @@ h5 {
             color: #FFFFFF; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit a:hover {
             font-style: italic;
-            border-bottom: 1px dotted #000; }
+            border-bottom: 1px dotted black; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit a.hidden {
             display: none; }
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset {
         margin: 0px 5px 5px 5px;
         padding: 5px;
-        border-left: 1px solid #CCCCCC;
-        border-right: 1px solid #CCCCCC;
-        border-bottom: 1px solid #CCCCCC; }
+        border-left: 1px solid #cccccc;
+        border-right: 1px solid #cccccc;
+        border-bottom: 1px solid #cccccc; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs {
           width: 50%;
           float: left; }
@@ -251,7 +250,7 @@ h5 {
             font-size: 13px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs input[type="text"] {
             width: 40%;
-            border: 1px solid #CCC;
+            border: 1px solid #cccccc;
             padding: 5px;
             -moz-border-radius: 3px;
             -webkit-border-radius: 3px;
@@ -277,7 +276,7 @@ h5 {
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab {
         background-color: #FFFFFF; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav {
-          border-bottom: 2px dotted #FFFFFF;
+          border-bottom: 2px dotted white;
           margin: 0 5px;
           position: relative; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav ul {
@@ -305,9 +304,15 @@ h5 {
             right: 0; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav #back-wrap a {
               text-decoration: none;
-              color: #FF413C;
-              font-size: 14px;
+              color: black;
+              background-color: #DDD;
+              border: 1px solid #cccccc;
+              padding: 2px 5px;
+              font-size: 12px;
               font-family: 'futura_std_book'; }
+            #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav #back-wrap a:hover {
+              background-color: #999;
+              color: white; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb {
           margin: 5px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li {
@@ -320,7 +325,7 @@ h5 {
               color: #000;
               display: block;
               background-color: #DDDDDD;
-              border: 1px solid #CCCCCC;
+              border: 1px solid #cccccc;
               padding: 2px 5px;
               font-family: 'futura_std_book';
               display: inline-block;
@@ -343,7 +348,7 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             margin: 6px 0 0 6px;
             font-size: 0;
             min-width: 76px;
@@ -357,14 +362,14 @@ h5 {
               font-family: 'futura_std_book';
               text-align: center; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories:hover img {
-            outline: 1px solid #CCC; }
+            outline: 1px solid #cccccc; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list {
           overflow: hidden; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             padding: 1px;
             margin: 6px 0 0 6px;
             font-size: 0;
@@ -379,7 +384,7 @@ h5 {
               text-align: center;
               color: #666; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products:hover img {
-            border: 1px solid #CCC;
+            border: 1px solid #cccccc;
             margin: -1px 0 0 -1px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products:hover span {
             margin-top: 9px; }
@@ -409,7 +414,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap {
             margin: 10px; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap #upload-embel fieldset {
-              border: 1px solid #000;
+              border: 1px solid black;
               padding: 5px 5px 8px 5px; }
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap #upload-embel fieldset legend {
                 font-size: 14px;
@@ -420,7 +425,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em {
             display: block;
             float: left;
-            width: 18.229%;
+            width: 18.22917%;
             margin: 6px 0 0 6px;
             font-size: 0;
             min-width: 76px; }
@@ -433,19 +438,19 @@ h5 {
               text-align: center;
               color: #666666; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em:hover img {
-            outline: 1px solid #CCC; }
+            outline: 1px solid #cccccc; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap .emItem .thumb {
             cursor: pointer; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap a.temp {
           display: block;
           float: left;
-          width: 18.229%;
+          width: 18.22917%;
           margin: 6px 0 0 6px;
           font-size: 0;
           min-width: 76px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap a.temp img {
             width: 100%;
-            outline: 1px solid #CCC; }
+            outline: 1px solid #cccccc; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap a.temp span {
             display: block;
             font-size: 10px;
@@ -453,7 +458,7 @@ h5 {
             text-align: center;
             color: #000; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap a.temp:hover img {
-          outline: 2px solid #000; }
+          outline: 2px solid black; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .template-wrap .thumb {
           cursor: pointer; }
       #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab {
@@ -466,7 +471,7 @@ h5 {
             color: #000;
             font-family: 'futura_std_medium';
             font-size: 13px;
-            border-bottom: 2px dotted #FFFFFF; }
+            border-bottom: 2px dotted white; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .thead table tr th {
               width: 40%;
               text-align: center; }
@@ -490,7 +495,7 @@ h5 {
                   *display: inline;
                   zoom: 1; }
                   #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg div img {
-                    border: 1px solid #CCC; }
+                    border: 1px solid #cccccc; }
                 #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg .buyItemMeta {
                   padding: 0 3px; }
                   #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg .buyItemMeta p {
@@ -505,7 +510,7 @@ h5 {
                 text-align: center; }
                 #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td input {
                   width: 80%;
-                  border: 1px solid #CCC;
+                  border: 1px solid #cccccc;
                   padding: 5px;
                   color: #414042;
                   -moz-border-radius: 3px;
@@ -523,7 +528,7 @@ h5 {
                 font-size: 13px;
                 color: #414042; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tfoot {
-            border-top: 1px solid #CCCCCC;
+            border-top: 1px solid #cccccc;
             margin: 0 5px;
             padding: 5px 0; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tfoot table tr th {
@@ -565,7 +570,7 @@ h5 {
     #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas {
       position: relative;
       overflow: hidden;
-      border: 1px solid #FFF;
+      border: 1px solid white;
       background-color: #FFF;
       background-image: url("/media/images/canvasbg.jpg");
       background-position: center center;
@@ -576,8 +581,8 @@ h5 {
         background: transparent;
         /*background: url('../images/fake_bg.png') 0 0  repeat;*/ }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box {
-        outline: 1px dashed #999;
-        *border: 1px dashed #999;
+        outline: 1px dashed #999999;
+        *border: 1px dashed #999999;
         background-color: rgba(255, 255, 255, 0.6);
         overflow: hidden; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box span {
@@ -597,7 +602,7 @@ h5 {
         background-color: rgba(66, 61, 55, 0.6) !important; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active {
         background-color: rgba(242, 191, 137, 0.5);
-        outline: 1px dashed #333; }
+        outline: 1px dashed #333333; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.active span {
           color: #333; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .box.subActive span {
@@ -614,7 +619,7 @@ h5 {
         /* Good browsers */
         opacity: 0.6; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .product:hover {
-        outline: 1px solid #DDD; }
+        outline: 1px solid #dddddd; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus {
         float: left;
         margin-top: 5px;
@@ -637,16 +642,16 @@ h5 {
             background-color: #EFECE6;
             color: #666666;
             font-family: 'futura_std_medium';
-            border-left: 1px solid #CCC;
-            border-bottom: 1px solid #CCC;
-            border-right: 1px solid #CCC;
+            border-left: 1px solid #cccccc;
+            border-bottom: 1px solid #cccccc;
+            border-right: 1px solid #cccccc;
             background: -webkit-gradient(linear, left top, left bottom, from(#eeeeee), to(#efece6));
             /* for webkit browsers */
             background: -moz-linear-gradient(top, #eeeeee, #efece6);
             /* for firefox 3.6+ */
             background: -o-linear-gradient(top, #eeeeee, #efece6); }
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl li a#save {
-            border-top: 1px solid #CCC;
+            border-top: 1px solid #cccccc;
             color: #58595B;
             font-family: 'futura_std_heavy';
             font-size: 13px;
@@ -702,7 +707,7 @@ h5 {
               display: block;
               width: 50px;
               height: 50px;
-              border: 1px solid #DDD;
+              border: 1px solid #dddddd;
               position: relative;
               z-index: 99999; }
               #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgBgControlWrap .imgBgControl li a div {
@@ -758,7 +763,7 @@ h5 {
               width: 140px;
               height: 50px;
               padding: 3px;
-              border: 1px solid #DDD;
+              border: 1px solid #dddddd;
               float: right;
               margin-bottom: 3px; }
             #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .colorAdjustment #text-change-wrap #text-update {
@@ -769,7 +774,7 @@ h5 {
               background-color: #eee;
               color: #333;
               font-size: 12px;
-              border: 1px solid #DDD; }
+              border: 1px solid #dddddd; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas #object-counter {
         background-color: #DA9B94;
         position: absolute;
@@ -790,7 +795,7 @@ h5 {
         border-style: dashed;
         z-index: 8001; }
     #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas:hover {
-      border: 1px solid #EEE; }
+      border: 1px solid #eeeeee; }
 
 #compact-footer {
   width: 100%;
@@ -815,7 +820,7 @@ h5 {
             display: inline-block;
             zoom: 1;
             padding: 3px 5px;
-            border-left: 1px solid #DDD;
+            border-left: 1px solid #dddddd;
             *display: inline;
             *white-space: nowrap; }
             #compact-footer table tfoot.footWrap tr td .footerMenus ul li a {
@@ -841,14 +846,14 @@ h5 {
   z-index: 99999; }
 
 #modal-window {
-  border: 5px solid #DDD;
+  border: 5px solid #dddddd;
   position: absolute;
   width: 500px;
   min-height: 400px;
   max-height: 700px;
   overflow: hidden;
   background-color: #FFF;
-  box-shadow: 0 0 8px #333;
+  box-shadow: 0 0 8px #333333;
   z-index: 99999;
   top: 10%;
   overflow: hidden; }
@@ -875,7 +880,7 @@ h5 {
   position: absolute;
   width: 350px;
   background: #fff;
-  border: 1px solid #ccc;
+  border: 1px solid #cccccc;
   padding: 8px;
   z-index: 500000; }
   .idecorateTooltip table {
@@ -885,7 +890,7 @@ h5 {
       font-size: 12px;
       color: #333; }
       .idecorateTooltip table td img {
-        border: 1px solid #EEE; }
+        border: 1px solid #eeeeee; }
   .idecorateTooltip .close {
     color: #aaa;
     cursor: pointer;
@@ -907,7 +912,7 @@ h5 {
   width: 100px !important;
   z-index: 99;
   box-shadow: -2px 0 5px #999999;
-  border: 1px solid #CCC;
+  border: 1px solid #cccccc;
   background-color: #FFF;
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)";
   filter: alpha(opacity=60);
@@ -919,7 +924,7 @@ h5 {
 #canvas .handles {
   width: 50px;
   height: 50px;
-  border: 1px solid #999;
+  border: 1px solid #999999;
   cursor: move;
   display: none;
   position: absolute;
@@ -929,7 +934,7 @@ h5 {
   /*background: url('../images/fake_bg.png') 0 0  repeat;*/ }
   #canvas .handles .ui-resizable-handle {
     background-color: #CCC;
-    border: 1px solid #333; }
+    border: 1px solid #333333; }
   #canvas .handles .ui-rotatable-handle {
     position: absolute;
     width: 1px;
@@ -940,7 +945,7 @@ h5 {
     z-index: 1000; }
     #canvas .handles .ui-rotatable-handle .ui-rotatable-handle-tip {
       background: #CCC;
-      border: 1px solid #333;
+      border: 1px solid #333333;
       border-radius: 4px;
       -moz-border-radius: 4px;
       -o-border-radius: 4px;
@@ -961,8 +966,8 @@ h5 {
 
 .ui-autocomplete-category {
   font-weight: bold;
-  padding: .2em .4em;
-  margin: .8em 0 .2em;
+  padding: 0.2em 0.4em;
+  margin: 0.8em 0 0.2em;
   line-height: 1.5; }
 
 .ui-widget {
