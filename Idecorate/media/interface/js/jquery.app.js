@@ -2580,20 +2580,25 @@ function do_aspectratio_wRespect_template(width, height, percent){
 function back_onestep_category(){
     var id = $('.breadcrumb li.active').prev().prev().find('a').attr('rel');
     if(id == undefined){
-        var back = $('<a href="#" id="step-back"> &lt; Back</a>');
-         back.click(function(e){
-            e.preventDefault();
-            browse_categories($(this).attr('rel'));
-            $('#step-back').remove();
-        });
+        var back = $('<li><a href="#" id="step-back"> &lt; Back</a></li>');
+        //  $('#step-back').live('click', function(e){
+        //     e.preventDefault();
+        //     browse_categories($(this).attr('rel'));
+        //     $('#step-back').parent().remove();
+        // });
     }else{
-        var back = $('<a href="#" rel="'+id+'" id="step-back"> &lt; Back</a>');
-         back.click(function(e){
-            e.preventDefault();
-            browse_categories($(this).attr('rel'));
-        });
+        var back = $('<li><a href="#" rel="'+id+'" id="step-back"> &lt; Back</a></li>');
+        //  $('#step-back').live('click', function(e){
+        //     e.preventDefault();
+        //     browse_categories($(this).attr('rel'));
+        // });
     }
-    $('#back-wrap').html(back);
+    $('.breadcrumb-wrap ul').append(back);
+    
+    $('.breadcrumb a').click(function(e){
+        e.preventDefault();
+        browse_categories($(this).attr('rel'));
+    });
 
    
         

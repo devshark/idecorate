@@ -10,7 +10,8 @@
       text-transform: uppercase;
       font-family: 'futura_std_medium';
       font-size: 10px;
-      color: #CCCCCC !important; }
+      color: #CCCCCC !important;
+      white-space: nowrap !important; }
       .dd > li a .arrow, .dd > li span .arrow {
         padding-left: 5px;
         font-size: 8px !important;
