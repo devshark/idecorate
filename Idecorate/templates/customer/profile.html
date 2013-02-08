@@ -23,7 +23,7 @@
 				{% if user_profile.first_name != "" and user_profile.last_name != "" %}
 				{{ user_profile.first_name }} {{ user_profile.last_name }} 
 				{% else %}
-				{{ user_profile.nickname }} 
+				{{ user_profile.username }} 
 				{% endif %}
 			</p>
 			<p class="desc">
@@ -58,7 +58,7 @@
 				<img src="{{ user_profile.picture }}" style="width:23px;height:23px;" alt="" />
 				{% else %}
 				<img src="/media/images/man.png" alt="" />
-				{% endif %}	<span class="member">by {{ user_profile.nickname }}</span>
+				{% endif %}	<span class="member">by {{ styleboard_user|get_nickname }}</span>
 			</div>
 		</div>
 

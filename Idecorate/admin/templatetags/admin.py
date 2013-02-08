@@ -685,6 +685,11 @@ def get_userprofile(user_id):
 	user 	= User.objects.get(id=user_id)
 	profile = customer_profile(user=user)
 
+	if user.first_name != "":
+		profile['nickname'] = user.first_name
+	else:
+		profile['nickname'] = user.username
+
 	if profile['picture']:
 		p_user = """<img src="%s" style="width:23px;height:23px;" alt="" />""" % (profile['picture'])
 	else:

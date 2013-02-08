@@ -140,6 +140,7 @@ def profile(request):
 		else:
 			return redirect('home')
 	info = {}
+	info['styleboard_user'] = user
 	user_profile = customer_profile(user)
 	info['user_profile'] = user_profile
 	info['currentUrl'] = request.get_full_path()
@@ -364,6 +365,7 @@ def styleboard_view(request,sid=None):
 		cart_items = get_styleboard_cart_item(styleboard)
 
 	user_profile = customer_profile(styleboard.user)
+	info['styleboard_user'] = styleboard.user
 	info['user_profile'] = user_profile
 	info['styleboard'] = get_user_styleboard(None, sid)
 	info['cart_items'] = get_styleboard_cart_item(styleboard.styleboard_item)
