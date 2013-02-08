@@ -42,6 +42,7 @@
 #site-menu .dd #lnk-logout, #site-menu .dd #lnk-login-signup {
   padding-right: 0 !important; }
 #site-menu .dd li a, #site-menu .dd li span {
+  white-space: nowrap !important;
   font-size: 15px !important; }
   #site-menu .dd li a .arrow, #site-menu .dd li span .arrow {
     font-size: 12px !important; }

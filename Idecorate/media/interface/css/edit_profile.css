@@ -50,6 +50,7 @@
   .editProfile fieldset.deliverySetting, .editProfile fieldset.socialNetwork {
     margin-top: 15px; }
   .editProfile .btn {
+    cursor: pointer;
     display: inline-block;
     padding: 5px 15px;
     font-size: 14px;
@@ -57,6 +58,7 @@
     color: #FFFFFF;
     text-transform: uppercase;
     border: 1px solid #999999;
+    background-color: #999999;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#666666');
     /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#666666));
@@ -66,6 +68,7 @@
   .editProfile .submit {
     margin-top: 15px;
     clear: both;
+    background-color: #666666;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#000000');
     /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(#999999), to(black));

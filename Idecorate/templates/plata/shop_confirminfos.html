@@ -92,7 +92,7 @@
 		     {% if request.session.order_notes %}
 		     <fieldset class="clearfix">
 				<legend>SPECIAL REQUESTS AND COMMENTS</legend>
-				<p class="comment">{{ request.session.order_notes }}</p>
+				<p class="comment">{{ request.session.order_notes|linebreak }}</p>
 			</fieldset>   
 			{% endif %}
 
