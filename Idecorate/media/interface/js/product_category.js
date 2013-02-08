@@ -198,7 +198,7 @@ function browse_categories(elm_id){
     if(elm_id != ""){
         back_onestep_category();
     }else{
-        $('#step-back').remove();
+        $('#step-back').parent().remove();
     }
 
 }
