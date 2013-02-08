@@ -293,7 +293,7 @@ def send_email_order(order, user, shop, sbid, comment):
         </tr>
         <tr>
         <td colspan="3" style="padding:5px 0 0 10px;">Postal Code</td>
-        <td width="184" colspan="2" style="padding:5px 0 10px 5px;">%s</td>
+        <td width="184" colspan="2" style="padding:5px 0 0 5px;;">%s</td>
         </tr>
         <tr>
         <td colspan="3" style="padding:5px 0 10px 10px;">Country</td>
@@ -323,7 +323,7 @@ def send_email_order(order, user, shop, sbid, comment):
         </tr>
         <tr>
         <td colspan="3" style="padding:5px 0 0 10px;">Postal Code</td>
-        <td width="184" colspan="2" style="padding:5px 0 10px 5px;">%s</td>
+        <td width="184" colspan="2" style="padding:5px 0 0 5px;">%s</td>
         </tr>
         <tr>
         <td colspan="3" style="padding:5px 0 10px 10px;">Country</td>
