@@ -662,7 +662,8 @@ def generate_embellishment(request):
 			bgImg.paste(retImage,((int(embellishment_size) - retImage.size[0]) / 2, (int(embellishment_size) - retImage.size[1]) / 2))
 			bgImg.save(response, "PNG")
 
-	except:
+	except Exception as e:
+		print "Error generating image: %s" % e
 		img = Image.open("%s%s" % (settings.MEDIA_ROOT, "images/error_logo.jpg")).convert("RGBA")
 		if embellishment_thumbnail == "0":
 		
