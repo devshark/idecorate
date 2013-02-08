@@ -117,7 +117,7 @@ def styleboard(request, cat_id=None):
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
-def st_man(request):
+def st_man(request, needToClear=True):
 	info = {}
 	sbid = request.GET.get('sbid',None)
 
@@ -131,7 +131,8 @@ def st_man(request):
 		personalize_styleboard = get_user_styleboard(None, sbid)
 		if personalize_styleboard:
 			if personalize_styleboard.user.id:
-				clear_styleboard_session(request)			
+				if needToClear:
+					clear_styleboard_session(request)			
 				info['save_styleboard'] = personalize_styleboard
 				info['personalize_item'] = mark_safe(personalize_styleboard.styleboard_item.item.replace("'","\\'"))
 				info['global_default_quantity'] = personalize_styleboard.styleboard_item.item_guest

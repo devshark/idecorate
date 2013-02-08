@@ -433,6 +433,7 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
 def st_save_helper(request,order):
 
     going_to_save = {}
+    going_to_save['personalize_total'] = None
 
     if 'style_board_in_session' in request.session or 'personalize_id' in request.session or 'personalize_id_logged_out' in request.session:
 
@@ -470,6 +471,7 @@ def st_save_helper(request,order):
         	going_to_save['item'] = personalize_styleboard.styleboard_item.item
         	going_to_save['guest'] = personalize_styleboard.styleboard_item.item_guest
         	going_to_save['tables'] = personalize_styleboard.styleboard_item.item_tables
+        	going_to_save['personalize_total'] = personalize_styleboard.total_price
         
         going_to_save['user'] = request.user
         going_to_save['customer_styleboard'] = customer_styleboard
