@@ -427,6 +427,8 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         settings.IDECORATE_HOST
     )
 
+    messageHTML = messageHTML.decode('unicode-escape').encode('ascii','xmlcharrefreplace')
+
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=user.email,subject='iDecorate Weddings Order Confirmation',body=messageHTML,isHTML=True)
 
