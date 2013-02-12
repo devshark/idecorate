@@ -904,7 +904,7 @@ def checkout_from_view_styleboard(request):
 				add_to_cart(data)
 
 		cart_items = CartTemp.objects.filter(sessionid=sessionid).order_by('-id')
-
+		print "The cart_items count from view is: %s" % cart_items.count()
 		if cart_items.count() > 0:
 			for cart in cart_items:
 				try:
@@ -915,7 +915,7 @@ def checkout_from_view_styleboard(request):
 
 			shop.modify_guest_table(request, guests, tables, order)
 
-		sms = st_man(request)
+		sms = st_man(request, False)
 		#request.session['personalize_id'] = styleboard.id
 		return redirect('plata_shop_checkout')
 	else:

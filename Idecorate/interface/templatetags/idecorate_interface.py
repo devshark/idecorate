@@ -359,7 +359,7 @@ def getEmbellishmentTitle(id):
         ret = ''
 
         try:
-                ret = EmbellishmentsType.objects.get(id=int(id)).name
+                ret = EmbellishmentsType.objects.get(id=int(id)).title
         except:
                 pass
 

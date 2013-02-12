@@ -97,6 +97,10 @@ def save_styleboard_item(data):
 		st.save()
 
 		csb.user = data['user']
+
+		if 'personalize_total' in data:
+			if data['personalize_total']:
+				csb.total_price = data['personalize_total']
 		
 		if 'product_positions' in data['session_in_request']:
 			p_position = data['session_in_request'].get('product_positions')
@@ -118,7 +122,9 @@ def get_customer_styleboard_item(customer_styleboard):
 	return CustomerStyleBoard.objects.get(id=customer_styleboard.id)
 
 def manage_styleboard_cart_items(sessionid, styleboard_item, mode):
-	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)	
+	print "The mode is: %s" % mode
+	cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)
+	print "The cart_temp count is: %s" % cart_temp_items.count()
 	if cart_temp_items.count()>0:
 		for item in cart_temp_items:
 			save_styleboard_cart_item(item.product, item.quantity, styleboard_item)

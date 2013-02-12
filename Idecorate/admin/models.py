@@ -16,6 +16,7 @@ class LoginLog(models.Model):
 class EmbellishmentsType(models.Model):
 	id = models.AutoField(db_column='ID', primary_key=True)
 	name = models.CharField(db_column='description', max_length=256, blank=True)
+	title = models.CharField(db_column='title', max_length=256, blank=True)
 	
 	class Meta:
 		db_table = 'embellishments_type'
