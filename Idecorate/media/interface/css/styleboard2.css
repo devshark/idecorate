@@ -907,8 +907,10 @@ h5 {
   .idecorateTooltip .container-tooltip {
     overflow: hidden;
     padding-top: 8px; }
-  .idecorateTooltip ul li {
-    margin-bottom: 4px; }
+  .idecorateTooltip ul {
+    margin-top: 5px; }
+    .idecorateTooltip ul li {
+      margin-bottom: 4px; }
 
 /*===== jquery UI styles overwrites =====*/
 #sidebar .ui-draggable-dragging {
