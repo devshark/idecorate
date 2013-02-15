@@ -31,7 +31,7 @@ class AddProductForm(forms.Form):
 	no_background = forms.CharField(label=_("No Background Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('No Background Image is a required field.')})
 	categories = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, error_messages={'required':_('Product Category is a required field.')})
 	default_quantity = forms.IntegerField(min_value=1,label=_("Default Quantity"),required=False,initial=1,error_messages={'invalid':_('Enter a whole number in Default Quantity field.'),'min_value':_('Ensure that Default Quantity is greater than or equal to %(limit_value)s.')})
-	guest_table = forms.ChoiceField(label=_("Guest Table"), choices=(('1','Table'),('2','Guest'),), required=False,widget=forms.Select)
+	guest_table = forms.ChoiceField(label=_("Guest Table"), choices=(('3','No default'),('1','Table'),('2','Guest'),), required=False,widget=forms.Select)
 
 	comment = forms.CharField(label=_("Comment"), required=False, widget=forms.Textarea)
 	size = forms.CharField(label=_("Size"), required=False)

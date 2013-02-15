@@ -165,7 +165,7 @@ function manage_my_order(){
             $(this).val(tables*dq);
             update_cart(this);
         } 
-        if ((gs=='Guest' || gs=='guest' || gs=='Guests' || gs=='guests') && tables>0) {
+        if ((gs=='Guest' || gs=='guest' || gs=='Guests' || gs=='guests') && tables>0){
             $(this).val(guests*dq);
             update_cart(this);
         }
