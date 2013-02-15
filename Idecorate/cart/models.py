@@ -99,6 +99,7 @@ class GuestTableTemp(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
     guests = models.PositiveIntegerField(_('guests'), default=1)
     tables = models.PositiveIntegerField(_('tables'), default=1)
+    wedding = models.PositiveIntegerField(_('wedding'), default=1) # edited added weding option -ryan -02152013
     sessionid = models.CharField(db_column='session_key', max_length=200, null=True)
 
     class Meta:
@@ -109,6 +110,7 @@ class GuestTable(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
     guests = models.PositiveIntegerField(_('guests'), default=1)
     tables = models.PositiveIntegerField(_('tables'), default=1)
+    wedding = models.PositiveIntegerField(_('wedding'), default=1) # edited added weding option -ryan -02152013
     order = models.ForeignKey(Order, db_column='order_id')
 
     class Meta:

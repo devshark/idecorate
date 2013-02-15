@@ -213,7 +213,9 @@
       </form>
 
       <hr />
-
+      <a data-toggle="modal" class="btn btn-primary" href="#myModal2" onclick="clearUserFields()">Add User</a>
+      
+      <hr />
       <table class="table table-bordered table-hover">
         <thead>
           <th><span class="tbtitle">Email</span> <span class="tbsorter"><a href="{% url admin_manage_users %}{{ username_asc_link }}">Δ</a><a href="{% url admin_manage_users %}{{ username_desc_link }}">∇</a></span></th>
@@ -233,7 +235,7 @@
             <td>{{ user|getUserType }}</td>
             <td>{{ user|getUserStatus }}</td>
             <td>{{ user|getUserActivity }}</td>
-            <td><a data-toggle="modal" href="#myModal2" onclick="clearUserFields()">Add</a> | <a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.first_name }}','{{ user.last_name }}','{{ user.id }}','{{ user|getUserNicknameOnly }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
+            <td><a data-toggle="modal" href="#myModal" onclick="setEdit('{{ user.first_name }}','{{ user.last_name }}','{{ user.id }}','{{ user|getUserNicknameOnly }}','{{ user.username }}','{{ user|getUserType }}','{{ user|getUserStatus }}')">Edit</a> | <a data-toggle="modal" class="del_btn" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_user user.id %}')">Delete</a> | {{ user|user_enable_disable }}</td>
           </tr>
           {% endfor %}
         </tbody>

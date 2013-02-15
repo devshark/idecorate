@@ -88,17 +88,22 @@ function hasError(){
 function add_to_cart(prod_id,default_quantity,guest_table){
     
     if ($('#prod_cart_' + prod_id).length == 0){
-        action_url = ADD_TO_CART_URL;
-        var qty = 1;
-        var tables = parseInt($('#tables').val());
-        var guests = parseInt($('#guests').val());
-        if(tables>0 || guests>0){
+        action_url  = ADD_TO_CART_URL;
+        var qty     = 1;
+        var tables  = parseInt($('#tables').val());
+        var guests  = parseInt($('#guests').val());
+        var wedding = 1;
+        if(tables > 0 || guests > 0 || wedding > 0){
             if ((guest_table=='Table' || guest_table=='table' || guest_table=='Tables' || guest_table=='tables') && tables>0){
                 qty = tables*default_quantity;
             } 
 
             if ((guest_table=='Guest' || guest_table=='guest' || guest_table=='Guests' || guest_table=='guests') && tables>0) {
                 qty = guests*default_quantity;
+            }  
+            //edited added weding option -ryan -02152013
+            if ((guest_table=='Wedding' || guest_table=='wedding' || guest_table=='Weddings' || guest_table=='weddings') && wedding>0) {
+                qty = wedding*default_quantity;
             }            
         }   
         var data = addToCart_submit_action(prod_id,qty);    
@@ -128,6 +133,27 @@ function add_to_cart(prod_id,default_quantity,guest_table){
         attachEventToQty();
         manage_total();
     }
+}
+
+function addToCart_submit_action(id,qty){
+    var data;
+    $.ajax({
+        url: action_url,
+        type: "POST",
+        dataType: 'json',
+        data: { prod_id: id, quantity: qty, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), guests: $('#guests').val(), tables: $('#tables').val(), wedding: 1 },
+        async:   false,
+        beforeSend : function(){
+            
+        },
+        success: function(response_data){
+            data = response_data;
+        },
+        error: function(msg) {
+        }
+    });
+
+    return data;
 }
 
 function attachEventToQty() {
@@ -301,27 +327,6 @@ function update_cart(elm){
         dataType: 'json',
         data: { prod_id: pid, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), quantity:qty, guests: $('#guests').val(), tables: $('#tables').val() }
     });
-}
-
-function addToCart_submit_action(id,qty){
-    var data;
-	$.ajax({
-        url: action_url,
-        type: "POST",
-        dataType: 'json',
-        data: { prod_id: id, quantity: qty, csrfmiddlewaretoken: $('input[name="csrfmiddlewaretoken"]').val(), guests: $('#guests').val(), tables: $('#tables').val() },
-        async:   false,
-        beforeSend : function(){
-            
-        },
-        success: function(response_data){
-            data = response_data;
-        },
-        error: function(msg) {
-        }
-    });
-
-    return data;
 }
 
 function arrange_tr_class(){

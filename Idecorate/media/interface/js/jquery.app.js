@@ -1548,6 +1548,7 @@ function droppable_all(){
                                         _p_d_qty : p_d_qty,
                                         _p_g_t   : p_g_t
                                     });
+                            
                         },
                         error: function(msg) {
                             alert(msg);

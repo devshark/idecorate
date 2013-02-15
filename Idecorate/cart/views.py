@@ -732,6 +732,7 @@ def add_to_cart_ajax(request):
 		quantity = request.POST.get('quantity',1)
 		guests = request.POST.get('guests', 1)
 		tables = request.POST.get('tables', 1)
+		wedding = request.POST.get('wedding', 1) # edited added weding option -ryan -02152013
 		product = get_product(product_id)
 		sessionid = request.session.get('cartsession',None)
 		if not sessionid:
@@ -744,6 +745,7 @@ def add_to_cart_ajax(request):
 		data['quantity'] = quantity
 		data['guests'] = guests
 		data['tables'] = tables
+		data['wedding'] = wedding # edited added weding option -ryan -02152013
 		add_to_cart(data)
 
 		# exists = CartTemp.objects.filter(product=product.product,sessionid=sessionid).exists()

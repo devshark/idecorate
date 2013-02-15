@@ -91,7 +91,10 @@ $(document).ready(function(){
     });
     $('#embellishments .formWrap input[type=file]').live('change', SITE.fileInputs);
 
-    $('a[href="#embellishments"]').click(function(){        
+    $('a[href="#embellishments"]').click(function(){
+
+        $('#step-back').parent().remove();
+                
         if (is_window_resized){
             if ($('#embellishments #embelishments-list-wrap .emCat').css('display') == 'none'){
                 if($('#embellishments #embelishments-list-wrap .emItem a').length == 0){

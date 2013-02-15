@@ -37,5 +37,6 @@ def add_to_cart(data):
 		guestTable = GuestTableTemp()
 		guestTable.guests = data['guests']
 		guestTable.tables = data['tables']
+		guestTable.wedding = data['wedding'] # edited added weding option -ryan -02152013
 		guestTable.sessionid = data['sessionid']
 		guestTable.save()
