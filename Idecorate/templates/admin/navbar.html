@@ -5,6 +5,7 @@
         <li><a href="{% url admin %}">{% trans "Home" %}</a></li>
         <li><a href="{% url admin_manage_users %}">{% trans "Manage Users" %}</a></li>
         <li><a href="{% url admin_manage_menu %}">{% trans "Manage Menu" %}</a></li>
+        <li><a href="{% url admin_item_menu %}">{% trans "Manage Item Menu" %}</a></li>
         <li><a href="{% url category %}">{% trans "Manage Product Categories" %}</a></li>
         <li><a href="{% url admin_manage_product %}">{% trans "Manage Products" %} &#x25bc;</a>
             <ul>
@@ -22,9 +23,8 @@
             </ul>
         </li>
         <li><a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a></li>
-        <li><a href="{% url manage_template %}">{% trans "Create Template" %}</a></li>
-        <li>
-        <a href="{% url manage_home_info_graphic %}">{% trans "Manage Home Infographics" %} &#x25bc;</a>
+        <li><a href="{% url manage_template %}">{% trans "Create Package" %}</a></li>
+        <li><a href="{% url manage_home_info_graphic %}">{% trans "Manage Home Infographics" %} &#x25bc;</a>
             <ul>
                 <li><a href="{% url upload_info_graphic %}">{% trans "Upload Home Infographics" %}</a></li>
             </ul>
@@ -34,6 +34,8 @@
                 <li><a href="{% url homepage_upload_banner %}">{% trans "Upload Home Banners" %}</a></li>
             </ul>
         </li>
+        <li><a href="{% url admin_manage_styleboard %}">{% trans "Manage Styleboards" %}</a>
+        <li><a href="{% url admin_manage_order %}">{% trans "Manage Orders" %}</a>
         <li><a href="{% url management_reports %}">{% trans "Inventory & Finance Management Report" %}</a></li>
         <li><a href="{% url flatpage_admin %}">{% trans "Site Pages" %} &#x25bc;</a>
             <ul>
