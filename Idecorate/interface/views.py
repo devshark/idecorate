@@ -782,6 +782,7 @@ def get_personalize_cart_items(request):
 			data['quantity'] = cart.quantity
 			data['guests'] = cart.styleboard_item.item_guest
 			data['tables'] = cart.styleboard_item.item_tables
+			data['wedding'] = 1
 			add_to_cart(data)
 			datas['price'] = product._unit_price
 			datas['quatity'] = cart.quantity

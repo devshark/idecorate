@@ -903,6 +903,7 @@ def checkout_from_view_styleboard(request):
 				data['quantity'] = cart.quantity
 				data['guests'] = guests
 				data['tables'] = tables
+				data['wedding'] = 1
 				add_to_cart(data)
 
 		cart_items = CartTemp.objects.filter(sessionid=sessionid).order_by('-id')
