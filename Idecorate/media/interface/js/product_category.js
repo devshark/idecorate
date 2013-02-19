@@ -499,7 +499,7 @@ function get_product_details(elm, e){
                 $('#tooltip-title').attr('title',name);
                 $('#tooltip-title').text(name);
                 $('#tooltip-price').text('$'+price);
-                $('#tooltip-unit').text(default_quantity+'/'+guest_table);
+                $('#tooltip-unit').text(default_quantity+' per '+guest_table);
                 $('#idecorate-tooltip').css({'top':e.pageY,'left':e.pageX});
 
                 $('#idecorate-tooltip').show(function(){
