@@ -264,11 +264,11 @@ function manage_total(){
     }
 
     cart_total = cart_total.toFixed(2);
-    $('#cart-total-cur').text('$');
+    $('#cart-total-cur').text('US $');
     cart_total = addCommas(cart_total);
-    $('#cart-total-cur').text('$');
+    $('#cart-total-cur').text('US $');
     $('#cart-total-amount').text(cart_total);
-    $('#my-order-total').text('$'+cart_total);
+    $('#my-order-total').text('US $'+cart_total);
 }
 
 function isNumeric(fData)
