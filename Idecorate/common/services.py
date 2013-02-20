@@ -15,6 +15,7 @@ from cart.models import Contact
 from cart.services import generate_unique_id
 from django.utils.html import strip_tags
 from customer.services import get_user_styleboard, save_styleboard_item
+import cgi
 
 def ss_direct(params, url, secure=False):
     """
@@ -186,7 +187,7 @@ def send_email_order(order, user, shop, sbid, comment):
         </table>
        </td>
     </tr>
-        """ % comment.decode('unicode-escape').encode('ascii','xmlcharrefreplace')
+        """ % unicode(comment).encode('ascii','xmlcharrefreplace')
 
     products = order.items.filter().order_by('-id')
 
@@ -428,7 +429,7 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
     )
 
     #messageHTML = messageHTML.decode('unicode-escape').encode('ascii','xmlcharrefreplace')
-
+    print messageHTML
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=user.email,subject='iDecorate Weddings Order Confirmation',body=messageHTML,isHTML=True)
 

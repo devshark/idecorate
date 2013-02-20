@@ -732,7 +732,7 @@ def get_order(order):
 	o['delivery_date'] 		= str(oPayment.data['delivery_date'])
 	o['delivery_address'] 	= str(contact.address)
 	o['billing_address'] 	= str(order.billing_address)
-	o['note'] 				= str(order.notes)
+	o['note'] 				= unicode(order.notes).encode('ascii','xmlcharrefreplace')
 
 	return o
 
