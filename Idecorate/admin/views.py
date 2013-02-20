@@ -2766,7 +2766,7 @@ def admin_manage_order(request):
 		if sort_type == 'desc':
 			s_type = "-%s" % order_by
 	
-	orders = get_all_orders(~Q(status=20),s_type) #dont show result with status of 20||CHECKOUT
+	orders = get_all_orders(Q(status__gt=20),s_type) #dont show result with status of 20||CHECKOUT
 
 	if request.method == "POST":
 		form = filterOrderForm(request.POST)
