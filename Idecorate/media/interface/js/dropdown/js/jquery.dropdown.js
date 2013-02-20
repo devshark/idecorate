@@ -68,12 +68,16 @@
             	}).hide();
             });
         });
+        
+        if(options.firstArrow != '' || options.otherArrow != ''){
 
-		$('.hasSub').append($('<span class="arrow"/>'));
-        $('.arrow').append(options.firstArrow);
+            $('.hasSub').append($('<span class="arrow"/>'));
+            $('.arrow').append(options.firstArrow);
 
-        if($('.dropdown li ul li').has('ul').length){
-        	$('.dropdown ul .arrow').html(options.otherArrow);
+            if($('.dropdown li ul li').has('ul').length){
+                $('.dropdown ul .arrow').html(options.otherArrow);
+            }
+            
         }
 
         return this;
