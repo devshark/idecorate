@@ -729,7 +729,7 @@ def get_order(order):
 	o['first_name'] 		= str(order.billing_first_name)
 	o['last_name'] 			= str(order.billing_last_name)
 	o['email'] 				= str(order.email)
-	o['delivery_date'] 		= str(oPayment.get('delivery_date',''))
+	o['delivery_date'] 		= str(oPayment.data.get('delivery_date',''))
 	o['delivery_address'] 	= str(contact.address)
 	o['billing_address'] 	= str(order.billing_address)
 	o['note'] 				= unicode(order.notes).encode('ascii','xmlcharrefreplace')
