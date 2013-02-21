@@ -1285,6 +1285,14 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		    margin-bottom: 4px;
 		}
 	}
+
+	strong{
+		font-weight: bold;
+	}
+
+	em{
+		font-style: italic;
+	}
 }
 
 /*===== jquery UI styles overwrites =====*/

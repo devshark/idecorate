@@ -195,8 +195,9 @@ def send_email_order(order, user, shop, sbid, comment):
         itemsHTML += """
     <tr>
         <td style="font-size:13px; vertical-align:middle; padding:10px 0 10px 10px;">
-            <img src="%s" width="51" height="50" alt="" style="vertical-align:middle;"> <font>%s</font>
-</td>
+            <span style="display:inline-block;"><img src="%s" width="51" height="50" alt="" style="vertical-align:middle;"></span>
+            <span style="display:inline-block;"><font>%s</font></span>
+        </td>   
         <td style="font-size:13px; vertical-align:middle; text-align:right; padding:10px 0 10px 0px;">
             %s</td>
         <td style="font-size:13px; vertical-align:middle; text-align:right; padding:10px 0 10px 0px;">
