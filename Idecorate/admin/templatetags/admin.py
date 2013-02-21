@@ -713,6 +713,7 @@ def readable_status(value):
     #: it is only mean
     data = {
 		'5':'Failed',
+		'20':'Checkout',
 		'30':'Pending',
 		'40':'Paid',
 		'45':'Payment Received',
