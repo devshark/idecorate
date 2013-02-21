@@ -17,7 +17,7 @@ from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
 from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails
-from plata.shop.models import TaxClass, Order, OrderItem
+from plata.shop.models import TaxClass, Order, OrderItem, OrderPayment
 import shutil
 from PIL import Image, ImageDraw, ImageFont
 import os
@@ -2766,7 +2766,8 @@ def admin_manage_order(request):
 		if sort_type == 'desc':
 			s_type = "-%s" % order_by
 	
-	orders = get_all_orders(Q(status__gt=20),s_type) #dont show result with status of 20||CHECKOUT
+	q_obj_initial = ~Q(user__id=None)
+	orders = get_all_orders(q_obj_initial.add(Q(status__gt=20), Q.AND),s_type) #dont show result with status of 20||CHECKOUT
 
 	if request.method == "POST":
 		form = filterOrderForm(request.POST)
@@ -2921,6 +2922,10 @@ def admin_manage_order(request):
 	except EmptyPage:
 		orders = paginator.page(paginator.num_pages)
 
+	if 'mu_errors' in request.session:
+		info['mu_errors'] = request.session.get('mu_errors')
+		del request.session['mu_errors']
+
 	info['edit_form']	= editOrderForm()
 	info['urlFilter'] 	= urlFilter
 	info['filter'] 		= form
@@ -2948,7 +2953,51 @@ def admin_view_order(request):
 
 @staff_member_required
 def admin_edit_order(request):
-	pass
+
+	if request.method == "POST":
+		form = editOrderForm(request.POST)
+
+		if form.is_valid():
+
+			data = form.cleaned_data
+
+			ordr = Order.objects.get(pk=int(data['order_id']))
+			ordr.update_status(int(data['status']), data['note'])
+			ordr.billing_first_name = data['first_name']
+			ordr.billing_last_name = data['last_name']
+			ordr.email = data['email']
+			ordr.shipping_address = data['delivery_address']
+			ordr.billing_address = data['billing_address']
+			ordr.notes = data['note']
+			ordr.save()
+
+			try:
+				payment = OrderPayment.objects.get(order=ordr)
+			except:
+				payment = OrderPayment()
+				payment.order = ordr
+				payment.currency = 'USD'
+				payment.payment_module_key = 'cod'
+				payment.module = 'Cash on delivery'
+
+			payment.payment_method = data['payment_method']
+
+			if data['payment_method']:
+
+				payment.authorized = datetime.now()
+				payment.status = OrderPayment.AUTHORIZED
+			else:
+				payment.status = OrderPayment.PENDING
+
+			if data['delivery_date']:
+				payment.data['delivery_date'] = data['delivery_date']
+
+			payment.save()
+
+
+			messages.success(request, _('Order information saved.'))
+		else:
+			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors
 	
 	if request.session.get('manage_order_redirect', False):
 		return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])

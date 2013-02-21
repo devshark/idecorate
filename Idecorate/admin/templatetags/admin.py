@@ -711,8 +711,28 @@ def readable_status(value):
     #PAID = 40
     #: Order has been completed. Plata itself never sets this state,
     #: it is only mean
-    data = {'10':'Cart','20':'Checkout','30':'Confirmed','40':'Paid'}
+    data = {
+		'5':'Failed',
+		'30':'Pending',
+		'40':'Paid',
+		'45':'Payment Received',
+		'46':'Pending Delivery',
+		'50':'Completed'
+	}
+	
     return data[str(value)]
+
+@register.filter
+def readable_status_payment(value):
+
+	data = {
+		'PayPal':'PayPal',
+		'Visa':'Visa',
+		'Mastercard':'Mastercard',
+		'American_Express': 'American Express'
+	}
+
+	return data[str(value)]
 
 @register.filter
 def get_order_detail(order,what):
@@ -720,17 +740,27 @@ def get_order_detail(order,what):
 
 @register.filter
 def get_order(order):
-	oPayment = OrderPayment.objects.get(order=order)
-	contact = Contact.objects.get(user=order.user)
+	try:
+		oPayment = OrderPayment.objects.get(order=order)
+	except:
+		oPayment = None
+
+	#contact = Contact.objects.get(user=order.user)
 	o = {}
 	o['id'] 				= str(order.id)
 	o['status'] 			= str(order.status)
-	o['payment_method'] 	= str(oPayment.payment_method)
+
+	if oPayment:
+		o['payment_method'] = str(oPayment.payment_method)
+		o['delivery_date'] 	= str(oPayment.data.get('delivery_date',''))
+	else:
+		o['payment_method'] = ''
+		o['delivery_date']	= ''
+
 	o['first_name'] 		= str(order.billing_first_name)
 	o['last_name'] 			= str(order.billing_last_name)
 	o['email'] 				= str(order.email)
-	o['delivery_date'] 		= str(oPayment.data.get('delivery_date',''))
-	o['delivery_address'] 	= str(contact.address)
+	o['delivery_address'] 	= str(order.shipping_address)
 	o['billing_address'] 	= str(order.billing_address)
 	o['note'] 				= unicode(order.notes).encode('ascii','xmlcharrefreplace')
 
