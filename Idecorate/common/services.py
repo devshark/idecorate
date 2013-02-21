@@ -151,6 +151,8 @@ def send_email_set_pass(user_id):
     messageHTML = """
     Welcome to iDecorateweddings.com!
     <br /><br />
+    Where you can create and buy your dream wedding. online. 
+    <br /><br />
     If you would like to use this email address to login to iDecorateweddings.com, you need to set your password by clicking on this link - http://%s/set_password_user/%s.
     <br /><br />
     Thank you for using iDecorateweddings.com!

@@ -15,7 +15,7 @@ from django.db.models import Q
 from category.services import get_categories, get_cat, category_tree_crumb, search_category, get_cat_ids
 from category.models import Categories
 from cart.models import Product, CartTemp, ProductPopularity
-from cart.services import generate_unique_id, clear_cart_temp, add_to_cart, get_product, get_product_detail
+from cart.services import generate_unique_id, clear_cart_temp, add_to_cart, get_product, get_product_detail, strip_tags
 from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
 from django.core.urlresolvers import reverse
@@ -276,15 +276,17 @@ def crop(request, id):
 
 def get_product_details(request):
 	if request.method == 'POST':
-		product_id 		= request.POST.get('prod_id')
-		product 		= get_product(product_id)
-		product_detail 	= get_product_detail(product_id)
+		product_id 									= request.POST.get('prod_id')
+		product 									= get_product(product_id)
+		product_detail 								= get_product_detail(product_id)
+		description_raw 							= product.product.description;
+		desc_striped_tags							= strip_tags(description_raw);		
 		reponse_data 								= {}
 		reponse_data['id'] 							= product.product.id
 		reponse_data['original_image_thumbnail'] 	= product.product.original_image_thumbnail
 		reponse_data['sku'] 						= product.product.sku
 		reponse_data['name'] 						= product.product.name
-		reponse_data['description'] 				= product.product.description
+		reponse_data['description'] 				= desc_striped_tags[0:200]
 		reponse_data['size'] 						= product_detail.size
 		reponse_data['default_quantity'] 			= product.product.default_quantity
 		reponse_data['price'] 						= product._unit_price

@@ -2,6 +2,21 @@ from models import Product, ProductPrice, CartTemp, GuestTableTemp,ProductDetail
 from random import choice
 from string import digits, letters
 from django.contrib.auth.models import User
+from HTMLParser import HTMLParser
+
+class MLStripper(HTMLParser):
+    def __init__(self):
+        self.reset()
+        self.fed = []
+    def handle_data(self, d):
+        self.fed.append(d)
+    def get_data(self):
+        return ''.join(self.fed)
+        
+def strip_tags(html):
+    s = MLStripper()
+    s.feed(html)
+    return s.get_data()
 
 def generate_unique_id(length=32):
     s = ''
@@ -18,6 +33,7 @@ def get_product_detail(prod_id):
 	ProductDetail = ProductDetails.objects.get(product_id = int(prod_id))
 
 	return ProductDetail
+
 
 def remove_from_cart_temp(cart_temp_id):
 	ct = CartTemp.objects.get(id=cart_temp_id)
