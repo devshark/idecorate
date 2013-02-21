@@ -2860,7 +2860,7 @@ def admin_manage_order(request):
 					query = Q(status=bool(int(status)))
 
 		if query is not None:
-			query.add(~Q(status=20), Q.AND) #dont show result with status of 20||CHECKOUT
+			query.add(Q(status__gt=20), Q.AND) #dont show result with status of 20||CHECKOUT
 
 			orders = get_all_orders(query,s_type)
 
