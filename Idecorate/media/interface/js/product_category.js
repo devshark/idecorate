@@ -492,12 +492,16 @@ function get_product_details(elm, e){
                 var original_image_thumbnail = response_data.original_image;
                 var default_quantity = response_data.default_quantity;
                 var price = response_data.price.toFixed(2);
+                var description = response_data.description;
+                var size = response_data.size;
                 var guest_table = response_data.guest_table;
 
                 $('#tooltip-image').attr({'src':'/' + media_url + 'products/' + original_image_thumbnail + '?' + new Date().getTime(), 'alt':name, 'width':150, 'height':150});
                 //$('#tooltip-image').attr('alt',name);
                 $('#tooltip-title').attr('title',name);
                 $('#tooltip-title').text(name);
+                $('#tooltip-desc').html(description);
+                $('#tooltip-size').text(size);
                 $('#tooltip-price').text('$'+price);
                 $('#tooltip-unit').text(default_quantity+' per '+guest_table);
                 $('#idecorate-tooltip').css({'top':e.pageY,'left':e.pageX});
