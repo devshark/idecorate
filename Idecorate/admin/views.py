@@ -2766,8 +2766,8 @@ def admin_manage_order(request):
 		if sort_type == 'desc':
 			s_type = "-%s" % order_by
 	
-	q_obj_initial = ~Q(user__id=None)
-	orders = get_all_orders(q_obj_initial.add(Q(status__gt=20), Q.AND),s_type) #dont show result with status of 20||CHECKOUT
+	#q_obj_initial = ~Q(user__id=None)
+	orders = get_all_orders(None,s_type) #dont show result with status of 20||CHECKOUT
 
 	if request.method == "POST":
 		form = filterOrderForm(request.POST)
@@ -2861,8 +2861,8 @@ def admin_manage_order(request):
 
 		
 		if query is not None:
-			query.add(Q(status__gt=20), Q.AND) #dont show result with status of 20||CHECKOUT
-			query.add(~Q(user__id=None), Q.AND)
+			#query.add(Q(status__gt=20), Q.AND) #dont show result with status of 20||CHECKOUT
+			#query.add(~Q(user__id=None), Q.AND)
 			orders = get_all_orders(query,s_type)
 
 	filters.update({'order_by':order_by, 'sort_type':sort_type}) 
