@@ -2854,16 +2854,16 @@ def admin_manage_order(request):
 				filters.update({'status':status})
 
 				if query is not None:
-					query.add(Q(status=bool(int(status))), Q.AND)
+					query.add(Q(status=int(status)), Q.AND)
 
 				else:
-					query = Q(status=bool(int(status)))
+					query = Q(status=int(status))
 
+		
 		if query is not None:
 			query.add(Q(status__gt=20), Q.AND) #dont show result with status of 20||CHECKOUT
-
+			query.add(~Q(user__id=None), Q.AND)
 			orders = get_all_orders(query,s_type)
-
 
 	filters.update({'order_by':order_by, 'sort_type':sort_type}) 
 	urlFilter = QueryDict(urllib.urlencode(filters))
