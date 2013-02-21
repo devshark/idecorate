@@ -14,9 +14,8 @@ from django.db.models import Q
 
 from category.services import get_categories, get_cat, category_tree_crumb, search_category, get_cat_ids
 from category.models import Categories
-from cart.services import get_product
 from cart.models import Product, CartTemp, ProductPopularity
-from cart.services import generate_unique_id, clear_cart_temp, add_to_cart
+from cart.services import generate_unique_id, clear_cart_temp, add_to_cart, get_product, get_product_detail
 from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
 from django.core.urlresolvers import reverse
@@ -277,23 +276,27 @@ def crop(request, id):
 
 def get_product_details(request):
 	if request.method == 'POST':
-		product_id = request.POST.get('prod_id')
-		product = get_product(product_id)
-		reponse_data = {}
-		reponse_data['id'] = product.product.id
-		reponse_data['original_image_thumbnail'] = product.product.original_image_thumbnail
-		reponse_data['sku'] = product.product.sku
-		reponse_data['name'] = product.product.name
-		reponse_data['default_quantity'] = product.product.default_quantity
-		reponse_data['price'] = product._unit_price
-		reponse_data['currency'] = product.currency
-		reponse_data['original_image'] = product.product.original_image
+		product_id 		= request.POST.get('prod_id')
+		product 		= get_product(product_id)
+		product_detail 	= get_product_detail(product_id)
+		reponse_data 								= {}
+		reponse_data['id'] 							= product.product.id
+		reponse_data['original_image_thumbnail'] 	= product.product.original_image_thumbnail
+		reponse_data['sku'] 						= product.product.sku
+		reponse_data['name'] 						= product.product.name
+		reponse_data['description'] 				= product.product.description
+		reponse_data['size'] 						= product_detail.size
+		reponse_data['default_quantity'] 			= product.product.default_quantity
+		reponse_data['price'] 						= product._unit_price
+		reponse_data['currency'] 					= product.currency
+		reponse_data['original_image'] 				= product.product.original_image
 		guest_table = 'Table'
 		try:
 			guest_table = product.product.guest_table.name
 		except:
 			pass
 		reponse_data['guest_table'] = guest_table
+
 		return HttpResponse(simplejson.dumps(reponse_data), mimetype="application/json")
 	else:
 		return HttpResponseNotFound()

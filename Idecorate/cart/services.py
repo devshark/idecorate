@@ -1,4 +1,4 @@
-from models import Product, ProductPrice, CartTemp, GuestTableTemp
+from models import Product, ProductPrice, CartTemp, GuestTableTemp,ProductDetails
 from random import choice
 from string import digits, letters
 from django.contrib.auth.models import User
@@ -12,6 +12,12 @@ def generate_unique_id(length=32):
 def get_product(prod_id):
 	product = ProductPrice.objects.get(product__id=int(prod_id))
 	return product
+
+def get_product_detail(prod_id):
+
+	ProductDetail = ProductDetails.objects.get(product_id = int(prod_id))
+
+	return ProductDetail
 
 def remove_from_cart_temp(cart_temp_id):
 	ct = CartTemp.objects.get(id=cart_temp_id)
