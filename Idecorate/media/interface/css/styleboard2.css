@@ -911,6 +911,10 @@ h5 {
     margin-top: 5px; }
     .idecorateTooltip ul li {
       margin-bottom: 4px; }
+  .idecorateTooltip strong {
+    font-weight: bold; }
+  .idecorateTooltip em {
+    font-style: italic; }
 
 /*===== jquery UI styles overwrites =====*/
 #sidebar .ui-draggable-dragging {
