@@ -12,6 +12,7 @@ from django.template.defaultfilters import filesizeformat
 from embellishments.models import StyleboardTemplateItems
 from customer.models import CustomerStyleBoard
 from plata.shop.models import Order
+from django.db.models import Q
 
 def getExtensionAndFileName(filename):
 
@@ -347,4 +348,4 @@ def get_all_styleboards(filters=None,order_by='created'):
 
 def get_all_orders(filters=None,order_by='created'):
 
-	return Order.objects.filter().order_by(order_by) if filters is None else Order.objects.filter(filters).order_by(order_by)
+	return Order.objects.filter(~Q(user__id=None)).order_by(order_by) if filters is None else Order.objects.filter(filters).order_by(order_by)

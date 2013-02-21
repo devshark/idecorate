@@ -104,6 +104,37 @@
 </div>
 <h1>Manage Orders</h1>
 <br/>
+
+
+      {% if messages %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %}
+
+
+
+      {% if mu_errors  %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for mu_error in mu_errors %}
+            <li>{{ mu_error }}</li>
+          {% endfor %}
+        </ol>
+      </div>
+
+      {% endif %}
+
+
 <h3>Show only orders where</h3>
 <br/>
 {% if filter.created.errors %}
@@ -203,7 +234,7 @@
 {% block javascripts %}
 <script type="text/javascript">
 	$(function(){
-		$( 'input[name="created"]' ).datepicker({
+		$( 'input[name="created"], #id_delivery_date' ).datepicker({
 			dateFormat: 'yy-mm-dd',
 			changeYear: true,
             changeMonth: true,
@@ -215,13 +246,20 @@
 			e.preventDefault();
 			$('#filter-orders-form').submit();
 		});
+
+
+		$('#edit_save').click(function(e){
+			$("#order_edit").submit();
+		});
+
+
 	});
 
 
 
 	function setEdit(options) {
 
-		$('#id_order_id').val(options.order_id);		
+		$('#id_order_id').val(options.id);		
 		$('#id_first_name').val(options.first_name);
 		$('#id_last_name').val(options.last_name); 			
 		$('#id_email').val(options.email);			
@@ -229,8 +267,8 @@
 		$('#id_delivery_address').val(options.delivery_address);	
 		$('#id_billing_address').val(options.billing_address);	
 		$('#id_note').val(options.note);
-		$('#id_status[value="'+options.status+'"]').attr('selected',true);	
-		$('#id_payment_method[value="'+options.status+'"]').attr('selected',true);
+		$('#id_status').val(options.status);	
+		$('#id_payment_method').val(options.payment_method);
 
 	}
 </script>

@@ -385,17 +385,26 @@ class filterStyleboardForm(forms.Form):
 	total 		= forms.DecimalField(error_messages={'invalid':_('Total field requires a number.')}, max_digits=19, decimal_places=2, label=_("Total"), required=False)
 	featured 	= forms.ChoiceField(label=_("Featured"), choices=(('any','Any'),('1','Featured'),('0','Not featured'),), required=False,widget=forms.Select)
 
+"""
+Payment Method
+-----------------
+PayPal
+Visa
+Mastercard
+American_Express
+"""
+
 class filterOrderForm(forms.Form):
 	order_id	= forms.CharField(max_length=100,label=_("Order Id"), required=False)
 	created		= forms.DateField(error_messages={'invalid':_('Please follow the format for date field.')}, input_formats=['%Y-%m-%d'], label=_("Date created"), required=False)
 	name 		= forms.CharField(max_length=100,label=_("Customer Name"), required=False)
 	email 		= forms.EmailField(max_length=80,label=_("Email"), required=False, error_messages={'invalid':_('Enter a valid Email.')})
-	status 		= forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('40','Paid')), required=False,widget=forms.Select)
+	status 		= forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('5','Failed'),('30','Pending'),('40','Paid'),('45','Payment Received'),('46','Pending Delivery'),('50','Completed')), required=False,widget=forms.Select)
 
 class editOrderForm(forms.Form):
 	order_id 			= forms.CharField(label=_("ID"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Order ID is a required field.')})
-	status 				= forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('40','Paid')), required=False,widget=forms.Select)
-	payment_method 		= forms.ChoiceField(label=_("Payment Method"), choices=(('any','Any'),('40','Paid')), required=True,widget=forms.Select)
+	status 				= forms.ChoiceField(label=_("Status"), choices=(('5','Failed'),('30','Pending'),('40','Paid'),('45','Payment Received'),('46','Pending Delivery'),('50','Completed')), required=False,widget=forms.Select)
+	payment_method 		= forms.ChoiceField(label=_("Payment Method"), choices=(('','--Select--'),('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express')), required=False,widget=forms.Select)
 	first_name 			= forms.CharField(max_length=100,label=_("First Name"), required=True,error_messages={'required':_('First Name is a required field.')})
 	last_name 			= forms.CharField(max_length=100,label=_("Last Name"), required=True,error_messages={'required':_('Last Name is a required field.')})
 	email 				= forms.EmailField(max_length=80,label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email.'),'required':_('Email is a required field.')})
