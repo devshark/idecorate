@@ -1286,21 +1286,33 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		}
 	}
 
-	ol{
-		list-style-type: decimal !important;
-	    margin-bottom: 10px;
-	    margin-left: 20px;
-	    margin-right: 0;
-	    margin-top: 10px;
+	#tooltip-desc{
+
+		ul{
+			list-style-type: square !important;
+		    margin-bottom: 10px;
+		    margin-left: 20px;
+		    margin-right: 0;
+		    margin-top: 10px;
+		}
+		ol{
+			list-style-type: decimal !important;
+		    margin-bottom: 10px;
+		    margin-left: 20px;
+		    margin-right: 0;
+		    margin-top: 10px;
+		}
+
+		strong{
+			font-weight: bold;
+		}
+
+		em{
+			font-style: italic;
+		}
 	}
 
-	strong{
-		font-weight: bold;
-	}
-
-	em{
-		font-style: italic;
-	}
+	
 }
 
 /*===== jquery UI styles overwrites =====*/

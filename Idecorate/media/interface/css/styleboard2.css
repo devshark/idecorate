@@ -911,15 +911,21 @@ h5 {
     margin-top: 5px; }
     .idecorateTooltip ul li {
       margin-bottom: 7px; }
-  .idecorateTooltip ol {
+  .idecorateTooltip #tooltip-desc ul {
+    list-style-type: square !important;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 0;
+    margin-top: 10px; }
+  .idecorateTooltip #tooltip-desc ol {
     list-style-type: decimal !important;
     margin-bottom: 10px;
     margin-left: 20px;
     margin-right: 0;
     margin-top: 10px; }
-  .idecorateTooltip strong {
+  .idecorateTooltip #tooltip-desc strong {
     font-weight: bold; }
-  .idecorateTooltip em {
+  .idecorateTooltip #tooltip-desc em {
     font-style: italic; }
 
 /*===== jquery UI styles overwrites =====*/
