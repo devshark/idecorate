@@ -485,7 +485,7 @@ def search_products(request):
 
 		if cat_id != '0':
 			cat_ids = get_cat_ids(cat_id)			
-			product_list = Product.objects.filter(categories__id__in=cat_ids, is_active=True, is_deleted=False, categories__deleted=0).order_by('sku').order_by('sku')
+			product_list = Product.objects.filter(categories__id__in=cat_ids, is_active=True, is_deleted=False, categories__deleted=0).order_by('sku')
 			product_list = product_list.order_by('ordering').distinct()	
 		else:
 			"""

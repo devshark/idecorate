@@ -910,7 +910,13 @@ h5 {
   .idecorateTooltip ul {
     margin-top: 5px; }
     .idecorateTooltip ul li {
-      margin-bottom: 4px; }
+      margin-bottom: 7px; }
+  .idecorateTooltip ol {
+    list-style-type: decimal !important;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 0;
+    margin-top: 10px; }
   .idecorateTooltip strong {
     font-weight: bold; }
   .idecorateTooltip em {

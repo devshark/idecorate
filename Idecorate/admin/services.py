@@ -348,4 +348,6 @@ def get_all_styleboards(filters=None,order_by='created'):
 
 def get_all_orders(filters=None,order_by='created'):
 
-	return Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).order_by(order_by) if filters is None else Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).filter(filters).order_by(order_by)
+	query = Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).order_by(order_by) if filters is None else Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).filter(filters).order_by(order_by)
+
+	return query

@@ -2813,31 +2813,42 @@ def admin_manage_order(request):
 
 		if created:
 
+			try:
+				split_date 	= created.split('-');
+
+				year 		= int(split_date[0])
+				month 		= int(split_date[1])
+				day 		= int(split_date[2])
+
+				if query is not None:
+					query.add(Q(created__startswith=datetime.date(year,month,day)), Q.AND)
+
+				else:
+					query = Q(created__startswith=datetime.date(year,month,day))
+
+			except :
+				pass
+
 			filters.update({'created':created})
-
-			if query is not None:
-				query.add(Q(created=created), Q.AND)
-
-			else:
-				query = Q(created=created)
 
 		if name:
 
-			other_params_dict.update({'name':name})
+			filters.update({'name':name})
 
 			splittedNames = name.split(' ')
 
 			for splittedName in splittedNames:
 
-				if q is not None:
-					q.add(Q(billing_first_name__icontains=splittedName), Q.OR)
+				if query is not None:
+					query.add(Q(billing_first_name__icontains=splittedName), Q.OR)
 				else:
-					q = Q(billing_first_name__icontains=splittedName)
+					query = Q(billing_first_name__icontains=splittedName)
 
-				if q is not None:
-					q.add(Q(billing_last_name__icontains=splittedName), Q.OR)
+
+				if query is not None:
+					query.add(Q(billing_last_name__icontains=splittedName), Q.AND)
 				else:
-					q = Q(billing_last_name__icontains=splittedName)
+					query = Q(billing_last_name__icontains=splittedName)
 
 		if email:
 

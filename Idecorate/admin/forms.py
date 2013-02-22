@@ -398,7 +398,7 @@ class filterOrderForm(forms.Form):
 	order_id	= forms.CharField(max_length=100,label=_("Order Id"), required=False)
 	created		= forms.DateField(error_messages={'invalid':_('Please follow the format for date field.')}, input_formats=['%Y-%m-%d'], label=_("Date created"), required=False)
 	name 		= forms.CharField(max_length=100,label=_("Customer Name"), required=False)
-	email 		= forms.EmailField(max_length=80,label=_("Email"), required=False, error_messages={'invalid':_('Enter a valid Email.')})
+	email 		= forms.CharField(max_length=80,label=_("Email"), required=False, error_messages={'invalid':_('Enter a valid Email.')})
 	status 		= forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('5','Failed'),('30','Pending'),('40','Paid'),('45','Payment Received'),('46','Pending Delivery'),('50','Completed')), required=False,widget=forms.Select)
 
 class editOrderForm(forms.Form):
