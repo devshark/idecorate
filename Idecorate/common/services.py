@@ -155,9 +155,9 @@ def send_email_set_pass(user_id):
     <br /><br />
     If you would like to use this email address to login to iDecorateweddings.com, you need to set your password by clicking on this link - http://%s/set_password_user/%s.
     <br /><br />
-    Thank you for using iDecorateweddings.com!
+    Thank you for joining iDecorateweddings.com!
     <br /><br />
-    iDecorateweddings.com Team
+    From the iDecorateweddings.com Team
     """ % (settings.IDECORATE_HOST, u.hash_set_password)
     print "SENDING EMAIL...."
     if not settings.SKIPPING_MODE:
