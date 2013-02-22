@@ -286,7 +286,7 @@ def get_product_details(request):
 		reponse_data['original_image_thumbnail'] 	= product.product.original_image_thumbnail
 		reponse_data['sku'] 						= product.product.sku
 		reponse_data['name'] 						= product.product.name
-		reponse_data['description'] 				= desc_striped_tags[0:200]
+		reponse_data['description'] 				= description_raw
 		reponse_data['size'] 						= product_detail.size
 		reponse_data['default_quantity'] 			= product.product.default_quantity
 		reponse_data['price'] 						= product._unit_price
