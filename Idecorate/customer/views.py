@@ -328,24 +328,35 @@ def save_styleboard(request):
 						customer_styleboard = personalize_styleboard
 
 	if customer_styleboard:
+
 		form = SaveStyleboardForm(initial={'name':customer_styleboard.styleboard_item.name,'description':customer_styleboard.styleboard_item.description})
 	else:
 		form = SaveStyleboardForm()
+
 	if request.method == "POST":
-		form = SaveStyleboardForm(request.POST)		
+
+		form = SaveStyleboardForm(request.POST)	
+
 		if form.is_valid():
-			cleaned_datas = form.cleaned_data
-			cleaned_datas['user'] = request.user
-			cleaned_datas['customer_styleboard'] = customer_styleboard
-			cleaned_datas['sessionid'] = request.session.get('cartsession',generate_unique_id())
-			cleaned_datas['description'] = strip_tags(cleaned_datas['description'])
-			cleaned_datas['session_in_request'] = request.session		
-			res = save_styleboard_item(cleaned_datas)
-			request.session['customer_styleboard'] = res
-			info['action'] = 'save_styleboard'
-			info['msg'] =  _('Style board saved.')
+
+			cleaned_datas 							= form.cleaned_data
+			cleaned_datas['user'] 					= request.user
+			cleaned_datas['customer_styleboard'] 	= customer_styleboard
+			cleaned_datas['sessionid'] 				= request.session.get('cartsession',generate_unique_id())
+			cleaned_datas['description'] 			= strip_tags(cleaned_datas['description'])
+			cleaned_datas['session_in_request'] 	= request.session
+
+			res 									= save_styleboard_item(cleaned_datas)
+
+			request.session['customer_styleboard'] 	= res
+
+			info['action'] 							= 'save_styleboard'
+			info['msg'] 							= _('Style board saved.')
+
 			return render_to_response('customer/iframe/success.html', info)
+
 	info['form'] = form
+
 	return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
 
 def styleboard_view(request,sid=None):

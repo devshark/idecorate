@@ -816,10 +816,11 @@
 
     function save_styleboard_to_session() {
 
-        var json_data = get_product_object_json();
-        var djsn = JSON.stringify(json_data);
-        var guest = $('#guests').val();
-        var table = $('#tables').val();
+        var json_data   = get_product_object_json();
+        var djsn        = JSON.stringify(json_data);
+        var guest       = $('#guests').val();
+        var table       = $('#tables').val();
+        var wedding     = 1;
         var bwsr = '';
         if ($.browser.mozilla){
             bwsr = 'moz';
@@ -838,7 +839,7 @@
         $.ajax({
             url: '{% url save_styleboard_to_session %}',
             type: "POST",
-            data: {djsn:djsn, guest:guest, table:table, bwsr:bwsr},
+            data: {djsn:djsn, guest:guest, table:table, wedding:wedding, bwsr:bwsr},
             async: true,
             success: function(data){
                 window.location.href = CHECKOUT_URL;

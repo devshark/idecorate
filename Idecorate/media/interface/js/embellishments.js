@@ -26,7 +26,7 @@ $(document).ready(function(){
         $('#embellishments .pagination').show();
         emb_item_url = $(this).attr('href');
         $('#embellishments .breadcrumb-wrap').html('<ul class="breadcrumb"><li><a href="#">All</a></li><li><span>></span></li><li><span>'+$(this).find('span').text()+'</span></li></ul>');
-        $('#embellishments .breadcrumb-wrap a').bind('click',function(e){
+        $('a[href="#embellishments"], #embellishments .breadcrumb-wrap a').bind('click',function(e){
             $('#embelishments-list-wrap .emCat').show();
             $('#embelishments-list-wrap .emItem a').each(function(){
                 $(this).remove();

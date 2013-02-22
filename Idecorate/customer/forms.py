@@ -63,12 +63,13 @@ class SignupForm(forms.Form):
 			return ""
 
 class SaveStyleboardForm(forms.Form):
-	name = forms.CharField( label=_("Name your style board."), error_messages={'required':_('Enter styleboard name.')})
+	name 		= forms.CharField( label=_("Name your style board."), error_messages={'required':_('Enter styleboard name.')})
 	description = forms.CharField( label=_("Name your style board."), widget=forms.Textarea, error_messages={'required':_('Enter a short description of your styleboard.')})
-	browser = forms.CharField(widget=forms.HiddenInput())
-	item = forms.CharField(widget=forms.HiddenInput())
-	guest = forms.CharField(widget=forms.HiddenInput())
-	tables = forms.CharField(widget=forms.HiddenInput())
+	browser 	= forms.CharField(widget=forms.HiddenInput())
+	item 		= forms.CharField(widget=forms.HiddenInput())
+	guest 		= forms.CharField(widget=forms.HiddenInput())
+	tables 		= forms.CharField(widget=forms.HiddenInput())
+	wedding 	= forms.CharField(widget=forms.HiddenInput(), initial=1, required=False)
 
 class EditProfileForm(forms.Form):
 	firstname = forms.CharField(max_length=100, label=_("First Name"), required=True, error_messages={'required':_('First Name is a required field.')})

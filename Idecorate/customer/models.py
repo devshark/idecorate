@@ -31,15 +31,16 @@ class CustomerFacebookFriends(models.Model):
 """
 
 class StyleboardItems(models.Model):
-	id = models.AutoField(db_column='id', primary_key=True)
-	name = models.CharField(db_column="name", max_length=256, null=True)
-	description = models.TextField(db_column='description', null=True)
-	item = models.TextField(db_column='item', null=True)
-	browser = models.CharField(db_column='browser', max_length=100, null=True)
-	item_guest = models.IntegerField(null=True)
-	item_tables = models.IntegerField(null=True)
-	deleted = models.IntegerField(db_column='deleted', default=0)
-	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	id 				= models.AutoField(db_column='id', primary_key=True)
+	name 			= models.CharField(db_column="name", max_length=256, null=True)
+	description 	= models.TextField(db_column='description', null=True)
+	item 			= models.TextField(db_column='item', null=True)
+	browser 		= models.CharField(db_column='browser', max_length=100, null=True)
+	item_guest 		= models.IntegerField(null=True)
+	item_tables 	= models.IntegerField(null=True)
+	item_wedding 	= models.IntegerField(null=True)
+	deleted 		= models.IntegerField(db_column='deleted', default=0)
+	created 		= models.DateField(db_column='created', auto_now_add=True, blank=True)
 
 	class Meta:
 		db_table = 'styleboard_items'
