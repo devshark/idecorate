@@ -3013,7 +3013,7 @@ def admin_edit_order(request):
 
 			messages.success(request, _('Order information saved.'))
 		else:
-			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors
+			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors + form['delivery_city'].errors + form['delivery_zip_code'].errors + form['billing_city'].errors + form['billing_zip_code'].errors
 	
 	if request.session.get('manage_order_redirect', False):
 		return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])
