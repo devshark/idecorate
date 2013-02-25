@@ -184,7 +184,7 @@
 		{{ filter.order_id|attr:'placeholder:Order ID' }}
 		{{ filter.created|attr:'placeholder:Date Created "yyyy-mm-dd"' }}
 		{{ filter.name|attr:'placeholder:Customer Name' }}
-		{{ filter.email|attr:'placeholder:Email Address' }}
+		{{ filter.email|attr:'placeholder:Email Address' }}<br />
 		<label>{{ filter.status.label}}</label> {{ filter.status }}
 		<button type="button" id="filter-orders" class="btn btn-primary">Filter</button>
 		<a href='{% url admin_manage_order %}' class="btn btn-primary btn-inverse">Reset</a>
