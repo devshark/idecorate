@@ -72,25 +72,41 @@
 				<td style="text-align:right;">Last Name :</td>
 				<td>{{order.billing_last_name}}</td>
 				<td style="text-align:right;">Payment Notes :</td>
-				<td>{{order|get_order_detail:'note'}}</td>
+				<td>{{order|get_order_detail:'note'|convert_unicode_to_entity}}</td>
 			</tr>
 			<tr>
 				<td style="text-align:right;">Email Address :</td>
 				<td>{{order.email}}</td>
 				<td rowspan="4" style="text-align:right; vertical-align:top;">Order Notes :</td>
-				<td rowspan="4" style="vertical-align:top;">{{order|get_order_detail:'note'}}</td>
+				<td rowspan="4" style="vertical-align:top;">{{order|get_order_detail:'note'|convert_unicode_to_entity}}</td>
 			</tr>
 			<tr>
 				<td style="text-align:right;">Delivery Date :</td>
-				<td>{{order.email}}</td>
+				<td>{{order|get_order_detail:"delivery_date"}}</td>
 			</tr>
 			<tr>
 				<td style="text-align:right;">Delivery Address :</td>
 				<td>{{order|get_order_detail:'delivery_address'}}</td>
 			</tr>
 			<tr>
+				<td style="text-align:right;">Delivery City :</td>
+				<td>{{order|get_order_detail:'delivery_city'}}</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Delivery Zip Code :</td>
+				<td>{{order|get_order_detail:'delivery_zip_code'}}</td>
+			</tr>
+			<tr>
 				<td style="text-align:right;">Billing Address :</td>
 				<td>{{order.billing_address}}</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Billing City :</td>
+				<td>{{order.billing_city}}</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Billing Zip Code :</td>
+				<td>{{order.billing_zip_code}}</td>
 			</tr>
 		</tbody>
 	</table>

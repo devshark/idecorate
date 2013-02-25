@@ -2948,14 +2948,15 @@ def admin_manage_order(request):
 @staff_member_required
 def admin_view_order(request):
 
-	if request.GET.get('order', ''):
+	if request.GET.get('order', None):
 
 		info = {}
-		order_id 			= request.GET.get('order', '')
+		order_id 			= int(request.GET.get('order'))
 		order 				= Order.objects.get(id=order_id)
 		order_items 		= OrderItem.objects.filter(order=order_id)
 		info['order']		= order
 		info['order_items'] = order_items
+
 
 		return render_to_response('admin/admin_view_order.html',info,RequestContext(request))
 
@@ -2973,13 +2974,17 @@ def admin_edit_order(request):
 
 			data = form.cleaned_data
 
-			ordr = Order.objects.get(pk=int(data['order_id']))
+			ordr = Order.objects.get(id=int(data['order_id']))
 			ordr.update_status(int(data['status']), data['note'])
 			ordr.billing_first_name = data['first_name']
 			ordr.billing_last_name = data['last_name']
 			ordr.email = data['email']
 			ordr.shipping_address = data['delivery_address']
+			ordr.shipping_city = data['delivery_city']
+			ordr.shipping_zip_code = data['delivery_zip_code']
 			ordr.billing_address = data['billing_address']
+			ordr.billing_city = data['billing_city']
+			ordr.billing_zip_code = data['billing_zip_code']
 			ordr.notes = data['note']
 			ordr.save()
 
@@ -3009,7 +3014,7 @@ def admin_edit_order(request):
 
 			messages.success(request, _('Order information saved.'))
 		else:
-			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors
+			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors + form['delivery_city'].errors + form['delivery_zip_code'].errors + form['billing_city'].errors + form['billing_zip_code'].errors
 	
 	if request.session.get('manage_order_redirect', False):
 		return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])
