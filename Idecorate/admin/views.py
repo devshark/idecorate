@@ -2973,7 +2973,7 @@ def admin_edit_order(request):
 
 			data = form.cleaned_data
 
-			ordr = Order.objects.get(pk=int(data['order_id']))
+			ordr = Order.objects.get(id=int(data['order_id']))
 			ordr.update_status(int(data['status']), data['note'])
 			ordr.billing_first_name = data['first_name']
 			ordr.billing_last_name = data['last_name']
