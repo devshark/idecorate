@@ -34,8 +34,39 @@
 		</div>
 	</div>	
 	<h2>My Style Boards</h2>
-	{% if user_styleboard %}	
 	<div class="clearfix styleboardWrapper">
+	<!-- {% if user_keeped_images %}
+
+		{% for user_keeped_image in user_keeped_images %}
+
+			{% if forloop.last %}
+
+			<div class="featureContentWrap clearfix">
+				<div class="clearfix featureImg">
+					<a href=""><img src="/media/banners/{{ user_keeped_image.image.image }}" /></a> 
+				</div>
+				<h3 class="clearfix featureTitle">Keeped Images</h3>
+				<div class="clearfix">
+					<div class="featureDesc"></div>
+					<div class="featurePrice"></div>
+				</div>
+				<div class="clearfix featureFooter">
+					{% if user_profile.picture %}
+					<img src="{{ user_profile.picture }}" style="width:23px;height:23px;" alt="" />
+					{% else %}
+					<img src="/media/images/man.png" alt="" />
+					{% endif %}	<span class="member">by {{ user_keeped_image.user.id|get_nickname }}</span>
+				</div>
+			</div>
+
+			{% endif %}
+
+		{% endfor %}
+
+	{% endif %}
+	 -->
+	{% if user_styleboard %}	
+		
 		{% for item in user_styleboard %}
 
 		<div class="featureContentWrap clearfix">
@@ -63,12 +94,14 @@
 		</div>
 
 		{% endfor %}
-	</div>
+
 	{% else %}
-	<div class="clearfix create-wrap">
+
 		<a href="{% url styleboard %}">Create New Style Board</a>
-	</div>	
+
 	{% endif %}
+
+	</div>
 </section>
 {% endblock %}
 {% block javascripts %}

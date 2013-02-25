@@ -518,9 +518,9 @@ def search_products(request):
 					cats_ids += get_cat_ids(cat.id)
 				q.add(Q(categories__id__in=cats_ids), Q.OR)
 
-			product_list = Product.objects.filter(q).distinct().order_by('sku')
+			product_list = Product.objects.filter(q).distinct()
 			product_list = product_list.filter(categories__deleted=0, is_active=True, is_deleted=False)
-			product_list = product_list.distinct()
+			product_list = product_list.distinct().order_by('sku')
 		product_counts = product_list.count()		
 		offset = request.GET.get('offset',25)
 
