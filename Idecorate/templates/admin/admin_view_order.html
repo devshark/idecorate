@@ -72,13 +72,13 @@
 				<td style="text-align:right;">Last Name :</td>
 				<td>{{order.billing_last_name}}</td>
 				<td style="text-align:right;">Payment Notes :</td>
-				<td>{{order|get_order_detail:'note'}}</td>
+				<td>{{order|get_order_detail:'note'|convert_unicode_to_entity}}</td>
 			</tr>
 			<tr>
 				<td style="text-align:right;">Email Address :</td>
 				<td>{{order.email}}</td>
 				<td rowspan="4" style="text-align:right; vertical-align:top;">Order Notes :</td>
-				<td rowspan="4" style="vertical-align:top;">{{order|get_order_detail:'note'}}</td>
+				<td rowspan="4" style="vertical-align:top;">{{order|get_order_detail:'note'|convert_unicode_to_entity}}</td>
 			</tr>
 			<tr>
 				<td style="text-align:right;">Delivery Date :</td>
