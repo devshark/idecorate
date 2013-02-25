@@ -11,7 +11,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from uuid import uuid4
 from customer.models import CustomerProfile
-from cart.models import Contact
+from cart.models import Contact, GuestTable
 from cart.services import generate_unique_id
 from django.utils.html import strip_tags
 from customer.services import get_user_styleboard, save_styleboard_item
@@ -164,6 +164,8 @@ def send_email_set_pass(user_id):
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=u.user.email,subject='Welcome To iDecorateweddings.com',body=messageHTML,isHTML=True)
 
 def send_email_order(order, user, shop, sbid, comment):
+
+    guest_table = GuestTable.objects.get(order=order)
 
     itemsHTML = ""
     board = "http://%s/media/images/styleboard.jpg" % settings.IDECORATE_HOST
@@ -423,8 +425,8 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         settings.IDECORATE_HOST,
         itemsHTML,
         settings.IDECORATE_HOST,
-        shop.guest_table.guests,
-        shop.guest_table.tables,
+        guest_table.guests,
+        guest_table.tables,
         "$%.2f" % order.total,
         settings.IDECORATE_HOST,
         c_block,
