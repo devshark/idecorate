@@ -762,7 +762,11 @@ def get_order(order):
 	o['last_name'] 			= str(order.billing_last_name)
 	o['email'] 				= str(order.email)
 	o['delivery_address'] 	= str(order.shipping_address)
+	o['delivery_city']		= str(order.shipping_city)
+	o['delivery_zip_code']	= str(order.shipping_zip_code)
 	o['billing_address'] 	= str(order.billing_address)
+	o['billing_city']		= str(order.billing_city)
+	o['billing_zip_code']	= str(order.billing_zip_code)
 	o['note'] 				= unicode(order.notes).encode('ascii','xmlcharrefreplace')
 
 	return o
