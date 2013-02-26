@@ -2767,7 +2767,8 @@ def admin_manage_order(request):
 			s_type = "-%s" % order_by
 	
 	#q_obj_initial = ~Q(user__id=None)
-	orders = get_all_orders(None,s_type) #dont show result with status of 20||CHECKOUT
+	query = None
+	orders = Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).order_by(s_type)
 
 	if request.method == "POST":
 		form = filterOrderForm(request.POST)
@@ -2801,15 +2802,15 @@ def admin_manage_order(request):
 		
 		form = filterOrderForm(initial=initial_form)
 
-	query = None
+	#query = None
 	if not form_error:
 		if order_id:
 			filters.update({'order_id':order_id})
 			if query is not None:
-				query.add(Q(_order_id=order_id), Q.AND)
+				query.add(Q(_order_id__icontains=str(order_id)), Q.AND)
 
 			else:
-				query = Q(_order_id=order_id)
+				query = Q(_order_id__icontains=str(order_id))
 
 		if created:
 
@@ -2821,10 +2822,10 @@ def admin_manage_order(request):
 				day 		= int(split_date[2])
 
 				if query is not None:
-					query.add(Q(created__startswith=datetime.date(year,month,day)), Q.AND)
+					query.add(Q(created__startswith=datetime(year,month,day).strftime('%Y-%m-%d')), Q.AND)
 
 				else:
-					query = Q(created__startswith=datetime.date(year,month,day))
+					query = Q(created__startswith=datetime(year,month,day).strftime('%Y-%m-%d'))
 
 			except :
 				pass
@@ -2838,8 +2839,9 @@ def admin_manage_order(request):
 
 			for splittedName in splittedNames:
 
+				"""
 				if query is not None:
-					query.add(Q(billing_first_name__icontains=splittedName), Q.OR)
+					query.add(Q(billing_first_name__icontains=splittedName ), Q.OR)
 				else:
 					query = Q(billing_first_name__icontains=splittedName)
 
@@ -2848,8 +2850,11 @@ def admin_manage_order(request):
 					query.add(Q(billing_last_name__icontains=splittedName), Q.AND)
 				else:
 					query = Q(billing_last_name__icontains=splittedName)
-
-			print query
+				"""
+				if query is not None:
+					query.add(Q(billing_first_name__icontains=splittedName ) | Q(billing_last_name__icontains=splittedName), Q.AND)
+				else:
+					query = Q(billing_first_name__icontains=splittedName) | Q(billing_last_name__icontains=splittedName)
 
 		if email:
 
@@ -2875,7 +2880,7 @@ def admin_manage_order(request):
 		if query is not None:
 			#query.add(Q(status__gt=20), Q.AND) #dont show result with status of 20||CHECKOUT
 			#query.add(~Q(user__id=None), Q.AND)
-			orders = get_all_orders(query,s_type)
+			orders = orders.filter(query).order_by(s_type)
 
 	filters.update({'order_by':order_by, 'sort_type':sort_type}) 
 	urlFilter = QueryDict(urllib.urlencode(filters))
@@ -2883,49 +2888,49 @@ def admin_manage_order(request):
 	paginator = Paginator(orders, 20)
 	page = request.GET.get('page','')
 
-	request.session['manage_order_redirect'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	request.session['manage_order_redirect'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = '_order_id'
 	filters['sort_type'] = 'asc'
-	info['order_id_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['order_id_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['order_id_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['order_id_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'created'
 	filters['sort_type'] = 'asc'
-	info['created_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['created_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['created_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['created_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'billing_last_name'
 	filters['sort_type'] = 'asc'
-	info['name_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['name_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['name_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['name_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'email'
 	filters['sort_type'] = 'asc'
-	info['email_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['email_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['email_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['email_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'total'
 	filters['sort_type'] = 'asc'
-	info['total_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['total_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['total_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['total_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'status'
 	filters['sort_type'] = 'asc'
-	info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['status_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['status_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	try:
 		orders = paginator.page(page)
@@ -2975,17 +2980,23 @@ def admin_edit_order(request):
 			data = form.cleaned_data
 
 			ordr = Order.objects.get(id=int(data['order_id']))
-			ordr.update_status(int(data['status']), data['note'])
+			ordr.update_status(int(data['status']), unicode(data['note']).encode('ascii','xmlcharrefreplace'))
 			ordr.billing_first_name = data['first_name']
 			ordr.billing_last_name = data['last_name']
 			ordr.email = data['email']
 			ordr.shipping_address = data['delivery_address']
+			ordr.data['delivery_address2'] = data['delivery_address2']
 			ordr.shipping_city = data['delivery_city']
+			ordr.data['delivery_state'] = data['delivery_state']
 			ordr.shipping_zip_code = data['delivery_zip_code']
+			ordr.data['delivery_country'] = data['delivery_country']
 			ordr.billing_address = data['billing_address']
+			ordr.data['billing_address2'] = data['billing_address2']
 			ordr.billing_city = data['billing_city']
+			ordr.data['billing_state'] = data['billing_state']
 			ordr.billing_zip_code = data['billing_zip_code']
-			ordr.notes = data['note']
+			ordr.data['billing_country'] = data['billing_country']
+			ordr.notes = unicode(data['note']).encode('ascii','xmlcharrefreplace')
 			ordr.save()
 
 			try:
@@ -3014,7 +3025,7 @@ def admin_edit_order(request):
 
 			messages.success(request, _('Order information saved.'))
 		else:
-			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors + form['delivery_city'].errors + form['delivery_zip_code'].errors + form['billing_city'].errors + form['billing_zip_code'].errors
+			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors + form['delivery_city'].errors + form['delivery_zip_code'].errors + form['billing_city'].errors + form['billing_zip_code'].errors + form['delivery_country'].errors + form['billing_country'].errors + form['delivery_state'].errors + form['billing_state'].errors
 	
 	if request.session.get('manage_order_redirect', False):
 		return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])

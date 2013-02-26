@@ -171,17 +171,29 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
     		contact.shipping_address2 = shipping_address2
     		contact.save()
 
+    		order.data['delivery_address2'] = shipping_address2
+    		order.save()
+
     	if billing_address2:
     		contact.billing_address2 = billing_address2
     		contact.save()
+
+    		order.data['billing_address2'] = billing_address2
+    		order.save()
 
     	if shipping_state:
     		contact.shipping_state = shipping_state
     		contact.save()
 
+    		order.data['delivery_state'] = shipping_state
+    		order.save()
+
     	if billing_state:
     		contact.billing_state = billing_state
     		contact.save()
+
+    		order.data['billing_state'] = billing_state
+    		order.save()
 
     	if shipping_city:
     		contact.city = shipping_city
@@ -207,9 +219,15 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
             contact.countries = shipping_country
             contact.save()
 
+            order.data['delivery_country'] = shipping_country
+            order.save()
+
         if billing_country:
             contact.countries2 = billing_country
             contact.save()
+
+            order.data['billing_country'] = billing_country
+            order.save()
 
     	if notes:
     		order.notes = notes
