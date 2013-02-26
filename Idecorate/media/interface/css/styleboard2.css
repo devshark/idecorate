@@ -909,7 +909,7 @@ h5 {
     padding-top: 8px; }
   .idecorateTooltip ul {
     margin-top: 5px; }
-    .idecorateTooltip ul li {
+    .idecorateTooltip ul > li {
       margin-bottom: 7px; }
   .idecorateTooltip #tooltip-desc ul {
     list-style-type: square !important;

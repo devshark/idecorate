@@ -48,6 +48,10 @@
 		}
 
 	</style>
+	<script type="text/javascript">
+		var user = {% if user.id %}{{ user.id }}{% else %}0{% endif %};
+		var KEEP_IMAGE_URL = '{% url keep_home_image %}';
+	</script>
 {% endblock %}
 {% block content %}
 <div class="defaultContent clearfix">
@@ -71,6 +75,7 @@
 					<img src="/media/banners/{{ l.image }}" />
 				</a>
 				<ul class="featuredLinks">
+					<li><a image_id="{{l.id}}" href="#keep">Keep</a></li>
 					<li style="position:relative;">
 						<a class="shareModal" href="#">Share</a>
 						<div class="modal">
@@ -119,6 +124,8 @@
 <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
 <script type="text/javascript">
 $(function(){
+
+
 	if($(window).height() > $('#main-container').outerHeight()){
 		page_H();
 	}
@@ -142,6 +149,33 @@ $(function(){
 	});
 	//this is a test
 	FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
+
+
+	$('a[href="#keep"]').click(function(e){
+		
+		e.preventDefault();
+
+		if(user == 0){
+
+            popup_login();
+
+		}else{
+
+			var keep = $.post( KEEP_IMAGE_URL, { image_id: $(this).attr('image_id'), user_id: user } );
+			
+			keep.done(function( data ) {
+				if(data == 'success'){
+					//image keeped
+				}else if(data == 'duplicate'){
+					//image already exist in users keeped images
+				}else{
+					//keeping image failed
+				}
+			});
+
+		}
+
+	});
 
 });
 

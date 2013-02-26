@@ -4,6 +4,7 @@ from stdimage import StdImageField
 from django.conf import settings
 from django.contrib.auth.models import User
 from cart.models import Product
+from admin.models import HomeBannerImages
 
 class CustomerProfile(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
@@ -67,3 +68,14 @@ class StyleBoardCartItems(models.Model):
     class Meta:
         verbose_name = _('Styleboard Cart Items')
         db_table = 'styleboard_cart_items'
+
+class KeepImages(models.Model):
+	id 		= models.AutoField(db_column='id', primary_key=True)
+	user 	= models.ForeignKey(User, db_column='user_id')
+	image 	= models.ForeignKey(HomeBannerImages, db_column='image_id')
+	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+
+	class Meta:
+		db_table 		= 'keeped_images'
+		verbose_name 	= _("Keeped Images")
+

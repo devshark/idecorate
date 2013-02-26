@@ -21,7 +21,7 @@ from django.contrib.auth.models import User
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
-	get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item
+	get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item, get_user_keep_images
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
 import re
@@ -29,6 +29,7 @@ import math
 from idecorate_settings.models import IdecorateSettings
 from urllib import unquote
 from admin.services import getExtensionAndFileName
+from admin.models import HomeBannerImages
 from cart.services import generate_unique_id
 from embellishments.models import StyleboardTemplateItems
 from django.utils.html import strip_tags
@@ -37,6 +38,7 @@ from social_auth.models import UserSocialAuth
 from django.template.defaultfilters import filesizeformat
 import shutil
 from cart.views import shop
+from models import KeepImages
 
 def login_signup(request):
 
@@ -145,7 +147,9 @@ def profile(request):
 	info['user_profile'] = user_profile
 	info['currentUrl'] = request.get_full_path()
 	user_styleboard = get_user_styleboard(user)	
+	user_keeped_images = get_user_keep_images(user)
 	info['user_styleboard'] = user_styleboard
+	info['user_keeped_images'] = user_keeped_images
 
 	idecorateSettings = IdecorateSettings.objects.get(pk=1)
 	info['global_default_quantity'] = idecorateSettings.global_default_quantity
@@ -1272,3 +1276,41 @@ def generate_styleboard_template_view(request, id, w, h):
 	mainImage.save(response, "PNG")
 	"""
 	return response
+
+@csrf_exempt
+def keep_home_image(request):
+
+	ret = "failed"
+
+
+	if request.method == "POST":
+
+		if request.POST['image_id'] : 
+
+			image_id = int(request.POST['image_id'])
+
+		if request.POST['user_id'] : 
+
+			user_id = int(request.POST['user_id'])
+
+		try:
+
+			keep_image = KeepImages.objects.get(image__id=image_id, user__id=user_id)
+
+			ret = "duplicate"
+		
+		except:
+		
+			keep_image 			= KeepImages()
+			keep_image.image 	= HomeBannerImages.objects.get(id=image_id)
+			keep_image.user 	= User.objects.get(id=user_id)
+			keep_image.save()
+
+			if keep_image.pk : 
+
+				ret = "success"
+
+	return HttpResponse(ret)
+
+def keep_image_view(request):
+	pass

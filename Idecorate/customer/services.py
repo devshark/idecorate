@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import DatabaseError, transaction
-from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, StyleBoardCartItems
+from models import CustomerProfile, CustomerStyleBoard, StyleboardItems, StyleBoardCartItems, KeepImages
 from cart.models import CartTemp, ProductPrice
 import urllib2, urllib
 
@@ -193,3 +193,15 @@ def get_facebook_friends(access_token, name, limit, offset):
 	except Exception as e:
 		print "Error fetching friends: %s" % e
 		return ret
+
+def get_user_keep_images(user=None):
+	images = None
+	
+	if user:
+
+		try:
+			images = KeepImages.objects.filter(user=user)
+		except:
+			images = None
+
+	return images

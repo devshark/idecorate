@@ -2832,7 +2832,6 @@ def admin_manage_order(request):
 			filters.update({'created':created})
 
 		if name:
-
 			filters.update({'name':name})
 
 			splittedNames = name.split(' ')
@@ -2849,6 +2848,8 @@ def admin_manage_order(request):
 					query.add(Q(billing_last_name__icontains=splittedName), Q.AND)
 				else:
 					query = Q(billing_last_name__icontains=splittedName)
+
+			print query
 
 		if email:
 
