@@ -2882,49 +2882,49 @@ def admin_manage_order(request):
 	paginator = Paginator(orders, 20)
 	page = request.GET.get('page','')
 
-	request.session['manage_order_redirect'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	request.session['manage_order_redirect'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = '_order_id'
 	filters['sort_type'] = 'asc'
-	info['order_id_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['order_id_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['order_id_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['order_id_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'created'
 	filters['sort_type'] = 'asc'
-	info['created_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['created_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['created_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['created_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'billing_last_name'
 	filters['sort_type'] = 'asc'
-	info['name_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['name_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['name_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['name_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'email'
 	filters['sort_type'] = 'asc'
-	info['email_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['email_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['email_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['email_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'total'
 	filters['sort_type'] = 'asc'
-	info['total_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['total_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['total_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['total_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['order_by'] = 'status'
 	filters['sort_type'] = 'asc'
-	info['status_asc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['status_asc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	filters['sort_type'] = 'desc'
-	info['status_desc_link'] = "?page=%s&%s" % (page, urllib.urlencode(filters))
+	info['status_desc_link'] = mark_safe("?page=%s&%s" % (page, urllib.urlencode(filters)))
 
 	try:
 		orders = paginator.page(page)
