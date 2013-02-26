@@ -2767,7 +2767,8 @@ def admin_manage_order(request):
 			s_type = "-%s" % order_by
 	
 	#q_obj_initial = ~Q(user__id=None)
-	orders = get_all_orders(None,s_type) #dont show result with status of 20||CHECKOUT
+	query = None
+	orders = Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).order_by(s_type)
 
 	if request.method == "POST":
 		form = filterOrderForm(request.POST)
@@ -2801,15 +2802,15 @@ def admin_manage_order(request):
 		
 		form = filterOrderForm(initial=initial_form)
 
-	query = None
+	#query = None
 	if not form_error:
 		if order_id:
 			filters.update({'order_id':order_id})
 			if query is not None:
-				query.add(Q(_order_id=order_id), Q.AND)
+				query.add(Q(_order_id__icontains=str(order_id)), Q.AND)
 
 			else:
-				query = Q(_order_id=order_id)
+				query = Q(_order_id__icontains=str(order_id))
 
 		if created:
 
@@ -2821,10 +2822,10 @@ def admin_manage_order(request):
 				day 		= int(split_date[2])
 
 				if query is not None:
-					query.add(Q(created__startswith=datetime.date(year,month,day)), Q.AND)
+					query.add(Q(created__startswith=datetime(year,month,day).strftime('%Y-%m-%d')), Q.AND)
 
 				else:
-					query = Q(created__startswith=datetime.date(year,month,day))
+					query = Q(created__startswith=datetime(year,month,day).strftime('%Y-%m-%d'))
 
 			except :
 				pass
@@ -2838,8 +2839,9 @@ def admin_manage_order(request):
 
 			for splittedName in splittedNames:
 
+				"""
 				if query is not None:
-					query.add(Q(billing_first_name__icontains=splittedName), Q.OR)
+					query.add(Q(billing_first_name__icontains=splittedName ), Q.OR)
 				else:
 					query = Q(billing_first_name__icontains=splittedName)
 
@@ -2848,8 +2850,11 @@ def admin_manage_order(request):
 					query.add(Q(billing_last_name__icontains=splittedName), Q.AND)
 				else:
 					query = Q(billing_last_name__icontains=splittedName)
-
-			print query
+				"""
+				if query is not None:
+					query.add(Q(billing_first_name__icontains=splittedName ) | Q(billing_last_name__icontains=splittedName), Q.AND)
+				else:
+					query = Q(billing_first_name__icontains=splittedName) | Q(billing_last_name__icontains=splittedName)
 
 		if email:
 
@@ -2875,7 +2880,7 @@ def admin_manage_order(request):
 		if query is not None:
 			#query.add(Q(status__gt=20), Q.AND) #dont show result with status of 20||CHECKOUT
 			#query.add(~Q(user__id=None), Q.AND)
-			orders = get_all_orders(query,s_type)
+			orders = orders.filter(query).order_by(s_type)
 
 	filters.update({'order_by':order_by, 'sort_type':sort_type}) 
 	urlFilter = QueryDict(urllib.urlencode(filters))
