@@ -13,6 +13,7 @@ from interface.views import admin as admin2
 from django.contrib.auth.models import User
 import decimal
 from plata.shop.models import OrderPayment
+from urllib import quote, quote_plus
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -767,7 +768,7 @@ def get_order(order):
 	o['billing_address'] 	= str(order.billing_address)
 	o['billing_city']		= str(order.billing_city)
 	o['billing_zip_code']	= str(order.billing_zip_code)
-	o['note'] 				= unicode(order.notes).encode('ascii','xmlcharrefreplace')
+	o['note'] 				= quote_plus(unicode(order.notes).encode('ascii','xmlcharrefreplace'))
 
 	return o
 

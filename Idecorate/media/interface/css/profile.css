@@ -155,3 +155,11 @@
         font-size: 13px;
         background: none;
         font-family: 'futura_std_medium'; }
+
+.savedImageWrapper > div .savedImageWrap {
+  float: left;
+  padding: 12px;
+  background-color: #efebe4;
+  margin: 0 12px 12px 0; }
+.savedImageWrapper > div .savedImageWrap.size1 {
+  margin-right: 0; }

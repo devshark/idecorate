@@ -654,6 +654,13 @@
                 pop_save_styleboard();
             }
         });
+
+        if($('#site-menu a.link').hasClass('hasSub')){
+            width = $('#site-menu a.hasSub').next('ul.sub-menu').width()-$('#site-menu a.hasSub').parent().width();
+            $('#site-menu a.hasSub').next('ul.sub-menu').css({
+                left : '-'+width+'px'
+            });
+        }
     });
 
     function styleboardH() {
@@ -715,6 +722,7 @@
             navs += '<a href="#" id="logged_as">{{ user|get_nickname }}</a>';
             navs += '<ul>';
             navs += '<li><a id="lnk-styleboards" href="#">My Styleboards</a></li>';
+            navs += '<li><a id="lnk-saved-images" href="#">My Saved Images</a></li>';
             navs += '<li><a href="{%url invite_friends %}">Invite Friends</a></li>';
             navs += '<li><a id="lnk-edit" href="{% url edit_profile %}">Edit Profile</a></li>';                
             navs += '<li><a id="lnk-logout" href="#">Logout</a></li>';                
@@ -725,6 +733,7 @@
         $('#site-menu ul.dd').append(navs);
         $('#lnk-logout').bind('click',logmeout);
         $('#lnk-styleboards').bind('click',goto_profile);
+        $('#lnk-saved-images').bind('click',goto_saved_images);
         $('#site-menu ul a#lnk-login-signup').bind('click',function(e){
             e.preventDefault();
             popup_login();
@@ -742,6 +751,11 @@
     function goto_profile(){
         window.location.href = '{% url profile %}';
     }
+            
+    function goto_saved_images(){
+        window.location.href = '{% url saved_images %}';
+    }
+    
     function logged(val){
         logined = true;
         $('#logged_as').text(val);

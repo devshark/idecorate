@@ -14,4 +14,5 @@ urlpatterns =  patterns('customer.views',
     url(r'^social_redirect/$', 'social_redirect', {}, name='social_redirect'),
     url(r'^styleboard/generate_styleboard_template_view/(?P<id>\d+)/(?P<w>\d+)/(?P<h>\d+)/$','generate_styleboard_template_view', {}, name='generate_styleboard_template_view'),
     url(r'^keep_home_image/$', 'keep_home_image', {}, name='keep_home_image'),
+    url(r'^saved_images/$', 'saved_images', {}, name='saved_images'),
 )

@@ -147,9 +147,7 @@ def profile(request):
 	info['user_profile'] = user_profile
 	info['currentUrl'] = request.get_full_path()
 	user_styleboard = get_user_styleboard(user)	
-	user_keeped_images = get_user_keep_images(user)
 	info['user_styleboard'] = user_styleboard
-	info['user_keeped_images'] = user_keeped_images
 
 	idecorateSettings = IdecorateSettings.objects.get(pk=1)
 	info['global_default_quantity'] = idecorateSettings.global_default_quantity
@@ -1312,5 +1310,40 @@ def keep_home_image(request):
 
 	return HttpResponse(ret)
 
-def keep_image_view(request):
-	pass
+def saved_images(request):
+
+	user_id = request.GET.get('id',None)
+
+	if user_id:
+
+		try:
+
+			user = User.objects.get(id=user_id)
+
+		except:
+
+			if request.user.is_authenticated():
+
+				user = request.user
+
+			else:
+
+				return redirect('home')
+	else:
+
+		if request.user.is_authenticated():
+
+			user = request.user
+
+		else:
+
+			return redirect('home')
+
+	info = {}
+
+	user_profile 				= customer_profile(user)
+	info['user_profile'] 		= user_profile
+	user_keeped_images 			= get_user_keep_images(user)
+	info['user_keeped_images'] 	= user_keeped_images
+
+	return render_to_response('customer/saved_images.html', info, RequestContext(request))

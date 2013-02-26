@@ -200,7 +200,7 @@ def get_user_keep_images(user=None):
 	if user:
 
 		try:
-			images = KeepImages.objects.filter(user=user)
+			images = KeepImages.objects.filter(user=user).order_by('image__home_banner__size')
 		except:
 			images = None
 

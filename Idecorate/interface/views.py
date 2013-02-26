@@ -128,21 +128,32 @@ def st_man(request, needToClear=True):
 		#request.session['sbid'] = sbid
 
 		personalize_styleboard = get_user_styleboard(None, sbid)
+
 		if personalize_styleboard:
+
 			if personalize_styleboard.user.id:
+
 				if needToClear:
-					clear_styleboard_session(request)			
-				info['save_styleboard'] = personalize_styleboard
-				info['personalize_item'] = mark_safe(personalize_styleboard.styleboard_item.item.replace("'","\\'"))
+					clear_styleboard_session(request)
+
+				info['save_styleboard'] 		= personalize_styleboard
+				info['personalize_item'] 		= mark_safe(personalize_styleboard.styleboard_item.item.replace("'","\\'"))
 				info['global_default_quantity'] = personalize_styleboard.styleboard_item.item_guest
-				info['global_guest_table'] = personalize_styleboard.styleboard_item.item_tables			
+				info['global_guest_table'] 		= personalize_styleboard.styleboard_item.item_tables			
+				
 				if request.user.is_authenticated():
+
 					if int(personalize_styleboard.user.id) == int(request.user.id):
+
 						info['sbid'] = sbid
 						request.session['customer_styleboard'] = personalize_styleboard
+
 					else:
+
 						request.session['personalize_id'] = personalize_styleboard.id
+
 				else:
+					
 					request.session['personalize_id_logged_out'] = personalize_styleboard.id
 					request.session['personalize_styleboard'] = personalize_styleboard					
 

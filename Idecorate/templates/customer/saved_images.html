@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% load idecorate_interface humanize %}
+{{ request|set_last_page_idecorate }}
+{% block title %}My Profile{% endblock %}
+{%  block style %}
+<link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
+<link rel="stylesheet" type="text/css" href="/media/interface/css/profile.css">
+<link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+{% endblock %}
+{% block content %}
+<div class="profileWrap">
+	<div class="clearfix user-profile">
+		<div class="picture-wrap">
+			{% if user_profile.picture %}
+			<img src="{{ user_profile.picture }}" alt="" />
+			{% else %}
+			<img src="/media/images/nopic.jpg" alt="" />
+			{% endif %}	
+		</div>
+		<div class="description-wrap">
+			<p class="title">
+				{% if user_profile.first_name != "" and user_profile.last_name != "" %}
+				{{ user_profile.first_name }} {{ user_profile.last_name }} 
+				{% else %}
+				{{ user_profile.username }} 
+				{% endif %}
+			</p>
+			<p class="desc">
+				{% if user_profile.description %}
+				{{ user_profile.description }}
+				{% endif %}
+			</p>
+		</div>
+	</div>	
+	<h2>My Saved Images</h2>
+	<div class="clearfix savedImageWrapper">
+	{% if user_keeped_images %}
+
+		{% for user_keeped_image in user_keeped_images %}
+
+			<div class="savedImageWrap size{{user_keeped_image.image.home_banner.size}}">
+				<a href="{{user_keeped_image.image.tinyUrl}}">
+					<img src="/media/banners/{{ user_keeped_image.image.image }}" />
+				</a> 
+				<h3 class="savedTitle">{{user_keeped_image.image.name}}</h3>
+				<p class="savedDesc">{{user_keeped_image.image.description}}</p>
+			</div>
+
+		{% endfor %}
+
+	{% endif %}
+	
+	</div>
+</section>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+		
+	var container 	= $('<div/>');
+
+	$(function(){
+
+		children	= $('.savedImageWrap');
+
+		if( children.hasClass('size1') ){
+
+			move_to_container(1)
+
+		}
+
+		if( children.hasClass('size2') ){
+
+			move_to_container(2)
+
+		}
+
+		if( children.hasClass('size3') ){
+
+			move_to_container(3)
+
+		}
+
+		var size2_height = 0;
+		var size3_height = 0;
+
+		if($('.size2:nth-child(2n)').height() < $('.size2:nth-child(2n)').prev().height()){
+			size2_height = $('.size2:nth-child(2n)').height();
+		}else{
+			size2_height = $('.size2:nth-child(2n)').prev().height();
+		}
+
+		$('.size2:nth-child(2n)').height(size2_height);
+		$('.size2:nth-child(2n)').prev().height(size2_height);
+
+		$('.size2:nth-child(2n)').css('margin-right',0);
+		$('.size3:nth-child(3n)').css('margin-right',0);		
+	});
+
+	function move_to_container(size){
+
+		container.clone().addClass('size'+size+'Wrapper clearfix').appendTo('.savedImageWrapper');
+
+		$('.size'+size ).each(function(i,ele){
+
+			$('.size'+size+'Wrapper').append($(ele));
+
+		});
+	}
+
+</script>
+{% endblock %}
