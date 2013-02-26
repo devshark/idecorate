@@ -96,6 +96,13 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">{{ edit_form.delivery_state.label }} *</label>
+			<div class="controls">
+				{{ edit_form.delivery_state|add_class:"input-large"|attr:"placeholder:Enter Delivery State" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">{{ edit_form.delivery_zip_code.label }} *</label>
 			<div class="controls">
 				{{ edit_form.delivery_zip_code|add_class:"input-large"|attr:"placeholder:Enter Delivery Zip Code" }}
@@ -127,6 +134,13 @@
 			<label class="control-label">{{ edit_form.billing_city.label }} *</label>
 			<div class="controls">
 				{{ edit_form.billing_city|add_class:"input-large"|attr:"placeholder:Enter Billng City" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.billing_state.label }} *</label>
+			<div class="controls">
+				{{ edit_form.billing_state|add_class:"input-large"|attr:"placeholder:Enter Billing State" }}
 				<span class="help-block">&nbsp;</span>
 			</div>
 		</div>
@@ -323,12 +337,14 @@
 		$('#id_delivery_date').val(options.delivery_date);		
 		$('#id_delivery_address').val(options.delivery_address);
 		$('#id_delivery_address2').val(options.delivery_address2);
-		$('#id_delivery_city').val(options.delivery_city);	
+		$('#id_delivery_city').val(options.delivery_city);
+		$('#id_delivery_state').val(options.delivery_state);	
 		$('#id_delivery_zip_code').val(options.delivery_zip_code);
 		$('#id_delivery_country').val(options.delivery_country);
 		$('#id_billing_address').val(options.billing_address);
 		$('#id_billing_address2').val(options.billing_address2);
 		$('#id_billing_city').val(options.billing_city);
+		$('#id_billing_state').val(options.billing_state);
 		$('#id_billing_zip_code').val(options.billing_zip_code);
 		$('#id_billing_country').val(options.billing_country);	
 		$('#id_note').val(options.note);

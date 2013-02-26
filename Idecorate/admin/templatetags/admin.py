@@ -768,7 +768,13 @@ def get_order(order):
 	else:
 		o['delivery_address2'] = ''
 
-	o['delivery_city']		= str(order.shipping_city)
+	o['delivery_city'] = str(order.shipping_city)
+
+	if 'delivery_state' in order.data:
+		o['delivery_state'] = str(order.data['delivery_state'])
+	else:
+		o['delivery_state'] = ''
+
 	o['delivery_zip_code']	= str(order.shipping_zip_code)
 
 	if 'delivery_country' in order.data:
@@ -783,7 +789,14 @@ def get_order(order):
 	else:
 		o['billing_address2'] = ''
 
-	o['billing_city']		= str(order.billing_city)
+	o['billing_city'] = str(order.billing_city)
+
+
+	if 'billing_state' in order.data:
+		o['billing_state'] = str(order.data['billing_state'])
+	else:
+		o['billing_state'] = ''
+
 	o['billing_zip_code']	= str(order.billing_zip_code)
 
 	if 'billing_country' in order.data:
