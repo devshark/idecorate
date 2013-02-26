@@ -1294,6 +1294,11 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		    margin-left: 20px;
 		    margin-right: 0;
 		    margin-top: 10px;
+
+			li{
+			    margin-bottom: 0 !important;
+			}
+			
 		}
 		ol{
 			list-style-type: decimal !important;

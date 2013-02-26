@@ -917,6 +917,8 @@ h5 {
     margin-left: 20px;
     margin-right: 0;
     margin-top: 10px; }
+    .idecorateTooltip #tooltip-desc ul li {
+      margin-bottom: 0 !important; }
   .idecorateTooltip #tooltip-desc ol {
     list-style-type: decimal !important;
     margin-bottom: 10px;

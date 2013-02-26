@@ -805,7 +805,7 @@ def get_order(order):
 	else:
 		o['billing_country'] = ''
 	
-	o['note'] 				= quote_plus(unicode(order.notes).encode('ascii','xmlcharrefreplace'))
+	o['note'] 				= quote(order.notes.encode('ascii','xmlcharrefreplace'))
 
 	
 	return o
