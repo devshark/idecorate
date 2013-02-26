@@ -2979,11 +2979,15 @@ def admin_edit_order(request):
 			ordr.billing_last_name = data['last_name']
 			ordr.email = data['email']
 			ordr.shipping_address = data['delivery_address']
+			ordr.data['delivery_address2'] = data['delivery_address2']
 			ordr.shipping_city = data['delivery_city']
 			ordr.shipping_zip_code = data['delivery_zip_code']
+			ordr.data['delivery_country'] = data['delivery_country']
 			ordr.billing_address = data['billing_address']
+			ordr.data['billing_address2'] = data['billing_address2']
 			ordr.billing_city = data['billing_city']
 			ordr.billing_zip_code = data['billing_zip_code']
+			ordr.data['billing_country'] = data['billing_country']
 			ordr.notes = data['note']
 			ordr.save()
 
@@ -3013,7 +3017,7 @@ def admin_edit_order(request):
 
 			messages.success(request, _('Order information saved.'))
 		else:
-			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors + form['delivery_city'].errors + form['delivery_zip_code'].errors + form['billing_city'].errors + form['billing_zip_code'].errors
+			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors + form['delivery_city'].errors + form['delivery_zip_code'].errors + form['billing_city'].errors + form['billing_zip_code'].errors + form['delivery_country'].errors + form['billing_country'].errors
 	
 	if request.session.get('manage_order_redirect', False):
 		return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])

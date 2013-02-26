@@ -9,6 +9,7 @@ from django.utils.html import strip_tags
 import re
 from django.contrib.auth.models import User
 from django.utils.datastructures import MultiValueDictKeyError
+from common.models import Countries
 
 class MenuAddForm(forms.Form):
 	menu_type = forms.CharField(label=_("Menu Type"), widget=forms.HiddenInput, required=False)
@@ -402,6 +403,7 @@ class filterOrderForm(forms.Form):
 	status 		= forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('5','Failed'),('30','Pending'),('40','Paid'),('45','Payment Received'),('46','Pending Delivery'),('50','Completed')), required=False,widget=forms.Select)
 
 class editOrderForm(forms.Form):
+
 	order_id 			= forms.CharField(label=_("ID"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Order ID is a required field.')})
 	status 				= forms.ChoiceField(label=_("Status"), choices=(('5','Failed'),('30','Pending'),('40','Paid'),('45','Payment Received'),('46','Pending Delivery'),('50','Completed')), required=False,widget=forms.Select)
 	payment_method 		= forms.ChoiceField(label=_("Payment Method"), choices=(('','--Select--'),('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express')), required=False,widget=forms.Select)
@@ -410,10 +412,26 @@ class editOrderForm(forms.Form):
 	email 				= forms.EmailField(max_length=80,label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email.'),'required':_('Email is a required field.')})
 	delivery_date		= forms.DateField(error_messages={'invalid':_('Please follow the format for date field.')}, input_formats=['%Y-%m-%d'], label=_("Delivery Date"), required=False)
 	delivery_address	= forms.CharField(max_length=100,label=_("Delivery Address"), required=True, error_messages={'required':_('Delivery address is a required field.')})
+	delivery_address2	= forms.CharField(max_length=100,label=_("Delivery Address2"), required=False, error_messages={'required':_('Delivery address2 is a required field.')})
 	delivery_city		= forms.CharField(max_length=100,label=_("Delivery City"), required=True, error_messages={'required':_('Delivery city is a required field.')})
 	delivery_zip_code	= forms.CharField(max_length=100,label=_("Delivery Zip Code"), required=True, error_messages={'required':_('Delivery zip code is a required field.')})
+	delivery_country	= forms.CharField(max_length=100,label=_("Delivery Country"), required=True, error_messages={'required':_('Delivery country is a required field.')})
 	billing_address 	= forms.CharField(max_length=100,label=_("Billing Address"), required=True, error_messages={'required':_('Billing address is a required field.')})
+	billing_address2 	= forms.CharField(max_length=100,label=_("Billing Address2"), required=False, error_messages={'required':_('Billing address2 is a required field.')})
 	billing_city		= forms.CharField(max_length=100,label=_("Billing City"), required=True, error_messages={'required':_('Billing city is a required field.')})
 	billing_zip_code	= forms.CharField(max_length=100,label=_("Billing Zip Code"), required=True, error_messages={'required':_('Billing zip code is a required field.')})
+	billing_country 	= forms.CharField(max_length=100,label=_("Billing Country"), required=True, error_messages={'required':_('Billing country is a required field.')})
 	note 				= forms.CharField(widget=forms.Textarea(attrs={'cols': 80, 'rows': 5}), required=False, label=_("Order Note"))
-	
+
+	def __init__(self, *args, **kwargs):
+
+		super(editOrderForm, self).__init__(*args, **kwargs)
+		country_choices = [('','-Select-')]
+		c = Countries.objects.filter()
+		for cc in c:
+			country_choices.append((cc.name,cc.name))
+
+		country_choices = tuple(country_choices)
+
+		self.fields['delivery_country'] = forms.ChoiceField(choices=country_choices,label=_("Delivery Country"), required=True, error_messages={'required':_('Delivery Country is a required field.')})
+		self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a required field.')})

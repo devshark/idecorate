@@ -82,6 +82,13 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">{{ edit_form.delivery_address2.label }} *</label>
+			<div class="controls">
+				{{ edit_form.delivery_address2|add_class:"input-large"|attr:"placeholder:Enter Delivery Address2" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">{{ edit_form.delivery_city.label }} *</label>
 			<div class="controls">
 				{{ edit_form.delivery_city|add_class:"input-large"|attr:"placeholder:Enter Delivery City" }}
@@ -96,9 +103,23 @@
 			</div>
 		</div>
 		<div class="control-group">
+			<label class="control-label">{{ edit_form.delivery_country.label }} *</label>
+			<div class="controls">
+				{{ edit_form.delivery_country|add_class:"input-large" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
 			<label class="control-label">{{ edit_form.billing_address.label }} *</label>
 			<div class="controls">
 				{{ edit_form.billing_address|add_class:"input-large"|attr:"placeholder:Enter Billng Address" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.billing_address2.label }} *</label>
+			<div class="controls">
+				{{ edit_form.billing_address2|add_class:"input-large"|attr:"placeholder:Enter Billng Address2" }}
 				<span class="help-block">&nbsp;</span>
 			</div>
 		</div>
@@ -113,6 +134,13 @@
 			<label class="control-label">{{ edit_form.billing_zip_code.label }} *</label>
 			<div class="controls">
 				{{ edit_form.billing_zip_code|add_class:"input-large"|attr:"placeholder:Enter Billing Zip Code" }}
+				<span class="help-block">&nbsp;</span>
+			</div>
+		</div>
+		<div class="control-group">
+			<label class="control-label">{{ edit_form.billing_country.label }} *</label>
+			<div class="controls">
+				{{ edit_form.billing_country|add_class:"input-large" }}
 				<span class="help-block">&nbsp;</span>
 			</div>
 		</div>
@@ -249,7 +277,7 @@
 			<td>{{order.status|readable_status}}</td>
 			<td style="text-align:center;">
 				<a href="{% url admin_view_order %}?order={{order.id}}">View</a> | 
-				<a data-toggle="modal" href="#myModal" onclick="setEdit({{order|get_order}})">Edit</a>
+				<a data-toggle="modal" href="#myModal" onclick="setEdit({{order|get_order_safe}})">Edit</a>
 			</td>
 		</tr>
 		{% endfor %}
@@ -287,21 +315,26 @@
 
 	function setEdit(options) {
 
+		
 		$('#id_order_id').val(options.id);		
 		$('#id_first_name').val(options.first_name);
 		$('#id_last_name').val(options.last_name); 			
 		$('#id_email').val(options.email);			
 		$('#id_delivery_date').val(options.delivery_date);		
 		$('#id_delivery_address').val(options.delivery_address);
+		$('#id_delivery_address2').val(options.delivery_address2);
 		$('#id_delivery_city').val(options.delivery_city);	
 		$('#id_delivery_zip_code').val(options.delivery_zip_code);
+		$('#id_delivery_country').val(options.delivery_country);
 		$('#id_billing_address').val(options.billing_address);
+		$('#id_billing_address2').val(options.billing_address2);
 		$('#id_billing_city').val(options.billing_city);
-		$('#id_billing_zip_code').val(options.billing_zip_code);	
+		$('#id_billing_zip_code').val(options.billing_zip_code);
+		$('#id_billing_country').val(options.billing_country);	
 		$('#id_note').val(options.note);
 		$('#id_status').val(options.status);	
 		$('#id_payment_method').val(options.payment_method);
-
+		
 	}
 </script>
 {% endblock %}

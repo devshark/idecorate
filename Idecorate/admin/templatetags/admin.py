@@ -762,15 +762,44 @@ def get_order(order):
 	o['last_name'] 			= str(order.billing_last_name)
 	o['email'] 				= str(order.email)
 	o['delivery_address'] 	= str(order.shipping_address)
+
+	if 'delivery_address2' in order.data:
+		o['delivery_address2'] = str(order.data['delivery_address2'])
+	else:
+		o['delivery_address2'] = ''
+
 	o['delivery_city']		= str(order.shipping_city)
 	o['delivery_zip_code']	= str(order.shipping_zip_code)
+
+	if 'delivery_country' in order.data:
+		o['delivery_country'] = str(order.data['delivery_country'])
+	else:
+		o['delivery_country'] = ''
+
 	o['billing_address'] 	= str(order.billing_address)
+
+	if 'billing_address2' in order.data:
+		o['billing_address2'] = str(order.data['billing_address2'])
+	else:
+		o['billing_address2'] = ''
+
 	o['billing_city']		= str(order.billing_city)
 	o['billing_zip_code']	= str(order.billing_zip_code)
-	o['note'] 				= unicode(order.notes).encode('ascii','xmlcharrefreplace')
+
+	if 'billing_country' in order.data:
+		o['billing_country'] = str(order.data['billing_country'])
+	else:
+		o['billing_country'] = ''
+
+	o['note'] = unicode(order.notes).encode('ascii','xmlcharrefreplace')
 
 	return o
 
 @register.filter
 def multiply(val1, val2):
 	return val1*val2
+
+@register.filter
+def get_order_safe(order):
+
+	return mark_safe(get_order(order))
