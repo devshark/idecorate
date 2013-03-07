@@ -328,6 +328,11 @@ PAYPAL_PDT_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
 SKIPPING_MODE = True #Used to skip some code block if True
 IDECORATE_MAIL = "noreply@idecorateweddings.com"
 
+IDECORATE_ENABLE_PAYPAL = True
+IDECORATE_ENABLE_VISA = True
+IDECORATE_ENABLE_MASTERCARD = True
+IDECORATE_ENABLE_AMERICAN_EXPRESS = True
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.

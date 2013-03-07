@@ -299,6 +299,23 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 
         country_choices = tuple(country_choices)
 
+        #('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express')
+        payment_method_choices = []
+
+        if settings.IDECORATE_ENABLE_PAYPAL:
+            payment_method_choices.append(('PayPal', 'PayPal'))
+
+        if settings.IDECORATE_ENABLE_VISA:
+            payment_method_choices.append(('Visa','Visa'))
+
+        if settings.IDECORATE_ENABLE_MASTERCARD:
+            payment_method_choices.append(('Mastercard','Mastercard'))
+
+        if settings.IDECORATE_ENABLE_AMERICAN_EXPRESS:
+            payment_method_choices.append(('American_Express','American Express'))
+
+        payment_method_choices = tuple(payment_method_choices)
+
         if contact:
             initial = {}
             for f in contact.ADDRESS_FIELDS:
@@ -341,15 +358,17 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['shipping_state']           = forms.CharField(max_length=150,label=_("Shipping State"),required=True, error_messages={'required':_('Delivery State is a required field. If None, indicate None or N/A')})
         self.fields['shipping_city']            = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True, error_messages={'required':_('Delivery City is a required field.')})
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
+
         self.fields['shipping_date']            = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
         self.fields['shipping_zip_code']        = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
         self.fields['email']                    = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
         self.fields['billing_last_name']        = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
         self.fields['billing_first_name']       = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
-        self.fields['payment_method']           = forms.ChoiceField(label=_("Payment Method"), choices=(('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express'),), required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
+        self.fields['payment_method']           = forms.ChoiceField(label=_("Payment Method"), choices=payment_method_choices, required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
         self.fields['notes']                    = forms.CharField(label=_("Special Requests and Comments"), widget=forms.Textarea, required=False)
         self.fields['shipping_country']         = forms.ChoiceField(choices=country_choices,label=_("Shipping Country"), required=True, error_messages={'required':_('Delivery Country is a required field.')})
         self.fields['billing_country']          = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a requimax_length=150,red field.')})
+
 
         shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
         

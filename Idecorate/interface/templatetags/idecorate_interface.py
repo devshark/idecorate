@@ -294,6 +294,7 @@ def getImagePaymentMethod(met):
                 ret = mark_safe('<img src="/media/images/mastercard.jpg" />')
         else:
                 ret = mark_safe('<img src="/media/images/american_express.jpg" />')
+
         return ret
 
 @register.filter
