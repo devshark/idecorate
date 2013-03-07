@@ -10,7 +10,7 @@ from admin.models import HomeBanners, HomeBannerImages, HomeInfoGrapics
 from django.db import DatabaseError, transaction
 from django.template.defaultfilters import filesizeformat
 from embellishments.models import StyleboardTemplateItems
-from customer.models import CustomerStyleBoard
+from customer.models import CustomerStyleBoard, KeepImages
 from plata.shop.models import Order
 from django.db.models import Q
 
@@ -51,6 +51,18 @@ def save_destination(f,path):
 		destination.write(chunk)
 	return True
 
+def get_home_banners():
+	return HomeBanners.objects.filter(is_active=1,is_deleted=0).order_by('-id')
+
+def get_home_banner(id):
+	try:
+		return HomeBanners.objects.get(id=id)
+	except:
+		return False
+
+def get_home_banner_images(home_banner_id):
+	return HomeBannerImages.objects.filter(home_banner__id=home_banner_id)
+
 def validate_banner(image=None):
 	res = {}
 	res['error'] = False
@@ -77,52 +89,93 @@ def validate_banner(image=None):
 
 def save_home_banner(data):
 	try:
-		id = data.get('id',None)
-		if id:
-			hb = HomeBanners.objects.get(id=id)
-			delete_home_banner_images(hb)
-		else:		
-			hb = HomeBanners()
+		size 				= data.get('size')
+		form_data 			= data.get('form_data')
+		home_banner 		= HomeBanners()
+		home_banner.size 	= size
+		home_banner.save()
 
-		hb.size = data['sizes']
-		hb.save()	
-		s = int(data['sizes']) 
-		if s==1:
-			save_home_banner_image(data['image11'],data['wholelink'],data['wholename'],data['wholedescription'],hb)
-		elif s==2:
-			save_home_banner_image(data['image21'],data['half1link'],data['half1name'],data['half1description'],hb)
-			save_home_banner_image(data['image22'],data['half2link'],data['half2name'],data['half2description'],hb)
-		else:
-			save_home_banner_image(data['image31'],data['third1link'],data['third1name'],data['third1description'],hb)
-			save_home_banner_image(data['image32'],data['third2link'],data['third2name'],data['third2description'],hb)
-			save_home_banner_image(data['image33'],data['third3link'],data['third3name'],data['third3description'],hb)
+		for form in form_data:
+			
+			save_data 		= form.cleaned_data
+			hbi 			= HomeBannerImages()
+			hbi.home_banner = home_banner
+			hbi.image 		= rename_image_banner(save_data.get('image'))
+			hbi.link 		= save_data.get('link')
+			hbi.name 		= save_data.get('name')
+			hbi.description = save_data.get('description')
+			hbi.tinyUrl 	= tinyurl(save_data.get('link'))
+			hbi.save()
 
 		return True
+
 	except Exception as e:
 		print e
 		return False
 
-def save_edit_home_banner(data):
-	id = data['id']
-	hb = HomeBanners.objects.get(id=id)
-	hb.size = data['sizes']
-	s = int(data['sizes'])
-	delete_home_banner_images(hb)
-	if s==1:
-		save_home_banner_image(data['image11'],data['wholelink'],data['wholename'],data['wholedescription'],hb)
-	elif s==2:
-		save_home_banner_image(data['image21'],data['half1link'],data['half1name'],data['half1description'],hb)
-		save_home_banner_image(data['image22'],data['half2link'],data['half2name'],data['half2description'],hb)
-	else:
-		save_home_banner_image(data['image31'],data['third1link'],data['third1name'],data['third1description'],hb)
-		save_home_banner_image(data['image32'],data['third2link'],data['third2name'],data['third2description'],hb)
-		save_home_banner_image(data['image33'],data['third3link'],data['third3name'],data['third3description'],hb)
+def update_home_banner(data):
+
+	try:
+
+		for form in data:
+			
+			save_data 		= form.cleaned_data
+			hbi 			= HomeBannerImages.objects.get(id=int(save_data.get('image_id')))
+			hbi.image 		= rename_image_banner(save_data.get('image'))
+			hbi.link 		= save_data.get('link')
+			hbi.name 		= save_data.get('name')
+			hbi.description = save_data.get('description')
+			hbi.tinyUrl 	= tinyurl(save_data.get('link'))
+			hbi.save()
+
+		return True
+
+	except Exception as e:
+		print e
+		return False
+		
+def delete_homebanner(home_banner_id):
+
+	deleted = False
+
+	home_banner = HomeBanners.objects.get(id=home_banner_id)
+
+	home_banner_images = HomeBannerImages.objects.filter(home_banner__id=home_banner_id)
+
+	q = None
+
+	for home_banner_image in home_banner_images :
+
+		if q is not None:
+			q.add(Q(image=home_banner_image.id), Q.OR)
+		else:
+			q = Q(image=home_banner_image.id)
+
+	kept_images = KeepImages.objects.filter(q)
+
+	try:
+
+		delete_home_banner_images(home_banner)
+		kept_images.delete()
+		home_banner_images.delete()
+		home_banner.delete()
+
+		deleted = True
+
+	except Exception as e:
+		print "The error when deleting image is: %s" % str(e)
+
+	return deleted
+
 
 def delete_home_banner_images(home_banner):
 	images = HomeBannerImages.objects.filter(home_banner=home_banner)
+
 	for image in images:
 		path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/", image.image)
-		image.delete()
+		os.unlink(path)
+		thumb_path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/thumb/", image.image)
+		os.unlink(thumb_path)
 
 def rename_image_banner(img):
 	if img.find('temp')!=-1:
@@ -148,84 +201,29 @@ def generate_banner_thumb(img):
 	thumb_path = "%s%s%s" % (settings.MEDIA_ROOT, "banners/thumb/", img)
 	background.save(thumb_path)
 
-def save_home_banner_image(img,link,name,description,home_banner):	
-	hbi = HomeBannerImages()
-	hbi.home_banner = home_banner
-	hbi.image = rename_image_banner(img)
-	hbi.link = link
-	hbi.name = name
-	hbi.description = description
-	hbi.tinyUrl = tinyurl(link)
-	hbi.save()	
+def is_kept(home_banner_id):
+	
+	kept = False
 
-def validate_home_banner_form(data):
-	s = int(data['sizes']) 
-	validation = {}
-	error = False
-	if s==1:
-		if(len(data['image11'])==0):
-			error = True
-			validation['image11'] = _('Image is a required field.')
-		if (len(data['wholelink'])==0):
-			error = True
-			validation['link'] = _('Link is a required field.')	
-		if (len(data['wholename'])==0):
-			error = True
-			validation['name'] = _('Name is a required field.')	
-		if (len(data['wholedescription'])==0):
-			error = True
-			validation['description'] = _('Description is a required field.')			
-	elif s==2:
-		if(len(data['image21'])==0):
-			error = True
-			validation['image21'] = _('Image 1 is a required field.')
-		if(len(data['image22'])==0):
-			error = True
-			validation['image22'] = _('Image 2 is a required field.')
-		if (len(data['half1link'])==0 or len(data['half2link'])==0):
-			error = True
-			validation['link'] = _('Link is a required field.')
-		if (len(data['half1name'])==0 or len(data['half2name'])==0):
-			error = True
-			validation['name'] = _('Name is a required field.')	
-		if (len(data['half1description'])==0 or len(data['half2description'])==0):
-			error = True
-			validation['description'] = _('Description is a required field.')
-	else:
-		if(len(data['image31'])==0):
-			error = True
-			validation['image31'] = _('Image 1 is a required field.')
-		if(len(data['image32'])==0):
-			error = True
-			validation['image32'] = _('Image 2 is a required field.')
-		if(len(data['image33'])==0):
-			error = True
-			validation['image33'] = _('Image 3 is a required field.')
-		if (len(data['third1link'])==0 or len(data['third2link'])==0 or len(data['third3link'])==0):
-			error = True
-			validation['link'] = _('Link is a required field.')
-		if (len(data['third1name'])==0 or len(data['third2name'])==0 or len(data['third3name'])==0):
-			error = True
-			validation['name'] = _('Name is a required field.')	
-		if (len(data['third1description'])==0 or len(data['third2description'])==0 or len(data['third3description'])==0):
-			error = True
-			validation['description'] = _('Description is a required field.')
+	home_banner_images = HomeBannerImages.objects.filter(home_banner__id=home_banner_id)
 
-	if not error:
-		validation = False
-	return validation
+	q = None
 
-def get_home_banners():
-	return HomeBanners.objects.filter(is_active=1,is_deleted=0).order_by('-id')
+	for home_banner_image in home_banner_images :
 
-def get_home_banner(id):
-	try:
-		return HomeBanners.objects.get(id=id)
-	except:
-		return False
+		if q is not None:
+			q.add(Q(image=home_banner_image.id), Q.OR)
+		else:
+			q = Q(image=home_banner_image.id)
 
-def get_home_banner_images(home_banner_id):
-	return HomeBannerImages.objects.filter(home_banner__id=home_banner_id)
+	kept_images = KeepImages.objects.filter(q)
+
+	if kept_images.count() > 0 :
+
+		kept = True
+
+	return kept
+	
 
 def save_template(data):
 	try:

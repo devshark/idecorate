@@ -4,6 +4,7 @@ $(document).ready(function(){
 
 function populate_save_styleboard(){
 	if (PERSONALIZE_ITEM != ''){
+
 		var raw_item = PERSONALIZE_ITEM.replace("\n", "\\n").replace("\r",'');
 		var item = eval(raw_item);
 		var canvas_height = $('#canvas').height();
@@ -21,8 +22,8 @@ function populate_save_styleboard(){
 			if (v._type =='product'){
 				elm.addClass('unselected');
 				elm.attr({
-		        	'def_qty':v.def_qty,
-		        	'gst_tb':v.gst_tb
+					'def_qty':v.def_qty,
+					'gst_tb':v.gst_tb
 		        });
 			}
 
@@ -160,6 +161,9 @@ function populate_save_styleboard(){
 				});
 			}
 
+			// SET PRODUCT POSITION TO SESSION
+			setProductPositions();
+			
 			elm.appendTo('#canvas');			
 			objCounter++;			
 		});

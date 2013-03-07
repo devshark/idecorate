@@ -36,7 +36,7 @@
 						<img src="/media/images/man.1.jpg" id="img-profile" />
 						{% endif %}	
 						 <span>&nbsp;by&nbsp;</span><a id="lnk-profile" href="{% url profile %}?id={{ styleboard.user.id }}">{{ styleboard_user|get_nickname }}</a></td>
-					<td><a href="{% url styleboard %}?sbid={{ styleboard.styleboard_item.id }}" class="personalize">Edit</a></td>
+					<td><a href="{% url clear_session_sbid %}?sbid={{ styleboard.styleboard_item.id }}" class="personalize">Edit</a></td>
 				</tr>
 			</table>
 		</div>
@@ -228,27 +228,46 @@
 		</script>
         <!-- Social Media Buttons -->
         <script> 
-	      FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
+        	$(function(){
 
-	      function postToFeed() {
+        		$('#btnSubmitBuy').click(function(e){
 
-	        // calling the API ...
-	        var obj = {
-	          method: 'feed',
-	          redirect_uri: 'http://www.facebook.com',
-	          link: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}', //page link here
-	          picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/576/500/', //add image link of product here 
-	          name: '{{ styleboard.styleboard_item.name }}', //styleboard title
-	          caption: 'iDecorate Weddings',
-	          description: '{{ styleboard.styleboard_item.description|truncateDescription }}' //description
-	        };
+        			e.preventDefault();
 
-	        function callback(response) {
-	          document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
-	        }
+        			var clear_session_sbid = $.post( '{% url clear_session_sbid %}', { clear: 'clear' } );
+			
+					clear_session_sbid.done(function( data ) {
+						
+						//alert(data);
+						$('#formCheckout').submit();
 
-	        FB.ui(obj, callback);
-	      }
+					});
+
+        		});
+
+        	});
+
+			FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
+
+			function postToFeed() {
+
+				// calling the API ...
+				var obj = {
+				method: 'feed',
+				redirect_uri: 'http://www.facebook.com',
+				link: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}', //page link here
+				picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/576/500/', //add image link of product here 
+				name: '{{ styleboard.styleboard_item.name }}', //styleboard title
+				caption: 'iDecorate Weddings',
+				description: '{{ styleboard.styleboard_item.description|truncateDescription }}' //description
+				};
+
+				function callback(response) {
+					document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+				}
+
+			FB.ui(obj, callback);
+			}
 	    
 	    </script>
 	    <script src="http://platform.tumblr.com/v1/share.js"></script>

@@ -307,12 +307,12 @@ QUESTION_ORIGINAL_SIZE = 0;
 		$('#edit_button').click(function(e){
 			var url = '{% url styleboard %}';
 			{% if request.session.customer_styleboard %}
-				url += '?sbid={{ request.session.customer_styleboard.id }}';
+				url += '?sbid={{ request.session.customer_styleboard.id }}&customer=1';
 			{% else %}
 				{% if request.session.personalize_id %}
-				url += '?sbid={{ request.session.personalize_id }}';
+				url += '?sbid={{ request.session.personalize_id }}&personal=1';
 				{% else %}
-				url += '?sbid={{ request.session.personalize_id_logged_out }}';
+				url += '?sbid={{ request.session.personalize_id_logged_out }}&personal_log_out=1';
 				{% endif %}
 			{% endif %}
 			url += '#buy-tab';

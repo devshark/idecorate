@@ -10,7 +10,8 @@
         <script type="text/javascript">
         if(window.parent){
             {% if action == "login_signup" %}
-        	   parent.logged('{{ idecorate_user|get_nickname }}');
+                parent.user = {{ idecorate_user.id }};
+                parent.logged('{{ idecorate_user|get_nickname }}');
             {% else %}
                 {% if action == "save_styleboard" %}
                     var msg = '{{ msg }}';                    

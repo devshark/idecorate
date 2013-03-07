@@ -15,6 +15,8 @@ active_object = null;
 
 $(document).ready(function () {
 
+    initProductPositions();
+
      //remove edit button on buy tab
     $(window).hashchange( function(){
         
@@ -407,8 +409,6 @@ $(document).ready(function () {
         cancelBubble(e);
         new_canvas($(this).attr('href'));
     });
-
-    initProductPositions();
 
     $('#redo').click(function(e){
         e.preventDefault();
@@ -2279,6 +2279,8 @@ function initProductPositions() {
         attachEventToQty();
         manage_subtotal();
         manage_total();
+
+        //console.log(PRODUCT_POSITIONS['product_objects']);
     }
 
     var product_objects = '';

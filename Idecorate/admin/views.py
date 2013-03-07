@@ -31,8 +31,9 @@ from idecorate_settings.models import IdecorateSettings
 from django.contrib.auth.models import User
 from customer.models import CustomerProfile, CustomerStyleBoard, StyleBoardCartItems
 from django.http import HttpResponseNotFound
-from admin.services import home_banner, validate_banner, save_home_banner, validate_home_banner_form, get_home_banners, get_home_banner, get_home_banner_images,\
-save_Infographics, manage_infographic, get_HomeInfographics, set_HomeInfographicStatus, validate_Infographic, get_all_styleboards,get_all_orders
+from admin.services import home_banner, validate_banner, save_home_banner, get_home_banners, get_home_banner, get_home_banner_images,\
+save_Infographics, manage_infographic, get_HomeInfographics, set_HomeInfographicStatus, validate_Infographic, get_all_styleboards,get_all_orders,update_home_banner,\
+is_kept,delete_homebanner
 from cart.services import generate_unique_id
 from models import HomeBannerImages
 import Image as pil
@@ -43,6 +44,7 @@ from django.utils import simplejson
 import csv
 #from customer.models import StyleBoardCartItems, CustomerStyleBoard
 from django.contrib.flatpages.models import FlatPage
+from django.forms.formsets import formset_factory
 
 @staff_member_required
 def admin(request):
@@ -1981,152 +1983,157 @@ def manage_homepage(request):
 
 @staff_member_required
 def homepage_upload_banner(request):
-    info = {}
-    form = HomeBannerForm()
-    info['mode'] = 'new'
-    if request.method=="POST":
-    	form = HomeBannerForm(request.POST)
-    	if form.is_valid():
-    		validated = validate_home_banner_form(form.cleaned_data)
-    		if not validated:
-	    		save_response = save_home_banner(form.cleaned_data)
-	    		if save_response:
-	    			messages.success(request, _('Successfully added.'))
-	    		else:
-	    			messages.error(request, _('Could not save. Please contact administrator.'))
-	    		return redirect('homepage_upload_banner')
-	    	else:
-	    		info['validated'] = validated
-    info['form'] = form
-    return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))
+	
+	info 		= {}
+	extra 		= 1
+	sizeSelect 	= {1:'selected',2:'unselected',3:'unselected'}
+
+	size = request.GET.get('size', '1')
+
+	if not str(size).isdigit():
+
+		return redirect('manage_homepage')
+
+	if size:
+
+		if int(size) < 1:
+			extra = 1
+		elif int(size) > 3:
+			extra = 3
+		else:
+			extra = size
+
+		for i, val in sizeSelect.items():
+    		
+			if i == int(size) :
+				sizeSelect[i] = 'selected'
+			else :
+				sizeSelect[i] = 'unselected'
+
+	formSet = formset_factory(HomeBannerForm, extra=int(extra))
+	if request.method == 'POST':
+
+  		initial_form_count = lambda self: int(extra)
+  		formSet.initial_form_count = initial_form_count
+
+		formSet = formSet(request.POST)
+		if formSet.is_valid():
+			data 				= {}
+			data['size']		= request.POST.get('size')
+			data['form_data']	= formSet
+			is_save = save_home_banner(data)
+
+			if is_save :
+				messages.success(request, _('Successfully added.'))
+			else:
+ 				messages.error(request, _('Could not save. Please contact administrator.'))
+			
+			return redirect('homepage_upload_banner')
+
+
+	info['sizeselect']	= sizeSelect
+	info['size']		= extra
+	info['formset'] 	= formSet
+	return render_to_response('admin/upload_banner_images.html',info,RequestContext(request))
 
 @staff_member_required
 def homepage_edit_banner(request,hbid=None):
-	if not hbid:
+
+	if not hbid or not str(hbid).isdigit():
+
 		return redirect('manage_homepage')
 
-	home_banner_item = get_home_banner(hbid)
+	home_banner = get_home_banner(hbid)
 
-	if not home_banner_item:
+	if not home_banner:
+
 		return redirect('manage_homepage')
 
-	hb_images = get_home_banner_images(home_banner_item.id)
-	hb_images = hb_images.order_by('id')
-	info = {}
-
-	image11 = ''
-	wholelink = ''
-	wholename = ''
-	wholedescription = ''
-	image21 = ''
-	image22 = ''
-	half1link = ''
-	half2link = ''
-	half1name = ''
-	half2name = ''
-	half1description = ''
-	half2description = ''
-	image31 = ''
-	image32 = ''
-	image33 = ''
-	third1link = ''
-	third2link = ''
-	third3link = ''
-	third1name = ''
-	third2name = ''
-	third3name = ''
-	third1description = ''
-	third2description = ''
-	third3description = ''
-
-	count = hb_images.count()
-	if count==1:
-		image11 = hb_images[0].image		
-		wholelink = hb_images[0].link
-		wholename = hb_images[0].name
-		wholedescription = hb_images[0].description
-
-		info['image11'] = image11
-	if count==2:
-		image21 = hb_images[0].image
-		image22 = hb_images[1].image
-		half1link = hb_images[0].link
-		half2link = hb_images[1].link
-		half1name = hb_images[0].name
-		half2name = hb_images[1].name
-		half1description = hb_images[0].description
-		half2description = hb_images[1].description
-
-		info['image21'] = image21
-		info['image22'] = image22
-	if count==3:
-		image31 = hb_images[0].image
-		image32 = hb_images[1].image
-		image33 = hb_images[2].image
-		third1link = hb_images[0].link
-		third2link = hb_images[1].link
-		third3link = hb_images[2].link
-		third1name = hb_images[0].name
-		third2name = hb_images[1].name
-		third3name = hb_images[2].name
-		third1description = hb_images[0].description
-		third2description = hb_images[1].description
-		third3description = hb_images[2].description
-
-		image31 = hb_images[0].image
-		image32 = hb_images[1].image
-		image33 = hb_images[2].image
-
-		info['image31'] = image31
-		info['image32'] = image32
-		info['image33'] = image33
-
-	if request.method=="POST":
-		form = HomeBannerForm(request.POST)
-		if form.is_valid():
-			validated = validate_home_banner_form(form.cleaned_data)
-			if not validated:
-				data = form.cleaned_data				
-				data['id'] = hbid
-				save_response = save_home_banner(data)
-				if save_response:
-					messages.success(request, _('Saved.'))
-				else:
-					messages.error(request, _('Could not save. Please contact administrator.'))
-				return redirect('/admin/edit_banner/%s' % hbid)
-			else:
-				info['validated'] = validated
 	else:
-		form = HomeBannerForm(initial={ 
-			'sizes': home_banner_item.size, 
-			'image11':image11, 
-			'wholelink':wholelink,
-			'wholename':wholename,
-			'wholedescription':wholedescription,
-			'image21':image21,
-			'image22':image22,
-			'half1link':half1link,
-			'half2link':half2link,
-			'half1name':half1name,
-			'half2name':half2name,
-			'half1description':half1description,
-			'half2description':half2description,
-			'image31':image31,
-			'image32':image32,
-			'image33':image33,
-			'third1link':third1link,
-			'third2link':third2link,
-			'third3link':third3link,
-			'third1name':third1name,
-			'third2name':third2name,
-			'third3name':third3name,
-			'third1description':third1description,
-			'third2description':third2description,
-			'third3description':third3description
-			})
-	info['form'] = form
-	info['mode'] = 'edit'
-	return render_to_response('admin/upload_home_banner.html',info,RequestContext(request))
+
+		hb_images 	= get_home_banner_images(home_banner.id)
+		hb_images 	= hb_images.order_by('id')
+		info 		= {}
+		size 		= home_banner.size
+
+		formSet = formset_factory(HomeBannerForm, extra=0)
+
+		print "The count is: %s" % size
+
+		if request.method == 'POST':
+
+	  		initial_form_count = lambda self: int(size)
+	  		formSet.initial_form_count = initial_form_count
+
+			formSet = formSet(request.POST)
+			if formSet.is_valid():
+
+				is_save = update_home_banner(formSet)
+
+				if is_save :
+
+					messages.success(request, _('Successfully updated.'))
+				else:
+	 				messages.error(request, _('Could not update. Please contact administrator.'))
+				
+				return redirect('homepage_upload_banner')
+
+		else:
+
+			data = [{
+				'link': hbi.link,
+				'image_id': hbi.id,
+				'name': hbi.name,
+				'description': hbi.description,
+				'image': hbi.image
+			} for hbi in hb_images]
+
+			formSet = formSet(initial=data)
+
+		info['preview']		= True
+		info['size']		= size
+		info['formset'] 	= formSet
+
+		return render_to_response('admin/upload_banner_images.html',info,RequestContext(request))
+
+
+@staff_member_required
+def homepage_delete_banner(request,hbid=None):
+
+	if not hbid or not str(hbid).isdigit():
+
+			return redirect('manage_homepage')
+
+	else:
+
+		is_deleted = delete_homebanner(hbid)
+
+		if is_deleted:
+
+			messages.success(request, _('Home banner deleted.'))
+
+		else:
+			messages.error(request, _('Could not delete. Please contact administrator.'))
+
+	return redirect('manage_homepage')
+
+@csrf_exempt
+def homepage_is_keeped_banner(request):
+
+	if request.method == "POST":
+
+		hbid = request.POST.get('hbid')
+
+		if not hbid or not str(hbid).isdigit():
+
+			return redirect('manage_homepage')
+
+		else:
+
+			is_user_kept = is_kept(hbid)
+
+			return HttpResponse(is_user_kept)
+
 
 @csrf_exempt
 def upload_temp_banner(request):
@@ -2140,9 +2147,9 @@ def upload_temp_banner(request):
 		else:
 			max_width = 0
 			max_height = settings.HOME_BANNER_HEIGHT
-			if size == 11:
+			if size == 1:
 				max_width = settings.HOME_BANNER_WHOLE_WIDTH
-			elif size==21 or size==22:
+			elif size==2:
 				max_width = settings.HOME_BANNER_HALF_WIDTH
 			else:
 				max_width = settings.HOME_BANNER_THIRD_WIDTH			

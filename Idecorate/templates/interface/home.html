@@ -9,7 +9,7 @@
 	<style type="text/css">
 		.modal{
 			background-color: #EEEEEE;
-			border: 1px solid #CCC;
+			border: 3px solid #999999;
 			padding: 7px !important;
 			-moz-border-radius: 5px;
 			-webkit-border-radius: 5px;
@@ -23,6 +23,9 @@
 			width: auto;
 			height: auto;
 			width: 255px;
+			-webkit-box-shadow: 0 0 8px #333333;
+			box-shadow: 0 0 8px #333333;
+			-moz-box-shadow: 0 0 8px #333333;
 		}
 
 		.modal > div{
@@ -45,6 +48,19 @@
 		.modal .email a img{
 			height: 20px !important;
 			width: auto !important;
+		}
+
+		#keep-modal{
+			width: auto !important;
+		}
+
+		.modal p{
+			font-size: 12px;
+		}
+		
+		.modal p a{
+			text-transform: none;
+			color: #333333;
 		}
 
 	</style>
@@ -112,6 +128,8 @@
 	</div>
 	{% endfor %}
 </section>
+<div id="keep-modal" class="modal">
+</div>
 <script type="text/javascript">
 (function() {
 	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
@@ -123,6 +141,9 @@
 {% block javascripts %}
 <script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
 <script type="text/javascript">
+
+keeping_function_to_call = null;
+
 $(function(){
 
 
@@ -147,37 +168,64 @@ $(function(){
 		$('li:last', val).css({borderRight:'none'});
 		$('li:first',val).css({borderLeft:'none'});
 	});
-	//this is a test
+
 	FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
 
 
 	$('a[href="#keep"]').click(function(e){
 		
 		e.preventDefault();
+		var __this = $(this);
+		var __e		= e
 
 		if(user == 0){
 
             popup_login();
 
+            keeping_function_to_call = function(){
+
+            	keeping(__this,__e);
+
+            };
+
 		}else{
 
-			var keep = $.post( KEEP_IMAGE_URL, { image_id: $(this).attr('image_id'), user_id: user } );
-			
-			keep.done(function( data ) {
-				if(data == 'success'){
-					//image keeped
-				}else if(data == 'duplicate'){
-					//image already exist in users keeped images
-				}else{
-					//keeping image failed
-				}
-			});
+			keeping(__this,e);
+			keeping_function_to_call = null;
 
 		}
 
 	});
 
 });
+
+function keeping(hrefElement,e) {
+
+	var keep = $.post( KEEP_IMAGE_URL, { image_id: hrefElement.attr('image_id'), user_id: user } );
+	
+	keep.done(function( data ) {
+		if(data == 'success'){
+			$('#keep-modal')
+			.html('<p>Image Kept. You can view Kept images in <a href="{% url saved_images %}">My Saved Images</a></p>')
+			.show().css({top:e.pageY,left:e.pageX}).delay(5000).fadeOut(500);
+		}else if(data == 'duplicate'){
+			$('#keep-modal')
+			.html('<p>Image is already on your <a href="{% url saved_images %}">Kept images</a></p>')
+			.show().css({top:e.pageY,left:e.pageX}).delay(5000).fadeOut(500);
+		}else{
+			//keeping image failed
+		}
+
+		if(typeof keeping_function_to_call == 'function') {
+			keeping_function_to_call = null;
+			document.location.reload(true);
+		}
+
+	});
+
+
+
+}
 
 function setModalIcons(object){
 

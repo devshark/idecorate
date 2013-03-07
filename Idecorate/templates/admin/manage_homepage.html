@@ -21,12 +21,23 @@ table#featured-items img {
 </style>
 {% endblock %}
 {% block content %}
+{% if messages %}
+
+	{% for message in messages %}
+	<div class="alert alert-{{ message.tags }}">
+	  <a class="close" data-dismiss="alert" href="#">×</a>
+	  <h4 class="alert-heading">{{ message.tags }}!</h4>
+	  	{{ message }}		  
+	</div>
+	{% endfor %}
+
+{% endif %}
 <h1>{% trans "Upload Home Banners" %}</h1>
 <table class="table table-bordered table-hover" id="featured-items">
 	<thead>
 		<tr>
-			<th width="60%">Images/Links</th>
-			<th width="30%">Date Created</th>
+			<th width="50%">Images/Links</th>
+			<th width="35%">Date Created</th>
 			<th></th>
 		</tr>
 	</thead>
@@ -46,7 +57,10 @@ table#featured-items img {
 				</table>				 
 			</td>
 			<td>{{ banner.created }}</td>
-			<td><a href="{% url homepage_edit_banner banner.id %}" class="btn btn-primary">Edit</a></td>
+			<td>
+				<a href="{% url homepage_edit_banner banner.id %}" class="btn btn-primary">Edit</a>
+				<a href="{% url homepage_delete_banner banner.id %}" class="deleteBanner btn btn-inverse">Delete</a>
+			</td>
 		</tr>
 		{% endfor %}
 	</tbody>
@@ -68,7 +82,45 @@ $(document).ready(function(){
 			
 		// 	alert($(this).height())
 		// });
-	}	
+	}
+
+	$('.deleteBanner').click(function(e){
+
+		e.preventDefault();
+
+		delete_url 	= $(this).attr('href');
+		is_keep_url = '{% url homepage_is_keeped_banner %}';
+		hbid 		= delete_url.split('/');
+		hbid 		= hbid[3];//[0]www.idecorate.com,[1]admin,[2]delete_banner,[3] home banner ID
+		
+		var kept = $.post( is_keep_url, { hbid: hbid } );
+			
+		kept.done(function(data) {
+
+			try {
+				if(eval(data.toLowerCase())){
+					
+					if(confirm('Some images is currently in the "Keep" images of some users. Are you sure you want to delete this row?')) {
+
+						window.location = delete_url;
+					
+					}
+
+				}else{
+					
+					if(confirm('Are you sure you want to delete this item?')) {
+
+						window.location = delete_url;
+					
+					}
+				}
+
+			}catch(e) {
+				
+			}
+		});
+
+	});	
 });
 </script>
 {% endblock %}

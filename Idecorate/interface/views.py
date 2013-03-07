@@ -111,7 +111,13 @@ def styleboard(request, cat_id=None):
 	except:
 		pass
 	"""
+
 	sms = st_man(request)
+
+	if sms['sbid']:
+
+		request.session['sbid'] = sms['sbid']
+
 	info.update(sms)					
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
@@ -120,42 +126,58 @@ def st_man(request, needToClear=True):
 	info = {}
 	sbid = request.GET.get('sbid',None)
 
+	info['sbid'] = 0
+
 	if not sbid:
 		if request.method == "POST":
 			sbid = request.POST.get('sid', None)
 
 	if sbid:
-		#request.session['sbid'] = sbid
 
-		personalize_styleboard = get_user_styleboard(None, sbid)
+		info['sbid'] = sbid
 
-		if personalize_styleboard:
+		session_sbid = request.session.get('sbid', None)
 
-			if personalize_styleboard.user.id:
+		if session_sbid != sbid :
 
-				if needToClear:
-					clear_styleboard_session(request)
+			personalize_styleboard = get_user_styleboard(None, sbid)
 
-				info['save_styleboard'] 		= personalize_styleboard
-				info['personalize_item'] 		= mark_safe(personalize_styleboard.styleboard_item.item.replace("'","\\'"))
-				info['global_default_quantity'] = personalize_styleboard.styleboard_item.item_guest
-				info['global_guest_table'] 		= personalize_styleboard.styleboard_item.item_tables			
-				
-				if request.user.is_authenticated():
+			if personalize_styleboard:
 
-					if int(personalize_styleboard.user.id) == int(request.user.id):
+				if personalize_styleboard.user.id:
 
-						info['sbid'] = sbid
-						request.session['customer_styleboard'] = personalize_styleboard
+					if needToClear:
+						clear_styleboard_session(request)
+
+					info['save_styleboard'] 		= personalize_styleboard
+					info['personalize_item'] 		= mark_safe(personalize_styleboard.styleboard_item.item.replace("'","\\'"))
+					info['global_default_quantity'] = personalize_styleboard.styleboard_item.item_guest
+					info['global_guest_table'] 		= personalize_styleboard.styleboard_item.item_tables			
+					
+					if request.user.is_authenticated():
+
+						if int(personalize_styleboard.user.id) == int(request.user.id):
+							
+							try:
+								del request.session['personalize_id']
+							except:
+								pass
+
+							request.session['customer_styleboard'] = personalize_styleboard
+
+						else:
+
+							try:
+								del request.session['customer_styleboard']
+							except:
+								pass
+								
+							request.session['personalize_id'] = personalize_styleboard.id
 
 					else:
-
-						request.session['personalize_id'] = personalize_styleboard.id
-
-				else:
-					
-					request.session['personalize_id_logged_out'] = personalize_styleboard.id
-					request.session['personalize_styleboard'] = personalize_styleboard					
+						
+						request.session['personalize_id_logged_out'] 	= personalize_styleboard.id
+						request.session['personalize_styleboard'] 		= personalize_styleboard					
 
 	return info
 
@@ -728,6 +750,11 @@ def clear_styleboard_session(request):
 	except:
 		pass
 
+	try:		
+		del request.session['sbid']
+	except:
+		pass
+
 def new_styleboard(request):
 	clear_styleboard_session(request)
 	return redirect('styleboard')
@@ -1006,9 +1033,34 @@ def save_styleboard_to_session(request):
 			'djsn':djsn,
 			'guest':guest,
 			'table':table,
+			'wedding':wedding,
 			'bwsr':bwsr
 		}
 
 		request.session['style_board_in_session'] = style_board_in_session
 
-	return HttpResponse('ok')
+		json_value = simplejson.dumps(style_board_in_session)
+
+	return HttpResponse(json_value)
+
+@csrf_exempt
+def clear_session_sbid(request):
+
+	if request.method == 'POST':
+
+		try:		
+			del request.session['sbid']
+		except:
+			pass
+
+		return HttpResponse(request.session.get('sbid'))
+
+	else:
+		sbid = request.GET.get('sbid', None)
+
+		try:		
+			del request.session['sbid']
+		except:
+			pass
+
+		return redirect("%s%s" % (reverse('styleboard'), "?sbid=%s" % sbid))

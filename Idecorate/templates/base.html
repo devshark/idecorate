@@ -219,7 +219,16 @@
                 $('#logged_as').parent().show();
                 $('#lnk-logout').parent().show();
                 closed_modal();
-                document.location.reload(true);
+
+               if(typeof keeping_function_to_call == 'function') {
+                    
+                    //alert('function shit!');
+                    keeping_function_to_call();
+                    
+               } else {
+                    document.location.reload(true);
+               }
+
             }
             var currentUrl = '{{ currentUrl }}';
             function logmeout(){
@@ -239,6 +248,7 @@
                 $('#page-mask').hide();
                 $('#modal-login-signup-window').hide();
             }
+            
             function popup_login(){
                 var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':"{% url login_signup %}",'frameborder':'0'});
                 var modal   = $('#modal-login-signup-window'),
