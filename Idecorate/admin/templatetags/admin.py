@@ -14,6 +14,7 @@ from django.contrib.auth.models import User
 import decimal
 from plata.shop.models import OrderPayment
 from urllib import quote, quote_plus
+from django.utils import simplejson
 #from django.utils.translation import ugettext_lazy as _
 
 register = template.Library()
@@ -805,7 +806,7 @@ def get_order(order):
 	else:
 		o['billing_country'] = ''
 	
-	o['note'] 				= quote(order.notes.encode('ascii','xmlcharrefreplace'))
+	o['note'] 				= order.notes
 
 	
 	return o
@@ -818,3 +819,8 @@ def multiply(val1, val2):
 def get_order_safe(order):
 
 	return mark_safe(get_order(order))
+
+@register.filter
+def get_order_json(order):
+
+	return simplejson.dumps(get_order(order))

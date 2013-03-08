@@ -3003,7 +3003,7 @@ def admin_edit_order(request):
 			ordr.data['billing_state'] = data['billing_state']
 			ordr.billing_zip_code = data['billing_zip_code']
 			ordr.data['billing_country'] = data['billing_country']
-			ordr.notes = unicode(data['note']).encode('ascii','xmlcharrefreplace')
+			ordr.notes = data['note']
 			ordr.save()
 
 			try:

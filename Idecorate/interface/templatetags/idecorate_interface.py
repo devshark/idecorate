@@ -468,4 +468,3 @@ def add_http_prefix(url):
                 url = "%s%s" % ('http://', str(url).strip())
 
         return mark_safe(url)
-

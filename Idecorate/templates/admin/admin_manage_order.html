@@ -291,7 +291,7 @@
 			<td>{{order.status|readable_status}}</td>
 			<td style="text-align:center;">
 				<a href="{% url admin_view_order %}?order={{order.id}}">View</a> | 
-				<a data-toggle="modal" href="#myModal" onclick="setEdit({{order|get_order_safe}})">Edit</a>
+				<a data-toggle="modal" href="#myModal" onclick="setEdit({{order|get_order_json}})">Edit</a>
 			</td>
 		</tr>
 		{% endfor %}
@@ -347,7 +347,7 @@
 		$('#id_billing_state').val(options.billing_state);
 		$('#id_billing_zip_code').val(options.billing_zip_code);
 		$('#id_billing_country').val(options.billing_country);	
-		$('#id_note').val(unescape(options.note));
+		$('#id_note').val(options.note);
 		$('#id_status').val(options.status);	
 		$('#id_payment_method').val(options.payment_method);
 		
