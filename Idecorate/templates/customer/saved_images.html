@@ -72,30 +72,39 @@
 		if( children.hasClass('size2') ){
 
 			move_to_container(2)
+			resize_image_container(2)
 
 		}
 
 		if( children.hasClass('size3') ){
 
 			move_to_container(3)
+			resize_image_container(3)
 
 		}
-
-		var size2_height = 0;
-		var size3_height = 0;
-
-		if($('.size2:nth-child(2n)').height() < $('.size2:nth-child(2n)').prev().height()){
-			size2_height = $('.size2:nth-child(2n)').height();
-		}else{
-			size2_height = $('.size2:nth-child(2n)').prev().height();
-		}
-
-		$('.size2:nth-child(2n)').height(size2_height);
-		$('.size2:nth-child(2n)').prev().height(size2_height);
 
 		$('.size2:nth-child(2n)').css('margin-right',0);
 		$('.size3:nth-child(3n)').css('margin-right',0);		
 	});
+
+	function resize_image_container(count){
+
+		element_set = $('.size'+count+'Wrapper');
+
+		empty = element_set.is(':empty');
+
+		if(!empty){
+
+			var arr = $.makeArray()
+			
+			$('div', element_set).each(function(){
+			    arr.push($(this).height());
+			});
+
+			$('div', element_set).css('height', Math.max.apply( Math, arr ));
+		}
+
+	}
 
 	function move_to_container(size){
 
