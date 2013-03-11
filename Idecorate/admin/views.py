@@ -2775,7 +2775,7 @@ def admin_manage_order(request):
 	
 	#q_obj_initial = ~Q(user__id=None)
 	query = None
-	orders = Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).order_by(s_type)
+	orders = Order.objects.filter(~Q(user__id=None)).filter(Q(status__gt=20) | Q(status=5)).order_by(s_type)
 
 	if request.method == "POST":
 		form = filterOrderForm(request.POST)
