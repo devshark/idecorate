@@ -164,16 +164,19 @@ function populate_save_styleboard(){
 			elm.appendTo('#canvas');			
 			objCounter++;
 
-			// SET PRODUCT POSITION TO SESSION
-			setProductPositions();			
+						
 		});
 		if(t=='u'){
-			setTimeout(make_center,0);
+			setTimeout(make_center,10);
 		} else {
-			setTimeout(make_center_template,0);
+			setTimeout(make_center_template,10);
 		}
 
 		get_cart_items();
+
+		// SET PRODUCT POSITION TO SESSION
+		//setProductPositions();
+		setTimeout(setProductPositions,500);
 	}
 }
 

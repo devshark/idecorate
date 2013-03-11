@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.template import RequestContext
 from django.utils import simplejson
-from django.http import HttpResponseNotFound, Http404
+from django.http import HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -1064,4 +1064,4 @@ def clear_session_sbid(request):
 		except:
 			pass
 
-		return redirect("%s%s" % (reverse('styleboard'), "?sbid=%s" % sbid))
+		return HttpResponseRedirect("%s%s" % (reverse('styleboard'), "?sbid=%s" % sbid))
