@@ -160,12 +160,12 @@ function populate_save_styleboard(){
 
 				});
 			}
-
-			// SET PRODUCT POSITION TO SESSION
-			setProductPositions();
 			
 			elm.appendTo('#canvas');			
-			objCounter++;			
+			objCounter++;
+
+			// SET PRODUCT POSITION TO SESSION
+			setProductPositions();			
 		});
 		if(t=='u'){
 			setTimeout(make_center,0);

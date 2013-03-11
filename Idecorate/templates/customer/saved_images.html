@@ -50,14 +50,11 @@
 		{% endfor %}
 
 	{% endif %}
-	
 	</div>
 </section>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
-		
-	var container 	= $('<div/>');
 
 	$(function(){
 
@@ -91,22 +88,29 @@
 
 		element_set = $('.size'+count+'Wrapper');
 
-		empty = element_set.is(':empty');
+		is_empty = element_set.is(':empty');
 
-		if(!empty){
+		if(!is_empty){
 
-			var arr = $.makeArray()
+			var divs 	= $('div', element_set);
+
+			for(var i = 0; i < divs.length; i+=count) {
+
+				var arr = $.makeArray();
+				
+				divs.slice(i, i+count).each(function(){
+			    	arr.push($(this).height());
+			    }).css('height', Math.max.apply( Math, arr ));
+
+			}
 			
-			$('div', element_set).each(function(){
-			    arr.push($(this).height());
-			});
-
-			$('div', element_set).css('height', Math.max.apply( Math, arr ));
 		}
 
 	}
 
 	function move_to_container(size){
+		
+	 	container 	= $('<div/>');
 
 		container.clone().addClass('size'+size+'Wrapper clearfix').appendTo('.savedImageWrapper');
 
