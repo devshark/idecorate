@@ -390,7 +390,7 @@ class editOrderForm(forms.Form):
 	first_name 			= forms.CharField(max_length=100,label=_("First Name"), required=True,error_messages={'required':_('First Name is a required field.')})
 	last_name 			= forms.CharField(max_length=100,label=_("Last Name"), required=True,error_messages={'required':_('Last Name is a required field.')})
 	email 				= forms.EmailField(max_length=80,label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email.'),'required':_('Email is a required field.')})
-	delivery_date		= forms.DateField(error_messages={'invalid':_('Please follow the format for date field.')}, input_formats=['%Y/%m/%d'], label=_("Delivery Date"), required=False)
+	delivery_date		= forms.DateField(error_messages={'invalid':_('Please follow the format for date field.')}, input_formats=['%Y-%m-%d'], label=_("Delivery Date"), required=False)
 	delivery_address	= forms.CharField(max_length=100,label=_("Delivery Address"), required=True, error_messages={'required':_('Delivery address is a required field.')})
 	delivery_address2	= forms.CharField(max_length=100,label=_("Delivery Address2"), required=False, error_messages={'required':_('Delivery address2 is a required field.')})
 	delivery_city		= forms.CharField(max_length=100,label=_("Delivery City"), required=True, error_messages={'required':_('Delivery city is a required field.')})

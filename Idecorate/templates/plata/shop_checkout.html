@@ -218,7 +218,7 @@
 		            <legend>DELIVERY DATE</legend>
 					<br />
 						<div class="clearfix calendarWrapper">
-		                	{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker" }}
+		                	{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker_checkout" }}
 		                </div>
 		             	{{ "delivery_date_note"|get_checkout_page_info }}
 		        </fieldset>
@@ -300,6 +300,19 @@ QUESTION_ORIGINAL_SIZE = 0;
 
 	$(function(){
 
+		$( '#datepicker_checkout' ).datepicker({
+			dateFormat: 'yy-mm-dd',
+			defaultDate: "+1w",
+            numberOfMonths: 1,
+            showOn: "button",
+            buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+            buttonImageOnly: true ,
+            changeYear: true,
+            changeMonth: true,
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            showButtonPanel: true
+		});
 		//page_H();
 
 		QUESTION_ORIGINAL_SIZE = $('.question').height();

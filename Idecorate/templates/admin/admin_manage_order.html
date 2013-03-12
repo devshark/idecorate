@@ -305,7 +305,7 @@
 <script type="text/javascript">
 	$(function(){
 		$( 'input[name="created"], #id_delivery_date' ).datepicker({
-			dateFormat: 'yy/mm/dd',
+			dateFormat: 'yy-mm-dd',
 			changeYear: true,
             changeMonth: true,
             showOtherMonths: true,
@@ -329,7 +329,7 @@
 
 	function setEdit(options) {
 
-		console.log(options.delivery_date);
+		
 		$('#id_order_id').val(options.id);		
 		$('#id_first_name').val(options.first_name);
 		$('#id_last_name').val(options.last_name); 			
