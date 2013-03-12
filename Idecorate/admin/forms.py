@@ -384,6 +384,7 @@ class filterOrderForm(forms.Form):
 
 class editOrderForm(forms.Form):
 
+	
 	order_id 			= forms.CharField(label=_("ID"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Order ID is a required field.')})
 	status 				= forms.ChoiceField(label=_("Status"), choices=(('5','Failed'),('30','Pending'),('40','Paid'),('45','Payment Received'),('46','Pending Delivery'),('50','Completed')), required=False,widget=forms.Select)
 	payment_method 		= forms.ChoiceField(label=_("Payment Method"), choices=(('','--Select--'),('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express')), required=False,widget=forms.Select)
