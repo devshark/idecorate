@@ -159,6 +159,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 
         contact = self.shop.contact_from_user(self.request.user)
 
+        print kwargs
         shipping_address    = kwargs.get('shipping_address')
         shipping_address2   = kwargs.get('shipping_address2')
         shipping_state      = kwargs.get('shipping_state')
@@ -187,6 +188,9 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         if billing_address:
             contact.address2 = billing_address
             contact.save()
+
+            order.billing_address = billing_address
+            order.save()
 
         #if shipping_address2:
         contact.shipping_address2 = shipping_address2
@@ -224,6 +228,9 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
             contact.city2 = billing_city
             contact.save()
 
+            order.billing_city = billing_city
+            order.save()
+
         if billing_salutation:
             contact.billing_salutation = billing_salutation
             contact.save()
@@ -235,6 +242,9 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         if billing_zip_code:
             contact.zip_code2 = billing_zip_code
             contact.save()
+
+            order.billing_zip_code = billing_zip_code
+            order.save()
 
         if shipping_country:
             contact.countries = shipping_country
