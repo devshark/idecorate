@@ -1064,4 +1064,4 @@ def clear_session_sbid(request):
 		except:
 			pass
 
-		return HttpResponseRedirect("%s%s" % (reverse('styleboard'), "?sbid=%s" % sbid))
+		return redirect("%s%s" % (reverse('styleboard'), "?sbid=%s" % sbid))
