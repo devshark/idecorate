@@ -290,8 +290,11 @@
 			<td>{{order.total|floatformat:2|intcomma}}</td>
 			<td>{{order.status|readable_status}}</td>
 			<td style="text-align:center;">
+
+				{% if order.status != 20 %}
 				<a href="{% url admin_view_order %}?order={{order.id}}">View</a> | 
 				<a data-toggle="modal" href="#myModal" onclick="setEdit({{order|get_order_json}})">Edit</a>
+				{% endif %}
 			</td>
 		</tr>
 		{% endfor %}

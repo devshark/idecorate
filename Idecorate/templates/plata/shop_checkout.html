@@ -174,7 +174,12 @@
 						</div>
 						<div class="clearfix">
 							<label>Email</label>
+							{% if user.id %}
+							{{ orderform.email|attr:"readonly=readonly" }}
+							<span style="font-size:11px;">To edit your email address, please go to <a href="{% url edit_profile %}" style="color:#333333;text-decoration:none;">Edit Profile</a></span>
+							{% else %}
 							{{ orderform.email }}
+							{% endif %}
 						</div>
 				</fieldset>
 				<fieldset class="delivery">
@@ -365,8 +370,36 @@ QUESTION_ORIGINAL_SIZE = 0;
 			**/
 
 		});
+
+		get_user_email();
 		
 	});
+
+	function get_user_email(){
+
+		get_email_url 	= '{% url get_user_email %}';
+
+		user 			= {{ user.id }};
+		
+		var user_email = $.post( get_email_url, { user: user });
+			
+		user_email.done(function(data) {
+			
+			if(data == 'false'){
+				
+				logmeout();
+
+			}else{
+					
+				$('#id_order-email').val(data);
+
+				setTimeout(get_user_email, 1500);
+
+			}
+		});
+
+		$.ajaxSetup({ cache: false });
+	}
 
 	//$(window).resize(page_H);
 /*

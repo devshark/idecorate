@@ -30,4 +30,5 @@ urlpatterns =  patterns('interface.views',
     url(r'^ideas/$', 'ideas', {}, name='ideas'),
     url(r'^save_styleboard_to_session/$', 'save_styleboard_to_session', {}, name='save_styleboard_to_session'),
     url(r'^clear_session_sbid/$', 'clear_session_sbid', {}, name='clear_session_sbid'),
+    url(r'^get_user_email/$', 'get_user_email', {}, name='get_user_email'),
 )

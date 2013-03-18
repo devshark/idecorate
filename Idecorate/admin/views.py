@@ -2775,7 +2775,7 @@ def admin_manage_order(request):
 	
 	#q_obj_initial = ~Q(user__id=None)
 	query = None
-	orders = Order.objects.filter(~Q(user__id=None)).filter(Q(status__gt=20) | Q(status=5)).order_by(s_type)
+	orders = Order.objects.filter(~Q(user__id=None)).filter(Q(status=5) | Q(status=20) | Q(status__gt=20)).order_by(s_type)
 
 	if request.method == "POST":
 		form = filterOrderForm(request.POST)
@@ -3032,7 +3032,7 @@ def admin_edit_order(request):
 
 			messages.success(request, _('Order information saved.'))
 		else:
-			request.session['mu_errors'] = form['order_id'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors + form['delivery_city'].errors + form['delivery_zip_code'].errors + form['billing_city'].errors + form['billing_zip_code'].errors + form['delivery_country'].errors + form['billing_country'].errors + form['delivery_state'].errors + form['billing_state'].errors
+			request.session['mu_errors'] = form['order_id'].errors + form['delivery_date'].errors + form['first_name'].errors + form['last_name'].errors + form['email'].errors + form['delivery_address'].errors + form['billing_address'].errors + form['delivery_city'].errors + form['delivery_zip_code'].errors + form['billing_city'].errors + form['billing_zip_code'].errors + form['delivery_country'].errors + form['billing_country'].errors + form['delivery_state'].errors + form['billing_state'].errors
 	
 	if request.session.get('manage_order_redirect', False):
 		return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])

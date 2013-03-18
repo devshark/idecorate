@@ -11,6 +11,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.db.models import Q
+from django.contrib.auth.models import User
 
 from category.services import get_categories, get_cat, category_tree_crumb, search_category, get_cat_ids
 from category.models import Categories
@@ -1065,3 +1066,22 @@ def clear_session_sbid(request):
 			pass
 
 		return redirect("%s%s" % (reverse('styleboard'), "?sbid=%s" % sbid))
+
+@csrf_exempt
+def get_user_email(request):
+	
+	if request.method == 'POST':
+
+		user_id = request.POST.get('user')
+
+		if user_id or str(hbid).isdigit():
+
+			user = User.objects.get(id=int(user_id))
+
+			if user :
+
+				return HttpResponse(user.email)
+
+		else:
+
+			return HttpResponse('false')

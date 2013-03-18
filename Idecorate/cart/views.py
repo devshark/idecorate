@@ -159,7 +159,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 
         contact = self.shop.contact_from_user(self.request.user)
 
-        print kwargs
+        # print kwargs
         shipping_address    = kwargs.get('shipping_address')
         shipping_address2   = kwargs.get('shipping_address2')
         shipping_state      = kwargs.get('shipping_state')
@@ -176,6 +176,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         same_as_billing     = kwargs.get('same_as_billing')
         billing_first_name  = kwargs.get('billing_first_name')
         billing_last_name   = kwargs.get('billing_last_name')
+        email               = kwargs.get('email')
 
         if same_as_billing:
             contact.shipping_same_as_billing = same_as_billing
@@ -259,6 +260,12 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 
             order.data['billing_country'] = billing_country
             order.save()
+
+        if email:
+            c_user = User.objects.get(id=int(self.request.user.id))
+            c_user.email = email
+            c_user.username = email
+            c_user.save()
 
         if notes:
             order.notes = notes
@@ -369,7 +376,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['shipping_city']            = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True, error_messages={'required':_('Delivery City is a required field.')})
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
 
-        self.fields['shipping_date']            = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
+        self.fields['shipping_date']            = forms.DateField(error_messages={'invalid':_('Please follow the format for date field.(yyyy-mm-dd)')}, input_formats=['%Y-%m-%d'], label=_("Shipping Date"), required=False) #forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
         self.fields['shipping_zip_code']        = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
         self.fields['email']                    = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
         self.fields['billing_last_name']        = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
@@ -624,7 +631,6 @@ class IdecorateShop(Shop):
 
                     order.user = user
                     order.save()
-                    print "testing"
                     return HttpResponseRedirect('.')
             else:
                 loginform = AuthenticationForm(prefix='login')
@@ -667,6 +673,7 @@ class IdecorateShop(Shop):
                 delivery_country = request.POST.get('order-shipping_country')
                 billing_first_name = request.POST.get('order-billing_first_name')
                 billing_last_name = request.POST.get('order-billing_last_name')
+                email = request.POST.get('order-email')
 
                 if same_as_billing:
                     billing_address = delivery_address
@@ -704,7 +711,8 @@ class IdecorateShop(Shop):
                     billing_country=billing_country,
                     shipping_country=delivery_country,
                     billing_first_name=billing_first_name,
-                    billing_last_name=billing_last_name
+                    billing_last_name=billing_last_name,
+                    email=email
                 )
 
                 """

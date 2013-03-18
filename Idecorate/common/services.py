@@ -15,6 +15,7 @@ from cart.models import Contact, GuestTable
 from cart.services import generate_unique_id
 from django.utils.html import strip_tags
 from customer.services import get_user_styleboard, save_styleboard_item
+from django.contrib.auth.models import User
 import cgi
 
 def ss_direct(params, url, secure=False):
@@ -432,12 +433,19 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         c_block,
         settings.IDECORATE_HOST
     )
-
+    
     #messageHTML = messageHTML.decode('unicode-escape').encode('ascii','xmlcharrefreplace')
     print messageHTML
     print settings.SKIPPING_MODE
     if not settings.SKIPPING_MODE:
-        IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=user.email,subject='iDecorateweddings.com Order Confirmation',body=messageHTML,isHTML=True)
+        mail_to = []
+        mail_to.append(user.email)
+
+        admins = User.objects.filter(is_superuser = True, is_active= True)
+        for admin in admins:
+            mail_to.append(admin.email)
+
+        IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=mail_to,subject='iDecorateweddings.com Order Confirmation',body=messageHTML,isHTML=True)
 
 def st_save_helper(request,order):
 

@@ -23,7 +23,7 @@ $(document).ready( function() {
     });
     window_height = $(window).height();
 	window_width = $(window).width();
-    $('.categories').click(function(){
+    $('.categories').mousedown(function(){
         browse_categories(this.id);
         has_change_mode = true;
         return false;
@@ -173,14 +173,14 @@ function browse_categories(elm_id){
                 });
             });
             $('.categories').each(function(){
-                $(this).bind('click',function(e){
+                $(this).bind('mousedown',function(e){
                     e.preventDefault();
                     browse_categories(this.id);
                 });
             });
 
             if(type =='products'){
-		ie8_last_action_id = elm_id;
+                ie8_last_action_id = elm_id;
                 $('#products .pagination').show();
                 styleboardH();
                 manage_product_pagination();
