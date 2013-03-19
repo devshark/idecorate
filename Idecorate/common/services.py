@@ -446,7 +446,7 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         for admin in admins:
             mail_to.append(admin.email)
 
-        IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=mail_to,subject='iDecorateweddings.com Order Confirmation',body=messageHTML,isHTML=True)
+        IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=",".join(mail_to),subject='iDecorateweddings.com Order Confirmation',body=messageHTML,isHTML=True)
 
 def st_save_helper(request,order):
 

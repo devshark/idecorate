@@ -376,7 +376,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['shipping_city']            = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True, error_messages={'required':_('Delivery City is a required field.')})
         self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
 
-        self.fields['shipping_date']            = forms.DateField(error_messages={'invalid':_('Please follow the format for date field.(yyyy-mm-dd)')}, input_formats=['%Y-%m-%d'], label=_("Shipping Date"), required=False) #forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
+        self.fields['shipping_date']            = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
         self.fields['shipping_zip_code']        = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
         self.fields['email']                    = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
         self.fields['billing_last_name']        = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
@@ -1011,6 +1011,7 @@ def paypal_return_url(request):
         except:
             pass
 
+        """
         request.session['delivery_address2'] = ''
         request.session['billing_address2'] = ''
         request.session['delivery_date'] = ''
@@ -1018,7 +1019,8 @@ def paypal_return_url(request):
         request.session['billing_state'] = ''
         request.session['salutation'] = ''
         request.session['order-payment_method'] = 'PayPal'
-
+        """
+        
         order = shop.order_from_request(request, create=True)
 
         
