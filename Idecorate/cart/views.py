@@ -12,7 +12,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.contrib.auth.models import User
 
-from cart.models import Product, ProductPrice, CartTemp, GuestTableTemp, GuestTable, Contact
+from cart.models import Product, ProductPrice, CartTemp, GuestTableTemp, GuestTable, Contact, OrderStyleboard
 from cart.services import get_product, generate_unique_id, remove_from_cart_temp, add_to_cart
 
 import plata
@@ -200,12 +200,12 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         order.data['delivery_address2'] = shipping_address2
         order.save()
 
-        if billing_address2:
-            contact.billing_address2 = billing_address2
-            contact.save()
+        #if billing_address2:
+        contact.billing_address2 = billing_address2
+        contact.save()
 
-            order.data['billing_address2'] = billing_address2
-            order.save()
+        order.data['billing_address2'] = billing_address2
+        order.save()
 
         if shipping_state:
             contact.shipping_state = shipping_state

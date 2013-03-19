@@ -11,10 +11,10 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from uuid import uuid4
 from customer.models import CustomerProfile
-from cart.models import Contact, GuestTable
+from cart.models import Contact, GuestTable, OrderStyleboard
 from cart.services import generate_unique_id
 from django.utils.html import strip_tags
-from customer.services import get_user_styleboard, save_styleboard_item
+from customer.services import get_user_styleboard, save_styleboard_item, save_styleboard_as_image
 from django.contrib.auth.models import User
 import cgi
 
@@ -167,12 +167,13 @@ def send_email_set_pass(user_id):
 def send_email_order(order, user, shop, sbid, comment):
 
     guest_table = GuestTable.objects.get(order=order)
+    order_styleboard = OrderStyleboard.objects.get(order=order)
 
     itemsHTML = ""
     board = "http://%s/media/images/styleboard.jpg" % settings.IDECORATE_HOST
     
     if sbid:
-    	board = "http://%s/styleboard/generate_styleboard_view/%s/560/200/" % (settings.IDECORATE_HOST, sbid)
+    	board = "http://%s/media/styleboards/%s" % (settings.IDECORATE_HOST, order_styleboard.styleboard)
 
     c_block = ""
     if comment:
@@ -496,6 +497,22 @@ def st_save_helper(request,order):
         going_to_save['description'] = strip_tags(going_to_save['description'])
         going_to_save['session_in_request'] = request.session       
         res = save_styleboard_item(going_to_save)
+
+        if res:
+            print res.styleboard_item
+            styleboard_img = save_styleboard_as_image(res.styleboard_item.id)
+
+            try:
+
+                order_styleboard = OrderStyleboard()
+                order_styleboard.order = order
+                order_styleboard.styleboard = styleboard_img
+                order_styleboard.save()
+
+            except Exception as e:
+
+                print e
+
         request.session['customer_styleboard'] = res
 
     return going_to_save

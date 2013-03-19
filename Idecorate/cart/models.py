@@ -163,3 +163,13 @@ class Contact(models.Model):
 
             if hasattr(order, f):
                 setattr(self, field, getattr(order, f))
+
+class OrderStyleboard(models.Model):
+
+    id          = models.AutoField(db_column='id', primary_key=True)
+    order       = models.ForeignKey(Order, db_column='order_id')
+    styleboard  = models.CharField(db_column='styleboard_img', max_length=256)
+
+    class Meta:
+        verbose_name = _('Ordered Styleboard')
+        db_table = 'ordered_styleboard'
