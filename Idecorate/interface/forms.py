@@ -27,7 +27,7 @@ class SetPasswordForm(forms.Form):
 			confirm_password = self.cleaned_data['confirm_password']            
 			if password:
 				if password != confirm_password:
-					raise forms.ValidationError(_("Confirm password not match to password."))
+					raise forms.ValidationError(_("Confirm password did not match."))
 			return confirm_password
 		except MultiValueDictKeyError as e:
 			return ""
