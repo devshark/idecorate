@@ -4,7 +4,7 @@ from django.conf import settings
 urlpatterns =  patterns('customer.views',
     url(r'^login_signup/$', 'login_signup', {}, name='login_signup'),
     url(r'^logout/$', 'customer_logout', {}, name='logout'),
-    url(r'^forgot/$', 'forgot_password', {}, name='forgot_password'),
+    url(r'^forgot_password/$', 'forgot_password', {}, name='forgot_password'),
     url(r'^profile/$', 'profile', {}, name='profile'),
     url(r'^customer_upload_image/$', 'customer_upload_image', {}, name='customer_upload_image'),
     url(r'^edit_profile/$', 'edit_profile', {}, name='edit_profile'),

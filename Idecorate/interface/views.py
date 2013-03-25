@@ -111,6 +111,11 @@ def styleboard(request, cat_id=None):
 		del request.session['customer_styleboard']
 	except:
 		pass
+	
+	try:
+		del request.session['cartsession']
+	except:
+		pass
 	"""
 
 	sms = st_man(request)

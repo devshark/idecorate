@@ -435,12 +435,20 @@ class IdecorateShop(Shop):
             
             if GuestTableTemp.objects.filter(sessionid=sessionid).exists():
 
+                #print "with session id: %s" % (sessionid)
+
                 if GuestTable.objects.filter(order=order).exists():
+
+                    print "with session id: %s and order: %s exists" % (sessionid,order)
+
                     guestTable = GuestTable.objects.get(order=order)
                     guestTable.guests = guests
                     guestTable.tables = tables
                     guestTable.save()
                 else:
+
+                    print "with session id: %s and no order exists" % (sessionid)
+
                     guestTable = GuestTable()
                     guestTable.order = order
                     guestTable.guests = guests
@@ -450,12 +458,21 @@ class IdecorateShop(Shop):
                 self.guest_table = guestTable
 
             else:
+
+                #print "no session id"
+
                 if GuestTable.objects.filter(order=order).exists():
+
+                    print "no session id and order: %s exists" % (order)
+
                     guestTable = GuestTable.objects.get(order=order)
                     guestTable.guests = guests
                     guestTable.tables = tables
                     guestTable.save()
                 else:
+
+                    print "no session id and no order exists"
+
                     guestTable = GuestTable()
                     guestTable.order = order
                     guestTable.guests = guests
@@ -466,11 +483,20 @@ class IdecorateShop(Shop):
 
     def render_checkout(self, request, context):
         try:
-            context.update({'guest_table': self.guest_table})
-        except:
+            guest_table = GuestTable.objects.get(order=context['order'])
+            context.update({'guest_table': guest_table})
+        except Exception as e:
             pass
         return self.render(request, 'plata/shop_checkout.html', self.get_context(request, context))
     
+    def render_confirmation(self, request, context):
+        try:
+            guest_table = GuestTable.objects.get(order=context['order'])
+            context.update({'guest_table': guest_table})
+        except Exception as e:
+            print e
+        return self.render(request, 'plata/shop_confirmation.html', self.get_context(request, context))
+
     def checkout_form(self, request, order):
         return IdecorateCheckoutForm
 
@@ -787,6 +813,7 @@ class IdecorateShop(Shop):
             del request.session['notes']
             del request.session['billing_country']
             del request.session['shipping_country']
+            del request.session['customer_styleboard']
         except:
             pass
 

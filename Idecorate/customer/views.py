@@ -125,7 +125,9 @@ def customer_logout(request):
 		return redirect('home')
 
 def forgot_password(request):
-	return HttpResponse('<h1>Under Construction.</h1>')
+	info = {}
+
+	return render_to_response('customer/iframe/forgot_password.html', info, RequestContext(request))
 
 def profile(request):
 

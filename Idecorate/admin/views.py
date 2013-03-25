@@ -2314,7 +2314,7 @@ def update_qty_sold(request):
 	else:
 		return HttpResponseNotFound()
 
-import csv
+#import csv
 
 @csrf_exempt
 def export_inventory_finance_report(request):
