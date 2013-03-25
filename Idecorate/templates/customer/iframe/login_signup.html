@@ -245,6 +245,11 @@
 
         $(function(e){
 
+            $('.action a').on('click',function(e){
+                var this_iframe = $("#modal-login-signup-window iframe", parent.document);
+                this_iframe.css({minHeight:100});
+            });
+
             $(':input[placeholder]').placeholder();
 
             $('#idecorate_fb').click(function(e){

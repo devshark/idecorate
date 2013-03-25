@@ -164,6 +164,24 @@ def send_email_set_pass(user_id):
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=u.user.email,subject='Welcome To iDecorateweddings.com',body=messageHTML,isHTML=True)
 
+def send_email_reset_pass(user_id):
+    u = CustomerProfile.objects.get(user__id=int(user_id))
+    u.hash_set_password = str(uuid4())
+    u.save()
+
+    messageHTML = """
+    Hello,
+    <br /><br />
+    Please click the link below to change your password.
+    <br /><br />
+    http://%s/set_password_user/%s
+    <br /><br />
+    From the iDecorateWeddings.com Team
+    """ % (settings.IDECORATE_HOST, u.hash_set_password)
+    print messageHTML
+    if not settings.SKIPPING_MODE:
+        IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=u.user.email,subject='Reset your iDecorateWeddings.com password',body=messageHTML,isHTML=True)
+
 def send_email_order(order, user, shop, sbid, comment):
 
     guest_table = GuestTable.objects.get(order=order)

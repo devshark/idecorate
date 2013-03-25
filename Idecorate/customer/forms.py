@@ -180,3 +180,17 @@ class PassForm(forms.Form):
 			return confirm_password
 		except MultiValueDictKeyError as e:
 			return ""
+
+class ForgotPassForm(forms.Form):
+	username = forms.EmailField(label=_("Enter Email"), error_messages={'required':_('Enter a valid e-mail address.')})
+	
+	def clean_username(self):
+		try:
+			username = self.cleaned_data['username']
+			if not is_registered(username):
+				raise forms.ValidationError(_("E-mail address entered is not associated with www.idecorateweddings.com"))
+			if len(username)>80:
+				raise forms.ValidationError(_("E-mail address entered should be maximum of 80 chars."))
+			return username
+		except MultiValueDictKeyError as e:
+			return ""

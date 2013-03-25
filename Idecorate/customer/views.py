@@ -19,7 +19,7 @@ from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
 from models import StyleboardItems, CustomerProfile
 from django.contrib.auth.models import User
 
-from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm
+from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm,ForgotPassForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
 	get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item, get_user_keep_images, dynamic_styleboard
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
@@ -28,6 +28,7 @@ import re
 import math
 from idecorate_settings.models import IdecorateSettings
 from urllib import unquote
+from common.services import send_email_reset_pass
 from admin.services import getExtensionAndFileName
 from admin.models import HomeBannerImages
 from cart.services import generate_unique_id
@@ -126,7 +127,27 @@ def customer_logout(request):
 
 def forgot_password(request):
 	info = {}
+	forgot_password_form = ForgotPassForm()
 
+	if request.method=="POST":
+
+		forgot_password_form = ForgotPassForm(request.POST)
+		
+		if forgot_password_form.is_valid():
+
+			user = forgot_password_form.cleaned_data.get('username')
+			try:
+				u = User.objects.get(email=user)
+
+				send_email_reset_pass(u.id)
+				
+				info['email_sent'] = True
+								
+			except Exception as e:
+
+				print e
+
+	info['forgot_password_form'] = forgot_password_form
 	return render_to_response('customer/iframe/forgot_password.html', info, RequestContext(request))
 
 def profile(request):
