@@ -882,7 +882,12 @@ def set_password_user(request, param):
 
 			prof.user.username = prof.user.email
 			prof.user.set_password(form.cleaned_data['password'])
-			prof.user.save()
+			
+			if prof.user.save():
+
+				customer = CustomerProfile.object.get(user=prof.user)
+				customer.hash_set_password = ""
+				customer.save()
 
 			return redirect('home')
 
