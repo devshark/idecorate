@@ -159,6 +159,9 @@
         <script type="text/javascript">
         $(':input[placeholder]').placeholder();
         $(document).ready(function(){
+
+            //console.log(window.parent.save_template);
+
             if (window.parent){
                 var json_data = window.parent.get_product_object_json();
                 var djsn = JSON.stringify(json_data);

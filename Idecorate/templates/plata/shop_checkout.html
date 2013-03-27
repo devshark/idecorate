@@ -145,7 +145,7 @@
 					<input type="text" placeholder="Email" name="checkout_email" />
 					<input type="password" placeholder="Password" name="checkout_password" />
 					<input type="submit" value="LOGIN" class="submit" />
-					<a href="#">Forgot your password?</a>
+					<a id="forgot_pass" href="#">Forgot your password?</a>
 			</div>
 			</form>
 			{% else %}
@@ -372,31 +372,49 @@ QUESTION_ORIGINAL_SIZE = 0;
 		});
 
 		get_user_email();
+
+		$('#forgot_pass').on('click',function(e){
+			e.preventDefault();
+            popup_forgot_pass();
+        });
 		
 	});
+
+	function popup_forgot_pass(){
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':"{% url forgot_password %}",'frameborder':'0','style':"min-height:100px"});
+        var modal   = $('#modal-login-signup-window'),
+            _left   = $(window).width()/2-modal.width()/2;
+            frame   = $('#iframe-login-signup-wrap').html(iframe);
+
+        $('#page-mask').css({display:'block'});
+        modal.css({display:'block',left:_left});
+
+    }
 
 	function get_user_email(){
 
 		get_email_url 	= '{% url get_user_email %}';
 
-		user 			= {{ user.id }};
+		user 			= {% if user.id %}{{ user.id }}{% else %} 0 {% endif %};
 		
-		var user_email = $.post( get_email_url, { user: user });
-			
-		user_email.done(function(data) {
-			
-			if(data == 'false'){
+		if(user != 0){
+			var user_email = $.post( get_email_url, { user: user });
 				
-				logmeout();
-
-			}else{
+			user_email.done(function(data) {
+				
+				if(data == 'false'){
 					
-				$('#id_order-email').val(data);
+					logmeout();
 
-				setTimeout(get_user_email, 1500);
+				}else{
+						
+					$('#id_order-email').val(data);
 
-			}
-		});
+					setTimeout(get_user_email, 1500);
+
+				}
+			});
+		}
 
 		$.ajaxSetup({ cache: false });
 	}

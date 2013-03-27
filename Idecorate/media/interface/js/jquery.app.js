@@ -12,6 +12,7 @@ var aspectR = true;
 var slideValue = 0;
 DEFAULT_TEXT_E = "I Love iDecorate";
 active_object = null;
+var save_template = 0;
 
 $(document).ready(function () {
 
@@ -540,6 +541,9 @@ $(document).ready(function () {
         if($('#canvas .template').length > 0){
             $('#canvas .template').remove();
             manage_total();
+
+            save_template = $(this).attr('_uid');
+            
         }
         $('#canvas').droppable('disable').fadeTo(1,1);
         objects = get_template_details($(this).attr('_uid'));

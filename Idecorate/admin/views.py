@@ -2080,7 +2080,11 @@ def create_template(request):
 
             template_positions = None
 
-        info['template_id'] = template_id
+            info['template_id'] = template_id
+
+        else:
+            
+            info['template_id'] = 0
 
     else:
 
