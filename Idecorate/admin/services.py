@@ -349,3 +349,9 @@ def get_all_orders(filters=None,order_by='created'):
 	query = Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).order_by(order_by) if filters is None else Order.objects.filter(~Q(user__id=None)).filter(status__gt=20).filter(filters).order_by(order_by)
 
 	return query
+
+def get_all_templates(filters=None,order_by='created'):
+
+	query = StyleboardTemplateItems.objects.filter().filter(deleted=0).order_by(order_by) if filters is None else StyleboardTemplateItems.objects.filter(filters).filter(deleted=0).order_by(order_by)
+
+	return query

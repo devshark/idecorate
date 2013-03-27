@@ -23,7 +23,11 @@
                 </ul>
               </li>
               <li><a href="{% url admin_manage_checkout %}">{% trans "Manage Checkout Page" %}</a></li>
-              <li><a href="{% url manage_template %}">{% trans "Create Template" %}</a></li>
+              <li><a href="{% url manage_template %}">{% trans "Manage templates "%}</a>
+                  <ul>
+                      <li><a href="{% url create_template %}">{% trans "Create Template" %}</a></li>
+                  </ul>
+              </li>
               <li>
                 <a href="{% url manage_home_info_graphic %}">{% trans "Manage Home Infographics" %}</a>
                 <ul>

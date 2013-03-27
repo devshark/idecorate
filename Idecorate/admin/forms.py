@@ -382,6 +382,11 @@ class filterOrderForm(forms.Form):
 	email 		= forms.CharField(max_length=80,label=_("Email"), required=False, error_messages={'invalid':_('Enter a valid Email.')})
 	status 		= forms.ChoiceField(label=_("Status"), choices=(('any','Any'),('5','Failed'),('30','Pending'),('40','Paid'),('45','Payment Received'),('46','Pending Delivery'),('50','Completed')), required=False,widget=forms.Select)
 
+class FilterTemplateForm(forms.Form):
+
+	created		= forms.DateField(error_messages={'invalid':_('Please follow the format for date field. yyyy-mm-dd')}, input_formats=['%Y-%m-%d'], label=_("Date created"), required=False)
+	name 		= forms.CharField(max_length=100,label=_("Template Name"), required=False)
+	
 class editOrderForm(forms.Form):
 
 	order_id 			= forms.CharField(label=_("ID"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Order ID is a required field.')})

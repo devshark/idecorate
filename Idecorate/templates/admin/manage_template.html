@@ -1,325 +1,138 @@
-{% load i18n widget_tweaks admin idecorate_interface %}
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>iDecorate Wedding</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta name="description" content="">
-        <meta name="author" content="">
-        <link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
-        <link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
-        <link rel="stylesheet" type="text/css" href="/media/admin/css/manage.template.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.core.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/base/jquery.ui.all.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/themes/ui-lightness/jquery.ui.all.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/spectrum.css" />
-        <link rel="stylesheet" type="text/css" href="/media/interface/js/selectbox/css/jquery.selectbox.css" />
-        <script type="text/javascript">
-        var TEXT_IMG_GEN_URL            = '{% url generate_text %}';
-        var EMB_IMG_GEN_URL             = '{% url generate_embellishment %}';
-        var MAX_UPLOAD_EMBELLISHMENT_IMAGE_SIZE = {{ max_emb_size }};
-        var UPLOAD_EMBELLISMENT_PROG    = '{% url upload_embellishment_progress %}';
-        var EMBELLISHMENT_UPLOAD_ACTION = '{% url template_upload_embellishment_action %}';
-        SET_TEMPLATE_POSITION_URL = '{% url set_template_positions %}';
-        TEMPLATE_POSITIONS = {{ template_positions }};
-        </script>
-        <style type="text/css">
-        .file-wrapper, .submit-wrapper {
-          cursor: pointer;
-          display: inline-block;
-          overflow: hidden;
-          position: relative;
-        }
-        .file-wrapper input[type=file] {
-            height: 30px;
-        }
-        .file-wrapper .button, .tp-button {
-          cursor: pointer;
-          display: inline-block;
-          font-size: 12px;
-          margin-right: 5px;
-          padding: 4px 18px;
-        }
-        #modal-save-styleboard-window {
-            border: 5px solid #DDD;
-            position: fixed;
-            width: 405px;/*
-            */
-            height: auto;
-            overflow: hidden;
-            background-color: white;
-            box-shadow: 0 0 8px #333;
-            z-index: 99999;
-            top: 10%;
-            background-image: url('/media/images/idecorate_pattern.jpg');
-            background-repeat: repeat;
-        }
-        #modal-save-styleboard-window iframe {
-        /*height: 480px;*/
-        min-height: 375px;
-        max-height: 700px;
-        width: 100%;
-        }
-        #modal-save-styleboard-window h2 {
-            margin: 0 5px 0 0;
-            padding: 0;
-            text-align: right;
-        }
-        #modal-save-styleboard-window a.close-modal-btn {
-            text-decoration: none;
-            color: #666;
-            font-size: 20px;
-        }
-        #page-mask {
-            position: fixed;
-            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-            filter: alpha(opacity=50);
-            -moz-opacity: 0.5;
-            -khtml-opacity: 0.5;
-            opacity: 0.5;
-            background-color: black;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 99999;
-        }
-        .emItem .invisible {
-            visibility: hidden;
-        }
-        .emItem .hidden {
-            display: none;
-        }
-        </style>
-    </head>
-    <body>
-    	<div id="manage-template-header" class="header  clearfix">
-    		<h1>iDecorate</h1>
-            {% include "admin/navbar.html" %}
-    	</div>
-		<div class="mainContent" id="manage-template-main">
-			<table class="Content" border="0" cellpadding="0" cellspacing="0" id="main-content">
-				<tr valign="top">
-					<td class="sideBar" id="manage-template-sidebar">
-						<div id="sidebar">
-							<h2>Create Package</h2>
-							<div id="uploadImage">
-								<form id="upload-embel" method="POST">                                            
-                                    <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
-                                    <input type="hidden" id="id" name="id" value=""/>
-                                    <input type="hidden" name="folder" value="template" />
-                                    <fieldset>
-                                        <legend>Upload Image</legend>
-                                        <span class="file-wrapper">
-                                            <input type="file" name="picture" id="picture" placeholder="from computer" />
-                                            <input id="btn-from-my-computer" class="button" type="button" value="From my computer" />
-                                        </span>
-                                        <span class="submit-wrapper">
-                                            <input id="form_submit_button" style="display:none" class="tp-button" type="submit" value="Upload" />
-                                        </span>
-                                    </fieldset>
-                                </form>
-				    		</div>
-				    		<div class="breadcrumbWrap"></div>
-				    		<div id="embellishment-wrap">
-					    		<div class="emCat">
-                                    <a href="{% url get_embellishment_items %}" rel="1" class="image em">
-                                        {{ 1|getEmbellishmentThumbnail }}
-                                        <span>Images</span>
-                                    </a>
-                                    <a href="{% url get_embellishment_items %}" rel="text" class="text em">
-                                        {{ "TEXT"|getTextThumbnail }}
-                                        <span>Text</span>
-                                    </a>
-                                    <a href="{% url get_embellishment_items %}" rel="5" class="border em">
-                                        {{ 5|getEmbellishmentThumbnail }}
-                                        <span>Frames and Borders</span>
-                                    </a>
-                                    <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
-                                        {{ 4|getEmbellishmentThumbnail }}
-                                        <span>Colours and Textures</span>
-                                    </a>
-                                    <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
-                                        {{ 2|getEmbellishmentThumbnail }}
-                                        <span>Venue</span>
-                                    </a>
-                                    <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
-                                        {{ 3|getEmbellishmentThumbnail }}
-                                        <span>Inspiration</span>
-                                    </a>
-                                </div>
-								<div class="emItem" style="display:none;">
-								</div>
-							</div>
-							<div class="pagination"></div>
-						</div>
-					</td>
-					<td class="canvas" id="manage-template-canvas">
-						<div id="canvas">
-							<div class="handles">
-                                <div class="fakeHandle"></div>
-                            </div>
-							<div id="nw-menu">
-								<ul>
-									<li><a id="save" href="#">Save</a></li>
-									<li><a id="new" href="{% url new_template %}">New</a></li>
-									<li><a id="undo" href="#">Undo</a></li>
-									<li><a id="redo" href="#">Redo</a></li>
-									<li><a id="createBox" href="#">New Box</a></li>
-									<li><a id="remove-btn" href="#">Remove</a></li>
-									<li><a id="forward-btn" href="#">Forward</a></li>
-									<li><a id="backward-btn" href="#">Backward</a></li>
-								</ul>
-							</div>
-							<div class="neMenus">
-                                <div class="colorAdjustment clearfix">
-                                    <div id="color-picker-wrap">
-                                        <input type='text' id="colorPicker"/>
-                                    </div>
-                                    <div id="opacity-control-wrap">
-                                        <div class="opacity-control-label clearfix">
-                                            <span class="subtract">-</span>
-                                            <span class="label">Opacity</span>
-                                            <span class="add">+</span>
-                                        </div>
-                                        <div id="slider"></div>
-                                    </div>
-                                    <div id="text-change-wrap" class="clearfix">
-                                        <form>
-                                            <select name="font_id" id="font_id">
-                                                {% for text_item in text_items %}
-                                                <option value="{{ text_item.id }}">/generate_text/?font_size=40&font_text=Abcd&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=0</option>
-                                                {% endfor %}
-                                            </select>
-                                            <textarea id="text-change" class="textChange" name="text-change"></textarea>
-                                            <a href="#" class="updateText" id="text-update">update</a>
-                                        </form>
-                                    </div>
-                                    <div id="text-change-template-wrap">
-                                        <input  class="textChange" type="text"id="text-change-template" name="text-change-template"/>
-                                        <a href="#" class="updateText" id="text-update-template">update</a>
-                                    </div>
-                                </div>
-                            </div>
-						</div>
-					</td>
-				</tr>
-			</table>
-	    	
-			
-		</div>
-		<div id="manage-template-footer" class="footer">
-			{% trans "&copy; IDecorate" %}
-		</div>
-		<div id="page-mask" style="display:none;"></div>
-		<div id="modal-save-styleboard-window" style="display:none">
-            <h2 id="modal-save-styleboard-header">
-                <a href="#" id="close-save-styleboard-modal" class="close-modal-btn">&times;</a>
-            </h2>
-            <div id="iframe-save-styleboard-wrap"></div>
-        </div>
-    </body>
-    <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
-	<script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
-    <script type="text/javascript" src="/media/admin/js/emb.js"></script> 
-    <script type="text/javascript" src="/media/interface/js/colorpicker/js/spectrum.js"></script>
-    <script type="text/javascript" src="/media/interface/js/selectbox/js/jquery.selectbox-0.2.js"></script>
-	<script type="text/javascript" src="/media/interface/js/jquery-ui.js"></script>
-    <script type="text/javascript" src="/media/admin/js/jquery.app.js"></script> 
-	<script type="text/javascript" src="/media/interface/js/ui/jquery.ui.rotatable.js"></script>
-    <script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
-	<script src="/media/interface/js/jquery.form.js"></script>
-	<script src="/media/interface/js/jquery.progressbar.js"></script>
-    <script type="text/javascript">
-    	$(function () {
-    		resize();
-    		$('#embellishment-wrap .emCat a').on('click mousedown',function(e){
-    			resize();
-    		});
-            $('#save').click(save_template_pop);
-            $('#close-save-styleboard-modal').click(closed_modal);
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin idecorate_interface humanize bootstrap_pagination %}
 
-            if (!$.browser.msie && !$.browser.safari){
-                $('.file-wrapper input[type="file"]').css({
-                    'height': 30,
-                    'cursor': 'pointer',
-                    'position': 'absolute',
-                    'top': 0,
-                    'right': 0,
-                    'font-size': 100,
-                    'z-index': 2,
-                    'opacity': 0.0,
-                    'filter': 'alpha(opacity=0)',
-                    '-ms-filter': "alpha(opacity=0)",
-                    '-khtml-opacity': 0.0,
-                    '-moz-opacity': 0.0
-                });
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
+<style type="text/css">
+    .manageTemplateFilter input, 
+    .manageTemplateFilter button,
+    .manageTemplateFilter a{
+        vertical-align: top;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Manage template</h1>
+<br/>
+<h3>Show only template where</h3>
+<br/>
+{% if filter.errors %}
+<div class="alert alert-error">
+    <a class="close" data-dismiss="alert" href="#">×</a>
+    <h4 class="alert-heading">Please correct the following errors:</h4>
+    <ol>
+
+        {% for field in filter %}
+
+            {% if field.errors %}
+                <li>
+                {{field.label}}
+
+                {% for field_errors in field.errors %}
+                    
+                    {{field_errors}}
+
+                {% endfor %}
+                </li>
+            {% endif %}
+
+        {% endfor %}
+
+    </ol>
+</div>
+{% endif %}
+<div class="manageTemplateFilter">
+    <form action="" method="post" id="filter-template">
+        {% csrf_token %}
+        {{ filter.name|attr:'placeholder:Template name' }}
+        {{ filter.created|attr:'placeholder:Date' }}
+        <button type="button" id="filter-template-btn" class="btn btn-primary">Filter</button>
+        <a href='{% url manage_template %}' class="btn btn-primary btn-inverse">Reset</a>
+    </form>
+</div>
+<table class="templates table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Thumbnail</th>
+            <th>
+                <span class="tbtitle">Template Name</span> 
+                <span class="tbsorter">
+                    <a href="{% url manage_template %}{{ name_desc_link }}">Δ</a>
+                    <a href="{% url manage_template %}{{ name_asc_link }}">∇</a>
+                </span>
+            </th>
+            <th>
+                <span class="tbtitle">Created Date</span> 
+                <span class="tbsorter">
+                    <a href="{% url manage_template %}{{ date_desc_link }}">Δ</a>
+                    <a href="{% url manage_template %}{{ date_asc_link }}">∇</a>
+                </span>
+            </th>
+            <th>Operations</th>
+        </tr>
+    </thead>
+    {% if templates %}
+    <tbody>
+        {% for template in templates %}
+            <tr>
+                <td style="text-align:center;">
+                    <a href="{% url styleboard %}">
+                        <img src="/styleboard/generate_styleboard_template_view/{{ template.id }}/120/100/" />
+                    </a>
+                </td>
+                <td>{{ template.name }}</td>
+                <td>{{ template.created }}</td>
+                <td style="text-align:center;">
+                    <a href="{% url styleboard %}">View</a> | 
+                    <a href="{% url create_template %}?tid={{ template.id }}">Edit</a> | 
+                    <a id="delete_template" href="{% url delete_template %}?tid={{ template.id }}">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+    {% endif %}
+</table>
+
+{% bootstrap_paginate templates url_get_params=urlFilter %}   
+
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+    $(function(){
+        $( 'input[name="created"]' ).datepicker({
+            dateFormat: 'yy-mm-dd',
+            changeYear: true,
+            changeMonth: true,
+            showOtherMonths: true,
+            selectOtherMonths: true
+        });
+
+        $('#delete_template').click(function(e){
+            e.preventDefault();
+            template = $(this).attr('tid');
+
+            if(confirm('Are you sure you want to delete this item?')) {
+
+                window.location = $(this).attr('href');
+            
             }
 
-    	});
+        });
 
-    	$(window).resize(resize);
+        $('#filter-template-btn').click(function(e){
+            e.preventDefault();
+            $('#filter-template').submit();
+        });
 
-    	function resize(){
-    		var body = $('#manage-template-main table');
-    		var body_height = resize_body();
-    		body.height(body_height);
+    });
 
-    		$('#canvas').height(body_height-10);
-
-    		var embellishment 	= $('#embellishment-wrap');
-			var emcat_height	= resize_emcat(embellishment);
-			if($('.emCat',embellishment).is(':visible')){
-				$('.emCat',embellishment).height(emcat_height);
-			}else if($('.emItem',embellishment).is(':visible')){
-				$('.emItem',embellishment).height(emcat_height);
-			}
-
-    	}
-
-    	function resize_body(){
-    		var window_height 	= $(window).height();
-    		var header_height 	= $('#manage-template-header').outerHeight(true);
-    		var footer_height 	= $('#manage-template-footer').outerHeight(true);
-			var body_height 	= window_height-(header_height+footer_height)-2;
-
-    		return body_height;
-    	}
-
-    	function resize_emcat(embellishment){
-    		var sideBar_height			= $('#manage-template-sidebar').outerHeight(true);
-    		var embellishment_height 	= 0;
-    		
-    		embellishment.siblings().each(function(i,val){
-    			embellishment_height = embellishment_height+$(this).outerHeight(true);
-    		});
-
-    		embellishment_height = sideBar_height-embellishment_height;
-
-    		return embellishment_height;
-    	}
-
-        function save_template_pop(){
-            var item_count = $('.unselected').length;
-            if (item_count == 0){
-                alert('No item to save.');
-                return;
-            }
-
-            var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':"{% url save_styleboard_template %}",'frameborder':'0'});
-            var modal   = $('#modal-save-styleboard-window'),
-                _left   = $(window).width()/2-modal.width()/2;
-                frame   = $('#iframe-save-styleboard-wrap').html(iframe);
-
-            $('#page-mask').css({display:'block'});
-            modal.css({display:'block',left:_left});
-        }        
-    </script>
-</html>
-
-
+</script>
+{% endblock %}
