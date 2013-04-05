@@ -29,9 +29,10 @@ import admin
 from customer.models import CustomerStyleBoard
 from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems
-from customer.models import CustomerProfile #, CustomerFacebookFriends
+from customer.models import CustomerProfile, StyleboardInstruction, StyleboardInstructionCookie #, CustomerFacebookFriends
 from forms import SetPasswordForm, SearchFriendsForm
 from social_auth.models import UserSocialAuth
+from common.services import set_cookie
 
 def home(request):
 	info = {}
@@ -124,7 +125,13 @@ def styleboard(request, cat_id=None):
 
 		request.session['sbid'] = sms['sbid']
 
-	info.update(sms)					
+	info.update(sms)	
+
+	template_view = request.GET.get('template')
+
+	if template_view :
+
+		info['view_template'] = template_view 				
 
 	return render_to_response('interface/styleboard2.html', info,RequestContext(request))
 
@@ -761,6 +768,10 @@ def clear_styleboard_session(request):
 		del request.session['sbid']
 	except:
 		pass
+	try:		
+		del request.session['save_template']
+	except:
+		pass
 
 def new_styleboard(request):
 	clear_styleboard_session(request)
@@ -1093,3 +1104,275 @@ def get_user_email(request):
 		else:
 
 			return HttpResponse('false')
+
+@csrf_exempt
+def instruction_tag(request):
+
+	if request.method == 'POST':
+
+		user_id = int(request.POST.get('user'))
+
+		# session_instruction = request.session.get('instruction_tag')
+
+		instruction_cookie = request.COOKIES.get('instruction_cookie') 
+
+		instruction_in_cookie = ""
+
+		if instruction_cookie :
+			
+			try:
+				instruction_in_cookie = StyleboardInstructionCookie.objects.get(id=int(instruction_cookie))
+			except:
+
+				pass
+
+
+		if user_id and user_id != 0:
+
+			"""
+			if session_instruction:
+
+				try:
+
+					user = User.objects.get(id=user_id)
+
+					user_instruction = StyleboardInstruction.objects.get(user=user)
+
+					for instruction, value in session_instruction.iteritems():
+
+						if not getattr(user_instruction, instruction):
+							
+							setattr(user_instruction,instruction,value)
+
+					user_instruction.save()
+
+				except:
+
+					user = User.objects.get(id=user_id)
+
+					user_instruction = StyleboardInstruction()
+
+					user_instruction.user = user
+
+					for instruction, value in session_instruction.iteritems():
+
+						setattr(user_instruction,instruction,value)
+
+					user_instruction.save()
+
+			"""
+			if instruction_in_cookie and instruction_in_cookie != "":
+
+				data = simplejson.loads(instruction_in_cookie.data)
+
+				try:
+					user = User.objects.get(id=user_id)
+
+					user_instruction = StyleboardInstruction.objects.get(user=user)
+
+					for instruction, value in data.iteritems():
+
+						if not getattr(user_instruction, instruction):
+							
+							setattr(user_instruction,instruction,value)
+
+					user_instruction.save()
+
+				except:
+
+					user = User.objects.get(id=user_id)
+
+					user_instruction = StyleboardInstruction()
+
+					user_instruction.user = user
+
+					for instruction, value in data.iteritems():
+
+						setattr(user_instruction,instruction,value)
+
+					user_instruction.save()
+
+			try:
+				user = User.objects.get(id=user_id);
+
+				user_instruction = StyleboardInstruction.objects.get(user=user)
+
+				instruction_raw = {
+					'styleboard':user_instruction.styleboard,
+					'product':user_instruction.product,
+					'order':user_instruction.order
+				}
+
+				json_value = simplejson.dumps(instruction_raw)
+
+				return HttpResponse(json_value)
+
+			except:
+				return HttpResponse('false')
+
+
+		elif user_id == 0:
+
+			"""
+			if session_instruction :
+
+				instruction_raw = {
+					'styleboard':session_instruction['styleboard'],
+					'product':session_instruction['product'],
+					'order':session_instruction['order']
+				}
+
+				json_value = simplejson.dumps(instruction_raw)
+
+				return HttpResponse(json_value)
+
+			else:
+
+				return HttpResponse('false')
+			"""
+
+			if instruction_in_cookie and instruction_in_cookie != "" :
+
+				return HttpResponse(instruction_in_cookie.data)
+
+			else:
+
+				return HttpResponse('false')
+
+		else:
+
+			return HttpResponse('error')
+
+
+@csrf_exempt
+def tag_instruction(request):
+	
+	if request.method == 'POST':
+
+		user_id = int(request.POST.get('user'))
+		value 	= request.POST.get('value')
+
+		if user_id and user_id != 0:
+
+			try:
+
+				user = User.objects.get(id=user_id);
+
+				user_instruction = StyleboardInstruction.objects.get(user=user)
+
+				setattr(user_instruction,value,True)
+
+				user_instruction.save()
+
+				return HttpResponse(value)
+
+			except:
+
+				user_instruction = StyleboardInstruction()
+
+				user_instruction.user = user
+
+				setattr(user_instruction,value,True)
+
+				user_instruction.save()
+
+				return HttpResponse(value)
+
+		else:
+
+			"""
+			instruction_raw = {
+				'styleboard':False,
+				'product':False,
+				'order':False
+			}
+
+			instruction = request.session.get('instruction_tag')
+
+			if instruction:
+				instruction_raw['styleboard'] = instruction['styleboard']
+				instruction_raw['product'] = instruction['product']
+				instruction_raw['order'] = instruction['order']
+
+
+			instruction_raw[value] = True
+
+			request.session['instruction_tag'] = instruction_raw
+
+			return HttpResponse(value)
+			"""
+			instruction_raw = {
+				'styleboard':False,
+				'product':False,
+				'order':False
+			}
+
+			instruction_id = 0
+
+			# instruction = request.session.get('instruction_tag')
+
+			instruction = request.COOKIES.get('instruction_cookie') 
+				
+			try:
+
+				instruction_in_cookie = StyleboardInstructionCookie.objects.get(id=instruction)
+
+				data = simplejson.loads(instruction_in_cookie.data)
+				
+				instruction_raw['styleboard'] = data['styleboard']
+				instruction_raw['product'] = data['product']
+				instruction_raw['order'] = data['order']
+
+				instruction_raw[value] = True
+
+				instruction_in_cookie.data = simplejson.dumps(instruction_raw)
+
+				instruction_in_cookie.save()
+
+				instruction_id = instruction_in_cookie.id
+			
+			except:
+
+				instruction_in_cookie = StyleboardInstructionCookie()
+
+				instruction_raw[value] = True
+
+				instruction_in_cookie.data = simplejson.dumps(instruction_raw)
+
+				instruction_in_cookie.save()
+
+				instruction_id = instruction_in_cookie.id
+
+			# request.session['instruction_tag'] = instruction_raw
+
+			instruction_in_cookie = StyleboardInstructionCookie()
+
+			response = HttpResponse(value)
+
+			set_cookie(response, 'instruction_cookie', instruction_id)
+
+  			return response
+
+@csrf_exempt
+def save_template_session(request):
+
+	if request.method == 'POST':
+
+		template = request.POST.get('template')
+
+		template_session = request.session['save_template'] = int(template)
+
+		return HttpResponse(template_session)
+
+@csrf_exempt
+def set_save_template(request):
+
+	template = request.session.get('save_template')
+
+	if template :
+
+		return HttpResponse(template)
+
+	else:
+
+		return HttpResponse(0)

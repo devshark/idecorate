@@ -1203,7 +1203,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 	border : 5px solid #DDD;
 	position: absolute;
 	width:500px;
-	min-height:400px;
+	min-height:100px;
 	max-height:700px;
 	overflow:hidden;
 	background-color:#FFF;
@@ -1213,13 +1213,18 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 	overflow: hidden;
 
 	h2{
-		margin: 0 5px 0 0; 
+		margin: 0; 
 		padding: 0;
 		text-align: right;
+		position: relative;
 
-		a{
+		a#close-modal{
 			color: #999;
 			font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+			display: block;
+			position: absolute;
+			top: -15px;
+			right: -10px;
 		}
 		a:hover{
 			color: #333;
@@ -1230,6 +1235,19 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 		width: 405px;
 		margin: 0 auto;
 		overflow: hidden;
+
+
+
+		h1{
+			font-size: 1.4em;
+			margin-bottom: 5px;
+		}
+		p{
+			font-size: 0.9em;
+			margin-top: 10px;
+			line-height: 1.2em;
+		}
+		
 	}
 	iframe{
 		width: 412px;

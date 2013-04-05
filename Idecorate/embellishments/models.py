@@ -9,6 +9,7 @@ class StyleboardTemplateItems(models.Model):
 	browser = models.CharField(db_column='browser', max_length=100, null=True)
 	deleted = models.IntegerField(db_column='deleted', default=0)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
+	is_used = models.BooleanField(db_column="is_used", default=False);
 
 	class Meta:
 		db_table = 'styleboard_template_items'

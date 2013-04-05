@@ -362,6 +362,19 @@ def save_styleboard(request):
 
 	if request.method == "POST":
 
+		if request.session.get('save_template'):
+
+			try :
+				
+				template = StyleboardTemplateItems.objects.get(id=int(request.session.get('save_template')))
+				template.is_used = True
+				template.save()
+			
+			except Exception as e:
+				
+				print e
+			
+
 		form = SaveStyleboardForm(request.POST)	
 
 		if form.is_valid():

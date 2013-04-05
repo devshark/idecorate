@@ -49,6 +49,17 @@
     </ol>
 </div>
 {% endif %}
+
+{% if template_deleted %}
+<div class="alert alert-{{template_deleted.1}}">
+    <a class="close" data-dismiss="alert" href="#">×</a>
+    <h4 class="alert-heading">{{template_deleted.1}}!</h4>
+    <ol>
+        <li>{{template_deleted.0}}</li>
+    </ol>
+</div>
+{% endif %}
+
 <div class="manageTemplateFilter">
     <form action="" method="post" id="filter-template">
         {% csrf_token %}
@@ -84,16 +95,16 @@
         {% for template in templates %}
             <tr>
                 <td style="text-align:center;">
-                    <a href="{% url styleboard %}">
+                    <a href="{% url styleboard %}?template={{ template.id }}">
                         <img src="/styleboard/generate_styleboard_template_view/{{ template.id }}/120/100/" />
                     </a>
                 </td>
                 <td>{{ template.name }}</td>
                 <td>{{ template.created }}</td>
                 <td style="text-align:center;">
-                    <a href="{% url styleboard %}">View</a> | 
+                    <a href="{% url styleboard %}?template={{ template.id }}">View</a> | 
                     <a href="{% url create_template %}?tid={{ template.id }}">Edit</a> | 
-                    <a id="delete_template" href="{% url delete_template %}?tid={{ template.id }}">Delete</a>
+                    <a class="delete_template" used="{{ template.is_used|py_boolean_js }}" href="{% url delete_template %}?tid={{ template.id }}">Delete</a>
                 </td>
             </tr>
         {% endfor %}
@@ -115,15 +126,30 @@
             selectOtherMonths: true
         });
 
-        $('#delete_template').click(function(e){
+        $('.delete_template').click(function(e){
+
             e.preventDefault();
-            template = $(this).attr('tid');
 
-            if(confirm('Are you sure you want to delete this item?')) {
+            is_used = $(this).attr('used');
 
-                window.location = $(this).attr('href');
-            
+            if(eval(is_used) == true){
+
+                if(confirm('This template has already been used. Are you sure you want to delete this item?')) {
+
+                    window.location = $(this).attr('href');
+                
+                }
+
+            }else{
+
+                if(confirm('Are you sure you want to delete this item?')) {
+
+                    window.location = $(this).attr('href');
+                
+                }
             }
+
+            
 
         });
 

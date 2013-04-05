@@ -1384,6 +1384,7 @@ function saved_template(){
     alert('Template saved.');
     $('.unselected').each(function(){
         $(this).remove();
+        window.location.href = $("#new").attr('href');
     });
 }
 
@@ -1444,7 +1445,7 @@ function drop_template(objects){
             'text'      : val.text,
             'style'     : val.style,
             '_uid'      : val.uid
-        }).addClass('template unselected');
+        }).addClass('unselected template');
 
         var matrix = 'matrix('+ mtx.a +', '+ mtx.b +', '+ mtx.c +', '+ mtx.d +', 0, 0)',
             ie_matrix = "progid:DXImageTransform.Microsoft.Matrix(M11='"+mtx.a+"', M12='"+mtx.b+"', M21='"+mtx.c+"', M22='"+mtx.d+"', sizingMethod='auto expand')";         
@@ -1490,7 +1491,7 @@ function drop_template(objects){
             object.addClass('embellishment '+val._type);
         }else{
             object.addClass(val._type);
-            object.html('<span>'+val.spantext+'</span>');
+            object.prepend('<span>'+val.spantext+'</span>');
 
             if($('.subActive').length == 0) {
                 object.addClass('subActive');
@@ -1499,8 +1500,8 @@ function drop_template(objects){
         }
 
         object.appendTo('#canvas');
-        objCounter = 1;
         hide_canvas_menu();
+        objCounter++;
         
     });
 
@@ -1515,6 +1516,7 @@ function drop_template(objects){
 //centering droped template
 
 function make_center_template(){
+
     var percent         = 100;
     var box             = computeBboxDimension_template();
     var canvas_Width    = $('#canvas').width();
@@ -1530,10 +1532,10 @@ function make_center_template(){
 
 
     if((canvas_Width < box_Width) || (canvas_Height < box_Height)){
-    console.log(canvas_Width < box_Width)
-    console.log(canvas_Height < box_Height)
+    //console.log(canvas_Width < box_Width)
+    //console.log(canvas_Height < box_Height)
 
-    console.log(canvas_Height , box_Height)
+    //console.log(canvas_Height , box_Height)
         var width_diff      = box_Width-canvas_Width;
         var height_diff     = box_Height-canvas_Height;
         var ratio           = box_Width/box_Height;//aspect ratio of bounding box

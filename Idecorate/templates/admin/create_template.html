@@ -29,6 +29,8 @@
         var GET_TEMPLATES_DETAIL_URL    = '{% url get_template_details %}';
         TEMPLATE_POSITIONS = {{ template_positions }};
         template_id = {{ template_id }};
+        tid = {{ tid }} {% if tid %}{% else %} 0 {% endif %};
+        tempate_is_used = {{ tempate_is_used }}{% if tempate_is_used %}{% else %} 0 {% endif %};
         </script>
         <style type="text/css">
         .file-wrapper, .submit-wrapper {
@@ -58,7 +60,7 @@
             box-shadow: 0 0 8px #333;
             z-index: 99999;
             top: 10%;
-            background-image: url('/media/images/idecorate_pattern.jpg');
+            /*background-image: url('/media/images/idecorate_pattern.jpg');*/
             background-repeat: repeat;
         }
         #modal-save-styleboard-window iframe {
@@ -240,6 +242,7 @@
 	<script src="/media/interface/js/jquery.progressbar.js"></script>
     <script type="text/javascript">
     	$(function () {
+
     		resize();
     		$('#embellishment-wrap .emCat a').on('click mousedown',function(e){
     			resize();
@@ -264,7 +267,14 @@
                 });
             }
             resize_emcat($('.emCat a'));
-            resize_cat();
+
+            setTimeout(resize_cat,100);
+
+            if(tempate_is_used == 1){
+
+                alert('This template has already been used. Editing this will create a new template.');
+                
+            }
     	});
 
         function resize_cat(){ // count column count
@@ -336,8 +346,13 @@
                 alert('No item to save.');
                 return;
             }
+            frame_url = "{% url save_styleboard_template %}";
 
-            var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':"{% url save_styleboard_template %}",'frameborder':'0'});
+            if(tid != 0){
+                frame_url += '?tid='+tid;
+            } 
+
+            var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':frame_url,'frameborder':'0'});
             var modal   = $('#modal-save-styleboard-window'),
                 _left   = $(window).width()/2-modal.width()/2;
                 frame   = $('#iframe-save-styleboard-wrap').html(iframe);

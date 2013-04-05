@@ -824,3 +824,8 @@ def get_order_safe(order):
 def get_order_json(order):
 
 	return simplejson.dumps(get_order(order))
+	
+@register.filter
+def py_boolean_js(boolean):
+
+	return simplejson.dumps(boolean)

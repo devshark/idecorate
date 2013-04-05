@@ -5,6 +5,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from cart.models import Product
 from admin.models import HomeBannerImages
+from jsonfield import JSONField
 
 class CustomerProfile(models.Model):
 	user = models.OneToOneField(User, primary_key=True)
@@ -79,3 +80,21 @@ class KeepImages(models.Model):
 		db_table 		= 'keeped_images'
 		verbose_name 	= _("Keeped Images")
 
+class StyleboardInstruction(models.Model):
+	id 			= models.AutoField(db_column='id', primary_key=True)
+	user 		= models.ForeignKey(User, db_column='user_id')
+	styleboard 	= models.BooleanField(db_column="styleboard", default=False);
+	product 	= models.BooleanField(db_column="product", default=False);
+	order 		= models.BooleanField(db_column="order", default=False);
+
+	class Meta:
+		db_table 		= 'styleboard_instruction'
+		verbose_name 	= _("Styleboard Instruction")
+
+class StyleboardInstructionCookie(models.Model):
+	id 			= models.AutoField(db_column='id', primary_key=True)
+	data 		= JSONField(db_column='data', max_length=100, null=True)
+
+	class Meta:
+		db_table 		= 'styleboard_instruction_cookie'
+		verbose_name 	= _("Styleboard Instruction Cookie")

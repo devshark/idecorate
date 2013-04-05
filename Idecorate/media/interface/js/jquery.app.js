@@ -13,6 +13,7 @@ var slideValue = 0;
 DEFAULT_TEXT_E = "I Love iDecorate";
 active_object = null;
 var save_template = 0;
+var template_to_save = 0;
 
 $(document).ready(function () {
 
@@ -536,17 +537,43 @@ $(document).ready(function () {
 
 
     //event handlers for templates
+
+    set_save_tempate();
+
+    if(view_template != 0){
+
+        if($('#canvas .template').length > 0){
+            $('#canvas .template').remove();
+            manage_total();
+
+        }
+        $('#canvas').droppable('disable').fadeTo(1,1);
+        objects = get_template_details(view_template);
+
+        if(objects.length > 0){
+            drop_template(objects);
+            box_droppable();
+        }
+
+        $('.nwMenus, .neMenus, .myorder-edit').remove();
+        $('#buyTab').hide();
+
+    }
+
     $('.template-wrap').on('click', '.thumb', function(e){
         e.preventDefault();
         if($('#canvas .template').length > 0){
             $('#canvas .template').remove();
             manage_total();
-
-            save_template = $(this).attr('_uid');
             
         }
         $('#canvas').droppable('disable').fadeTo(1,1);
+
         objects = get_template_details($(this).attr('_uid'));
+
+        save_template = $(this).attr('_uid');
+
+        save_template_session(save_template);
 
         if(objects.length > 0){
             drop_template(objects);
@@ -593,6 +620,31 @@ $(document).ready(function () {
     });
 
 });
+
+function save_template_session(template_id){
+
+    var save_template_session = $.post(SAVE_TEMPLATE_SESSION_URL, {template : template_id});
+
+    save_template_session.done(function(data){
+
+        set_save_tempate();
+
+    });
+
+}
+
+function set_save_tempate(){
+
+    var set_save_tempate = $.get(SET_SAVE_TEMPLATE_URL);
+
+    set_save_tempate.done(function(data){
+
+        save_template = parseInt(data);
+
+    });
+
+}
+
 function unselect_all(e){
     var click =  $.contains($('#canvas .handles, #canvas .handles .handle , #canvas .box')[0],e.target) ? true : e.target == $('#canvas .handles');
         
@@ -1047,10 +1099,10 @@ function drop_template(objects){
         
     });
 
-    make_center_template();
+    
     setTimeout(function(){
         eventTracker($('#canvas'), 'add_template');
-
+        make_center_template();
     },300);
     //setTimeout(make_center_template, 0);
 }

@@ -6,6 +6,7 @@ import urlparse
 import urllib
 import urllib2
 import re
+import datetime
 
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -15,6 +16,7 @@ from cart.models import Contact, GuestTable, OrderStyleboard
 from cart.services import generate_unique_id
 from django.utils.html import strip_tags
 from customer.services import get_user_styleboard, save_styleboard_item, save_styleboard_as_image
+from embellishments.models import StyleboardTemplateItems
 from django.contrib.auth.models import User
 import cgi
 
@@ -531,6 +533,26 @@ def st_save_helper(request,order):
 
                 print e
 
+        if request.session.get('save_template'):
+
+            try :
+                
+                template = StyleboardTemplateItems.objects.get(id=int(request.session.get('save_template')))
+                template.is_used = True
+                template.save()
+            
+            except Exception as e:
+                
+                print e
+
         request.session['customer_styleboard'] = res
 
     return going_to_save
+
+def set_cookie(response, key, value, days_expire = 7):
+    if days_expire is None:
+        max_age = 365 * 24 * 60 * 60  #one year
+    else:
+        max_age = days_expire * 24 * 60 * 60 
+        expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
+        response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE or None)

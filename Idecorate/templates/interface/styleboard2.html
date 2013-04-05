@@ -67,6 +67,9 @@
             var BROWSER_HEIGHT              = 0;
             var back_one_cat                = false;
             var cat                         = {{cat_id}};
+            var view_template               = {{ view_template }} {% if view_template %}{% else %} 0 {% endif %}
+            var SAVE_TEMPLATE_SESSION_URL   = '{% url save_template_session %}';
+            var SET_SAVE_TEMPLATE_URL       = '{% url set_save_template %}';
             if(cat != 0){back_one_cat = true;}
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -640,7 +643,18 @@
 <script type="text/javascript">
 
 
+    var instruction = {};
+
     $(function(e){
+
+        styleboard_instruction(false);
+
+        $('#buyTab').click(function(e){
+
+            styleboard_instruction(true);
+
+        });
+
         styleboardH();
 
         $('.close-modal-btn').click(function(e){
@@ -665,6 +679,195 @@
             });
         }
     });
+
+    function styleboard_instruction(order){
+
+        /* 
+            * check if logged in 
+            and if popup instruction should be display
+
+            * display popup instruction if tagged as False
+        */
+
+        var user  = {% if user.id %}{{ user.id }}{% else %} 0 {% endif %};
+        
+        var instruction_tag_url = '{% url instruction_tag %}',
+        
+        instruction_ajax = $.post( instruction_tag_url, { user: user });
+            
+        instruction_ajax.done(function(data) {
+
+            data = $.parseJSON(data);
+
+            if(order == false){
+
+                if(eval(data) == false){
+
+                    show_instruction_tips('styleboard');
+
+                }else if(data == 'error'){
+
+                    show_instruction_tips('styleboard');
+
+                }else{
+
+                    instruction = data;
+
+                    if(instruction.styleboard == false){
+
+                    show_instruction_tips('styleboard');
+
+                    }else{
+
+                        if(instruction.product == false){
+
+                            show_instruction_tips('product');
+
+                        }
+
+                    }
+
+                } 
+
+            }else{
+
+                if(eval(data) == false){
+
+                    show_instruction_tips('order');
+
+                }else if(data == 'error'){
+
+                    show_instruction_tips('order');
+
+                }else{
+
+                    instruction = data
+
+                    if(instruction.order == false){
+
+                        show_instruction_tips('order');
+
+                    }
+
+                }
+            }
+
+        });
+
+    }
+
+    function show_instruction_tips(instruction_id){
+
+        _stlyboard = "<h1>Styleboard</h1>";
+        _stlyboard += "<p>Welcome to iDecorate Weddings style board.</p>";
+        _stlyboard += "<p>This is the space where you can create your dream wedding.</p>";
+        _stlyboard += "<p>The icons on the style board are there to help you get creative. Use the background erase tool to delete background or the crop tool to customise your background cut out. The flip, flop, clone, forward and backward tools are there to make creating your collage easier, so feel free to play around with them and watch your style board come together.</p>";
+        _stlyboard += "<p>Make sure you save your style board into your profile once your done, or if you're ready to purchase, just click buy on the left hand side.</p>";
+        
+        _product = "<h1>Products</h1>";
+        _product += "<p>Start creating your dream wedding by dragging and dropping products from the left hand side product categories. Choose from our gorgeous range of products that best reflect your wedding.</p>";
+        _product += "<p>Bring your wedding to life by clicking on embellishments. Drag and drop images, colour, flowers, text and patterns that help you style your own dream wedding.</p>";
+        _product += "<p>Click on the templates and choose a pre-designed template to help create your style board. Double click on the template you love and add products to the designated placeholders.</p>";
+        _product += "<p>We offer a sourcing service. If you have pictures of products that you love but aren't on our website, we will source them for you!<br/>Just email us at <a href="+'"mailto:enquiry@idecorateweddings.com"'+" >enquiry@idecorateweddings.com</a></p>";
+
+        _order = "<h1>My Order</h1>";
+        _order += "<p>This function helps us calculate the quantity of products that you may need for your wedding. Type in the number of guests and the number of tables and we will do the hard bit for you. If you feel that the quantity of some items isn't quite right, you can manually edit them if you click on the top "+ '"buy"' +" tab.</p>";
+        
+        instruction_text = {
+            'styleboard' : _stlyboard,
+            'product' : _product,
+            'order' : _order
+        };
+
+        instruction_form = $('<form />').attr({
+            'action' : '{% url tag_instruction %}',
+            'method' : 'post',
+            'id' : 'instruction_form',
+            'style' : 'margin-top: 10px;'
+        });
+
+        instruction_form_field = $('<input />').attr({
+            'type' : 'checkbox',
+            'id' : 'instruction_checkbox',
+            'name' : 'instruction',
+            'style' : 'vertical-align:middle;',
+            'value' : instruction_id
+        });
+
+        instruction_form
+        .append(instruction_form_field)
+        .append("<span "+'style="font-size:0.8em;vertical-align:middle;"'+" >Don't show me again</span>");
+
+        var modal   = $('#modal-window');
+        modal.width(400).css({
+            padding : 15,
+            textAlign : 'center'
+        });
+        var _left   = $(window).width()/2-modal.width()/2;
+
+        $('#page-mask').show();
+        
+        modal.css({display:'block',left:_left})
+        .children('#iframe-wrap')
+        .html(instruction_text[instruction_id])
+        .append(instruction_form);
+
+        if(instruction_id == 'styleboard'){
+
+            $('#close-modal').click(function(e){
+                
+                e.preventDefault();
+
+                if(instruction.product == undefined || instruction.product == false){
+
+                    show_instruction_tips('product');
+
+                }
+
+            });
+
+        }else{
+
+            $('#close-modal').click(function(e){
+
+                e.preventDefault();
+
+                $('#page-mask').hide();
+
+                $(this).parents('#modal-window').hide();
+
+                $('#iframe-wrap', modal).children().remove();
+            });
+        }
+
+        $('#instruction_checkbox').click(function() {
+
+            var $this = $(this);
+
+            // $this will contain a reference to the checkbox   
+            if ($this.is(':checked')) {
+
+                tag_instruction($this.val());
+
+            } else {
+
+                // the checkbox was unchecked
+            }
+        });
+
+    }
+
+    function tag_instruction(value){
+
+        var user  = {% if user.id %}{{ user.id }}{% else %} 0 {% endif %};
+
+        var tagging = $.post($('#instruction_form').attr('action'), {user :user, value : value});
+
+        tagging.done(function(data){
+            //tagging instruction to not display
+            console.log(data);
+        });
+    }
 
     function styleboardH() {
 

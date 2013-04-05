@@ -226,19 +226,31 @@ def is_kept(home_banner_id):
 	
 
 def save_template(data):
+
 	try:
+
+		sti = StyleboardTemplateItems.objects.get(id=int(data['template_id']))
+
+	except:
+
 		sti = StyleboardTemplateItems()
-		sti.name = data['name']
+
+	try:
+
+		sti.name 		= data['name']
 		sti.description = data['description']
-		sti.item = data['item']
-		sti.browser = data['browser']
+		sti.item 		= data['item']
+		sti.browser 	= data['browser']
 		sti.save()
+
 		return True
+
 	except Exception as e:
+		
 		return False
 
-def getTemplateItems():
-	return StyleboardTemplateItems.objects.filter(deleted=0)
+def getTemplateItems(id=None):
+	return StyleboardTemplateItems.objects.filter(deleted=0) if id == None else StyleboardTemplateItems.objects.get(id=id)
 
 def save_Infographics(data):
 	try:

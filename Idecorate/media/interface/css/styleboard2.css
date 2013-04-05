@@ -852,7 +852,7 @@ h5 {
   border: 5px solid #DDD;
   position: absolute;
   width: 500px;
-  min-height: 400px;
+  min-height: 100px;
   max-height: 700px;
   overflow: hidden;
   background-color: #FFF;
@@ -861,18 +861,30 @@ h5 {
   top: 10%;
   overflow: hidden; }
   #modal-window h2 {
-    margin: 0 5px 0 0;
+    margin: 0;
     padding: 0;
-    text-align: right; }
-    #modal-window h2 a {
+    text-align: right;
+    position: relative; }
+    #modal-window h2 a#close-modal {
       color: #999;
-      font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif; }
+      font-family: Arial,"Lucida Sans Unicode","Lucida Grande",sans-serif;
+      display: block;
+      position: absolute;
+      top: -15px;
+      right: -10px; }
     #modal-window h2 a:hover {
       color: #333; }
   #modal-window #iframe-wrap {
     width: 405px;
     margin: 0 auto;
     overflow: hidden; }
+    #modal-window #iframe-wrap h1 {
+      font-size: 1.4em;
+      margin-bottom: 5px; }
+    #modal-window #iframe-wrap p {
+      font-size: 0.9em;
+      margin-top: 10px;
+      line-height: 1.2em; }
   #modal-window iframe {
     width: 412px;
     height: 490px; }

@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
+from embellishments.models import StyleboardTemplateItems
 from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
@@ -2056,6 +2057,13 @@ def manage_template(request):
     info['urlFilter']   = urlFilter
     info['filter']      = form
     info['templates']   = templates
+
+    if 'template_deleted' in request.session:
+
+        info['template_deleted'] = request.session.get('template_deleted')
+
+        del request.session['template_deleted']
+
     
     return render_to_response('admin/manage_template.html',info,RequestContext(request))
 
@@ -2072,6 +2080,16 @@ def create_template(request):
 
     if template_id:
 
+        try:
+            template = StyleboardTemplateItems.objects.get(id=template_id)
+
+            if template.is_used:
+
+                info['tempate_is_used'] = 1
+
+        except:
+            pass
+
         if template_id != template_id_session:
 
             request.session['template'] = template_id
@@ -2081,9 +2099,11 @@ def create_template(request):
             template_positions = None
 
             info['template_id'] = template_id
+            info['tid'] = template_id
 
         else:
-            
+
+            info['tid'] = template_id
             info['template_id'] = 0
 
     else:
@@ -2100,8 +2120,25 @@ def create_template(request):
     return render_to_response('admin/create_template.html',info,RequestContext(request))
 
 @staff_member_required
+
 def delete_template(request):
-    print 'deleted %s' % request.GET.get('tid')
+
+    if request.GET.get('tid') :
+        
+        try:
+
+            template = StyleboardTemplateItems.objects.get(id=int(request.GET.get('tid')))
+            template.deleted = True
+            template.save()
+
+            request.session['template_deleted'] = [_('Template successfully deleted.'),_('success')]
+            return redirect('manage_template')
+
+        except:
+
+            request.session['template_deleted'] = [_('Unable delete template.'),_('error')]
+            return redirect('manage_template')
+
 
 @staff_member_required
 def manage_homepage(request):
@@ -2399,6 +2436,10 @@ def clear_template_session(request):
 
     try:
         del request.session['template_positions']
+    except:
+        pass
+    try:
+        del request.session['template']
     except:
         pass
 
