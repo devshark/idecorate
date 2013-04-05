@@ -2,7 +2,14 @@ from fabric.api import *
 from time import gmtime, strftime
 
 """
-	Please change these configurations
+	Usage (Assuming Fabric is installed on your machine):
+	-----------------------------------------------------
+
+	`fab deploy_it`
+
+	:note:
+		Please change these configurations
+
 """
 STAGING_USER = "ferdinand"
 PRODUCTION_USER = STAGING_USER
@@ -11,13 +18,13 @@ STAGING_HOST = "idecorate-b.staging.kitesystems.com"
 PRODUCTION_HOST = "172.29.38.48"
 
 """
-	except these configurations
+		except for these configurations
 """
 NOW_TIME = strftime("%Y-%m-%d",gmtime())
 BUNDLE_FILE = "Wedding-%s.tar.gz" % NOW_TIME
 TMP_DIR = "idecorateweddings-%s" % NOW_TIME
 BACKUP_DIR = "idecoratebackups-%s" % NOW_TIME
-BACKUP_BUNDLE = "idecoratesrcWedding-%s" % NOW_TIME
+BACKUP_BUNDLE = "idecoratesrcWedding-%s.tar.gz" % NOW_TIME
 BACKUP_SQL = "idecoratesql-%s.sql" % NOW_TIME
 
 """
@@ -62,18 +69,18 @@ def manage_files_production():
 		run("ls -lh")
 
 	with cd("~"):
-		run("sudoedit /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/Idecorate/localsettings.py")
-		run("sudo tar -xf %s -C /var/www/www.idecorateweddings.com/src/" % BUNDLE_FILE, capture=True)
-		run("sudo chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/banners/", capture=True)
-		run("sudo chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/categories/", capture=True)
-		run("sudo chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/embellishments/", capture=True)
-		run("sudo chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/fonts/", capture=True)
-		run("sudo chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/infographics/", capture=True)
-		run("sudo chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/products/", capture=True)
-		run("sudo chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/profiles/", capture=True)
-		run("sudo find /var/www/www.idecorateweddings.com/src/Wedding/ -name \"*.pyc\" -delete", capture=True)
-		run("sudo touch /var/www/www.idecorateweddings.com/src/django.wsgi", capture=True)
-		run("sudo service apache2 reload", capture=True)
+		#run("sudoedit /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/Idecorate/localsettings.py")
+		sudo("tar -xf %s -C /var/www/www.idecorateweddings.com/src/" % BUNDLE_FILE)
+		sudo("chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/banners/")
+		sudo("chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/categories/")
+		sudo("chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/embellishments/")
+		sudo("chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/fonts/")
+		sudo("chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/infographics/")
+		sudo("chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/products/")
+		sudo("chown -R www-data /var/www/www.idecorateweddings.com/src/Wedding/Idecorate/media/profiles/")
+		sudo("find /var/www/www.idecorateweddings.com/src/Wedding/ -name \"*.pyc\" -delete")
+		sudo("touch /var/www/www.idecorateweddings.com/src/django.wsgi")
+		sudo("service apache2 reload")
 """
 	Main deployment script
 """
