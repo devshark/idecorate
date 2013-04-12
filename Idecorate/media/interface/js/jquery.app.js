@@ -54,7 +54,7 @@ $(document).ready(function () {
         $(".draggable").liveDraggable({
             revert:true, 
             helper: 'clone',
-            containment: 'body',
+            containment: '#body',
             drag:function(e,ui){
                 template_fill();
             },
@@ -75,7 +75,7 @@ $(document).ready(function () {
     $('.unselected').liveDraggable({
         helper: 'original',
         cursor: 'move',
-        //containment: '#canvas',
+        containment: '#canvas',
         start : function(e, ui){transform($(this));},
         drag : function(e, ui){transform($(this));},
         stop : function(e, ui){
@@ -188,7 +188,7 @@ $(document).ready(function () {
     $handles.draggable({
         helper: 'original',
         cursor: 'move',
-        //containment:'#canvas',
+        containment:'#canvas',
         start: function(e, ui){transform($(this));},
         drag: function(e, ui){transform($(this));},
         stop: function(e, ui){
@@ -620,6 +620,71 @@ $(document).ready(function () {
     });
 
 });
+
+function resize_canvas(){
+
+    var orig_width          = 450,
+    orig_height             = 285,
+    canvas_wrapper          = $('#canvas-wrap'),
+    canvas_wrapper_width    = canvas_wrapper.innerWidth(),
+    canvas_wrapper_height   = canvas_wrapper.innerHeight();
+
+    width   = orig_width;
+    height  = orig_height;
+
+
+    if(canvas_wrapper_height > height){
+
+        height = canvas_height;
+        width   = ( orig_width / orig_height ) * height;
+
+        if(width >= canvas_wrapper_width){
+
+            width = canvas_width-15
+            height  = ( orig_height / orig_width ) * width;
+
+        }
+    }
+
+    if(canvas_wrapper_height < height){
+
+        height = canvas_height;
+        width  = ( orig_width / orig_height ) * height;
+    }
+
+    var canvas  = $('#canvas'),
+    margin_left = 0,
+    margin_top  = 0;
+
+    if(width <= orig_width || height <= orig_height){
+        width   = orig_width;
+        height  = orig_height;
+    }
+
+    //if(canvas_wrapper_width > width){
+
+    margin_left = canvas_wrapper_width - width;
+
+
+    $('#sidebar-wrap').css({
+        paddingLeft : margin_left/1.6
+    });
+
+    //}
+
+    if(canvas_wrapper_height > height){
+
+        margin_top = (canvas_wrapper_height - height) / 2;
+        
+    }
+
+    canvas.width(width).height(height).css({
+        'margin-top': margin_top,
+    });
+
+    return {'h': height, 'w':width};
+}
+
 
 function save_template_session(template_id){
 

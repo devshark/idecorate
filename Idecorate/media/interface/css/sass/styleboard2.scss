@@ -93,7 +93,7 @@ body {
 	font-size: 100%;
 	background-color: $grey_ligh_brown;
 	color: $grey;
-	background-color: #FFFFFF;
+	background-color: #EFECE6;
 	overflow:auto;
 	*overflow:hidden;
 	*min-width:800px;
@@ -223,14 +223,15 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
     width:100%;
    	border-spacing:5px; 
 	border-collapse: separate;
-	min-width:800px;
+	//min-width:800px;
 	background-color: #EFECE6;
     
     tbody.bodyWrap{
     	tr{
 
 			td#sidebar-wrap{
-				width: 40%;
+				width: 22%;
+				min-width: 275px;
 
 				#sidebar-nav{
 					display:block;
@@ -670,7 +671,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 									table{
 										tr{
 											th{
-												width: 40%;
+												width: 50%;
 												text-align: center;
 											}
 
@@ -679,7 +680,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 											}
 
 											th + th + th{
-												width: 40%;
+												width: 30%;
 											}
 										}
 									}
@@ -693,7 +694,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 										tr{
 											td{
 												color: #000;
-												width: 40%;
+												width: 50%;
 												text-align: left;
 												padding: 4px 0;
 
@@ -703,13 +704,17 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 														display: inline-block;
 														*display:inline;
 														zoom: 1;
+														width: 50px;
 														img{
 															border: 1px solid #CCC;
+															width: 100%;
 														}
 													}
 
 													.buyItemMeta{
 														padding:0 3px;
+														line-height: 1.1em;
+														width: 70px;
 														p{
 															text-align: left;
 															font-family: 'futura_std_book';
@@ -743,7 +748,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 											}
 
 											td + td + td{
-												width: 40%;
+												width: 30%;
 												text-align: center;
 												font-family: 'futura_std_book';
 												font-size: 13px;
@@ -809,12 +814,12 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 			}
 
 			td#canvas-wrap{
-				width: 60%;
+				width: 78%;
+				background-color: #EFECE6;
 
 				#canvas {
 					position: relative;
 					overflow: hidden;
-					border: 1px solid #FFF;
 					background-color: #FFF;
 					background-image: url('/media/images/canvasbg.jpg');
 					background-position: center center;
@@ -1125,7 +1130,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 				    } 
 				}
 				#canvas:hover{
-					border:1px solid #EEE;
+					outline:1px solid #EEE;
 				}
 			}
 		}

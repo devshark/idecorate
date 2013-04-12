@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load idecorate_interface admin humanize %}
+{{ request|set_last_page_idecorate }}
+{% block title %}My Orders{% endblock %}
+{%  block style %}
+<link rel="stylesheet" type="text/css" href="/media/interface/css/orders.css">
+{% endblock %}
+{% block content %}
+<h3>My Orders</h3>
+<div class="ordersWrap">
+	<table class="ordersTable">
+		<thead>
+			<tr>
+				<th style="width:250px;">Styleboard</th>
+				<th>Order ID</th>
+				<th>Date Created</th>
+				<th>Total</th>
+				<th>Status</th>
+				<th>Operation</th>	
+			</tr>
+		</thead>
+		<tbody>
+			{% if orders %}
+			{% for order in orders %}
+			<tr>
+				<td><img src="{{ order|get_ordered_styleboard }}" width="250" height="100"/></td>
+				<td>{{ order.order_id }}</td>
+				<td>{{ order.created }}</td>
+				<td>{{order.total|floatformat:2|intcomma}}</td>
+				<td>{{order.status|readable_status}}</td>
+				<td class="operation"><a href="{% url orders %}?order={{ order.id }}">View Order</a></td>
+			</tr>
+			{% endfor %}
+			{% endif %}
+		</tbody>
+		<tfoot>
+			<tr>
+				<td class="paginate" colspan="6">{{ orders|interface_paginate }}</td>
+			</tr>
+		</tfoot>
+	</table>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+</script>
+{% endblock %}

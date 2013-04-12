@@ -7,8 +7,10 @@ import urllib2, urllib
 from admin.models import TextFonts, Embellishments, EmbellishmentsType
 import time
 import re
+from django.db.models import Q
 from urllib import unquote
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
+from plata.shop.models import Order
 
 @transaction.commit_manually
 def register_user(data):
@@ -81,6 +83,15 @@ def get_user_styleboard(user=None,styleboard_id=None):
 		except:
 			styleboards = None
 	return styleboards
+
+def get_user_orders(user=None):
+
+	if user:
+		orders = Order.objects.filter(Q(user__id=user.id)).filter(Q(status__gt=20))
+		return orders
+	else :
+		return False
+
 
 @transaction.commit_manually
 def save_styleboard_item(data):

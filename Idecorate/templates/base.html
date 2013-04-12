@@ -180,17 +180,19 @@
                     navs += '<ul>';
                     navs += '<li><a id="lnk-styleboards" href="#">My Styleboards</a></li>';
                     navs += '<li><a id="lnk-saved-images" href="#">My Saved Images</a></li>';
+                    navs += '<li><a id="lnk-orders" href="#">My Orders</a></li>';
                     navs += '<li><a href="{%url invite_friends %}">Invite Friends</a></li>';
                     navs += '<li><a id="lnk-edit" href="{% url edit_profile %}">Edit Profile</a></li>';                
                     navs += '<li><a id="lnk-logout" href="#">Logout</a></li>';                
                     navs += '</ul>';
                     navs += '</li>';
                     navs += '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';
-                                    
+                
                 $('#site-menu ul.dd').append(navs);
                 $('#lnk-logout').bind('click',logmeout);
                 $('#lnk-styleboards').bind('click',goto_profile);
                 $('#lnk-saved-images').bind('click',goto_saved_images);
+                 $('#lnk-orders').bind('click',goto_my_orders); 
                 $('#site-menu ul a#lnk-login-signup').bind('click',function(e){
                     e.preventDefault();
                     popup_login();
@@ -210,6 +212,9 @@
             
             function goto_saved_images(){
                 window.location.href = '{% url saved_images %}';
+            }
+            function goto_my_orders(){
+                window.location.href = '{% url orders %}';
             }
 
             

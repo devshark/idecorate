@@ -70,6 +70,8 @@
             var view_template               = {{ view_template }} {% if view_template %}{% else %} 0 {% endif %}
             var SAVE_TEMPLATE_SESSION_URL   = '{% url save_template_session %}';
             var SET_SAVE_TEMPLATE_URL       = '{% url set_save_template %}';
+            var canvas_height;
+            var canvas_width;
             if(cat != 0){back_one_cat = true;}
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -905,7 +907,9 @@
 
         
         $('#styleboard').height(_height); 
-        $('#canvas').height(_height-1); 
+        //$('#canvas').height(_height-1);
+        canvas_height =  _height;
+        canvas_width = $('#compact-header').width()-$('#sidebar-wrap').width();
         $('#create-tab .category-wrap').height(__height);
         $('#embellishments').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
         $('#create-tab .product-list-wrap .product-list').height(___height).css({minHeight:____height});
@@ -921,6 +925,8 @@
                         $("#template .pagination").outerHeight(true);
                         
         $('#templates').height(height__).css({minHeight:____height_});
+
+        resize_canvas();
 
     }
     function generate_user_nav(){

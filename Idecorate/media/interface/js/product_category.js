@@ -181,7 +181,7 @@ function browse_categories(elm_id){
 
             if(type =='products'){
                 ie8_last_action_id = elm_id;
-                $('#products .pagination').show();
+                $('#products .pagination').show().css({visibility: 'hidden'}); // dont show <*pagination*>
                 styleboardH();
                 manage_product_pagination();
             } else {
@@ -241,7 +241,7 @@ function get_products(){
 
 function populate_products(){    
     if (sub_category_count == 0){
-        $('#products .pagination').show();
+        $('#products .pagination').show().css({visibility: 'hidden'}); // dont show <*pagination*>
         var response_data = get_products();
         var items = '';
         var breadcrumb = '';
@@ -278,7 +278,7 @@ function reset_product(){
 }
 
 function search_products(keyword, catid){
-    $('#products .pagination').show();
+    $('#products .pagination').show().css({visibility: 'hidden'}); // dont show <*pagination*>
     mode_type = 'search';
     category_id = catid;
     search_keyword = keyword

@@ -8,7 +8,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from cart.services import get_product
 
 from customer.services import customer_profile, get_save_styleboard_total
-from cart.models import ProductPrice, Contact
+from cart.models import ProductPrice, Contact, OrderStyleboard
 from admin.models import Embellishments, TextFonts, EmbellishmentsType
 from django.conf import settings
 import math
@@ -468,3 +468,14 @@ def add_http_prefix(url):
                 url = "%s%s" % ('http://', str(url).strip())
 
         return mark_safe(url)
+
+@register.filter
+def get_ordered_styleboard(order):
+
+        try:
+
+                order_styleboard = OrderStyleboard.objects.get(order=order)
+                board = "/media/styleboards/%s" % (order_styleboard.styleboard)
+                return board
+        except:
+                return "/media/images/error_logo.jpg"
