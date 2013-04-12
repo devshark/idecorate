@@ -959,6 +959,28 @@
             $('#lnk-logout').parent().hide();
         {% endif %}
     }
+
+    function resize_products(){ // count column count
+
+        element_set = $('.product-list'); // main container of divs to be resize
+
+        is_empty = element_set.is(':empty');
+
+        if(!is_empty){ //check if container is not empty
+
+            var divs    = $('a', element_set);
+
+            var arr = $.makeArray();
+                
+            divs.each(function(){
+
+                arr.push($(this).height()); // put all height of each div
+
+            }).css('height', Math.max.apply( Math, arr )); // set height of each div per row base on max value from array
+            
+        }
+
+    }
     
     function goto_profile(){
         window.location.href = '{% url profile %}';

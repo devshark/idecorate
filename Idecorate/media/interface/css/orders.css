@@ -1,0 +1,71 @@
+#content {
+  margin-top: 20px; }
+  #content h3 {
+    width: 100%;
+    font-family: 'futura_std_medium';
+    font-size: 22px;
+    color: #000000;
+    margin-bottom: 15px;
+    text-transform: uppercase; }
+
+.ordersWrap {
+  min-height: 300px;
+  background-color: #EFEBE4;
+  padding: 12px; }
+  .ordersWrap .ordersTable {
+    background-color: #FFFFFF;
+    width: 100%;
+    border-right: 1px solid #DDDDDD;
+    border-top: 1px solid #DDDDDD; }
+    .ordersWrap .ordersTable th {
+      text-transform: uppercase;
+      color: #000000;
+      font-family: futura_std_heavy; }
+    .ordersWrap .ordersTable td, .ordersWrap .ordersTable th {
+      border-left: 1px solid #DDDDDD;
+      border-bottom: 1px solid #DDDDDD;
+      padding: 5px; }
+    .ordersWrap .ordersTable tbody td {
+      vertical-align: top; }
+    .ordersWrap .ordersTable tbody tr:hover {
+      background-color: #F5F5F5; }
+    .ordersWrap .ordersTable td.operation {
+      text-align: center; }
+      .ordersWrap .ordersTable td.operation a {
+        text-decoration: none;
+        color: #000000; }
+      .ordersWrap .ordersTable td.operation a:hover {
+        text-decoration: underline; }
+  .ordersWrap .pagination {
+    *margin-top: 15px;
+    text-align: center; }
+    .ordersWrap .pagination ul {
+      margin: 0;
+      padding: 0; }
+      .ordersWrap .pagination ul li {
+        display: inline-block;
+        font-size: 0;
+        *display: inline;
+        zoom: 1;
+        padding: 0 1px; }
+        .ordersWrap .pagination ul li span {
+          color: #333333;
+          font-family: 'futura_std_book';
+          font-size: 12px;
+          display: block;
+          padding: 5px; }
+        .ordersWrap .pagination ul li span.current {
+          font-family: 'futura_std_medium';
+          font-size: 13px; }
+        .ordersWrap .pagination ul li a {
+          display: block;
+          padding: 5px;
+          font-size: 12px;
+          text-decoration: none;
+          font-family: 'futura_std_book';
+          color: #666666;
+          background-color: #EFEBE4; }
+        .ordersWrap .pagination ul li a.prev, .ordersWrap .pagination ul li a.next {
+          font-size: 13px;
+          background: none;
+          font-family: 'futura_std_medium'; }
