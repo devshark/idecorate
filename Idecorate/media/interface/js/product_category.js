@@ -188,7 +188,8 @@ function browse_categories(elm_id){
                 set_category_label_height();
                 $('#products .pagination').hide();
             }
-            resize_products();
+            
+            setTimeout(resize_products, 200);
         },
         error: function(msg) {
         }

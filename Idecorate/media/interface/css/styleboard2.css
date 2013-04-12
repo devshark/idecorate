@@ -187,8 +187,8 @@ h5 {
   border-collapse: separate;
   background-color: #EFECE6; }
   #styleboard tbody.bodyWrap tr td#sidebar-wrap {
-    width: 22%;
-    min-width: 275px; }
+    width: 40%;
+    min-width: 300px; }
     #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav {
       display: block;
       background-color: #EFECE6; }
@@ -573,7 +573,7 @@ h5 {
             background: -moz-linear-gradient(top, #cccccc, #333333);
             /* for firefox 3.6+ */ }
   #styleboard tbody.bodyWrap tr td#canvas-wrap {
-    width: 78%;
+    width: 60%;
     background-color: #EFECE6; }
     #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas {
       position: relative;

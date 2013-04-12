@@ -761,15 +761,14 @@
     function show_instruction_tips(instruction_id){
 
         _stlyboard = "<h1>Styleboard</h1>";
-        _stlyboard += "<p>Welcome to iDecorate Weddings style board.</p>";
         _stlyboard += "<p>This is the space where you can create your dream wedding.</p>";
-        _stlyboard += "<p>The icons on the style board are there to help you get creative. Use the background erase tool to delete background or the crop tool to customise your background cut out. The flip, flop, clone, forward and backward tools are there to make creating your collage easier, so feel free to play around with them and watch your style board come together.</p>";
-        _stlyboard += "<p>Make sure you save your style board into your profile once your done, or if you're ready to purchase, just click buy on the left hand side.</p>";
+        _stlyboard += "<p>Use the background erase tool to delete the background or the crop tool to customise your background cut out. The flip, flop, clone, forward and backwards tools are there to help layer images on your collage.</p>";
+        _stlyboard += "<p>Save your style board to your profile once your done or click buy on the left hand side.</p>";
         
         _product = "<h1>Products</h1>";
-        _product += "<p>Start creating your dream wedding by dragging and dropping products from the left hand side product categories. Choose from our gorgeous range of products that best reflect your wedding.</p>";
-        _product += "<p>Bring your wedding to life by clicking on embellishments. Drag and drop images, colour, flowers, text and patterns that help you style your own dream wedding.</p>";
-        _product += "<p>Click on the templates and choose a pre-designed template to help create your style board. Double click on the template you love and add products to the designated placeholders.</p>";
+        _product += "<p>Drag and drop products from the left product sidebar. Click on embellishments to drag and drop images, colour, flowers, text and patterns onto the styleboard.</p>";
+        _product += "<p>Upload pictures that inspire you onto your styleboard.</p>";
+        _product += "<p>You can choose a pre-designed template. Double click on the template you love and add products to the designated placeholders.</p>";
         _product += "<p>We offer a sourcing service. If you have pictures of products that you love but aren't on our website, we will source them for you!<br/>Just email us at <a href="+'"mailto:enquiry@idecorateweddings.com"'+" >enquiry@idecorateweddings.com</a></p>";
 
         _order = "<h1>My Order</h1>";
@@ -907,7 +906,7 @@
 
         
         $('#styleboard').height(_height); 
-        //$('#canvas').height(_height-1);
+        $('#canvas').height(_height-1);
         canvas_height =  _height;
         canvas_width = $('#compact-header').width()-$('#sidebar-wrap').width();
         $('#create-tab .category-wrap').height(__height);
@@ -926,7 +925,7 @@
                         
         $('#templates').height(height__).css({minHeight:____height_});
 
-        resize_canvas();
+        //resize_canvas();
 
     }
     function generate_user_nav(){

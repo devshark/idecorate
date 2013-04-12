@@ -75,7 +75,7 @@ $(document).ready(function () {
     $('.unselected').liveDraggable({
         helper: 'original',
         cursor: 'move',
-        containment: '#canvas',
+        //containment: '#canvas',
         start : function(e, ui){transform($(this));},
         drag : function(e, ui){transform($(this));},
         stop : function(e, ui){
@@ -188,7 +188,7 @@ $(document).ready(function () {
     $handles.draggable({
         helper: 'original',
         cursor: 'move',
-        containment:'#canvas',
+        //containment:'#canvas',
         start: function(e, ui){transform($(this));},
         drag: function(e, ui){transform($(this));},
         stop: function(e, ui){
