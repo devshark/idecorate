@@ -220,214 +220,216 @@
                 </thead>
             </table>
         </div>
-        <table id="styleboard" cellpadding="0" cellspacing="5">
-            <tbody class="bodyWrap">
-                <tr valign="top" height="100%">
-                    <td id="sidebar-wrap">
-                        <ul id="sidebar-nav" class="etabs sideNav clearfix">
-                            <li class="tab"><a href="#create-tab" id="createTab">Create</a></li>
-                            <li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
-                        </ul>
-                        <div id="sidebar">
-                            <div id="sidebar-form-wrap"  class="clearfix">
-                                <h3>My order <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div></h3>
-                                {% csrf_token %}
-                                <fieldset>
-                                    <div class="sidebarInputs">
-                                        <label for="guests">
-                                            <input type="text" id="guests" name="guests" placeholder="Guests" value="{{ global_default_quantity }}" /> Guests
-                                        </label>
-                                        <label for="tables">
-                                            <input type="text" id="tables" name="tables" placeholder="Tables" value="{{ global_guest_table }}" /> Tables
-                                        </label>
-                                    </div>
-                                    <div class="sidebarTotals">
-                                        <h5>Total: <span id="my-order-total"> $0.00</span></h5>
-                                    </div>
-                                </fieldset>
-                            </div>
-                            <div id="create-tab">
-                                <div id="create-tab-nav">
-                                    <ul class="sideNav">
-                                        <li><a href="#products">Products</a> | </li>
-                                        <li><a href="#embellishments">Embellishments</a> | </li>
-                                        <li><a href="#templates">Templates</a></li>
-                                    </ul>
-                                    <span id="back-wrap"></span>
+        <div id="styleboard-wrap">
+            <table id="styleboard" cellpadding="0" cellspacing="5">
+                <tbody class="bodyWrap">
+                    <tr valign="top" height="100%">
+                        <td id="sidebar-wrap">
+                            <ul id="sidebar-nav" class="etabs sideNav clearfix">
+                                <li class="tab"><a href="#create-tab" id="createTab">Create</a></li>
+                                <li class="tab"><a href="#buy-tab" id="buyTab">Buy</a></li>
+                            </ul>
+                            <div id="sidebar">
+                                <div id="sidebar-form-wrap"  class="clearfix">
+                                    <h3>My order <div class="myorder-edit"><a href="#buy-tab" class="hidden">edit</a></div></h3>
+                                    {% csrf_token %}
+                                    <fieldset>
+                                        <div class="sidebarInputs">
+                                            <label for="guests">
+                                                <input type="text" id="guests" name="guests" placeholder="Guests" value="{{ global_default_quantity }}" /> Guests
+                                            </label>
+                                            <label for="tables">
+                                                <input type="text" id="tables" name="tables" placeholder="Tables" value="{{ global_guest_table }}" /> Tables
+                                            </label>
+                                        </div>
+                                        <div class="sidebarTotals">
+                                            <h5>Total: <span id="my-order-total"> $0.00</span></h5>
+                                        </div>
+                                    </fieldset>
                                 </div>
-                                <div id="products" style="display:none;">
-                                    <div class="breadcrumb-wrap">
-                                        {% if mode != 'search' %}
-                                        {{ cat_id|get_breadcrumb }}
-                                        {% else %}
-                                        <ul class="breadcrumb">
-                                            <li><a href="#">All</a></li>
-                                            <li> <span>></span></li><li class="active"><span>Search Results</span></li>
+                                <div id="create-tab">
+                                    <div id="create-tab-nav">
+                                        <ul class="sideNav">
+                                            <li><a href="#products">Products</a> | </li>
+                                            <li><a href="#embellishments">Embellishments</a> | </li>
+                                            <li><a href="#templates">Templates</a></li>
                                         </ul>
-                                        {% endif %}
+                                        <span id="back-wrap"></span>
                                     </div>
-                                    <div class="product-list-wrap">
-                                        {% include 'interface/styleboard_categories.html' %}
+                                    <div id="products" style="display:none;">
+                                        <div class="breadcrumb-wrap">
+                                            {% if mode != 'search' %}
+                                            {{ cat_id|get_breadcrumb }}
+                                            {% else %}
+                                            <ul class="breadcrumb">
+                                                <li><a href="#">All</a></li>
+                                                <li> <span>></span></li><li class="active"><span>Search Results</span></li>
+                                            </ul>
+                                            {% endif %}
+                                        </div>
+                                        <div class="product-list-wrap">
+                                            {% include 'interface/styleboard_categories.html' %}
+                                        </div>
+                                        <div class="pagination"></div>
                                     </div>
-                                    <div class="pagination"></div>
-                                </div>
-                                <div id="embellishments" style="display:none;">
-                                    <div class="formWrap">
-                                        <form id="upload-embel" method="POST">                                            
-                                            <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
-                                            <input type="hidden" id="id" name="id" value=""/>
-                                            <fieldset>
-                                                <legend>Upload Image</legend>
-                                                <span class="file-wrapper">
-                                                    <input type="file" name="picture" id="picture" placeholder="from computer" />
-                                                    <input id="btn-from-my-computer" class="button" type="button" value="From my computer" />
-                                                </span>
-                                                <span class="submit-wrapper">
-                                                    <input id="form_submit_button" style="display:none" class="tp-button" type="submit" value="Upload" />
-                                                </span>
-                                            </fieldset>
-                                        </form>
+                                    <div id="embellishments" style="display:none;">
+                                        <div class="formWrap">
+                                            <form id="upload-embel" method="POST">                                            
+                                                <input type="hidden" id="X-Progress-ID" name="X-Progress-ID" value=""/>
+                                                <input type="hidden" id="id" name="id" value=""/>
+                                                <fieldset>
+                                                    <legend>Upload Image</legend>
+                                                    <span class="file-wrapper">
+                                                        <input type="file" name="picture" id="picture" placeholder="from computer" />
+                                                        <input id="btn-from-my-computer" class="button" type="button" value="From my computer" />
+                                                    </span>
+                                                    <span class="submit-wrapper">
+                                                        <input id="form_submit_button" style="display:none" class="tp-button" type="submit" value="Upload" />
+                                                    </span>
+                                                </fieldset>
+                                            </form>
+                                        </div>
+                                        <div class="breadcrumb-wrap"></div>
+                                        <div id="embelishments-list-wrap" class="clearfix">
+                                            <div class="emCat">
+                                                <a href="{% url get_embellishment_items %}" rel="1" class="image em">
+                                                    {{ 1|getEmbellishmentThumbnail }}
+                                                    <span>{{ 1|getEmbellishmentTitle }}</span>
+                                                </a>
+                                                <a href="{% url get_embellishment_items %}" rel="text" class="text em">
+                                                    {{ "TEXT"|getTextThumbnail }}
+                                                    <span>Text</span>
+                                                </a>
+                                                <a href="{% url get_embellishment_items %}" rel="5" class="border em">
+                                                    {{ 5|getEmbellishmentThumbnail }}
+                                                    <span>{{ 5|getEmbellishmentTitle }}</span>
+                                                </a>
+                                                <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
+                                                    {{ 4|getEmbellishmentThumbnail }}
+                                                    <span>{{ 4|getEmbellishmentTitle }}</span>
+                                                </a>
+                                                <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
+                                                    {{ 2|getEmbellishmentThumbnail }}
+                                                    <span>{{ 2|getEmbellishmentTitle }}</span>
+                                                </a>
+                                                <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
+                                                    {{ 3|getEmbellishmentThumbnail }}
+                                                    <span>{{ 3|getEmbellishmentTitle }}</span>
+                                                </a>
+                                            </div>
+                                            <div class="emItem">
+                                                <!-- <a id="emb-1" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=1&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-2" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=2&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-3" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=3&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-4" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=4&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-5" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=5&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a> -->
+                                            </div>
+                                        </div>
+                                        <div class="pagination"></div>
                                     </div>
-                                    <div class="breadcrumb-wrap"></div>
-                                    <div id="embelishments-list-wrap" class="clearfix">
-                                        <div class="emCat">
-                                            <a href="{% url get_embellishment_items %}" rel="1" class="image em">
-                                                {{ 1|getEmbellishmentThumbnail }}
-                                                <span>{{ 1|getEmbellishmentTitle }}</span>
-                                            </a>
-                                            <a href="{% url get_embellishment_items %}" rel="text" class="text em">
-                                                {{ "TEXT"|getTextThumbnail }}
-                                                <span>Text</span>
-                                            </a>
-                                            <a href="{% url get_embellishment_items %}" rel="5" class="border em">
-                                                {{ 5|getEmbellishmentThumbnail }}
-                                                <span>{{ 5|getEmbellishmentTitle }}</span>
-                                            </a>
-                                            <a href="{% url get_embellishment_items %}" rel="4" class="shape em">
-                                                {{ 4|getEmbellishmentThumbnail }}
-                                                <span>{{ 4|getEmbellishmentTitle }}</span>
-                                            </a>
-                                            <a href="{% url get_embellishment_items %}" rel="2" class="texture em">
-                                                {{ 2|getEmbellishmentThumbnail }}
-                                                <span>{{ 2|getEmbellishmentTitle }}</span>
-                                            </a>
-                                            <a href="{% url get_embellishment_items %}" rel="3" class="pattern em">
-                                                {{ 3|getEmbellishmentThumbnail }}
-                                                <span>{{ 3|getEmbellishmentTitle }}</span>
-                                            </a>
-                                        </div>
-                                        <div class="emItem">
-                                            <!-- <a id="emb-1" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=1&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-2" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=2&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-3" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=3&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-4" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=4&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a><a id="emb-5" _type="Image" class="thumb draggable em"><img src="/generate_embellishment/?embellishment_id=5&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100"></a> -->
-                                        </div>
+                                    <div id="templates" style="display:none;">
+                                        <div class="template-wrap"></div>
+                                        <div class="pagination"></div>
+                                    </div>                       
+                                </div>
+                                <!-- end of create -->
+                                <div id="buy-tab" style="display:none">
+                                    <div class="buyTableWrap">
+                                        <div class="table">
+                                            <div class="thead">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th>Item</th>
+                                                        <th>Quantity</th>
+                                                        <th>Price</th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="tbody">
+                                                <table id="buy-table">                                            
+                                                    <tbody></tbody>
+                                                </table>
+                                            </div>
+                                            <div class="tfoot">
+                                                <table width="100%">
+                                                    <tr>
+                                                        <th>Total: <span id="cart-total-cur"></span><span id="cart-total-amount"></span></th>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>                                
                                     </div>
-                                    <div class="pagination"></div>
+                                    <div class="checkOutWrap">                            
+                                        <input id="check-button" type="button" value="CHECKOUT" class="globalBtn checkoutButton"/>
+                                    </div>
                                 </div>
-                                <div id="templates" style="display:none;">
-                                    <div class="template-wrap"></div>
-                                    <div class="pagination"></div>
-                                </div>                       
+                                <!-- end of buy -->
                             </div>
-                            <!-- end of create -->
-                            <div id="buy-tab" style="display:none">
-                                <div class="buyTableWrap">
-                                    <div class="table">
-                                        <div class="thead">
-                                            <table width="100%">
-                                                <tr>
-                                                    <th>Item</th>
-                                                    <th>Quantity</th>
-                                                    <th>Price</th>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="tbody">
-                                            <table id="buy-table">                                            
-                                                <tbody></tbody>
-                                            </table>
-                                        </div>
-                                        <div class="tfoot">
-                                            <table width="100%">
-                                                <tr>
-                                                    <th>Total: <span id="cart-total-cur"></span><span id="cart-total-amount"></span></th>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                    </div>                                
+                        </td>
+                        <td id="canvas-wrap">
+                            <div id="canvas">
+                                <div class="handles">
+                                    <div class="fakeHandle"></div>
                                 </div>
-                                <div class="checkOutWrap">                            
-                                    <input id="check-button" type="button" value="CHECKOUT" class="globalBtn checkoutButton"/>
-                                </div>
-                            </div>
-                            <!-- end of buy -->
-                        </div>
-                    </td>
-                    <td id="canvas-wrap">
-                        <div id="canvas">
-                            <div class="handles">
-                                <div class="fakeHandle"></div>
-                            </div>
-                            <div class="nwMenus" style="display:none;">
-                                <ul class="canvasControl">
-                                    <li><a href="#" id="save">Save</a></li>
-                                    <li><a href="{% url new_styleboard %}" id="new">Start Over</a></li>
-                                    <li class="do"><a href="#" id="undo">Undo</a><a href="#" id="redo">Redo</a></li>
-                                </ul>
-                            </div>
-                            <div class="neMenus">
-                                <div class="imgControlWrap clearfix">
-                                    <ul class="imgControl clearfix">
-                                        <li><a href="#" id="remove-btn">Remove</a></li>
-                                        <li><a href="#" id="flip-btn">Flip</a></li>
-                                        <li><a href="#" id="flap-btn">Flop</a></li>
-                                        <li><a href="#" id="clone-btn">Clone</a></li>
-                                        <li><a href="#" id="forward-btn">Forward</a></li>
-                                        <li><a href="#" id="backward-btn">Backward</a></li>
+                                <div class="nwMenus" style="display:none;">
+                                    <ul class="canvasControl">
+                                        <li><a href="#" id="save">Save</a></li>
+                                        <li><a href="{% url new_styleboard %}" id="new">Start Over</a></li>
+                                        <li class="do"><a href="#" id="undo">Undo</a><a href="#" id="redo">Redo</a></li>
                                     </ul>
                                 </div>
-                                <div class="imgBgControlWrap">
-                                    <ul class="imgBgControl">
-                                        <li>
-                                            <a href="#" id="whiteBg-btn"></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" id="transBg-btn"><div></div></a>
-                                        </li>
-                                        <li>
-                                            <a href="#" id="customBg-btn"><div></div></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="colorAdjustment clearfix">
-                                    <div id="color-picker-wrap">
-                                        <input type='text' id="colorPicker"/>
+                                <div class="neMenus">
+                                    <div class="imgControlWrap clearfix">
+                                        <ul class="imgControl clearfix">
+                                            <li><a href="#" id="remove-btn">Remove</a></li>
+                                            <li><a href="#" id="flip-btn">Flip</a></li>
+                                            <li><a href="#" id="flap-btn">Flop</a></li>
+                                            <li><a href="#" id="clone-btn">Clone</a></li>
+                                            <li><a href="#" id="forward-btn">Forward</a></li>
+                                            <li><a href="#" id="backward-btn">Backward</a></li>
+                                        </ul>
                                     </div>
-                                    <div id="opacity-control-wrap">
-                                        <div class="opacity-control-label clearfix">
-                                            <span class="subtract">-</span>
-                                            <span class="label">Opacity</span>
-                                            <span class="add">+</span>
+                                    <div class="imgBgControlWrap">
+                                        <ul class="imgBgControl">
+                                            <li>
+                                                <a href="#" id="whiteBg-btn"></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" id="transBg-btn"><div></div></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" id="customBg-btn"><div></div></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="colorAdjustment clearfix">
+                                        <div id="color-picker-wrap">
+                                            <input type='text' id="colorPicker"/>
                                         </div>
-                                        <div id="slider"></div>
-                                    </div>
-                                    <div id="text-change-wrap" class="clearfix">
-                                        <form>
-                                            <select name="font_id" id="font_id">
-                                                {% for text_item in text_items %}
-                                                <option value="{{ text_item.id }}">/generate_text/?font_size=40&font_text=Abcd&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=0</option>
-                                                {% endfor %}
-                                            </select>
-                                            <textarea id="text-change" name="text-change"></textarea>
-                                            <a href="#" id="text-update">update</a>
-                                        </form>
+                                        <div id="opacity-control-wrap">
+                                            <div class="opacity-control-label clearfix">
+                                                <span class="subtract">-</span>
+                                                <span class="label">Opacity</span>
+                                                <span class="add">+</span>
+                                            </div>
+                                            <div id="slider"></div>
+                                        </div>
+                                        <div id="text-change-wrap" class="clearfix">
+                                            <form>
+                                                <select name="font_id" id="font_id">
+                                                    {% for text_item in text_items %}
+                                                    <option value="{{ text_item.id }}">/generate_text/?font_size=40&font_text=Abcd&font_color=000000000&font_id={{ text_item.id }}&font_thumbnail=0</option>
+                                                    {% endfor %}
+                                                </select>
+                                                <textarea id="text-change" name="text-change"></textarea>
+                                                <a href="#" id="text-update">update</a>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div id="object-counter" style="display:none;"></div>
-                        </div> <!-- end of canvas-->
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                                <div id="object-counter" style="display:none;"></div>
+                            </div> <!-- end of canvas-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
         <div id="compact-footer">
             <table border="0" cellpadding="0" cellspacing="0">
                 <tfoot class="footWrap">
@@ -906,9 +908,10 @@
 
         
         $('#styleboard').height(_height); 
-        $('#canvas').height(_height-1);
+        //$('#canvas').height(_height-1);
         canvas_height =  _height;
         canvas_width = $('#compact-header').width()-$('#sidebar-wrap').width();
+        
         $('#create-tab .category-wrap').height(__height);
         $('#embellishments').height(__height+$("#create-tab .breadcrumb").outerHeight(true));
         $('#create-tab .product-list-wrap .product-list').height(___height).css({minHeight:____height});
@@ -925,7 +928,7 @@
                         
         $('#templates').height(height__).css({minHeight:____height_});
 
-        //resize_canvas();
+        resize_canvas();
 
     }
     function generate_user_nav(){
@@ -1001,7 +1004,7 @@
             save_styleboard_action = false;
             save_styleboard_modal();
         }
-        //document.location.reload(true);
+        document.location.reload(true);
     }
     function logmeout(){
         $.get('{% url logout %}', function(e){

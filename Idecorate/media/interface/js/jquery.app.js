@@ -661,16 +661,19 @@ function resize_canvas(){
         height  = orig_height;
     }
 
-    //if(canvas_wrapper_width > width){
+    if(canvas_wrapper_width > width){
 
-    margin_left = canvas_wrapper_width - width;
+        margin_left = (canvas_wrapper_width - width)/2;
 
+        setTimeout(function(){
+            $('#styleboard-wrap').css({
+                width: $("#compact-header").outerWidth(true) - margin_left,
+                marginLeft : margin_left
+            });
+        },200)
+        
 
-    $('#sidebar-wrap').css({
-        paddingLeft : margin_left/1.6
-    });
-
-    //}
+    }
 
     if(canvas_wrapper_height > height){
 
@@ -1996,6 +1999,10 @@ function transform(obj) {
         'transform'        : '',
         'filter'           : '',
         '-ms-filter'       : ''
+    });
+    
+    $('#canvas').mouseleave(function(){
+        obj.trigger( 'mouseup' );
     });
 }
 

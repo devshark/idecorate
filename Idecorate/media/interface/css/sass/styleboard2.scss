@@ -230,10 +230,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
     	tr{
 
 			td#sidebar-wrap{
-				//width: 22%;
-				//min-width: 275px;
-				width: 40%;
-				min-width: 300px;
+				width: 22%;
+				min-width: 275px;
+				//width: 40%;
+				//min-width: 300px;
 
 				#sidebar-nav{
 					display:block;
@@ -816,8 +816,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 			}
 
 			td#canvas-wrap{
-				//width: 78%;
-				width: 60%;
+				width: 78%;
+				//width: 60%;
 				background-color: #EFECE6;
 
 				#canvas {
