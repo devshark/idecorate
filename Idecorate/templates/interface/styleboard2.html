@@ -552,13 +552,14 @@
         BROWSER_HEIGHT = $(window).height();
         BROWSER_WIDTH = $(window).width();
 
+
         $(window).resize(function(e){
 
+            styleboardH();
             if(BROWSER_WIDTH != $(window).width() || BROWSER_HEIGHT != $(window).height()) {
                 BROWSER_HEIGHT = $(window).height();
                 BROWSER_WIDTH = $(window).width();
 
-                styleboardH();
                 _resize_embellisment();
 
                 if($.browser.msie && $.browser.version == 8.0){
@@ -615,7 +616,7 @@
                 if ( !has_change_mode ){
                     {% if mode != 'search' %}
                         {% if category_count == 0 %}
-                        setTimeout(populate_products,500);
+                        //setTimeout(populate_products,500);
                         {% endif %}
                     {% else %}        
                         setTimeout("search_products('{{ keyword }}','{{ keyword_cat }}')",500);
@@ -682,6 +683,32 @@
                 left : '-'+width+'px'
             });
         }
+
+        // set_height('#styleboard-wrap,#styleboard:10,#products:10,.category-wrap:10');
+
+        // $('a[href="#embellishments"]').click(function(e){
+
+        //     e.preventDefault();
+
+        //     set_height('#embellishments:10,#embelishments-list-wrap:10');
+
+        // });
+
+        // $('a[href="#products"]').click(function(e){
+
+        //     e.preventDefault();
+
+        //     set_height('#products:10,.category-wrap:10');
+            
+        // });
+
+        // $('a[href="#templates"]').click(function(e){
+
+        //     e.preventDefault();
+
+        //     set_height('#templates:10,.template-wrap:10');
+            
+        // });
     });
 
     function styleboard_instruction(order){
@@ -764,14 +791,14 @@
 
         _stlyboard = "<h1>Styleboard</h1>";
         _stlyboard += "<p>This is the space where you can create your dream wedding.</p>";
-        _stlyboard += "<p>Use the background erase tool to delete the background or the crop tool to customise your background cut out. <br/>The flip, flop, clone, forward and backwards tools are <br/> there to help layer images on your collage.</p>";
-        _stlyboard += "<p>Save your style board to your profile once <br/> you're done or click buy on the left hand side.</p>";
+        _stlyboard += "<p>Use the background erase tool to delete the background or the crop tool to customise your background cut out. The flip, flop, clone, forward and backwards tools are there to help layer images on your collage.</p>";
+        _stlyboard += "<p>Save your style board to your profile once your done or click buy on the left hand side.</p>";
         
         _product = "<h1>Products</h1>";
-        _product += "<p>Drag and drop products from the left product sidebar. <br/> Click on embellishments to drag and drop <br/> images, colour, flowers, text and patterns onto the styleboard.</p>";
+        _product += "<p>Drag and drop products from the left product sidebar. Click on embellishments to drag and drop images, colour, flowers, text and patterns onto the styleboard.</p>";
         _product += "<p>Upload pictures that inspire you onto your styleboard.</p>";
-        _product += "<p>You can choose a pre-designed template. <br/> Double click on the template you love and <br/> add products to the designated placeholders.</p>";
-        _product += "<p>We offer a sourcing service. <br/> If you have pictures of products that you love but aren't on our website, <br/> we will source them for you!<br/>Just email us at <a href="+'"mailto:enquiry@idecorateweddings.com"'+" >enquiry@idecorateweddings.com</a></p>";
+        _product += "<p>You can choose a pre-designed template. Double click on the template you love and add products to the designated placeholders.</p>";
+        _product += "<p>We offer a sourcing service. If you have pictures of products that you love but aren't on our website, we will source them for you!<br/>Just email us at <a href="+'"mailto:enquiry@idecorateweddings.com"'+" >enquiry@idecorateweddings.com</a></p>";
 
         _order = "<h1>My Order</h1>";
         _order += "<p>This function helps us calculate the quantity of products that you may need for your wedding. Type in the number of guests and the number of tables and we will do the hard bit for you. If you feel that the quantity of some items isn't quite right, you can manually edit them if you click on the top "+ '"buy"' +" tab.</p>";
@@ -872,7 +899,63 @@
         });
     }
 
+    WINDOW_HEIGHT = $(window).height();
+
+    function set_height(elements){
+
+        elements = elements.split(',');
+
+        $.each(elements,function(index,value){
+
+            value = value.split(':');
+
+            var element = $(value[0]);
+
+            var height = WINDOW_HEIGHT;
+
+            height = height - get_siblings_height(element);
+
+
+            element.parentsUntil('body').each(function(i, ele){
+
+                height = height - get_siblings_height($(ele));
+
+            });
+
+            if(value[1] != undefined){
+
+                height = height - parseInt(value[1]);
+
+            }
+
+            element.height(height);
+
+            return height;
+
+            console.log(element,element.height(),parseInt(value[1]));
+        });
+
+        resize_canvas();
+
+    }
+
+    function get_siblings_height(element){
+
+        var total = 0;
+
+        element.parent().children().not(element).not('#canvas-wrap, .template-overlay, #idecorate-tooltip.idecorateTooltip , script , :hidden').each(function(i,ele){
+
+            total = total + $(ele).outerHeight(true);
+
+            console.log($(ele),$(ele).height());
+
+        });
+
+        return total;
+    }
+
     function styleboardH() {
+        console.log('test');
 
 
         var _height     = $(window).height()-
@@ -906,9 +989,9 @@
                         $('#buy-tab .buyTableWrap .tfoot').outerHeight(true)+
                         $('#buy-tab .checkOutWrap').outerHeight(true);
 
-        
         $('#styleboard').height(_height); 
-        //$('#canvas').height(_height-1);
+        //$('#canvas-wrap').height(_height-1);
+
         canvas_height =  _height;
         canvas_width = $('#compact-header').width()-$('#sidebar-wrap').width();
         

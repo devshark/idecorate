@@ -39,7 +39,7 @@ $(document).ready(function () {
                 active_object = $(this).clone();
                 return $(active_object).find('img').attr('id','');
             },
-            containment: 'body',
+            containment: '#styleboard-wrap',
             drag:function(e,ui){
                 template_fill();
             },
@@ -54,7 +54,7 @@ $(document).ready(function () {
         $(".draggable").liveDraggable({
             revert:true, 
             helper: 'clone',
-            containment: '#body',
+            containment: '#styleboard-wrap',
             drag:function(e,ui){
                 template_fill();
             },
@@ -77,7 +77,7 @@ $(document).ready(function () {
         cursor: 'move',
         //containment: '#canvas',
         start : function(e, ui){transform($(this));},
-        drag : function(e, ui){transform($(this));},
+        drag : function(e, ui){transform($(this)); dragBlock(ui);},
         stop : function(e, ui){
             
             transform($(this));
@@ -190,7 +190,7 @@ $(document).ready(function () {
         cursor: 'move',
         //containment:'#canvas',
         start: function(e, ui){transform($(this));},
-        drag: function(e, ui){transform($(this));},
+        drag: function(e, ui){transform($(this));dragBlock(ui);},
         stop: function(e, ui){
             transform($(this));
             //track event
@@ -656,24 +656,36 @@ function resize_canvas(){
     margin_left = 0,
     margin_top  = 0;
 
-    if(width <= orig_width || height <= orig_height){
-        width   = orig_width;
-        height  = orig_height;
+    if(width < 400){
+
+        width = 400;
+        height  = ( orig_height / orig_width ) * width;
+
+        //$('#styleboard').height(height);
+    
     }
 
-    if(canvas_wrapper_width > width){
+    canvas_wrapper.width(width);
 
-        margin_left = (canvas_wrapper_width - width)/2;
+    //$('#sidebar-wrap').css({paddingLeft:(canvas_wrapper.width()-width)})
+    // if(width <= orig_width || height <= orig_height){
+    //     width   = orig_width;
+    //     height  = orig_height;
+    // }
 
-        setTimeout(function(){
-            $('#styleboard-wrap').css({
-                width: $("#compact-header").outerWidth(true) - margin_left,
-                marginLeft : margin_left
-            });
-        },200)
+    // if(canvas_wrapper_width > width){
+
+    //     margin_left = (canvas_wrapper_width - width)/2;
+
+    //     setTimeout(function(){
+    //         $('#styleboard-wrap').css({
+    //             width: $("#compact-header").outerWidth(true) - margin_left,
+    //             marginLeft : margin_left
+    //         });
+    //     },200)
         
 
-    }
+    // }
 
     if(canvas_wrapper_height > height){
 
@@ -1626,7 +1638,6 @@ function droppable_all(){
 
 
             if ($(ui.draggable)[0].id != "") {
-
                 ui.helper.remove();
                 //recreate an object based on dropped object
                 var Obj = $(ui.draggable)[0];
@@ -1707,6 +1718,23 @@ function create_instance(options){
         var dimensions  = aspectratio(imgWidth, imgHeight, .60);
         var imgTop      = options._event.pageY-$('#canvas').offset().top-dimensions['height']/2;
         var imgLeft     = options._event.pageX-$('#canvas').offset().left-dimensions['width']/2;
+        
+        if(imgTop < 0){
+            imgTop = 2;
+        }
+        
+        if(imgLeft < 0){
+            imgLeft = 2;
+        }
+
+        if(imgLeft > $('#canvas').width() - dimensions['width']){
+            imgLeft = $('#canvas').width() - dimensions['width'] - 2;
+        }
+
+        if(imgTop > $('#canvas').height() -dimensions['height']){
+            imgTop = $('#canvas').height() -dimensions['height'] - 2;
+        }
+
         //create instance of this object
         object = create_new_object({
             id          : options._uid,
@@ -1758,8 +1786,9 @@ function create_new_object(options){
 
 function append_to_canvas(event, obj, index, top, left){
 
+    canvas = $('#canvas');
     object = obj;
-    object.appendTo('#canvas');
+    object.appendTo(canvas);
     object_top = top;
     object_left = left;
     object.css({top : object_top, left: object_left, zIndex: index });
@@ -2000,10 +2029,21 @@ function transform(obj) {
         'filter'           : '',
         '-ms-filter'       : ''
     });
-    
-    $('#canvas').mouseleave(function(){
-        obj.trigger( 'mouseup' );
-    });
+}
+
+function dragBlock( ui ) {
+    if( ui.position.left > $('#canvas').width()-ui.helper.width() ) {
+        ui.position.left = $('#canvas').width()-ui.helper.width()-2;
+    }
+    if( ui.position.left < 0 ) {
+        ui.position.left = 2;
+    }
+    if( ui.position.top < 0 ) {
+        ui.position.top = 2;
+    }
+    if( ui.position.top > $('#canvas').height()-ui.helper.height() ) {
+        ui.position.top = $('#canvas').height()-ui.helper.height()-2;
+    }
 }
 
 function moveNext(obj) {

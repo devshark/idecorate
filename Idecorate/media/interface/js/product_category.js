@@ -25,6 +25,7 @@ $(document).ready( function() {
 	window_width = $(window).width();
     $('.categories').mousedown(function(){
         browse_categories(this.id);
+        //set_height('#products:15');
         has_change_mode = true;
         return false;
     });
@@ -92,6 +93,7 @@ function product_list_wrap_resize(){
 }
 
 function browse_categories(elm_id){
+
     current_page = 1;
     var type;
     $.ajax({
@@ -176,6 +178,7 @@ function browse_categories(elm_id){
                 $(this).bind('mousedown',function(e){
                     e.preventDefault();
                     browse_categories(this.id);
+                    //set_height('#products:15');
                 });
             });
 
@@ -194,14 +197,17 @@ function browse_categories(elm_id){
         error: function(msg) {
         }
     });
-
-    styleboardH();
+    
+    //set_height('#products:10,.category-wrap:10,.product-list-wrap:20,.product-list:20');
+    setTimeout(styleboardH,50);
 
     if(elm_id != ""){
         back_onestep_category();
     }else{
         $('#step-back').parent().remove();
     }
+
+    styleboardH();
 
 }
 

@@ -219,8 +219,13 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 	    }
 	}
 }
+#styleboard-wrap{
+    min-width: 800px;
+}
 #styleboard{
-    width:100%;
+	margin: 0 auto;
+    //width:100%;
+    //min-width: 800px;
    	border-spacing:5px; 
 	border-collapse: separate;
 	//min-width:800px;
@@ -230,8 +235,10 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
     	tr{
 
 			td#sidebar-wrap{
-				width: 22%;
-				min-width: 275px;
+				min-width: 300px;
+				width: 300px;
+				//width: 22%;
+				//min-width: 275px;
 				//width: 40%;
 				//min-width: 300px;
 
@@ -620,6 +627,7 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 						}
 
 						.template-wrap{
+							overflow: hidden;
 							a.temp{
 								display: block;
 								float: left;
@@ -816,7 +824,8 @@ h5{ font-size: 16/$default_font_size*100%;}/*16px/16px*100*/
 			}
 
 			td#canvas-wrap{
-				width: 78%;
+				min-width: 500px;
+				//width: 78%;
 				//width: 60%;
 				background-color: #EFECE6;
 

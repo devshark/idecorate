@@ -35,15 +35,16 @@ $(document).ready(function(){
             $('#embellishments .pagination').hide();
             // var _h = $('#embellishments .breadcrumb-wrap').outerHeight(true)+$('#embellishments .pagination').outerHeight(true)+$('#embellishments .formWrap').outerHeight(true)+3;
             // $('#embelishments-list-wrap').height($('#embellishments').outerHeight(true)-_h);
-            $('#embelishments-list-wrap').height($('#embellishments').outerHeight(true)-$('#embellishments .formWrap').outerHeight(true));
-            if($.browser.msie && ($.browser.version==7.0 || $.browser.version==8.0))
-                $('#embelishments-list-wrap').height($('#embelishments-list-wrap').height()-20);
+            //$('#embelishments-list-wrap').height($('#embellishments').outerHeight(true)-$('#embellishments .formWrap').outerHeight(true));
+            // if($.browser.msie && ($.browser.version==7.0 || $.browser.version==8.0))
+            //     $('#embelishments-list-wrap').height($('#embelishments-list-wrap').height()-20);
             e.preventDefault();
         });
         emb_type = $(this).attr('rel');
         get_dummy_product();
         get_embellishment_items();
         e.preventDefault();
+
     });
 
     $('#embellishments #embelishments-list-wrap .emItem').on('mousewheel',function(event,delta){
@@ -159,8 +160,9 @@ function manage_embellishment_pagination(){
             var _item_width = $(elm).outerWidth(true);            
             var count_by_width = Math.round(_width/_item_width);
             var item_per_width = _item_width*count_by_width;
-            if (item_per_width > _width)
+            if (item_per_width > _width){
                 count_by_width = count_by_width - 1;
+            }
 
             var _height = $('#embellishments').height();
             var _formWrap_height = $('#embellishments .formWrap').outerHeight(true);
@@ -169,8 +171,13 @@ function manage_embellishment_pagination(){
             _height = _height-_formWrap_height;            
             _height = _height-_breadcrumb_wrap_height;
             _height = _height-_pagination_height;
+
+            //_height = set_height('#embellishments:10,#embelishments-list-wrap:10,.emItem:10');
+
             var _item_height = $(elm).outerHeight(true);
+
             if (_height<_item_height)
+                
                 _height = _item_height;
             else
                 _height = _height-5;

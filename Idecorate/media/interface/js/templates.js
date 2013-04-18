@@ -29,8 +29,9 @@ $(document).ready(function(){
 	$('a[href="#templates"]').click(function(){
 		if(create_current_tab != 'templates'){
 			create_current_tab = 'templates';
-			populate_template_items();
             timer = setInterval(_resize_document,100);
+            //set_height('#templates:12,.template-wrap:12');
+            populate_template_items();
 		}
 	});
 

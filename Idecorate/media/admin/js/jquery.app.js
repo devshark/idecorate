@@ -1283,7 +1283,7 @@ function undo_styleboard() {
         changesCounter--;
         changeProductPositions(changesArray[changesCounter]);
 
-        //styleboardH();
+        styleboardH();
         
         eventTracker($('#canvas'),'undo');
     }
@@ -1294,7 +1294,7 @@ function redo_styleboard() {
         changesCounter++;
         changeProductPositions(changesArray[changesCounter]);
 
-        //styleboardH();
+        styleboardH();
 
         eventTracker($('#canvas'),'redo');
     }
