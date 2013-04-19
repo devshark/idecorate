@@ -227,7 +227,7 @@ function generate_template_pagination(){
     }
 
     $('#templates .pagination').html(paginator);
-    $('#templates .pagination').show().css({visibility: 'hidden'}); // dont show <*pagination*>
+    $('#templates .pagination').show();//.css({visibility: 'hidden'}); // dont show <*pagination*>
 
     $('#templates .pagination span').on('click', function(){                    
         temp_current_page = parseInt($(this).text());
