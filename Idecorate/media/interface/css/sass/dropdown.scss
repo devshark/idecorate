@@ -1,4 +1,5 @@
-@import url("/media/interface/css/idecorate.fontface.css");
+//@import url("/media/interface/css/idecorate.fontface.css");
+@import "idecorate_fonts";
 .dd{
     display: none;
     font-size: 14px;
@@ -8,7 +9,7 @@
         border-left: 1px solid #999999;
         a,span{
             text-transform: uppercase;
-            font-family: 'futura_std_medium';
+            font-family: $helvetica;
             font-size: 10px;
             color: #CCCCCC !important;
             white-space: nowrap !important;

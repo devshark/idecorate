@@ -1,9 +1,10 @@
+@import "idecorate_fonts";
 #content {
 	margin-top:20px;
 
 	h3{ 
 		width: 100%;
-      	font-family: 'futura_std_medium';
+      	font-family: $helvetica;
 		font-size: 22px;
 		color: #000000;
 		margin-bottom: 15px;

@@ -20,6 +20,7 @@
         <link rel="stylesheet" type="text/css" href="/media/interface/js/ui/css/jquery.ui.resizable.css">
         <link rel="stylesheet" type="text/css" href="/media/interface/js/colorpicker/css/spectrum.css" />
         <link rel="stylesheet" type="text/css" href="/media/interface/js/selectbox/css/jquery.selectbox.css" />
+        <link rel="stylesheet" type="text/css" href="/media/interface/js/jquery.scrollpane/jquery.jscrollpane.css">
         <!--[if lt IE 9]>
         <style type="text/css">
             #canvas img{
@@ -377,12 +378,12 @@
                                 <div class="neMenus">
                                     <div class="imgControlWrap clearfix">
                                         <ul class="imgControl clearfix">
-                                            <li><a href="#" id="remove-btn">Remove</a></li>
-                                            <li><a href="#" id="flip-btn">Flip</a></li>
-                                            <li><a href="#" id="flap-btn">Flop</a></li>
-                                            <li><a href="#" id="clone-btn">Clone</a></li>
-                                            <li><a href="#" id="forward-btn">Forward</a></li>
-                                            <li><a href="#" id="backward-btn">Backward</a></li>
+                                            <li><a href="#" id="remove-btn"><span></span>Remove</a></li>
+                                            <li><a href="#" id="flap-btn"><span></span>Flop</a></li>
+                                            <li><a href="#" id="flip-btn"><span></span>Flip</a></li>
+                                            <li><a href="#" id="clone-btn"><span></span>Clone</a></li>
+                                            <li><a href="#" id="forward-btn"><span></span>Forward</a></li>
+                                            <li><a href="#" id="backward-btn"><span></span>Backward</a></li>
                                         </ul>
                                     </div>
                                     <div class="imgBgControlWrap">
@@ -518,8 +519,11 @@
 <script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.hoverflow.js"></script>
 <!-- STYLEBOARD TABPANNELS -->
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.hashchange.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery.scrollpane/jquery.jscrollpane.min.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery.scrollpane/mwheelIntent.js"></script>
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.easytabs.min.js"></script>
 <script type="text/javascript" src="/media/interface/js/tabpannel/jquery.change.tab.js"></script>
+<script type="text/javascript" src="/media/interface/js/jquery.column.resize.js"></script>
 <!-- PRODUCT CATEGORIES AJAX CALLS -->
 <script type="text/javascript" src="/media/interface/js/jquery.mousewheel.js"></script>
 <script type="text/javascript" src="/media/js/jquery.cookie.js"></script>
@@ -536,6 +540,7 @@
 <script type="text/javascript">
 
     $(document).ready( function() {
+
         $('#embellishments').show().addClass('tempShow');
         var tempHeight = 0;
         $('#embelishments-list-wrap .emCat .em span').each(function(i, val){
@@ -547,11 +552,9 @@
             }
         });
         $('#embelishments-list-wrap .emCat .em span').height(tempHeight);
-        
 
         BROWSER_HEIGHT = $(window).height();
         BROWSER_WIDTH = $(window).width();
-
 
         $(window).resize(function(e){
 
@@ -591,6 +594,7 @@
         styleboardH();
 
         $(window).hashchange(function(){
+
             if (location.hash != '' && location.hash == '#create-tab'){
                 styleboardH();                               
                 if ( !has_change_mode ){
@@ -638,8 +642,8 @@
             recur = false;
             setTimeout(set_category_label_height,500);
         });
-    });
 
+    });
 
     var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
 
@@ -659,6 +663,11 @@
             styleboard_instruction(true);
 
         });
+
+        //$('.category-wrap').colresize();
+        //$('.category-wrap').jScrollPane({
+        //    autoReinitialise: true
+        //});
 
         styleboardH();
 
@@ -778,6 +787,13 @@
 
                         show_instruction_tips('order');
 
+                    }else{
+
+                        if(instruction.how_to_purchase == false){
+
+                            show_instruction_tips('how_to_purchase');
+
+                        }
                     }
 
                 }
@@ -788,6 +804,8 @@
     }
 
     function show_instruction_tips(instruction_id){
+        console.log(instruction_id);
+
 
         _stlyboard = "<h1>Styleboard</h1>";
         _stlyboard += "<p>This is the space where you can create your dream wedding.</p>";
@@ -800,13 +818,24 @@
         _product += "<p>You can choose a pre-designed template. Double click on the template you love and add products to the designated placeholders.</p>";
         _product += "<p>We offer a sourcing service. If you have pictures of products that you love but aren't on our website, we will source them for you!<br/>Just email us at <a href="+'"mailto:enquiry@idecorateweddings.com"'+" >enquiry@idecorateweddings.com</a></p>";
 
-        _order = "<h1>My Order</h1>";
-        _order += "<p>This function helps us calculate the quantity of products that you may need for your wedding. Type in the number of guests and the number of tables and we will do the hard bit for you. If you feel that the quantity of some items isn't quite right, you can manually edit them if you click on the top "+ '"buy"' +" tab.</p>";
+        _order = "<h1>My Order Quantity</h1>";
+        _order += "<p>This function helps to calculate the ideal quantity of the products,</p>";
+        _order += "<p>based on the number of tables and guests and tables</p><br/>";
+        _order += "<p>If you feel that the quantity isn't right, you can manually</p>";
+        _order += "<p>edit them if you click in the top 'buy tab.'</p>";
+
+
+        _how_to_purchase = "<h1>how to Purchase</h1>";
+        _how_to_purchase += "<p>This page shows your styleboard invoice.</p>";
+        _how_to_purchase += "<p>Please input the numbers of guests and tables.</p>";
+        _how_to_purchase += "<p>Then check that you are happy with the quantities.</p>";
+        _how_to_purchase += "<p>Click proceed to check out at the bottom of the page.</p>";
         
         instruction_text = {
             'styleboard' : _stlyboard,
             'product' : _product,
-            'order' : _order
+            'order' : _order,
+            'how_to_purchase' : _how_to_purchase
         };
 
         instruction_form = $('<form />').attr({
@@ -856,6 +885,20 @@
 
             });
 
+        }else if(instruction_id == 'order'){
+
+            $('#close-modal').click(function(e){
+                
+                e.preventDefault();
+
+                if(instruction.how_to_purchase == undefined || instruction.how_to_purchase == false){
+
+                    show_instruction_tips('how_to_purchase');
+                
+                }
+
+            });
+
         }else{
 
             $('#close-modal').click(function(e){
@@ -895,7 +938,7 @@
 
         tagging.done(function(data){
             //tagging instruction to not display
-            console.log(data);
+            //console.log(data);
         });
     }
 
@@ -932,7 +975,6 @@
 
             return height;
 
-            console.log(element,element.height(),parseInt(value[1]));
         });
 
         resize_canvas();
@@ -946,8 +988,6 @@
         element.parent().children().not(element).not('#canvas-wrap, .template-overlay, #idecorate-tooltip.idecorateTooltip , script , :hidden').each(function(i,ele){
 
             total = total + $(ele).outerHeight(true);
-
-            console.log($(ele),$(ele).height());
 
         });
 
@@ -1018,6 +1058,7 @@
             navs += '<ul>';
             navs += '<li><a id="lnk-styleboards" href="#">My Styleboards</a></li>';
             navs += '<li><a id="lnk-saved-images" href="#">My Saved Images</a></li>';
+            //navs += '<li><a id="lnk-orders" href="#">My Orders</a></li>';
             navs += '<li><a href="{%url invite_friends %}">Invite Friends</a></li>';
             navs += '<li><a id="lnk-edit" href="{% url edit_profile %}">Edit Profile</a></li>';                
             navs += '<li><a id="lnk-logout" href="#">Logout</a></li>';                
@@ -1029,6 +1070,7 @@
         $('#lnk-logout').bind('click',logmeout);
         $('#lnk-styleboards').bind('click',goto_profile);
         $('#lnk-saved-images').bind('click',goto_saved_images);
+        $('#lnk-orders').bind('click',goto_my_orders); 
         $('#site-menu ul a#lnk-login-signup').bind('click',function(e){
             e.preventDefault();
             popup_login();
@@ -1071,6 +1113,10 @@
             
     function goto_saved_images(){
         window.location.href = '{% url saved_images %}';
+    }
+
+    function goto_my_orders(){
+        window.location.href = '{% url orders %}';
     }
     
     function logged(val){

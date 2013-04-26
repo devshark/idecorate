@@ -86,6 +86,7 @@ class StyleboardInstruction(models.Model):
 	styleboard 	= models.BooleanField(db_column="styleboard", default=False);
 	product 	= models.BooleanField(db_column="product", default=False);
 	order 		= models.BooleanField(db_column="order", default=False);
+	how_to_purchase = models.BooleanField(db_column="how_to_purchase", default=False);
 
 	class Meta:
 		db_table 		= 'styleboard_instruction'

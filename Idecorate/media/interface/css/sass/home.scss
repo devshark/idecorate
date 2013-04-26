@@ -1,3 +1,4 @@
+@import "idecorate_fonts";
 $greyBrownLight: #C2BDBD;
 $margin15:15px;
 $padding15:15px;
@@ -96,7 +97,7 @@ section{
 					padding: 0 8px;
 					text-transform: uppercase;
 					text-decoration: none;
-					font-family: 'futura_std_medium';
+					font-family: $helvetica;
 					color: #999999;
 					font-size: 12px;
 				}

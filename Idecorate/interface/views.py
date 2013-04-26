@@ -1200,7 +1200,8 @@ def instruction_tag(request):
 				instruction_raw = {
 					'styleboard':user_instruction.styleboard,
 					'product':user_instruction.product,
-					'order':user_instruction.order
+					'order':user_instruction.order,
+					'how_to_purchase':user_instruction.how_to_purchase
 				}
 
 				json_value = simplejson.dumps(instruction_raw)
@@ -1304,7 +1305,8 @@ def tag_instruction(request):
 			instruction_raw = {
 				'styleboard':False,
 				'product':False,
-				'order':False
+				'order':False,
+				'how_to_purchase':False
 			}
 
 			instruction_id = 0
@@ -1322,6 +1324,7 @@ def tag_instruction(request):
 				instruction_raw['styleboard'] = data['styleboard']
 				instruction_raw['product'] = data['product']
 				instruction_raw['order'] = data['order']
+				instruction_raw['how_to_purchase'] = data['how_to_purchase']
 
 				instruction_raw[value] = True
 

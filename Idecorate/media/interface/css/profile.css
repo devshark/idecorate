@@ -35,7 +35,7 @@
       line-height: 1.1;
       text-align: justify; }
       .profileWrap .user-profile .description-wrap .title {
-        font-family: 'futura_std_medium';
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 22px;
         color: #000000;
         /*font-weight: bold;*/
@@ -43,7 +43,7 @@
         text-align: justify;
         text-transform: uppercase; }
       .profileWrap .user-profile .description-wrap .desc {
-        font-family: 'futura_std_book';
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 12px;
         color: #58595b;
         text-align: justify; }
@@ -72,7 +72,7 @@
       padding: 10px 5px;
       background: #f1ccc6;
       text-transform: uppercase;
-      font-family: 'futura_std_medium'; }
+      font-family: "Trebuchet MS", Helvetica, sans-serif; }
     .profileWrap .featureContentWrap .featureDesc {
       width: 330px;
       height: auto;
@@ -80,7 +80,7 @@
       line-height: 1.4;
       float: left;
       text-align: justify;
-      font-family: 'futura_std_book';
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
       word-wrap: break-word; }
     .profileWrap .featureContentWrap .featurePrice {
       width: 105px;
@@ -88,14 +88,14 @@
       padding: 10px 0;
       float: left;
       text-align: right;
-      font-family: 'futura_std_heavy'; }
+      font-family: "Trebuchet MS", Helvetica, sans-serif; }
       .profileWrap .featureContentWrap .featurePrice h5 {
         font-weight: bold;
         font-size: 1em;
         color: #000000;
         text-align: center;
         display: block;
-        font-family: 'futura_std_book'; }
+        font-family: "Trebuchet MS", Helvetica, sans-serif; }
       .profileWrap .featureContentWrap .featurePrice p {
         width: auto;
         padding: 5px 0;
@@ -108,7 +108,7 @@
         -webkit-border-radius: 4px;
         border-radius: 4px;
         -khtml-border-radius: 4px;
-        font-family: 'futura_std_book'; }
+        font-family: "Trebuchet MS", Helvetica, sans-serif; }
     .profileWrap .featureContentWrap .featureFooter {
       width: 440px;
       margin: 5px 0 0 0;
@@ -136,25 +136,25 @@
       padding: 0 1px; }
       .pagination ul li span {
         color: #333333;
-        font-family: 'futura_std_book';
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 12px;
         display: block;
         padding: 5px; }
       .pagination ul li span.current {
-        font-family: 'futura_std_medium';
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 13px; }
       .pagination ul li a {
         display: block;
         padding: 5px;
         font-size: 12px;
         text-decoration: none;
-        font-family: 'futura_std_book';
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         color: #666666;
         background-color: #EFEBE4; }
       .pagination ul li a.prev, .pagination ul li a.next {
         font-size: 13px;
         background: none;
-        font-family: 'futura_std_medium'; }
+        font-family: "Trebuchet MS", Helvetica, sans-serif; }
 
 .savedImageWrapper > div .savedImageWrap {
   float: left;

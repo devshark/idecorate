@@ -92,6 +92,13 @@ def get_user_orders(user=None):
 	else :
 		return False
 
+def get_user_order(order_id,user=None):
+
+	if user:
+		order = Order.objects.get(Q(user__id=user.id)).filter(Q(id=order_id))
+		return order
+	else :
+		return False
 
 @transaction.commit_manually
 def save_styleboard_item(data):

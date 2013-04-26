@@ -1,9 +1,10 @@
+@import "idecorate_fonts";
 #content {
 	margin-top:20px;
 
 	h3{ 
 		width: 100%;
-      	font-family: 'futura_std_medium';
+      	font-family: $helvetica;
 		font-size: 22px;
 		color: #000000;
 		margin-bottom: 15px;
@@ -76,7 +77,7 @@
 		// border-radius: 4px; /* future proofing */
 		// -khtml-border-radius: 4px; /* for old Konqueror browsers */
 		border: 1px solid #CCCCCC;
-		font-family: futura_std_heavy;
+		font-family: $helvetica;
 		font-size: 11px;
 	}
 	#edit_button:hover {
@@ -137,7 +138,7 @@
 	.orderTable {
 		width: 900px;
 		color: #FFFFFF;
-		font-family: futura_std_book;
+		font-family: $helvetica;
 		font-size: 13px;
 		padding: 10px 8px 5px;
 		background-color: #000000;
@@ -164,7 +165,7 @@
 					th{
 						padding: 10px;
 						color: #000000;
-						font-family: futura_std_medium;
+						font-family: $helvetica;
 						font-size: 13px;
 						border-bottom: 1px solid #CCCCCC;
 					}
@@ -182,7 +183,7 @@
 					td{
 						padding: 10px;
 						margin: 0 auto;
-						font-family: futura_std_book;
+						font-family: $helvetica;
 						font-size: 13px;
 						color: #414042;
 						vertical-align: middle;
@@ -201,7 +202,7 @@
 							width: 400px;
 							height: auto;
 							display: block;
-							font-family: futura_std_book;
+							font-family: $helvetica;
 							font-size: 12px;
 							color: #231F20;
 						}
@@ -224,7 +225,7 @@
 					border-top: 1px solid #CCCCCC;
 
 					p{
-						font-family: futura_std_heavy;
+						font-family: $helvetica;
 						font-size: 13px;
 						color: #000000;
 					}
@@ -237,7 +238,7 @@
 							display: block;
 							padding: 10px 0 7px;
 							margin-top: 5px;
-							font-family: futura_std_heavy;
+							font-family: $helvetica;
 							font-size: 15px;
 							background-color: #FFC5C3;
 							text-align: center;
@@ -265,13 +266,13 @@
 	box-shadow: 3px 3px 3px 2px #EEEEEE;
 
 	h4{
-		font-family: futura_std_book;
+		font-family: $helvetica;
 		font-size: 20px;
 		color: #FFFFFF;
 	}
 
 	p {
-		font-family: futura_std_book;
+		font-family: $helvetica;
 		margin: 10px 0;
 		color: #FFFFFF;
 		font-size: 13px;
@@ -292,7 +293,7 @@
 		width: 80px;
 		padding: 5px 0 3px;
 		cursor: pointer;
-		font-family: futura_std_heavy;
+		font-family: $helvetica;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */
         background: -moz-linear-gradient(top,  #FFFFFF,  #da9b94); /* for firefox 3.6+ */
@@ -312,7 +313,7 @@
 
 	a {
 		color: #FFFFFF;
-		font-family: futura_std_book;
+		font-family: $helvetica;
 		font-size: 12px;
 	}
 
@@ -334,7 +335,7 @@
             margin: 0 0 0 10px;
             padding: 0 5px;
             font-size: 14px;
-			font-family: futura_std_book;
+			font-family: $helvetica;
         }
 
         div{
@@ -361,7 +362,7 @@
 
         p{
             font-size: 13px;
-			font-family: futura_std_book;
+			font-family: $helvetica;
         }
 
     }
@@ -373,7 +374,7 @@
     .delivery{
 
             font-size: 11px;
-			font-family: futura_std_book;
+			font-family: $helvetica;
 
     	.checkbox {
 	    	border: none !important;
@@ -401,7 +402,7 @@ div.leftPannel, div.rightPannel {
             margin: 0 0 0 10px;
             padding: 0 5px;
             font-size: 14px;
-			font-family: futura_std_book;
+			font-family: $helvetica;
 			text-transform: uppercase;
         }
 
@@ -434,7 +435,7 @@ div.leftPannel, div.rightPannel {
 
         p{
             font-size: 11px;
-			font-family: futura_std_book;
+			font-family: $helvetica;
 			a {
                 color: #d89b96;
             }
@@ -464,7 +465,7 @@ div.leftPannel, div.rightPannel {
     .deliveryDate{
     	p{
 	        font-size: 13px;
-			font-family: futura_std_book;
+			font-family: $helvetica;
     	}
     	input {
 			margin-bottom: 15px;
@@ -549,12 +550,12 @@ div.leftPannel, div.rightPannel {
 
 	p{
 		text-align: center;
-		font-family: 'futura_std_book';
+		font-family: $helvetica;
 		font-size: 11px;
 		color: 414042;
 		a {
 			color: #000000;
-			font-family: 'futura_std_heavy';
+			font-family: $helvetica;
 		}
 
 	}
@@ -566,7 +567,7 @@ div.leftPannel, div.rightPannel {
 	button {
 		padding: 5px 20px 3px;
 		cursor: pointer;
-		font-family: futura_std_heavy;
+		font-family: $helvetica;
 		color: #666666;
 		filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94'); /* for IE */
         background: -webkit-gradient(linear, left top, left bottom, from(#FFFFFF), to(#da9b94)); /* for webkit browsers */

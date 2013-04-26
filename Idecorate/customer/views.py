@@ -352,6 +352,43 @@ def orders(request):
 
     return render_to_response('customer/orders.html', info, RequestContext(request))
 
+def view_order(request):
+
+    user_id = request.GET.get('id',None)
+    if user_id:
+        try:
+            user = User.objects.get(id=user_id)
+        except:
+            if request.user.is_authenticated():
+                user = request.user
+            else:
+                return redirect('home')
+    else:
+        if request.user.is_authenticated():
+            user = request.user
+        else:
+            return redirect('home')
+
+    order_id = request.GET.get('order')
+    
+    user_orders = get_user_order(user,order_id)
+
+    paginator = Paginator(user_orders, 20)
+    page = request.GET.get('page','')
+    try:
+        user_orders = paginator.page(page)
+    except PageNotAnInteger:
+        user_orders = paginator.page(1)
+    except EmptyPage:
+        user_orders = paginator.page(paginator.num_pages)
+
+
+    info = {}
+
+    info['orders'] = user_orders
+
+
+    return render_to_response('customer/view_order.html', info, RequestContext(request))
 @csrf_exempt
 def customer_upload_image(request):
 

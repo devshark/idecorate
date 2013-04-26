@@ -2633,7 +2633,7 @@ function hide_canvas_menu(){
     var warning = 'Warning! Canvas reached its 50-item limit. No additional items can be added.';
     if(objCounter < 1){
         $('.nwMenus').hide();
-        $('#canvas').css('background-image','url(/media/images/canvasbg.jpg)');
+        $('#canvas').css('background-image','url(/media/images/canvasbg.png)');
     }else if(objCounter > 49){
         if($('#canvas').hasClass('ui-droppable')){
             $("#canvas").droppable('destroy');

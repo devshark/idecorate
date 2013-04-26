@@ -1,4 +1,3 @@
-@import url("/media/interface/css/idecorate.fontface.css");
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -89,7 +88,7 @@ html {
   height: 100%; }
 
 body {
-  font-family: 'futura_std_book';
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 100%;
   background-color: #c2bdbd;
   color: #666666;
@@ -201,7 +200,7 @@ h5 {
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar-nav li a {
           display: block;
           font-size: 13px;
-          font-family: 'futura_std_medium';
+          font-family: "Trebuchet MS", Helvetica, sans-serif;
           color: #FFFFFF;
           padding: 8px 30px;
           text-transform: uppercase;
@@ -223,7 +222,7 @@ h5 {
         padding: 8px;
         color: #FFFFFF;
         background-color: #000000;
-        font-family: 'futura_std_book';
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 14px; }
         #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap h3 .myorder-edit {
           position: absolute;
@@ -249,7 +248,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs label {
             display: block;
             margin-top: 5px;
-            font-family: 'futura_std_book';
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
             color: #231F20;
             font-size: 13px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarInputs input[type="text"] {
@@ -271,7 +270,7 @@ h5 {
             color: #000;
             background-color: #efece6;
             padding: 15px 0;
-            font-family: 'futura_std_heavy';
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
             font-size: 13px; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #sidebar-form-wrap fieldset .sidebarTotals h5 span {
               font-size: 15px;
@@ -294,7 +293,7 @@ h5 {
                 font-size: 14px;
                 margin: 7px 0;
                 color: #333333;
-                font-family: 'futura_std_medium';
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
                 display: inline-block;
                 *display: inline;
                 zoom: 1; }
@@ -313,7 +312,7 @@ h5 {
               border: 1px solid #CCC;
               padding: 2px 5px;
               font-size: 12px;
-              font-family: 'futura_std_book'; }
+              font-family: "Trebuchet MS", Helvetica, sans-serif; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #create-tab-nav #back-wrap a:hover {
               background-color: #999;
               color: white; }
@@ -331,7 +330,7 @@ h5 {
               background-color: #DDDDDD;
               border: 1px solid #CCCCCC;
               padding: 2px 5px;
-              font-family: 'futura_std_book';
+              font-family: "Trebuchet MS", Helvetica, sans-serif;
               display: inline-block;
               zoom: 1;
               *display: inline;
@@ -342,7 +341,7 @@ h5 {
               color: #FFF; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .breadcrumb-wrap .breadcrumb li span {
               padding: 2px 0;
-              font-family: 'futura_std_book';
+              font-family: "Trebuchet MS", Helvetica, sans-serif;
               display: inline-block;
               margin-top: 3px;
               zoom: 1;
@@ -354,18 +353,18 @@ h5 {
             background-color: #FFF;
             display: block;
             float: left;
-            width: 18.229%;
-            margin: 6px 0 0 6px;
+            width: 60px;
+            margin: 12px 0 0 10px;
             font-size: 0;
-            min-width: 76px;
             cursor: pointer; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories img {
               width: 100%; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories span {
               display: block;
-              margin: 10px 0 5px 0;
+              margin: 3px 0 0;
               font-size: 12px;
-              font-family: 'futura_std_book';
+              line-height: 14px;
+              font-family: "Trebuchet MS", Helvetica, sans-serif;
               text-align: center; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .category-wrap .thumb.categories:hover img {
             outline: 1px solid #CCC; }
@@ -385,7 +384,7 @@ h5 {
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab .product-list-wrap .product-list .thumb.products span {
               display: block;
               font-size: 12px;
-              font-family: 'futura_std_book';
+              font-family: "Trebuchet MS", Helvetica, sans-serif;
               margin: 10px 0 5px 0;
               text-align: center;
               color: #666; }
@@ -427,7 +426,7 @@ h5 {
                 margin: 0 10px;
                 padding: 0 5px;
                 color: #000;
-                font-family: 'futura_std_medium'; }
+                font-family: "Trebuchet MS", Helvetica, sans-serif; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap a.em {
             display: block;
             float: left;
@@ -477,7 +476,7 @@ h5 {
             margin: 0 5px;
             padding: 7px 0;
             color: #000;
-            font-family: 'futura_std_medium';
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
             font-size: 13px;
             border-bottom: 2px dotted #FFFFFF; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .thead table tr th {
@@ -512,7 +511,7 @@ h5 {
                   width: 70px; }
                   #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td .buyItemImg .buyItemMeta p {
                     text-align: left;
-                    font-family: 'futura_std_book';
+                    font-family: "Trebuchet MS", Helvetica, sans-serif;
                     font-size: 12px;
                     color: #414042;
                     padding: 2px 0; }
@@ -536,7 +535,7 @@ h5 {
               #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tbody table tr td + td + td {
                 width: 30%;
                 text-align: center;
-                font-family: 'futura_std_book';
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
                 font-size: 13px;
                 color: #414042; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tfoot {
@@ -544,7 +543,7 @@ h5 {
             margin: 0 5px;
             padding: 5px 0; }
             #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .buyTableWrap .table .tfoot table tr th {
-              font-family: 'futura_std_heavy';
+              font-family: "Trebuchet MS", Helvetica, sans-serif;
               font-size: 15px;
               text-align: right;
               color: #000; }
@@ -556,7 +555,7 @@ h5 {
             height: 30px; }
           #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #buy-tab .checkOutWrap input#check-button {
             color: #FFFFFF;
-            font-family: 'futura_std_heavy';
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
             font-size: 13px;
             cursor: pointer;
             vertical-align: top;
@@ -584,7 +583,7 @@ h5 {
       position: relative;
       overflow: hidden;
       background-color: #FFF;
-      background-image: url("/media/images/canvasbg.jpg");
+      background-image: url("/media/images/canvasbg.png");
       background-position: center center;
       background-repeat: no-repeat; }
       #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .product {
@@ -653,7 +652,7 @@ h5 {
             text-transform: uppercase;
             background-color: #EFECE6;
             color: #666666;
-            font-family: 'futura_std_medium';
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
             border-left: 1px solid #CCC;
             border-bottom: 1px solid #CCC;
             border-right: 1px solid #CCC;
@@ -665,7 +664,7 @@ h5 {
           #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .nwMenus .canvasControl li a#save {
             border-top: 1px solid #CCC;
             color: #58595B;
-            font-family: 'futura_std_heavy';
+            font-family: "Trebuchet MS", Helvetica, sans-serif;
             font-size: 13px;
             background-color: #f8e2df;
             background: -webkit-gradient(linear, left top, left bottom, from(#f8e2df), to(#e6b4b1));
@@ -694,16 +693,48 @@ h5 {
               	background-color: rgba(225, 225, 225, 0.5);
               	background-color: #EEE\9;*/ }
             #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li a {
-              display: block;
-              padding: 8px 10px;
+              display: inline-block;
+              padding: 5px 10px;
               margin: 5px;
               color: #808080;
               text-transform: uppercase;
-              font-family: 'futura_std_book';
-              font-size: 10px; }
+              font-family: "Trebuchet MS", Helvetica, sans-serif;
+              font-size: 10px;
+              line-height: 14px; }
+              #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li a span {
+                display: inline-block;
+                width: 14px;
+                height: 13px;
+                background-image: url(/media/images/styleboard_sprite.png);
+                margin-right: 3px;
+                vertical-align: bottom; }
             #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li a:hover {
               background-color: #C7C6C3;
               color: #000000; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #remove-btn span {
+              background-position: 0 0; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #remove-btn:hover span {
+              background-position: 14px 0; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #backward-btn span {
+              background-position: 0 13px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #backward-btn:hover span {
+              background-position: 14px 13px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #forward-btn span {
+              background-position: 0 26px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #forward-btn:hover span {
+              background-position: 14px 26px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #clone-btn span {
+              background-position: 0 39px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #clone-btn:hover span {
+              background-position: 14px 39px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #flip-btn span {
+              background-position: 0 52px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #flip-btn:hover span {
+              background-position: 14px 52px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #flap-btn span {
+              background-position: 0 65px; }
+            #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgControlWrap .imgControl li #flap-btn:hover span {
+              background-position: 14px 65px; }
         #styleboard tbody.bodyWrap tr td#canvas-wrap #canvas .neMenus .imgBgControlWrap {
           float: right;
           margin-top: 5px;
@@ -820,7 +851,7 @@ h5 {
       #compact-footer table tfoot.footWrap tr td .copyright {
         float: left;
         color: #FFF;
-        font-family: 'futura_std_book';
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 11px;
         line-height: 16px;
         text-transform: uppercase; }
@@ -837,7 +868,7 @@ h5 {
             *white-space: nowrap; }
             #compact-footer table tfoot.footWrap tr td .footerMenus ul li a {
               color: #FFFFFF;
-              font-family: 'futura_std_heavy';
+              font-family: "Trebuchet MS", Helvetica, sans-serif;
               font-size: 11px;
               text-transform: uppercase; }
           #compact-footer table tfoot.footWrap tr td .footerMenus ul li:first-child {
@@ -892,7 +923,7 @@ h5 {
       margin-bottom: 5px; }
     #modal-window #iframe-wrap p {
       font-size: 0.9em;
-      margin-top: 10px;
+      margin-top: 3px;
       line-height: 1.2em; }
   #modal-window iframe {
     width: 412px;

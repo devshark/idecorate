@@ -1,3 +1,4 @@
+@import "idecorate_fonts";
 aside, section {
   display: block;
   float: left !important;
@@ -8,7 +9,7 @@ aside {
 
   h1 {
     width: 98%;
-    font-family: 'futura_std_medium';
+    font-family: $helvetica;
     font-size: 22px;
     /*font-weight: bold;*/
     margin-top: 25px;
@@ -50,7 +51,7 @@ aside {
         padding: 7px 5px 5px;
         margin: 5px 0 0 0;
         *margin: 5px 0 0 65px;
-        font-family: 'futura_std_heavy';
+        font-family: $helvetica;
         font-size: 11px;
         color: #FFFFFF;
         text-decoration: none;
@@ -104,7 +105,7 @@ aside {
 
     p {
       margin: 10px 0;
-      font-family: 'futura_std_book';
+      font-family: $helvetica;
       font-size: 12px;
       color: #58595b;
     }
@@ -163,7 +164,7 @@ aside {
     }
 
     .buyItem {
-      font-family: 'futura_std_heavy';
+      font-family: $helvetica;
       margin: 10px 0;
       padding: 5px;
       cursor: pointer;
@@ -251,6 +252,6 @@ section {
 }
 
 #lnk-profile {
-  font-family: 'futura_std_heavy';
+  font-family: $helvetica;
   color:#000;
 }

@@ -16,4 +16,6 @@ urlpatterns =  patterns('customer.views',
     url(r'^keep_home_image/$', 'keep_home_image', {}, name='keep_home_image'),
     url(r'^saved_images/$', 'saved_images', {}, name='saved_images'),
     url(r'^orders/$', 'orders', {}, name='orders'),
+    url(r'^view_order/$', 'view_order', {}, name='view_order'),
+    
 )

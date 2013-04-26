@@ -15,7 +15,6 @@ var ie8_current_page = 1;
 var window_height;
 var window_width;
 $(document).ready( function() {
-    
     if(back_one_cat){back_onestep_category();}
     
     $('a[href="#embellishments"]').click(function(e){
@@ -46,7 +45,7 @@ $(document).ready( function() {
         }
     });
     
-    setTimeout("set_category_label_height()",0);
+    setTimeout(set_category_label_height,0);
 
     $('a[href="#products"]').click(function(){
         if (is_window_resized){
@@ -192,7 +191,6 @@ function browse_categories(elm_id){
                 $('#products .pagination').hide();
             }
             
-            setTimeout(resize_products, 200);
         },
         error: function(msg) {
         }

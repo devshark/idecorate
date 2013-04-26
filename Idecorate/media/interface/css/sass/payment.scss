@@ -1,9 +1,10 @@
+@import "idecorate_fonts";
 #content {
 	margin-top:20px;
 
 	h3{ 
 		width: 100%;
-      	font-family: 'futura_std_medium';
+      	font-family: $helvetica;
 		font-size: 22px;
 		color: #000000;
 		margin-bottom: 15px;
@@ -29,7 +30,7 @@
             margin: 0 0 0 10px;
             padding: 0 5px;
             font-size: 14px;
-			font-family: futura_std_book;
+			font-family: $helvetica;
         }
 
 		.errorWrapper {
@@ -155,7 +156,7 @@
 					width: 80px;
 					padding: 8px 0 7px;
 					cursor: pointer;
-					font-family: futura_std_heavy;
+					font-family: $helvetica;
 					border: 1px solid #FFC5C3;
 					color: #666666;
 					font-size: 11px;
@@ -185,7 +186,7 @@
 					zoom:1;
 					width: 70px;
 					color: #FFFFFF;
-					font-family: futura_std_heavy;
+					font-family: $helvetica;
 					padding: 7px 0 6px;
 					border: 1px solid #CCCCCC;
 					font-size: 11px;
@@ -331,7 +332,7 @@
 					display: block;
 					padding: 10px 0 7px;
 					margin-top: 5px;
-					font-family: futura_std_heavy;
+					font-family: $helvetica;
 					font-size: 15px;
 					background-color: #FFC5C3;
 					text-align: center;
@@ -339,7 +340,7 @@
 				}
 
 				h5{
-					font-family: futura_std_medium;
+					font-family: $helvetica;
 					line-height: 20px;
 					font-size: 14px;
 					color: #000000;
@@ -377,7 +378,7 @@
 		display: inline-block;
 		padding:8px 15px;
 		font-size: 14px;
-		font-family: futura_std_heavy;
+		font-family: $helvetica;
 		color: #FFFFFF;
 		text-decoration: none;
 		border: 1px solid #999999;

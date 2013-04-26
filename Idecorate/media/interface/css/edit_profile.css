@@ -1,77 +1,87 @@
-.editProfile {
-  vertical-align: top; }
-  .editProfile fieldset {
-    border: 1px solid #CCCCCC;
-    padding: 10px;
-    display: block; }
-    .editProfile fieldset legend {
-      margin: 0 0 0 10px;
-      padding: 0 5px;
-      font-size: 14px;
-      font-family: futura_std_book; }
-    .editProfile fieldset .formr label {
-      display: inline-block;
-      width: 30%;
-      vertical-align: top;
-      font-size: 14px;
-      line-height: 25px; }
-    .editProfile fieldset .formr input[type="text"], .editProfile fieldset .formr textarea {
-      width: 65%; }
-    .editProfile fieldset .formr input[type="text"], .editProfile fieldset .formr textarea, .editProfile fieldset .formr select {
-      border: 1px solid #CCC;
-      padding: 5px;
-      -moz-border-radius: 3px;
-      -webkit-border-radius: 3px;
-      border-radius: 3px;
-      -khtml-border-radius: 3px;
-      box-shadow: 0px 1px 5px #999 inset; }
-    .editProfile fieldset .formr textarea {
-      height: 160px;
-      resize: none; }
-    .editProfile fieldset .formr select {
-      background-color: #FFFFFF; }
-  .editProfile fieldset.personalInfo {
-    float: left;
-    width: 47%; }
-    .editProfile fieldset.personalInfo .imageWrap {
-      display: inline-block;
-      width: 65%; }
-      .editProfile fieldset.personalInfo .imageWrap .image {
-        background-color: #EEEEEE;
-        border: 1px solid #CCCCCC;
-        width: 150px;
-        height: 150px;
-        margin: 0 0 15px 0; }
-      .editProfile fieldset.personalInfo .imageWrap #get-FB-image {
-        margin-top: 15px; }
-  .editProfile fieldset.accountSetting, .editProfile fieldset.deliverySetting, .editProfile fieldset.socialNetwork {
-    float: right;
-    width: 47%; }
-  .editProfile fieldset.deliverySetting, .editProfile fieldset.socialNetwork {
-    margin-top: 15px; }
-  .editProfile .btn {
-    cursor: pointer;
-    display: inline-block;
-    padding: 5px 15px;
-    font-size: 14px;
-    font-family: futura_std_heavy;
-    color: #FFFFFF;
-    text-transform: uppercase;
-    border: 1px solid #999999;
-    background-color: #999999;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#666666');
-    /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#666666));
-    /* for webkit browsers */
-    background: -moz-linear-gradient(top, #cccccc, #666666);
-    /* for firefox 3.6+ */ }
-  .editProfile .submit {
-    margin-top: 15px;
-    clear: both;
-    background-color: #666666;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#000000');
-    /* for IE */
-    background: -webkit-gradient(linear, left top, left bottom, from(#999999), to(black));
-    /* for webkit browsers */
-    background: -moz-linear-gradient(top, #999999, black);
-    /* for firefox 3.6+ */ }
+/*
+Syntax error: Undefined variable: "$helvetica".
+        on line 13 of edit_profile.scss
+
+8: 
+9: 	    legend{
+10: 	        margin: 0 0 0 10px;
+11: 	        padding: 0 5px;
+12: 	        font-size: 14px;
+13: 			font-family: $helvetica;
+14: 	    }
+15: 
+16: 	    .formr{
+17: 
+18:     		label{
+
+Backtrace:
+edit_profile.scss:13
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/script/variable.rb:39:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/script/node.rb:61:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/prop_node.rb:132:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:320:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `map'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:332:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:320:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `map'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:332:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:320:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `map'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:332:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/rule_node.rb:191:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:320:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `map'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:332:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:59:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:320:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:37:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:29:in `render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:262:in `_render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:233:in `render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:311:in `update_stylesheet'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:165:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:165:in `each'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:165:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:265
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/path.rb:71:in `call'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/path.rb:71:in `run_callback'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/path.rb:54:in `callback_action'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/path.rb:34:in `update'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/state/file.rb:19:in `refresh'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:17:in `run'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:17:in `each'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:17:in `run'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:15:in `loop'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/backends/polling.rb:15:in `run'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm/monitor.rb:24:in `run'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/vendor/fssm/lib/fssm.rb:17:in `monitor'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:237:in `watch'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin.rb:110:in `send'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin.rb:110:in `method_missing'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:369:in `watch_or_update'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:273:in `process_result'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:41:in `parse'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:21:in `parse!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/sass:8
+/home/ryanangeles/.gem/ruby/1.8/bin/sass:19:in `load'
+/home/ryanangeles/.gem/ruby/1.8/bin/sass:19
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: Undefined variable: \"$helvetica\".\A         on line 13 of edit_profile.scss\A \A 8: \A 9: 	    legend{\A 10: 	        margin: 0 0 0 10px;\A 11: 	        padding: 0 5px;\A 12: 	        font-size: 14px;\A 13: 			font-family: $helvetica;\A 14: 	    }\A 15: \A 16: 	    .formr{\A 17: \A 18:     		label{"; }

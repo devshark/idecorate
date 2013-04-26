@@ -2,7 +2,7 @@
   margin-top: 20px; }
   #content h3 {
     width: 100%;
-    font-family: 'futura_std_medium';
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     font-size: 22px;
     color: #000000;
     margin-bottom: 15px; }
@@ -58,7 +58,7 @@
     /* for firefox 3.6+ */
     background: -o-linear-gradient(top, white, #333333);
     border: 1px solid #CCCCCC;
-    font-family: futura_std_heavy;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     font-size: 11px; }
   .checkout #edit_button:hover {
     color: #666666;
@@ -106,7 +106,7 @@
 .orderWrap .orderTable {
   width: 900px;
   color: #FFFFFF;
-  font-family: futura_std_book;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
   font-size: 13px;
   padding: 10px 8px 5px;
   background-color: #000000; }
@@ -124,7 +124,7 @@
     .orderWrap fieldset table thead tr th {
       padding: 10px;
       color: #000000;
-      font-family: futura_std_medium;
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
       font-size: 13px;
       border-bottom: 1px solid #CCCCCC; }
     .orderWrap fieldset table thead tr th:first-child {
@@ -132,7 +132,7 @@
     .orderWrap fieldset table tbody tr td {
       padding: 10px;
       margin: 0 auto;
-      font-family: futura_std_book;
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
       font-size: 13px;
       color: #414042;
       vertical-align: middle; }
@@ -148,7 +148,7 @@
         width: 400px;
         height: auto;
         display: block;
-        font-family: futura_std_book;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 12px;
         color: #231F20; }
     .orderWrap fieldset table tbody tr .productPricing {
@@ -158,7 +158,7 @@
       padding-top: 10px;
       border-top: 1px solid #CCCCCC; }
       .orderWrap fieldset table tfoot tr:first-child td p {
-        font-family: futura_std_heavy;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 13px;
         color: #000000; }
     .orderWrap fieldset table tfoot tr td {
@@ -167,7 +167,7 @@
         display: block;
         padding: 10px 0 7px;
         margin-top: 5px;
-        font-family: futura_std_heavy;
+        font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 15px;
         background-color: #FFC5C3;
         text-align: center; }
@@ -181,11 +181,11 @@
   background: #000000;
   box-shadow: 3px 3px 3px 2px #EEEEEE; }
   .loginDetails h4 {
-    font-family: futura_std_book;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     font-size: 20px;
     color: #FFFFFF; }
   .loginDetails p {
-    font-family: futura_std_book;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     margin: 10px 0;
     color: #FFFFFF;
     font-size: 13px;
@@ -200,7 +200,7 @@
     width: 80px;
     padding: 5px 0 3px;
     cursor: pointer;
-    font-family: futura_std_heavy;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
     /* for IE */
     background: -webkit-gradient(linear, left top, left bottom, from(white), to(#da9b94));
@@ -225,7 +225,7 @@
     /* for firefox 3.6+ */ }
   .loginDetails a {
     color: #FFFFFF;
-    font-family: futura_std_book;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     font-size: 12px; }
 
 .information {
@@ -242,7 +242,7 @@
       margin: 0 0 0 10px;
       padding: 0 5px;
       font-size: 14px;
-      font-family: futura_std_book; }
+      font-family: "Trebuchet MS", Helvetica, sans-serif; }
     .information fieldset div {
       margin-bottom: 10px; }
       .information fieldset div label {
@@ -259,12 +259,12 @@
         font-size: 13px; }
     .information fieldset p {
       font-size: 13px;
-      font-family: futura_std_book; }
+      font-family: "Trebuchet MS", Helvetica, sans-serif; }
   .information .personal {
     margin: 0 12px 0 0; }
   .information .delivery {
     font-size: 11px;
-    font-family: futura_std_book; }
+    font-family: "Trebuchet MS", Helvetica, sans-serif; }
     .information .delivery .checkbox {
       border: none !important; }
 
@@ -284,7 +284,7 @@ div.leftPannel, div.rightPannel {
       margin: 0 0 0 10px;
       padding: 0 5px;
       font-size: 14px;
-      font-family: futura_std_book;
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
       text-transform: uppercase; }
     div.leftPannel .deliveryDate ul, div.leftPannel .question ul, div.leftPannel .paymentMethod ul, div.leftPannel .paymentMethod2 ul, div.leftPannel .specialRequests ul, div.rightPannel .deliveryDate ul, div.rightPannel .question ul, div.rightPannel .paymentMethod ul, div.rightPannel .paymentMethod2 ul, div.rightPannel .specialRequests ul {
       margin-top: 10px;
@@ -303,7 +303,7 @@ div.leftPannel, div.rightPannel {
         margin: 0 0 10px 45px; }
     div.leftPannel .deliveryDate p, div.leftPannel .question p, div.leftPannel .paymentMethod p, div.leftPannel .paymentMethod2 p, div.leftPannel .specialRequests p, div.rightPannel .deliveryDate p, div.rightPannel .question p, div.rightPannel .paymentMethod p, div.rightPannel .paymentMethod2 p, div.rightPannel .specialRequests p {
       font-size: 11px;
-      font-family: futura_std_book; }
+      font-family: "Trebuchet MS", Helvetica, sans-serif; }
       div.leftPannel .deliveryDate p a, div.leftPannel .question p a, div.leftPannel .paymentMethod p a, div.leftPannel .paymentMethod2 p a, div.leftPannel .specialRequests p a, div.rightPannel .deliveryDate p a, div.rightPannel .question p a, div.rightPannel .paymentMethod p a, div.rightPannel .paymentMethod2 p a, div.rightPannel .specialRequests p a {
         color: #d89b96; }
     div.leftPannel .deliveryDate textarea, div.leftPannel .question textarea, div.leftPannel .paymentMethod textarea, div.leftPannel .paymentMethod2 textarea, div.leftPannel .specialRequests textarea, div.rightPannel .deliveryDate textarea, div.rightPannel .question textarea, div.rightPannel .paymentMethod textarea, div.rightPannel .paymentMethod2 textarea, div.rightPannel .specialRequests textarea {
@@ -322,7 +322,7 @@ div.leftPannel, div.rightPannel {
     height: 100px; }
   div.leftPannel .deliveryDate p, div.rightPannel .deliveryDate p {
     font-size: 13px;
-    font-family: futura_std_book; }
+    font-family: "Trebuchet MS", Helvetica, sans-serif; }
   div.leftPannel .deliveryDate input, div.rightPannel .deliveryDate input {
     margin-bottom: 15px; }
 
@@ -363,18 +363,18 @@ div.leftPannel, div.rightPannel {
   text-align: center; }
   .disclaimer p {
     text-align: center;
-    font-family: 'futura_std_book';
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     font-size: 11px;
     color: 414042; }
     .disclaimer p a {
       color: #000000;
-      font-family: 'futura_std_heavy'; }
+      font-family: "Trebuchet MS", Helvetica, sans-serif; }
   .disclaimer p:first-child {
     margin: 15px auto; }
   .disclaimer button {
     padding: 5px 20px 3px;
     cursor: pointer;
-    font-family: futura_std_heavy;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
     color: #666666;
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFFFFF', endColorstr='#da9b94');
     /* for IE */
