@@ -69,3 +69,76 @@
           font-size: 13px;
           background: none;
           font-family: "Trebuchet MS", Helvetica, sans-serif; }
+
+.viewOrder {
+  background-color: #FFFFFF;
+  padding: 10px; }
+  .viewOrder .infoWrap {
+    margin: 10px 0;
+    border-top: 1px solid #DDDDDD;
+    border-bottom: 1px solid #DDDDDD; }
+    .viewOrder .infoWrap ul.info {
+      float: left;
+      margin: 10px 20px 10px 0; }
+      .viewOrder .infoWrap ul.info li span {
+        display: inline-block; }
+      .viewOrder .infoWrap ul.info li .label {
+        text-align: left;
+        width: 110px;
+        margin-right: 5px; }
+  .viewOrder table.order {
+    margin-top: 10px;
+    width: 100%;
+    border-right: 1px solid #DDDDDD;
+    border-top: 1px solid #DDDDDD; }
+    .viewOrder table.order th {
+      text-transform: uppercase;
+      color: #000000;
+      font-family: "Trebuchet MS", Helvetica, sans-serif; }
+    .viewOrder table.order td, .viewOrder table.order th {
+      border-left: 1px solid #DDDDDD;
+      border-bottom: 1px solid #DDDDDD;
+      padding: 5px; }
+    .viewOrder table.order tbody td {
+      vertical-align: top; }
+    .viewOrder table.order tbody tr:hover {
+      background-color: #F5F5F5; }
+  .viewOrder table.totalWrap {
+    float: right;
+    font-size: 1.2em;
+    border-spacing: 10px;
+    margin-top: 10px; }
+    .viewOrder table.totalWrap td {
+      padding: 3px 5px;
+      border-top: 1px solid #DDDDDD;
+      border-right: 1px solid #DDDDDD;
+      border-left: 1px solid #DDDDDD; }
+    .viewOrder table.totalWrap .backWrap td {
+      padding: 10px 0 0 0;
+      border-right: none;
+      border-left: none; }
+      .viewOrder table.totalWrap .backWrap td #back {
+        background-color: #666666;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#999999', endColorstr='#000000');
+        /* for IE */
+        background: -webkit-gradient(linear, left top, left bottom, from(#999999), to(black));
+        /* for webkit browsers */
+        background: -moz-linear-gradient(top, #999999, black);
+        /* for firefox 3.6+ */ }
+
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  padding: 5px 15px;
+  font-size: 14px;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  border: 1px solid #999999;
+  background-color: #999999;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#666666');
+  /* for IE */
+  background: -webkit-gradient(linear, left top, left bottom, from(#cccccc), to(#666666));
+  /* for webkit browsers */
+  background: -moz-linear-gradient(top, #cccccc, #666666);
+  /* for firefox 3.6+ */ }

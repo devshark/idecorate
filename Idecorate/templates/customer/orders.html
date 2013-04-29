@@ -28,7 +28,7 @@
 				<td>{{ order.created }}</td>
 				<td>{{order.total|floatformat:2|intcomma}}</td>
 				<td>{{order.status|readable_status}}</td>
-				<td class="operation"><a href="{% url orders %}?order={{ order.id }}">View Order</a></td>
+				<td class="operation"><a href="{% url view_order %}?order={{ order.id }}&p={{ page }}">View Order</a></td>
 			</tr>
 			{% endfor %}
 			{% endif %}

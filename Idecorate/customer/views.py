@@ -22,7 +22,7 @@ from django.contrib.auth.models import User
 from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm,ForgotPassForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
     get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item, get_user_keep_images, dynamic_styleboard,\
-    get_user_orders
+    get_user_orders,get_user_order
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
 import re
@@ -349,6 +349,10 @@ def orders(request):
 
     info['orders'] = user_orders
 
+    if request.GET.get('page'):
+        info['page'] = int(request.GET.get('page'))
+    else:
+        info['page'] = 0
 
     return render_to_response('customer/orders.html', info, RequestContext(request))
 
@@ -369,26 +373,26 @@ def view_order(request):
         else:
             return redirect('home')
 
-    order_id = request.GET.get('order')
-    
-    user_orders = get_user_order(user,order_id)
-
-    paginator = Paginator(user_orders, 20)
-    page = request.GET.get('page','')
-    try:
-        user_orders = paginator.page(page)
-    except PageNotAnInteger:
-        user_orders = paginator.page(1)
-    except EmptyPage:
-        user_orders = paginator.page(paginator.num_pages)
-
-
     info = {}
 
-    info['orders'] = user_orders
+    order_id            = int(request.GET.get('order'))
+    user_order          = get_user_order(order_id,user)
+    
+    if user_order:
 
+        info['order']       = user_order['order']
+        info['order_items'] = user_order['order_items']
+
+    else:
+        return redirect('home')
+    
+    if request.GET.get('p'):
+        info['page'] = int(request.GET.get('p'))
+    else:
+        info['page'] = 0
 
     return render_to_response('customer/view_order.html', info, RequestContext(request))
+
 @csrf_exempt
 def customer_upload_image(request):
 

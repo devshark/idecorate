@@ -6,42 +6,163 @@
 <link rel="stylesheet" type="text/css" href="/media/interface/css/orders.css">
 {% endblock %}
 {% block content %}
-<h3>My Orders</h3>
+<h3>View Order</h3>
 <div class="ordersWrap">
-	<table class="ordersTable">
-		<thead>
-			<tr>
-				<th style="width:250px;">Styleboard</th>
-				<th>Order ID</th>
-				<th>Date Created</th>
-				<th>Total</th>
-				<th>Status</th>
-				<th>Operation</th>	
-			</tr>
-		</thead>
-		<tbody>
-			{% if orders %}
-			{% for order in orders %}
-			<tr>
-				<td><img src="{{ order|get_ordered_styleboard }}" width="250" height="100"/></td>
-				<td>{{ order.order_id }}</td>
-				<td>{{ order.created }}</td>
-				<td>{{order.total|floatformat:2|intcomma}}</td>
-				<td>{{order.status|readable_status}}</td>
-				<td class="operation"><a href="{% url orders %}?order={{ order.id }}">View Order</a></td>
-			</tr>
-			{% endfor %}
-			{% endif %}
-		</tbody>
-		<tfoot>
-			<tr>
-				<td class="paginate" colspan="6">{{ orders|interface_paginate }}</td>
-			</tr>
-		</tfoot>
-	</table>
+	<div class="viewOrder clearfix">
+		<h4>Order ID: {{order.order_id}}</h4>
+		<h4>Date Created: {{order.created}}</h4>
+		<h4>Status: {{order.status|readable_status}}</h4>
+		<div class="infoWrap clearfix">
+			<ul class="info userInfo">
+				<li>
+					<span class="label">First Name :</span>
+					<span class="value">{{order.billing_first_name}}</span>
+				</li>
+				<li>
+					<span class="label">Last Name :</span>
+					<span class="value">{{order.billing_last_name}}</span>
+				</li>
+				<li>
+					<span class="label">Email Address :</span>
+					<span class="value">{{order.email}}</span>
+				</li>
+			</ul>
+			<ul class="info deliveryInfo">
+				<li>
+					<span class="label">Delivery Date :</span>
+					<span class="value">{{order|get_order_detail:"delivery_date"}}</span>
+				</li>
+				<li>
+					<span class="label">Delivery Address :</span>
+					<span class="value">{{order|get_order_detail:'delivery_address'}}</span>
+				</li>
+				<li>
+					<span class="label">Delivery Address2 :</span>
+					<span class="value">{{order|get_order_detail:'delivery_address2'}}</span>
+				</li>
+				<li>
+					<span class="label">Delivery City :</span>
+					<span class="value">{{order|get_order_detail:'delivery_city'}}</span>
+				</li>
+				<li>
+					<span class="label">Delivery State :</span>
+					<span class="value">{{order|get_order_detail:'delivery_state'}}</span>
+				</li>
+				<li>
+					<span class="label">Delivery Zip Code :</span>
+					<span class="value">{{order|get_order_detail:'delivery_zip_code'}}</span>
+				</li>
+				<li>
+					<span class="label">Delivery Country :</span>
+					<span class="value">{{order|get_order_detail:'delivery_country'}}</span>
+				</li>
+			</ul>
+			<ul class="info billingInfo">
+				<li>
+					<span class="label">Billing Address :</span>
+					<span class="value">{{order.billing_address}}</span>
+				</li>
+				<li>
+					<span class="label">Billing Address2 :</span>
+					<span class="value">{{order|get_order_detail:'billing_address2'}}</span>
+				</li>
+				<li>
+					<span class="label">Billing City :</span>
+					<span class="value">{{order.billing_city}}</span>
+				</li>
+				<li>
+					<span class="label">Billing State :</span>
+					<span class="value">{{order|get_order_detail:'billing_state'}}</span>
+				</li>
+				<li>
+					<span class="label">Billing Zip Code :</span>
+					<span class="value">{{order.billing_zip_code}}</span>
+				</li>
+				<li>
+					<span class="label">Billing Country :</span>
+					<span class="value">{{order|get_order_detail:'billing_country'}}</span>
+				</li>
+			</ul>
+			<ul class="info paymentInfo">
+				<li>
+					<span class="label">Payment Method :</span>
+					<span class="value">{{order|get_order_detail:'payment_method'|readable_status_payment}}</span>
+				</li>
+				<li>
+					<span class="label">Payment Notes :</span>
+					<span class="value">{{order|get_order_detail:'note'}}</span>
+				</li>
+				<li>
+					<span class="label">Order Notes :</span>
+					<span class="value">{{order|get_order_detail:'note'}}</span>
+				</li>
+			</ul>
+		</div>
+		<table class="order table table-bordered table-hover">
+			<thead> 
+				<tr>
+					<th>Image</th>
+					<th>Product name</th>
+					<th>Comments</th>
+					<th>Unit Price</th>
+					<th>Quantity</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for order_item in order_items %}
+				<tr>
+					<td style="text-align:center;"><img src="/media/products/{{order_item.product.original_image_thumbnail}}" width="50" height="50" /></td>
+					<td>{{order_item.name}}</td>
+					<td>{{order_item.product|getProductDetail:'comment'}}</td>
+					<td>${{order_item.unit_price|floatformat:2|intcomma}}</td>
+					<td>{{order_item.quantity}}</td>
+					<td>${{order_item.unit_price|multiply:order_item.quantity|floatformat:2|intcomma}}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+		<table class="totalWrap" cellpadding="5">
+			<tbody>
+				<tr>
+					<td style="text-align:right; width:100px;">Subtotal : </td>
+					<td>${{order.items_subtotal|floatformat:2|intcomma}}</td>
+				</tr>
+				<tr>
+					<td style="text-align:right; width:100px;">Delivery Fee : </td>
+					<td>${{order.shipping_cost|floatformat:2|intcomma}}</td>
+				</tr>
+				<tr class="total">
+					<td style="text-align:right; width:100px;">Total : </td>
+					<td>${{order.total|floatformat:2|intcomma}}</td>
+				</tr>
+				<tr class="backWrap">
+					<td colspan="2" style="text-align:right; width:100px;">
+						<button id="back" class="btn btn-inverse">Back</button>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</div>
 </div>
+
 {% endblock %}
+
 {% block javascripts %}
 <script type="text/javascript">
+	$(function(){
+		$('#back').click(function(e){
+			var page = {{page}};
+			if(page == 0){
+				var url = '{% url orders %}';
+			}else{
+				var url = '{% url orders %}?page='+page;
+			}
+			{% if request.session.manage_order_redirect %}
+				url = url+'{{ request.session.manage_order_redirect }}';
+			{% endif %}
+			window.location = url;
+		});
+	});
 </script>
 {% endblock %}
