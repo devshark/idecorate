@@ -79,114 +79,6 @@
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <style type="text/css">
-        #modal-login-signup-window {
-            border: 5px solid #DDD;
-            position: fixed;
-            width: 800px;
-            height: auto;
-            overflow: hidden;
-            background-color: white;
-            box-shadow: 0 0 8px #333;
-            z-index: 99999;
-            top: 10%;
-            /*background-image: url('/media/images/idecorate_pattern.jpg');
-            background-repeat: repeat;*/
-        }
-        #modal-save-styleboard-window {
-            border: 5px solid #DDD;
-            position: fixed;
-            width: 500px;/*
-            */
-            height: auto;
-            overflow: hidden;
-            background-color: white;
-            box-shadow: 0 0 8px #333;
-            z-index: 99999;
-            top: 10%;
-            /*
-            background-image: url('/media/images/idecorate_pattern.jpg');
-            background-repeat: repeat;*/
-
-        }
-        #modal-login-signup-window h2, #modal-save-styleboard-window h2 {
-            margin: 0 5px 0 0;
-            padding: 0;
-            text-align: right;
-        }
-        #modal-login-signup-window a#close-login-signup-modal, #modal-save-styleboard-window a.close-modal-btn{
-            text-decoration: none;
-            color: #666;
-        }
-        #modal-login-signup-window iframe {
-        /*height: 480px;*/
-        min-height: 375px;
-        max-height: 700px;
-        width: 100%;
-        }
-        #modal-save-styleboard-window iframe {
-        /*height: 480px;*/
-        min-height: 375px;
-        max-height: 700px;
-        width: 100%;
-        }
-        #embellishments .breadcrumb-wrap .breadcrumb li{
-            *margin-bottom: 2px !important;
-        }
-        .file-wrapper, .submit-wrapper {
-          cursor: pointer;
-          display: inline-block;
-          overflow: hidden;
-          position: relative;
-        }
-        .file-wrapper input[type=file] {
-            height: 30px;
-            cursor: pointer;
-            position: absolute;
-            top: 0px;
-            right: 0px;
-            font-size: 100px;
-            z-index: 2;
-            opacity: 0.0; /* Standard: FF gt 1.5, Opera, Safari */
-            filter: alpha(opacity=0); /* IE lt 8 */
-            -ms-filter: "alpha(opacity=0)"; /* IE 8 */
-            -khtml-opacity: 0.0; /* Safari 1.x */
-            -moz-opacity: 0.0; /* FF lt 1.5, Netscape */
-        }
-        .file-wrapper .button, .tp-button {
-          cursor: pointer;
-          display: inline-block;
-          font-size: 12px;
-          margin-right: 5px;
-          padding: 4px 18px;
-        }
-        .file-holder {
-            font-size: 12px;
-        }
-        #embellishments .breadcrumb-wrap ul.breadcrumb{
-            *margin: 0;
-            padding: 0;
-        }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments {
-            overflow: hidden;
-        }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments #embelishments-list-wrap {
-            overflow: auto;
-        }
-        #styleboard tbody.bodyWrap tr td#sidebar-wrap #sidebar #create-tab #embellishments .formWrap {
-            height: 60px;
-        }
-        .invisible {
-            display: none !important;
-        }
-
-        .tempShow{
-            visibility:hidden;
-        }
-        .dd{
-            z-index: 999999 !important;
-        }
-        </style>
     </head>
     <body>
         <div id="compact-header">
@@ -537,9 +429,12 @@
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
+<!-- <script type="text/javascript" src="/media/interface/js/styleboard.js"></script> -->
 <script type="text/javascript">
 
-    $(document).ready( function() {
+    var instruction = {};
+
+    $(function() {
 
         $('#embellishments').show().addClass('tempShow');
         var tempHeight = 0;
@@ -634,27 +529,6 @@
                 }
             }
         });
-        $(window).hashchange();
-        
-        $('#create-tab-nav').changeTab();
-        
-        $('#sidebar-wrap').easytabs({ animate:false }).bind('easytabs:after',function(){
-            recur = false;
-            setTimeout(set_category_label_height,500);
-        });
-
-    });
-
-    var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
-
-</script>
-<script src="/media/interface/js/search.js"></script>
-<script type="text/javascript">
-
-
-    var instruction = {};
-
-    $(function(e){
 
         styleboard_instruction(false);
 
@@ -718,6 +592,16 @@
         //     set_height('#templates:10,.template-wrap:10');
             
         // });
+
+        $(window).hashchange();
+        
+        $('#create-tab-nav').changeTab();
+        
+        $('#sidebar-wrap').easytabs({ animate:false }).bind('easytabs:after',function(){
+            recur = false;
+            setTimeout(set_category_label_height,500);
+        });
+
     });
 
     function styleboard_instruction(order){
@@ -804,7 +688,6 @@
     }
 
     function show_instruction_tips(instruction_id){
-        console.log(instruction_id);
 
 
         _stlyboard = "<h1>Styleboard</h1>";
@@ -1226,7 +1109,16 @@
             }
         });
     }
+
+
 </script>
+<script type="text/javascript">
+
+    var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
+
+</script>
+
+<script src="/media/interface/js/search.js"></script>
 
 <!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
         <script type="text/javascript">

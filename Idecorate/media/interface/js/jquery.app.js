@@ -617,6 +617,7 @@ $(document).ready(function () {
                 unselect_all(e);
             });
         },1000);
+
     });
 
 });
@@ -1786,7 +1787,7 @@ function create_new_object(options){
 
 function append_to_canvas(event, obj, index, top, left){
 
-    canvas = $('#canvas');
+    var canvas = $('#canvas');
     object = obj;
     object.appendTo(canvas);
     object_top = top;
