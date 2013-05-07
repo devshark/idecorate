@@ -2395,7 +2395,21 @@ function setProductPositions(func) {
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
-        data: { guests: $('#guests').val(),tables: $('#tables').val(), buy_table_html: cloned_table.html(),action_url: action_url, total: total, quantity: quantity, selected_prev_prod_qty: selected_prev_prod_qty, obj_counter: objCounter, unique_identifier: uniqueIdentifier, changes_counter: 0, product_objects: product_objects, embellishment_objects: embellishment_objects, template_objects: template_objects },
+        data:{ 
+            guests: $('#guests').val(),
+            tables: $('#tables').val(), 
+            buy_table_html: cloned_table.html(),
+            action_url: action_url, 
+            total: total, 
+            quantity: quantity, 
+            selected_prev_prod_qty: selected_prev_prod_qty, 
+            obj_counter: objCounter, 
+            unique_identifier: uniqueIdentifier, 
+            changes_counter: 0, 
+            product_objects: product_objects, 
+            embellishment_objects: embellishment_objects, 
+            template_objects: template_objects 
+        },
         beforeSend : function(){
             
         },
