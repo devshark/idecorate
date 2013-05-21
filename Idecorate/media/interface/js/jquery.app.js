@@ -2172,7 +2172,7 @@ function eventTracker(currentObject, eventType) {
         changesCounter++;
     }
 
-    setProductPositions();
+    //setProductPositions();
 }
 
 function change_img(obj, background){
