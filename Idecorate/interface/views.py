@@ -10,6 +10,7 @@ from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
+from django.db import transaction
 from django.db.models import Q
 from django.contrib.auth.models import User
 
@@ -125,8 +126,8 @@ def styleboard(request, cat_id=None):
 
 		request.session['sbid'] = sms['sbid']
 
-	info.update(sms)	
-
+	info.update(sms)
+	
 	template_view = request.GET.get('template')
 
 	if template_view :
@@ -349,41 +350,49 @@ def get_product_details(request):
 	else:
 		return HttpResponseNotFound()
 
+@transaction.commit_manually
 @csrf_exempt
 def set_product_positions(request):
 	ret = ""
 
 	if request.method == 'POST':
-		obj_counter = request.POST.get('obj_counter','')
-		unique_identifier = request.POST.get('unique_identifier','')
-		changes_counter = request.POST.get('changes_counter','')
-		product_objects = request.POST.get('product_objects','')
-		embellishment_objects = request.POST.get('embellishment_objects','')
-		template_objects = request.POST.get('template_objects','')
-		action_url = request.POST.get('action_url','')
-		total = request.POST.get('total','')
-		quantity = request.POST.get('quantity','')
-		selected_prev_prod_qty = request.POST.get('selected_prev_prod_qty','')
-		buy_table_html = request.POST.get('buy_table_html','')
-		tables = request.POST.get('tables','')
-		guests = request.POST.get('guests','')
 
-		request.session['product_positions'] = {
-			'obj_counter':str(obj_counter),
-			'unique_identifier': str(unique_identifier),
-			'changes_counter': str(changes_counter),
-			'product_objects':str(product_objects),
-			'embellishment_objects': str(embellishment_objects),
-			'template_objects': str(template_objects),
-			'action_url': str(action_url),
-			'total': str(total),
-			'quantity': str(quantity),
-			'selected_prev_prod_qty': str(selected_prev_prod_qty),
-			'buy_table_html': str(buy_table_html),
-			'tables': str(tables),
-			'guests': str(guests)
-		}
+		try:
 
+			obj_counter 			= request.POST.get('obj_counter','')
+			unique_identifier 		= request.POST.get('unique_identifier','')
+			changes_counter 		= request.POST.get('changes_counter','')
+			product_objects 		= request.POST.get('product_objects','')
+			embellishment_objects 	= request.POST.get('embellishment_objects','')
+			template_objects 		= request.POST.get('template_objects','')
+			action_url 				= request.POST.get('action_url','')
+			total 					= request.POST.get('total','')
+			quantity 				= request.POST.get('quantity','')
+			selected_prev_prod_qty 	= request.POST.get('selected_prev_prod_qty','')
+			buy_table_html 			= request.POST.get('buy_table_html','')
+			tables 					= request.POST.get('tables','')
+			guests 					= request.POST.get('guests','')
+
+			request.session['product_positions'] = {
+				'obj_counter':str(obj_counter),
+				'unique_identifier': str(unique_identifier),
+				'changes_counter': str(changes_counter),
+				'product_objects':str(product_objects),
+				'embellishment_objects': str(embellishment_objects),
+				'template_objects': str(template_objects),
+				'action_url': str(action_url),
+				'total': str(total),
+				'quantity': str(quantity),
+				'selected_prev_prod_qty': str(selected_prev_prod_qty),
+				'buy_table_html': str(buy_table_html),
+				'tables': str(tables),
+				'guests': str(guests)
+			}
+
+		except Exception as e:
+			
+			print e
+		
 		ret = obj_counter
 
 	return HttpResponse(ret)
