@@ -350,7 +350,7 @@ def get_product_details(request):
 	else:
 		return HttpResponseNotFound()
 
-@transaction.commit_manually
+# @transaction.commit_manually
 @csrf_exempt
 def set_product_positions(request):
 	ret = ""
