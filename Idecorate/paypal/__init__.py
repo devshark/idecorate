@@ -13,7 +13,7 @@ class PayPal(object):
 		self.upload = kwargs.get('upload', '1')
 		self.return_url = kwargs.get('return_url',settings.PAYPAL_RETURN_URL)
 		self.cancel_return_url = kwargs.get('cancel_return_url','')
-		self.notify_url = kwargs.get('notify_url', settings.PAYPAL_IPN_URL)
+		self.notify_pplink = kwargs.get('notify_url', settings.PAYPAL_IPN_URL)
 		self.items = []
 
 	def addItems(self, item):
@@ -34,7 +34,7 @@ class PayPal(object):
 			else:
 				form += '<input type="hidden" name="%s" value="%s" />' % (k.replace("_url", ""), v)
 
-		return form
+		return form.replace('pplink','url')
 
 	@staticmethod
 	def isSuccessfull(**kwargs):
