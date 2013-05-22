@@ -1,6 +1,9 @@
 from django.conf import settings
 import urllib
 
+PDT_REQUEST = "_notify-synch"
+IPN_REQUEST = "_notify-validate"
+
 class PayPal(object):
 	
 	def __init__(self, *args, **kwargs):
@@ -10,6 +13,7 @@ class PayPal(object):
 		self.upload = kwargs.get('upload', '1')
 		self.return_url = kwargs.get('return_url',settings.PAYPAL_RETURN_URL)
 		self.cancel_return_url = kwargs.get('cancel_return_url','')
+		self.notify_url = kwargs.get('notify_url', settings.PAYPAL_IPN_URL)
 		self.items = []
 
 	def addItems(self, item):
@@ -39,10 +43,15 @@ class PayPal(object):
 
 		postData['st'] = kwargs.get('st','')
 		postData['tx'] = kwargs.get('tx','')
-		postData['cmd'] = "_notify-synch"
-		postData['at'] = settings.PAYPAL_PDT_TOKEN
 
-		pdt = urllib.urlopen(settings.PAYPAL_PDT_URL, urllib.urlencode(postData)).read()
+		postData['cmd'] = kwargs.get('cmd','')
+		
+
+		if postData['cmd'] == PDT_REQUEST:
+
+			postData['at'] = settings.PAYPAL_PDT_TOKEN
+
+		pdt = urllib.urlopen(settings.PAYPAL_URL, urllib.urlencode(postData)).read()
 		lines = pdt.split("\n")
 
 		return True if lines[0].strip() == "SUCCESS" and postData['st'].strip() == "Completed" else False

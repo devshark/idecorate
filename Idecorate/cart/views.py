@@ -1030,7 +1030,7 @@ def checkout_from_view_styleboard(request):
 
 def paypal_return_url(request):
 
-    if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
+    if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx',''), cmd=request.GET.get('cmd','')):
         
         try:
             OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
