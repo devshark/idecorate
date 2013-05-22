@@ -51,10 +51,17 @@ class PayPal(object):
 
 			postData['at'] = settings.PAYPAL_PDT_TOKEN
 
-		pdt = urllib.urlopen(settings.PAYPAL_URL, urllib.urlencode(postData)).read()
-		lines = pdt.split("\n")
+			pdt = urllib.urlopen(settings.PAYPAL_URL, urllib.urlencode(postData)).read()
+			lines = pdt.split("\n")
 
-		return True if lines[0].strip() == "SUCCESS" and postData['st'].strip() == "Completed" else False
+			return True if lines[0].strip() == "SUCCESS" and postData['st'].strip() == "Completed" else False
+
+		else:
+
+			ipn = urllib.urlopen(settings.PAYPAL_URL, urllib.urlencode(postData)).read()
+			lines = ipn.split("\n")
+
+			return True if lines[0].strip() == "VERIFIED" else False
 
 class PayPalItem(object):
 	
