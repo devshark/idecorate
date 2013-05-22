@@ -2516,7 +2516,7 @@ function initProductPositions() {
         template_objects: template_objects 
     });
 
-    eventTracker();
+    //eventTracker();
     
 }
 

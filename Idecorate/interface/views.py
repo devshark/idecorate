@@ -394,7 +394,7 @@ def set_product_positions(request):
 			print e
 		
 		ret = obj_counter
-
+		
 	return HttpResponse(ret)
 	
 def styleboard2(request, cat_id=None):
