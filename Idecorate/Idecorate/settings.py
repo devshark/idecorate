@@ -316,10 +316,8 @@ CURRENCIES = ('USD',)
 
 #Idecorate Paypal Settings
 PAYPAL_PDT_TOKEN = '8Ddb2VFSiDE2l4Kzfe3d8d1oLDqX_Ux9oi2GeTFKU4L9hatKExbRMAukwcG'
-#PAYPAL_IPN = ''
 PAYPAL_EMAIL = 'seller_1358214077_biz@yahoo.com'
 PAYPAL_RETURN_URL = 'http://172.29.19.180:8000'
-PAYPAL_IPN_URL = 'http://idecorateweddings.staging.kitesystems.com/cart/paypal_return_url/'
 
 #Sandbox
 PAYPAL_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'

@@ -1,9 +1,6 @@
 from django.conf import settings
 import urllib
 
-PDT_REQUEST = "_notify-synch"
-IPN_REQUEST = "_notify-validate"
-
 class PayPal(object):
 	
 	def __init__(self, *args, **kwargs):
@@ -13,7 +10,6 @@ class PayPal(object):
 		self.upload = kwargs.get('upload', '1')
 		self.return_url = kwargs.get('return_url',settings.PAYPAL_RETURN_URL)
 		self.cancel_return_url = kwargs.get('cancel_return_url','')
-		self.notify_pplink = kwargs.get('notify_url', settings.PAYPAL_IPN_URL)
 		self.items = []
 
 	def addItems(self, item):
@@ -34,7 +30,7 @@ class PayPal(object):
 			else:
 				form += '<input type="hidden" name="%s" value="%s" />' % (k.replace("_url", ""), v)
 
-		return form.replace('pplink','url')
+		return form
 
 	@staticmethod
 	def isSuccessfull(**kwargs):
@@ -43,25 +39,13 @@ class PayPal(object):
 
 		postData['st'] = kwargs.get('st','')
 		postData['tx'] = kwargs.get('tx','')
+		postData['cmd'] = "_notify-synch"
+		postData['at'] = settings.PAYPAL_PDT_TOKEN
 
-		postData['cmd'] = kwargs.get('cmd','')
-		
+		pdt = urllib.urlopen(settings.PAYPAL_PDT_URL, urllib.urlencode(postData)).read()
+		lines = pdt.split("\n")
 
-		if postData['cmd'] == PDT_REQUEST:
-
-			postData['at'] = settings.PAYPAL_PDT_TOKEN
-
-			pdt = urllib.urlopen(settings.PAYPAL_URL, urllib.urlencode(postData)).read()
-			lines = pdt.split("\n")
-
-			return True if lines[0].strip() == "SUCCESS" and postData['st'].strip() == "Completed" else False
-
-		else:
-
-			ipn = urllib.urlopen(settings.PAYPAL_URL, urllib.urlencode(postData)).read()
-			lines = ipn.split("\n")
-
-			return True if lines[0].strip() == "VERIFIED" else False
+		return True if lines[0].strip() == "SUCCESS" and postData['st'].strip() == "Completed" else False
 
 class PayPalItem(object):
 	

@@ -1030,63 +1030,46 @@ def checkout_from_view_styleboard(request):
 
 def paypal_return_url(request):
 
-    if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx',''), cmd=request.GET.get('cmd','')):
+    if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
         
-        if request.GET.get('cmd','') == Paypal.IPN_REQUEST:
-            
-            try:
-                OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
+        try:
+            OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
+            return redirect('styleboard')
+        except:
+            pass
 
-                OrderPayment.status = 40
-                OrderPayment.save()
+        """
+        request.session['delivery_address2'] = ''
+        request.session['billing_address2'] = ''
+        request.session['delivery_date'] = ''
+        request.session['delivery_state'] = ''
+        request.session['billing_state'] = ''
+        request.session['salutation'] = ''
+        request.session['order-payment_method'] = 'PayPal'
+        """
+        
+        order = shop.order_from_request(request, create=True)
 
-            except:
-                pass
+        
+        payment = order.payments.model(
+            order=order,
+            payment_module="cod"
+        )
 
-            order = shop.order_from_request(request, create=True)
-            order.status = 40
-            order.save()
-            order = order.reload()
-
-        else:   
-
-            try:
-                OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
-                return redirect('styleboard')
-            except:
-                pass
-
-            """
-            request.session['delivery_address2'] = ''
-            request.session['billing_address2'] = ''
-            request.session['delivery_date'] = ''
-            request.session['delivery_state'] = ''
-            request.session['billing_state'] = ''
-            request.session['salutation'] = ''
-            request.session['order-payment_method'] = 'PayPal'
-            """
-            
-            order = shop.order_from_request(request, create=True)
-            
-            payment = order.payments.model(
-                order=order,
-                payment_module="cod"
-            )
-
-            payment.currency = request.GET.get('cc','USD')
-            payment.amount = Decimal(request.GET.get('amt','0.00'))
-            payment.authorized = datetime.now()
-            payment.payment_method = 'PayPal'
-            payment.payment_module_key = 'cod'
-            payment.module = 'Cash on delivery'
-            payment.status = OrderPayment.AUTHORIZED
-            payment.transaction_id = request.GET.get('tx','')
-            payment.save()
-            order.user = request.user if request.user.is_authenticated() else None
-            order.paid = Decimal(request.GET.get('amt','0.00'))
-            order.status = 40
-            order.save()
-            order = order.reload()
+        payment.currency = request.GET.get('cc','USD')
+        payment.amount = Decimal(request.GET.get('amt','0.00'))
+        payment.authorized = datetime.now()
+        payment.payment_method = 'PayPal'
+        payment.payment_module_key = 'cod'
+        payment.module = 'Cash on delivery'
+        payment.status = OrderPayment.AUTHORIZED
+        payment.transaction_id = request.GET.get('tx','')
+        payment.save()
+        order.user = request.user if request.user.is_authenticated() else None
+        order.paid = Decimal(request.GET.get('amt','0.00'))
+        order.status = 40
+        order.save()
+        order = order.reload()
 
         return redirect('plata_order_success')
 
