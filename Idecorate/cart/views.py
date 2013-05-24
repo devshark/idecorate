@@ -29,7 +29,7 @@ from customer.models import CustomerProfile
 from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-from common.services import ss_direct, send_email_set_pass, send_email_order, st_save_helper
+from common.services import ss_direct, send_email_set_pass, send_email_order, st_save_helper, send_email_ipn_result
 from interface.views import clear_styleboard_session, st_man
 from paypal import PayPal, PayPalItem
 from django.core.urlresolvers import reverse
@@ -679,7 +679,7 @@ class IdecorateShop(Shop):
 
         if request.method == 'POST' and '_checkout' in request.POST:
             orderform = OrderForm(request.POST, **orderform_kwargs)
-            #print request.POST
+
             if orderform.is_valid():
                 notes = request.POST.get('order-notes')
                 same_as_billing = request.POST.get('order-shipping_same_as_billing')
@@ -1028,6 +1028,21 @@ def checkout_from_view_styleboard(request):
     else:
         return redirect('styleboard')
 
+
+@csrf_exempt
+def paypal_ipn(request):
+
+    postData = {} 
+
+    for key, value in request.POST.iteritems():
+        postData[key] = value
+                
+    postData['cmd'] = "_notify-validate"
+
+    result = urllib.urlopen('https://www.sandbox.paypal.com/au/cgi-bin/webscr', urllib.urlencode(postData)).read()
+
+    send_email_ipn_result(result ,urllib.urlencode(postData)) 
+
 def paypal_return_url(request):
 
     if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
@@ -1055,7 +1070,7 @@ def paypal_return_url(request):
             order=order,
             payment_module="cod"
         )
-
+       
         payment.currency = request.GET.get('cc','USD')
         payment.amount = Decimal(request.GET.get('amt','0.00'))
         payment.authorized = datetime.now()
