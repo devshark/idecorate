@@ -23,6 +23,7 @@ from plata.shop.views import Shop
 from plata.shop import signals
 from django import forms
 import re
+import urllib
 
 from customer.services import get_styleboard_cart_item, get_user_styleboard
 from customer.models import CustomerProfile
@@ -1041,7 +1042,9 @@ def paypal_ipn(request):
 
     result = urllib.urlopen('https://www.sandbox.paypal.com/au/cgi-bin/webscr', urllib.urlencode(postData)).read()
 
-    send_email_ipn_result(result ,urllib.urlencode(postData)) 
+    is_sent = send_email_ipn_result(result ,urllib.urlencode(postData)) 
+
+    return HttpResponse(is_sent)
 
 def paypal_return_url(request):
 

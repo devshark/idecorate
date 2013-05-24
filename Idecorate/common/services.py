@@ -469,10 +469,6 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=",".join(mail_to),subject='iDecorateweddings.com Order Confirmation',body=messageHTML,isHTML=True)
 
 def send_email_ipn_result(result, data):
-    u = CustomerProfile.objects.get(user__id=int(user_id))
-    u.hash_set_password = str(uuid4())
-    u.save()
-
     messageHTML = """
     <h1>%s</h1>
     <p>%s</p>
@@ -480,6 +476,10 @@ def send_email_ipn_result(result, data):
     print "SENDING EMAIL...."
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to='ryan.angeles@kitesystems.com',subject='IPN result',body=messageHTML,isHTML=True)
+
+        return True
+
+    return False
 
 def st_save_helper(request,order):
 
