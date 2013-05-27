@@ -25,6 +25,7 @@ from django import forms
 import re
 import urllib
 import urlparse
+import ast
 
 from customer.services import get_styleboard_cart_item, get_user_styleboard
 from customer.models import CustomerProfile
@@ -1063,7 +1064,7 @@ def paypal_ipn(request):
     if result == "VERIFIED":
 
         txn_id = request.POST.get('txn_id','')
-        custom_data = dict(request.POST.get('custom', ''))
+        custom_data = ast.literal_eval(request.POST.get('custom', ''))
 
         try:
             OrderPayment.objects.get(transaction_id=str(txn_id).strip())
