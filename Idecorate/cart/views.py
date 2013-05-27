@@ -637,11 +637,8 @@ class IdecorateShop(Shop):
         custom_data['salutation'] = request.session['salutation'] 
         custom_data['billing_country'] = request.session['billing_country'] 
         custom_data['shipping_country'] = request.session['shipping_country'] 
-
-        data = {}
-        data['custom'] = custom_data
-
-        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')), custom=urllib.urlencode(simplejson.dumps(data)))
+        
+        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')), custom=simplejson.dumps(custom_data))
         paypal_orders = order.items.filter().order_by('-id')
 
         for paypal_order in paypal_orders:
