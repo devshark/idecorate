@@ -623,7 +623,21 @@ class IdecorateShop(Shop):
         else:
             form = ConfirmationForm(**kwargs)
 
-        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')), custom=order.id)
+        custom_data = {}
+
+        custom_data['order_id'] = order.id
+        custom_data['order-payment_method'] = request.session['order-payment_method']
+        custom_data['order_notes'] = request.session['order_notes'] 
+        custom_data['delivery_address2'] = request.session['delivery_address2'] 
+        custom_data['billing_address2'] = request.session['billing_address2'] 
+        custom_data['delivery_date'] = request.session['delivery_date'] 
+        custom_data['delivery_state'] = request.session['delivery_state'] 
+        custom_data['billing_state'] = request.session['billing_state'] 
+        custom_data['salutation'] = request.session['salutation'] 
+        custom_data['billing_country'] = request.session['billing_country'] 
+        custom_data['shipping_country'] = request.session['shipping_country'] 
+
+        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')), custom=urllib.urlencode(custom_data))
         paypal_orders = order.items.filter().order_by('-id')
 
         for paypal_order in paypal_orders:
@@ -1042,23 +1056,24 @@ def paypal_ipn(request):
 
     result = urllib.urlopen(settings.PAYPAL_IPN_URL, urllib.urlencode(postData)).read()
 
-    # if result == "VERIFIED":
+    if result == "VERIFIED":
 
-    #     txn_id = postData.get('txn_id','')
+        txn_id = request.POST.get('txn_id','')
+        order_id = request.POST.get('custom', '')
 
-    #     try:
-    #         OrderPayment.objects.get(transaction_id=str(txn_id).strip())
+        try:
+            OrderPayment.objects.get(transaction_id=str(txn_id).strip())
 
-    #         return HttpResponse('existing')
-    #     except:
-    #         pass
-    #         if request.POST.get('payment_status') == 'Completed':
+            return HttpResponse('existing')
+        except:
+            pass
+            if request.POST.get('payment_status') == 'Completed':
 
-    #             return HttpResponse('done')
+                return HttpResponse('done')
 
-    #         else:
+            else:
 
-    #             return HttpResponse('incomplete')
+                return HttpResponse('incomplete')
 
     is_sent = send_email_ipn_result(result ,urllib.urlencode(postData)) 
 
