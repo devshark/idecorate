@@ -322,6 +322,7 @@ PAYPAL_RETURN_URL = 'http://172.29.19.180:8000'
 #Sandbox
 PAYPAL_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
 PAYPAL_PDT_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
+PAYPAL_IPN_URL = 'https://www.sandbox.paypal.com/au/cgi-bin/webscr'
 #End of Idecorate Paypal Settings
 
 #Other Idecorate Weddings Setup

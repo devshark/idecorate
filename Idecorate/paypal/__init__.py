@@ -10,6 +10,7 @@ class PayPal(object):
 		self.upload = kwargs.get('upload', '1')
 		self.return_url = kwargs.get('return_url',settings.PAYPAL_RETURN_URL)
 		self.cancel_return_url = kwargs.get('cancel_return_url','')
+		self.custom = kwargs.get('custom','')
 		self.items = []
 
 	def addItems(self, item):

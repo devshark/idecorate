@@ -623,7 +623,7 @@ class IdecorateShop(Shop):
         else:
             form = ConfirmationForm(**kwargs)
 
-        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
+        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')), custom=order.id)
         paypal_orders = order.items.filter().order_by('-id')
 
         for paypal_order in paypal_orders:
@@ -1040,7 +1040,25 @@ def paypal_ipn(request):
                 
     postData['cmd'] = "_notify-validate"
 
-    result = urllib.urlopen('https://www.sandbox.paypal.com/au/cgi-bin/webscr', urllib.urlencode(postData)).read()
+    result = urllib.urlopen(settings.PAYPAL_IPN_URL, urllib.urlencode(postData)).read()
+
+    # if result == "VERIFIED":
+
+    #     txn_id = postData.get('txn_id','')
+
+    #     try:
+    #         OrderPayment.objects.get(transaction_id=str(txn_id).strip())
+
+    #         return HttpResponse('existing')
+    #     except:
+    #         pass
+    #         if request.POST.get('payment_status') == 'Completed':
+
+    #             return HttpResponse('done')
+
+    #         else:
+
+    #             return HttpResponse('incomplete')
 
     is_sent = send_email_ipn_result(result ,urllib.urlencode(postData)) 
 
