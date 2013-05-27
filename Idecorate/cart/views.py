@@ -24,6 +24,7 @@ from plata.shop import signals
 from django import forms
 import re
 import urllib
+import urlparse
 
 from customer.services import get_styleboard_cart_item, get_user_styleboard
 from customer.models import CustomerProfile
@@ -637,7 +638,10 @@ class IdecorateShop(Shop):
         custom_data['billing_country'] = request.session['billing_country'] 
         custom_data['shipping_country'] = request.session['shipping_country'] 
 
-        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')), custom=urllib.urlencode(custom_data))
+        data = {}
+        data['custom'] = custom_data
+
+        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')), custom=urllib.urlencode(simplejson.dumps(data)))
         paypal_orders = order.items.filter().order_by('-id')
 
         for paypal_order in paypal_orders:
@@ -1059,7 +1063,10 @@ def paypal_ipn(request):
     if result == "VERIFIED":
 
         txn_id = request.POST.get('txn_id','')
-        order_id = request.POST.get('custom', '')
+        custom_data = request.POST.get('custom', '')
+        custom_data = urlparse.parse_qsl(custom_data)
+        custom_data = dict(custom_data)
+        custom_data = simplejson.loads(custom_data['custom'])
 
         try:
             OrderPayment.objects.get(transaction_id=str(txn_id).strip())
@@ -1068,6 +1075,18 @@ def paypal_ipn(request):
         except:
             pass
             if request.POST.get('payment_status') == 'Completed':
+
+                order_id = custom_data['order_id']
+                payment_method = custom_data['order-payment_method']
+                order_notes = custom_data['order_notes']
+                delivery_address2 = custom_data['delivery_address2']
+                billing_address2 = custom_data['billing_address2']
+                delivery_date = custom_data['delivery_date']
+                delivery_state = custom_data['delivery_state']
+                billing_state = custom_data['billing_state']
+                salutation = custom_data['salutation']
+                billing_country = custom_data['billing_country']
+                shipping_country = custom_data['shipping_country']
 
                 return HttpResponse('done')
 
