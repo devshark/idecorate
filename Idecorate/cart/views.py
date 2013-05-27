@@ -1093,7 +1093,7 @@ def paypal_ipn(request):
                 payment.transaction_id = txn_id
                 payment.save()
 
-                order.user = int(data['user'])
+                order.user = User.objects.get(id=int(data['user']))
                 order.paid = Decimal(request.POST.get('payment_gross','0.00'))
                 order.status = 40
                 order.save()
