@@ -648,27 +648,6 @@ class IdecorateShop(Shop):
         for paypal_order in paypal_orders:
             paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))  
 
-        try:
-            oData = {}
-            oData['delivery_address2'] = request.session['delivery_address2']
-            oData['billing_address2'] = request.session['billing_address2']
-            oData['delivery_date'] = request.session['delivery_date']
-            oData['delivery_state'] = request.session['delivery_state']
-            oData['billing_state'] = request.session['billing_state']
-            oData['salutation'] = request.session['salutation']
-
-            oPayment = OrderPayment.objects.get(order=order)
-            oPayment.payment_method = request.session.get('order-payment_method','')
-            oPayment.data = simplejson.dumps(oData)
-            oPayment.save()
-
-            notes = request.session.get('order_notes','')
-            order.notes = notes
-            order.save()
-
-        except Exception as e:
-            print e
-
         return self.render_confirmation(request, {
             'order': order,
             'form': form,
@@ -1102,7 +1081,7 @@ def paypal_ipn(request):
                 data = ast.literal_eval(custom_data)
 
                 order = Order.objects.get(id=int(data['order_id']))
-                payment = OrderPayment.objects.get(order=order)
+                payment = order.payments.model(order=order,payment_module="cod")
 
                 payment.currency = request.POST.get('mc_currency','USD')
                 payment.amount = Decimal(request.POST.get('payment_gross','0.00'))
@@ -1123,9 +1102,9 @@ def paypal_ipn(request):
 
                 send_email_ipn_result('Completed Error', result ,e)
 
-        is_sent = send_email_ipn_result('Verified & Completed', result ,urllib.urlencode(postData)) 
+            send_email_ipn_result('Verified & Completed', result ,urllib.urlencode(postData)) 
 
-    return HttpResponse(is_sent)
+    return HttpResponse('recieved')
 
 def paypal_return_url(request):
 
