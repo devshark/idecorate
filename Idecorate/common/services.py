@@ -468,14 +468,14 @@ Follow this <a href="http://%s/">link</a> if you wish to get in touch with us.
 
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=",".join(mail_to),subject='iDecorateweddings.com Order Confirmation',body=messageHTML,isHTML=True)
 
-def send_email_ipn_result(result, data):
+def send_email_ipn_result(subject,result, data):
     messageHTML = """
     <h1>%s</h1>
     <p>%s</p>
     """ % (result, data)
     print "SENDING EMAIL...."
     if not settings.SKIPPING_MODE:
-        IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to='ryan.angeles@kitesystems.com',subject='IPN result',body=messageHTML,isHTML=True)
+        IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to='ryan.angeles@kitesystems.com',subject=subject,body=messageHTML,isHTML=True)
 
         return True
 

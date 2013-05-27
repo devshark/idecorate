@@ -7,6 +7,7 @@
 			{% if request|get_session_by_key:"order-payment_method" == "PayPal" %}
 			<form id="conf_form" method="post" action="{{ paypal_url }}">
 			{{ paypal_form }}
+			<input type="hidden" name="custom" value="{{ custom_data|safe }}" />
 			{% else %}
 			<form id="conf_form" action="" method="post">
 				<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />

@@ -626,19 +626,19 @@ class IdecorateShop(Shop):
 
         custom_data = {}
 
-        custom_data['order_id'] = order.id
-        custom_data['order-payment_method'] = request.session['order-payment_method']
-        custom_data['order_notes'] = request.session['order_notes'] 
-        custom_data['delivery_address2'] = request.session['delivery_address2'] 
-        custom_data['billing_address2'] = request.session['billing_address2'] 
-        custom_data['delivery_date'] = request.session['delivery_date'] 
-        custom_data['delivery_state'] = request.session['delivery_state'] 
-        custom_data['billing_state'] = request.session['billing_state'] 
-        custom_data['salutation'] = request.session['salutation'] 
-        custom_data['billing_country'] = request.session['billing_country'] 
-        custom_data['shipping_country'] = request.session['shipping_country'] 
+        custom_data['order_id'] = str(order.id)
+        custom_data['order-payment_method'] = str(request.session['order-payment_method'])
+        custom_data['order_notes'] = str(request.session['order_notes'] )
+        custom_data['delivery_address2'] = str(request.session['delivery_address2'] )
+        custom_data['billing_address2'] = str(request.session['billing_address2'] )
+        custom_data['delivery_date'] = str(request.session['delivery_date'] )
+        custom_data['delivery_state'] = str(request.session['delivery_state'] )
+        custom_data['billing_state'] = str(request.session['billing_state'] )
+        custom_data['salutation'] = str(request.session['salutation'] )
+        custom_data['billing_country'] = str(request.session['billing_country'] )
+        custom_data['shipping_country'] = str(request.session['shipping_country'] )
         
-        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')), custom=simplejson.dumps(custom_data))
+        paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
         paypal_orders = order.items.filter().order_by('-id')
 
         for paypal_order in paypal_orders:
@@ -658,7 +658,8 @@ class IdecorateShop(Shop):
             'paypal_url': settings.PAYPAL_URL,
             'paypal_form': mark_safe(paypal.generateInputForm()),
             'shop':self,
-            'contact': thisContact
+            'contact': thisContact,
+            'custom_data' : custom_data
         })
 
     def checkout(self, request, order):
@@ -1057,20 +1058,21 @@ def paypal_ipn(request):
 
     result = urllib.urlopen(settings.PAYPAL_IPN_URL, urllib.urlencode(postData)).read()
 
+    is_sent = ""
+
     if result == "VERIFIED":
 
         txn_id = request.POST.get('txn_id','')
-        custom_data = request.POST.get('custom', '')
-        custom_data = urlparse.parse_qsl(custom_data)
-        custom_data = dict(custom_data)
-        custom_data = simplejson.loads(custom_data['custom'])
+        custom_data = dict(request.POST.get('custom', ''))
 
         try:
             OrderPayment.objects.get(transaction_id=str(txn_id).strip())
 
+            is_sent = send_email_ipn_result('existing', result ,urllib.urlencode(postData)) 
             return HttpResponse('existing')
+
         except:
-            pass
+
             if request.POST.get('payment_status') == 'Completed':
 
                 order_id = custom_data['order_id']
@@ -1085,13 +1087,13 @@ def paypal_ipn(request):
                 billing_country = custom_data['billing_country']
                 shipping_country = custom_data['shipping_country']
 
+                is_sent = send_email_ipn_result('done', result ,urllib.urlencode(postData)) 
                 return HttpResponse('done')
 
             else:
 
                 return HttpResponse('incomplete')
 
-    is_sent = send_email_ipn_result(result ,urllib.urlencode(postData)) 
 
     return HttpResponse(is_sent)
 
