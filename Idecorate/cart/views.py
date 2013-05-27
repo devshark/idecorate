@@ -628,6 +628,8 @@ class IdecorateShop(Shop):
         custom_data = {}
 
         custom_data['order_id'] = str(order.id)
+        custom_data['user'] = str(request.user.id if request.user.is_authenticated() else 0)
+        """
         custom_data['order-payment_method'] = str(request.session['order-payment_method'])
         custom_data['order_notes'] = str(request.session['order_notes'] )
         custom_data['delivery_address2'] = str(request.session['delivery_address2'] )
@@ -638,13 +640,34 @@ class IdecorateShop(Shop):
         custom_data['salutation'] = str(request.session['salutation'] )
         custom_data['billing_country'] = str(request.session['billing_country'] )
         custom_data['shipping_country'] = str(request.session['shipping_country'] )
-        custom_data['user'] = str(request.user.id if request.user.is_authenticated() else 0)
+        """
         
         paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
         paypal_orders = order.items.filter().order_by('-id')
 
         for paypal_order in paypal_orders:
             paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))  
+
+        try:
+            oData = {}
+            oData['delivery_address2'] = request.session['delivery_address2']
+            oData['billing_address2'] = request.session['billing_address2']
+            oData['delivery_date'] = request.session['delivery_date']
+            oData['delivery_state'] = request.session['delivery_state']
+            oData['billing_state'] = request.session['billing_state']
+            oData['salutation'] = request.session['salutation']
+
+            oPayment = OrderPayment.objects.get(order=order)
+            oPayment.payment_method = request.session.get('order-payment_method','')
+            oPayment.data = simplejson.dumps(oData)
+            oPayment.save()
+
+            notes = request.session.get('order_notes','')
+            order.notes = notes
+            order.save()
+
+        except Exception as e:
+            print e
 
         return self.render_confirmation(request, {
             'order': order,
@@ -1071,25 +1094,12 @@ def paypal_ipn(request):
             return HttpResponse('existing')
 
         except Exception as e:
-
-            send_email_ipn_result('existing error', result ,e)
+            pass
 
         if request.POST.get('payment_status') == 'Completed':
 
             try:
-                data = ast.literal_eval(data)
-
-                payment_method = data['order-payment_method']
-                billing_country = data['billing_country']
-                shipping_country = data['shipping_country']
-
-                oData = {}
-                oData['delivery_address2'] = data['delivery_address2']
-                oData['billing_address2'] = data['billing_address2']
-                oData['delivery_date'] = data['delivery_date']
-                oData['delivery_state'] = data['delivery_state']
-                oData['billing_state'] = data['billing_state']
-                oData['salutation'] = data['salutation']
+                data = ast.literal_eval(custom_data)
 
                 order = Order.objects.get(id=int(data['order_id']))
                 payment = OrderPayment.objects.get(order=order)
@@ -1102,13 +1112,11 @@ def paypal_ipn(request):
                 payment.module = 'Cash on delivery'
                 payment.status = 40
                 payment.transaction_id = txn_id
-                payment.data = simplejson.dumps(oData)
                 payment.save()
 
                 order.user = int(data['user'])
                 order.paid = Decimal(request.POST.get('payment_gross','0.00'))
                 order.status = 40
-                order.notes = data['order_notes']
                 order.save()
 
             except Exception as e:
