@@ -7,6 +7,7 @@ import urllib
 import urllib2
 import re
 import datetime
+import os
 
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -184,7 +185,7 @@ def send_email_reset_pass(user_id):
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=u.user.email,subject='Reset your iDecorateWeddings.com password',body=messageHTML,isHTML=True)
 
-def send_email_order(order, user, shop, sbid, comment):
+def send_email_order(order, user, comment, shop):
 
     guest_table = GuestTable.objects.get(order=order)
     order_styleboard = OrderStyleboard.objects.get(order=order)
@@ -192,7 +193,7 @@ def send_email_order(order, user, shop, sbid, comment):
     itemsHTML = ""
     board = "http://%s/media/images/styleboard.jpg" % settings.IDECORATE_HOST
     
-    if sbid:
+    if order_styleboard:
     	board = "http://%s/media/styleboards/%s" % (settings.IDECORATE_HOST, order_styleboard.styleboard)
 
     c_block = ""
@@ -532,19 +533,25 @@ def st_save_helper(request,order):
         res = save_styleboard_item(going_to_save)
 
         if res:
-            print res.styleboard_item
+            # print res.styleboard_item
             styleboard_img = save_styleboard_as_image(res.styleboard_item.id)
 
             try:
+                order_styleboard = OrderStyleboard.objects.get(order=order)
+                
+                path = '%sstyleboards/%s' % (settings.MEDIA_ROOT, order_styleboard.styleboard)
+                os.unlink(path)
+                
+                order_styleboard.order = order
+                order_styleboard.styleboard = styleboard_img
+                order_styleboard.save()
+
+            except :
 
                 order_styleboard = OrderStyleboard()
                 order_styleboard.order = order
                 order_styleboard.styleboard = styleboard_img
                 order_styleboard.save()
-
-            except Exception as e:
-
-                print e
 
         if request.session.get('save_template'):
 

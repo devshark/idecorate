@@ -629,7 +629,6 @@ class IdecorateShop(Shop):
 
         custom_data['order_id'] = str(order.id)
         custom_data['user'] = str(request.user.id if request.user.is_authenticated() else 0)
-        """
         custom_data['order-payment_method'] = str(request.session['order-payment_method'])
         custom_data['order_notes'] = str(request.session['order_notes'] )
         custom_data['delivery_address2'] = str(request.session['delivery_address2'] )
@@ -640,13 +639,14 @@ class IdecorateShop(Shop):
         custom_data['salutation'] = str(request.session['salutation'] )
         custom_data['billing_country'] = str(request.session['billing_country'] )
         custom_data['shipping_country'] = str(request.session['shipping_country'] )
-        """
         
         paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
         paypal_orders = order.items.filter().order_by('-id')
 
         for paypal_order in paypal_orders:
             paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))  
+
+        st_save_helper(request, order)
 
         return self.render_confirmation(request, {
             'order': order,
@@ -663,7 +663,7 @@ class IdecorateShop(Shop):
             'paypal_form': mark_safe(paypal.generateInputForm()),
             'shop':self,
             'contact': thisContact,
-            'custom_data' : custom_data
+            'custom_data' : simplejson.dumps(custom_data).replace('"', '&quot;')
         })
 
     def checkout(self, request, order):
@@ -819,7 +819,7 @@ class IdecorateShop(Shop):
             print "There's a personalize_id"
 
         current_user = User.objects.get(id=int(request.user.id))
-        send_email_order(order, current_user, self, sbid, notes)
+        send_email_order(order, current_user, notes, self)
         clear_styleboard_session(request)
 
         try:
@@ -1083,6 +1083,14 @@ def paypal_ipn(request):
                 order = Order.objects.get(id=int(data['order_id']))
                 payment = order.payments.model(order=order,payment_module="cod")
 
+                paymentData = {}
+                paymentData['delivery_address2'] = data['delivery_address2']
+                paymentData['billing_address2'] = data['billing_address2']
+                paymentData['delivery_date'] = data['delivery_date']
+                paymentData['delivery_state'] = data['delivery_state']
+                paymentData['billing_state'] = data['billing_state']
+                paymentData['salutation'] = data['salutation']
+
                 payment.currency = request.POST.get('mc_currency','USD')
                 payment.amount = Decimal(request.POST.get('payment_gross','0.00'))
                 payment.authorized = datetime.now()
@@ -1091,12 +1099,33 @@ def paypal_ipn(request):
                 payment.module = 'Cash on delivery'
                 payment.status = 40
                 payment.transaction_id = txn_id
+                payment.data = simplejson.dumps(paymentData)
                 payment.save()
 
                 order.user = User.objects.get(id=int(data['user']))
                 order.paid = Decimal(request.POST.get('payment_gross','0.00'))
                 order.status = 40
+                order.notes = data['order_notes']
                 order.save()
+                order.reload()
+
+                send_email_order(order, order.user, notes, None)
+                clear_styleboard_session(request)
+
+                try:
+                    del request.session['order-payment_method']
+                    del request.session['delivery_address2']
+                    del request.session['billing_address2']
+                    del request.session['delivery_date']
+                    del request.session['delivery_state']
+                    del request.session['billing_state']
+                    del request.session['salutation']
+                    del request.session['order_notes']
+                    del request.session['billing_country']
+                    del request.session['shipping_country']
+                    del request.session['customer_styleboard']
+                except:
+                    pass
 
             except Exception as e:
 
