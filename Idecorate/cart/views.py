@@ -1123,7 +1123,7 @@ def paypal_ipn(request):
                 order.save()
                 order.reload()
 
-                send_email_order(order, order.user, notes, None)
+                send_email_order(order, order.user, order.notes, None)
 
             except Exception as e:
 
