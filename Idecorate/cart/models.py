@@ -173,3 +173,13 @@ class OrderStyleboard(models.Model):
     class Meta:
         verbose_name = _('Ordered Styleboard')
         db_table = 'ordered_styleboard'
+
+class OrderData(models.Model):
+
+    id = models.AutoField(db_column='id', primary_key=True)
+    order = models.ForeignKey(Order, db_column='order_id')
+    data = models.TextField(_('address'))
+
+    class Meta:
+        verbose_name = _('Order data')
+        db_table = 'order_data'
