@@ -1,0 +1,268 @@
+{% load i18n idecorate_interface humanize %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<meta charset="utf-8">
+    <title>iDecorate Weddings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <style>
+	@media print{
+		@page{
+			margin: 0.5cm;
+			size: A4;
+		}
+		body{
+			color: #666;
+			font-family: "Trebuchet MS", Helvetica, sans-serif;
+			font-size: 12px;
+			-webkit-print-color-adjust:exact;
+		}
+		.lineItems{
+			page-break-before: always;
+		}
+		#footer {
+			font-size: 12px;
+	    }
+	    .copyright{
+			text-align: right !important;
+			vertical-align: top;
+	    }
+
+
+		.styleboard{
+			margin-top: 3cm !important;
+		}
+		
+	}
+
+	@media screen{
+
+		body{
+			width: 21cm;
+			background-color:white;
+			background:none;
+			color:black;
+			font-family: "Trebuchet MS", Helvetica, sans-serif;
+			font-size: 12px;
+		}
+
+		table{
+			font-size: 15px;
+		}
+		
+		.lineItems{
+			margin-top: 4cm !important;
+		}
+
+	}
+
+	body{
+		color: #666;
+		padding: 0;
+		margin: 0;
+	}
+
+	table{
+		width: 100%;
+		font-size: 15px;
+	}
+		
+	.lineItems{
+		margin-top: 6cm;
+	}
+
+	.lineItems th, .lineItems td{
+		padding: 2px 0;
+	}
+
+	.lineProduct{
+		width: 50px;
+		vertical-align: middle;
+	}
+	.lineProductwrap{
+		border:1px solid #999;
+		padding: 0.1cm;
+		display: inline-block;
+	}
+
+	.cellHeader{
+		border-bottom: 1px solid #999;
+	}
+
+	.cellHeader, .bodyCell{
+		text-align: right;
+	}
+
+	.itemHead, .itemCell{
+		text-align: left;
+	}
+
+	.bodyCell{
+		font-size: 12px;
+		vertical-align: middle;
+	}
+	.cellFooter{
+		padding-top: 10px !important;
+		padding-bottom: 30px !important;
+		font-size: 12px;
+		border-top: 1px solid #999;
+		border-bottom: 1px solid #999;
+		font-weight: normal;
+	}
+	#footer{
+		vertical-align: top;
+	}
+	#footer, #footer_landscape{
+		border-top: 1px solid #999;
+		font-size: 12px;
+		margin-top: 0.5cm;
+    } 
+    #footer td, #footer_landscape td{
+    	padding: 5px 0;
+    }
+    .copyright{
+    	text-align: right;
+    }
+
+    #footer_landscape{
+    	text-align: left;
+		width: 22cm;
+    }
+    .rotate90 {
+
+	/* Safari */
+	-webkit-transform: rotate(90deg);
+
+	/* Firefox */
+	-moz-transform: rotate(90deg);
+
+	/* IE */
+	-ms-transform: rotate(90deg);
+
+	/* Opera */
+	-o-transform: rotate(90deg);
+
+	/* Internet Explorer */
+	filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=2);
+
+	}
+
+	.styleboard{
+		margin-top: 1.5cm;
+	}
+
+	.styleboardWrap{
+		border: 1px solid #999;
+		margin: 0 auto;
+		width: 21.5cm;
+		padding: 0.25cm;
+	}
+
+	.styleboardWrap img{
+		width: 21.5cm;
+	}
+
+	.total{
+		font-weight: bold;
+		background-color:#FFC5C3 !important;
+		padding: 10px;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	</style>
+	<body>
+		<div class="styleboard rotate90">
+			<div class="styleboardWrap">
+				<img src="{{ styleboard }}" title="styleboard" class="styleboard_image" />
+			</div>
+			<table id="footer_landscape" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td><img width="180" src="/media/images/logo_txt_print.jpg" title="idecorate" class="logo" /></td>
+					<td class="copyright">
+						T 1300 041 210<br/>
+						E enquiry@idecorateweddings.com<br/>
+						&copy; iDecorateWeddings.com 2013
+					</td>
+				</tr>
+			</table>
+		</div>
+		<table class="lineItems" border="0" cellpadding="0" cellspacing="0">
+			<tr>
+				<th class="cellHeader itemHead">Items</th>
+				<th class="cellHeader skuHead">Sku</th>
+				<th class="cellHeader unitHead">Unit Cost</th>
+				<th class="cellHeader qtyHead">Qty</th>
+				<th class="cellHeader priceHead">Price</th>
+			</tr>
+
+			{% if cart_list %}
+			{% for cart_item in cart_list %}
+			{% if forloop.first %}
+				<tr class="firstRow">
+		    {% endif %}
+		    {% if forloop.last %}
+				<tr class="lastRow">
+		    {% endif %}
+				<td class="itemCell bodyCell">
+					<span class="lineProductwrap"><img class="lineProduct" src="/media/products/{{ cart_item.product.original_image_thumbnail }}" /></span>
+					{{ cart_item.product.name }}
+				</td>
+				<td class="bodyCell"><p>{{ cart_item.product.sku }}</p></td>
+				<td class="bodyCell"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
+				<td class="bodyCell"><p>x{{ cart_item.quantity }}</p></td>
+				<td class="bodyCell"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
+				
+			</tr>
+			{% endfor %}
+			{% endif %}
+			<tr>
+				<td class="cellFooter multiplier" colspan="3">
+					{% if cart_list %}
+					{{ default_multiplier.guests }} Guests / {{ default_multiplier.tables }} Tables
+					{% endif %}
+				</td>
+				<td class="cellFooter" style="text-align: right;"  colspan="2">
+					<div class="total">Total: ${{ total_price|intcomma }}</div>
+				</td>
+			</tr>
+		</table>
+
+		<table id="footer" width="100%" cellpadding="0" cellspacing="0">
+			<tr>
+				<td><img width="180" src="/media/images/logo_txt_print.jpg" title="idecorate" class="logo" /></td>
+				<td class="copyright">
+					T 1300 041 210<br/>
+					E enquiry@idecorateweddings.com<br/>
+					&copy; iDecorateWeddings.com 2013
+				</td>
+			</tr>
+		</table>
+	    <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
+		<script type="text/javascript">
+
+			$(function(){
+				var count = 0;
+
+				$('body').find('img').each(function(){
+				   $(this).attr('src',$(this).attr('src')+'?'+new Date().getTime());  
+				}).load(function(){
+					count++;
+
+					if(count == $('body').find('img').length){
+						print_this();
+					}
+				});
+
+				function print_this(){
+					window.print();
+					window.close();
+				}
+			});
+
+		</script>
+	</body>
+
+
+</html>

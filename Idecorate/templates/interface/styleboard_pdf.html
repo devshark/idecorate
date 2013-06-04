@@ -1,0 +1,259 @@
+{% load i18n idecorate_interface humanize %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<meta charset="utf-8">
+    <title>iDecorate Weddings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<style>
+	@page {
+		margin: 0.2cm;
+		size : A4 landscape;
+
+		@frame styleboard{
+	    	-pdf-frame-content: styleboard_wrap;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 2cm;
+	        top: 0.8cm;
+
+		}
+
+	    @frame footer{
+	    	-pdf-frame-content: footer_logo;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 0.8cm;
+	        height: 1.5cm;
+	    }
+	    @frame footer{
+	    	-pdf-frame-content: footer_copyright;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 0.8cm;
+	        height: 1.5cm;
+	    }
+	}
+
+	@page portrait{
+		
+		margin-top: 0.8cm;
+		margin-left: 0.8cm;
+		margin-right: 0.8cm;
+		margin-bottom: 2.6cm;
+		size : A4;
+
+	    @frame footer{
+	    	-pdf-frame-content: footer_logo;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 0.8cm;
+	        height: 1.5cm;
+	    }
+	    @frame footer{
+	    	-pdf-frame-content: footer_copyright;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 0.8cm;
+	        height: 1.5cm;
+	    }
+	}
+
+	body{
+		color: #666;
+	}
+
+	h1, h2, h3, h4 { /* Don't add an outline to the document */
+	    -pdf-outline: false;
+	}
+
+	.footer{
+    	padding-top: 0.2cm;
+	}
+
+	#footer_copyright{
+	    border-top-width: 1px;
+	    border-top-style: solid;
+	    border-top-color: #999;
+    	text-align: right;
+    	font-weight: normal;
+    	line-height: 12px;
+	}
+
+	.styleboard {
+		text-align: center;
+		border-bottom-color:#999;
+		border-bottom-style: solid;
+		border-bottom-width:1px;
+		border-left-color:#999;
+		border-left-style: solid;
+		border-left-width:1px;
+		border-right-color:#999;
+		border-right-style: solid;
+		border-right-width:1px;
+		border-top-color:#999;
+		border-top-style: solid;
+		border-top-width:1px;
+	}
+
+	.styleboard_image{
+	    zoom: 200%;
+	}
+
+	.logo{
+	    zoom: 80%;
+	}
+
+	.lineItems{
+		font-size: 15px;
+		width: 19cm;
+
+	}
+
+	.productWrap{
+		width: 1.5cm;	
+		padding-top: 0;
+		padding-bottom: 0;
+		border-bottom-color:#999;
+		border-bottom-style: solid;
+		border-bottom-width:1px;
+		border-left-color:#999;
+		border-left-style: solid;
+		border-left-width:1px;
+		border-right-color:#999;
+		border-right-style: solid;
+		border-right-width:1px;
+		border-top-color:#999;
+		border-top-style: solid;
+		border-top-width:1px;
+	}
+	.productName{
+		padding-left: 0.1cm;
+	}
+
+	.lineProduct{
+		/*zoom:80%;*/
+		
+	}
+
+	.cellHeader{
+	    border-bottom-width: 1px;
+	    border-bottom-style: solid;
+	    border-bottom-color: #999;
+	}
+	.cellFooter{
+	    border-bottom-width: 1px;
+	    border-bottom-style: solid;
+	    border-bottom-color: #999;
+	    border-top-width: 1px;
+	    border-top-style: solid;
+	    border-top-color: #999;
+		font-size: 13px;
+		padding-top: 0.1cm;
+		padding-bottom: 0.5cm;
+		vertical-align: middle;
+		color: #000;
+
+	}
+
+	.total{
+		font-weight: bold;
+		background-color:#FFC5C3;
+		font-weight: bold; 
+		padding-top: 15px;
+		padding-right: 5px;
+		padding-bottom: 5px;
+		padding-left: 5px;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+	.itemCell{
+	    text-align: left;
+	}
+
+	.bodyCell{
+	    text-align: right;
+		font-size: 13px;
+		padding-top: 0.1cm;
+		padding-bottom: 0.1cm;
+	}
+
+	.firstRow .bodyCell{
+		padding-top: 0.2cm;
+	}
+	.lastRow .bodyCell{
+		padding-bottom: 0.2cm;
+	}
+
+	.multiplier{
+		padding-top: 30px;
+	}
+
+	</style>
+	<body>
+		<div class="styleboard" id="styleboard_wrap">
+		<img src="{{ styleboard }}" title="styleboard" class="styleboard_image" />
+		</div>
+		<pdf:nexttemplate name="portrait" />
+		<pdf:nextpage />
+		<div id="purchases">
+			<table width="21cm" class="lineItems">
+				<tr>
+					<th style="text-align: left;" width="11cm" class="cellHeader itemHead">Items</th>
+					<th style="text-align: right;" width="3cm" class="cellHeader skuHead">Sku</th>
+					<th style="text-align: right;" width="3cm" class="cellHeader unitHead">Unit Cost</th>
+					<th style="text-align: right;" width="1cm" class="cellHeader qtyHead">Qty</th>
+					<th style="text-align: right;" width="3cm" class="cellHeader priceHead">Price</th>
+				</tr>
+
+				{% if cart_list %}
+				{% for cart_item in cart_list %}
+				{% if forloop.first %}
+					<tr class="firstRow">
+			    {% endif %}
+			    {% if forloop.last %}
+					<tr class="lastRow">
+			    {% endif %}
+					<td class="itemCell bodyCell">
+						<table class="products">
+							<tr>
+								<td class="productWrap"><img class="lineProduct" src="media/products/{{ cart_item.product.original_image_thumbnail }}" /></td>
+								<td class="productName">{{ cart_item.product.name }}</td>
+							</tr>
+						</table>
+					</td>
+					<td class="bodyCell"><p>{{ cart_item.product.sku }}</p></td>
+					<td class="bodyCell"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
+					<td class="bodyCell"><p>x{{ cart_item.quantity }}</p></td>
+					<td class="bodyCell"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
+					
+				</tr>
+				{% endfor %}
+				{% endif %}
+				<tr>
+					<td class="cellFooter" colspan="3">
+						<div class="multiplier">
+						{% if cart_list %}
+						{{ default_multiplier.guests }} Guests / {{ default_multiplier.tables }} Tables
+						{% endif %}
+						</div>
+					</td>
+					<td class="cellFooter" style="text-align: right;"  colspan="2">
+						<div class="total">Total: ${{ total_price|intcomma }}</div>
+					</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="footer" id="footer_logo">
+			<img src="media/images/logo_txt_print.jpg" title="idecorate" class="logo" />
+		</div>
+		<div class="footer" id="footer_copyright">
+			T 1300 041 210<br/>
+			E enquiry@idecorateweddings.com<br/>
+			&copy; iDecorateWeddings.com 2013
+		</div>
+	</body>
+</html>

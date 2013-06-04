@@ -694,3 +694,423 @@ def dynamic_styleboard(id, w, h, isImage=False):
     else:
         
         return bgImg
+
+def print_styleboard(data, w, h, isImage=False):
+
+    itemString = str(data).replace(',null','')
+    itemList = []
+    
+    imageWidth = int(w)
+    imageHeight = int(h)
+
+    lowestTop = None
+    highestTop = None
+    lowestLeft = None
+    highestLeft = None
+
+    finalHeight = 0
+    finalWidth = 0
+    widthIndex = 0
+    heightIndex = 0
+    true = True
+    false = False
+
+    exec('itemList=%s' % itemString)
+
+    for iList in itemList:
+
+        try:
+            if re.search('/media/products/',iList['img'][0]['src']):
+
+                imgFile = iList['img'][0]['src'].split('/')
+                imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', unquote(imgFile))
+
+            elif re.search('/generate_embellishment/', iList['img'][0]['src']):
+                eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+                directory = ""
+
+                embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
+
+                if embObj.e_type.id == 1:
+                    directory = "images"
+                elif embObj.e_type.id == 2:
+                    directory = "textures"
+                elif embObj.e_type.id == 3:
+                    directory = "patterns"
+                elif embObj.e_type.id == 4:
+                    directory = "shapes"
+                elif embObj.e_type.id == 5:
+                    directory = "borders"
+
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
+            elif re.search('/media/embellishments/',iList['img'][0]['src']):
+
+                imgFile = iList['img'][0]['src'].split('/')
+                imgFile = imgFile[len(imgFile) - 1]
+                imgFile = imgFile.split('?')[0]
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
+
+            elif re.search('/generate_text/',iList['img'][0]['src']):
+                eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+                fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
+                font_size = int(eProperties[0].split('=')[1])
+                font_color = eProperties[2].split('=')[1]
+                font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+                image_text = unquote(eProperties[1].split('=')[1])
+            elif re.search('/cropped/',iList['img'][0]['src']):
+                eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", unquote(eProperties[3].split('=')[1]))
+                task = eProperties[1].split('=')[1]
+
+                splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
+        except KeyError:
+            continue
+
+        style = iList['style']
+        splittedStyle = style.split(';')
+
+        #find width and height index
+        ctr = 0
+        for item in splittedStyle:
+            if re.search('width', item):
+                widthIndex = ctr
+            if re.search('height', item):
+                heightIndex = ctr
+            ctr += 1
+
+        w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
+        h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
+
+        try:
+            if re.search('/generate_text/',iList['img'][0]['src']):
+
+                font = ImageFont.truetype(imgFile, font_size)
+                
+                image_text = image_text.replace("\r", "")
+                splittedTexts = image_text.split("\n")
+                totalHeight = 0
+                upperWidth = 0
+                heightList = [0]
+
+                #compute the final width and height first
+                for splittedText in splittedTexts:
+                    textSize = font.getsize(splittedText)
+                    totalHeight += textSize[1]
+                    heightList.append(totalHeight)
+
+                    if upperWidth == 0:
+                        upperWidth = textSize[0]
+                    else:
+                        if textSize[0] > upperWidth:
+                            upperWidth = textSize[0]
+
+                #image with background transparent
+                img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
+                #create draw object 
+                draw = ImageDraw.Draw(img)
+                #draw the text
+                ctr = 0
+
+                for splittedText in splittedTexts:
+                    #draw text
+                    draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+                    ctr += 1
+
+                imgObj = img
+                #imgObj.thumbnail((w,h),Image.ANTIALIAS)
+                imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+                imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+                w, h = imgObj.size
+            elif re.search('/cropped/',iList['img'][0]['src']):
+
+                img = Image.open(imgFile)
+                back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+                back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+                poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
+                pdraw = ImageDraw.Draw(poly)
+
+                dimensionList = []
+
+                if task == 'poly':
+                    for splittedPost in splittedPosts:
+                        spl = splittedPost.split(':')
+                        dimensionList.append((float(spl[0]),float(spl[1])))
+
+                    pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+                elif task == 'rect':
+                    for splittedPost in splittedPosts:
+                        dimensionList.append(float(splittedPost))
+                    pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+
+                poly.paste(back,mask=poly)
+
+                newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+                imgObj = newImg
+                imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+                imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+                w, h = imgObj.size
+            else:
+                imgObj = Image.open(imgFile).convert('RGBA')
+                #imgObj.thumbnail((w,h),Image.ANTIALIAS)
+                imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+                imgObj = imgObj.rotate(float(iList['angle']), expand=1)
+                w, h = imgObj.size
+        except:
+            pass
+
+        if lowestTop is None:
+            lowestTop = int(float(iList['top']))
+        else:
+            if int(float(iList['top'])) < lowestTop:
+                lowestTop = int(float(iList['top']))
+
+        if highestTop is None:
+            highestTop = int(float(iList['top'])) + h
+        else:
+            if (int(float(iList['top'])) + h) > highestTop:
+                highestTop = int(float(iList['top'])) + h
+
+        if lowestLeft is None:
+            lowestLeft = int(float(iList['left']))
+        else:
+            if int(float(iList['left'])) < lowestLeft:
+                lowestLeft = int(float(iList['left']))
+
+        if highestLeft is None:
+            highestLeft = int(float(iList['left'])) + w
+        else:
+            if (int(float(iList['left'])) + w) > highestLeft:
+                highestLeft = int(float(iList['left'])) + w
+
+    finalWidth = highestLeft - lowestLeft
+    finalHeight = highestTop - lowestTop
+
+    #create main image
+    mainImage = Image.new('RGBA', (finalWidth, finalHeight), (255, 255, 255, 0))
+
+
+    for iList in itemList:
+
+        try:
+            if re.search('/media/products/',iList['img'][0]['src']):
+
+                imgFile = iList['img'][0]['src'].split('/')
+                imgFile = imgFile[len(imgFile) - 1].split('?')[0]
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'products/', unquote(imgFile))
+            elif re.search('/generate_embellishment/', iList['img'][0]['src']):
+                eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+                directory = ""
+
+                embObj = Embellishments.objects.get(id=int(eProperties[0].split('=')[1]))
+
+                if embObj.e_type.id == 1:
+                    directory = "images"
+                elif embObj.e_type.id == 2:
+                    directory = "textures"
+                elif embObj.e_type.id == 3:
+                    directory = "patterns"
+                elif embObj.e_type.id == 4:
+                    directory = "shapes"
+                elif embObj.e_type.id == 5:
+                    directory = "borders"
+
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "embellishments/%s/" % directory, embObj.image)
+            elif re.search('/media/embellishments/',iList['img'][0]['src']):
+
+                imgFile = iList['img'][0]['src'].split('/')
+                imgFile = imgFile[len(imgFile) - 1]
+                imgFile = imgFile.split('?')[0]
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, 'embellishments/images/', unquote(imgFile))
+
+                """
+                if re.search('?', imgFile):
+                    splRnd = imgFile.split('?')
+                    imgFile = splRnd[0]
+                """
+            elif re.search('/generate_text/',iList['img'][0]['src']):
+                eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+                fontObj = TextFonts.objects.get(id=int(eProperties[3].split('=')[1]))
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "fonts/", fontObj.font)
+                font_size = int(eProperties[0].split('=')[1])
+                font_color = eProperties[2].split('=')[1]
+                font_color = (int(font_color[0:3]), int(font_color[3:6]), int(font_color[6:9]))
+                image_text = unquote(eProperties[1].split('=')[1])
+                #print "The text is: %s" % image_text
+            elif re.search('/cropped/',iList['img'][0]['src']):
+                eProperties = iList['img'][0]['src'].split("?")[1].split('&')
+
+                imgFile = "%s%s%s" % (settings.MEDIA_ROOT, "products/", unquote(eProperties[3].split('=')[1]))
+                task = eProperties[1].split('=')[1]
+
+                splittedPosts = unquote(eProperties[2].split('=')[1]).split(',')
+        except KeyError:
+            continue
+
+        style = iList['style']
+        splittedStyle = style.split(';')
+
+        #find width and height index
+        ctr = 0
+        for item in splittedStyle:
+            if re.search('width', item):
+                widthIndex = ctr
+            if re.search('height', item):
+                heightIndex = ctr
+            ctr += 1
+
+        w = int(float(str(splittedStyle[widthIndex].split(':')[1]).strip().replace('px','')))
+        h = int(float(str(splittedStyle[heightIndex].split(':')[1]).strip().replace('px','')))
+
+
+        if re.search('/generate_text/',iList['img'][0]['src']):
+
+            font = ImageFont.truetype(imgFile, font_size)
+            
+            image_text = image_text.replace("\r", "")   
+            splittedTexts = image_text.split("\n")
+            totalHeight = 0
+            upperWidth = 0
+            heightList = [0]
+
+            #compute the final width and height first
+            for splittedText in splittedTexts:
+                textSize = font.getsize(splittedText)
+                totalHeight += textSize[1]
+                heightList.append(totalHeight)
+
+                if upperWidth == 0:
+                    upperWidth = textSize[0]
+                else:
+                    if textSize[0] > upperWidth:
+                        upperWidth = textSize[0]
+
+            #image with background transparent
+            img = Image.new("RGBA", (upperWidth, totalHeight), (255,255,255, 0))
+            #create draw object 
+            draw = ImageDraw.Draw(img)
+            #draw the text
+            ctr = 0
+
+            for splittedText in splittedTexts:
+                #draw text
+                draw.text((0,heightList[ctr]), splittedText, font_color, font=font)
+                ctr += 1
+
+            imgObj = img
+        elif re.search('/cropped/',iList['img'][0]['src']):
+
+            img = Image.open(imgFile)
+            back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+            back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+            poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
+            pdraw = ImageDraw.Draw(poly)
+
+            dimensionList = []
+
+            if task == 'poly':
+                for splittedPost in splittedPosts:
+                    spl = splittedPost.split(':')
+                    dimensionList.append((float(spl[0]),float(spl[1])))
+
+                pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+            elif task == 'rect':
+                for splittedPost in splittedPosts:
+                    dimensionList.append(float(splittedPost))
+                pdraw.rectangle(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+
+            poly.paste(back,mask=poly)
+
+            newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+
+            imgObj = newImg
+        else:
+            #print "The type is: %s and it is else" % iList['_type']
+            
+            imgObj = Image.open(imgFile).convert('RGBA')
+
+            if iList['_type'] == "box":
+                boxImage = Image.new("RGBA", (w,h), (255,255,255,0))
+                imgObj.thumbnail((w,h), Image.ANTIALIAS)
+                boxImage.paste(imgObj, ((w - imgObj.size[0]) / 2, (h - imgObj.size[1]) /2 ))
+                imgObj = boxImage
+
+        if re.search('/generate_embellishment/', iList['img'][0]['src']):
+            embellishment_color = eProperties[1].split('=')[1]
+            embellishment_color = (int(embellishment_color[0:3]), int(embellishment_color[3:6]), int(embellishment_color[6:9]))
+            newImg = Image.new("RGBA", imgObj.size, embellishment_color)
+            r, g, b, alpha = imgObj.split()
+
+            if embObj.e_type.id == 3:
+                newImg.paste(imgObj, mask=b)
+                imgObj = newImg
+            elif embObj.e_type.id == 2 or embObj.e_type.id == 4:
+                imgObj.paste(newImg, mask=alpha)
+
+
+        #apply opacity
+        if int(iList['opacity']) != 100:
+            #adjust opacity
+            floatOpacity = float(float(iList['opacity']) / float(100))
+            alpha = imgObj.split()[3]
+            alpha = ImageEnhance.Brightness(alpha).enhance(floatOpacity)
+            imgObj.putalpha(alpha)
+
+        #try to rotate
+        try:
+            #imgObj.thumbnail((w,h),Image.ANTIALIAS)
+            imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+            imgObj = imgObj.rotate(float(iList['angle']), expand=1,resample=Image.BICUBIC)
+            
+        except:
+            #imgObj.thumbnail((w,h),Image.ANTIALIAS)
+            imgObj = imgObj.resize((w,h), Image.ANTIALIAS)
+            
+
+        #flip and flap
+        exec('matrix=%s' % iList['matrix'])
+
+        if matrix[0]['e']:
+            #flip
+            imgObj = imgObj.transpose(Image.FLIP_TOP_BOTTOM)
+
+        if matrix[0]['f']:
+            #flap
+            imgObj = imgObj.transpose(Image.FLIP_LEFT_RIGHT)
+        
+       
+        mainImage.paste(imgObj,(int(float(iList['left'])) - lowestLeft,int(float(iList['top'])) - lowestTop), mask=imgObj)
+        #paste image
+        #mainImage.paste(imgObj, (highestWidth - (w + int(iList['left'])), highestHeight - (h + int(iList['top']))))
+    
+    mainImage.thumbnail((imageWidth,imageHeight), Image.ANTIALIAS)
+    bgImg = Image.new('RGBA', (imageWidth, imageHeight), (255, 255, 255, 0))
+    bgImg.paste(mainImage,((imageWidth - mainImage.size[0]) / 2, (imageHeight - mainImage.size[1]) / 2))
+    
+    if isImage:
+        
+        time_name       = time.time()
+        time_name       = str(time_name)
+        file_name_temp  = time_name.replace('.','_')
+        file_name       = 'print_sb_%s.%s' % (file_name_temp,'png')
+
+        path = '%sstyleboards/%s' % (settings.MEDIA_ROOT,file_name)
+
+        bgImg.save(path, "PNG")
+
+        return file_name
+        
+    else:
+        
+        return bgImg

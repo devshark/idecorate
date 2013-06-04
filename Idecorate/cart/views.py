@@ -1077,7 +1077,7 @@ def paypal_ipn(request):
         txn_id = request.POST.get('txn_id','')
         custom_data = request.POST.get('custom', '')
 
-        send_email_ipn_result('custom_data', result ,custom_data)
+        # send_email_ipn_result('custom_data', result ,custom_data)
 
         try:
             OrderPayment.objects.get(transaction_id=str(txn_id).strip())
@@ -1127,9 +1127,9 @@ def paypal_ipn(request):
 
             except Exception as e:
 
-                send_email_ipn_result('Completed Error', result ,e)
+                send_email_ipn_result('Completion Error', result ,e)
 
-            send_email_ipn_result('Verified & Completed', result ,urllib.urlencode(postData)) 
+            # send_email_ipn_result('Verified & Completed', result ,urllib.urlencode(postData)) 
 
     return HttpResponse('recieved')
 

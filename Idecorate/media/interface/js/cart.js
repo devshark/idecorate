@@ -115,7 +115,7 @@ function add_to_cart(prod_id,default_quantity,guest_table){
         price = addCommas(price);
         subtotal = subtotal.toFixed(2);
         subtotal = addCommas(subtotal);
-
+        
         var item = '<tr id="prod_cart_' + data.id + '">' +
             '<td class="span4">' +
                 '<div class="buyItemImg">' +

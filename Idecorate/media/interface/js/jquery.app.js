@@ -2127,7 +2127,7 @@ function cloneObj(obj) {
 }
 
 function eventTracker(currentObject, eventType) {
-    //console.log(eventType);
+
     if(eventType != 'unselect' && eventType != 'undo' && eventType != 'redo') {
 
         var product_objects = '';
@@ -2173,6 +2173,12 @@ function eventTracker(currentObject, eventType) {
     }
 
     setProductPositions();
+
+    // var href = '/print_styleboard_view/?data=' + encodeURIComponent(JSON.stringify(get_product_object_json())),
+    // pdf = '&pdf=1',
+    // print = '&pdf=0'; 
+    // $('#print').attr('href', href + print);
+    // $('#pdf').attr('href', href + pdf);
 }
 
 function change_img(obj, background){
@@ -2392,6 +2398,9 @@ function setProductPositions(func) {
 
     });
 
+    var json_data = get_product_object_json();
+    var djsn = JSON.stringify(json_data);
+
     $.ajax({
         url: SET_PRODUCT_POSITION_URL,
         type: "POST",
@@ -2408,7 +2417,9 @@ function setProductPositions(func) {
             changes_counter: 0, 
             product_objects: product_objects, 
             embellishment_objects: embellishment_objects, 
-            template_objects: template_objects 
+            template_objects: template_objects,
+            styleboard_json: djsn
+
         },
         beforeSend : function(){
             
@@ -2802,9 +2813,6 @@ function back_onestep_category(){
         e.preventDefault();
         browse_categories($(this).attr('rel'));
     });
-
-   
-        
 }
 
 function computeBboxDimension_template() {

@@ -16,13 +16,13 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
-from models import StyleboardItems, CustomerProfile
+from models import StyleboardItems, CustomerProfile, StyleboardJsonize
 from django.contrib.auth.models import User
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm,ForgotPassForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
     get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item, get_user_keep_images, dynamic_styleboard,\
-    get_user_orders,get_user_order
+    get_user_orders,get_user_order, print_styleboard
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
 import re
@@ -507,6 +507,24 @@ def generate_styleboard_view(request, id, w, h):
     response = HttpResponse(mimetype="image/png")
     
     image.save(response, 'PNG')
+
+    return response
+
+def generate_printable_styleboard(request, w, h):
+
+    sessionid = request.session.get('cartsession', None)
+    data = ''
+    try: 
+        jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
+        data = jsonize.data
+    except Exception as e:
+        print e
+
+    image = print_styleboard(data, w, h)
+
+    response = HttpResponse(mimetype="image/jpg")
+    
+    image.save(response, 'JPEG')
 
     return response
 

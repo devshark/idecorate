@@ -99,3 +99,16 @@ class StyleboardInstructionCookie(models.Model):
 	class Meta:
 		db_table 		= 'styleboard_instruction_cookie'
 		verbose_name 	= _("Styleboard Instruction Cookie")
+
+class StyleboardJsonize(models.Model):
+
+	id = models.AutoField(db_column='id', primary_key=True)
+	sessionid = models.CharField(db_column='session_key', max_length=200, null=True)
+	data = models.TextField(db_column='description', null=True)
+
+	def _unicode_(self):
+		return self.data
+
+	class Meta:
+		db_table 		= 'styleboard_jsonize'
+		verbose_name 	= _("styleboard in json")
