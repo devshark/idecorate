@@ -231,7 +231,7 @@ def print_styleboard_view(request,is_pdf):
 
     if is_pdf :
 
-        filename = print_styleboard(data, 550, 392, True)
+        filename = print_styleboard(data, 850, 538, True)
         styleboard = '%sstyleboards/%s' % (settings.MEDIA_URL,filename)
         info['styleboard'] = styleboard
 
@@ -242,7 +242,7 @@ def print_styleboard_view(request,is_pdf):
 
     else:
 
-        styleboard = '/styleboard/generate_printable_styleboard/550/392/'
+        styleboard = '/styleboard/generate_printable_styleboard/850/538/'
         info['styleboard'] = styleboard
 
         result = render_to_response('interface/styleboard_print.html', info,RequestContext(request))

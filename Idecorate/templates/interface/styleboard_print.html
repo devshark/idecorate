@@ -1,6 +1,6 @@
 {% load i18n idecorate_interface humanize %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1918f90/xhtml" xml:lang="en" lang="en">
 	<meta charset="utf-8">
     <title>iDecorate Weddings</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +14,7 @@
 		}
 		body{
 			color: #666;
-			font-family: "Trebuchet MS", Helvetica, sans-serif;
+			font-family: Helvetica, sans-serif;
 			font-size: 12px;
 			-webkit-print-color-adjust:exact;
 		}
@@ -31,7 +31,10 @@
 
 
 		.styleboard{
-			margin-top: 3cm !important;
+			margin-top: 4cm !important;
+		}
+		#print_this_wrap{
+			display: none;
 		}
 		
 	}
@@ -43,7 +46,7 @@
 			background-color:white;
 			background:none;
 			color:black;
-			font-family: "Trebuchet MS", Helvetica, sans-serif;
+			font-family: Helvetica, sans-serif;
 			font-size: 12px;
 		}
 
@@ -55,6 +58,11 @@
 			margin-top: 4cm !important;
 		}
 
+		.styleboard{
+			margin-top: 3.5cm !important;
+		}
+
+
 	}
 
 	body{
@@ -65,7 +73,7 @@
 
 	table{
 		width: 100%;
-		font-size: 15px;
+		font-size: 14px;
 	}
 		
 	.lineItems{
@@ -73,7 +81,11 @@
 	}
 
 	.lineItems th, .lineItems td{
-		padding: 2px 0;
+		padding: 4px 0;
+	}
+
+	.lineItems th{
+		font-weight: normal;
 	}
 
 	.lineProduct{
@@ -81,13 +93,13 @@
 		vertical-align: middle;
 	}
 	.lineProductwrap{
-		border:1px solid #999;
+		border:1px solid #918f90;
 		padding: 0.1cm;
 		display: inline-block;
 	}
 
 	.cellHeader{
-		border-bottom: 1px solid #999;
+		border-bottom: 1px solid #918f90;
 	}
 
 	.cellHeader, .bodyCell{
@@ -104,17 +116,16 @@
 	}
 	.cellFooter{
 		padding-top: 10px !important;
-		padding-bottom: 30px !important;
+		padding-bottom: 20px !important;
 		font-size: 12px;
-		border-top: 1px solid #999;
-		border-bottom: 1px solid #999;
+		border-top: 1px solid #918f90;
 		font-weight: normal;
 	}
 	#footer{
 		vertical-align: top;
 	}
 	#footer, #footer_landscape{
-		border-top: 1px solid #999;
+		border-top: 1px solid #918f90;
 		font-size: 12px;
 		margin-top: 0.5cm;
     } 
@@ -123,11 +134,13 @@
     }
     .copyright{
     	text-align: right;
+    	line-height: 12px;
+    	font-size: 11px;
     }
 
     #footer_landscape{
     	text-align: left;
-		width: 22cm;
+		width: 21.8cm;
     }
     .rotate90 {
 
@@ -153,10 +166,10 @@
 	}
 
 	.styleboardWrap{
-		border: 1px solid #999;
+		border: 1px solid #918f90;
 		margin: 0 auto;
 		width: 21.5cm;
-		padding: 0.25cm;
+		padding: 0.1cm;
 	}
 
 	.styleboardWrap img{
@@ -166,20 +179,38 @@
 	.total{
 		font-weight: bold;
 		background-color:#FFC5C3 !important;
-		padding: 10px;
+		padding: 8px;
 		text-align: center;
 		vertical-align: middle;
+		color: #000;
+	}
+
+	.firstRow .bodyCell{
+		padding-top: 8px !important;
+	}
+
+	.lastRow .bodyCell{
+		padding-bottom: 8px !important;
+	}
+
+	#print_this_wrap{
+		padding: 10px 0;
+		text-align: center;
+		border-bottom: 1px solid #999999;
 	}
 
 	</style>
 	<body>
+		<div id="print_this_wrap">
+			<button id="print_this">Print</button>
+		</div>
 		<div class="styleboard rotate90">
 			<div class="styleboardWrap">
 				<img src="{{ styleboard }}" title="styleboard" class="styleboard_image" />
 			</div>
 			<table id="footer_landscape" width="100%" cellpadding="0" cellspacing="0">
 				<tr>
-					<td><img width="180" src="/media/images/logo_txt_print.jpg" title="idecorate" class="logo" /></td>
+					<td><img width="110" src="/media/images/logo_txt_print.jpg" title="idecorate" class="logo" /></td>
 					<td class="copyright">
 						T 1300 041 210<br/>
 						E enquiry@idecorateweddings.com<br/>
@@ -191,7 +222,7 @@
 		<table class="lineItems" border="0" cellpadding="0" cellspacing="0">
 			<tr>
 				<th class="cellHeader itemHead">Items</th>
-				<th class="cellHeader skuHead">Sku</th>
+				<th class="cellHeader skuHead">SKU</th>
 				<th class="cellHeader unitHead">Unit Cost</th>
 				<th class="cellHeader qtyHead">Qty</th>
 				<th class="cellHeader priceHead">Price</th>
@@ -204,6 +235,9 @@
 		    {% endif %}
 		    {% if forloop.last %}
 				<tr class="lastRow">
+		    {% endif %}
+		    {% if not forloop.last and not forloop.first %}
+				<tr>
 		    {% endif %}
 				<td class="itemCell bodyCell">
 					<span class="lineProductwrap"><img class="lineProduct" src="/media/products/{{ cart_item.product.original_image_thumbnail }}" /></span>
@@ -231,7 +265,7 @@
 
 		<table id="footer" width="100%" cellpadding="0" cellspacing="0">
 			<tr>
-				<td><img width="180" src="/media/images/logo_txt_print.jpg" title="idecorate" class="logo" /></td>
+				<td><img width="110" src="/media/images/logo_txt_print.jpg" title="idecorate" class="logo" /></td>
 				<td class="copyright">
 					T 1300 041 210<br/>
 					E enquiry@idecorateweddings.com<br/>
@@ -255,6 +289,10 @@
 					}
 				});
 
+				$('#print_this').click(function(){
+					print_this();
+				});
+
 				function print_this(){
 					window.print();
 					window.close();
@@ -263,6 +301,5 @@
 
 		</script>
 	</body>
-
 
 </html>
