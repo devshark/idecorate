@@ -13,7 +13,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from uuid import uuid4
 from customer.models import CustomerProfile
-from cart.models import Contact, GuestTable, OrderStyleboard
+from cart.models import Contact, GuestTable, OrderStyleboard, ProductPrice
 from cart.services import generate_unique_id
 from django.utils.html import strip_tags
 from customer.services import get_user_styleboard, save_styleboard_item, save_styleboard_as_image

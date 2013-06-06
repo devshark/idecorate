@@ -22,8 +22,6 @@ DATABASES = {
     }
 }
 
-
-
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -333,6 +331,13 @@ IDECORATE_ENABLE_PAYPAL = True
 IDECORATE_ENABLE_VISA = True
 IDECORATE_ENABLE_MASTERCARD = True
 IDECORATE_ENABLE_AMERICAN_EXPRESS = True
+
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
