@@ -1,0 +1,151 @@
+{% load i18n widget_tweaks %}
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>iDecorate Login/Signup</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
+        <style type="text/css">
+            body {
+            background-color: #FFFFFF;
+            background-image: none !important;
+            width: 480px;
+            }
+            input {
+                width: 400px;
+                border: 1px solid #CCCCCC;
+                padding: 5px;
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+                -khtml-border-radius: 3px;
+                box-shadow: 0px 1px 5px #999999 inset;
+            }
+
+            fieldset {
+                padding: 10px;
+                margin-top: 10px;
+                position: relative;
+            }
+
+            #add_email{
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                color: black;
+                text-decoration: none;
+            }
+
+            .deleteField{
+                color: black;
+                text-decoration: none;
+            }
+
+            #add_email:hover,.deleteField:hover{
+                text-decoration: underline;
+            }
+
+            legend {
+                font-size: 22px;
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
+                color: #000000;
+                margin-bottom: 10px\9;
+            }
+            .action {
+                height: 35px;
+                margin-top: 10px;
+            }
+            .action input {
+                width: auto;
+                float: right;
+                cursor: pointer;
+                color: #666666;
+                text-transform: uppercase;
+                font-weight: bold;
+                background-color: #CCCCCC;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#CCCCCC') !important;
+                background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), to(#CCCCCC)) !important;
+                background: -moz-linear-gradient(top, #CCCCCC, #CCCCCC) !important;
+                background: -o-linear-gradient(top, #CCCCCC, #CCCCCC) !important;
+                -moz-border-radius: 0;
+                -webkit-border-radius: 0;
+                border-radius: 0;
+                -khtml-border-radius: 0;
+                box-shadow: 0 0 0 #CCCCCC !important;
+            }
+        </style>
+        <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
+    </head>
+    <body>
+        <div class="clearfix formWrapper">
+            <form method="post" action="">
+                <input type="hidden" name="testing" value="fuck_em_up" />
+                {% csrf_token %}
+                <fieldset>
+                    {% if error %}
+                        <span class="error">{{ error }}</span>
+                    {% endif %}
+                    <a href="#" id="add_email">Add email</a>
+                    <legend>SEND STYLEBOARD VIA EMAIL</legend>
+                    <div class="clearfix">
+                        <label for="email">Email(s):</label>
+                        <div id="field_wrap">
+                            {% if request.method == "POST" %}
+                                {% if post_data %}
+                                    {% for p_data in post_data %}
+                                        <div class="formField">
+                                            <input type="text" name="email" placeholder="email" class="email" value="{{ p_data }}" /> 
+                                            {% if forloop.counter > 1 %}
+                                                <a class="deleteField" onclick="del_field(this)" href="#">Delete</a>
+                                            {% endif %}                            
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="formField">
+                                        <input type="text" name="email" placeholder="email" class="email" /> 
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                            <div class="formField">
+                                <input type="text" name="email" placeholder="email" class="email" /> 
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="action">
+                        <input type="submit" name="btnSubmit" class="btnSubmit" value="Send" />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <script src="/media/interface/js/jquery.placeholder.js"></script>
+        <script src="/media/js/json/json2.js"></script>
+        <script type="text/javascript">
+            $(':input[placeholder]').placeholder();
+            $(function () {
+
+                var field = $($('.formField')[0]).clone();
+                field.find('input[type="text"]').attr('value','');
+                
+                field.append('<a class="deleteField" onclick="del_field(this)" href="#">Delete</a>');
+
+                $('#add_email').click(function(){
+                    $('#field_wrap').append(field.clone());
+                });
+
+                {% if styleboard_email_sent %}
+
+                    parent.styleboard_email_message("{{styleboard_email_sent}}");
+
+                {% endif %}
+            });
+
+            function del_field(ele){
+                $(ele).parent().remove();
+            }
+        </script>
+    </body>
+</html>

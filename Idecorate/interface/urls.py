@@ -36,5 +36,6 @@ urlpatterns =  patterns('interface.views',
     url(r'^save_template_session/$', 'save_template_session', {}, name='save_template_session'),
     url(r'^set_save_template/$', 'set_save_template', {}, name='set_save_template'),
     url(r'^print_styleboard_view/(?P<is_pdf>\d+)/$', 'print_styleboard_view', {}, name='print_styleboard_view'),
+    url(r'^styleboard_email/$', 'styleboard_email', {}, name='styleboard_email'),
     
 )

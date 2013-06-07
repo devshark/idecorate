@@ -9,6 +9,12 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
 
+EMAIL_HOST = 'localhost'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 25
+EMAIL_USE_TLS = False
+
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -332,12 +338,6 @@ IDECORATE_ENABLE_VISA = True
 IDECORATE_ENABLE_MASTERCARD = True
 IDECORATE_ENABLE_AMERICAN_EXPRESS = True
 
-
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

@@ -187,9 +187,9 @@
 
 				{% if cart_list %}
 					{% for cart_item in cart_list %}
-						{% if forloop.first %}
+						{% if cart_list|length == 1 %}
 						<tr>
-							<td class="itemCell bodyCell firstRow" style="padding-top: 0.3cm;">
+							<td class="itemCell bodyCell firstRow lastRow" style="padding-top: 0.3cm;">
 								<table class="products">
 									<tr>
 										<td  width="1.5cm" class="productWrap" style="width: 1.5cm;"><img class="lineProduct" src="media/products/{{ cart_item.product.original_image_thumbnail }}" /></td>
@@ -197,44 +197,61 @@
 									</tr>
 								</table>
 							</td>
-							<td class="bodyCell firstRow" style="padding-top: 0.3cm;"><p>{{ cart_item.product.sku }}</p></td>
-							<td class="bodyCell firstRow" style="padding-top: 0.3cm;"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
-							<td class="bodyCell firstRow" style="padding-top: 0.3cm;"><p>x{{ cart_item.quantity }}</p></td>
-							<td class="bodyCell firstRow" style="padding-top: 0.3cm;"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
+							<td class="bodyCell firstRow lastRow" style="padding-top: 0.3cm;"><p>{{ cart_item.product.sku }}</p></td>
+							<td class="bodyCell firstRow lastRow" style="padding-top: 0.3cm;"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
+							<td class="bodyCell firstRow lastRow" style="padding-top: 0.3cm;"><p>x{{ cart_item.quantity }}</p></td>
+							<td class="bodyCell firstRow lastRow" style="padding-top: 0.3cm;"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
 						</tr>
-					    {% endif %}
-					    {% if forloop.last %}
-						<tr>
-							<td class="itemCell bodyCell lastRow">
-								<table class="products">
-									<tr>
-										<td  width="1.5cm" class="productWrap" style="width: 1.5cm;"><img class="lineProduct" src="media/products/{{ cart_item.product.original_image_thumbnail }}" /></td>
-										<td class="productName" style="text-align: left;">{{ cart_item.product.name }}</td>
-									</tr>
-								</table>
-							</td>
-							<td class="bodyCell lastRow"><p>{{ cart_item.product.sku }}</p></td>
-							<td class="bodyCell lastRow"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
-							<td class="bodyCell lastRow"><p>x{{ cart_item.quantity }}</p></td>
-							<td class="bodyCell lastRow"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
-						</tr>
-					    {% endif %}
-					    {% if not forloop.last and not forloop.first %}
-						<tr>
-							<td class="itemCell bodyCell">
-								<table class="products">
-									<tr>
-										<td  width="1.5cm" class="productWrap" style="width: 1.5cm;"><img class="lineProduct" src="media/products/{{ cart_item.product.original_image_thumbnail }}" /></td>
-										<td class="productName" style="text-align: left;">{{ cart_item.product.name }}</td>
-									</tr>
-								</table>
-							</td>
-							<td class="bodyCell"><p>{{ cart_item.product.sku }}</p></td>
-							<td class="bodyCell"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
-							<td class="bodyCell"><p>x{{ cart_item.quantity }}</p></td>
-							<td class="bodyCell"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
-						</tr>
-					    {% endif %}
+						{% else %}
+							{% if forloop.first %}
+							<tr>
+								<td class="itemCell bodyCell firstRow" style="padding-top: 0.3cm;">
+									<table class="products">
+										<tr>
+											<td  width="1.5cm" class="productWrap" style="width: 1.5cm;"><img class="lineProduct" src="media/products/{{ cart_item.product.original_image_thumbnail }}" /></td>
+											<td class="productName" style="text-align: left;">{{ cart_item.product.name }}</td>
+										</tr>
+									</table>
+								</td>
+								<td class="bodyCell firstRow" style="padding-top: 0.3cm;"><p>{{ cart_item.product.sku }}</p></td>
+								<td class="bodyCell firstRow" style="padding-top: 0.3cm;"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
+								<td class="bodyCell firstRow" style="padding-top: 0.3cm;"><p>x{{ cart_item.quantity }}</p></td>
+								<td class="bodyCell firstRow" style="padding-top: 0.3cm;"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
+							</tr>
+						    {% endif %}
+						    {% if forloop.last %}
+							<tr>
+								<td class="itemCell bodyCell lastRow">
+									<table class="products">
+										<tr>
+											<td  width="1.5cm" class="productWrap" style="width: 1.5cm;"><img class="lineProduct" src="media/products/{{ cart_item.product.original_image_thumbnail }}" /></td>
+											<td class="productName" style="text-align: left;">{{ cart_item.product.name }}</td>
+										</tr>
+									</table>
+								</td>
+								<td class="bodyCell lastRow"><p>{{ cart_item.product.sku }}</p></td>
+								<td class="bodyCell lastRow"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
+								<td class="bodyCell lastRow"><p>x{{ cart_item.quantity }}</p></td>
+								<td class="bodyCell lastRow"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
+							</tr>
+						    {% endif %}
+						    {% if not forloop.last and not forloop.first %}
+							<tr>
+								<td class="itemCell bodyCell">
+									<table class="products">
+										<tr>
+											<td  width="1.5cm" class="productWrap" style="width: 1.5cm;"><img class="lineProduct" src="media/products/{{ cart_item.product.original_image_thumbnail }}" /></td>
+											<td class="productName" style="text-align: left;">{{ cart_item.product.name }}</td>
+										</tr>
+									</table>
+								</td>
+								<td class="bodyCell"><p>{{ cart_item.product.sku }}</p></td>
+								<td class="bodyCell"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
+								<td class="bodyCell"><p>x{{ cart_item.quantity }}</p></td>
+								<td class="bodyCell"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
+							</tr>
+						    {% endif %}
+						{% endif %}
 					{% endfor %}
 						<tr>
 							<td class="cellFooter" colspan="3">
@@ -253,7 +270,7 @@
 		</div>
 
 		<div class="footer" id="footer_logo">
-			<img width="110" src="media/images/logo_txt_print.jpg" title="idecorate" class="logo" />
+			<img width="110" src="media/images/logo_txt_print.png" title="idecorate" class="logo" />
 		</div>
 		<div class="footer" id="footer_copyright">
 			T 1300 041 210<br/>

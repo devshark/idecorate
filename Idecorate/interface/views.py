@@ -4,7 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.template import RequestContext, Context
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
 from django.utils import simplejson
 from django.http import HttpResponseNotFound, Http404, HttpResponseRedirect
 from django.core import serializers
@@ -16,7 +16,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from django_xhtml2pdf.utils import generate_pdf, render_to_pdf_response
 import os
-
+import time
 
 from category.services import get_categories, get_cat, category_tree_crumb, search_category, get_cat_ids
 from category.models import Categories
@@ -39,6 +39,13 @@ from forms import SetPasswordForm, SearchFriendsForm
 from social_auth.models import UserSocialAuth
 from common.services import set_cookie
 import urllib #urtl_plus(ncode
+
+from django.core.mail import EmailMultiAlternatives
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError     
 
 def home(request):
     info = {}
@@ -234,22 +241,115 @@ def print_styleboard_view(request,is_pdf):
         filename = print_styleboard(data, 850, 538, True)
         styleboard = '%sstyleboards/%s' % (settings.MEDIA_URL,filename)
         info['styleboard'] = styleboard
+        info['cache_str'] = cache_str
 
-        result = render_to_pdf_response('interface/styleboard_pdf.html', info, 'styleboard.pdf')
+        result = render_to_pdf_response('interface/styleboard_pdf.html', info, 'styleboard_%s.pdf' % ( str(time.time()).replace('.','_') ))
 
         path = "%s%s%s" % (settings.MEDIA_ROOT, "styleboards/", filename)
         os.unlink(path)
 
     else:
 
-        styleboard = '/styleboard/generate_printable_styleboard/850/538/'
+        styleboard = '/styleboard/generate_printable_styleboard/850/538/?get=%s' % ( str(time.time()).replace('.','_') )
         info['styleboard'] = styleboard
 
         result = render_to_response('interface/styleboard_print.html', info,RequestContext(request))
 
     return result
 
+
+def styleboard_email(request):
+
+    info = {}
     
+    post_data = []
+
+    if request.method == "POST":
+
+        mailto_list = ["ryan.angeles@kitesystems.com"]
+        email_fields = request.POST.getlist('email')
+        email_to_send = []
+
+        for index, email_field in enumerate(email_fields):
+
+            try:
+                validate_email(str(email_field))
+                email_to_send.append(email_field)
+            except ValidationError:
+                post_data.append(email_field)
+
+        if len(email_to_send) == 0:
+
+            info['error'] = "Please enter atleast one(1) valid email."
+            
+        else:
+
+            mailto_list += email_to_send
+
+            is_sent = send_styleboard_email(request, mailto_list)
+
+            if is_sent:
+                info['styleboard_email_sent'] = "Email sent"
+            else:
+                info['styleboard_email_sent'] = "Sending email failed. Please try again."
+
+    info['post_data'] = post_data
+
+    return render_to_response('interface/iframe/styleboard_email.html', info,RequestContext(request))
+
+
+def send_styleboard_email(request,mailto_list):
+
+    info = {}
+
+    data = ''
+
+    sessionid = request.session.get('cartsession',None)
+
+    info['cart_list'] = ''
+    info['default_multiplier'] = 0
+
+    if sessionid:
+        try:
+            info['cart_list'] = CartTemp.objects.filter(sessionid=sessionid)
+            info['default_multiplier'] = GuestTableTemp.objects.get(sessionid=sessionid)
+            info['total_price'] = mark_safe("%.2f" % (sum((get_product_price(item.product) * item.quantity) for item in info['cart_list'])))
+
+            jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
+            data = jsonize.data
+
+        except Exception as e:
+            print e
+
+    filename = print_styleboard(data, 560, 335, True)
+    styleboard = "%s%s%s" % (settings.MEDIA_ROOT, "styleboards/", filename)
+
+    info['media_root'] = '%s/%s' % (settings.IDECORATE_HOST,settings.MEDIA_URL )
+
+    html = render_to_string('interface/styleboard_email.html', info)
+
+    # top level container, defines plain text version
+    email = EmailMultiAlternatives(subject="Styleboard iDecorateWeddings.com", body=html, from_email="noreply@idecorateweddings.com", to=mailto_list)
+    
+    # Add an image
+    image_data = open(styleboard, 'rb').read()
+    image = MIMEImage(image_data)
+    image.add_header('Content-ID', '<styleboard>')
+    image.add_header('Content-Disposition', 'inline')
+    email.attach(image)
+
+    # Add the HTML
+    email.attach_alternative(html, "text/html")
+
+    # Indicate that only one of the two types (text vs html) should be rendered
+    email.mixed_subtype = "related"
+    is_sent = email.send()
+
+    path = "%s%s%s" % (settings.MEDIA_ROOT, "styleboards/", filename)
+    os.unlink(path)
+
+    return is_sent
+
 def styleboard_product_ajax(request):
     if request.method == "POST":
         cat_id = request.POST.get('cat_id',None)

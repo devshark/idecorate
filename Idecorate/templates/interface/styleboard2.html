@@ -269,7 +269,7 @@
                                             <a href="#" id="redo">Redo</a>
                                             <a href="/print_styleboard_view/0/" target="_blank" id="print">Print</a>
                                             <a href="/print_styleboard_view/1/" target="_blank" id="pdf">PDF</a>
-                                            <!-- <a href="#" id="email_this">Email</a> -->
+                                            <a href="#" id="email_styleboard">Email</a>
                                         </li>
                                     </ul>
                                 </div>
@@ -606,6 +606,11 @@
         $('#sidebar-wrap').easytabs({ animate:false }).bind('easytabs:after',function(){
             recur = false;
             setTimeout(set_category_label_height,500);
+        });
+
+        $('#email_styleboard').click(function(e){
+            e.preventDefault();
+            email_styleboard_modal();
         });
 
     });
@@ -1064,6 +1069,25 @@
         $('#page-mask').css({display:'block'});
         modal.css({display:'block',left:_left});
     }
+
+
+    function email_styleboard_modal(){
+        var url = '{% url styleboard_email %}';
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-styleboard-email-iframe','src':url,'frameborder':'0'});
+        var modal   = $('#modal-save-styleboard-window'),
+            _left   = $(window).width()/2-modal.width()/2;
+            frame   = $('#iframe-save-styleboard-wrap').html(iframe);
+
+        $('#page-mask').css({display:'block'});
+        modal.css({display:'block',left:_left});
+    }
+
+    function styleboard_email_message(msg){
+        $('#page-mask').hide();
+        $('#modal-save-styleboard-window').hide();
+        alert(msg);
+    }
+
     function save_styleboard_success(msg){
         $('#page-mask').hide();
         $('#modal-save-styleboard-window').hide();
