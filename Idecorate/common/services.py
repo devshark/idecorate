@@ -149,8 +149,8 @@ class IdecorateEmail(object):
         html = kwargs.get('html','')
         # attachement
         image_id =  kwargs.get('image_id','')
+        path = kwargs.get('path','')
         filename = kwargs.get('filename','')
-        path = kwargs.get('path','') #settings.MEDIA_ROOT, "styleboards/"
         
         sendMail = ["/usr/sbin/sendmail", "-f", mail_from, mail_to]
         sendMail = subprocess.Popen(sendMail, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
@@ -158,15 +158,15 @@ class IdecorateEmail(object):
         boundary_related = '===============%s==' %( str(time.time()).replace('.','') )
         boundary_alternative = '===============%s==' %( str(time.time() * 2).replace('.','') )
 
-        # email_headers = "Content-Type: multipart/related; boundary=\"%s\"\n" % ( boundary_related )
-        # email_headers += "MIME-Version: 1.0\n"
-        # email_headers += "Subject: %s\n" % (subject)
-        # email_headers += "From: %s\n" % (mail_from)
-        # email_headers += "To: %s\n" % (mail_to)
+        email_headers = "Content-Type: multipart/related; boundary=\"%s\"\n" % ( boundary_related )
+        email_headers += "MIME-Version: 1.0\n"
+        email_headers += "Subject: %s\n" % (subject)
+        email_headers += "From: %s\n" % (mail_from)
+        email_headers += "To: %s\n" % (mail_to)
 
-        # email_headers += "--%s\n" % (boundary_related)
+        email_headers += "--%s\n" % (boundary_related)
 
-        email_headers = "Content-Type: multipart/alternative; boundary=\"%s\"\n" % (boundary_alternative)
+        email_headers += "Content-Type: multipart/alternative; boundary=\"%s\"\n" % (boundary_alternative)
         email_headers += "MIME-Version: 1.0\n"
 
         email_headers += "--%s\n" % (boundary_alternative)
@@ -183,10 +183,9 @@ class IdecorateEmail(object):
         email_headers += "Content-Transfer-Encoding: 7bit\n"
         email_headers += "%s\n" % (html)
 
-
         email_headers += "--%s\n" % (boundary_alternative)
 
-        # email_headers += "--%s\n" % (boundary_related)
+        email_headers += "--%s\n" % (boundary_related)
 
         styleboard = "%s%s" % (path, filename)
         image_data = open(styleboard, "rb").read()
@@ -199,7 +198,7 @@ class IdecorateEmail(object):
         email_headers += "Content-Disposition: inline\n"
         email_headers += "%s\n" % (image)
         
-        # email_headers += "--%s\n" % (boundary_related)
+        email_headers += "--%s\n" % (boundary_related)
 
         cmd = "%sFrom: %s\nTo: %s\nSubject: %s\n\n%s\n.\n" % (email_headers,mail_from, mail_to, subject, plain_text)
         
