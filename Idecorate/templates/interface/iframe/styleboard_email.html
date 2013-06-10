@@ -31,6 +31,10 @@
                 position: relative;
             }
 
+            .formField{
+                margin-top: 5px;
+            }
+
             #add_email{
                 padding: 5px;
                 text-decoration: none;
@@ -142,7 +146,7 @@
                 var field = $($('.formField')[0]).clone();
                 field.find('input[type="text"]').attr('value','');
                 
-                field.append('<a class="deleteField" onclick="del_field(this)" href="#">Delete</a>');
+                field.append('<a class="deleteField" onclick="del_field(this)" href="#">Remove</a>');
 
                 $('#add_email').click(function(){
                     $('#field_wrap').append(field.clone());
