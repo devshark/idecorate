@@ -349,10 +349,10 @@ def send_styleboard_email(request,mailto_list):
     # is_sent = email.send()
     # return is_sent
     
-    path = '%s%s' % (settings.MEDIA_ROOT, "styleboards/")
 
     try:
         
+        path = '%s%s' % (settings.MEDIA_ROOT, "styleboards/")
         # if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail_with_attach(
             mail_from=settings.IDECORATE_MAIL, 
@@ -369,7 +369,8 @@ def send_styleboard_email(request,mailto_list):
 
         return True
 
-    except:
+    except Exception as e:
+        print e
         pass
 
     return False

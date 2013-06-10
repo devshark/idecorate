@@ -162,7 +162,7 @@ class IdecorateEmail(object):
         email_headers += "MIME-Version: 1.0\n"
         email_headers += "Subject: %s\n" % (subject)
         email_headers += "From: %s\n" % (mail_from)
-        email_headers += "To: %s\n" #email list 2
+        email_headers += "To: %s\n" % (mail_to)
 
         email_headers += "%s\n" % (boundary_related)
 
@@ -189,7 +189,6 @@ class IdecorateEmail(object):
         email_headers += "%s\n" % (boundary_related)
 
         styleboard = "%s%s" % (path, filename)
-        print styleboard
         image_data = open(styleboard, "rb").read()
         image = MIMEImage(image_data)
 
@@ -201,6 +200,10 @@ class IdecorateEmail(object):
         email_headers += "%s\n" % (image)
         
         email_headers += "%s\n" % (boundary_related)
+
+        f = open('/home/ryanangeles/Desktop/test.txt', 'w')
+        f.write(email_headers)
+        f.close()
 
         cmd = "%sFrom: %s\nTo: %s\nSubject: %s\n\n%s\n.\n" % (email_headers,mail_from, mail_to, subject, plain_text)
         
