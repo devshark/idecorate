@@ -96,6 +96,20 @@
                 -khtml-border-radius: 0;
                 box-shadow: 0 0 0 #CCCCCC !important;
             }
+            .fieldWrap{
+                margin-bottom: 5px;
+            }
+            .fieldLabel.name{
+                width: 60px;
+                line-height: 40px;
+            }
+
+            .fieldLabel.name, .formField.name{
+                float: left;
+            }
+            .formField.name input{
+                width: 340px;
+            }
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
     </head>
@@ -104,10 +118,22 @@
             <form method="post" action="">
                 {% csrf_token %}
                 <fieldset>
-                    {% if error %}
-                        <span class="error">{{ error }}</span>
+                    {% if errors %}
+                        {% for error in errors %}
+                            <span class="error">{{ error }}</span><br/>
+                        {% endfor %}
                     {% endif %}
                     <legend>SEND STYLEBOARD VIA EMAIL</legend>
+                    <div class="fieldWrap clearfix">
+                        <label class="fieldLabel name">Name:</label>
+                        <div class="formField name">
+                            {% if name_post %}
+                            <input type="text" name="name" id="name" placeholder="Name" value="{{ name_post }}"  />
+                            {% else %}
+                            <input type="text" name="name" id="name" placeholder="Name"  />
+                            {% endif %}
+                        </div>
+                    </div>
                     <div class="clearfix">
                         <label for="email">Email(s):</label>
                         <div id="field_wrap">
@@ -146,13 +172,16 @@
             $(':input[placeholder]').placeholder();
             $(function () {
 
-                var field = $($('.formField')[0]).clone();
+                var field = $($('#field_wrap .formField')[0]).clone();
                 field.find('input[type="text"]').attr('value','');
                 
                 field.append('<a class="deleteField" onclick="del_field(this)" href="#">Remove</a>');
 
-                $('#add_email').click(function(){
-                    $('#field_wrap').append(field.clone());
+                $('#add_email').click(function(e){
+                    cloned = field.clone();
+                    cloned.find(':input[placeholder]').removeClass('placeholder').placeholder();
+                    $('#field_wrap').append(cloned);
+                    e.preventDefault();
                 });
 
                 {% if styleboard_email_sent %}

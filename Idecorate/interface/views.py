@@ -261,13 +261,22 @@ def styleboard_email(request):
 
     info = {}
     
-    post_data = []
 
     if request.method == "POST":
 
-        mailto_list = ["ryan.angeles@kitesystems.com"]
         email_fields = request.POST.getlist('email')
+        name = request.POST.get('name', None)
+        mailto_list = []
         email_to_send = []
+        errors = []
+        post_data = []
+
+        info['name_post'] = str(name)
+        info['post_data'] = post_data
+
+        if not name:
+
+            errors.append("Name field is required.")
 
         for index, email_field in enumerate(email_fields):
 
@@ -275,29 +284,40 @@ def styleboard_email(request):
                 validate_email(str(email_field))
                 email_to_send.append(email_field)
             except ValidationError:
-                post_data.append(email_field)
+                pass
+
+            post_data.append(email_field)
 
         if len(email_to_send) == 0:
 
-            info['error'] = "Please enter atleast one(1) valid email."
+            errors.append("Please enter atleast one(1) valid email.")
             
+
+        if len(errors) > 0:
+
+            info['errors'] = errors
+
         else:
 
             mailto_list += email_to_send
 
-            is_sent = send_styleboard_email(request, mailto_list)
+            is_sent = send_styleboard_email(request, mailto_list, str(name))
 
             if is_sent:
                 info['styleboard_email_sent'] = "Email sent"
             else:
                 info['styleboard_email_sent'] = "Sending email failed. Please try again."
 
-    info['post_data'] = post_data
+    else:
+
+        if request.user.is_authenticated():
+
+            info['name_post'] =  '%s %s' % (request.user.first_name, request.user.last_name)
 
     return render_to_response('interface/iframe/styleboard_email.html', info,RequestContext(request))
 
 
-def send_styleboard_email(request,mailto_list):
+def send_styleboard_email(request,mailto_list, sender):
 
     info = {}
 
@@ -324,6 +344,7 @@ def send_styleboard_email(request,mailto_list):
     styleboard = "%s%s%s" % (settings.MEDIA_ROOT, "styleboards/", filename)
 
     info['media_root'] = '%s/%s' % (settings.IDECORATE_HOST,settings.MEDIA_URL )
+    info['sender'] = sender.title()
 
     html = render_to_string('interface/styleboard_email.html', info)
 
@@ -353,7 +374,7 @@ def send_styleboard_email(request,mailto_list):
 
     return is_sent
     
-
+    
     # try:
         
     #     path = '%s%s' % (settings.MEDIA_ROOT, "styleboards/")
