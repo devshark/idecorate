@@ -370,7 +370,6 @@ def send_styleboard_email(request,mailto_list):
         return True
 
     except Exception as e:
-        print e
         pass
 
     return False
