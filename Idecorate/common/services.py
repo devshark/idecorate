@@ -186,7 +186,7 @@ class IdecorateEmail(object):
 
         email_headers += "--%s\n" % (boundary_alternative)
 
-        email_headers += "--%s\n" % (boundary_related)
+        # email_headers += "--%s\n" % (boundary_related)
 
         styleboard = "%s%s" % (path, filename)
         image_data = open(styleboard, "rb").read()
