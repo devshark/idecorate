@@ -158,49 +158,49 @@ class IdecorateEmail(object):
         boundary_related = '===============%s==' %( str(time.time()).replace('.','') )
         boundary_alternative = '===============%s==' %( str(time.time() * 2).replace('.','') )
 
-        email_headers = 'Content-Type: multipart/related; boundary="%s"\n' % ( boundary_related )
-        email_headers += 'MIME-Version: 1.0\n'
-        email_headers += 'Subject: %s\n' % (subject)
-        email_headers += 'From: %s\n' % (mail_from)
-        email_headers += 'To: %s\n' #email list 2
+        email_headers = "Content-Type: multipart/related; boundary=\"%s\"\n" % ( boundary_related )
+        email_headers += "MIME-Version: 1.0\n"
+        email_headers += "Subject: %s\n" % (subject)
+        email_headers += "From: %s\n" % (mail_from)
+        email_headers += "To: %s\n" #email list 2
 
-        email_headers += '%s\n' % (boundary_related)
+        email_headers += "%s\n" % (boundary_related)
 
-        email_headers += 'Content-Type: multipart/alternative; boundary="%s"\n' % (boundary_alternative)
-        email_headers += 'MIME-Version: 1.0\n'
+        email_headers += "Content-Type: multipart/alternative; boundary=\"%s\"\n" % (boundary_alternative)
+        email_headers += "MIME-Version: 1.0\n"
 
-        email_headers += '%s\n' % (boundary_alternative)
+        email_headers += "%s\n" % (boundary_alternative)
 
-        email_headers += 'Content-Type: text/plain; charset="utf-8"\n'
-        email_headers += 'MIME-Version: 1.0\n'
-        email_headers += 'Content-Transfer-Encoding: 7bit\n'
-        email_headers += '%s\n' % (plain_text)
+        email_headers += "Content-Type: text/plain; charset=\"utf-8\"\n"
+        email_headers += "MIME-Version: 1.0\n"
+        email_headers += "Content-Transfer-Encoding: 7bit\n"
+        email_headers += "%s\n" % (plain_text)
 
-        email_headers += '%s\n' % (boundary_alternative)
+        email_headers += "%s\n" % (boundary_alternative)
         
-        email_headers += 'Content-Type: text/html; charset="utf-8"\n'
-        email_headers += 'MIME-Version: 1.0\n'
-        email_headers += 'Content-Transfer-Encoding: 7bit\n'
-        email_headers += '%s\n' % (html)
+        email_headers += "Content-Type: text/html; charset=\"utf-8\"\n"
+        email_headers += "MIME-Version: 1.0\n"
+        email_headers += "Content-Transfer-Encoding: 7bit\n"
+        email_headers += "%s\n" % (html)
 
 
-        email_headers += '%s\n' % (boundary_alternative)
+        email_headers += "%s\n" % (boundary_alternative)
 
-        email_headers += '%s\n' % (boundary_related)
+        email_headers += "%s\n" % (boundary_related)
 
         styleboard = "%s%s" % (path, filename)
         print styleboard
-        image_data = open(styleboard, 'rb').read()
+        image_data = open(styleboard, "rb").read()
         image = MIMEImage(image_data)
 
-        email_headers += 'Content-Type: image/png\n'
-        email_headers += 'MIME-Version: 1.0\n'
-        email_headers += 'Content-Transfer-Encoding: base64\n'
-        email_headers += 'Content-ID: <%s>\n' %(image_id)
-        email_headers += 'Content-Disposition: inline\n'
-        email_headers += '%s\n' % (image)
+        email_headers += "Content-Type: image/png\n"
+        email_headers += "MIME-Version: 1.0\n"
+        email_headers += "Content-Transfer-Encoding: base64\n"
+        email_headers += "Content-ID: <%s>\n" %(image_id)
+        email_headers += "Content-Disposition: inline\n"
+        email_headers += "%s\n" % (image)
         
-        email_headers += '%s\n' % (boundary_related)
+        email_headers += "%s\n" % (boundary_related)
 
         cmd = "%sFrom: %s\nTo: %s\nSubject: %s\n\n%s\n.\n" % (email_headers,mail_from, mail_to, subject, plain_text)
         
