@@ -201,10 +201,6 @@ class IdecorateEmail(object):
         
         email_headers += "%s\n" % (boundary_related)
 
-        f = open('/home/ryanangeles/Desktop/test.txt', 'w')
-        f.write(email_headers)
-        f.close()
-
         cmd = "%sFrom: %s\nTo: %s\nSubject: %s\n\n%s\n.\n" % (email_headers,mail_from, mail_to, subject, plain_text)
         
         sendMail.communicate(cmd)
