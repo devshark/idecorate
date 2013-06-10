@@ -118,12 +118,12 @@
             <form method="post" action="">
                 {% csrf_token %}
                 <fieldset>
+                    <legend>SEND STYLEBOARD VIA EMAIL</legend>
                     {% if errors %}
                         {% for error in errors %}
                             <span class="error">{{ error }}</span><br/>
                         {% endfor %}
                     {% endif %}
-                    <legend>SEND STYLEBOARD VIA EMAIL</legend>
                     <div class="fieldWrap clearfix">
                         <label class="fieldLabel name">Your Name:</label>
                         <div class="formField name">
@@ -143,7 +143,7 @@
                                         <div class="formField">
                                             <input type="text" name="email" placeholder="email" class="email" value="{{ p_data }}" /> 
                                             {% if forloop.counter > 1 %}
-                                                <a class="deleteField" onclick="del_field(this)" href="#">Delete</a>
+                                                <a class="deleteField" onclick="del_field(this)" href="#">Remove</a>
                                             {% endif %}                            
                                         </div>
                                     {% endfor %}
