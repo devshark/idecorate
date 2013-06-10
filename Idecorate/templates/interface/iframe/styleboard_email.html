@@ -32,11 +32,24 @@
             }
 
             #add_email{
-                position: absolute;
-                right: 10px;
-                top: 10px;
-                color: black;
+                padding: 5px;
                 text-decoration: none;
+                width: auto;
+                float: left;
+                cursor: pointer;
+                color: #666666;
+                text-transform: uppercase;
+                font-weight: bold;
+                background-color: #CCCCCC;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#CCCCCC') !important;
+                background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), to(#CCCCCC)) !important;
+                background: -moz-linear-gradient(top, #CCCCCC, #CCCCCC) !important;
+                background: -o-linear-gradient(top, #CCCCCC, #CCCCCC) !important;
+                -moz-border-radius: 0;
+                -webkit-border-radius: 0;
+                border-radius: 0;
+                -khtml-border-radius: 0;
+                box-shadow: 0 0 0 #CCCCCC !important;
             }
 
             .deleteField{
@@ -44,7 +57,7 @@
                 text-decoration: none;
             }
 
-            #add_email:hover,.deleteField:hover{
+            .deleteField:hover{
                 text-decoration: underline;
             }
 
@@ -82,13 +95,11 @@
     <body>
         <div class="clearfix formWrapper">
             <form method="post" action="">
-                <input type="hidden" name="testing" value="fuck_em_up" />
                 {% csrf_token %}
                 <fieldset>
                     {% if error %}
                         <span class="error">{{ error }}</span>
                     {% endif %}
-                    <a href="#" id="add_email">Add email</a>
                     <legend>SEND STYLEBOARD VIA EMAIL</legend>
                     <div class="clearfix">
                         <label for="email">Email(s):</label>
@@ -115,7 +126,8 @@
                             {% endif %}
                         </div>
                     </div>
-                    <div class="action">
+                    <div class="action clearfix">
+                        <a href="#" id="add_email">Add email</a>
                         <input type="submit" name="btnSubmit" class="btnSubmit" value="Send" />
                     </div>
                 </fieldset>
