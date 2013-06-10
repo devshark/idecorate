@@ -8,6 +8,7 @@ import urllib2
 import re
 import datetime
 import os
+import time
 
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -18,6 +19,7 @@ from cart.services import generate_unique_id
 from django.utils.html import strip_tags
 from customer.services import get_user_styleboard, save_styleboard_item, save_styleboard_as_image
 from embellishments.models import StyleboardTemplateItems
+from email.mime.image import MIMEImage
 from django.contrib.auth.models import User
 import cgi
 
@@ -135,6 +137,72 @@ class IdecorateEmail(object):
         
         htmlHeader = "MIME-Version: 1.0\nContent-type: text/html; charset=iso-8859-1\n" if isHTML else ""
         cmd = "%sFrom: %s\nTo: %s\nSubject: %s\n\n%s\n.\n" % (htmlHeader,mail_from, mail_to, subject, body)
+        
+        sendMail.communicate(cmd)
+
+    @staticmethod
+    def send_mail_with_attach(**kwargs):
+        mail_from = kwargs.get('mail_from','')
+        mail_to = kwargs.get('mail_to','')
+        subject = kwargs.get('subject','')
+        plain_text = kwargs.get('plain_text','')
+        html = kwargs.get('html','')
+        # attachement
+        image_id =  kwargs.get('image_id','')
+        filename = kwargs.get('filename','')
+        path = kwargs.get('path','') #settings.MEDIA_ROOT, "styleboards/"
+        
+        sendMail = ["/usr/sbin/sendmail", "-f", mail_from, mail_to]
+        sendMail = subprocess.Popen(sendMail, stdin=subprocess.PIPE, stdout=subprocess.PIPE)
+        
+        boundary_related = '===============%s==' %( str(time.time()).replace('.','') )
+        boundary_alternative = '===============%s==' %( str(time.time() * 2).replace('.','') )
+
+        email_headers = 'Content-Type: multipart/related; boundary="%s"\n' % ( boundary_related )
+        email_headers += 'MIME-Version: 1.0\n'
+        email_headers += 'Subject: %s\n' % (subject)
+        email_headers += 'From: %s\n' % (mail_from)
+        email_headers += 'To: %s\n' #email list 2
+
+        email_headers += '%s\n' % (boundary_related)
+
+        email_headers += 'Content-Type: multipart/alternative; boundary="%s"\n' % (boundary_alternative)
+        email_headers += 'MIME-Version: 1.0\n'
+
+        email_headers += '%s\n' % (boundary_alternative)
+
+        email_headers += 'Content-Type: text/plain; charset="utf-8"\n'
+        email_headers += 'MIME-Version: 1.0\n'
+        email_headers += 'Content-Transfer-Encoding: 7bit\n'
+        email_headers += '%s\n' % (plain_text)
+
+        email_headers += '%s\n' % (boundary_alternative)
+        
+        email_headers += 'Content-Type: text/html; charset="utf-8"\n'
+        email_headers += 'MIME-Version: 1.0\n'
+        email_headers += 'Content-Transfer-Encoding: 7bit\n'
+        email_headers += '%s\n' % (html)
+
+
+        email_headers += '%s\n' % (boundary_alternative)
+
+        email_headers += '%s\n' % (boundary_related)
+
+        styleboard = "%s%s" % (path, filename)
+        print styleboard
+        image_data = open(styleboard, 'rb').read()
+        image = MIMEImage(image_data)
+
+        email_headers += 'Content-Type: image/png\n'
+        email_headers += 'MIME-Version: 1.0\n'
+        email_headers += 'Content-Transfer-Encoding: base64\n'
+        email_headers += 'Content-ID: <%s>\n' %(image_id)
+        email_headers += 'Content-Disposition: inline\n'
+        email_headers += '%s\n' % (image)
+        
+        email_headers += '%s\n' % (boundary_related)
+
+        cmd = "%sFrom: %s\nTo: %s\nSubject: %s\n\n%s\n.\n" % (email_headers,mail_from, mail_to, subject, plain_text)
         
         sendMail.communicate(cmd)
 
