@@ -147,7 +147,7 @@
                                         <div class="formField">
                                             {% if forloop.counter > 1 %}
                                                 <a class="deleteField" onclick="del_field(this)" href="#">
-                                                    <img alt="remove" src="/media/images/delete_email.png">
+                                                    <img alt="remove" src="/media/images/del_email.png">
                                                 </a>
                                             {% else %}
                                                 <label for="email">Email(s):</label>
@@ -187,7 +187,7 @@
                 field.find('input[type="text"]').attr('value','');
                 field.find('label').remove();
                 
-                field.prepend('<a class="deleteField" onclick="del_field(this)" href="#"><img alt="remove" src="/media/images/delete_email.png"></a>');
+                field.prepend('<a class="deleteField" onclick="del_field(this)" href="#"><img alt="remove" src="/media/images/del_email.png"></a>');
 
                 $('#add_email').click(function(e){
                     cloned = field.clone();
