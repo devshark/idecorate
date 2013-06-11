@@ -1545,9 +1545,11 @@ width: 100%;
 }
 #modal-save-styleboard-window iframe {
 /*height: 480px;*/
-min-height: 375px;
-max-height: 700px;
+min-height: 325px;
 width: 100%;
+}
+#modal-styleboard-email-iframe{
+	min-height: 275px !important;
 }
 #embellishments .breadcrumb-wrap .breadcrumb li{
     *margin-bottom: 2px !important;

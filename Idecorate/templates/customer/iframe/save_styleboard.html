@@ -14,7 +14,7 @@
                 background-image: none !important;
             }
             input {
-              width: 465px;
+              width: 438px;
               border: 1px solid #CCCCCC;
               padding: 5px;
               -moz-border-radius: 3px;
@@ -24,7 +24,7 @@
               box-shadow: 0px 1px 5px #999999 inset;
             }
             textarea {
-                width: 465px;
+                width: 438px;
                 border: 1px solid #CCCCCC;
                 padding: 5px;
                 -moz-border-radius: 3px;
@@ -35,25 +35,28 @@
             }
             @-moz-document url-prefix() {
                 textarea {
-                    width: 465px;
+                    width: 448px;
                 }
             }
+
             fieldset {
-                padding: 10px;
+                margin: 0 25px;
+                position: relative;
+            }
+
+            fieldset div {
                 margin-top: 10px;
             }
-            fieldset div {
-                margin-bottom: 10px;
-            }
+
             legend {
                 font-size: 22px;
-                font-family: futura_std_medium;
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
                 color: #000000;
                 margin-bottom: 10px\9;
-            }
+            }/*
             .error {
                 padding-left: 5px;
-            }
+            }*/
             .errorBlock {
                 width: 590px;
                 color: #B94A48;
@@ -92,11 +95,12 @@
                 text-align: center;
             }
             .action {
-                width: 480px;
+                /*width: 480px;*/
                 height: 35px;
                 margin-top: 10px;
             }
             .action input {
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
                 width: auto;
                 float: right;
                 cursor: pointer;
@@ -113,6 +117,9 @@
                 border-radius: 0;
                 -khtml-border-radius: 0;
                 box-shadow: 0 0 0 #CCCCCC !important;
+                padding-left: 25px;
+                padding-right: 25px;
+                margin: 0;
             }
             /*
             .action input:hover {
@@ -135,18 +142,18 @@
                     {{ form.wedding }}
                     <fieldset>
                         <legend>SAVE MY STYLE BOARD</legend>
-                        <div class="clearfix">{{ form.name|attr:"placeholder:Name your style board" }}</div>
                         {% if form.name.errors %}
                         {% for e in form.name.errors %}
                         <p class="error">{{ e }}</p>
                         {% endfor %}
                         {% endif %}
-                        <div class="clearfix">{{ form.description|attr:"placeholder:Enter a short description" }}</div>
                         {% if form.description.errors %}
                         {% for e in form.description.errors %}
                         <p class="error">{{ e }}</p>
                         {% endfor %}
                         {% endif %}
+                        <div class="clearfix">{{ form.name|attr:"placeholder:Name your style board" }}</div>
+                        <div class="clearfix">{{ form.description|attr:"placeholder:Enter a short description" }}</div>
                         <div class="action">
                             <input type="submit" name="btnSubmit" class="btnSubmit" value="Save" />
                         </div>

@@ -11,11 +11,14 @@
         <style type="text/css">
             body {
             background-color: #FFFFFF;
-            background-image: none !important;
-            width: 480px;
+            background-image: none !important;;
+            }
+
+            form{
+                margin: 0 auto;
             }
             input {
-                width: 400px;
+                width: 350px;
                 border: 1px solid #CCCCCC;
                 padding: 5px;
                 -moz-border-radius: 3px;
@@ -26,8 +29,7 @@
             }
 
             fieldset {
-                padding: 10px;
-                margin-top: 10px;
+                padding: 0 25px;
                 position: relative;
             }
 
@@ -37,7 +39,7 @@
 
             #add_email{
                 font-family: "Trebuchet MS", Helvetica, sans-serif;
-                padding: 5px;
+                padding: 6px 15px;
                 text-decoration: none;
                 width: auto;
                 font-size: 13px;
@@ -56,11 +58,20 @@
                 border-radius: 0;
                 -khtml-border-radius: 0;
                 box-shadow: 0 0 0 #CCCCCC !important;
+                vertical-align: bottom;
             }
 
             .deleteField{
+                display: inline-block;
+                height: 28px;
+                vertical-align: middle;
+                width: 20px;
                 color: black;
                 text-decoration: none;
+            }
+
+            .deleteField img{
+                vertical-align: middle;
             }
 
             .deleteField:hover{
@@ -95,20 +106,16 @@
                 border-radius: 0;
                 -khtml-border-radius: 0;
                 box-shadow: 0 0 0 #CCCCCC !important;
+                padding-left: 25px;
+                padding-right: 25px;
+                margin: 0;
             }
             .fieldWrap{
-                margin-bottom: 5px;
-            }
-            .fieldLabel.name{
-                width: 70px;
-                line-height: 40px;
+                text-align: right;
             }
 
-            .fieldLabel.name, .formField.name{
-                float: left;
-            }
-            .formField.name input{
-                width: 330px;
+            #field_wrap .formField{
+                text-align: right;
             }
         </style>
         <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
@@ -126,34 +133,38 @@
                     {% endif %}
                     <div class="fieldWrap clearfix">
                         <label class="fieldLabel name">Your Name:</label>
-                        <div class="formField name">
-                            {% if name_post %}
-                            <input type="text" name="name" id="name" placeholder="Name" value="{{ name_post }}"  />
-                            {% else %}
-                            <input type="text" name="name" id="name" placeholder="Name"  />
-                            {% endif %}
-                        </div>
+                        {% if name_post %}
+                        <input type="text" name="name" id="name" placeholder="Name" value="{{ name_post }}"  />
+                        {% else %}
+                        <input type="text" name="name" id="name" placeholder="Name"  />
+                        {% endif %}
                     </div>
                     <div class="clearfix">
-                        <label for="email">Email(s):</label>
                         <div id="field_wrap">
                             {% if request.method == "POST" %}
                                 {% if post_data %}
                                     {% for p_data in post_data %}
                                         <div class="formField">
-                                            <input type="text" name="email" placeholder="email" class="email" value="{{ p_data }}" /> 
                                             {% if forloop.counter > 1 %}
-                                                <a class="deleteField" onclick="del_field(this)" href="#">Remove</a>
-                                            {% endif %}                            
+                                                <a class="deleteField" onclick="del_field(this)" href="#">
+                                                    <img alt="remove" src="/media/images/delete_email.png">
+                                                </a>
+                                            {% else %}
+                                                <label for="email">Email(s):</label>
+                                            {% endif %} 
+                                            <input type="text" name="email" placeholder="email" class="email" value="{{ p_data }}" /> 
+                                                                       
                                         </div>
                                     {% endfor %}
                                 {% else %}
                                     <div class="formField">
+                                        <label for="email">Email(s):</label>
                                         <input type="text" name="email" placeholder="email" class="email" /> 
                                     </div>
                                 {% endif %}
                             {% else %}
                             <div class="formField">
+                                <label for="email">Email(s):</label>
                                 <input type="text" name="email" placeholder="email" class="email" /> 
                             </div>
                             {% endif %}
@@ -174,8 +185,9 @@
 
                 var field = $($('#field_wrap .formField')[0]).clone();
                 field.find('input[type="text"]').attr('value','');
+                field.find('label').remove();
                 
-                field.append('<a class="deleteField" onclick="del_field(this)" href="#">Remove</a>');
+                field.prepend('<a class="deleteField" onclick="del_field(this)" href="#"><img alt="remove" src="/media/images/delete_email.png"></a>');
 
                 $('#add_email').click(function(e){
                     cloned = field.clone();

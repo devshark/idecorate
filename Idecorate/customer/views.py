@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
-from models import StyleboardItems, CustomerProfile, StyleboardJsonize
+from models import StyleboardItems, CustomerProfile, StyleboardJsonize, KeepImages, CustomerStyleBoard
 from django.contrib.auth.models import User
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm,ForgotPassForm
@@ -40,7 +40,6 @@ from social_auth.models import UserSocialAuth
 from django.template.defaultfilters import filesizeformat
 import shutil
 from cart.views import shop
-from models import KeepImages, CustomerStyleBoard
 import time
 
 
@@ -498,7 +497,53 @@ def styleboard_view(request,sid=None):
     info['user_profile'] = user_profile
     info['styleboard'] = get_user_styleboard(None, sid)
     info['cart_items'] = get_styleboard_cart_item(styleboard.styleboard_item)
+    info['styleboard_id'] = sid
     return render_to_response('customer/styleboard_view.html', info, RequestContext(request))
+
+def print_customer_sb(request, is_pdf, sbid):
+    pass
+    # info = {}
+
+    # is_pdf = bool(int(is_pdf))
+
+    # data = ''
+
+    # styleboard_id = int(sbid)
+
+    # info['cart_list'] = ''
+    # info['default_multiplier'] = 0
+
+    # if styleboard_id:
+    #     try:
+    #         info['cart_list'] = CartTemp.objects.filter(sessionid=sessionid)
+    #         info['default_multiplier'] = GuestTableTemp.objects.get(sessionid=sessionid)
+    #         info['total_price'] = mark_safe("%.2f" % (sum((get_product_price(item.product) * item.quantity) for item in info['cart_list'])))
+
+    #         jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
+    #         data = jsonize.data
+
+    #     except Exception as e:
+    #         print e
+
+    # if is_pdf :
+
+    #     filename = print_styleboard(data, 850, 538, True)
+    #     styleboard = '%sstyleboards/%s' % (settings.MEDIA_URL,filename)
+    #     info['styleboard'] = styleboard
+
+    #     result = render_to_pdf_response('interface/styleboard_pdf.html', info, 'styleboard_%s.pdf' % ( str(time.time()).replace('.','_') ))
+
+    #     path = "%s%s%s" % (settings.MEDIA_ROOT, "styleboards/", filename)
+    #     os.unlink(path)
+
+    # else:
+
+    #     styleboard = '/styleboard/generate_printable_styleboard/850/538/?get=%s' % ( str(time.time()).replace('.','_') )
+    #     info['styleboard'] = styleboard
+
+    #     result = render_to_response('interface/styleboard_print.html', info,RequestContext(request))
+
+    # return result
 
 def generate_styleboard_view(request, id, w, h):
     

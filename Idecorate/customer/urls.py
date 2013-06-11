@@ -18,5 +18,7 @@ urlpatterns =  patterns('customer.views',
     url(r'^saved_images/$', 'saved_images', {}, name='saved_images'),
     url(r'^orders/$', 'orders', {}, name='orders'),
     url(r'^view_order/$', 'view_order', {}, name='view_order'),
+    url(r'^print_customer_sb/(?P<is_pdf>\d+)/(?P<sib>\d+)/$', 'print_customer_sb', {}, name='print_customer_sb'),
+
     
 )
