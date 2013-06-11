@@ -243,7 +243,7 @@ def send_email_reset_pass(user_id):
     <br /><br />
     Please click the link below to change your password.
     <br /><br />
-    http://%s/set_password_user/%s
+    %s/set_password_user/%s
     <br /><br />
     From the iDecorateWeddings.com Team
     """ % (settings.IDECORATE_HOST, u.hash_set_password)
