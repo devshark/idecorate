@@ -1073,7 +1073,7 @@
 
     function email_styleboard_modal(){
         var url = '{% url styleboard_email %}';
-        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-styleboard-email-iframe','src':url,'frameborder':'0'});
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-styleboard-email-iframe','src':url,'frameborder':'0','style':'min-height:275px !important;'});
         var modal   = $('#modal-save-styleboard-window'),
             _left   = $(window).width()/2-modal.width()/2;
             frame   = $('#iframe-save-styleboard-wrap').html(iframe);
