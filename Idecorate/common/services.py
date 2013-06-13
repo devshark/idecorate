@@ -223,7 +223,7 @@ def send_email_set_pass(user_id):
     <br /><br />
     Where you can create and buy your dream wedding. online. 
     <br /><br />
-    If you would like to use this email address to login to iDecorateweddings.com, you need to set your password by clicking on this link - http://%s/set_password_user/%s.
+    If you would like to use this email address to login to iDecorateweddings.com, you need to set your password by clicking on this link - %s/set_password_user/%s.
     <br /><br />
     Thank you for joining iDecorateweddings.com!
     <br /><br />
@@ -257,10 +257,10 @@ def send_email_order(order, user, comment, shop):
     order_styleboard = OrderStyleboard.objects.get(order=order)
 
     itemsHTML = ""
-    board = "http://%s/media/images/styleboard.jpg" % settings.IDECORATE_HOST
+    board = "%s/media/images/styleboard.jpg" % settings.IDECORATE_HOST
     
     if order_styleboard:
-    	board = "http://%s/media/styleboards/%s" % (settings.IDECORATE_HOST, order_styleboard.styleboard)
+    	board = "%s/media/styleboards/%s" % (settings.IDECORATE_HOST, order_styleboard.styleboard)
 
     c_block = ""
     if comment:
@@ -301,7 +301,7 @@ def send_email_order(order, user, comment, shop):
             %s</td>
     </tr>
         """ % (
-            "http://%s%s%s" % (settings.IDECORATE_HOST,"/media/products/", product.product.original_image_thumbnail),
+            "%s%s%s" % (settings.IDECORATE_HOST,"/media/products/", product.product.original_image_thumbnail),
             product.product.name,
             product.product.sku,
             "%s%.2f" % ("$",product.unit_price),
@@ -322,7 +322,7 @@ def send_email_order(order, user, comment, shop):
     <!--iDecorate Logo-->
     <tr>
         <td colspan="5" style="height:119px; text-align:center;">
-            <img src="http://%s/media/images/header.jpg" width="580" height="119" alt=""></td>
+            <img src="%s/media/images/header.jpg" width="580" height="119" alt=""></td>
     </tr>
     <!--Styleboard -->
     <tr>
@@ -454,12 +454,12 @@ def send_email_order(order, user, comment, shop):
     <tr>
         <td colspan="5"  style="padding-bottom:10px;">
             
-            <img src="http://%s/media/images/line_1.jpg" width="600" height="1" alt=""></td>
+            <img src="%s/media/images/line_1.jpg" width="600" height="1" alt=""></td>
     </tr>
     %s
     <tr>
         <td colspan="5" style="padding-top:10px; padding-bottom:20px;">
-            <img src="http://%s/media/images/line_1.jpg" width="600" height="1" alt=""></td>
+            <img src="%s/media/images/line_1.jpg" width="600" height="1" alt=""></td>
     </tr>
     <tr style="padding:10px 0 10px 0;">
         <!--Guests and Tables-->
@@ -475,13 +475,13 @@ def send_email_order(order, user, comment, shop):
     <tr>
         <td colspan="5" style="padding-top:20px; padding-bottom:10px;">
             
-            <img src="http://%s/media/images/line_2.jpg" width="600" height="3" alt=""></td>
+            <img src="%s/media/images/line_2.jpg" width="600" height="3" alt=""></td>
     </tr>
     <!--Footer-->
     %s
     <tr>
         <td colspan="5" style="height:55px; font-size:11px; text-align:center;">This is just an automated request. Please do not reply to this email.<br>
-Follow this <a href="http://%s/">link</a> if you wish to get in touch with us. 
+Follow this <a href="%s/">link</a> if you wish to get in touch with us. 
 
 
 </td>

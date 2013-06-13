@@ -501,49 +501,48 @@ def styleboard_view(request,sid=None):
     return render_to_response('customer/styleboard_view.html', info, RequestContext(request))
 
 def print_customer_sb(request, is_pdf, sbid):
-    pass
-    # info = {}
+    info = {}
 
-    # is_pdf = bool(int(is_pdf))
+    is_pdf = bool(int(is_pdf))
 
-    # data = ''
+    data = ''
 
-    # styleboard_id = int(sbid)
+    styleboard_id = int(sbid)
 
-    # info['cart_list'] = ''
-    # info['default_multiplier'] = 0
+    info['cart_list'] = ''
+    info['default_multiplier'] = 0
 
-    # if styleboard_id:
-    #     try:
-    #         info['cart_list'] = CartTemp.objects.filter(sessionid=sessionid)
-    #         info['default_multiplier'] = GuestTableTemp.objects.get(sessionid=sessionid)
-    #         info['total_price'] = mark_safe("%.2f" % (sum((get_product_price(item.product) * item.quantity) for item in info['cart_list'])))
+    if styleboard_id:
+        try:
+            info['cart_list'] = CartTemp.objects.filter(sessionid=sessionid)
+            info['default_multiplier'] = GuestTableTemp.objects.get(sessionid=sessionid)
+            info['total_price'] = mark_safe("%.2f" % (sum((get_product_price(item.product) * item.quantity) for item in info['cart_list'])))
 
-    #         jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
-    #         data = jsonize.data
+            jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
+            data = jsonize.data
 
-    #     except Exception as e:
-    #         print e
+        except Exception as e:
+            print e
 
-    # if is_pdf :
+    if is_pdf :
 
-    #     filename = print_styleboard(data, 850, 538, True)
-    #     styleboard = '%sstyleboards/%s' % (settings.MEDIA_URL,filename)
-    #     info['styleboard'] = styleboard
+        filename = print_styleboard(data, 850, 538, True)
+        styleboard = '%sstyleboards/%s' % (settings.MEDIA_URL,filename)
+        info['styleboard'] = styleboard
 
-    #     result = render_to_pdf_response('interface/styleboard_pdf.html', info, 'styleboard_%s.pdf' % ( str(time.time()).replace('.','_') ))
+        result = render_to_pdf_response('interface/styleboard_pdf.html', info, 'styleboard_%s.pdf' % ( str(time.time()).replace('.','_') ))
 
-    #     path = "%s%s%s" % (settings.MEDIA_ROOT, "styleboards/", filename)
-    #     os.unlink(path)
+        path = "%s%s%s" % (settings.MEDIA_ROOT, "styleboards/", filename)
+        os.unlink(path)
 
-    # else:
+    else:
 
-    #     styleboard = '/styleboard/generate_printable_styleboard/850/538/?get=%s' % ( str(time.time()).replace('.','_') )
-    #     info['styleboard'] = styleboard
+        styleboard = '/styleboard/generate_printable_styleboard/850/538/?get=%s' % ( str(time.time()).replace('.','_') )
+        info['styleboard'] = styleboard
 
-    #     result = render_to_response('interface/styleboard_print.html', info,RequestContext(request))
+        result = render_to_response('interface/styleboard_print.html', info,RequestContext(request))
 
-    # return result
+    return result
 
 def generate_styleboard_view(request, id, w, h):
     
