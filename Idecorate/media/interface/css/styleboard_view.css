@@ -1,43 +1,39 @@
+#content {
+  margin-top: 20px; }
+
 aside, section {
   display: block;
   float: left !important; }
 
 aside {
-  width: 31%; }
+  width: 310px; }
   aside h1 {
-    width: 98%;
     font-family: "Trebuchet MS", Helvetica, sans-serif;
     font-size: 22px;
     /*font-weight: bold;*/
-    margin-top: 25px;
-    padding: 10px 0 10px 5px;
+    padding-bottom: 10px;
     text-transform: uppercase; }
   aside .memberName {
-    width: 98%;
     font-size: 1em;
-    padding: 10px 0 10px 5px;
+    padding: 10px 0 10px;
     border-top: 1px solid #000;
     border-bottom: 1px solid #000; }
     aside .memberName table {
-      width: 98%; }
-      aside .memberName table img {
-        margin: 5px 0 0 0;
-        float: left; }
-      aside .memberName table span {
-        padding-top: 10px;
-        float: left; }
-      aside .memberName table a {
-        float: left;
-        padding-top: 10px;
-        text-decoration: underline;
-        font-weight: bold;
-        color: #0000FF; }
+      width: 100%;
+      margin: 0 !important; }
+      aside .memberName table td {
+        padding: 0 !important;
+        vertical-align: bottom; }
+        aside .memberName table td img, aside .memberName table td span, aside .memberName table td a {
+          vertical-align: bottom; }
+        aside .memberName table td a {
+          text-decoration: underline;
+          font-weight: bold;
+          color: #0000FF; }
       aside .memberName table .personalize {
         width: auto;
         height: auto;
         padding: 7px 5px 5px;
-        margin: 5px 0 0 0;
-        *margin: 5px 0 0 65px;
         font-family: "Trebuchet MS", Helvetica, sans-serif;
         font-size: 11px;
         color: #FFFFFF;
@@ -56,7 +52,7 @@ aside {
     width: 100%;
     text-align: center;
     padding: 5px 0; }
-    aside .socialMedia .facebookShare, aside .socialMedia .tumblerShare, aside .socialMedia .twitterShare, aside .socialMedia .pinterestShare, aside .socialMedia .googleShare, aside .socialMedia .email {
+    aside .socialMedia .facebookShare, aside .socialMedia .tumblerShare, aside .socialMedia .twitterShare, aside .socialMedia .pinterestShare, aside .socialMedia .googleShare, aside .socialMedia .email, aside .socialMedia .print, aside .socialMedia .pdf {
       width: auto;
       float: left;
       padding: 3px 0 0 3px;
@@ -67,44 +63,41 @@ aside {
       height: 20px;
       overflow: hidden; }
     aside .socialMedia .facebookShare {
-      margin-left: 20px;
+      padding-left: 0;
       cursor: pointer; }
     aside .socialMedia .pinterestShare {
       margin-top: 0 !important; }
     aside .socialMedia .email img {
       height: 20px; }
   aside .styleboardDesc {
-    width: 90%;
     height: auto;
-    padding: 15px; }
+    padding: 15px 5px; }
     aside .styleboardDesc p {
-      margin: 10px 0;
       font-family: "Trebuchet MS", Helvetica, sans-serif;
       font-size: 12px;
       color: #58595b; }
   aside h2 {
-    width: 98%;
     font-weight: bold;
-    padding: 10px 0 0 5px;
     text-align: left !important;
     text-transform: uppercase; }
   aside form div {
-    padding: 10px 0; }
+    margin: 10px 0; }
     aside form div table {
       width: 100%;
       border-top: 1px solid #000;
       border-bottom: 1px solid #000; }
       aside form div table tbody tr .productTD {
-        padding: 10px 0;
+        padding: 5px;
         vertical-align: middle !important; }
-        aside form div table tbody tr .productTD img {
+        aside form div table tbody tr .productTD center {
           width: 70px; }
-        aside form div table tbody tr .productTD P {
+          aside form div table tbody tr .productTD center img {
+            width: 70px; }
+        aside form div table tbody tr .productTD p {
           max-width: 120px;
-          margin: 5px 0;
+          margin-bottom: 5px;
           text-align: left; }
   aside form .total {
-    width: 99%;
     text-align: right; }
   aside form .buyItem {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -131,29 +124,28 @@ aside {
     /* for firefox 3.6+ */ }
 
 section {
-  width: 60%;
+  width: 640px;
   height: auto;
   margin-left: 10px; }
   section .canvass {
-    width: 576px;
-    height: 500px;
+    width: 640px;
+    height: 405px;
+    margin-bottom: 20px;
     background: #ffffff; }
   section .socialMediaWrapper {
     width: 100%; }
     section .socialMediaWrapper .socialMedia {
-      width: 280px;
+      width: 310px;
       height: 28px;
       float: right;
-      text-align: center;
-      margin: 10px 10px 10px 0; }
-      section .socialMediaWrapper .socialMedia .facebookShare, section .socialMediaWrapper .socialMedia .tumblerShare, section .socialMediaWrapper .socialMedia .twitterShare, section .socialMediaWrapper .socialMedia .pinterestShare, section .socialMediaWrapper .socialMedia .googleShare, section .socialMediaWrapper .socialMedia .email {
+      text-align: center; }
+      section .socialMediaWrapper .socialMedia .facebookShare, section .socialMediaWrapper .socialMedia .tumblerShare, section .socialMediaWrapper .socialMedia .twitterShare, section .socialMediaWrapper .socialMedia .pinterestShare, section .socialMediaWrapper .socialMedia .googleShare, section .socialMediaWrapper .socialMedia .email, section .socialMediaWrapper .socialMedia .print, section .socialMediaWrapper .socialMedia .pdf {
         width: auto;
         float: left;
         padding: 0 0 0 3px;
         position: relative;
         z-index: 500; }
       section .socialMediaWrapper .socialMedia .facebookShare {
-        margin-left: 20px;
         cursor: pointer; }
       section .socialMediaWrapper .socialMedia .tumblrShareIE {
         width: 20px;

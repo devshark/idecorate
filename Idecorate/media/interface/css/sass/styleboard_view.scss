@@ -1,56 +1,55 @@
 @import "idecorate_fonts";
+#content{
+  margin-top: 20px;
+}
 aside, section {
   display: block;
   float: left !important;
 }
 
 aside {
-  width: 31%;
+  width: 310px;
 
   h1 {
-    width: 98%;
     font-family: $helvetica;
     font-size: 22px;
     /*font-weight: bold;*/
-    margin-top: 25px;
-    padding: 10px 0 10px 5px;
+    // margin-top: 25px;
+    padding-bottom:10px;
     text-transform: uppercase;
   }
 
   .memberName {
-    width: 98%;
     font-size: 1em;
-    padding: 10px 0 10px 5px;
+    padding: 10px 0 10px;
     border-top: 1px solid #000;
     border-bottom: 1px solid #000;
 
     table {
-      width: 98%;
+      width: 100%;
+      margin: 0 !important;
 
-      img {
-        margin: 5px 0 0 0;
-        float: left;
-      }
+      td{
+        padding: 0 !important;
+        vertical-align: bottom;
+        img,span, a{
+          vertical-align: bottom;
+        }
 
-      span {
-        padding-top: 10px;
-        float: left;
+        a {
+          text-decoration: underline;
+          font-weight: bold;
+          color: #0000FF;
+        }
       }
-
-      a {
-        float: left;
-        padding-top: 10px;
-        text-decoration: underline;
-        font-weight: bold;
-        color: #0000FF;
-      }
+      
 
       .personalize {
         width: auto;
         height: auto;
         padding: 7px 5px 5px;
-        margin: 5px 0 0 0;
-        *margin: 5px 0 0 65px;
+        // margin: 5px 0 0 0;
+        // *margin: 5px 0 0 65px;
         font-family: $helvetica;
         font-size: 11px;
         color: #FFFFFF;
@@ -72,7 +71,7 @@ aside {
     text-align: center;
     padding: 5px 0;
 
-    .facebookShare, .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {
+    .facebookShare, .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email, .print, .pdf{
       width: auto;
       float: left;
       padding: 3px 0 0 3px;
@@ -85,7 +84,8 @@ aside {
       overflow: hidden;
     }
     .facebookShare{
-     margin-left: 20px;
+     // margin-left: 20px;
+     padding-left: 0;
      cursor: pointer;
     }
     .pinterestShare {
@@ -99,12 +99,11 @@ aside {
   }
 
   .styleboardDesc {
-    width: 90%;
     height: auto;
-    padding: 15px;
+    padding: 15px 5px;
 
     p {
-      margin: 10px 0;
+      // margin: 10px 0;
       font-family: $helvetica;
       font-size: 12px;
       color: #58595b;
@@ -112,9 +111,7 @@ aside {
   }
 
   h2 {
-    width: 98%;
     font-weight: bold;
-    padding: 10px 0 0 5px;
     text-align: left !important;
     text-transform: uppercase;
   }
@@ -122,7 +119,7 @@ aside {
   form {
 
     div {
-      padding: 10px 0;
+      margin: 10px 0;
 
       table {
         width: 100%;
@@ -134,16 +131,22 @@ aside {
           tr {
 
             .productTD {
-              padding: 10px 0;
+              padding: 5px;
               vertical-align: middle !important;
 
-              img {
-                width: 70px;
+              center{
+
+                width:70px;
+
+                img {
+                  width: 70px;
+                }
+
               }
 
-              P {
+              p {
                 max-width: 120px;
-                margin: 5px 0;
+                margin-bottom: 5px;
                 text-align: left;
 
               }
@@ -159,7 +162,6 @@ aside {
     }
 
     .total {
-      width: 99%;
       text-align: right;
     }
 
@@ -189,13 +191,14 @@ aside {
 }
 
 section {
-  width: 60%;
+  width: 640px;
   height: auto;
   margin-left: 10px;
 
   .canvass {
-    width: 576px;
-    height: 500px;
+    width: 640px;
+    height: 405px;
+    margin-bottom: 20px;
     background: #ffffff;
 
   }
@@ -204,13 +207,12 @@ section {
     width: 100%;
     
     .socialMedia {
-      width: 280px;
+      width: 310px;
       height: 28px;
       float: right;
       text-align: center;
-      margin: 10px 10px 10px 0;
 
-      .facebookShare, .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email {
+      .facebookShare, .tumblerShare, .twitterShare, .pinterestShare, .googleShare, .email, .print, .pdf {
         width: auto;
         float: left;
         padding: 0 0 0 3px;
@@ -219,7 +221,7 @@ section {
         
       }
       .facebookShare{
-       margin-left: 20px;
+       // margin-left: 20px;
        cursor: pointer;
       }
       .tumblrShareIE {
