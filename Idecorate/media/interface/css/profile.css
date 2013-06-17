@@ -169,3 +169,10 @@
   width: 288px; }
 .savedImageWrapper > div .savedImageWrap.size1 {
   margin-right: 0; }
+
+.socials {
+  margin-top: 7px;
+  font-size: 0; }
+  .socials div {
+    margin-right: 2px;
+    display: inline-block; }

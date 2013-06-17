@@ -248,7 +248,7 @@
 			{% if styleboard_item %}
 			<div class="customerStyleboard">
 				<h1 class="styleboardName">{{ styleboard_item.name }}</h1>
-				<p class="styleboardDesc">{{ styleboard_item.description }}</p>
+				<p class="styleboardDesc">{{ styleboard_item.description|replace_space|linebreak }}</p>
 			</div>
 			{% endif %}
 			<table class="lineItems" border="0" cellpadding="0" cellspacing="0">

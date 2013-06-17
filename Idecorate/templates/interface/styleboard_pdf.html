@@ -219,7 +219,7 @@
 				<tr>
 					<td class="styleboarinfo" colspan="5">
 						<p class="styleboardName">{{ styleboard_item.name|upper }}</p>
-						<p class="styleboardDesc">{{ styleboard_item.description }}</p>
+						<p class="styleboardDesc">{{ styleboard_item.description|replace_space|linebreak }}</p>
 					</td>
 				</tr>
 				{% endif %}

@@ -62,6 +62,42 @@
 				<img src="/media/images/man.png" alt="" />
 				{% endif %}	<span class="member">by {{ styleboard_user|get_nickname }}</span>
 			</div>
+			<div class="socials">
+				<div class="facebookShare">
+					<a href="#" onclick="postToFeed('http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}','http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/','{{ item.styleboard_item.name }}','{{ item.styleboard_item.description|escapejs }}')">
+						<img border="0" src="/media/images/fb_share.png" />
+					</a>
+				</div>
+				<div class="tumblerShare">
+					<a href="http://www.tumblr.com/share/link?url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}&name={{ item.styleboard_item.name|urlencode }}&description={{ item.styleboard_item.description|urlencode }}" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank">
+						<img src='/media/images/tumblr.png' border="0" />
+					</a>
+				</div>
+				<div class="twitterShare">
+					<a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ item.styleboard_item.description }}" data-url="http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}" data-lang="en" data-related="anywhere:{{ item.styleboard_item.name }}" data-count="none">Tweet</a>
+					</div>
+				<div class="pinterestShare">
+					<a data-pin-config="none" data-pin-do="buttonPin" target="_blank" href="//pinterest.com/pin/create/button/?url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}&media='http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fgenerate_styleboard_view%2F{{ item.styleboard_item.id }}%2F450%2F285%2F&description={{ item.styleboard_item.description|urlencode }}"></a>
+				</div>
+				<div class="googleShare">
+					<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{l.tinyUrl}}"></div>
+				</div>
+				<div class="email">
+					<a id="def_email" href="mailto:?subject=iDecorate%20Weddings{{ item.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}">
+						<img src="/media/images/email.jpg" height="20" />
+					</a>
+				</div>
+				<div class="print">
+					<a href="/print_customer_sb/0/{{ item.styleboard_item.id }}/" target="_blank" id="print">
+						<img src="/media/images/print_btn.png" alt="Print">
+					</a>
+				</div>
+				<div class="pdf">
+					<a href="/print_customer_sb/1/{{ item.styleboard_item.id }}/" target="_blank" id="pdf" >
+						<img src="/media/images/pdf_btn.png" alt="PDF">
+					</a>
+				</div>
+			</div>
 		</div>
 
 		{% endfor %}
@@ -74,10 +110,24 @@
 
 	</div>
 </section>
+<script type="text/javascript">
+(function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://apis.google.com/js/plusone.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+</script>
 {% endblock %}
 {% block javascripts %}
+<script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
 <script type="text/javascript">
 $(function(){
+
+	$('.socials a:not(#def_email)').click(function(e){
+		e.preventDefault();
+	});
+
+	FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
 /*
 	page_H();
 	$(window).resize(page_H);
@@ -118,4 +168,28 @@ function page_H(){
 
 }*/
 </script>
+<script> 
+function postToFeed(url,image,name,description) {
+
+	// calling the API ...
+	var obj = {
+		method: 'feed',
+		redirect_uri: 'http://www.facebook.com',
+		link:url,//page link here
+		picture: 'http://{{ request|get_host }}'+image, //add image link of product here 
+		name: name, //styleboard title
+		caption: 'iDecorate Weddings',
+		description: description //description
+	};
+
+	function callback(response) {
+		document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+	}
+
+	FB.ui(obj, callback);
+}
+
+</script>
+<script src="http://platform.tumblr.com/v1/share.js"></script>
+<script src="//assets.pinterest.com/js/pinit.js"></script>
 {% endblock %}
