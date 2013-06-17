@@ -18,9 +18,13 @@
 			font-size: 12px;
 			-webkit-print-color-adjust:exact;
 		}
-		.lineItems{
+		/*.nextPage{
 			page-break-before: always;
-		}
+
+		}*/
+		/*.lineItems{
+			page-break-before: always;
+		}*/
 		#footer {
 			font-size: 12px;
 	    }
@@ -54,7 +58,7 @@
 			font-size: 15px;
 		}
 		
-		.lineItems{
+		.nextPage{
 			margin-top: 4cm !important;
 		}
 
@@ -76,9 +80,9 @@
 		font-size: 14px;
 	}
 		
-	.lineItems{
+	/*.nextPage{
 		margin-top: 6cm;
-	}
+	}*/
 
 	.lineItems th, .lineItems td{
 		padding: 4px 0;
@@ -163,6 +167,7 @@
 
 	.styleboard{
 		margin-top: 1.5cm;
+		page-break-after: always;
 	}
 
 	.styleboardWrap{
@@ -199,6 +204,26 @@
 		border-bottom: 1px solid #999999;
 	}
 
+	.customerStyleboard{
+		border: 5px solid #CCCCCC;
+		padding: 0.3cm;
+		margin-bottom: 0.5cm;
+	}
+
+	.customerStyleboard .styleboardName{
+		font-weight: normal;
+		margin: 0;
+		font-size: 18px;
+		text-transform: uppercase;
+		text-align: center;
+	}
+
+	.customerStyleboard .styleboardDesc{
+		font-size: 12px;
+		margin-bottom: 0;
+		text-align: justify;
+	}
+
 	</style>
 	<body>
 		<div id="print_this_wrap">
@@ -219,60 +244,73 @@
 				</tr>
 			</table>
 		</div>
-		<table class="lineItems" border="0" cellpadding="0" cellspacing="0">
-			<tr>
-				<th class="cellHeader itemHead">Items</th>
-				<th class="cellHeader skuHead">SKU</th>
-				<th class="cellHeader unitHead">Unit Cost</th>
-				<th class="cellHeader qtyHead">Qty</th>
-				<th class="cellHeader priceHead">Price</th>
-			</tr>
-
-			{% if cart_list %}
-			{% for cart_item in cart_list %}
-			{% if forloop.first %}
-				<tr class="firstRow">
-		    {% endif %}
-		    {% if forloop.last %}
-				<tr class="lastRow">
-		    {% endif %}
-		    {% if not forloop.last and not forloop.first %}
-				<tr>
-		    {% endif %}
-				<td class="itemCell bodyCell">
-					<span class="lineProductwrap"><img class="lineProduct" src="/media/products/{{ cart_item.product.original_image_thumbnail }}" /></span>
-					{{ cart_item.product.name }}
-				</td>
-				<td class="bodyCell"><p>{{ cart_item.product.sku }}</p></td>
-				<td class="bodyCell"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
-				<td class="bodyCell"><p>x{{ cart_item.quantity }}</p></td>
-				<td class="bodyCell"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
-				
-			</tr>
-			{% endfor %}
+		<div class="nextPage">		
+			{% if styleboard_item %}
+			<div class="customerStyleboard">
+				<h1 class="styleboardName">{{ styleboard_item.name }}</h1>
+				<p class="styleboardDesc">{{ styleboard_item.description }}</p>
+			</div>
 			{% endif %}
-			<tr>
-				<td class="cellFooter multiplier" colspan="3">
-					{% if cart_list %}
-					{{ default_multiplier.guests }} Guests / {{ default_multiplier.tables }} Tables
-					{% endif %}
-				</td>
-				<td class="cellFooter" style="text-align: right;"  colspan="2">
-					<div class="total">Total: ${{ total_price|intcomma }}</div>
-				</td>
-			</tr>
-		</table>
+			<table class="lineItems" border="0" cellpadding="0" cellspacing="0">
+				<tr>
+					<th class="cellHeader itemHead">Items</th>
+					<th class="cellHeader skuHead">SKU</th>
+					<th class="cellHeader unitHead">Unit Cost</th>
+					<th class="cellHeader qtyHead">Qty</th>
+					<th class="cellHeader priceHead">Price</th>
+				</tr>
 
-		<table id="footer" width="100%" cellpadding="0" cellspacing="0">
-			<tr>
-				<td><img width="110" src="/media/images/logo_txt_print.jpg" title="idecorate" class="logo" /></td>
-				<td class="copyright">
-					T 1300 041 210<br/>
-					E enquiry@idecorateweddings.com<br/>
-					&copy; iDecorateWeddings.com 2013
-				</td>
-			</tr>
-		</table>
+				{% if cart_list %}
+				{% for cart_item in cart_list %}
+				{% if forloop.first %}
+					<tr class="firstRow">
+			    {% endif %}
+			    {% if forloop.last %}
+					<tr class="lastRow">
+			    {% endif %}
+			    {% if not forloop.last and not forloop.first %}
+					<tr>
+			    {% endif %}
+					<td class="itemCell bodyCell">
+						<span class="lineProductwrap"><img class="lineProduct" src="/media/products/{{ cart_item.product.original_image_thumbnail }}" /></span>
+						{{ cart_item.product.name }}
+					</td>
+					<td class="bodyCell"><p>{{ cart_item.product.sku }}</p></td>
+					<td class="bodyCell"><p>${{ cart_item.product|get_product_price|intcomma }}</p></td>
+					<td class="bodyCell"><p>x{{ cart_item.quantity }}</p></td>
+					<td class="bodyCell"><p>${{ cart_item.product|get_product_price|get_sub_total:cart_item.quantity|intcomma }}</p></td>
+					
+				</tr>
+				{% endfor %}
+				{% endif %}
+				<tr>
+					<td class="cellFooter multiplier" colspan="3">
+						{% if default_multiplier %}
+						{{ default_multiplier.guests }} Guests / {{ default_multiplier.tables }} Tables
+						{% endif %}
+						{% if default_multiplier_list %}
+							{% for default_multiplier in default_multiplier_list %}
+							{{ default_multiplier }} 
+							{% endfor %}
+						{% endif %}
+					</td>
+					<td class="cellFooter" style="text-align: right;"  colspan="2">
+						<div class="total">Total: ${{ total_price|intcomma }}</div>
+					</td>
+				</tr>
+			</table>
+
+			<table id="footer" width="100%" cellpadding="0" cellspacing="0">
+				<tr>
+					<td><img width="110" src="/media/images/logo_txt_print.jpg" title="idecorate" class="logo" /></td>
+					<td class="copyright">
+						T 1300 041 210<br/>
+						E enquiry@idecorateweddings.com<br/>
+						&copy; iDecorateWeddings.com 2013
+					</td>
+				</tr>
+			</table>
+		</div>
 	    <script type="text/javascript" src="/media/interface/js/jquery-1.8.2.min.js"></script>
 		<script type="text/javascript">
 
@@ -285,7 +323,9 @@
 					count++;
 
 					if(count == $('body').find('img').length){
-						print_this();
+
+						setTimeout(print_this,500);
+						
 					}
 				});
 

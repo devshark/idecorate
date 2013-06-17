@@ -714,7 +714,7 @@ def print_styleboard(data, w, h, isImage=False):
     heightIndex = 0
     true = True
     false = False
-
+    
     exec('itemList=%s' % itemString)
 
     for iList in itemList:

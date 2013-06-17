@@ -69,7 +69,7 @@
 					</script>
 				</div>
 				<div class="pinterestShare">
-					<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/576/500/&description={{ styleboard.styleboard_item.description|linebreak }}"><img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+					<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/640/405/&description={{ styleboard.styleboard_item.description|linebreak }}"><img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
 				</div>
 				<div class="googleShare">
 					<!--[if IE 7]>
@@ -82,7 +82,7 @@
 				<div class="email">
 					<a href="mailto:?subject=iDecorate%20Weddings{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}"><img src="/media/images/email.jpg" /></a>
 				</div>
-				<!-- <div class="print">
+				<div class="print">
 					<a href="/print_customer_sb/0/{{ styleboard_id }}/" target="_blank" id="print">
 						<img src="/media/images/print_btn.png" alt="Print">
 					</a>
@@ -91,7 +91,7 @@
 					<a href="/print_customer_sb/1/{{ styleboard_id }}/" target="_blank" id="pdf" >
 						<img src="/media/images/pdf_btn.png" alt="PDF">
 					</a>
-				</div> -->
+				</div>
 			</div>
 			<div class="clearfix styleboardDesc">
 				<p class="clearfix" align="justify" itemprop="description">
@@ -137,7 +137,7 @@
 	</aside>
 	<section>
 		<div class="clearfix canvass">
-			<img itemprop="image" src="/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/576/500/" alt="{{ styleboard.styleboard_item.name }}">
+			<img itemprop="image" src="/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/640/405/" alt="{{ styleboard.styleboard_item.name }}">
 		</div>
 		<div class="clearfix socialMediaWrapper">
 			<div class="clearfix socialMedia">
@@ -160,7 +160,7 @@
 					</script>
 				</div>
 				<div class="pinterestShare">
-					<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/576/500/&description={{ styleboard.styleboard_item.description|linebreak }}"><img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
+					<a data-pin-config="none" data-pin-do="buttonPin" href="//pinterest.com/pin/create/button/?url={{ request|get_url }}&media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/640/405/&description={{ styleboard.styleboard_item.description|linebreak }}"><img border="0" src="//assets.pinterest.com/images/pidgets/pin_it_button.png" /></a>
 				</div>
 				<div class="googleShare">
 					<!--[if IE 7]>
@@ -181,7 +181,7 @@
 				<div class="email">
 					<a href="mailto:?subject=iDecorate%20Weddings{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20{{ request|get_url }}"><img src="/media/images/email.jpg" /></a>
 				</div>
-				<!-- <div class="print">
+				<div class="print">
 					<a href="/print_customer_sb/0/{{ styleboard_id }}/" target="_blank" id="print">
 						<img src="/media/images/print_btn.png" alt="Print">
 					</a>
@@ -190,7 +190,7 @@
 					<a href="/print_customer_sb/1/{{ styleboard_id }}/" target="_blank" id="pdf" >
 						<img src="/media/images/pdf_btn.png" alt="PDF">
 					</a>
-				</div> -->
+				</div>
 			</div>
 		</div>
 		<!-- <h2>Comments</h2>
@@ -222,7 +222,8 @@
 		$(function(){
 			//page_H();
 
-			$('#img-profile').click(function(){
+			$('#img-profile').click(function(e){
+				e.preventDefault();
 				window.location.href = $('#lnk-profile').attr('href');
 			});
 
@@ -276,7 +277,7 @@
 				method: 'feed',
 				redirect_uri: 'http://www.facebook.com',
 				link: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}', //page link here
-				picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/576/500/', //add image link of product here 
+				picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/640/405/', //add image link of product here 
 				name: '{{ styleboard.styleboard_item.name }}', //styleboard title
 				caption: 'iDecorate Weddings',
 				description: "{{ styleboard.styleboard_item.description|truncateDescription }}" //description

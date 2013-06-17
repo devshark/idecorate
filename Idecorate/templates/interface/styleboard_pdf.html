@@ -128,6 +128,7 @@
 	}
 
 	.cellHeader{
+	    padding-top: 0.3cm;
 	    border-bottom-width: 1px;
 	    border-bottom-style: solid;
 	    border-bottom-color: #918f90;
@@ -168,6 +169,43 @@
 		padding-bottom: 0.3cm;
 	}
 
+	.styleboardName{
+		font-weight: normal;
+		font-size: 18px;
+		text-align: center;
+		margin-bottom: 0; 
+		line-height: 24px;
+		padding: 0;
+	}
+
+	.styleboardDesc{
+		margin-top: 0.2cm; 
+		padding: 0;
+		margin-bottom: 0; 
+		line-height: 14px;
+		font-size: 12px;
+		text-align: justify;
+	}
+
+	.styleboarinfo{
+	    border-top-width: 5px;
+	    border-top-style: solid;
+	    border-top-color: #CCCCCC;
+	    border-bottom-width: 5px;
+	    border-bottom-style: solid;
+	    border-bottom-color: #CCCCCC;
+	    border-left-width: 5px;
+	    border-left-style: solid;
+	    border-left-color: #CCCCCC;
+	    border-right-width: 5px;
+	    border-right-style: solid;
+	    border-right-color: #CCCCCC;
+	    padding-left: 0.4cm;
+	    padding-top: 0.4cm;
+	    padding-right: 0.4cm;
+	    padding-bottom: 0.4cm;
+	}
+
 	</style>
 	<body>
 		<div class="styleboard" id="styleboard_wrap">
@@ -177,6 +215,14 @@
 		<pdf:nextpage />
 		<div id="purchases">
 			<table width="21cm" class="lineItems">
+				{% if styleboard_item %}
+				<tr>
+					<td class="styleboarinfo" colspan="5">
+						<p class="styleboardName">{{ styleboard_item.name|upper }}</p>
+						<p class="styleboardDesc">{{ styleboard_item.description }}</p>
+					</td>
+				</tr>
+				{% endif %}
 				<tr>
 					<td style="text-align: left;" width="11cm" class="cellHeader itemHead">Items</td>
 					<td style="text-align: right;" width="3cm" class="cellHeader skuHead">SKU</td>
@@ -256,8 +302,13 @@
 						<tr>
 							<td class="cellFooter" colspan="3">
 								<div class="multiplier">
-								{% if cart_list %}
+								{% if default_multiplier %}
 								{{ default_multiplier.guests }} Guests / {{ default_multiplier.tables }} Tables
+								{% endif %}
+								{% if default_multiplier_list %}
+									{% for default_multiplier in default_multiplier_list %}
+									{{ default_multiplier }} 
+									{% endfor %}
 								{% endif %}
 								</div>
 							</td>

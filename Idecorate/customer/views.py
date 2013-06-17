@@ -16,7 +16,7 @@ from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
-from models import StyleboardItems, CustomerProfile, StyleboardJsonize, KeepImages, CustomerStyleBoard
+from models import StyleboardItems, CustomerProfile, StyleboardJsonize, KeepImages, CustomerStyleBoard, StyleBoardCartItems
 from django.contrib.auth.models import User
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm,ForgotPassForm
@@ -35,12 +35,14 @@ from admin.models import HomeBannerImages
 from cart.services import generate_unique_id
 from embellishments.models import StyleboardTemplateItems
 from django.utils.html import strip_tags
-from cart.models import Contact
+from cart.models import Contact, ProductPrice
 from social_auth.models import UserSocialAuth
 from django.template.defaultfilters import filesizeformat
 import shutil
 from cart.views import shop
 import time
+import os
+from django_xhtml2pdf.utils import generate_pdf, render_to_pdf_response
 
 
 def login_signup(request):
@@ -500,6 +502,10 @@ def styleboard_view(request,sid=None):
     info['styleboard_id'] = sid
     return render_to_response('customer/styleboard_view.html', info, RequestContext(request))
 
+def get_product_price(product):
+        product_details = ProductPrice.objects.get(product=product)
+        return product_details._unit_price
+
 def print_customer_sb(request, is_pdf, sbid):
     info = {}
 
@@ -514,12 +520,13 @@ def print_customer_sb(request, is_pdf, sbid):
 
     if styleboard_id:
         try:
-            info['cart_list'] = CartTemp.objects.filter(sessionid=sessionid)
-            info['default_multiplier'] = GuestTableTemp.objects.get(sessionid=sessionid)
+            StyleboardItem = StyleboardItems.objects.get(id=styleboard_id)
+            info['styleboard_item'] = StyleboardItem
+            info['cart_list'] = StyleBoardCartItems.objects.filter(styleboard_item=styleboard_id)
+            info['default_multiplier_list'] = ['%s Guests /' % (StyleboardItem.item_guest),'%s Tables' % (StyleboardItem.item_tables)]
             info['total_price'] = mark_safe("%.2f" % (sum((get_product_price(item.product) * item.quantity) for item in info['cart_list'])))
-
-            jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
-            data = jsonize.data
+            
+            data = StyleboardItem.item
 
         except Exception as e:
             print e
@@ -537,7 +544,7 @@ def print_customer_sb(request, is_pdf, sbid):
 
     else:
 
-        styleboard = '/styleboard/generate_printable_styleboard/850/538/?get=%s' % ( str(time.time()).replace('.','_') )
+        styleboard = '/styleboard/generate_printable_styleboard/850/538/%s/?get=%s' % ( styleboard_id, str(time.time()).replace('.','_') )
         info['styleboard'] = styleboard
 
         result = render_to_response('interface/styleboard_print.html', info,RequestContext(request))
@@ -554,16 +561,28 @@ def generate_styleboard_view(request, id, w, h):
 
     return response
 
-def generate_printable_styleboard(request, w, h):
+def generate_printable_styleboard(request, w, h, sbid=None):
 
-    sessionid = request.session.get('cartsession', None)
-    data = ''
-    try: 
-        jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
-        data = jsonize.data
-    except Exception as e:
-        print e
+    if sbid is None:
 
+        sessionid = request.session.get('cartsession', None)
+        data = ''
+        try: 
+            jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
+            data = jsonize.data
+        except Exception as e:
+            print e
+
+    else:
+
+        data = ''
+        try: 
+            StyleboardItem = StyleboardItems.objects.get(id=int(sbid))
+            data = StyleboardItem.item
+        except Exception as e:
+            print e
+
+       
     image = print_styleboard(data, w, h)
 
     response = HttpResponse(mimetype="image/jpg")
