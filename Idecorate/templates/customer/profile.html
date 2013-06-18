@@ -64,7 +64,7 @@
 			</div>
 			<div class="socials">
 				<div class="facebookShare">
-					<a href="#" onclick="postToFeed('http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}','http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/','{{ item.styleboard_item.name }}','{{ item.styleboard_item.description|escapejs }}')">
+					<a href="#" onclick="postToFeed('http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}','http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/640/405/','{{ item.styleboard_item.name }}','{{ item.styleboard_item.description|escapejs }}')">
 						<img border="0" src="/media/images/fb_share.png" />
 					</a>
 				</div>
@@ -176,7 +176,7 @@ function postToFeed(url,image,name,description) {
 		method: 'feed',
 		redirect_uri: 'http://www.facebook.com',
 		link:url,//page link here
-		picture: 'http://{{ request|get_host }}'+image, //add image link of product here 
+		picture: image, //add image link of product here 
 		name: name, //styleboard title
 		caption: 'iDecorate Weddings',
 		description: description //description
