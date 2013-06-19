@@ -394,6 +394,19 @@ def view_order(request):
 
     return render_to_response('customer/view_order.html', info, RequestContext(request))
 
+def hard_copy_order(request, is_pdf, order_id):
+
+    info = {}
+
+    order_id            = int(order_id)
+    user                = request.user
+    user_order          = get_user_order(order_id,user)
+
+    info['order']       = user_order['order']
+    info['order_items'] = user_order['order_items']
+
+    return HttpResponse('hard_copy_order');
+
 @csrf_exempt
 def customer_upload_image(request):
 

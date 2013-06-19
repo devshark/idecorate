@@ -15,6 +15,9 @@ var ie8_current_page = 1;
 var window_height;
 var window_width;
 $(document).ready( function() {
+
+    populate_products();
+    
     if(back_one_cat){back_onestep_category();}
     
     $('a[href="#embellishments"]').click(function(e){
@@ -210,6 +213,7 @@ function browse_categories(elm_id){
 }
 
 function get_products(){
+
     var data;
     var action = STYLEBOARD_PRODUCT_AJAX_URL ;    
     if (mode_type == 'search'){

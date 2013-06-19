@@ -35,10 +35,10 @@
             var media_url                   = '{{ MEDIA_URL }}';
             var STYLEBOARD_AJAX_URL         = '{% url styleboard_ajax %}';
             var STYLEBOARD_PRODUCT_AJAX_URL = '{% url styleboard_product_ajax %}';
-            var CATEGORY_TREE_AJAX_URL      ='{% url get_category_tree_ajax %}';
+            var CATEGORY_TREE_AJAX_URL      = '{% url get_category_tree_ajax %}';
             var ADD_TO_CART_URL             = '{% url add_to_cart_ajax %}';
             var REMOVE_TO_CART_URL          = '{% url remove_from_cart_ajax %}';
-            var REMOVE_ALL_CART_URL          = '{% url remove_all_cart_ajax %}';
+            var REMOVE_ALL_CART_URL         = '{% url remove_all_cart_ajax %}';
             var UPDATE_CART                 = '{% url update_cart %}';
             var CHECKOUT_URL                = '{% url checkout %}';
             var MODAL_SRC                   = '{% url crop 0 %}';
@@ -74,6 +74,7 @@
             var canvas_height;
             var canvas_width;
             if(cat != 0){back_one_cat = true;}
+
         </script>
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]>
