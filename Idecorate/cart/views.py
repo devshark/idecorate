@@ -856,7 +856,9 @@ class IdecorateShop(Shop):
         """
 
         current_user = User.objects.get(id=int(request.user.id))
+
         send_email_order(order, current_user, notes, self)
+        
         clear_styleboard_session(request)
 
         try:
