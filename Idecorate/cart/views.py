@@ -1200,9 +1200,10 @@ def paypal_ipn(request):
 
                 logr.info('emailed order confirmation to : %s from order IPN' % order.user.email)
 
-                paymentData['ipn_emailed'] = bool(emailed)
-
-                order_data.data = simplejson.dumps(paymentData)
+                o_data['ipn_emailed'] = bool(emailed)
+                
+                order_data.data = simplejson.dumps(o_data)
+                
                 order_data.save()
 
             except Exception as e:
