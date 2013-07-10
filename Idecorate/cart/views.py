@@ -32,7 +32,7 @@ from customer.models import CustomerProfile
 from idecorate_settings.models import IdecorateSettings
 from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
-from common.services import ss_direct, send_email_set_pass, send_email_order, st_save_helper, send_email_ipn_result
+from common.services import ss_direct, send_email_set_pass, send_email_order, st_save_helper
 from interface.views import clear_styleboard_session, st_man
 from paypal import PayPal, PayPalItem
 from django.core.urlresolvers import reverse
@@ -841,8 +841,6 @@ class IdecorateShop(Shop):
         order.notes = notes
         order.save()
 
-        order_data.delete() # not needed after saving to order payment
-
         # st_save_helper(request, order)
 
         """
@@ -857,7 +855,18 @@ class IdecorateShop(Shop):
 
         current_user = User.objects.get(id=int(request.user.id))
 
-        send_email_order(order, current_user, notes, self)
+        if 'ipn_emailed' in o_data and o_data['ipn_emailed']:
+
+            pass
+                
+        else:
+
+            emailed = send_email_order(order, current_user, notes, self)
+
+            logr.info('emailed order confirmation to : %s from order success' % current_user.email)
+
+
+        order_data.delete() # not needed after saving to order payment\
         
         clear_styleboard_session(request)
 
@@ -934,7 +943,9 @@ def add_to_cart_ajax(request):
         return HttpResponseNotFound()
 
 def update_cart(request):
+
     if request.method == "POST":
+
         product_id = request.POST.get('prod_id')
         quantity = request.POST.get('quantity',1)
         guests = request.POST.get('guests', 1)
@@ -958,8 +969,10 @@ def update_cart(request):
         except Exception as e:
             print e
             return HttpResponse(0)
+
         return HttpResponse(1)
     else:
+
         return HttpResponseNotFound()
 
 def remove_from_cart_ajax(request):
@@ -1183,11 +1196,18 @@ def paypal_ipn(request):
                 order.save()
                 order.reload()
 
-                send_email_order(order, order.user, order.notes, None)
+                emailed = send_email_order(order, order.user, order.notes, None)
+
+                logr.info('emailed order confirmation to : %s from order IPN' % order.user.email)
+
+                paymentData['ipn_emailed'] = bool(emailed)
+
+                order_data.data = simplejson.dumps(paymentData)
+                order_data.save()
 
             except Exception as e:
 
-                send_email_ipn_result('Completion Error', result ,e)
+                logr.error('error on processing payment via IPN: %s' % e)
 
     return HttpResponse('recieved')
 """
