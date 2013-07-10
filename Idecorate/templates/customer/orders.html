@@ -23,11 +23,11 @@
 			{% if orders %}
 			{% for order in orders %}
 			<tr>
-				<td><img src="{{ order|get_ordered_styleboard }}" width="250" height="100"/></td>
-				<td>{{ order.order_id }}</td>
-				<td>{{ order.created }}</td>
-				<td>{{order.total|floatformat:2|intcomma}}</td>
-				<td>{{order.status|readable_status}}</td>
+				<td><img src="{{ order|get_ordered_styleboard }}" width="250" height="100"/></td><!--158-->
+				<td style="text-align:center;">{{ order.order_id }}</td>
+				<td style="text-align:center;">{{ order.created }}</td>
+				<td style="text-align:right;">{{order.total|floatformat:2|intcomma}}</td>
+				<td style="text-align:center;">{{order.status|readable_status}}</td>
 				<td class="operation"><a href="{% url view_order %}?order={{ order.id }}&p={{ page }}">View Order</a></td>
 			</tr>
 			{% endfor %}

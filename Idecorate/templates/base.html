@@ -134,7 +134,12 @@
         <script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.dropdown.js"></script>
         <script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.hoverflow.js"></script>
         <script type="text/javascript">
+
+            var currentUrl              = '{{ currentUrl }}';
+            var SEARCH_SUGGESTION_URL   = '{% url search_suggestions %}';
+
             $(function() {
+                
                 var dateToday = new Date();
                 var dates = $("#datepicker").datepicker({
                     defaultDate: "+1w",
@@ -171,6 +176,9 @@
                     firstArrow : '',
                     otherArrow : ''
                 }).show();
+
+                $('#info-menu .dd > li:first-child a').css({paddingLeft:0});
+                $('#lnk-logout,#lnk-login-signup').css({paddingRight:0});
             });
 
             //global functions
@@ -206,6 +214,7 @@
                     $('#lnk-logout').parent().hide();
                 {% endif %}
             }
+
             function goto_profile(){
                 window.location.href = '{% url profile %}';
             }
@@ -213,6 +222,7 @@
             function goto_saved_images(){
                 window.location.href = '{% url saved_images %}';
             }
+
             function goto_my_orders(){
                 window.location.href = '{% url orders %}';
             }
@@ -226,8 +236,7 @@
                 closed_modal();
 
                if(typeof keeping_function_to_call == 'function') {
-                    
-                    //alert('function shit!');
+
                     keeping_function_to_call();
                     
                } else {
@@ -235,7 +244,7 @@
                }
 
             }
-            var currentUrl = '{{ currentUrl }}';
+
             function logmeout(){
                 $.get('{% url logout %}',function(){
                     if ( currentUrl == '/profile' ){
@@ -249,6 +258,7 @@
                 });
                 return false;
             }
+
             function closed_modal(){
                 $('#page-mask').hide();
                 $('#modal-login-signup-window').hide();
@@ -264,19 +274,12 @@
                 modal.css({display:'block',left:_left});
 
             }
-        </script>
-        <script type="text/javascript">
-        var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
+
         </script>
         <script src="/media/interface/js/search.js"></script>
+
         {% block javascripts %}{% endblock %}
-        <script type="text/javascript">
-        $(function(){
-            $('#info-menu .dd > li:first-child a').css({paddingLeft:0});
-            $('#lnk-logout,#lnk-login-signup').css({paddingRight:0});
-        });
-        </script>
-<!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
+
         <script type="text/javascript">
 
           var _gaq = _gaq || [];

@@ -44,6 +44,9 @@ from django.contrib import auth
 from uuid import uuid4
 from common.models import Countries
 
+import logging
+logr = logging.getLogger(__name__)
+
 class BaseCheckoutForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
@@ -134,6 +137,125 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         fields = ['email'] + ['billing_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_%s' % f for f in Contact.ADDRESS_FIELDS] + ['shipping_same_as_billing']
         model = Order
 
+    def __init__(self, *args, **kwargs):
+        shop = kwargs.get('shop')
+        request = kwargs.get('request')
+        contact = shop.contact_from_user(request.user)
+        order = shop.order_from_request(request)
+
+        states = tuple(sorted((('Australian Capital Territory','Australian Capital Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory'))))
+        cities = tuple(sorted((
+            ('Canberra','Canberra'),('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), 
+            ('Tamworth','Tamworth'), ('Wagga','Wagga'),('City of Bankstown','City of Bankstown'), ('City of Blacktown','City of Blacktown'), ('City of Botany Bay','City of Botany Bay'), ('City of Canada Bay','City of Canada Bay'), ('City of Canterbury','City of Canterbury'), ('City of Coffs Harbour','City of Coff Harbour'), ('City of Fairfield','City of Fairfield'), ('City of Gosford','City of Gosford'), ('City of Greater Taree','City of Greater Taree'), ('City of Griffith','City of Griffith'), 
+            ('City of Hawkesbury','City of Hawkesbury'), ('City of Holroyd','City of Holroyd'), ('City of Hurtsville','City of Hurtsville'), ('City of Lake Macquarie','City of Lake Macquarie'), ('City of Lismore','City of Lismore'), ('City of Lithgow','City of Lithgow'), ('City of Maitland','City of Maitland'), ('City of Randwick','City of Randwick'), ('City of Rockdale','City of Rockdale'), ('City of Ryde','City of Ryde'), ('City of Shellharbour','City of Shellharbour'), ('City         f Shoalhaven','City of Shoalhaven'), 
+            ('City of Willoughby','City of Willoughby'), ('Darwin','Darwin'), ('Palmerston','Palmerston'), ('Brisbane','Brisbane'), ('Bundaberg','Bundaberg'), ('Cairns','Cairns'), ('Caloundra','Caloundra'), ('Gladstone','Gladstone'), ('Gold Coast','Gold Coast'), ('Gympie','Gympie'), ('Hervey Bay','Hervey Bay'), ('Ipswich','Ipswich'), ('Logan City','Logan City'), ('Mackay','Mackay'), ('Maryborough','Maryborough'), ('Mount Isa','Mount Isa'), ('Rockhampton','Rockhampton'), ('Sunshine Coast','Sunshine Coast'), ('Surfers Paradise','Surfers Paradise'), 
+            ('Toowoomba','Toowoomba'), ('Townsville','Townsville'), ('Charters Towers','Charters Towers'), ('Redcliffe City','Redcliffe City'), ('Redland City','Redland City'), ('Thuringova','Thuringova'), ('Warwick','Warwick'), ('Adelaide','Adelaide'), ('Mount Barker','Mount Barker'), ('Mount Gambier','Mount Gambier'), ('Murray Bridge','Murray Bridge'), ('Port Adelaide','Port Adelaide'), ('Port Augusta','Port Augusta'), ('Port Pirie','Port Pirie'), ('Port Lincoln','Port Lincoln'), ('Victor Harbor','Victor Harbor'), ('Whyalla','Whyalla'), 
+            ('Hobart','Hobart'), ('Burnie','Burnie'), ('Devonport','Devonport'), ('Launceston','Launceston'), ('Melbourne','Melbourne'), ('Ararat','Ararat'), ('Bairnsdale','Bairnsdale'), ('Benalla','Benalla'), ('Ballarat','Ballarat'), ('Bendigo','Bendigo'), ('Dandenong','Dandenong'), ('Frankston','Frankston'), ('Geelong','Geelong'), ('Hamilton','Hamilton'), ('Horsham','Horsham'), ('Melton','Melton'), ('Moe','Moe'), ('Morwell','Morwell'), ('Mildura','Mildura'), ('Mildura','Mildura'), ('Sale','Sale'), ('Shepparton','Shepparton'), ('Swan Hill','Swan Hill'), 
+            ('Traralgon','Traralgon'), ('Wangaratta','Wangaratta'), ('Warrnambool','Warrnambool'), ('Wodonga','Wodonga'), ('Perth','Perth'), ('Albany','Albany'), ('Bunbury','Bunbury'), ('Busselton','Busselton'), ('Fremantle','Fremantle'), ('Geraldton','Geraldton'), ('Joondalup','Joondalup'), ('Kalgoorlie','Kalgoorlie'), ('Mandurah','Mandurah'), ('Rockingham','Rockingham'), ('City of Armadale','City of Armadale'), ('City of Bayswater','City of Bayswater'), ('City of Canning','City of Canning'), ('City of Cockburn','City of Cockburn'), ('City of Gosnells','City of Gosnells'), 
+            ('City of Melville','City of Melville'), ('City of Nedlands','City of Nedlands'), ('City of South Perth','City of South Perth'), ('City of Stirling','City of Stirling'), ('City of Subiaco','City of Subiaco'), ('City of Swan','City of Swan'), ('City of Wanneroo','City of Wanneroo')
+        )))
+
+        country_choices = [('','-Select-')]
+
+        c = Countries.objects.filter()
+
+        for cc in c:
+            country_choices.append((cc.name,cc.name))
+
+        country_choices = tuple(country_choices)
+
+        #('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express')
+        payment_method_choices = []
+
+        if settings.IDECORATE_ENABLE_PAYPAL:
+            payment_method_choices.append(('PayPal', 'PayPal'))
+
+        if settings.IDECORATE_ENABLE_VISA:
+            payment_method_choices.append(('Visa','Visa'))
+
+        if settings.IDECORATE_ENABLE_MASTERCARD:
+            payment_method_choices.append(('Mastercard','Mastercard'))
+
+        if settings.IDECORATE_ENABLE_AMERICAN_EXPRESS:
+            payment_method_choices.append(('American_Express','American Express'))
+
+        payment_method_choices = tuple(payment_method_choices)
+
+        if contact:
+            initial = {}
+            for f in contact.ADDRESS_FIELDS:
+                initial['billing_%s' % f] = getattr(contact, f)
+                kwargs['initial'] = initial
+
+            for f in contact.ADDRESS_FIELDS:
+                initial['shipping_%s' % f] = getattr(contact, f)
+                kwargs['initial'] = initial
+
+            initial['email']                    = contact.user.username
+            initial['billing_first_name']       = contact.user.first_name
+            initial['billing_last_name']        = contact.user.last_name
+            initial['notes']                    = order.notes
+            initial['billing_salutation']       = contact.billing_salutation
+            initial['shipping_same_as_billing'] = contact.shipping_same_as_billing
+            initial['shipping_address']         = contact.address
+            initial['billing_address']          = contact.address2
+            initial['shipping_address2']        = contact.shipping_address2
+            initial['billing_address2']         = contact.billing_address2
+            initial['shipping_state']           = contact.shipping_state
+            initial['billing_state']            = contact.billing_state
+            initial['shipping_city']            = contact.city
+            initial['billing_city']             = contact.city2
+            initial['shipping_zip_code']        = contact.zip_code
+            initial['billing_zip_code']         = contact.zip_code2
+            initial['billing_country']          = contact.countries2
+            initial['shipping_country']         = contact.countries
+
+        if request.POST.get('order-shipping_date') is None:
+            if 'delivery_date' in request.session:
+                initial['shipping_date'] = request.session['delivery_date']
+
+        super(IdecorateCheckoutForm, self).__init__(*args, **kwargs)
+
+        self.fields['shipping_address2']        = forms.CharField(max_length=200, label=_("Shipping Address2"), required=False)
+        self.fields['shipping_address']         = forms.CharField(max_length=200, label=_("Shipping Address"), required=True, error_messages={'required':_('Delivery Address is a required field.')})
+        self.fields['shipping_salutation']      = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=False,widget=forms.Select, error_messages={'required':_('Salutation is a required field.')})
+        self.fields['billing_salutation']       = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
+        self.fields['shipping_state']           = forms.CharField(max_length=150,label=_("Shipping State"),required=True, error_messages={'required':_('Delivery State is a required field. If None, indicate None or N/A')})
+        self.fields['shipping_city']            = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True, error_messages={'required':_('Delivery City is a required field.')})
+        self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
+
+        self.fields['shipping_date']            = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
+        self.fields['shipping_zip_code']        = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
+        self.fields['email']                    = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
+        self.fields['billing_last_name']        = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
+        self.fields['billing_first_name']       = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
+        self.fields['payment_method']           = forms.ChoiceField(label=_("Payment Method"), choices=payment_method_choices, required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
+        self.fields['notes']                    = forms.CharField(label=_("Special Requests and Comments"), widget=forms.Textarea, required=False)
+        self.fields['shipping_country']         = forms.ChoiceField(choices=country_choices,label=_("Shipping Country"), required=True, error_messages={'required':_('Delivery Country is a required field.')})
+        self.fields['billing_country']          = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a requimax_length=150,red field.')})
+
+
+        shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
+        
+        if shipping_same_as_billing:
+            self.fields['billing_zip_code']     = forms.CharField(label=_("Billing Zip Code"), required=False, error_messages={'required':_('Billing Zip Code is a required field.')})
+            self.fields['billing_address']      = forms.CharField(max_length=200, label=_("Billing Address"), required=False, error_messages={'required':_('Billing Address is a required field.')})
+            self.fields['billing_address2']     = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
+            self.fields['billing_state']        = forms.CharField(max_length=150,label=_("Billing State"), required=False)
+            self.fields['billing_city']         = forms.CharField(max_length=150,label=_("Billing City"), required=False)
+            self.fields['billing_country']      = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=False, error_messages={'required':_('Billing Country is a required field.')})
+        else:
+            self.fields['billing_zip_code']     = forms.CharField(label=_("Billing Zip Code"), required=True, error_messages={'required':_('Billing Zip Code is a required field.')})
+            self.fields['billing_address']      = forms.CharField(max_length=200, label=_("Billing Address"), required=True, error_messages={'required':_('Billing Address is a required field.')})
+            self.fields['billing_address2']     = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
+            self.fields['billing_state']        = forms.CharField(max_length=150,label=_("Billing State"), required=True, error_messages={'required':_('Billing State is a required field. If None, indicate None or N/A')})
+            self.fields['billing_city']         = forms.CharField(max_length=150,label=_("Billing City"), required=True, error_messages={'required':_('Billing City is a required field.')})
+            self.fields['billing_country']      = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a required field.')})
+        
+        if not contact:
+            self.fields['create_account'] = forms.BooleanField(
+                label=_('create account'),
+                required=False, initial=True)
 
     def clean(self):
         data = super(IdecorateCheckoutForm, self).clean()
@@ -291,126 +413,6 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
             c_user.save()
 
         return order
-
-    def __init__(self, *args, **kwargs):
-        shop = kwargs.get('shop')
-        request = kwargs.get('request')
-        contact = shop.contact_from_user(request.user)
-        order = shop.order_from_request(request)
-
-        states = tuple(sorted((('Australian Capital Territory','Australian Capital Territory'), ('New South Wales','New South Wales'), ('Victoria','Victoria'), ('Queensland','Queensland'), ('South Australia','South Australia'), ('Western Australia','Western Australia'), ('Tasmania','Tasmania'), ('Northern Territory','Northern Territory'))))
-        cities = tuple(sorted((
-            ('Canberra','Canberra'),('Albury','Albury'), ('Armidale','Armidale'), ('Bathurst','Bathurst'), ('Blue Mountains','Blue Mountains'), ('Broken Hill','Broken Hill'), ('Campbelltown','Campbelltown'), ('Cessnock','Cessnock'), ('Dubbo','Dubbo'), ('Goulburn','Goulburn'), ('Grafton','Grafton'), ('Lithgow','Lithgow'), ('Liverpool','Liverpool'), ('Newcastle','Newcastle'), ('Orange','Orange'), ('Parramatta','Parramatta'), ('Penrith','Penrith'), ('Queanbeyan','Queanbeyan'), ('Sydney','Sydney'), 
-            ('Tamworth','Tamworth'), ('Wagga','Wagga'),('City of Bankstown','City of Bankstown'), ('City of Blacktown','City of Blacktown'), ('City of Botany Bay','City of Botany Bay'), ('City of Canada Bay','City of Canada Bay'), ('City of Canterbury','City of Canterbury'), ('City of Coffs Harbour','City of Coff Harbour'), ('City of Fairfield','City of Fairfield'), ('City of Gosford','City of Gosford'), ('City of Greater Taree','City of Greater Taree'), ('City of Griffith','City of Griffith'), 
-            ('City of Hawkesbury','City of Hawkesbury'), ('City of Holroyd','City of Holroyd'), ('City of Hurtsville','City of Hurtsville'), ('City of Lake Macquarie','City of Lake Macquarie'), ('City of Lismore','City of Lismore'), ('City of Lithgow','City of Lithgow'), ('City of Maitland','City of Maitland'), ('City of Randwick','City of Randwick'), ('City of Rockdale','City of Rockdale'), ('City of Ryde','City of Ryde'), ('City of Shellharbour','City of Shellharbour'), ('City         f Shoalhaven','City of Shoalhaven'), 
-            ('City of Willoughby','City of Willoughby'), ('Darwin','Darwin'), ('Palmerston','Palmerston'), ('Brisbane','Brisbane'), ('Bundaberg','Bundaberg'), ('Cairns','Cairns'), ('Caloundra','Caloundra'), ('Gladstone','Gladstone'), ('Gold Coast','Gold Coast'), ('Gympie','Gympie'), ('Hervey Bay','Hervey Bay'), ('Ipswich','Ipswich'), ('Logan City','Logan City'), ('Mackay','Mackay'), ('Maryborough','Maryborough'), ('Mount Isa','Mount Isa'), ('Rockhampton','Rockhampton'), ('Sunshine Coast','Sunshine Coast'), ('Surfers Paradise','Surfers Paradise'), 
-            ('Toowoomba','Toowoomba'), ('Townsville','Townsville'), ('Charters Towers','Charters Towers'), ('Redcliffe City','Redcliffe City'), ('Redland City','Redland City'), ('Thuringova','Thuringova'), ('Warwick','Warwick'), ('Adelaide','Adelaide'), ('Mount Barker','Mount Barker'), ('Mount Gambier','Mount Gambier'), ('Murray Bridge','Murray Bridge'), ('Port Adelaide','Port Adelaide'), ('Port Augusta','Port Augusta'), ('Port Pirie','Port Pirie'), ('Port Lincoln','Port Lincoln'), ('Victor Harbor','Victor Harbor'), ('Whyalla','Whyalla'), 
-            ('Hobart','Hobart'), ('Burnie','Burnie'), ('Devonport','Devonport'), ('Launceston','Launceston'), ('Melbourne','Melbourne'), ('Ararat','Ararat'), ('Bairnsdale','Bairnsdale'), ('Benalla','Benalla'), ('Ballarat','Ballarat'), ('Bendigo','Bendigo'), ('Dandenong','Dandenong'), ('Frankston','Frankston'), ('Geelong','Geelong'), ('Hamilton','Hamilton'), ('Horsham','Horsham'), ('Melton','Melton'), ('Moe','Moe'), ('Morwell','Morwell'), ('Mildura','Mildura'), ('Mildura','Mildura'), ('Sale','Sale'), ('Shepparton','Shepparton'), ('Swan Hill','Swan Hill'), 
-            ('Traralgon','Traralgon'), ('Wangaratta','Wangaratta'), ('Warrnambool','Warrnambool'), ('Wodonga','Wodonga'), ('Perth','Perth'), ('Albany','Albany'), ('Bunbury','Bunbury'), ('Busselton','Busselton'), ('Fremantle','Fremantle'), ('Geraldton','Geraldton'), ('Joondalup','Joondalup'), ('Kalgoorlie','Kalgoorlie'), ('Mandurah','Mandurah'), ('Rockingham','Rockingham'), ('City of Armadale','City of Armadale'), ('City of Bayswater','City of Bayswater'), ('City of Canning','City of Canning'), ('City of Cockburn','City of Cockburn'), ('City of Gosnells','City of Gosnells'), 
-            ('City of Melville','City of Melville'), ('City of Nedlands','City of Nedlands'), ('City of South Perth','City of South Perth'), ('City of Stirling','City of Stirling'), ('City of Subiaco','City of Subiaco'), ('City of Swan','City of Swan'), ('City of Wanneroo','City of Wanneroo')
-        )))
-
-        country_choices = [('','-Select-')]
-
-        c = Countries.objects.filter()
-
-        for cc in c:
-            country_choices.append((cc.name,cc.name))
-
-        country_choices = tuple(country_choices)
-
-        #('PayPal','PayPal'),('Visa','Visa'),('Mastercard','Mastercard'),('American_Express','American Express')
-        payment_method_choices = []
-
-        if settings.IDECORATE_ENABLE_PAYPAL:
-            payment_method_choices.append(('PayPal', 'PayPal'))
-
-        if settings.IDECORATE_ENABLE_VISA:
-            payment_method_choices.append(('Visa','Visa'))
-
-        if settings.IDECORATE_ENABLE_MASTERCARD:
-            payment_method_choices.append(('Mastercard','Mastercard'))
-
-        if settings.IDECORATE_ENABLE_AMERICAN_EXPRESS:
-            payment_method_choices.append(('American_Express','American Express'))
-
-        payment_method_choices = tuple(payment_method_choices)
-
-        if contact:
-            initial = {}
-            for f in contact.ADDRESS_FIELDS:
-                initial['billing_%s' % f] = getattr(contact, f)
-                kwargs['initial'] = initial
-
-            for f in contact.ADDRESS_FIELDS:
-                initial['shipping_%s' % f] = getattr(contact, f)
-                kwargs['initial'] = initial
-
-            initial['email']                    = contact.user.username
-            initial['billing_first_name']       = contact.user.first_name
-            initial['billing_last_name']        = contact.user.last_name
-            initial['notes']                    = order.notes
-            initial['billing_salutation']       = contact.billing_salutation
-            initial['shipping_same_as_billing'] = contact.shipping_same_as_billing
-            initial['shipping_address']         = contact.address
-            initial['billing_address']          = contact.address2
-            initial['shipping_address2']        = contact.shipping_address2
-            initial['billing_address2']         = contact.billing_address2
-            initial['shipping_state']           = contact.shipping_state
-            initial['billing_state']            = contact.billing_state
-            initial['shipping_city']            = contact.city
-            initial['billing_city']             = contact.city2
-            initial['shipping_zip_code']        = contact.zip_code
-            initial['billing_zip_code']         = contact.zip_code2
-            initial['billing_country']          = contact.countries2
-            initial['shipping_country']         = contact.countries
-
-        if request.POST.get('order-shipping_date') is None:
-            if 'delivery_date' in request.session:
-                initial['shipping_date'] = request.session['delivery_date']
-
-        super(IdecorateCheckoutForm, self).__init__(*args, **kwargs)
-
-        self.fields['shipping_address2']        = forms.CharField(max_length=200, label=_("Shipping Address2"), required=False)
-        self.fields['shipping_address']         = forms.CharField(max_length=200, label=_("Shipping Address"), required=True, error_messages={'required':_('Delivery Address is a required field.')})
-        self.fields['shipping_salutation']      = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=False,widget=forms.Select, error_messages={'required':_('Salutation is a required field.')})
-        self.fields['billing_salutation']       = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=True,widget=forms.Select)
-        self.fields['shipping_state']           = forms.CharField(max_length=150,label=_("Shipping State"),required=True, error_messages={'required':_('Delivery State is a required field. If None, indicate None or N/A')})
-        self.fields['shipping_city']            = forms.CharField(max_length=150,label=_("ChoiceFielding City"), required=True, error_messages={'required':_('Delivery City is a required field.')})
-        self.fields['shipping_same_as_billing'] = forms.BooleanField(initial=True,label=_("Same as Billing"),required=False)
-
-        self.fields['shipping_date']            = forms.CharField(label=_("Shipping Date"), required=False, error_messages={'required':_('Delivery Date is a required field.')})
-        self.fields['shipping_zip_code']        = forms.CharField(label=_("Shipping Zip Code"), required=True, error_messages={'required':_('Delivery Zip Code is a required field.')})        
-        self.fields['email']                    = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
-        self.fields['billing_last_name']        = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
-        self.fields['billing_first_name']       = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
-        self.fields['payment_method']           = forms.ChoiceField(label=_("Payment Method"), choices=payment_method_choices, required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
-        self.fields['notes']                    = forms.CharField(label=_("Special Requests and Comments"), widget=forms.Textarea, required=False)
-        self.fields['shipping_country']         = forms.ChoiceField(choices=country_choices,label=_("Shipping Country"), required=True, error_messages={'required':_('Delivery Country is a required field.')})
-        self.fields['billing_country']          = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a requimax_length=150,red field.')})
-
-
-        shipping_same_as_billing = request.POST.get('order-shipping_same_as_billing')
-        
-        if shipping_same_as_billing:
-            self.fields['billing_zip_code']     = forms.CharField(label=_("Billing Zip Code"), required=False, error_messages={'required':_('Billing Zip Code is a required field.')})
-            self.fields['billing_address']      = forms.CharField(max_length=200, label=_("Billing Address"), required=False, error_messages={'required':_('Billing Address is a required field.')})
-            self.fields['billing_address2']     = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
-            self.fields['billing_state']        = forms.CharField(max_length=150,label=_("Billing State"), required=False)
-            self.fields['billing_city']         = forms.CharField(max_length=150,label=_("Billing City"), required=False)
-            self.fields['billing_country']      = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=False, error_messages={'required':_('Billing Country is a required field.')})
-        else:
-            self.fields['billing_zip_code']     = forms.CharField(label=_("Billing Zip Code"), required=True, error_messages={'required':_('Billing Zip Code is a required field.')})
-            self.fields['billing_address']      = forms.CharField(max_length=200, label=_("Billing Address"), required=True, error_messages={'required':_('Billing Address is a required field.')})
-            self.fields['billing_address2']     = forms.CharField(max_length=200, label=_("Billing Address2"), required=False)
-            self.fields['billing_state']        = forms.CharField(max_length=150,label=_("Billing State"), required=True, error_messages={'required':_('Billing State is a required field. If None, indicate None or N/A')})
-            self.fields['billing_city']         = forms.CharField(max_length=150,label=_("Billing City"), required=True, error_messages={'required':_('Billing City is a required field.')})
-            self.fields['billing_country']      = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a required field.')})
-        
-        if not contact:
-            self.fields['create_account'] = forms.BooleanField(
-                label=_('create account'),
-                required=False, initial=True)
 
     def clean_shipping_zip_code(self):
 
@@ -625,31 +627,11 @@ class IdecorateShop(Shop):
         else:
             form = ConfirmationForm(**kwargs)
 
-        custom_data = {}
         """
+        custom_data = {}
         custom_data['order_id'] = order.id
         custom_data['user'] = request.user.id if request.user.is_authenticated() else 0
         """
-        custom_data['order-payment_method'] = request.session['order-payment_method']
-        custom_data['order_notes'] = request.session['order_notes'] 
-        custom_data['delivery_address2'] = request.session['delivery_address2'] 
-        custom_data['billing_address2'] = request.session['billing_address2'] 
-        custom_data['delivery_date'] = request.session['delivery_date'] 
-        custom_data['delivery_state'] = request.session['delivery_state'] 
-        custom_data['billing_state'] = request.session['billing_state'] 
-        custom_data['salutation'] = request.session['salutation'] 
-        custom_data['billing_country'] = request.session['billing_country'] 
-        custom_data['shipping_country'] = request.session['shipping_country'] 
-
-        try:
-            order_data = OrderData.objects.get(order=order)
-        except:
-            order_data = OrderData()
-
-        order_data.order = order
-        order_data.data = simplejson.dumps(custom_data)
-        order_data.save()
-        
         paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
         paypal_orders = order.items.filter().order_by('-id')
 
@@ -741,7 +723,10 @@ class IdecorateShop(Shop):
                     billing_zip_code = delivery_zip_code
                     billing_country = delivery_country
 
+                
                 request.session['order-payment_method'] = request.POST.get('order-payment_method','')
+
+                """
                 request.session['order_notes'] = request.POST.get('order-notes','')
                 request.session['delivery_address2'] = delivery_address2
                 request.session['billing_address2'] = billing_address2
@@ -751,7 +736,30 @@ class IdecorateShop(Shop):
                 request.session['salutation'] = salutation
                 request.session['billing_country'] = billing_country
                 request.session['shipping_country'] = delivery_country
+                """
 
+                custom_data = {}
+                custom_data['order-payment_method'] = request.POST.get('order-payment_method','')
+                custom_data['order_notes'] = request.POST.get('order-notes','')
+                custom_data['delivery_address2'] = delivery_address2
+                custom_data['billing_address2'] = billing_address2
+                custom_data['delivery_date'] = delivery_date
+                custom_data['delivery_state'] = delivery_state
+                custom_data['billing_state'] = billing_state
+                custom_data['salutation'] = salutation
+                custom_data['billing_country'] = billing_country
+                custom_data['shipping_country'] = delivery_country
+
+                try:
+                    order_data = OrderData.objects.get(order=order)
+                except:
+                    order_data = OrderData()
+
+                order_data.order = order
+                order_data.data = simplejson.dumps(custom_data)
+                order_data.save()
+                        
+                        
                 orderform.save(
                     notes=notes, 
                     billing_salutation=salutation,
@@ -797,6 +805,7 @@ class IdecorateShop(Shop):
         if not order.balance_remaining:
             self.set_order_on_request(request, order=None)
 
+        """
         oData = {}
         oData['delivery_address2'] = request.session['delivery_address2']
         oData['billing_address2'] = request.session['billing_address2']
@@ -804,11 +813,23 @@ class IdecorateShop(Shop):
         oData['delivery_state'] = request.session['delivery_state']
         oData['billing_state'] = request.session['billing_state']
         oData['salutation'] = request.session['salutation']
+        """
+
+        order_data = OrderData.objects.get(order=order)
+        o_data = simplejson.loads(order_data.data)
+
+        paymentData = {}
+        paymentData['delivery_address2'] = o_data['delivery_address2']
+        paymentData['billing_address2'] = o_data['billing_address2']
+        paymentData['delivery_date'] = o_data['delivery_date']
+        paymentData['delivery_state'] = o_data['delivery_state']
+        paymentData['billing_state'] = o_data['billing_state']
+        paymentData['salutation'] = o_data['salutation']
 
         #try:
         oPayment = OrderPayment.objects.get(order=order)
-        oPayment.payment_method = request.session.get('order-payment_method','')
-        oPayment.data = simplejson.dumps(oData)
+        oPayment.payment_method = o_data['order-payment_method']
+        oPayment.data = simplejson.dumps(paymentData)
         oPayment.save()
         #except:
         #   pass
@@ -816,11 +837,15 @@ class IdecorateShop(Shop):
         """
         order update note
         """
-        notes = request.session.get('order_notes','')
+        notes = o_data['order_notes']
         order.notes = notes
         order.save()
 
-        st_save_helper(request, order)
+        order_data.delete() # not needed after saving to order payment
+
+        # st_save_helper(request, order)
+
+        """
         sbid = None
 
         if 'customer_styleboard' in request.session:
@@ -828,23 +853,15 @@ class IdecorateShop(Shop):
 
         if 'personalize_id' in request.session:
             print "There's a personalize_id"
+        """
 
         current_user = User.objects.get(id=int(request.user.id))
         send_email_order(order, current_user, notes, self)
         clear_styleboard_session(request)
 
         try:
-            del request.session['order-payment_method']
-            del request.session['delivery_address2']
-            del request.session['billing_address2']
-            del request.session['delivery_date']
-            del request.session['delivery_state']
-            del request.session['billing_state']
-            del request.session['salutation']
-            del request.session['order_notes']
-            del request.session['billing_country']
-            del request.session['shipping_country']
             del request.session['customer_styleboard']
+            del request.session['personalize_id']
         except:
             pass
 
@@ -854,11 +871,7 @@ class IdecorateShop(Shop):
                 'progress': 'success',
                 }))
 
-shop = IdecorateShop(
-    contact_model=Contact,
-    order_model=Order,
-    discount_model=Discount,
-    )
+shop = IdecorateShop(contact_model=Contact, order_model=Order, discount_model=Discount)
 
 def add_to_cart_ajax(request):  
     if request.method == "POST":
@@ -995,7 +1008,7 @@ def checkout(request):
                 CartTemp.objects.filter(sessionid=sessionid).delete()
                 print "The error is: %s" % e
                 return shop.order_new(request)
-            #remove_from_cart_temp(cart.id)
+
         shop.modify_guest_table(request, guest_table.guests, guest_table.tables, order)
 
 
@@ -1053,12 +1066,59 @@ def checkout_from_view_styleboard(request):
             shop.modify_guest_table(request, guests, tables, order)
 
         sms = st_man(request, False)
-
-        #request.session['personalize_id'] = styleboard.id
+        
+        # request.session['personalize_id'] = styleboard.id
         return redirect('plata_shop_checkout')
     else:
         return redirect('styleboard')
 
+def paypal_return_url(request):
+
+    if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
+        
+        try:
+            OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
+            return redirect('plata_order_success')
+        except:
+            pass
+
+        """
+        request.session['delivery_address2'] = ''
+        request.session['billing_address2'] = ''
+        request.session['delivery_date'] = ''
+        request.session['delivery_state'] = ''
+        request.session['billing_state'] = ''
+        request.session['salutation'] = ''
+        request.session['order-payment_method'] = 'PayPal'
+        """
+        
+        order = shop.order_from_request(request, create=True)
+        
+        payment = order.payments.model(
+            order=order,
+            payment_module="cod"
+        )
+       
+        payment.currency = request.GET.get('cc','USD')
+        payment.amount = Decimal(request.GET.get('amt','0.00'))
+        payment.authorized = datetime.now()
+        payment.payment_method = 'PayPal'
+        payment.payment_module_key = 'cod'
+        payment.module = 'Cash on delivery'
+        payment.status = OrderPayment.AUTHORIZED
+        payment.transaction_id = request.GET.get('tx','')
+        payment.save()
+        order.user = request.user if request.user.is_authenticated() else None
+        order.paid = Decimal(request.GET.get('amt','0.00'))
+        order.status = 40
+        order.save()
+        order = order.reload()
+
+        return redirect('plata_order_success')
+
+    else:
+        request.session['checkout_login_error'] = _('An error occurred while processing your payment through Paypal.')
+        return redirect('plata_shop_checkout')
 
 @csrf_exempt
 def paypal_ipn(request):
@@ -1077,8 +1137,6 @@ def paypal_ipn(request):
         txn_id = request.POST.get('txn_id','')
         custom_data = request.POST.get('custom', '')
 
-        # send_email_ipn_result('custom_data', result ,custom_data)
-
         try:
             OrderPayment.objects.get(transaction_id=str(txn_id).strip())
             return HttpResponse('existing')
@@ -1092,8 +1150,8 @@ def paypal_ipn(request):
                 data = simplejson.loads(custom_data)
 
                 order = Order.objects.get(id=int(data['order_id']))
-                order_data = OrderData.objects.get(order=order)
                 payment = order.payments.model(order=order,payment_module="cod")
+                order_data = OrderData.objects.get(order=order)
 
                 o_data = simplejson.loads(order_data.data)
 
@@ -1129,59 +1187,7 @@ def paypal_ipn(request):
 
                 send_email_ipn_result('Completion Error', result ,e)
 
-            # send_email_ipn_result('Verified & Completed', result ,urllib.urlencode(postData)) 
-
     return HttpResponse('recieved')
-
-def paypal_return_url(request):
-
-    if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
-        
-        try:
-            OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
-            return redirect('styleboard')
-        except:
-            pass
-
-        """
-        request.session['delivery_address2'] = ''
-        request.session['billing_address2'] = ''
-        request.session['delivery_date'] = ''
-        request.session['delivery_state'] = ''
-        request.session['billing_state'] = ''
-        request.session['salutation'] = ''
-        request.session['order-payment_method'] = 'PayPal'
-        """
-        
-        order = shop.order_from_request(request, create=True)
-
-        
-        payment = order.payments.model(
-            order=order,
-            payment_module="cod"
-        )
-       
-        payment.currency = request.GET.get('cc','USD')
-        payment.amount = Decimal(request.GET.get('amt','0.00'))
-        payment.authorized = datetime.now()
-        payment.payment_method = 'PayPal'
-        payment.payment_module_key = 'cod'
-        payment.module = 'Cash on delivery'
-        payment.status = OrderPayment.AUTHORIZED
-        payment.transaction_id = request.GET.get('tx','')
-        payment.save()
-        order.user = request.user if request.user.is_authenticated() else None
-        order.paid = Decimal(request.GET.get('amt','0.00'))
-        order.status = 40
-        order.save()
-        order = order.reload()
-
-        return redirect('plata_order_success')
-
-    else:
-        request.session['checkout_login_error'] = _('An error occurred while processing your payment through Paypal.')
-        return redirect('plata_shop_checkout')
-
 """
 def payment(request):
     info = {}

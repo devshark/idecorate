@@ -31,8 +31,6 @@
         <![endif]-->
         <script type="text/javascript">
             var PRODUCT_IMAGE_URL           = '{% url get_product_original_image %}';
-            var category_id                 = {{ cat_id }};
-            var media_url                   = '{{ MEDIA_URL }}';
             var STYLEBOARD_AJAX_URL         = '{% url styleboard_ajax %}';
             var STYLEBOARD_PRODUCT_AJAX_URL = '{% url styleboard_product_ajax %}';
             var CATEGORY_TREE_AJAX_URL      = '{% url get_category_tree_ajax %}';
@@ -46,12 +44,6 @@
             var SET_PRODUCT_POSITION_URL    = '{% url set_product_positions %}';
             var SEARCH_PRODUCT_URL          = '{% url search_products %}';
             var PRODUCT_POSITIONS           = {% if save_styleboard %}''{% else %}{{ product_positions }}{% endif %};
-            var has_change_mode             = false;
-            var styleboard_mode_type        = '{{ mode }}';
-            var sub_category_count          = {{ category_count }};
-            var mode_toggle_tab             = false;
-            var save_styleboard_action      = false;
-            var logined                     = {% if user.is_authenticated %}true{% else %}false{% endif %};
             var TEXT_IMG_GEN_URL            = '{% url generate_text %}';
             var EMB_IMG_GEN_URL             = '{% url generate_embellishment %}';
             var UPLOAD_EMBELLISMENT_PROG    = '{% url upload_embellishment_progress %}';
@@ -60,19 +52,31 @@
             var PERSONALIZE_ID              = {% if save_styleboard %}{{ save_styleboard.styleboard_item.id }}{% else %}0{% endif %};
             var PERSONALIZE_ITEM            = '{% if personalize_item %}{{ personalize_item }}{% else %}{% endif %}';
             var GET_PERSONALIZE_CART_URL    = '{% url get_personalize_cart_items %}';
-            var is_window_resized           = false;
             var GET_TEMPLATES_LIST_URL      = '{% url get_template_items %}';
-            var create_current_tab          = 'products';
             var GET_TEMPLATES_DETAIL_URL    = '{% url get_template_details %}';
             var BROWSER_WIDTH               = 0;
             var BROWSER_HEIGHT              = 0;
+            var SAVE_TEMPLATE_SESSION_URL   = '{% url save_template_session %}';
+            var SET_SAVE_TEMPLATE_URL       = '{% url set_save_template %}';
+            var SEARCH_SUGGESTION_URL       = '{% url search_suggestions %}';
+
+
+            var category_id                 = {{ cat_id }};
+            var media_url                   = '{{ MEDIA_URL }}';
+            var has_change_mode             = false;
+            var styleboard_mode_type        = '{{ mode }}';
+            var sub_category_count          = {{ category_count }};
+            var mode_toggle_tab             = false;
+            var save_styleboard_action      = false;
+            var logined                     = {% if user.is_authenticated %}true{% else %}false{% endif %};
+            var create_current_tab          = 'products';
+            var is_window_resized           = false;
             var back_one_cat                = false;
             var cat                         = {{cat_id}};
             var view_template               = {{ view_template }} {% if view_template %}{% else %} 0 {% endif %}
-            var SAVE_TEMPLATE_SESSION_URL   = '{% url save_template_session %}';
-            var SET_SAVE_TEMPLATE_URL       = '{% url set_save_template %}';
             var canvas_height;
             var canvas_width;
+
             if(cat != 0){back_one_cat = true;}
 
         </script>
@@ -436,7 +440,8 @@
 <!-- IDECORATE APP -->
 <script type="text/javascript" src="/media/interface/js/jquery.app.js"></script>
 <script type="text/javascript" src="https://raw.github.com/furf/jquery-ui-touch-punch/master/jquery.ui.touch-punch.min.js"></script>
-<!-- <script type="text/javascript" src="/media/interface/js/styleboard.js"></script> -->
+
+<script src="/media/interface/js/search.js"></script>
 <script type="text/javascript">
 
     var instruction = {};
@@ -560,7 +565,6 @@
         $('#save').click(function(e){
             e.preventDefault();
 
-            //if ($('#canvas-wrap .product').length>0 || $('.notEmpty').length > 0 || $('.embellishment.unselected').length > 0)
             if(objCounter > 0) {    
 
                 pop_save_styleboard();
@@ -573,32 +577,6 @@
                 left : '-'+width+'px'
             });
         }
-
-        // set_height('#styleboard-wrap,#styleboard:10,#products:10,.category-wrap:10');
-
-        // $('a[href="#embellishments"]').click(function(e){
-
-        //     e.preventDefault();
-
-        //     set_height('#embellishments:10,#embelishments-list-wrap:10');
-
-        // });
-
-        // $('a[href="#products"]').click(function(e){
-
-        //     e.preventDefault();
-
-        //     set_height('#products:10,.category-wrap:10');
-            
-        // });
-
-        // $('a[href="#templates"]').click(function(e){
-
-        //     e.preventDefault();
-
-        //     set_height('#templates:10,.template-wrap:10');
-            
-        // });
 
         $(window).hashchange();
         
@@ -619,10 +597,8 @@
     function styleboard_instruction(order){
 
         /* 
-            * check if logged in 
-            and if popup instruction should be display
-
-            * display popup instruction if tagged as False
+            - check if logged in and if popup instruction should be display
+            - display popup instruction if tagged as False
         */
 
         var user  = {% if user.id %}{{ user.id }}{% else %} 0 {% endif %};
@@ -700,7 +676,6 @@
     }
 
     function show_instruction_tips(instruction_id){
-
 
         _stlyboard = "<h1>Styleboard</h1>";
         _stlyboard += "<p>This is the space where you can create your dream wedding.</p>";
@@ -838,56 +813,6 @@
 
     WINDOW_HEIGHT = $(window).height();
 
-    function set_height(elements){
-
-        elements = elements.split(',');
-
-        $.each(elements,function(index,value){
-
-            value = value.split(':');
-
-            var element = $(value[0]);
-
-            var height = WINDOW_HEIGHT;
-
-            height = height - get_siblings_height(element);
-
-
-            element.parentsUntil('body').each(function(i, ele){
-
-                height = height - get_siblings_height($(ele));
-
-            });
-
-            if(value[1] != undefined){
-
-                height = height - parseInt(value[1]);
-
-            }
-
-            element.height(height);
-
-            return height;
-
-        });
-
-        resize_canvas();
-
-    }
-
-    function get_siblings_height(element){
-
-        var total = 0;
-
-        element.parent().children().not(element).not('#canvas-wrap, .template-overlay, #idecorate-tooltip.idecorateTooltip , script , :hidden').each(function(i,ele){
-
-            total = total + $(ele).outerHeight(true);
-
-        });
-
-        return total;
-    }
-
     function styleboardH() {
 
         var _height     = $(window).height()-
@@ -946,7 +871,9 @@
         resize_canvas();
 
     }
+
     function generate_user_nav(){
+
         var navs = '<li>';
             navs += '<a href="#" id="logged_as">{{ user|get_nickname }}</a>';
             navs += '<ul>';
@@ -1014,6 +941,7 @@
     }
     
     function logged(val){
+
         logined = true;
         $('#logged_as').text(val);
         $('#lnk-login-signup').parent().hide();
@@ -1027,6 +955,7 @@
         }
         document.location.reload(true);
     }
+
     function logmeout(){
         $.get('{% url logout %}', function(e){
             document.location.reload(true);
@@ -1037,10 +966,12 @@
         logined = false;
         return false;
     }
+
     function closed_modal(){
         $('#page-mask').hide();
         $('#modal-login-signup-window').hide();
     }
+
     function popup_login(){
         var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':"{% url login_signup %}",'frameborder':'0'});
         var modal   = $('#modal-login-signup-window'),
@@ -1050,6 +981,7 @@
         $('#page-mask').css({display:'block'});
         modal.css({display:'block',left:_left});
     }
+
     function pop_save_styleboard(){
         save_styleboard_action = true;
         if (logined)
@@ -1057,6 +989,7 @@
         else
             popup_login();
     }
+
     function save_styleboard_modal(){
         var url = '{% url save_styleboard %}';
         {% if sbid %}
@@ -1070,7 +1003,6 @@
         $('#page-mask').css({display:'block'});
         modal.css({display:'block',left:_left});
     }
-
 
     function email_styleboard_modal(){
         var url = '{% url styleboard_email %}';
@@ -1141,15 +1073,7 @@
         });
     }
 
-
 </script>
-<script type="text/javascript">
-
-    var SEARCH_SUGGESTION_URL = '{% url search_suggestions %}';
-
-</script>
-
-<script src="/media/interface/js/search.js"></script>
 
 <!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
         <script type="text/javascript">

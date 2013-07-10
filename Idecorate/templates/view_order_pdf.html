@@ -1,0 +1,273 @@
+{% load i18n idecorate_interface humanize admin %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1918f90/xhtml" xml:lang="en" lang="en">
+	<meta charset="utf-8">
+    <title>iDecorate Weddings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<style>
+
+	@page {
+		margin-top: 3.5cm;
+		margin-left: 0.8cm;
+		margin-right: 0.8cm;
+		margin-bottom: 2.6cm;
+		size : A4;
+
+		@frame header{
+	    	-pdf-frame-content: header;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        top: 0.8cm;
+	        height: 3cm;
+	    }
+
+	    @frame footer{
+	    	-pdf-frame-content: footer_logo;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 0.8cm;
+	        height: 1.5cm;
+	    }
+	    @frame footer{
+	    	-pdf-frame-content: footer_copyright;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 0.8cm;
+	        height: 1.5cm;
+	    }
+	}
+
+	body{
+		color: #666;
+		font-size: 12px;
+	}
+
+	h1, h2, h3, h4 { /* Don't add an outline to the document */
+	    -pdf-outline: false;
+	    font-weight: normal;
+	    padding: 0;
+	    margin: 0;
+	}
+
+	h4{
+		font-size: 14px;
+		line-height: 16px;
+	}
+
+	.footer{
+    	padding-top: 0.2cm;
+	}
+
+	#footer_copyright{
+	    border-top-width: 1px;
+	    border-top-style: solid;
+	    border-top-color: #918f90;
+    	text-align: right;
+    	font-weight: normal;
+    	line-height: 11px;
+	}
+
+	#header{
+		border-bottom-width: 1px;
+	    border-bottom-style: solid;
+	    border-bottom-color: #918f90;
+    	text-align: center;
+    	font-weight: normal;
+    	line-height: 11px;
+    	padding-bottom: 0.3cm;
+	}
+
+	.totalWrap{
+		font-size: 11px;
+	}
+
+	.bordertop{
+	    border-top: 1px solid #918f90;
+	    font-size: 1px;
+	    line-height: 1px;
+	    margin-top: 0.2cm;
+	    margin-bottom: 0.2cm;
+	}
+
+	.cellHeader{
+	    border-bottom-width: 1px;
+	    border-bottom-style: solid;
+	    border-bottom-color: #918f90;
+	    font-size: 13px;
+	    font-weight: normal;
+	    text-transform: uppercase;
+	    text-align: center;
+
+	}
+
+	.tableLast{
+	    border-bottom-width: 1px;
+	    border-bottom-style: solid;
+	    border-bottom-color: #918f90;
+	}
+
+	.label{
+		width: 4.3cm;
+	}
+
+	.order{
+		margin-top: 0.3cm;
+	}
+
+	.total{
+		font-weight: bold;
+		background-color:#FFC5C3;
+		padding-top: 8px;
+		text-align: center;
+	}
+
+	</style>
+	<body>
+		<div id="header">
+			<img width="100" src="media/images/idecorate_top_logo.jpg" title="idecorate_top_logo" />
+		</div>
+		<div class="viewOrder">
+			<h4>Order ID: {{order.order_id}}</h4>
+			<h4>Date Created: {{order.created}}</h4>
+			<h4>Status: {{order.status|readable_status}}</h4>
+			<div class="bordertop">&nbsp;</div>
+			<table class="info userProfile" border="0" cellpadding="0" cellspacing="0">
+				<tr class="firstRow">
+					<td class="label">First Name :</td>
+					<td class="value">{{order.billing_first_name}}</td>
+				</tr>
+				<tr>
+					<td class="label">Last Name :</td>
+					<td class="value">{{order.billing_last_name}}</td>
+				</tr>
+				<tr>
+					<td class="label">Email Address :</td>
+					<td class="value">{{order.email}}</td>
+				</tr>
+			</table>
+			<div class="bordertop">&nbsp;</div>
+			<table class="info userAddress" border="0" cellpadding="0" cellspacing="0">
+				<tr class="firstRow">
+					<td class="label">Delivery Date :</td>
+					<td colspan="3" class="value">{{order|get_order_detail:"delivery_date"}}</td>
+				</tr>
+				<tr>
+					<td class="label">Delivery Address :</td>
+					<td class="value">{{order|get_order_detail:'delivery_address'}}</td>
+					<td class="label">Billing Address :</td>
+					<td class="value">{{order.billing_address}}</td>
+				</tr>
+				<tr>
+					<td class="label">Delivery Address2 :</td>
+					<td class="value">{{order|get_order_detail:'delivery_address2'}}</td>
+					<td class="label">Billing Address2 :</td>
+					<td class="value">{{order|get_order_detail:'billing_address2'}}</td>
+				</tr>
+				<tr>
+					<td class="label">Delivery City :</td>
+					<td class="value">{{order|get_order_detail:'delivery_city'}}</td>
+					<td class="label">Billing City :</td>
+					<td class="value">{{order.billing_city}}</td>
+				</tr>
+				<tr>
+					<td class="label">Delivery State :</td>
+					<td class="value">{{order|get_order_detail:'delivery_state'}}</td>
+					<td class="label">Billing State :</td>
+					<td class="value">{{order|get_order_detail:'billing_state'}}</td>
+				</tr>
+				<tr>
+					<td class="label">Delivery Zip Code :</td>
+					<td class="value">{{order|get_order_detail:'delivery_zip_code'}}</td>
+					<td class="label">Billing Zip Code :</td>
+					<td class="value">{{order.billing_zip_code}}</td>
+				</tr>
+				<tr>
+					<td class="label">Delivery Country :</td>
+					<td class="value">{{order|get_order_detail:'delivery_country'}}</td>
+					<td class="label">Billing Country :</td>
+					<td class="value">{{order|get_order_detail:'billing_country'}}</td>
+				</tr>		
+			</table>
+			<div class="bordertop">&nbsp;</div>
+			<table class="info userNotes" border="0" cellpadding="0" cellspacing="0">
+				<tr class="firstRow">
+					<td class="label">Payment Method :</td>
+					<td class="value">{{order|get_order_detail:'payment_method'|readable_status_payment}}</td>
+				</tr>
+				<tr>
+					<td class="label">Payment Notes :</td>
+					<td class="value">{{order|get_order_detail:'note'}}</td>
+				</tr>
+				<tr>
+					<td class="label">Order Notes :</td>
+					<td class="value">{{order|get_order_detail:'note'}}</td>
+				</tr>
+			</table>
+
+			<table class="order" cellpadding="5">
+				<thead> 
+					<tr>
+						<td width="2.5cm" class="cellHeader">Image</td>
+						<td width="5cm" class="cellHeader">Product name</td>
+						<td width="4.5cm" class="cellHeader">Unit Price</td>
+						<td width="4cm" class="cellHeader">Quantity</td>
+						<td width="5cm" class="cellHeader">Total</td>
+					</tr>
+				</thead>
+				<tbody>
+					{% for order_item in order_items %}
+					{% if forloop.last %}
+					<tr>
+						<td class="tableLast" style="text-align:center;"><img src="media/products/{{order_item.product.original_image_thumbnail}}"/></td>
+						<td class="tableLast">{{order_item.name}}</td>
+						<td class="tableLast" style="text-align:right;">${{order_item.unit_price|floatformat:2|intcomma}}</td>
+						<td class="tableLast" style="text-align:right;">{{order_item.quantity}}</td>
+						<td class="tableLast" style="text-align:right;">${{order_item.unit_price|multiply:order_item.quantity|floatformat:2|intcomma}}</td>
+					</tr>
+					{% else %}
+					<tr>
+						<td style="text-align:center;"><img src="media/products/{{order_item.product.original_image_thumbnail}}"/></td>
+						<td>{{order_item.name}}</td>
+						<td style="text-align:right;">${{order_item.unit_price|floatformat:2|intcomma}}</td>
+						<td style="text-align:right;">{{order_item.quantity}}</td>
+						<td style="text-align:right;">${{order_item.unit_price|multiply:order_item.quantity|floatformat:2|intcomma}}</td>
+					</tr>
+					{% endif %}
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="4">&nbsp;</td>
+						<td>
+							<table class="totalWrap" cellpadding="5">
+								<tbody>
+									<tr>
+										<td width="3cm" style="text-align:right;">Subtotal : </td>
+										<td width="2.3cm">${{order.items_subtotal|floatformat:2|intcomma}}</td>
+									</tr>
+									<tr>
+										<td style="text-align:right;">Delivery Fee : </td>
+										<td>${{order.shipping_cost|floatformat:2|intcomma}}</td>
+									</tr>
+									<tr class="total">
+										<td colspan="2">
+											<div class="total">Total: ${{order.total|floatformat:2|intcomma}}</div>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<div class="footer" id="footer_logo">
+			<img width="110" src="media/images/logo_txt_print.jpg" title="idecorate" class="logo" />
+		</div>
+		<div class="footer" id="footer_copyright">
+			T 1300 041 210<br/>
+			E enquiry@idecorateweddings.com<br/>
+			&copy; iDecorateWeddings.com 2013
+		</div>

@@ -46,6 +46,8 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from django.core.validators import validate_email
 from django.core.exceptions import ValidationError     
+import logging
+logr = logging.getLogger(__name__)
 
 def home(request):
     info = {}

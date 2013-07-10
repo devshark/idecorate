@@ -82,6 +82,7 @@ def get_user_styleboard(user=None,styleboard_id=None):
             styleboards = CustomerStyleBoard.objects.get(styleboard_item__id=styleboard_id)
         except:
             styleboards = None
+
     return styleboards
 
 def get_user_orders(user=None):
@@ -112,18 +113,38 @@ def get_user_order(order_id,user=None):
 
         return False
 
+def get_order(order_id):
+
+    try:
+        data = {}
+        order = Order.objects.get(id=order_id)
+        order_items = OrderItem.objects.filter(order=order_id)
+        data['order'] = order
+        data['order_items'] = order_items
+
+        return data
+        
+    except :
+
+        pass
+
 @transaction.commit_manually
 def save_styleboard_item(data):
     try:
         customer_styleboard = data['customer_styleboard']
         mode = 'new'
+
         if customer_styleboard:
+
             st = customer_styleboard.styleboard_item
             csb = customer_styleboard
             mode = 'edit'
+
         else:
+
             st = StyleboardItems()
             csb = CustomerStyleBoard()
+
         st.name = data['name']
         st.description = data['description']
         st.item = data['item']
@@ -158,9 +179,10 @@ def get_customer_styleboard_item(customer_styleboard):
     return CustomerStyleBoard.objects.get(id=customer_styleboard.id)
 
 def manage_styleboard_cart_items(sessionid, styleboard_item, mode):
-    print "The mode is: %s" % mode
+    # print "The mode is: %s" % mode
     cart_temp_items = CartTemp.objects.filter(sessionid=sessionid)
-    print "The cart_temp count is: %s" % cart_temp_items.count()
+    
+    # print "The cart_temp count is: %s" % cart_temp_items.count()
     if cart_temp_items.count()>0:
         for item in cart_temp_items:
             save_styleboard_cart_item(item.product, item.quantity, styleboard_item)
@@ -244,7 +266,7 @@ def get_user_keep_images(user=None):
 
 def save_styleboard_as_image(sbid):
 
-    return dynamic_styleboard(sbid,500,200,True)
+    return dynamic_styleboard(sbid,500,317,True)#200
 
 def dynamic_styleboard(id, w, h, isImage=False):
 

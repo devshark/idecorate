@@ -4,6 +4,7 @@ var quantity = 1;
 var selected_prev_prod_qty = 0;
 
 $(document).ready(function(){
+
     var cart_triggered = false;
     $('.checkoutButton').click(function(){
         
@@ -281,7 +282,6 @@ function remove_from_cart(prod_id){
 
 
 	action_url = REMOVE_TO_CART_URL;
-    //alert(prod_id);
     $.ajax({
         url: action_url,
         type: "POST",

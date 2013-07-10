@@ -22,7 +22,7 @@ from django.contrib.auth.models import User
 from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm,ForgotPassForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
     get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item, get_user_keep_images, dynamic_styleboard,\
-    get_user_orders,get_user_order, print_styleboard
+    get_user_orders,get_user_order,get_order, print_styleboard
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
 import re
@@ -398,14 +398,23 @@ def hard_copy_order(request, is_pdf, order_id):
 
     info = {}
 
-    order_id            = int(order_id)
-    user                = request.user
-    user_order          = get_user_order(order_id,user)
+    order_id = int(order_id)
+    order = get_order(order_id)
 
-    info['order']       = user_order['order']
-    info['order_items'] = user_order['order_items']
+    info['order']       = order['order']
+    info['order_items'] = order['order_items']
 
-    return HttpResponse('hard_copy_order');
+    is_pdf = bool(int(is_pdf))
+
+    if is_pdf :
+
+        result = render_to_pdf_response('view_order_pdf.html', info, 'view_order_%s.pdf' % ( str(time.time()).replace('.','_') ))
+
+    else:
+
+        result = render_to_response('view_order_print.html', info,RequestContext(request))
+
+    return result
 
 @csrf_exempt
 def customer_upload_image(request):

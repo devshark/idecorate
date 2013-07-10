@@ -58,6 +58,9 @@
 <h4>Order ID: {{order.order_id}}</h4>
 <h4>Date Created: {{order.created}}</h4>
 <h4>Status: {{order.status|readable_status}}</h4>
+<div class="operation">
+	<a id="print" target="blank" href="{% url hard_copy_order 0 order.id %}">Print</a> | <a id="pdf" target="blank" href="{% url hard_copy_order 1 order.id %}" >PDF</a>
+</div>
 <div class="well">
 	<table cellpadding="5" cellspacing="0" border="0">
 		<tbody>

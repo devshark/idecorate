@@ -12,6 +12,10 @@
 		text-transform: uppercase;
 	}
 
+	h4{
+		font-size: 1.1em;
+	}
+
 }
 
 .ordersWrap {
@@ -23,8 +27,8 @@
 	.ordersTable{
 		background-color: #FFFFFF;
 		width: 100%;
-		border-right: 1px solid #DDDDDD;
-		border-top: 1px solid #DDDDDD;
+		// border-right: 1px solid #DDDDDD;
+		// border-top: 1px solid #DDDDDD;
 
 		th{
 			text-transform: uppercase;
@@ -33,14 +37,14 @@
 		}
 
 		td,th{
-			border-left: 1px solid #DDDDDD;
+			// border-left: 1px solid #DDDDDD;
 			border-bottom: 1px solid #DDDDDD;
 			padding: 5px;
 		}
 		tbody{
 
 			td{
-				vertical-align: top;
+				vertical-align: middle;
 			}
 
 			tr:hover{
@@ -50,6 +54,7 @@
 
 		td.operation{
 			text-align: center;
+			font-weight: bold;
 
 			a{
 				text-decoration: none;
@@ -112,71 +117,103 @@
 }
 
 .viewOrder{
+	position: relative;
 	background-color: #FFFFFF;
 	padding: 10px;
 
-	.infoWrap{
-		margin: 10px 0;
+	// .infoWrap{
+	// 	margin: 10px 0;
+	// 	border-top: 1px solid #DDDDDD;
+	// 	border-bottom: 1px solid #DDDDDD;
+
+	// 	ul.info{
+	// 		float: left;
+	// 		margin: 10px 20px 10px 0;
+
+	// 		li{
+	// 			span{
+	// 				display: inline-block;
+	// 			}
+	// 			.label{
+	// 				text-align: left;
+	// 				width: 110px;
+	// 				margin-right: 5px;
+	// 			}
+	// 		}
+	// 	}
+	// }
+
+	.operation{
+		position: absolute;
+		right: 10px;
+		top: 10px;
+
+		a{
+			color: #000000;
+			text-decoration: none;
+		}
+
+		a:hover{
+			text-decoration: underline;
+		}
+	}
+
+	table.info{
+		width: 100%;
 		border-top: 1px solid #DDDDDD;
-		border-bottom: 1px solid #DDDDDD;
+		margin-top: 10px;
 
-		ul.info{
-			float: left;
-			margin: 10px 20px 10px 0;
+		.label{
+			width: 120px;
+		}
 
-			li{
-				span{
-					display: inline-block;
-				}
-				.label{
-					text-align: left;
-					width: 110px;
-					margin-right: 5px;
-				}
-			}
+		td{
+			padding: 3px 0;
+		}
+
+		.firstRow td{
+			padding-top: 10px;
 		}
 	}
 
 	table.order{
 		margin-top: 10px;
 		width: 100%;
-		border-right: 1px solid #DDDDDD;
-		border-top: 1px solid #DDDDDD;
+		border-bottom: 1px solid #DDDDDD;
 
 		th{
 			text-transform: uppercase;
 			color: #000000;
 			font-family: $helvetica; 
+			border-bottom: 1px solid #DDDDDD;
 		}
 
 		td,th{
-			border-left: 1px solid #DDDDDD;
-			border-bottom: 1px solid #DDDDDD;
 			padding: 5px;
 		}
 		tbody{
 
 			td{
-				vertical-align: top;
+				vertical-align: middle;
 			}
 
-			tr:hover{
-				background-color:#F5F5F5;
-			}
 		}
 	}
 
 	table.totalWrap{
 		float: right;
-		font-size: 1.2em;
 		border-spacing:10px;
 		margin-top: 10px;
 
 		td{
 			padding: 3px 5px;
-			border-top: 1px solid #DDDDDD;
-			border-right: 1px solid #DDDDDD;
-			border-left: 1px solid #DDDDDD;
+		}
+
+		tr.total td{
+			font-size: 1.2em;
+			color: #000000;
+			background-color: #FFC5C3;
+			text-align: center;
 		}
 
 		.backWrap td{

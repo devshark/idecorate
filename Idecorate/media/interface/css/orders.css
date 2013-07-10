@@ -7,6 +7,8 @@
     color: #000000;
     margin-bottom: 15px;
     text-transform: uppercase; }
+  #content h4 {
+    font-size: 1.1em; }
 
 .ordersWrap {
   min-height: 300px;
@@ -14,23 +16,21 @@
   padding: 12px; }
   .ordersWrap .ordersTable {
     background-color: #FFFFFF;
-    width: 100%;
-    border-right: 1px solid #DDDDDD;
-    border-top: 1px solid #DDDDDD; }
+    width: 100%; }
     .ordersWrap .ordersTable th {
       text-transform: uppercase;
       color: #000000;
       font-family: "Trebuchet MS", Helvetica, sans-serif; }
     .ordersWrap .ordersTable td, .ordersWrap .ordersTable th {
-      border-left: 1px solid #DDDDDD;
       border-bottom: 1px solid #DDDDDD;
       padding: 5px; }
     .ordersWrap .ordersTable tbody td {
-      vertical-align: top; }
+      vertical-align: middle; }
     .ordersWrap .ordersTable tbody tr:hover {
       background-color: #F5F5F5; }
     .ordersWrap .ordersTable td.operation {
-      text-align: center; }
+      text-align: center;
+      font-weight: bold; }
       .ordersWrap .ordersTable td.operation a {
         text-decoration: none;
         color: #000000; }
@@ -71,48 +71,52 @@
           font-family: "Trebuchet MS", Helvetica, sans-serif; }
 
 .viewOrder {
+  position: relative;
   background-color: #FFFFFF;
   padding: 10px; }
-  .viewOrder .infoWrap {
-    margin: 10px 0;
+  .viewOrder .operation {
+    position: absolute;
+    right: 10px;
+    top: 10px; }
+    .viewOrder .operation a {
+      color: #000000;
+      text-decoration: none; }
+    .viewOrder .operation a:hover {
+      text-decoration: underline; }
+  .viewOrder table.info {
+    width: 100%;
     border-top: 1px solid #DDDDDD;
-    border-bottom: 1px solid #DDDDDD; }
-    .viewOrder .infoWrap ul.info {
-      float: left;
-      margin: 10px 20px 10px 0; }
-      .viewOrder .infoWrap ul.info li span {
-        display: inline-block; }
-      .viewOrder .infoWrap ul.info li .label {
-        text-align: left;
-        width: 110px;
-        margin-right: 5px; }
+    margin-top: 10px; }
+    .viewOrder table.info .label {
+      width: 120px; }
+    .viewOrder table.info td {
+      padding: 3px 0; }
+    .viewOrder table.info .firstRow td {
+      padding-top: 10px; }
   .viewOrder table.order {
     margin-top: 10px;
     width: 100%;
-    border-right: 1px solid #DDDDDD;
-    border-top: 1px solid #DDDDDD; }
+    border-bottom: 1px solid #DDDDDD; }
     .viewOrder table.order th {
       text-transform: uppercase;
       color: #000000;
-      font-family: "Trebuchet MS", Helvetica, sans-serif; }
+      font-family: "Trebuchet MS", Helvetica, sans-serif;
+      border-bottom: 1px solid #DDDDDD; }
     .viewOrder table.order td, .viewOrder table.order th {
-      border-left: 1px solid #DDDDDD;
-      border-bottom: 1px solid #DDDDDD;
       padding: 5px; }
     .viewOrder table.order tbody td {
-      vertical-align: top; }
-    .viewOrder table.order tbody tr:hover {
-      background-color: #F5F5F5; }
+      vertical-align: middle; }
   .viewOrder table.totalWrap {
     float: right;
-    font-size: 1.2em;
     border-spacing: 10px;
     margin-top: 10px; }
     .viewOrder table.totalWrap td {
-      padding: 3px 5px;
-      border-top: 1px solid #DDDDDD;
-      border-right: 1px solid #DDDDDD;
-      border-left: 1px solid #DDDDDD; }
+      padding: 3px 5px; }
+    .viewOrder table.totalWrap tr.total td {
+      font-size: 1.2em;
+      color: #000000;
+      background-color: #FFC5C3;
+      text-align: center; }
     .viewOrder table.totalWrap .backWrap td {
       padding: 10px 0 0 0;
       border-right: none;

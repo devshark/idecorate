@@ -276,8 +276,8 @@ function populate_products(){
         });
         items = '<div class="product-list clearfix">' + items + '</div>';
         $('.product-list-wrap').html(items);
-        styleboardH();
         manage_product_pagination();
+        styleboardH();
     }
 }
 
