@@ -6,6 +6,7 @@ var selected_prev_prod_qty = 0;
 $(document).ready(function(){
 
     var cart_triggered = false;
+
     $('.checkoutButton').click(function(){
         
         var url = $(this).parent().attr('href');
@@ -30,6 +31,7 @@ $(document).ready(function(){
     });
     $('#guests').keyup(function(){
         var val = $(this).val();
+        console.log(val)
         val = val.replace(/[^0-9]/g,'');
         val = val.replace(/\./g, '');
         $(this).val(val);
@@ -194,6 +196,10 @@ function manage_my_order(){
         } 
         if ((gs=='Guest' || gs=='guest' || gs=='Guests' || gs=='guests') && tables>0){
             $(this).val(guests*dq);
+            update_cart(this);
+        } 
+        if ((gs=='wedding') && tables>0){
+            $(this).val(1*dq);
             update_cart(this);
         }
     });

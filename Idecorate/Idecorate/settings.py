@@ -1,5 +1,6 @@
 # Django settings for Idecorate project.
 import os
+from decimal import Decimal
 PROJECT_PATH = os.path.dirname(__file__)
 
 DEBUG = True
@@ -315,6 +316,8 @@ PLATA_REPORTING_ADDRESSLINE = 'Example Corp. - 3. Example Street - 1234 Example'
 
 PLATA_SHOP_PRODUCT = 'cart.Product'
 PLATA_SHOP_CONTACT = 'cart.Contact'
+PLATA_ORDER_PROCESSORS = ('cart.views.ShippingProcessor',)
+PLATA_SHIPPING = {'cost_percentage': Decimal('0.20'), 'tax_percentage': Decimal('0.00')}
 CURRENCIES = ('USD',)
 #End of Plata Settings
 
@@ -337,7 +340,6 @@ IDECORATE_ENABLE_PAYPAL = True
 IDECORATE_ENABLE_VISA = True
 IDECORATE_ENABLE_MASTERCARD = True
 IDECORATE_ENABLE_AMERICAN_EXPRESS = True
-
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

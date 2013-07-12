@@ -21,6 +21,7 @@ from plata.discount.models import Discount
 from plata.shop.models import Order, OrderPayment
 from plata.shop.views import Shop
 from plata.shop import signals
+from plata.shop.processors import ProcessorBase
 from django import forms
 import re
 import urllib
@@ -37,7 +38,7 @@ from interface.views import clear_styleboard_session, st_man
 from paypal import PayPal, PayPalItem
 from django.core.urlresolvers import reverse
 from datetime import datetime
-from decimal import Decimal
+from decimal import Decimal, ROUND_HALF_UP
 
 from django.core.validators import email_re
 from django.contrib import auth
@@ -46,6 +47,44 @@ from common.models import Countries
 
 import logging
 logr = logging.getLogger(__name__)
+
+class ShippingProcessor(ProcessorBase):
+
+    def process(self, order, items):
+
+        items_subtotal = 0
+
+        for item in items:
+
+            item_subtotal = item.quantity * item._unit_price
+
+            items_subtotal = items_subtotal + item_subtotal
+
+            item._line_item_price = item_subtotal
+
+        """
+            shipping cost is the product of cost and subtotal
+        """
+
+        order.items_subtotal = items_subtotal
+
+        cost = settings.PLATA_SHIPPING['cost_percentage'] * order.subtotal
+        tax = settings.PLATA_SHIPPING['tax_percentage']
+
+        order.shipping_cost, __ = self.split_cost(cost, tax)
+        order.shipping_discount = min(order.discount_remaining, order.shipping_cost)
+        order.shipping_tax = tax / 100 * (order.shipping_cost - order.shipping_discount)
+
+        self.set_processor_value('total', 'shipping', order.shipping_cost - order.shipping_discount + order.shipping_tax)
+        self.set_processor_value('total', 'items_subtotal', order.subtotal)
+
+        total = sum( self.get_processor_value('total').values(), Decimal('0.00'), )
+
+        order.total = total.quantize(Decimal('0.00'), rounding=ROUND_HALF_UP)
+
+        tax_details = dict(order.data.get('tax_details', []))
+        self.add_tax_details(tax_details, tax, order.shipping_cost, order.shipping_discount, order.shipping_tax)
+        order.data['tax_details'] = tax_details.items()
 
 class BaseCheckoutForm(forms.ModelForm):
 
@@ -435,7 +474,11 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 class IdecorateShop(Shop):
 
     def modify_guest_table(self, request, guests, tables, order):
+
         if 'cartsession' in request.session:
+
+            print request.session.get('cartsession')
+
             sessionid = request.session.get('cartsession')
             
             if GuestTableTemp.objects.filter(sessionid=sessionid).exists():
@@ -444,7 +487,7 @@ class IdecorateShop(Shop):
 
                 if GuestTable.objects.filter(order=order).exists():
 
-                    print "with session id: %s and order: %s exists" % (sessionid,order)
+                    logr.info("with session id: %s and order: %s exists" % (sessionid,order))
 
                     guestTable = GuestTable.objects.get(order=order)
                     guestTable.guests = guests
@@ -452,7 +495,7 @@ class IdecorateShop(Shop):
                     guestTable.save()
                 else:
 
-                    print "with session id: %s and no order exists" % (sessionid)
+                    logr.info("with session id: %s and no order exists" % (sessionid))
 
                     guestTable = GuestTable()
                     guestTable.order = order
@@ -468,7 +511,7 @@ class IdecorateShop(Shop):
 
                 if GuestTable.objects.filter(order=order).exists():
 
-                    print "no session id and order: %s exists" % (order)
+                    logr.info("no session id and order: %s exists" % (order))
 
                     guestTable = GuestTable.objects.get(order=order)
                     guestTable.guests = guests
@@ -476,7 +519,7 @@ class IdecorateShop(Shop):
                     guestTable.save()
                 else:
 
-                    print "no session id and no order exists"
+                    logr.info("no session id and no order exists")
 
                     guestTable = GuestTable()
                     guestTable.order = order
@@ -617,21 +660,15 @@ class IdecorateShop(Shop):
 
                             card_error.append(ret['errMsg'])
                             form = ConfirmationForm(**kwargs)
-                        else:
-                            #print "The payment method is: %s" % dir(order)             
-                            return form.process_confirmation()
                             
-                            #form = ConfirmationForm(**kwargs) #TEMPORARY ONLY
+                        else:
+
+                            return form.process_confirmation()
                     else:
                         form = ConfirmationForm(**kwargs)
         else:
             form = ConfirmationForm(**kwargs)
 
-        """
-        custom_data = {}
-        custom_data['order_id'] = order.id
-        custom_data['user'] = request.user.id if request.user.is_authenticated() else 0
-        """
         paypal = PayPal(cancel_return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('plata_shop_checkout')), return_url="%s%s" % (settings.PAYPAL_RETURN_URL, reverse('paypal_return_url')))
         paypal_orders = order.items.filter().order_by('-id')
 
@@ -655,11 +692,11 @@ class IdecorateShop(Shop):
             'paypal_form': mark_safe(paypal.generateInputForm()),
             'shop':self,
             'contact': thisContact,
-            # 'custom_data' : simplejson.dumps(custom_data).replace('"', '&quot;')
             'custom_data' : simplejson.dumps({'order_id':  order.id,'user' : request.user.id if request.user.is_authenticated() else 0}).replace('"', '&quot;')
         })
 
     def checkout(self, request, order):
+
         """Handles the first step of the checkout process"""
         if not request.user.is_authenticated():
             if request.method == 'POST' and '_login' in request.POST:
@@ -726,18 +763,6 @@ class IdecorateShop(Shop):
                 
                 request.session['order-payment_method'] = request.POST.get('order-payment_method','')
 
-                """
-                request.session['order_notes'] = request.POST.get('order-notes','')
-                request.session['delivery_address2'] = delivery_address2
-                request.session['billing_address2'] = billing_address2
-                request.session['delivery_date'] = delivery_date
-                request.session['delivery_state'] = delivery_state
-                request.session['billing_state'] = billing_state
-                request.session['salutation'] = salutation
-                request.session['billing_country'] = billing_country
-                request.session['shipping_country'] = delivery_country
-                """
-
                 custom_data = {}
                 custom_data['order-payment_method'] = request.POST.get('order-payment_method','')
                 custom_data['order_notes'] = request.POST.get('order-notes','')
@@ -786,7 +811,9 @@ class IdecorateShop(Shop):
                 """
                 return redirect('plata_shop_discounts')
         else:
+
             orderform = OrderForm(**orderform_kwargs)
+            
 
         return self.render_checkout(request, {
             'order': order,
@@ -805,15 +832,6 @@ class IdecorateShop(Shop):
         if not order.balance_remaining:
             self.set_order_on_request(request, order=None)
 
-        """
-        oData = {}
-        oData['delivery_address2'] = request.session['delivery_address2']
-        oData['billing_address2'] = request.session['billing_address2']
-        oData['delivery_date'] = request.session['delivery_date']
-        oData['delivery_state'] = request.session['delivery_state']
-        oData['billing_state'] = request.session['billing_state']
-        oData['salutation'] = request.session['salutation']
-        """
 
         order_data = OrderData.objects.get(order=order)
         o_data = simplejson.loads(order_data.data)
@@ -883,6 +901,240 @@ class IdecorateShop(Shop):
                 }))
 
 shop = IdecorateShop(contact_model=Contact, order_model=Order, discount_model=Discount)
+
+def checkout(request):
+
+    sessionid = request.session.get('cartsession',None)
+
+    print sessionid
+    
+    if not sessionid:
+
+        sessionid = generate_unique_id()
+        request.session['cartsession'] = sessionid
+
+    cart_item = CartTemp.objects.filter(sessionid=sessionid).order_by('-id')
+
+    order = shop.order_from_request(request, create=True)
+    order.items.filter().delete()
+
+    if cart_item.count() > 0:
+
+        guest_table = GuestTableTemp.objects.get(sessionid=sessionid)
+
+        for cart in cart_item:
+
+            try:
+
+                order.modify_item(cart.product, absolute=cart.quantity)
+
+            except Exception as e:
+
+                CartTemp.objects.filter(sessionid=sessionid).delete()
+
+                logr.error("The error is: %s" % e)
+
+                return shop.order_new(request)
+
+        shop.modify_guest_table(request, guest_table.guests, guest_table.tables, order)
+
+
+    return redirect('plata_shop_checkout')
+
+def checkout_from_view_styleboard(request):
+
+    if request.method=='POST':
+
+        sessionid = request.session.get('cartsession',None)
+
+        if sessionid:
+
+            CartTemp.objects.filter(sessionid=sessionid).delete()
+            GuestTableTemp.objects.filter(sessionid=sessionid).delete()
+
+        else:       
+
+            sessionid = generate_unique_id()
+            request.session['cartsession'] = sessionid
+
+        styleboard_item_id = request.POST['sid']
+        customer_styleboard = get_user_styleboard(None,styleboard_item_id)
+        styleboard = customer_styleboard.styleboard_item
+        cart_items = get_styleboard_cart_item(styleboard)
+        cart_items = cart_items.order_by('-id')
+
+        order = shop.order_from_request(request, create=True)
+        order.items.filter().delete()
+
+        idecorateSettings = IdecorateSettings.objects.get(pk=1)
+        guests = styleboard.item_guest
+
+        if not guests:
+
+            guests = idecorateSettings.global_default_quantity
+
+        tables = styleboard.item_tables
+
+        if not tables:
+
+            tables = idecorateSettings.global_table
+
+        if cart_items.count() > 0:
+
+            for cart in cart_items:
+                data = {}
+                data['product'] = cart.product
+                data['sessionid'] = sessionid
+                data['quantity'] = cart.quantity
+                data['guests'] = guests
+                data['tables'] = tables
+                data['wedding'] = 1
+                add_to_cart(data)
+
+        cart_items = CartTemp.objects.filter(sessionid=sessionid).order_by('-id')
+
+        logr.info("The cart_items count from view is: %s" % cart_items.count())
+
+        if cart_items.count() > 0:
+
+            for cart in cart_items:
+
+                try:
+                    order.modify_item(cart.product, absolute=cart.quantity)
+
+                except:
+
+                    CartTemp.objects.filter(sessionid=sessionid).delete()
+
+                    return shop.order_new(request)
+
+            shop.modify_guest_table(request, guests, tables, order)
+
+        sms = st_man(request, False)
+        
+        return redirect('plata_shop_checkout')
+
+    else:
+
+        return redirect('styleboard')
+
+def paypal_return_url(request):
+
+    if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
+        
+        try:
+
+            OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
+            return redirect('plata_order_success')
+
+        except:
+            
+            pass
+        
+        order = shop.order_from_request(request, create=True)
+        
+        payment = order.payments.model(
+            order=order,
+            payment_module="cod"
+        )
+       
+        payment.currency = request.GET.get('cc','USD')
+        payment.amount = Decimal(request.GET.get('amt','0.00'))
+        payment.authorized = datetime.now()
+        payment.payment_method = 'PayPal'
+        payment.payment_module_key = 'cod'
+        payment.module = 'Cash on delivery'
+        payment.status = OrderPayment.AUTHORIZED
+        payment.transaction_id = request.GET.get('tx','')
+        payment.save()
+        order.user = request.user if request.user.is_authenticated() else None
+        order.paid = Decimal(request.GET.get('amt','0.00'))
+        order.status = 40
+        order.save()
+        order = order.reload()
+
+        return redirect('plata_order_success')
+
+    else:
+        request.session['checkout_login_error'] = _('An error occurred while processing your payment through Paypal.')
+        return redirect('plata_shop_checkout')
+
+@csrf_exempt
+def paypal_ipn(request):
+
+    postData = {} 
+
+    for key, value in request.POST.iteritems():
+        postData[key] = value
+                
+    postData['cmd'] = "_notify-validate"
+
+    result = urllib.urlopen(settings.PAYPAL_IPN_URL, urllib.urlencode(postData)).read()
+
+    if result == "VERIFIED":
+
+        txn_id = request.POST.get('txn_id','')
+        custom_data = request.POST.get('custom', '')
+
+        try:
+            OrderPayment.objects.get(transaction_id=str(txn_id).strip())
+            return HttpResponse('existing')
+
+        except Exception as e:
+            pass
+
+        if request.POST.get('payment_status') == 'Completed':
+
+            try:
+                data = simplejson.loads(custom_data)
+
+                order = Order.objects.get(id=int(data['order_id']))
+                payment = order.payments.model(order=order,payment_module="cod")
+                order_data = OrderData.objects.get(order=order)
+
+                o_data = simplejson.loads(order_data.data)
+
+                paymentData = {}
+                paymentData['delivery_address2'] = o_data['delivery_address2']
+                paymentData['billing_address2'] = o_data['billing_address2']
+                paymentData['delivery_date'] = o_data['delivery_date']
+                paymentData['delivery_state'] = o_data['delivery_state']
+                paymentData['billing_state'] = o_data['billing_state']
+                paymentData['salutation'] = o_data['salutation']
+
+                payment.currency = request.POST.get('mc_currency','USD')
+                payment.amount = Decimal(request.POST.get('payment_gross','0.00'))
+                payment.authorized = datetime.now()
+                payment.payment_method = 'PayPal'
+                payment.payment_module_key = 'cod'
+                payment.module = 'Cash on delivery'
+                payment.status = 40
+                payment.transaction_id = txn_id
+                payment.data = simplejson.dumps(paymentData)
+                payment.save()
+
+                order.user = User.objects.get(id=int(data['user']))
+                order.paid = Decimal(request.POST.get('payment_gross','0.00'))
+                order.status = 40
+                order.notes = o_data['order_notes']
+                order.save()
+                order.reload()
+
+                emailed = send_email_order(order, order.user, order.notes, None)
+
+                logr.info('emailed order confirmation to : %s from order IPN' % order.user.email)
+
+                o_data['ipn_emailed'] = bool(emailed)
+                
+                order_data.data = simplejson.dumps(o_data)
+                
+                order_data.save()
+
+            except Exception as e:
+
+                logr.error('error on processing payment via IPN: %s' % e)
+
+    return HttpResponse('recieved')
 
 def add_to_cart_ajax(request):  
     if request.method == "POST":
@@ -1004,213 +1256,6 @@ def remove_all_cart_ajax(request):
     else:
         return HttpResponseNotFound()
 
-def checkout(request):
-    sessionid = request.session.get('cartsession',None)
-    if not sessionid:
-        sessionid = generate_unique_id()
-        request.session['cartsession'] = sessionid
-    cart_item = CartTemp.objects.filter(sessionid=sessionid).order_by('-id')
-
-    order = shop.order_from_request(request, create=True)
-    order.items.filter().delete()
-
-    if cart_item.count() > 0:
-        guest_table = GuestTableTemp.objects.get(sessionid=sessionid)
-        for cart in cart_item:
-            try:
-                order.modify_item(cart.product, absolute=cart.quantity)
-            except Exception as e:
-                CartTemp.objects.filter(sessionid=sessionid).delete()
-                print "The error is: %s" % e
-                return shop.order_new(request)
-
-        shop.modify_guest_table(request, guest_table.guests, guest_table.tables, order)
-
-
-    return redirect('plata_shop_checkout')
-
-def checkout_from_view_styleboard(request):
-    if request.method=='POST':
-
-        sessionid = request.session.get('cartsession',None)
-        if sessionid:
-            CartTemp.objects.filter(sessionid=sessionid).delete()
-            GuestTableTemp.objects.filter(sessionid=sessionid).delete()
-        else:       
-            sessionid = generate_unique_id()
-            request.session['cartsession'] = sessionid
-
-        styleboard_item_id = request.POST['sid']
-        customer_styleboard = get_user_styleboard(None,styleboard_item_id)
-        styleboard = customer_styleboard.styleboard_item
-        cart_items = get_styleboard_cart_item(styleboard)
-        cart_items = cart_items.order_by('-id')
-
-        order = shop.order_from_request(request, create=True)
-        order.items.filter().delete()
-
-        idecorateSettings = IdecorateSettings.objects.get(pk=1)
-        guests = styleboard.item_guest
-        if not guests:
-            guests = idecorateSettings.global_default_quantity
-        tables = styleboard.item_tables
-        if not tables:
-            tables = idecorateSettings.global_table
-
-        if cart_items.count() > 0:
-            for cart in cart_items:
-                data = {}
-                data['product'] = cart.product
-                data['sessionid'] = sessionid
-                data['quantity'] = cart.quantity
-                data['guests'] = guests
-                data['tables'] = tables
-                data['wedding'] = 1
-                add_to_cart(data)
-
-        cart_items = CartTemp.objects.filter(sessionid=sessionid).order_by('-id')
-        print "The cart_items count from view is: %s" % cart_items.count()
-        if cart_items.count() > 0:
-            for cart in cart_items:
-                try:
-                    order.modify_item(cart.product, absolute=cart.quantity)
-                except:
-                    CartTemp.objects.filter(sessionid=sessionid).delete()
-                    return shop.order_new(request)
-
-            shop.modify_guest_table(request, guests, tables, order)
-
-        sms = st_man(request, False)
-        
-        # request.session['personalize_id'] = styleboard.id
-        return redirect('plata_shop_checkout')
-    else:
-        return redirect('styleboard')
-
-def paypal_return_url(request):
-
-    if PayPal.isSuccessfull(st=request.GET.get('st',''), tx=request.GET.get('tx','')):
-        
-        try:
-            OrderPayment.objects.get(transaction_id=str(request.GET.get('tx','')).strip())
-            return redirect('plata_order_success')
-        except:
-            pass
-
-        """
-        request.session['delivery_address2'] = ''
-        request.session['billing_address2'] = ''
-        request.session['delivery_date'] = ''
-        request.session['delivery_state'] = ''
-        request.session['billing_state'] = ''
-        request.session['salutation'] = ''
-        request.session['order-payment_method'] = 'PayPal'
-        """
-        
-        order = shop.order_from_request(request, create=True)
-        
-        payment = order.payments.model(
-            order=order,
-            payment_module="cod"
-        )
-       
-        payment.currency = request.GET.get('cc','USD')
-        payment.amount = Decimal(request.GET.get('amt','0.00'))
-        payment.authorized = datetime.now()
-        payment.payment_method = 'PayPal'
-        payment.payment_module_key = 'cod'
-        payment.module = 'Cash on delivery'
-        payment.status = OrderPayment.AUTHORIZED
-        payment.transaction_id = request.GET.get('tx','')
-        payment.save()
-        order.user = request.user if request.user.is_authenticated() else None
-        order.paid = Decimal(request.GET.get('amt','0.00'))
-        order.status = 40
-        order.save()
-        order = order.reload()
-
-        return redirect('plata_order_success')
-
-    else:
-        request.session['checkout_login_error'] = _('An error occurred while processing your payment through Paypal.')
-        return redirect('plata_shop_checkout')
-
-@csrf_exempt
-def paypal_ipn(request):
-
-    postData = {} 
-
-    for key, value in request.POST.iteritems():
-        postData[key] = value
-                
-    postData['cmd'] = "_notify-validate"
-
-    result = urllib.urlopen(settings.PAYPAL_IPN_URL, urllib.urlencode(postData)).read()
-
-    if result == "VERIFIED":
-
-        txn_id = request.POST.get('txn_id','')
-        custom_data = request.POST.get('custom', '')
-
-        try:
-            OrderPayment.objects.get(transaction_id=str(txn_id).strip())
-            return HttpResponse('existing')
-
-        except Exception as e:
-            pass
-
-        if request.POST.get('payment_status') == 'Completed':
-
-            try:
-                data = simplejson.loads(custom_data)
-
-                order = Order.objects.get(id=int(data['order_id']))
-                payment = order.payments.model(order=order,payment_module="cod")
-                order_data = OrderData.objects.get(order=order)
-
-                o_data = simplejson.loads(order_data.data)
-
-                paymentData = {}
-                paymentData['delivery_address2'] = o_data['delivery_address2']
-                paymentData['billing_address2'] = o_data['billing_address2']
-                paymentData['delivery_date'] = o_data['delivery_date']
-                paymentData['delivery_state'] = o_data['delivery_state']
-                paymentData['billing_state'] = o_data['billing_state']
-                paymentData['salutation'] = o_data['salutation']
-
-                payment.currency = request.POST.get('mc_currency','USD')
-                payment.amount = Decimal(request.POST.get('payment_gross','0.00'))
-                payment.authorized = datetime.now()
-                payment.payment_method = 'PayPal'
-                payment.payment_module_key = 'cod'
-                payment.module = 'Cash on delivery'
-                payment.status = 40
-                payment.transaction_id = txn_id
-                payment.data = simplejson.dumps(paymentData)
-                payment.save()
-
-                order.user = User.objects.get(id=int(data['user']))
-                order.paid = Decimal(request.POST.get('payment_gross','0.00'))
-                order.status = 40
-                order.notes = o_data['order_notes']
-                order.save()
-                order.reload()
-
-                emailed = send_email_order(order, order.user, order.notes, None)
-
-                logr.info('emailed order confirmation to : %s from order IPN' % order.user.email)
-
-                o_data['ipn_emailed'] = bool(emailed)
-                
-                order_data.data = simplejson.dumps(o_data)
-                
-                order_data.save()
-
-            except Exception as e:
-
-                logr.error('error on processing payment via IPN: %s' % e)
-
-    return HttpResponse('recieved')
 """
 def payment(request):
     info = {}

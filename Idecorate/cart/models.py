@@ -46,7 +46,6 @@ class Product(ProductBase):
     def get_absolute_url(self):
         return ('plata_product_detail', (), {'object_id': self.pk})
 
-
 class ProductPrice(PriceBase):
     product = models.ForeignKey(Product, verbose_name=_('product'),
         related_name='prices')

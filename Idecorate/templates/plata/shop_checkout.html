@@ -109,6 +109,10 @@
 					</thead>
 					<tbody>
 						{{ order.items|generate_product_order_list:order }}
+						<tr>
+							<td colspan="3" style="text-align:left;" class="productPricing"> Shipping </td>
+							<td class="productPricing">${{order.shipping|floatformat:2|intcomma}}</td>
+						</tr>
 					</tbody>
 					<tfoot>
 						<tr>
@@ -121,7 +125,7 @@
 						<tr>
 							<td colspan="3">
 								<p style="font-size:11px;">All prices are in USD</p>
-								<p style="font-size:11px;">Estimated shipping cost applies 15% flat rate</p>
+								<p style="font-size:11px;">Estimated shipping cost applies 20% flat rate</p>
 							</td>
 							<td>
 								<!--<p> + $100 Shipping Fee &nbsp;</p>--> 
