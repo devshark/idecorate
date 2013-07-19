@@ -174,6 +174,14 @@
       color: #FFFFFF;
       padding: 10px;
       text-transform: uppercase; }
+      #confirm-order .myOrderTable h4 .operation {
+        float: right;
+        font-size: 11px; }
+        #confirm-order .myOrderTable h4 .operation a {
+          color: #FFFFFF;
+          text-decoration: none; }
+        #confirm-order .myOrderTable h4 .operation a:hover {
+          text-decoration: underline; }
     #confirm-order .myOrderTable table {
       width: 95%;
       margin: 0 auto; }
@@ -257,3 +265,31 @@
 
 p.comment {
   margin-left: 15px; }
+
+#modal_email_checkout_order {
+  border: 5px solid #DDD;
+  position: fixed;
+  width: 500px;
+  padding: 0 5px 5px;
+  height: auto;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 0 8px #333;
+  z-index: 99999;
+  top: 10%; }
+  #modal_email_checkout_order h2 {
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+    text-align: right; }
+    #modal_email_checkout_order h2 a.close-modal-btn {
+      font-size: 20px;
+      line-height: 20px;
+      text-decoration: none;
+      color: #666; }
+  #modal_email_checkout_order #iframe_wrap {
+    min-height: 275px !important; }
+    #modal_email_checkout_order #iframe_wrap iframe {
+      /*height: 480px;*/
+      min-height: 325px;
+      width: 100%; }

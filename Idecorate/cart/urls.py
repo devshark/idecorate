@@ -11,6 +11,7 @@ urlpatterns =  patterns('cart.views',
     url(r'^styleboard/checkout$', 'checkout_from_view_styleboard', {}, name='checkout_from_view_styleboard'),
     url(r'^cart/paypal_return_url/$', 'paypal_return_url', {}, name='paypal_return_url'),
     url(r'^cart/paypal_ipn/$', 'paypal_ipn', {}, name='paypal_ipn'),
+    url(r'^cart/order_checkout_email/$', 'order_checkout_email', {}, name='order_checkout_email'),
     #url(r'^cart/payment$', 'payment', {}, name='payment'),
 )
 

@@ -41,6 +41,7 @@
 		{% for item in user_styleboard %}
 
 		<div class="featureContentWrap clearfix">
+			<!-- <a class="delStyleboard" href="#">Delete</a> -->
 			<div class="clearfix featureImg">
 				<a href="{% url styleboard_view item.styleboard_item.id %}"><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /></a> 
 			</div>

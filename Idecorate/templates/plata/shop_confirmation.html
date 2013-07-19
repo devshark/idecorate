@@ -19,6 +19,13 @@
 	{% endif %}
 
 {% endif %}
+<div id="page-mask" style="display:none;"></div>
+<div id="modal_email_checkout_order" style="display:none;">
+            <h2 id="modal_email_checkout_order_header">
+                <a href="#" id="close_modal" class="close-modal-btn">&times;</a>
+            </h2>
+            <div id="iframe_wrap"></div>
+        </div>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
@@ -31,8 +38,35 @@
 
 		});
 
+		$('#email_order').click(function(e){
+            e.preventDefault();
+            email_order_modal();
+        });
+
+        $('.close-modal-btn').click(function(e){
+            e.preventDefault();
+            $('#page-mask').hide();
+            $(this).parent().parent().hide();
+        });
 
 	});
+
+    function email_order_modal(){
+        var url = '{% url order_checkout_email %}?order_id={{ order.id }}';
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-order-email-iframe','src':url,'frameborder':'0','style':'min-height:275px !important;'});
+        var modal   = $('#modal_email_checkout_order'),
+            _left   = $(window).width()/2-modal.width()/2;
+            frame   = $('#iframe_wrap').html(iframe);
+
+        $('#page-mask').css({display:'block'});
+        modal.css({display:'block',left:_left});
+    }
+
+    function order_email_message(msg){
+        $('#page-mask').hide();
+        $('#modal_email_checkout_order').hide();
+        alert(msg);
+    }
 
 </script>
 {% endblock %}

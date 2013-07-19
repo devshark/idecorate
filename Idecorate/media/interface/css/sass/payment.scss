@@ -289,6 +289,18 @@
 			color: #FFFFFF;
 			padding: 10px;
 			text-transform: uppercase;
+
+			.operation{
+				float: right;
+				font-size: 11px;
+				a{
+					color: #FFFFFF;
+					text-decoration: none;
+				}
+				a:hover{
+					text-decoration: underline;
+				}
+			}
 		}
 		table{
 			width: 95%;
@@ -397,4 +409,42 @@
 
 p.comment{
 	margin-left:15px;
+}
+
+#modal_email_checkout_order {
+    border: 5px solid #DDD;
+    position: fixed;
+    width: 500px;
+    padding: 0 5px 5px;
+    height: auto;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 0 8px #333;
+    z-index: 99999;
+    top: 10%;
+
+    h2 {
+    	font-size: 0;
+	    margin: 0;
+	    padding: 0;
+	    text-align: right;
+
+	    a.close-modal-btn{
+	    	font-size: 20px;
+	    	line-height: 20px;
+		    text-decoration: none;
+		    color: #666;
+		}
+	}
+
+	#iframe_wrap{
+		min-height: 275px !important;
+
+		iframe {
+			/*height: 480px;*/
+			min-height: 325px;
+			width: 100%;
+		}
+	}
+
 }

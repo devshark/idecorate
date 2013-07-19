@@ -54,6 +54,7 @@ class CustomerStyleBoard(models.Model):
 	styleboard_item = models.ForeignKey(StyleboardItems, db_column='styleboard_item_id', blank=True)
 	active = models.BooleanField(db_column='active', default=False)
 	total_price = models.DecimalField(db_column='total_price', max_digits=19, decimal_places=2, null=True, blank=True)
+	# deleted = models.IntegerField(db_column='deleted', default=0)
 	created = models.DateField(db_column='created', auto_now_add=True, blank=True)
 
 	class Meta:

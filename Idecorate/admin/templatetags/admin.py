@@ -5,7 +5,7 @@ from menu.models import InfoMenu, SiteMenu, FooterMenu, FatFooterMenu, ItemMenu
 from category.services import get_categories
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
-from cart.models import ProductPrice, ProductDetails, Contact
+from cart.models import ProductPrice, ProductDetails, Contact, OrderData
 from customer.models import CustomerProfile
 from customer.services import customer_profile
 from django.contrib.humanize.templatetags.humanize import naturaltime, intcomma
@@ -728,21 +728,56 @@ def readable_status(value):
 @register.filter
 def readable_status_payment(value):
 
-	data = {
-		'PayPal':'PayPal',
-		'Visa':'Visa',
-		'Mastercard':'Mastercard',
-		'American_Express': 'American Express'
-	}
+	try:
+		data = {
+			'PayPal':'PayPal',
+			'Visa':'Visa',
+			'Mastercard':'Mastercard',
+			'American_Express': 'American Express'
+		}
 
-	return data[str(value)]
+		return data[str(value)]
+	except Exception as e:
+		return 'N/A'
 
 @register.filter
 def get_order_detail(order,what):
-	return get_order(order)[what]
+
+	result = ""
+
+	try: 
+
+		result = get_order(order).get(what, None)
+
+	except :
+
+		pass
+
+	if not result:
+
+		if what == 'payment_method' or what == 'delivery_date':
+
+			try:
+				orderDatum = OrderData.objects.get(order=order)
+
+				data = simplejson.loads(orderDatum.data)
+
+				needed = {
+					'payment_method': data.get('order-payment_method', None),
+					'delivery_date': data.get('delivery_date', None)
+				}
+				
+				result = needed[what]
+
+			except:
+
+				pass
+
+	return result
 
 @register.filter
 def get_order(order):
+
 	try:
 		oPayment = OrderPayment.objects.get(order=order)
 	except:

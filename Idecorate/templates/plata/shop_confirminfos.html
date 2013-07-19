@@ -23,7 +23,11 @@
 
 			<p>Your order is almost complete. Please review the details below and click "Proceed to Payment" if all the information is correct. You may use the "Back" button to make changes to your order if necessary.</p>
 			<div class="myOrderTable">
-				<h4>My Order</h4>
+				<h4>My Order
+					<div class="operation">
+						<a id="print" target="blank" href="{% url hard_copy_order 0 order.id %}">Print</a> | <a id="pdf" target="blank" href="{% url hard_copy_order 1 order.id %}" >PDF</a>| <a id="email_order" target="blank" href="#" >Email</a>
+					</div>
+				</h4>
 				<table>
 					<thead>
 						<tr>
@@ -58,7 +62,7 @@
 
 			<fieldset class="clearfix">
 				<legend>PERSONAL INFORMATION</legend>
-				<span class="label">Salutation</span><span class="value">{{ request.session.salutation }}</span>
+				<span class="label">Salutation</span><span class="value">{{ contact.billing_salutation  }}</span><!--request.session.salutation-->
 				<span class="label">First Name</span><span class="value">{{ order.billing_first_name }}</span>
 				<span class="label">Last Name</span><span class="value">{{ order.billing_last_name }}</span>
 				<span class="label">Email</span><span class="value">{{ order.email }}</span>
