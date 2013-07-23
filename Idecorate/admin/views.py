@@ -722,8 +722,8 @@ def admin_edit_product(request, prod_id):
 
                 try:
 
-                    os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.original_image_thumbnail))
-                    os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.original_image))
+                    # os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.original_image_thumbnail))
+                    # os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/", product.original_image))
                     os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
 
                 except:

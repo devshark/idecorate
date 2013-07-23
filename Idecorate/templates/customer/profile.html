@@ -129,6 +129,10 @@ $(function(){
 	});
 
 	FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
+
+	$('.delStyleboard').click(function(e){
+		confirm('Are you sure you want to delete this item?');
+	});
 /*
 	page_H();
 	$(window).resize(page_H);

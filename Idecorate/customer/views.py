@@ -173,8 +173,7 @@ def profile(request):
     user_profile = customer_profile(user)
     info['user_profile'] = user_profile
     info['currentUrl'] = request.get_full_path()
-    user_styleboard = get_user_styleboard(user) 
-    info['user_styleboard'] = user_styleboard
+    info['user_styleboard'] = get_user_styleboard(user) 
 
     idecorateSettings = IdecorateSettings.objects.get(pk=1)
     info['global_default_quantity'] = idecorateSettings.global_default_quantity
@@ -1135,3 +1134,11 @@ def saved_images(request):
     info['user_keeped_images']  = user_keeped_images
 
     return render_to_response('customer/saved_images.html', info, RequestContext(request))
+
+
+# def delete_styleboard(request, id):
+
+#     try:
+#         StyleboardItem = StyleboardItems.objects.get(id=styleboard_id)
+#     except: 
+#         pass
