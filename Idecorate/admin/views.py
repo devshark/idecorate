@@ -434,8 +434,8 @@ def admin_create_product(request):
             imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
             imgSizeProduct = (settings.PRODUCT_WIDTH, settings.PRODUCT_HEIGHT)
             splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
-            thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
-            prodName ="%s%s" % (splittedName[0], '.jpg')
+            thumbName = "%s%s" % (splittedName[0].replace(' ', '_'), '_thumbnail.jpg')
+            prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.jpg')
 
             img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
             img.load()
@@ -453,43 +453,44 @@ def admin_create_product(request):
 
                     bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
 
-                bgImg = Image.new("RGB", img.size, (255, 255, 255))
+            bgImg = Image.new("RGB", img.size, (255, 255, 255))
+            
+            if splittedName[1][1:] == 'png':
                 
-                if splittedName[1][1:] == 'png':
-                    
-                        bgImg.paste(img, mask=img.split()[3])
-                else:
+                    bgImg.paste(img, mask=img.split()[3])
+            else:
 
-                    bgImg.paste(img)
+                bgImg.paste(img)
 
-                bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", prodName), 'JPEG', quality=100)
+            bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", prodName), 'JPEG', quality=100)
+            
+            #CREATE THUMBNAIL
+            img.thumbnail(imgSize,Image.ANTIALIAS)
+            bgImg = Image.new('RGB', imgSize, (255, 255, 255))
+
+            if splittedName[1][1:] == 'png':
                 
-                #CREATE THUMBNAIL
-                img.thumbnail(imgSize,Image.ANTIALIAS)
-                bgImg = Image.new('RGB', imgSize, (255, 255, 255))
+                bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2), mask=img.split()[3])
+            
+            else:
 
-                if splittedName[1][1:] == 'png':
-                    
-                    bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2), mask=img.split()[3])
-                
-                else:
+                bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
 
-                    bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
-
-                bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName), 'JPEG', quality=100)
+            bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName), 'JPEG', quality=100)
 
 
             img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
             
+            nb_product_name = form.cleaned_data['no_background'].replace(' ', '_')
 
             if img.size[0] > 400 or img.size[1] > 400:
                 #RESIZE NO BACKGROUND IMAGE
                 img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
                 bgImg = Image.new('RGBA', imgSizeProduct, (255, 255, 255, 0))
                 bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
-                bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+                bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", nb_product_name))
             else:
-                img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+                img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", nb_product_name))
 
             """
             if img.mode != "RGB":
@@ -504,7 +505,7 @@ def admin_create_product(request):
             product.slug = "%s-%s" % (form.cleaned_data['product_name'], form.cleaned_data['product_sku'])
             product.description = form.cleaned_data['product_description']
             product.original_image = prodName
-            product.no_background = form.cleaned_data['no_background']
+            product.no_background = nb_product_name
             product.original_image_thumbnail = thumbName
             product.sku = form.cleaned_data['product_sku']
             product.default_quantity = 1 if form.cleaned_data['default_quantity'] is None else form.cleaned_data['default_quantity']
@@ -675,8 +676,8 @@ def admin_edit_product(request, prod_id):
             if product.original_image != form.cleaned_data['original_image']:
                 imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
                 splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
-                thumbName = "%s%s" % (splittedName[0], '_thumbnail.jpg')
-                prodName ="%s%s" % (splittedName[0], '.jpg')
+                thumbName = "%s%s" % (splittedName[0].replace(' ', '_'), '_thumbnail.jpg')
+                prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.jpg')
 
                 img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
                 img.load()
@@ -733,20 +734,21 @@ def admin_edit_product(request, prod_id):
                 product.original_image_thumbnail = thumbName
                 product.original_image = prodName
 
-            if product.no_background != form.cleaned_data['no_background']:
-                product.no_background = form.cleaned_data['no_background']
+            nb_product_name = form.cleaned_data['no_background'].replace(' ', '_')
+
+            if product.no_background != nb_product_name:
+                product.no_background = nb_product_name
 
                 #RESIZE NO BACKGROUND IMAGE
                 img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
-
                 if img.size[0] > 400 or img.size[1] > 400:
 
                     img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
                     bgImg = Image.new('RGBA', imgSizeProduct, (255, 255, 255, 0))
                     bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
-                    bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+                    bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", nb_product_name))
                 else:
-                    img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", form.cleaned_data['no_background']))
+                    img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", nb_product_name))
                 
                 try:
                     os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
