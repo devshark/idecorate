@@ -162,6 +162,10 @@ def st_man(request, needToClear=True):
 
     if sbid:
 
+        if not get_user_styleboard(None, sbid):
+            
+            raise Http404
+
         info['sbid'] = sbid
 
         session_sbid = request.session.get('sbid', None)

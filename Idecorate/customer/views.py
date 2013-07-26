@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.template import RequestContext
 from django.utils import simplejson
-from django.http import HttpResponseNotFound
+from django.http import HttpResponseNotFound, Http404
 from django.core import serializers
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
@@ -502,11 +502,13 @@ def save_styleboard(request):
 
 def styleboard_view(request,sid=None):
     if not sid:
-        return redirect('home')
+        # return redirect('home')
+        raise Http404
     info = {}
     styleboard = get_user_styleboard(None, sid)
     if not styleboard:
-        return redirect('home')
+        # return redirect('home')
+        raise Http404
 
     """
     manage add to cart

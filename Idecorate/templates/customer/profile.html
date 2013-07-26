@@ -49,7 +49,7 @@
 		{% for item in user_styleboard %}
 
 		<div class="featureContentWrap clearfix">
-			<a class="delStyleboard" href="{% url delete_styleboard  item.styleboard_item.id %}">Remove</a>
+			<a class="delStyleboard" href="{% url delete_styleboard  item.styleboard_item.id %}">Delete</a>
 			<div class="socials">
 				<div class="facebookShare">
 					<a href="#" onclick="postToFeed('http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}','http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/640/405/','{{ item.styleboard_item.name }}','{{ item.styleboard_item.description|escapejs }}')">
@@ -142,7 +142,7 @@ $(function(){
 
 		e.preventDefault();
 
-		if(confirm('Are you sure you want to delete this item?')){
+		if(confirm('Are you sure you want to delete this styleboard? It will be removed from your saved styleboards and will no longer be viewable online.')){
 			
 			window.location.href = $(this).attr('href');
 
