@@ -745,33 +745,35 @@ def get_order_detail(order,what):
 
 	result = ""
 
-	try: 
+	# try: 
 
-		result = get_order(order).get(what, None)
+	result = get_order(order).get(what, None)
 
-	except :
+	# except :
 
-		pass
+		# pass
 
-	if not result:
+	# if not result:
 
-		if what == 'payment_method' or what == 'delivery_date':
+	# 	if what == 'payment_method' or what == 'delivery_date' or what == 'contact_number':
 
-			try:
-				orderDatum = OrderData.objects.get(order=order)
+	# 		try:
+	# 			orderDatum = OrderData.objects.get(order=order)
 
-				data = simplejson.loads(orderDatum.data)
+	# 			data = simplejson.loads(orderDatum.data)
 
-				needed = {
-					'payment_method': data.get('order-payment_method', None),
-					'delivery_date': data.get('delivery_date', None)
-				}
+	# 			needed = {
+	# 				'payment_method': data.get('order-payment_method', None),
+	# 				'delivery_date': data.get('delivery_date', None),
+	# 				'contact_number': data.get('contact_number', None)
+	# 			}
 				
-				result = needed[what]
+	# 			result = needed[what]
 
-			except:
+	# 		except Exception as e:
 
-				pass
+	# 			print e
+	# 			pass
 
 	return result
 
@@ -791,6 +793,7 @@ def get_order(order):
 	if oPayment:
 		o['payment_method'] = str(oPayment.payment_method)
 		o['delivery_date'] 	= str(oPayment.data.get('delivery_date',''))
+		o['contact_number']	= str(oPayment.data.get('contact_number',''))
 	else:
 		o['payment_method'] = ''
 		o['delivery_date']	= ''

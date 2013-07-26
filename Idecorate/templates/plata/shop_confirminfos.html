@@ -4,7 +4,7 @@
 	<div class="payment clearfix">
 		<div id="confirm-order">
 
-			{% if request|get_session_by_key:"order-payment_method" == "PayPal" %}
+			{% if misc_data.order_payment_method == "PayPal" %}
 			<form id="conf_form" method="post" action="{{ paypal_url }}">
 			{{ paypal_form }}
 			<input type="hidden" name="custom" value="{{ custom_data|safe }}" />
@@ -52,7 +52,7 @@
 								<h5>{{ guest_table.tables }} Tables</h5>
 							</td>
 							<td>
-								<p><!-- +$20 Shipping fee --></p>
+								<!-- <p>+$20 Shipping fee</p> -->
 								<span class="total">Total: ${{ order.total|floatformat:2|intcomma }}</span>
 							</td>
 						</tr>
@@ -66,6 +66,8 @@
 				<span class="label">First Name</span><span class="value">{{ order.billing_first_name }}</span>
 				<span class="label">Last Name</span><span class="value">{{ order.billing_last_name }}</span>
 				<span class="label">Email</span><span class="value">{{ order.email }}</span>
+				<span class="label">Contact Number</span><span class="value">{{ misc_data.billing_contact_number }}</span>
+				
 			</fieldset>
 
 			<fieldset class="clearfix">
@@ -98,13 +100,13 @@
 
 			<fieldset class="clearfix">
 				<legend>PAYMENT METHOD</legend>
-				<h5>{{ request|getPmethodBlah }}</h5>
+				<h5>{{ misc_data.order_payment_method }}</h5>
 			</fieldset>
 		     
-		     {% if request.session.order_notes %}
+		     {% if misc_data.order_notes %}
 		     <fieldset class="clearfix">
 				<legend>SPECIAL REQUESTS AND COMMENTS</legend>
-				<p class="comment">{{ request.session.order_notes|linebreak }}</p>
+				<p class="comment">{{ misc_data.order_notes|linebreak }}</p>
 			</fieldset>   
 			{% endif %}
 

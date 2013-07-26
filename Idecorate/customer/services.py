@@ -79,7 +79,7 @@ def get_user_styleboard(user=None,styleboard_id=None):
         styleboards = CustomerStyleBoard.objects.filter(user=user,styleboard_item__deleted=0)
     elif styleboard_id:
         try:
-            styleboards = CustomerStyleBoard.objects.get(styleboard_item__id=styleboard_id)
+            styleboards = CustomerStyleBoard.objects.get(styleboard_item__id=styleboard_id, styleboard_item__deleted=0)
         except:
             styleboards = None
 

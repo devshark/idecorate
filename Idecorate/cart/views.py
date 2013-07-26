@@ -256,9 +256,24 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
             initial['billing_country']          = contact.countries2
             initial['shipping_country']         = contact.countries
 
-        if request.POST.get('order-shipping_date') is None:
-            if 'delivery_date' in request.session:
-                initial['shipping_date'] = request.session['delivery_date']
+
+
+        # if request.POST.get('order-shipping_date') is None:
+        #     if 'delivery_date' in request.session:
+        #         initial['shipping_date'] = request.session['delivery_date']
+
+        try:
+
+            order_data = OrderData.objects.get(order=order)
+            misc_data = simplejson.loads(order_data.data)
+
+            initial['shipping_date'] = misc_data['delivery_date']
+            initial['billing_contact_number'] = misc_data['billing_contact_number']
+            initial['payment_method'] = misc_data['order_payment_method']
+
+        except Exception as e:
+            # print e
+            pass
 
         super(IdecorateCheckoutForm, self).__init__(*args, **kwargs)
 
@@ -275,6 +290,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         self.fields['email']                    = forms.EmailField(label=_("Email"), required=True, error_messages={'invalid':_('Enter a valid Email in Personal Information.'),'required':_('Email in Personal Information is a required field.')})
         self.fields['billing_last_name']        = forms.CharField(max_length=100, label=_("Billing Last Name"), required=True, error_messages={'required':_('Last Name is a required field.')})
         self.fields['billing_first_name']       = forms.CharField(max_length=100, label=_("Billing First Name"), required=True, error_messages={'required':_('First Name is a required field.')})
+        self.fields['billing_contact_number']   = forms.CharField(max_length=100, label=_("Billing Contact Number"), required=False)
         self.fields['payment_method']           = forms.ChoiceField(label=_("Payment Method"), choices=payment_method_choices, required=True,widget=forms.RadioSelect, error_messages={'required':_('Payment Method is a required field.')})
         self.fields['notes']                    = forms.CharField(label=_("Special Requests and Comments"), widget=forms.Textarea, required=False)
         self.fields['shipping_country']         = forms.ChoiceField(choices=country_choices,label=_("Shipping Country"), required=True, error_messages={'required':_('Delivery Country is a required field.')})
@@ -320,7 +336,7 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
                     else:
                         self._errors['email'] = self.error_class([
                             _('The email you entered is already linked to an existing account. If you are the owner of the account, please log in.')])
-
+        
         return data
 
     def save(self,**kwargs):
@@ -460,6 +476,18 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
 
         return order
 
+    def clean_billing_contact_number(self):
+
+        billing_contact_number = self.cleaned_data.get('billing_contact_number', None)
+
+        if billing_contact_number:
+            try:
+                int(billing_contact_number)
+            except:
+                raise forms.ValidationError(_('Please enter a valid phone number'))
+                
+        return billing_contact_number
+
     def clean_shipping_zip_code(self):
 
         shipping_zip_code = self.cleaned_data['shipping_zip_code']
@@ -484,7 +512,7 @@ class IdecorateShop(Shop):
 
         if 'cartsession' in request.session:
 
-            print request.session.get('cartsession')
+            # print request.session.get('cartsession')
 
             sessionid = request.session.get('cartsession')
             
@@ -586,6 +614,8 @@ class IdecorateShop(Shop):
             'shop': self,
         }
 
+        order_data = OrderData.objects.get(order=order)
+        misc_data = simplejson.loads(order_data.data)
         #print "The total is: %.2f" % order.total
 
         if request.method == 'POST':
@@ -629,16 +659,19 @@ class IdecorateShop(Shop):
 
                         #if process_now_the_order:
 
+                        # pMethod = request.session.get('order-payment_method','')
+
+                        # if pMethod == "Visa":
+                        #     pMethod = "VISA"
+                        # elif pMethod == "Mastercard":
+                        #     pMethod = "Master"
+                        # else:
+                        #     pMethod = "AMEX"
+                        
                         url = settings.PAYDOLLAR_SS_DIRECT_URL
                         params = {}
-                        pMethod = request.session.get('order-payment_method','')
-
-                        if pMethod == "Visa":
-                            pMethod = "VISA"
-                        elif pMethod == "Mastercard":
-                            pMethod = "Master"
-                        else:
-                            pMethod = "AMEX"
+                        pMethod = misc_data.get('order_payment_method','')
+                        methods = {'Visa': 'VISA','Mastercard': 'Master','American_Express': 'AMEX'}
 
                         splittedExpires = str(expires).split("/")
 
@@ -647,7 +680,7 @@ class IdecorateShop(Shop):
                         params['currCode'] = settings.PAYDOLLAR_CURRENCY
                         params['lang'] = "E"
                         params['merchantId'] = settings.PAYDOLLAR_MERCHANT_ID
-                        params['pMethod'] = pMethod
+                        params['pMethod'] = methods[pMethod]
                         params['epMonth'] = splittedExpires[0]
                         params['epYear'] = splittedExpires[1]
                         params['cardNo'] = card_number
@@ -683,7 +716,7 @@ class IdecorateShop(Shop):
             paypal.addItems(PayPalItem(item_name=paypal_order.name, amount="%.2f" % paypal_order._unit_price, quantity=paypal_order.quantity))  
 
         st_save_helper(request, order)
-
+        
         return self.render_confirmation(request, {
             'order': order,
             'form': form,
@@ -699,6 +732,7 @@ class IdecorateShop(Shop):
             'paypal_form': mark_safe(paypal.generateInputForm()),
             'shop':self,
             'contact': thisContact,
+            'misc_data' : misc_data,
             'custom_data' : simplejson.dumps({'order_id':  order.id,'user' : request.user.id if request.user.is_authenticated() else 0}).replace('"', '&quot;')
         })
 
@@ -758,6 +792,7 @@ class IdecorateShop(Shop):
                 billing_first_name = request.POST.get('order-billing_first_name')
                 billing_last_name = request.POST.get('order-billing_last_name')
                 email = request.POST.get('order-email')
+                billing_contact_number = request.POST.get('order-billing_contact_number')
 
                 if same_as_billing:
                     billing_address = delivery_address
@@ -768,10 +803,10 @@ class IdecorateShop(Shop):
                     billing_country = delivery_country
 
                 
-                request.session['order-payment_method'] = request.POST.get('order-payment_method','')
+                # request.session['order-payment_method'] = request.POST.get('order-payment_method','')
 
                 custom_data = {}
-                custom_data['order-payment_method'] = request.POST.get('order-payment_method','')
+                custom_data['order_payment_method'] = request.POST.get('order-payment_method','')
                 custom_data['order_notes'] = request.POST.get('order-notes','')
                 custom_data['delivery_address2'] = delivery_address2
                 custom_data['billing_address2'] = billing_address2
@@ -781,6 +816,7 @@ class IdecorateShop(Shop):
                 custom_data['salutation'] = salutation
                 custom_data['billing_country'] = billing_country
                 custom_data['shipping_country'] = delivery_country
+                custom_data['billing_contact_number'] = billing_contact_number
 
                 try:
                     order_data = OrderData.objects.get(order=order)
@@ -850,10 +886,11 @@ class IdecorateShop(Shop):
         paymentData['delivery_state'] = o_data['delivery_state']
         paymentData['billing_state'] = o_data['billing_state']
         paymentData['salutation'] = o_data['salutation']
+        paymentData['contact_number'] = o_data['billing_contact_number']
 
         #try:
         oPayment = OrderPayment.objects.get(order=order)
-        oPayment.payment_method = o_data['order-payment_method']
+        oPayment.payment_method = o_data['order_payment_method']
         oPayment.data = simplejson.dumps(paymentData)
         oPayment.save()
         #except:
@@ -913,7 +950,7 @@ def checkout(request):
 
     sessionid = request.session.get('cartsession',None)
 
-    print sessionid
+    # print sessionid
     
     if not sessionid:
 
@@ -1362,7 +1399,7 @@ def update_cart(request):
             guestTable.save()
 
         except Exception as e:
-            print e
+            # print e
             return HttpResponse(0)
 
         return HttpResponse(1)

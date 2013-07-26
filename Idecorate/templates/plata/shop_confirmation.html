@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
 
-{% if request|get_session_by_key:"order-payment_method" == "PayPal" %}
+{% if misc_data.order_payment_method == "PayPal" %}
 
 	{% include "plata/shop_confirminfos.html" %}
 
@@ -33,7 +33,7 @@
 	$(function(e){
 
 		$('#conf_order').click(function(e){
-
+            e.preventDefault();
 			$('#conf_form').submit();
 
 		});

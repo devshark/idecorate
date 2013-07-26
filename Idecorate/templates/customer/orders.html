@@ -23,7 +23,7 @@
 			{% if orders %}
 			{% for order in orders %}
 			<tr>
-				<td><img src="{{ order|get_ordered_styleboard }}" width="250" height="100"/></td><!--158-->
+				<td style="background-color:#FFFFFF;"><img src="{{ order|get_ordered_styleboard }}" width="250" height="158"/></td><!--158-->
 				<td style="text-align:center;">{{ order.order_id }}</td>
 				<td style="text-align:center;">{{ order.created }}</td>
 				<td style="text-align:right;">{{order.total|floatformat:2|intcomma}}</td>

@@ -88,6 +88,7 @@
 		padding:12px;
 		float: left;
 		margin: 0 0 12px 12px;
+		position: relative;
 		//width: 450px;
 		// margin: 12px;
 		// padding: 10px;
@@ -96,6 +97,32 @@
 		// -moz-box-shadow: 5px 5px 5px #CCC;
 		//background: #F0EBE5;
 		//position: relative;
+
+
+		.delStyleboard{
+			position: absolute;
+			right: 20px;
+			top: 20px;
+			text-decoration:none;
+			color: #333333;
+			display: none;
+		}
+
+		.delStyleboard:hover{
+			color: #000000;
+		}
+
+		.socials {
+			position: absolute;
+			top: 270px;
+			left: 20px;
+			font-size: 0;
+			display: none;
+			div{
+				margin-right: 2px;
+				display:inline-block;
+			}
+		}
 
 		.featureImg {
 			width: 450px;
@@ -185,6 +212,11 @@
 	.featureContentWrap:nth-child(odd) {
 		margin-left: 0;
 	}
+
+	.featureContentWrap:hover .delStyleboard, 
+	.featureContentWrap:hover .socials{
+		display: block;
+	}
 }
 
 .pagination{
@@ -265,13 +297,4 @@
 
 	}
 	
-}
-
-.socials {
-	margin-top: 7px;
-	font-size: 0;
-	div{
-		margin-right: 2px;
-		display:inline-block;
-	}
 }

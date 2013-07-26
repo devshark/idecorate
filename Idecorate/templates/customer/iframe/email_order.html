@@ -1,0 +1,212 @@
+{% load i18n widget_tweaks %}
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>iDecorate Login/Signup</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="description" content="">
+        <meta name="author" content="">
+        <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
+        <style type="text/css">
+            body {
+            background-color: #FFFFFF;
+            background-image: none !important;;
+            }
+
+            form{
+                margin: 0 auto;
+            }
+            input {
+                width: 350px;
+                border: 1px solid #CCCCCC;
+                padding: 5px;
+                -moz-border-radius: 3px;
+                -webkit-border-radius: 3px;
+                border-radius: 3px;
+                -khtml-border-radius: 3px;
+                box-shadow: 0px 1px 5px #999999 inset;
+            }
+
+            fieldset {
+                padding: 0 25px;
+                position: relative;
+            }
+
+            .formField{
+                margin-top: 5px;
+            }
+
+            #add_email{
+                float: left;
+                /*font-family: "Trebuchet MS", Helvetica, sans-serif;
+                padding: 6px 15px;
+                text-decoration: none;
+                width: auto;
+                font-size: 13px;
+                float: left;
+                cursor: pointer;
+                color: #666666;
+                text-transform: uppercase;
+                font-weight: bold;
+                background-color: #CCCCCC;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#CCCCCC') !important;
+                background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), to(#CCCCCC)) !important;
+                background: -moz-linear-gradient(top, #CCCCCC, #CCCCCC) !important;
+                background: -o-linear-gradient(top, #CCCCCC, #CCCCCC) !important;
+                -moz-border-radius: 0;
+                -webkit-border-radius: 0;
+                border-radius: 0;
+                -khtml-border-radius: 0;
+                box-shadow: 0 0 0 #CCCCCC !important;
+                vertical-align: bottom;*/
+            }
+
+            .deleteField{
+                display: inline-block;
+                height: 28px;
+                vertical-align: middle;
+                width: 20px;
+                color: black;
+                text-decoration: none;
+            }
+
+            .deleteField img{
+                vertical-align: middle;
+            }
+
+            .deleteField:hover{
+                text-decoration: underline;
+            }
+
+            legend {
+                font-size: 22px;
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
+                color: #000000;
+                margin-bottom: 10px\9;
+            }
+            .action {
+                height: 35px;
+                margin-top: 10px;
+            }
+            .action input {
+                font-family: "Trebuchet MS", Helvetica, sans-serif;
+                width: auto;
+                float: right;
+                cursor: pointer;
+                color: #666666;
+                text-transform: uppercase;
+                font-weight: bold;
+                background-color: #CCCCCC;
+                filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#CCCCCC', endColorstr='#CCCCCC') !important;
+                background: -webkit-gradient(linear, left top, left bottom, from(#CCCCCC), to(#CCCCCC)) !important;
+                background: -moz-linear-gradient(top, #CCCCCC, #CCCCCC) !important;
+                background: -o-linear-gradient(top, #CCCCCC, #CCCCCC) !important;
+                -moz-border-radius: 0;
+                -webkit-border-radius: 0;
+                border-radius: 0;
+                -khtml-border-radius: 0;
+                box-shadow: 0 0 0 #CCCCCC !important;
+                padding-left: 25px;
+                padding-right: 25px;
+                margin: 0;
+            }
+            .fieldWrap{
+                text-align: right;
+            }
+
+            #field_wrap .formField{
+                text-align: right;
+            }
+        </style>
+        <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
+    </head>
+    <body>
+        <div class="clearfix formWrapper">
+            <form method="post" action="">
+                {% csrf_token %}
+                <fieldset>
+                    <legend>SEND ORDER VIA EMAIL</legend>
+                    {% if errors %}
+                        {% for error in errors %}
+                            <span class="error">{{ error }}</span><br/>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="fieldWrap clearfix">
+                        <label class="fieldLabel name">Your Name:</label>
+                        {% if name_post %}
+                        <input type="text" name="name" id="name" placeholder="Name" value="{{ name_post }}"  />
+                        {% else %}
+                        <input type="text" name="name" id="name" placeholder="Name"  />
+                        {% endif %}
+                    </div>
+                    <div class="clearfix">
+                        <div id="field_wrap">
+                            {% if request.method == "POST" %}
+                                {% if post_data %}
+                                    {% for p_data in post_data %}
+                                        <div class="formField">
+                                            {% if forloop.counter > 1 %}
+                                                <a class="deleteField" onclick="del_field(this)" href="#">
+                                                    <img alt="remove" src="/media/images/delete_email.png">
+                                                </a>
+                                            {% else %}
+                                                <label for="email">Email(s):</label>
+                                            {% endif %} 
+                                            <input type="text" name="email" placeholder="email" class="email" value="{{ p_data }}" /> 
+                                                                       
+                                        </div>
+                                    {% endfor %}
+                                {% else %}
+                                    <div class="formField">
+                                        <label for="email">Email(s):</label>
+                                        <input type="text" name="email" placeholder="email" class="email" /> 
+                                    </div>
+                                {% endif %}
+                            {% else %}
+                            <div class="formField">
+                                <label for="email">Email(s):</label>
+                                <input type="text" name="email" placeholder="email" class="email" /> 
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="action clearfix">
+                        <input type="button" id="add_email" value="Add email"/> 
+                        <input type="submit" name="btnSubmit" class="btnSubmit" value="Send" />
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <script src="/media/interface/js/jquery.placeholder.js"></script>
+        <script src="/media/js/json/json2.js"></script>
+        <script type="text/javascript">
+            $(':input[placeholder]').placeholder();
+            $(function () {
+
+                var field = $($('#field_wrap .formField')[0]).clone();
+                field.find('input[type="text"]').attr('value','');
+                field.find('label').remove();
+                
+                field.prepend('<a class="deleteField" onclick="del_field(this)" href="#"><img alt="remove" src="/media/images/delete_email.png"></a>');
+
+                $('#add_email').click(function(e){
+                    cloned = field.clone();
+                    cloned.find(':input[placeholder]').removeClass('placeholder').placeholder();
+                    $('#field_wrap').append(cloned);
+                    e.preventDefault();
+                });
+
+                {% if order_checkout_email_sent %}
+
+                    parent.order_email_message("{{order_checkout_email_sent}}");
+
+                {% endif %}
+            });
+
+            function del_field(ele){
+                $(ele).parent().remove();
+            }
+        </script>
+    </body>
+</html>

@@ -12,7 +12,6 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.utils.safestring import mark_safe
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
-from django.contrib import messages
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime, timedelta
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
@@ -44,6 +43,8 @@ import time
 import os
 from django_xhtml2pdf.utils import generate_pdf, render_to_pdf_response
 
+import logging
+logr = logging.getLogger(__name__)
 
 def login_signup(request):
 
@@ -1135,10 +1136,21 @@ def saved_images(request):
 
     return render_to_response('customer/saved_images.html', info, RequestContext(request))
 
+def delete_styleboard(request, sb_id):
 
-# def delete_styleboard(request, id):
+    if request.user.is_authenticated():
+        user = request.user
 
-#     try:
-#         StyleboardItem = StyleboardItems.objects.get(id=styleboard_id)
-#     except: 
-#         pass
+        try:
+            styleboard = CustomerStyleBoard.objects.get(user=user, styleboard_item__id=int(sb_id))
+            styleboardItem = StyleboardItems.objects.get(id=styleboard.styleboard_item.id)
+            styleboardItem.deleted = True
+            styleboardItem.save()
+
+            messages.success(request, _('Styleboard %s successfully deleted.' % (styleboardItem.name) ))
+        except Exception as e: 
+
+            messages.warning(request, _('Deleting styleboard failed.'))
+            logr.error(e)
+    
+    return redirect('profile')

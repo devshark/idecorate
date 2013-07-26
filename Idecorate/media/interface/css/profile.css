@@ -58,7 +58,26 @@
     background-color: #efebe4;
     padding: 12px;
     float: left;
-    margin: 0 0 12px 12px; }
+    margin: 0 0 12px 12px;
+    position: relative; }
+    .profileWrap .featureContentWrap .delStyleboard {
+      position: absolute;
+      right: 20px;
+      top: 20px;
+      text-decoration: none;
+      color: #333333;
+      display: none; }
+    .profileWrap .featureContentWrap .delStyleboard:hover {
+      color: #000000; }
+    .profileWrap .featureContentWrap .socials {
+      position: absolute;
+      top: 270px;
+      left: 20px;
+      font-size: 0;
+      display: none; }
+      .profileWrap .featureContentWrap .socials div {
+        margin-right: 2px;
+        display: inline-block; }
     .profileWrap .featureContentWrap .featureImg {
       width: 450px;
       height: 285px;
@@ -121,6 +140,9 @@
         margin-left: 5px; }
   .profileWrap .featureContentWrap:nth-child(odd) {
     margin-left: 0; }
+  .profileWrap .featureContentWrap:hover .delStyleboard,
+  .profileWrap .featureContentWrap:hover .socials {
+    display: block; }
 
 .pagination {
   *margin-top: 15px;
@@ -169,10 +191,3 @@
   width: 288px; }
 .savedImageWrapper > div .savedImageWrap.size1 {
   margin-right: 0; }
-
-.socials {
-  margin-top: 7px;
-  font-size: 0; }
-  .socials div {
-    margin-right: 2px;
-    display: inline-block; }

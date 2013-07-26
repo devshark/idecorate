@@ -41,7 +41,7 @@ class StyleboardItems(models.Model):
 	item_guest 		= models.IntegerField(null=True)
 	item_tables 	= models.IntegerField(null=True)
 	item_wedding 	= models.IntegerField(null=True)
-	deleted 		= models.IntegerField(db_column='deleted', default=0)
+	deleted 		= models.IntegerField(db_column='deleted', default=False)
 	created 		= models.DateField(db_column='created', auto_now_add=True, blank=True)
 
 	class Meta:
