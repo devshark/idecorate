@@ -257,7 +257,7 @@ def send_email_reset_pass(user_id):
     if not settings.SKIPPING_MODE:
         IdecorateEmail.send_mail(mail_from=settings.IDECORATE_MAIL,mail_to=u.user.email,subject='Reset your iDecorateWeddings.com password',body=messageHTML,isHTML=True)
 
-def send_email_order(order, user, comment, shop):
+def send_email_order(order, user, comment, contact_number, shop):
 
     info = {}
 
@@ -283,6 +283,11 @@ def send_email_order(order, user, comment, shop):
     if comment :
 
         info['comment'] = unicode(comment).encode('ascii','xmlcharrefreplace')
+
+    if contact_number:
+        
+        info['contact_number'] = contact_number
+
 
     messageHTML = render_to_string('plata/shop_order_email.html', info)
 

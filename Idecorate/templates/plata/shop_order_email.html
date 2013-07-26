@@ -27,13 +27,18 @@
     <!--Personal Information-->
 	<tr>
 		<td style="text-align:center; vertical-align:middle; padding:10px 5px; font-size:20px;">
-			{{ contact.billing_salutation|title }}. {{ user.first_name|title }}. {{ user.last_name|title }} <br/> <span style="font-size:14px;">{{ user.email }}</span>
+			{{ contact.billing_salutation|title }}. {{ user.first_name|title }}. {{ user.last_name|title }} 
+            <br/> 
+            <span style="font-size:14px;">{{ user.email }}</span>
+            {% if contact_number %}
+            <br/> <span style="font-size:14px;">{{ contact_number }}</span>
+            {% endif %}
         </td>
 	</tr>
     <!--iDecorate message -->
     <tr>
         <td style="text-align:center; padding:10px 10px;  font-size:16px; ">
-            Here is a summary of your order. You may wish to save this email for your
+            Here is a summary of your order. You may wish to save this email for your reference
         </td>
     </tr> 
     <!--items-->   

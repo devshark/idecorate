@@ -481,9 +481,8 @@ class IdecorateCheckoutForm(BaseCheckoutForm):
         billing_contact_number = self.cleaned_data.get('billing_contact_number', None)
 
         if billing_contact_number:
-            try:
-                int(billing_contact_number)
-            except:
+
+            if not re.search("^\([0-9+]{3}\)[0-9+]{4}\-[0-9+]{4}$",billing_contact_number,re.IGNORECASE):
                 raise forms.ValidationError(_('Please enter a valid phone number'))
                 
         return billing_contact_number
@@ -923,7 +922,7 @@ class IdecorateShop(Shop):
                 
         else:
 
-            emailed = send_email_order(order, current_user, notes, self)
+            emailed = send_email_order(order, current_user, notes, paymentData['contact_number'], self)
 
             logr.info('emailed order confirmation to : %s from order success' % current_user.email)
 
@@ -1281,6 +1280,7 @@ def paypal_ipn(request):
                 paymentData['delivery_state'] = o_data['delivery_state']
                 paymentData['billing_state'] = o_data['billing_state']
                 paymentData['salutation'] = o_data['salutation']
+                paymentData['contact_number'] = o_data['billing_contact_number']
 
                 payment.currency = request.POST.get('mc_currency','USD')
                 payment.amount = Decimal(request.POST.get('payment_gross','0.00'))
@@ -1300,7 +1300,7 @@ def paypal_ipn(request):
                 order.save()
                 order.reload()
 
-                emailed = send_email_order(order, order.user, order.notes, None)
+                emailed = send_email_order(order, order.user, order.notes, paymentData['contact_number'], None)
 
                 logr.info('emailed order confirmation to : %s from order IPN' % order.user.email)
 
