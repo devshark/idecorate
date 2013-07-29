@@ -65,16 +65,14 @@
       right: 20px;
       top: 20px;
       text-decoration: none;
-      color: #333333;
-      display: none; }
+      color: #333333; }
     .profileWrap .featureContentWrap .delStyleboard:hover {
       color: #000000; }
     .profileWrap .featureContentWrap .socials {
       position: absolute;
       top: 270px;
       left: 20px;
-      font-size: 0;
-      display: none; }
+      font-size: 0; }
       .profileWrap .featureContentWrap .socials div {
         margin-right: 2px;
         display: inline-block; }

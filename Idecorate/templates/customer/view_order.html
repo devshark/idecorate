@@ -28,6 +28,10 @@
 				<td class="label">Email Address :</td>
 				<td class="value">{{order.email}}</td>
 			</tr>
+			<tr>
+				<td class="label">Contact Number :</td>
+				<td class="value">{{order|get_order_detail:'contact_number'}}</td>
+			</tr>
 		</table>
 		<table class="info userAddress" border="0" cellpadding="0" cellspacing="0">
 			<tr class="firstRow">

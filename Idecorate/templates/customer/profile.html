@@ -175,6 +175,14 @@ $(function(){
 		$(val).css({'margin-left': 0});
 	});
 
+	$('.socials, .delStyleboard').fadeTo('fast', 0.5);
+	$('.featureContentWrap').hover(function(){
+		$(this).find('.socials, .delStyleboard').stop(true, false).fadeTo('fast', 1);
+	},
+	function(){
+		$(this).find('.socials, .delStyleboard').stop(true, false).fadeTo('fast', 0.5);
+	});
+
 });
 /*
 function page_H(){
