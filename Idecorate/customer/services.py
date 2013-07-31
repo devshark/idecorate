@@ -264,6 +264,18 @@ def get_user_keep_images(user=None):
 
     return images
 
+def get_user_keep_image(image_id, user=None):
+    image = None
+    
+    if user:
+
+        try:
+            image = KeepImages.objects.get(id=image_id, user=user)
+        except:
+            image = None
+
+    return image
+
 def save_styleboard_as_image(sbid):
 
     return dynamic_styleboard(sbid,500,317,True)#200

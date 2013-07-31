@@ -1,0 +1,43 @@
+{% load i18n idecorate_interface humanize %}
+<html>
+    <head>
+        <title>Styleboard</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    </head>
+    <body bgcolor="#FFFFFF" leftmargin="0" topmargin="0" marginwidth="0" marginheight="0" style="font-family: Arial, Helvetica, sans-serif; color:#666666;">
+        <table id="Table_01" width="580" border="0" cellpadding="0" cellspacing="0" style="margin:0 auto;">
+            <!--iDecorate Logo-->
+            <tr>
+                <td colspan="5" style="height:119px; text-align:center;">
+                    <a href="http://www.idecorateweddings.com/"><img src="{{ media_root }}images/header.jpg" width="580" height="119" alt=""></a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="5" style="line-height:60px; padding-top:10px; text-align:center;">
+                    Your friend {{ sender }} has shared his/her saved image with you
+                </td>
+            </tr>
+            <!--Styleboard -->
+            <tr>
+                <td colspan="5" style="text-align:center; vertical-align:middle; padding:10px 5px;">
+                    <img src="cid:saved_image" width="560" alt="" style="border:10px solid #f0ece5;" >
+                </td>
+            </tr>
+            <!--Description -->
+            <tr>
+                <td colspan="5" style="text-align:center; vertical-align:middle; padding:10px 5px;">
+                    <h3 style="text-align:left; margin:5px 0; padding: 0;">{{ user_keeped_image.image.name }}</h3>
+                    <h4 style="text-align:left; margin:5px 0; padding: 0;">{{ user_keeped_image.image.link }}</h4>
+                    <p style="text-align:left;">{{ user_keeped_image.image.description }}</p>
+                </td>
+            </tr>
+            <tr>
+            <td colspan="5" style="height:55px; font-size:11px; text-align:center;">This is just an automated request. Please do not reply to this email.<br>
+            Follow this <a href="http://www.idecorateweddings.com/">link</a> if you wish to get in touch with us. 
+
+
+            </td>
+            </tr>
+        </table>
+    </body>
+</html>

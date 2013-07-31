@@ -1,0 +1,115 @@
+{% load i18n idecorate_interface humanize admin %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1918f90/xhtml" xml:lang="en" lang="en">
+	<meta charset="utf-8">
+    <title>iDecorate Weddings</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+	<style>
+
+	@page {
+		margin-top: 3.5cm;
+		margin-left: 0.8cm;
+		margin-right: 0.8cm;
+		margin-bottom: 2.6cm;
+		size : A4;
+
+		@frame header{
+	    	-pdf-frame-content: header;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        top: 0.8cm;
+	        height: 3cm;
+	    }
+
+	    @frame footer{
+	    	-pdf-frame-content: footer_logo;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 0.8cm;
+	        height: 1.5cm;
+	    }
+	    @frame footer{
+	    	-pdf-frame-content: footer_copyright;
+	    	left: 0.8cm;
+	    	right: 0.8cm;
+	        bottom: 0.8cm;
+	        height: 1.5cm;
+	    }
+	}
+
+	body{
+		color: #666;
+		font-size: 12px;
+	}
+
+	h1, h2, h3, h4, h5{ /* Don't add an outline to the document */
+	    -pdf-outline: false;
+	    font-weight: normal;
+	    padding: 0;
+	    margin: 0;
+	}
+
+	h4{
+		font-size: 20px;
+		line-height: 22px;
+	}
+	h5{
+		font-size: 15px;
+		line-height: 17px;
+	}
+	p{
+		font-size: 12px;
+		line-height: 14px;
+	}
+
+	.footer{
+    	padding-top: 0.2cm;
+	}
+
+	#footer_copyright{
+	    border-top-width: 1px;
+	    border-top-style: solid;
+	    border-top-color: #918f90;
+    	text-align: right;
+    	font-weight: normal;
+    	line-height: 11px;
+	}
+
+	#header{
+		border-bottom-width: 1px;
+	    border-bottom-style: solid;
+	    border-bottom-color: #918f90;
+    	text-align: center;
+    	font-weight: normal;
+    	line-height: 11px;
+    	padding-bottom: 0.3cm;
+	}
+
+	#the_image{
+	    zoom: 200%;
+	}
+
+	
+
+	</style>
+	<body>
+		<div id="header">
+			<img width="100" src="media/images/idecorate_top_logo.jpg" title="idecorate_top_logo" />
+		</div>
+		<div class="savedImages">
+			<h4>{{user_keeped_image.image.name}}</h4>
+			<img id="the_image" src="media/banners/{{ user_keeped_image.image.image }}" title="{{ user_keeped_image.image.name }}" />
+			<h5>{{ user_keeped_image.image.link }}</h5>
+			<p>{{ user_keeped_image.image.description }}</p>
+			
+		</div>
+		<div class="footer" id="footer_logo">
+			<img width="110" src="media/images/logo_txt_print.jpg" title="idecorate" class="logo" />
+		</div>
+		<div class="footer" id="footer_copyright">
+			T 1300 041 210<br/>
+			E enquiry@idecorateweddings.com<br/>
+			&copy; iDecorateWeddings.com 2013
+		</div>

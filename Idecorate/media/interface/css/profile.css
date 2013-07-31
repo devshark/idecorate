@@ -177,10 +177,72 @@
         font-family: "Trebuchet MS", Helvetica, sans-serif; }
 
 .savedImageWrapper > div .savedImageWrap {
+  text-align: center;
   float: left;
   padding: 12px;
   background-color: #efebe4;
   margin: 0 12px 12px 0; }
+  .savedImageWrapper > div .savedImageWrap .featuredLinks {
+    font-size: 0;
+    margin: 0;
+    padding: 0; }
+    .savedImageWrapper > div .savedImageWrap .featuredLinks li {
+      display: inline-block;
+      border-left: 1px solid #FFFFFF;
+      border-right: 1px solid #CCCCCC;
+      font-size: 12px; }
+      .savedImageWrapper > div .savedImageWrap .featuredLinks li a {
+        color: #999999;
+        text-decoration: none;
+        padding: 0 8px;
+        text-transform: uppercase; }
+      .savedImageWrapper > div .savedImageWrap .featuredLinks li .modal {
+        background-color: #EEEEEE;
+        border: 3px solid #999999;
+        padding: 7px !important;
+        -moz-border-radius: 5px;
+        -webkit-border-radius: 5px;
+        border-radius: 5px;
+        -khtml-border-radius: 5px;
+        font-size: 0;
+        position: absolute;
+        display: none;
+        top: 110%;
+        left: 10px;
+        width: auto;
+        height: auto;
+        width: 255px;
+        -webkit-box-shadow: 0 0 8px #333333;
+        box-shadow: 0 0 8px #333333;
+        -moz-box-shadow: 0 0 8px #333333; }
+        .savedImageWrapper > div .savedImageWrap .featuredLinks li .modal > div {
+          display: inline-block;
+          *display: inline;
+          margin-left: 3px;
+          zoom: 1;
+          height: 20px; }
+        .savedImageWrapper > div .savedImageWrap .featuredLinks li .modal a {
+          padding: 0 !important; }
+        .savedImageWrapper > div .savedImageWrap .featuredLinks li .modal .email a {
+          display: block;
+          height: 20px; }
+          .savedImageWrapper > div .savedImageWrap .featuredLinks li .modal .email a img {
+            height: 20px !important;
+            width: auto !important; }
+        .savedImageWrapper > div .savedImageWrap .featuredLinks li .modal p {
+          font-size: 12px; }
+          .savedImageWrapper > div .savedImageWrap .featuredLinks li .modal p a {
+            text-transform: none;
+            color: #333333; }
+  .savedImageWrapper > div .savedImageWrap .savedTitle {
+    text-align: left;
+    margin: 5px 0;
+    padding: 10px 5px;
+    background: #f1ccc6;
+    text-transform: uppercase;
+    font-family: "Trebuchet MS", Helvetica, sans-serif; }
+  .savedImageWrapper > div .savedImageWrap .savedDesc {
+    text-align: left; }
 .savedImageWrapper > div .savedImageWrap.size1 {
   width: 936px; }
 .savedImageWrapper > div .savedImageWrap.size2 {
@@ -189,3 +251,32 @@
   width: 288px; }
 .savedImageWrapper > div .savedImageWrap.size1 {
   margin-right: 0; }
+
+#modal_email_saved_image {
+  border: 5px solid #DDD;
+  position: fixed;
+  width: 500px;
+  padding: 0 5px 5px;
+  height: auto;
+  overflow: hidden;
+  background-color: white;
+  box-shadow: 0 0 8px #333;
+  z-index: 99999;
+  top: 10%; }
+  #modal_email_saved_image h2 {
+    font-size: 0;
+    margin: 0;
+    padding: 0;
+    text-align: right;
+    border: none; }
+    #modal_email_saved_image h2 a.close-modal-btn {
+      font-size: 20px;
+      line-height: 20px;
+      text-decoration: none;
+      color: #666; }
+  #modal_email_saved_image #iframe_wrap {
+    min-height: 275px !important; }
+    #modal_email_saved_image #iframe_wrap iframe {
+      /*height: 480px;*/
+      min-height: 325px;
+      width: 100%; }

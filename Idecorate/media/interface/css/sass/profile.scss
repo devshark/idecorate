@@ -269,14 +269,94 @@
 }
 
 .savedImageWrapper{
-
+	
 	> div{
 
 		.savedImageWrap{
+			text-align: center;
 			float: left;
 			padding: 12px;
 			background-color: #efebe4;
 			margin: 0 12px 12px 0;
+
+			.featuredLinks{
+				font-size: 0;
+				margin: 0;
+				padding: 0;
+
+				 li{
+					display: inline-block;
+					border-left: 1px solid #FFFFFF;
+					border-right: 1px solid #CCCCCC;
+					font-size: 12px;
+
+					a{ 
+						color: #999999;
+						text-decoration: none;
+						padding: 0 8px;
+						text-transform: uppercase;
+					}
+					.modal{
+						background-color: #EEEEEE;
+						border: 3px solid #999999;
+						padding: 7px !important;
+						-moz-border-radius: 5px;
+						-webkit-border-radius: 5px;
+						border-radius: 5px;
+						-khtml-border-radius: 5px;
+						font-size: 0;
+						position: absolute;
+						display: none;
+						top: 110%;
+						left: 10px;
+						width: auto;
+						height: auto;
+						width: 255px;
+						-webkit-box-shadow: 0 0 8px #333333;
+						box-shadow: 0 0 8px #333333;
+						-moz-box-shadow: 0 0 8px #333333;
+
+						> div{
+							display: inline-block;
+							*display: inline;
+							margin-left: 3px;
+							zoom:1;
+							height: 20px;
+						}
+						a{
+							padding: 0 !important;
+						}
+						.email a{
+							display: block;
+							height: 20px;
+
+							img{
+								height: 20px !important;
+								width: auto !important;
+							}
+						}
+						p{
+							font-size: 12px;
+							a{
+								text-transform: none;
+								color: #333333;
+							}
+						}
+					}
+				}
+			}
+
+			.savedTitle{
+				text-align: left;
+				margin: 5px 0;
+				padding: 10px 5px;
+				background: #f1ccc6;
+				text-transform: uppercase;
+				font-family: $helvetica;
+			}
+			.savedDesc{
+				text-align: left;
+			}
 		}
 
 		.savedImageWrap.size1{
@@ -296,5 +376,44 @@
 		}
 
 	}
-	
+
+}
+
+#modal_email_saved_image {
+    border: 5px solid #DDD;
+    position: fixed;
+    width: 500px;
+    padding: 0 5px 5px;
+    height: auto;
+    overflow: hidden;
+    background-color: white;
+    box-shadow: 0 0 8px #333;
+    z-index: 99999;
+    top: 10%;
+
+    h2 {
+    	font-size: 0;
+	    margin: 0;
+	    padding: 0;
+	    text-align: right;
+	    border: none;
+
+	    a.close-modal-btn{
+	    	font-size: 20px;
+	    	line-height: 20px;
+		    text-decoration: none;
+		    color: #666;
+		}
+	}
+
+	#iframe_wrap{
+		min-height: 275px !important;
+
+		iframe {
+			/*height: 480px;*/
+			min-height: 325px;
+			width: 100%;
+		}
+	}
+
 }

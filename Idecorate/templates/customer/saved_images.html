@@ -42,7 +42,36 @@
 			<div class="savedImageWrap size{{user_keeped_image.image.home_banner.size}}">
 				<a href="{{user_keeped_image.image.tinyUrl}}">
 					<img src="/media/banners/{{ user_keeped_image.image.image }}" />
-				</a> 
+				</a>
+				<ul class="featuredLinks">
+					<li style="position:relative;">
+						<a class="shareModal" href="#">Share</a>
+						<div class="modal">
+							<div class="facebookShare">
+								<a href="#" onclick="postToFeed('{{ user_keeped_image.image.tinyUrl }}','/media/banners/{{ user_keeped_image.image.image }}','{{ user_keeped_image.image.name }}','{{ user_keeped_image.image.description|escapejs }}')">
+									<img border="0" src="/media/images/fb_share.png" />
+								</a>
+							</div>
+							<div class="tumblerShare">
+								<a href="http://www.tumblr.com/share/link?url={{user_keeped_image.image.tinyUrl|urlencode:'' }}&name={{ user_keeped_image.image.name|urlencode }}&description={{ user_keeped_image.image.description|urlencode }}" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank">
+									<img src='/media/images/tumblr.png' border="0" />
+								</a>
+							</div>
+							<div class="twitterShare">
+								<a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ user_keeped_image.image.description }}" data-url="{{ user_keeped_image.image.tinyUrl }}" data-lang="en" data-related="anywhere:{{ user_keeped_image.image.name }}" data-count="none">Tweet</a>
+								</div>
+							<div class="pinterestShare">
+								<a data-pin-config="none" data-pin-do="buttonPin" target="_blank" href="//pinterest.com/pin/create/button/?url={{user_keeped_image.image.link|add_http_prefix|urlencode:''}}&media=http://{{ request|get_host|urlencode:'' }}/media/banners/{{ user_keeped_image.image.image }}&description={{ user_keeped_image.image.description|urlencode }}"></a>
+							</div>
+							<div class="googleShare">
+								<div class="g-plusone" data-size="medium" data-annotation="none" data-href="{{user_keeped_image.image.tinyUrl}}"></div>
+							</div>
+						</div>
+					</li>
+					<li><a target="blank" href="{% url hard_copy_saved_images 0 user_keeped_image.id %}">Print</a></li>
+					<li><a target="blank" href="{% url hard_copy_saved_images 1 user_keeped_image.id %}">PDF</a></li>					
+					<li><a class="emailSavedImage" image_id="{{ user_keeped_image.id }}" href="#">Email</a></li>
+				</ul> 
 				<h3 class="savedTitle">{{user_keeped_image.image.name}}</h3>
 				<p class="savedDesc">{{user_keeped_image.image.description}}</p>
 			</div>
@@ -52,11 +81,46 @@
 	{% endif %}
 	</div>
 </section>
+<div id="page-mask" style="display:none;"></div>
+<div id="modal_email_saved_image" style="display:none;">
+    <h2 id="modal_email_saved_image_header">
+        <a href="#" id="close_modal" class="close-modal-btn">&times;</a>
+    </h2>
+    <div id="iframe_wrap"></div>
+</div>
+
+<script type="text/javascript">
+(function() {
+	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+	po.src = 'https://apis.google.com/js/plusone.js';
+	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+</script>
 {% endblock %}
 {% block javascripts %}
+<script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
 <script type="text/javascript">
 
 	$(function(){
+
+		$(document).click(function(e){
+			if(!$(e.target).hasClass('modal') && !$(e.target).hasClass('shareModal')){
+				$('.modal').hide();
+			}
+		});
+
+	
+		$('.featuredLinks').each(function(i,val){
+			$('li:last', val).css({borderRight:'none'});
+			$('li:first',val).css({borderLeft:'none'});
+		});
+		
+		$('a.shareModal').each(function(i,val){
+			$(val).click(function(e){
+				e.preventDefault();
+				setModalIcons($(this));
+			});
+		});
 
 		children	= $('.savedImageWrap');
 
@@ -86,7 +150,57 @@
 
 		$('.size2:nth-child(2n)').css('margin-right',0);
 		$('.size3:nth-child(3n)').css('margin-right',0);		
+
+		$('.emailSavedImage').click(function(e){
+
+			var image_id = $(this).attr('image_id');
+            email_saved_image_modal(image_id);
+            e.preventDefault();
+        });
+        
+
+        $('.close-modal-btn').click(function(e){
+            e.preventDefault();
+            $('#page-mask').hide();
+            $(this).parent().parent().hide();
+        });
 	});
+
+	function email_saved_image_modal(image_id){
+        var url = '{% url saved_image_email %}?image_id='+image_id;
+        var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-order-email-iframe','src':url,'frameborder':'0','style':'min-height:275px !important;'});
+        var modal   = $('#modal_email_saved_image'),
+            _left   = $(window).width()/2-modal.width()/2;
+            frame   = $('#iframe_wrap').html(iframe);
+
+        $('#page-mask').css({display:'block'});
+        modal.css({display:'block',left:_left});
+    }
+
+    function saved_image_email_message(msg){
+        $('#page-mask').hide();
+        $('#modal_email_saved_image').hide();
+        alert(msg);
+    }
+
+
+	function setModalIcons(object){
+
+		$('.modal').hide();
+		object.siblings('.modal').show();
+		$('.modal').find('a').click(function(e){e.preventDefault()});
+		var windowSizeArray = [ "width=200,height=200","width=600,height=400,scrollbars=yes" ];
+		$('.pinterestShare a, .email a, .tumblerShare a').click(function(e){
+			var url = this.href;
+	        var windowName = "iDecorateWedding";//$(this).attr("name");
+	        var windowSize = windowSizeArray[1];
+	        if($(this).parent().hasClass('email')){
+	        	window.open(url,'_self');
+	        }else{
+	        	window.open(url, windowName, windowSize);
+	        }
+		});
+	}
 
 	function resize_image_container(count){
 
@@ -96,7 +210,7 @@
 
 		if(!is_empty){
 
-			var divs 	= $('div', element_set);
+			var divs 	= $('div', element_set).not('.modal, .modal *');
 
 			for(var i = 0; i < divs.length; i+=count) {
 
@@ -126,4 +240,31 @@
 	}
 
 </script>
+<!-- Social Media Buttons -->
+<script> 
+FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
+
+function postToFeed() {
+
+	// calling the API ...
+	var obj = {
+	method: 'feed',
+	redirect_uri: 'http://www.facebook.com',
+	link: 'http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}', //page link here
+	picture: 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/640/405/', //add image link of product here 
+	name: '{{ styleboard.styleboard_item.name }}', //styleboard title
+	caption: 'iDecorate Weddings',
+	description: "{{ styleboard.styleboard_item.description|truncateDescription }}" //description
+	};
+
+	function callback(response) {
+		document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+	}
+
+	FB.ui(obj, callback);
+}
+
+</script>
+<script src="http://platform.tumblr.com/v1/share.js"></script>
+<script src="//assets.pinterest.com/js/pinit.js"></script>
 {% endblock %}

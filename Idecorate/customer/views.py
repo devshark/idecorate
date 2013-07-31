@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.template import RequestContext
+from django.template.loader import render_to_string
 from django.utils import simplejson
 from django.http import HttpResponseNotFound, Http404
 from django.core import serializers
@@ -20,7 +21,7 @@ from django.contrib.auth.models import User
 
 from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm,ForgotPassForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
-    get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item, get_user_keep_images, dynamic_styleboard,\
+    get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item, get_user_keep_images, get_user_keep_image, dynamic_styleboard,\
     get_user_orders,get_user_order,get_order, print_styleboard
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
@@ -42,6 +43,14 @@ from cart.views import shop
 import time
 import os
 from django_xhtml2pdf.utils import generate_pdf, render_to_pdf_response
+
+from django.core.mail import EmailMultiAlternatives
+from email.mime.image import MIMEImage
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from django.core.exceptions import ValidationError
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError  
 
 import logging
 logr = logging.getLogger(__name__)
@@ -1118,7 +1127,8 @@ def saved_images(request):
 
             else:
 
-                return redirect('home')
+                # return redirect('home')
+                raise Http404
     else:
 
         if request.user.is_authenticated():
@@ -1127,7 +1137,8 @@ def saved_images(request):
 
         else:
 
-            return redirect('home')
+            # return redirect('home')
+            raise Http404
 
     info = {}
 
@@ -1137,6 +1148,156 @@ def saved_images(request):
     info['user_keeped_images']  = user_keeped_images
 
     return render_to_response('customer/saved_images.html', info, RequestContext(request))
+
+
+def hard_copy_saved_images(request, is_pdf, image_id):
+
+    info = {}
+    user_id = request.GET.get('id',None)
+
+    if user_id:
+        try:
+            user = User.objects.get(id=user_id)
+        except:
+            if request.user.is_authenticated():
+                user = request.user
+            else:
+                # return redirect('home')
+                raise Http404
+    else:
+        if request.user.is_authenticated():
+            user = request.user
+        else:
+            # return redirect('home')
+            raise Http404
+
+    info = {}
+    user_keeped_image = get_user_keep_image(image_id, user)
+    info['user_keeped_image'] = user_keeped_image
+    is_pdf = bool(int(is_pdf))
+
+    # result = render_to_response('customer/saved_images_pdf.html', info,RequestContext(request))
+    if is_pdf :
+        result = render_to_pdf_response('customer/saved_images_pdf.html', info, 'saved_images_%s.pdf' % ( str(time.time()).replace('.','_') ))
+    else:
+        result = render_to_response('customer/saved_images_print.html', info,RequestContext(request))
+
+    return result
+
+def saved_image_email(request):
+
+    info = {}
+
+    if request.method == "POST":
+
+        email_fields = request.POST.getlist('email')
+        name = request.POST.get('name', None)
+        mailto_list = []
+        email_to_send = []
+        errors = []
+        post_data = []
+        info['name_post'] = str(name)
+        info['post_data'] = post_data
+
+        if not name:
+            errors.append("Name field is required.")
+
+        for index, email_field in enumerate(email_fields):
+            try:
+                validate_email(str(email_field))
+                email_to_send.append(email_field)
+            except ValidationError:
+                pass
+            post_data.append(email_field)
+
+        if len(email_to_send) == 0:
+            errors.append("Please enter atleast one(1) valid email.")
+
+        if len(errors) > 0:
+            info['errors'] = errors
+        else:
+            mailto_list += email_to_send
+            is_sent = send_saved_image(request, mailto_list, str(name))
+
+            if is_sent:
+                info['saved_image_email_sent'] = "Email sent"
+            else:
+                info['saved_image_email_sent'] = "Sending email failed. Please try again."
+
+    else:
+
+        if request.user.is_authenticated():
+            info['name_post'] =  '%s %s' % (request.user.first_name, request.user.last_name)
+
+    return render_to_response('customer/iframe/email_saved_image.html', info, RequestContext(request))
+
+
+def send_saved_image(request,mailto_list, sender):
+
+    info = {}
+    is_sent = False
+    image_id = 0
+
+    if 'image_id' in request.GET:
+        image_id = request.GET.get('image_id')
+    else:
+        return False
+
+    user_id = request.GET.get('id',None)
+
+    if user_id:
+        try:
+            user = User.objects.get(id=user_id)
+        except:
+            if request.user.is_authenticated():
+                user = request.user
+            else:
+                # return redirect('home')
+                raise Http404
+    else:
+        if request.user.is_authenticated():
+            user = request.user
+        else:
+            # return redirect('home')
+            raise Http404
+    
+
+    if image_id:
+
+        try:
+            user_keeped_image = get_user_keep_image(image_id, user)
+            filename = user_keeped_image.image.image
+        except Exception as e:
+            logr.error('error on gathering data: %s' % e)
+    
+    saved_image = "%s%s%s" % (settings.MEDIA_ROOT, "banners/", filename)
+    info['media_root'] = '%s/%s' % (settings.IDECORATE_HOST,settings.MEDIA_URL )
+    info['sender'] = sender.title()
+    info['user_keeped_image'] = user_keeped_image
+    html = render_to_string('customer/email_saved_image.html', info)
+    # top level container, defines plain text version
+
+    email = EmailMultiAlternatives(subject="Saved Image iDecorateWeddings.com", body="this email is generated by www.idecorateweddings.com", from_email="noreply@idecorateweddings.com", to=mailto_list)
+    
+    # Add an image
+
+    image_data = open(saved_image, 'rb').read()
+    image = MIMEImage(image_data)
+    image.add_header('Content-ID', '<saved_image>')
+    image.add_header('Content-Disposition', 'inline')
+    email.attach(image)
+
+    # Add the HTML
+
+    email.attach_alternative(html, "text/html")
+
+    # Indicate that only one of the two types (text vs html) should be rendered
+
+    email.mixed_subtype = "related"
+    is_sent = email.send()
+
+    return is_sent
+
 
 def delete_styleboard(request, sb_id):
 

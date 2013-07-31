@@ -22,6 +22,6 @@ urlpatterns =  patterns('customer.views',
     url(r'^print_customer_sb/(?P<is_pdf>\d+)/(?P<sbid>\d+)/$', 'print_customer_sb', {}, name='print_customer_sb'),
     url(r'^hard_copy_order/(?P<is_pdf>\d+)/(?P<order_id>\d+)/$', 'hard_copy_order', {}, name='hard_copy_order'),
     url(r'^styleboard/delete/(?P<sb_id>\d+)/$', 'delete_styleboard', {}, name='delete_styleboard'),
-
-    
+    url(r'^hard_copy_saved_images/(?P<is_pdf>\d+)/(?P<image_id>\d+)/$', 'hard_copy_saved_images', {}, name='hard_copy_saved_images'),
+    url(r'^saved_image_email/$', 'saved_image_email', {}, name='saved_image_email'),
 )

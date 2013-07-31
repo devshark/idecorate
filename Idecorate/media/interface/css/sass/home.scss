@@ -101,6 +101,53 @@ section{
 					color: #999999;
 					font-size: 12px;
 				}
+				.modal{
+					background-color: #EEEEEE;
+					border: 3px solid #999999;
+					padding: 7px !important;
+					-moz-border-radius: 5px;
+					-webkit-border-radius: 5px;
+					border-radius: 5px;
+					-khtml-border-radius: 5px;
+					font-size: 0;
+					position: absolute;
+					display: none;
+					top: 110%;
+					left: 10px;
+					width: auto;
+					height: auto;
+					width: 255px;
+					-webkit-box-shadow: 0 0 8px #333333;
+					box-shadow: 0 0 8px #333333;
+					-moz-box-shadow: 0 0 8px #333333;
+
+					> div{
+						display: inline-block;
+						*display: inline;
+						margin-left: 3px;
+						zoom:1;
+						height: 20px;
+					}
+					a{
+						padding: 0 !important;
+					}
+					.email a{
+						display: block;
+						height: 20px;
+
+						img{
+							height: 20px !important;
+							width: auto !important;
+						}
+					}
+					p{
+						font-size: 12px;
+						a{
+							text-transform: none;
+							color: #333333;
+						}
+					}
+				}
 
 			}
 		}
