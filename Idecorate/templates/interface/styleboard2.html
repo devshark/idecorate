@@ -289,6 +289,14 @@
                                             <li><a href="#" id="backward-btn"><span></span>Backward</a></li>
                                         </ul>
                                     </div>
+                                    <!-- <div id="scale-control-wrap">
+                                        <div class="scale-control-label clearfix">
+                                            <span class="subtract">-</span>
+                                            <span class="label">Opacity</span>
+                                            <span class="add">+</span>
+                                        </div>
+                                        <div id="slider-scale"></div>
+                                    </div> -->
                                     <div class="imgBgControlWrap">
                                         <ul class="imgBgControl">
                                             <li>
@@ -590,6 +598,24 @@
         $('#email_styleboard').click(function(e){
             e.preventDefault();
             email_styleboard_modal();
+        });
+
+        $('#slider-scale').slider({
+            range: "max",
+            min: 1,
+            max: 100,
+            value: 100,
+            slide: function( event, ui ) {
+                // $('.selected img').css({
+                //     'zoom': 1,
+                //     'opacity' : ui.value*0.01,
+                //     'filter': 'alpha(opacity='+ui.value+')'
+                // });
+                // $('.selected').attr('_opacity',ui.value);
+            },
+            stop: function(event, ui){
+                // eventTracker($('.selected'), 'set_opacity');
+            }
         });
 
     });

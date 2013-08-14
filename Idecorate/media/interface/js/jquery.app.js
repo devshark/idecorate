@@ -1973,7 +1973,7 @@ function update_menu(obj,img_menu){
 
             if(obj.hasClass('text') || obj.parent().hasClass('text')){
                 $('#text-change-wrap').show();
-                $('#opacity-control-wrap').css({'width':'47%','float':'left','margin-left':10});
+                $('#opacity-control-wrap').css({'width':'53%','float':'left','margin-left':10});
             }else if(obj.hasClass('templateEmbellishments')){
                 $('#text-change-wrap').hide();
                 $('#opacity-control-wrap').css({'width':'70px','float':'right','margin-left':''});
