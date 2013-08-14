@@ -1,0 +1,37 @@
+//fonts
+@import url("/static/stylesheets/fontface.css");
+$helvetica: "Trebuchet MS",Helvetica,sans-serif;
+$times_newRoman : "Times New Roman", serif;
+$cartoGothicStd_Book: "cartoGothicStd_Book";
+$cartoGothicStd_Bold: "cartoGothicStd_Bold";
+$cartoGothicStd_BoldItalic: "cartoGothicStd_BoldItalic";
+$cartoGothicStd_Italic: "cartoGothicStd_Italic";
+
+//font sizes
+$font_size: 12px;
+
+//colors
+$dark: #000000;
+$light : #FFFFFF;
+$border_01 : #dbd7c9;
+
+//mixins
+@mixin rounded_corners($radius: 5px) {
+	-webkit-border-radius: $radius; 
+	-moz-border-radius: $radius; 
+	border-radius: $radius;
+}
+
+@mixin rounded_by_corner($vert, $horz, $radius: 5px) {
+  border-#{$vert}-#{$horz}-radius: $radius;
+  -moz-border-radius-#{$vert}#{$horz}: $radius;
+  -webkit-border-#{$vert}-#{$horz}-radius: $radius;
+}
+
+@mixin border($color:lighten($dark, 60%), $size:1px,$style: solid){
+	border: $size $style $color;
+}
+
+@mixin border_by_side($side,$color:lighten($dark, 60%) ,$size:1px,$style: solid){
+  border-#{$side}: $size $style $color;
+}

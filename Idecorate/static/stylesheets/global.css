@@ -1,0 +1,71 @@
+@import url("/static/stylesheets/fontface.css");
+/*=========================================
+	Main Styles
+=========================================*/
+html body {
+  font-size: 12px;
+  line-height: 1.2em;
+  font-family: "Trebuchet MS", Helvetica, sans-serif;
+  color: #4d4d4d;
+  background-color: white;
+  width: 100%; }
+  html body header, html body footer {
+    width: 100%; }
+  html body input[type="text"], html body input[type="password"], html body input[type="email"] {
+    border: 1px solid #999999;
+    padding: 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px; }
+  html body .header {
+    background-image: url("/static/images/header_bg.jpg");
+    background-repeat: repeat-x;
+    height: 75px;
+    padding: 7px 0 13px; }
+    html body .header .headerRow {
+      width: 960px;
+      margin: 0 auto;
+      font-size: 0; }
+      html body .header .headerRow .headerColumn {
+        display: inline-block; }
+        html body .header .headerRow .headerColumn #news_letter {
+          display: block;
+          float: right;
+          margin: -55px 0 0;
+          vertical-align: top; }
+          html body .header .headerRow .headerColumn #news_letter .arrowRight {
+            width: 10px;
+            height: 10px;
+            background-image: url("/static/images/arrows_sprite.png");
+            background-repeat: no-repeat;
+            background-position: -10px 0;
+            vertical-align: top; }
+      html body .header .headerRow .headerColumn.info, html body .header .headerRow .headerColumn.user {
+        width: 430px;
+        font-size: 12px; }
+        html body .header .headerRow .headerColumn.info ul, html body .header .headerRow .headerColumn.user ul {
+          text-align: center; }
+          html body .header .headerRow .headerColumn.info ul li, html body .header .headerRow .headerColumn.user ul li {
+            display: inline-block;
+            vertical-align: bottom; }
+            html body .header .headerRow .headerColumn.info ul li ul, html body .header .headerRow .headerColumn.user ul li ul {
+              display: none; }
+              html body .header .headerRow .headerColumn.info ul li ul a, html body .header .headerRow .headerColumn.user ul li ul a {
+                color: #333333; }
+        html body .header .headerRow .headerColumn.info a, html body .header .headerRow .headerColumn.user a {
+          color: #EEEEEE;
+          text-transform: uppercase;
+          display: block;
+          margin: 0 4px;
+          font-family: "cartoGothicStd_Bold"; }
+      html body .header .headerRow .headerColumn.logo a {
+        display: block; }
+        html body .header .headerRow .headerColumn.logo a img {
+          vertical-align: bottom; }
+
+h3 {
+  font-size: 2em;
+  line-height: 1.5em; }
+
+p {
+  line-height: 1.4em; }

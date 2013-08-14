@@ -1,0 +1,35 @@
+@import 'sass';
+.flatPageWrap{
+	width: 930px;
+	margin: 15px auto 0;
+	padding: 15px;
+	border: 1px solid $border_01;
+
+	h3{
+		font-family: $times_newRoman;
+		text-transform: uppercase;
+		border-bottom: 1px solid #666666;
+	}
+
+	h3:after{
+		content: "";
+		display: block;
+		border-bottom: 2px solid #666666;
+		margin-bottom: 1px;
+	}
+	p{
+		font-family: $times_newRoman;
+		font-style: oblique;
+		font-size: 1.3em !important;
+		margin-top: 10px;
+	}
+}
+
+#content:after{
+	content: "";
+	background-color:$border_01;
+	border: 1px solid $border_01;
+	height:20px;
+	width: 960px;
+	margin: 2px auto 0;
+}

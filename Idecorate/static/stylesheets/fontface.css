@@ -1,0 +1,31 @@
+@font-face {
+    font-family: "cartoGothicStd_Book";
+    font-style: normal;
+    font-weight: normal;
+    src: local('cartoGothicStd_Book'), 
+    url("/static/styleboard/fonts/CartoGothicStd-Book.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "cartoGothicStd_Bold";
+    font-style: normal;
+    font-weight: normal;
+    src: local('cartoGothicStd_Book'), 
+    url("/static/styleboard/fonts/CartoGothicStd-Bold.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "cartoGothicStd_BoldItalic";
+    font-style: normal;
+    font-weight: normal;
+    src: local('cartoGothicStd_Book'), 
+    url("/static/styleboard/fonts/CartoGothicStd-BoldItalic.otf") format("opentype");
+}
+
+@font-face {
+    font-family: "cartoGothicStd_Italic";
+    font-style: normal;
+    font-weight: normal;
+    src: local('cartoGothicStd_Book'), 
+    url("/static/styleboard/fonts/CartoGothicStd-Italic.otf") format("opentype");
+}

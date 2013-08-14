@@ -1,0 +1,127 @@
+{% load i18n idecorate_interface static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>iDecorate | Styleboard</title>
+		<meta name="description" content="">
+		<meta name="author" content="Ryan Angeles">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="/{{ MEDIA_URL }}images/favicon.1.ico" type="image/x-icon" />
+
+		<link rel="stylesheet" href="{% static 'stylesheets/reset.css' %}">
+		<link rel="stylesheet" href="{% static 'stylesheets/global.css' %}">
+		<link rel="stylesheet" href="{% static 'styleboard/javascripts/jquery/jquery-ui-1.10.2.custom.css' %}">
+		<link rel="stylesheet" href="{% static 'styleboard/stylesheets/styleboard.css' %}">
+
+		<script type="text/javascript">
+			
+			/*===================
+					URLS
+			====================*/
+			MEDIA_URL = '/{{ MEDIA_URL }}';
+			APP_SIDEBAR_ITEMS_URL = '{% url sidebar_items %}';
+
+			/*===================
+				   VARIABLES
+			====================*/
+			CATEGORY_ID = parseInt('{{ category_id }}');
+			STYLEBOARD_ID = parseInt('{{ styleboard_id }}');
+
+		</script>
+	</head>
+	<body>
+		{% include "header.html" %}
+		<div id="content">
+			<table id="styleboard" cellspacing="12" cellpadding="12">
+				<tbody>
+					<tr>
+						<td class="cell sidebarWrap">
+							
+						</td>
+						<td class="cell canvasWrap">
+							<div class="canvasMenu hidden">
+									<ul>
+										<li><a id="save" href="#">save</a></li>
+										<li><a id="reset" href="#">new</a></li>
+										<li><a id="undo" href="#">undo</a></li>
+										<li><a id="redo" href="#">redo</a></li>
+										<li><a id="redo" href="#">print</a></li>
+										<li><a id="redo" href="#">pdf</a></li>
+									</ul>
+								</div>
+								<div class="controlMenu hidden">
+									<ul class="horizontalMenu">
+										<li><a id="remove" href="#">remove</a></li>
+										<li><a id="flip" href="#">flip</a></li>
+										<li><a id="flop" href="#">flop</a></li>
+										<li><a id="clone" href="#">clone</a></li>
+										<li><a id="forward" href="#">forward</a></li>
+										<li><a id="backward" href="#">backward</a></li>
+									</ul>
+									<div class="transformMenu hidden">
+										<ul>
+											<li><a id="with_bg" href="#"></a></li>
+											<li><a id="trans_bg" href="#"></a></li>
+											<li><a id="crop" href="#"></a></li>
+										</ul>
+									</div>
+								</div>
+							<div id="canvas">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/jquery-ui-1.10.2.custom.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.sidebar.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.cart.js' %}"></script>
+		<script type="text/javascript">
+
+			/*================================================
+				- set minimum height for the styleboard
+				- set heights on page loads
+				- set heights on window resize
+				- resize canvas based on aspect ratio applied
+			=================================================*/
+
+			// var app_sidebar = IdecorateSidebar;
+	  //   	app_sidebar.initialize();
+
+			$(function(){
+
+				get_min_height();
+				set_height();
+
+			});
+
+			var resizing;
+
+			$(window).resize(function(){
+
+				clearTimeout(resizing);
+
+			    resizing = setTimeout(function(){
+			    	
+			    	// if(app_sidebar.item_type == 'products'){
+			    		
+				    // 	app_sidebar.display_items('products','product');
+
+			    	// }
+
+			    	set_height();
+
+			    }, 300);
+
+			});
+
+		</script>
+	</body>
+</html> 

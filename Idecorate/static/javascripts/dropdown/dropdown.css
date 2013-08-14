@@ -1,0 +1,110 @@
+ul .arrowWrapper{
+	margin-left: 3px;
+	vertical-align: middle;
+}
+
+/* LEVEL ONE */
+ul.simpleDropdown{ 
+	z-index: 5;
+}
+
+ul.simpleDropdown li{ 
+	display: inline-block;
+	*display: inline;
+	zoom:1; 
+	vertical-align: top;
+	position: relative; 
+}
+
+/*usimpleDropdown a.nonClickable{
+	cursor: default;
+}*/
+
+ul.simpleDropdown a:hover{ 
+	color: #000000; 
+}
+
+ul.simpleDropdown a:active{ 
+	color: #000000; 
+}
+
+ul.simpleDropdown li a{ 
+	display: block; 
+	color: #333333; 
+}
+
+ul.simpleDropdown li.hover,
+ul.simpleDropdown li:hover{ 
+	color: black; 
+	position: relative; 
+}
+
+ul.simpleDropdown li.hover a,
+ul.simpleDropdown li:hover a{ 
+	color: black; 
+	white-space: nowrap;
+}
+
+
+/* LEVEL TWO */
+ul.simpleDropdown ul.subMenu{ 
+	display: none; 
+	position: absolute; 
+	background-color: #FFFFFF; 
+	z-index: 10;
+	top: 100%; 
+	left: 0; 
+}
+
+ul.simpleDropdown ul.subMenu li{ 
+	color: #000; 
+	cursor: pointer;
+	display: block !important;
+	padding: 7px 10px 2px;
+}								
+ul.simpleDropdown ul.subMenu a{ 
+	width: 100%;
+	margin: 0 !important;
+	text-align: left !important;
+} 
+
+/* LEVEL THREE & MORE */
+ul.simpleDropdown ul.subMenu ul.subMenu{ 
+	left: 100%; 
+	top: 0; 
+	z-index: 15;
+}
+
+.arrowWrapper img{
+	width: 10px;
+	height: 10px;
+	background-image: url("/static/images/arrows_sprite.png");
+	background-repeat: no-repeat;
+	vertical-align: text-top;
+}
+.arrowWrapper img.arrowUp{
+	background-position: 0 -10px;
+}
+.arrowWrapper img.arrowRight{
+	background-position: -10px -20px;
+}
+.arrowWrapper img.arrowDown{
+	background-position: 0 0;
+}
+.arrowWrapper img.arrowLeft{
+	background-position: -10px -30px;
+}
+
+.menuIconWrap{
+	display: none;
+	position: absolute;
+	bottom: 100%;
+}
+
+.menuIconWrap img{
+	width: 47px;
+	height: 9px;
+	background-image: url("/static/images/hover_status.png");
+	background-repeat: no-repeat;
+
+}

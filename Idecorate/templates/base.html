@@ -1,297 +1,45 @@
-{% load i18n idecorate_interface %}
+{% load i18n idecorate_interface static %}
 {{ request|set_last_page_idecorate }}
-<!DOCTYPE html>
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <title>{% block title %}{% endblock %}</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="iDecorate Wedding">
         <meta name="description" content="">
-        <meta name="author" content="">
-        <link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
-        <link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/global.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/datepicker.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/js/dropdown/css/dropdown.css">
-        <link rel="stylesheet" type="text/css" href="/media/interface/css/dropdown.css">
 
-        {%  block style %}{% endblock %}
-
+        <link rel="shortcut icon" href="/{{ MEDIA_URL }}images/favicon.1.ico" type="image/x-icon" />
+        <!-- Load global stylings -->
+        <link rel="stylesheet" href="{% static 'stylesheets/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'stylesheets/global.css' %}">
+        <link rel="stylesheet" href="{% static 'javascripts/dropdown/dropdown.css' %}">
+        {% block style %}{% endblock %}
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
-        <!--[if lt IE 9]>
-            <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
-        <style>
-        .ui-autocomplete-category {
-            font-weight: bold;
-            padding: .2em .4em;
-            margin: .8em 0 .2em;
-            line-height: 1.5;
-        }   
-        #page-mask {
-            position: fixed;
-            -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
-            filter: alpha(opacity=50);
-            -moz-opacity: 0.5;
-            -khtml-opacity: 0.5;
-            opacity: 0.5;
-            background-color: black;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 99999;
-        }
-        #modal-login-signup-window {
-            border: 5px solid #DDD;
-            position: fixed;
-            width: 800px;/*
-            */
-            height: auto;
-            overflow: hidden;
-            background-color: white;
-            box-shadow: 0 0 8px #333;
-            z-index: 99999;
-            top: 10%;
-            /*background-image: url(/media/images/idecorate_pattern.jpg);*/
-            background-repeat: repeat;
-        }
-        #modal-login-signup-window h2 {
-            margin: 0 5px 0 0;
-            padding: 0;
-            text-align: right;
-        }
-        #modal-login-signup-window a#close-login-signup-modal{
-            text-decoration: none;
-            color: #666;
-        }
-        #modal-login-signup-window iframe {
-        /*height: 480px;*/
-        min-height: 375px;
-        max-height: 700px;
-        width: 100%;
-        }
-        h2 {
-            font-size: 156.25%;
-        }
-        h1, h2, h3, h4, h5 {
-            font-weight: normal;
-        }
-        /*.categoryWrapper ul li a {
-            color: #fff !important;
-        }
-        .categoryWrapper li {
-            border: 0 !important;
-        }
-        .categoryWrapper .dd ul li {
-            background-color: #F5F5DC;
-        }
-        .categoryWrapper ul.dropdown li.hover,
-        .categoryWrapper ul.dropdown li:hover{ 
-            background: #F5F5DC; 
-            color: #000 !important; 
-            position: relative; 
-        }
-        .categoryWrapper ul.dropdown li a:hover{ 
-            color: #000 !important; 
-        }
-        .categoryWrapper ul.dropdown li.hover a{ 
-            color: #000 !important; 
-        }
-        .categoryWrapper ul.dropdown ul li{ 
-            text-align: left !important;
-        }*/
-        </style>
+        <!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
     </head>
     <body>
-        <div id='fb-root'></div>
-        <script src='http://connect.facebook.net/en_US/all.js'></script>
-        <div id="main-container">
-            <header id="header">
-                {% include "header.html" %}
-            </header>
+        <div id="main-container" class="clearfix">
+            {% include "header.html" %}
 
             <div id="content" class="clearfix">
-                {% block content %}
-                {% endblock %}
+                {% block content %}{% endblock %}
             </div>
             
             <footer id="footer" class="clearfix">
                 {% include "footer.html" %}                
             </footer>
-        </div> <!-- /container -->
-        <!-- login. signup modal -->
-        <div id="page-mask" style="display:none;"></div>        
-        <div id="modal-login-signup-window" style="display:none;">
-            <h2 id="modal-login-signup-header">
-                <a href="#" id="close-login-signup-modal">&times;</a>
-            </h2>
-            <div id="iframe-login-signup-wrap"></div>
-        </div> 
-        <script src="/media/interface/js/jquery-1.8.2.min.js"></script>
-        <script src="/media/interface/js/jquery-ui.js"></script>
-        <script src="/media/interface/js/jquery.placeholder.js"></script>
-        <script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.dropdown.js"></script>
-        <script type="text/javascript" src="/media/interface/js/dropdown/js/jquery.hoverflow.js"></script>
+        </div>
+        <script src="{% static 'javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
+        <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
         <script type="text/javascript">
-
-            var currentUrl              = '{{ currentUrl }}';
-            var SEARCH_SUGGESTION_URL   = '{% url search_suggestions %}';
-
-            $(function() {
-                
-                var dateToday = new Date();
-                var dates = $("#datepicker").datepicker({
-                    defaultDate: "+1w",
-                    numberOfMonths: 1,
-                    minDate: dateToday,
-                    showOn: "button",
-                    buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-                    buttonImageOnly: true ,
-                    changeYear: true,
-                    changeMonth: true,
-                    showOtherMonths: true,
-                    selectOtherMonths: true,
-                    showButtonPanel: true,
-                    onSelect: function(selectedDate) {
-                        var option = this.id == "from" ? "minDate" : "maxDate",
-                            instance = $(this).data("datepicker"),
-                            date = $.datepicker.parseDate(instance.settings.dateFormat || $.datepicker._defaults.dateFormat, selectedDate, instance.settings);
-                        dates.not(this).datepicker("option", option, date);
-                    }
-                });
-
-                $('#close-login-signup-modal').click(function(e){
-                    e.preventDefault();
-                    closed_modal();
-                });
-
-                generate_user_nav();
-                $('input[type="text"]').placeholder();
-                $('.loginTrigger').click(popup_login);
-
-
-                $('.dd').dropdown({
-                    subClass: 'sub-menu',
-                    firstArrow : '',
-                    otherArrow : ''
-                }).show();
-
-                $('#info-menu .dd > li:first-child a').css({paddingLeft:0});
-                $('#lnk-logout,#lnk-login-signup').css({paddingRight:0});
-            });
-
-            //global functions
-            function generate_user_nav(){
-                var navs = '<li>';
-                    navs += '<a href="#" id="logged_as">{{ user|get_nickname }}</a>';
-                    navs += '<ul>';
-                    navs += '<li><a id="lnk-styleboards" href="#">My Styleboards</a></li>';
-                    navs += '<li><a id="lnk-saved-images" href="#">My Saved Images</a></li>';
-                    navs += '<li><a id="lnk-orders" href="#">My Orders</a></li>';
-                    navs += '<li><a href="{%url invite_friends %}">Invite Friends</a></li>';
-                    navs += '<li><a id="lnk-edit" href="{% url edit_profile %}">Edit Profile</a></li>';                
-                    navs += '<li><a id="lnk-logout" href="#">Logout</a></li>';                
-                    navs += '</ul>';
-                    navs += '</li>';
-                    navs += '<li><a href="#" id="lnk-login-signup">Login/Signup</a></li>';
-                
-                $('#site-menu ul.dd').append(navs);
-                $('#lnk-logout').bind('click',logmeout);
-                $('#lnk-styleboards').bind('click',goto_profile);
-                $('#lnk-saved-images').bind('click',goto_saved_images);
-                 $('#lnk-orders').bind('click',goto_my_orders); 
-                $('#site-menu ul a#lnk-login-signup').bind('click',function(e){
-                    e.preventDefault();
-                    popup_login();
-                });
-                $('#logged_as').click(function(e){ e.preventDefault();});
-
-                {% if user.is_authenticated %}
-                    $('#lnk-login-signup').parent().hide();
-                {% else %}
-                    $('#logged_as').parent().hide();
-                    $('#lnk-logout').parent().hide();
-                {% endif %}
-            }
-
-            function goto_profile(){
-                window.location.href = '{% url profile %}';
-            }
-            
-            function goto_saved_images(){
-                window.location.href = '{% url saved_images %}';
-            }
-
-            function goto_my_orders(){
-                window.location.href = '{% url orders %}';
-            }
-
-            
-            function logged(val){
-                $('#logged_as').text(val);
-                $('#lnk-login-signup').parent().hide();
-                $('#logged_as').parent().show();
-                $('#lnk-logout').parent().show();
-                closed_modal();
-
-               if(typeof keeping_function_to_call == 'function') {
-
-                    keeping_function_to_call();
-                    
-               } else {
-                    document.location.reload(true);
-               }
-
-            }
-
-            function logmeout(){
-                $.get('{% url logout %}',function(){
-                    if ( currentUrl == '/profile' ){
-                        window.location.href = '{% url home %}';
-                    } else {
-                        $('#lnk-login-signup').parent().show();
-                        $('#logged_as').parent().hide();
-                        $('#lnk-logout').parent().hide();
-                        document.location.reload(true);
-                    }
-                });
-                return false;
-            }
-
-            function closed_modal(){
-                $('#page-mask').hide();
-                $('#modal-login-signup-window').hide();
-            }
-            
-            function popup_login(){
-                var iframe  = $('<iframe />').attr({'class':'modalIframe','id':'modal-login-signup-iframe','src':"{% url login_signup %}",'frameborder':'0'});
-                var modal   = $('#modal-login-signup-window'),
-                    _left   = $(window).width()/2-modal.width()/2;
-                    frame   = $('#iframe-login-signup-wrap').html(iframe);
-
-                $('#page-mask').css({display:'block'});
-                modal.css({display:'block',left:_left});
-
-            }
-
+            var transparent = "{% static 'images/img_trans.gif' %}";
+            var current_url = "{{ request.get_full_path }}";
         </script>
-        <script src="/media/interface/js/search.js"></script>
-
+        <script type="text/javascript" src="{% static 'javascripts/global.js' %}"></script>
+        <script src="{% static 'javascripts/jquery/jquery.placeholder.js' %}"></script>
+        <script src="{% static 'javascripts/dropdown/jquery.dropdown.js' %}"></script>
         {% block javascripts %}{% endblock %}
-
-        <script type="text/javascript">
-
-          var _gaq = _gaq || [];
-          _gaq.push(['_setAccount', 'UA-35223113-1']);
-          _gaq.push(['_trackPageview']);
-
-          (function() {
-            var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-            var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-          })();
-
-        </script>
     </body>
 </html>

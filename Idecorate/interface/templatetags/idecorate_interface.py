@@ -402,112 +402,57 @@ def menuItemInterface(item_menu,is_sub=False):
         return menus
 
 
-# def menuInterfaceRecursion(menus):
-
-#         element = ""
-#         link = ""
-#         needToOpen = True
-
-#         for menu in menus:
-
-#             if menu.parent is None:
-
-#                 if needToOpen:
-
-#                     element += '<ul class="menu iDdropdown %s">' % menu.__class__.__name__
-#                     needToOpen = False
-#             else:
-
-#                 if needToOpen:
-
-#                     element += '<ul>'
-#                     needToOpen = False
-
-#             link = '<a href="%s">%s</a>' % (menu.link, menu.name) if menu.link else '<a>%s</a>' % menu.name
-#             element += '<li>%s' % (link)
-#             sub_menus = menu.__class__.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
-#             element += menuInterfaceRecursion(sub_menus)
-#             element +='</li>'
-
-#         if needToOpen == False:
-
-#             if menu.parent is None:
-
-#                 if menu.__class__.__name__ == "SiteMenu":
-
-#                     element+= '<li><a id="my_account" href="%s">my account</a></li>' % reverse('profile')
-#                     element+= '<li><a id="my_order" href="%s">my order</a></li>' % reverse('checkout')
-                
-
-#             element += '</ul>'
-
-#         return mark_safe(element)
-
-
-# @register.filter
-# def getInterfaceMenus(menuType):
-
-#     modelMenu = InfoMenu if menuType == "info" else SiteMenu
-#     menus = modelMenu.objects.filter(parent=None,deleted=False).order_by('order')
-
-#     return menuInterfaceRecursion(menus)
-
-def menuInterfaceRecursion(menus):
+def menuInterfaceRecursion(menus, activate_url):
 
         element = ""
-        needToOpen = True
-        css_class = ""
         link = ""
-        needSpan = False
+        needToOpen = True
 
         for menu in menus:
-            if menu.parent is None:
-                if needToOpen:
-                    element += '<ul class="dd">'
-                    needToOpen = False
 
-            else:
+            if menu.parent is None:
+
                 if needToOpen:
+
+                    element += '<ul class="menu iDdropdown %s">' % menu.__class__.__name__
+                    needToOpen = False
+            else:
+
+                if needToOpen:
+
                     element += '<ul>'
                     needToOpen = False
 
-            if menu.link == "":
-                needSpan = True
-                link = menu.name
-            else:
-                needSpan = False
-                link = '<a href="%s">%s</a>' % (menu.link, menu.name)
+            active = "active" if str(menu.link) == str(activate_url) else "inActive"
 
-            if needSpan:
-                element += '<li>%s%s%s' % ('<span>',link ,'</span>')
-            else:
-                element += '<li>%s' % (link)
-
-            if menus.model == type(InfoMenu()):
-
-                sub_menus = InfoMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
-                element += menuInterfaceRecursion(sub_menus)
-
-            else:
-                sub_menus = SiteMenu.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
-                element += menuInterfaceRecursion(sub_menus)
-
+            link = '<a class="%s" href="%s">%s</a>' % (active, menu.link, menu.name) #if menu.link else '<a href="#">%s</a>' % menu.name
+            element += '<li>%s' % (link)
+            sub_menus = menu.__class__.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
+            element += menuInterfaceRecursion(sub_menus,activate_url)
             element +='</li>'
 
         if needToOpen == False:
+
+            if menu.parent is None:
+
+                if menu.__class__.__name__ == "SiteMenu":
+
+                    element+= '<li><a id="my_account" href="%s">my account</a></li>' % reverse('profile')
+                    element+= '<li><a id="my_order" href="%s">my order</a></li>' % reverse('checkout')
+                
+
             element += '</ul>'
 
         return mark_safe(element)
 
+
 @register.filter
-def getInterfaceMenus(menuType):
+def getInterfaceMenus(menuType, current_url):
 
-        if menuType == "info":
-            menus = InfoMenu.objects.filter(parent=None,deleted=False).order_by('order')
-        else:
-            menus = SiteMenu.objects.filter(parent=None,deleted=False).order_by('order')
+    modelMenu = InfoMenu if menuType == "info" else SiteMenu
+    menus = modelMenu.objects.filter(parent=None,deleted=False).order_by('order')
 
-        return menuInterfaceRecursion(menus)
+    return menuInterfaceRecursion(menus,current_url)
 
 
 @register.filter
@@ -556,7 +501,7 @@ def truncateDescription(desc,length=50):
 
     else:
 
-        return desc
+        return de
 
 
 @register.filter

@@ -1,43 +1,16 @@
 {% extends "base.html" %}
-{% block title %}iDecorate Weddings - {{ flatpage.title }}{% endblock %}
+{% load i18n idecorate_interface static %}
+{% block title %}iDecorate Weddings | {{ flatpage.title }}{% endblock %}
 {% block style %}
-    <link rel="stylesheet" type="text/css" href="/media/interface/css/static.css">
+	<link rel="stylesheet" href="{% static 'stylesheets/flat.css' %}">
 {% endblock %}
 {% block content %}
-<h3>{{ flatpage.title }}</h3>
-<div class="staticWrap">
-	<div class="clearfix static">
-		{{ flatpage.content }}
-		<!--<div class="clearfix end">
-			<img src="/media/images/end.png" />
-		</div>-->
-	</div>
+<div class="flatPageWrap clearfix">
+	<h3>{{ flatpage.title }}</h3>
+	{{ flatpage.content }}
 </div>
 {% endblock %}
 {% block javascripts %}
 <script type="text/javascript">
-$(function(){
-	if($(window).height() > $('#main-container').outerHeight()){
-		page_H();
-	}
-});
-
-function page_H(){
-
- 	var windowH = $(window).height();
-		headerH = $('#header').outerHeight(true);
-		footerH = $('#footer').outerHeight(true);
-		newHeight = windowH - headerH - footerH - 395;
-		sectionH = $('#feature-wrap').outerHeight(true);
-	$("#feature-wrap").height(newHeight);
-
-}
-
-(function($) {
-    $.fn.hasScrollBar = function() {
-        return $(window).height() > $('#main-container').outerHeight();
-    }
-})(jQuery);
 </script>
-<!-- <script type="text/javascript" src="/media/firebug/tests/firebug-lite-debug.js"></script> -->
 {% endblock %}

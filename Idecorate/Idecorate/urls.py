@@ -27,6 +27,7 @@ urlpatterns = patterns('',
         disconnect, name='socialauth_disconnect_individual'),
     url(r'', include('social_auth.urls')),
     url(r'', include('sites.urls')),
+    url(r'^app/', include('styleboard.urls')),
 )
 
 """

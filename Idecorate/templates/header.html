@@ -1,53 +1,15 @@
-{% load idecorate_interface %}
-
-<div class="headerRowTop clearfix">
-	<div class="headerColumn clearfix" id="info-menu">
-		{{ "info"|getInterfaceMenus }}
-		<div class="search clearfix">
-			<form action="{% url styleboard %}" method="POST">
-			<input type="text" name="search" id="search" placeholder="Search Products" > 
-			<input type="image" src="/media/images/search.png" class="searchIcon" />
-			<input type="submit" value="Search" class="searchButton">
-			</form>
+{% load idecorate_interface static %}
+<header class="header">
+	<div class="headerRow">
+		<div class="headerColumn info">
+			{{ "info"|getInterfaceMenus:request.path }}
+		</div>
+		<div class="headerColumn logo">
+			<a href="/"><img src="{% static 'images/logo.png' %}"></a>
+		</div>
+		<div class="headerColumn user">
+			<a id="news_letter" href="#">subscribe to our newsletter <img class="arrowRight" alt="arrow right" src="{% static 'images/img_trans.gif' %}"></a>
+			{{ "site"|getInterfaceMenus:request.path }}
 		</div>
 	</div>
-	<div class="headerColumn clearfix" id="logo">
-		<a href="{% url home %}">
-			<!-- <img src="/media/images/idecorate_wedding.jpg" title="logo" /> -->
-			<img src="/media/images/logo.png" title="logo" />
-		</a>
-	</div>
-	<div class="headerColumn clearfix" id="site-menu">
-		{{ "site"|getInterfaceMenus }}
-		<a id="invite" href="{%url invite_friends %}">Invite Friends</a>
-	</div>
-</div>
-<!--
-
-<div class="headerRowBottom clearfix">
-	<div class="searchWrap">
-		<div class="search clearfix">
-			<form action="{% url styleboard %}" method="POST">
-			<input type="image" src="/media/images/search.png" class="searchIcon" />
-			<input type="text" name="search" id="search" placeholder="Search Products" > 
-			<input type="submit" value="Search">
-			</form>
-		</div>
-	</div>
-	<div class="socialIcons">
-		<a href="mailto:shana@idecorateweddings.com" id="email"></a>
-		<a href="#" id="arrow"></a>
-		<a href="https://www.facebook.com/iDecorateweddings" id="facebook"></a>
-		<a href="http://pinterest.com/idecorateltd/" id="pinterest"></a>
-		<a href="http://web.stagram.com/n/idecorateweddings/" id="instagram"></a>
-		<a href="https://twitter.com/idecorateltd" id="twitter"></a>
-		<a href="http://www.youtube.com/idecorateweddings" id="youtube"></a>
-	</div>
-</div>-->
-<div class="clearfix categoryWrapper">
-	<div class="categoryWrap">
-		{% include 'sidebar.html' %}
-	</div>
-</div>
-{% block javascripts %}
-{% endblock %}
+</header>

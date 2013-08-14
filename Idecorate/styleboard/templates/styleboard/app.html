@@ -1,0 +1,238 @@
+{% load i18n idecorate_interface static %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>Styleboard</title>
+		<meta name="description" content="">
+		<meta name="author" content="Ryan Angeles">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="shortcut icon" href="/{{ MEDIA_URL }}images/favicon.1.ico" type="image/x-icon" />
+		<!-- Load jQuery library and jQuery UI -->
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/jquery-ui-1.10.2.custom.js' %}"></script>
+		<script type="text/javascript">
+			
+			/*===================
+					URLS
+			====================*/
+			MEDIA_URL = '/{{ MEDIA_URL }}';
+			APP_SIDEBAR_ITEMS_URL = '{% url sidebar_items %}';
+
+
+			/*===================
+				   VARIABLES
+			====================*/
+
+			CATEGORY_ID = parseInt('{{ category_id }}');
+			STYLEBOARD_ID = parseInt('{{ styleboard_id }}');
+
+		</script>
+		<!-- Load reset stylings -->
+		<link rel="stylesheet" href="{% static 'styleboard/stylesheets/reset.css' %}">
+		<!-- Load jQuery UI stylings -->
+		<link rel="stylesheet" href="{% static 'styleboard/javascripts/jquery/jquery-ui-1.10.2.custom.css' %}">
+		<!-- Load page stylings -->
+		<link rel="stylesheet" href="{% static 'styleboard/stylesheets/global.css' %}">
+		<link rel="stylesheet" href="{% static 'styleboard/stylesheets/app.css' %}">
+	</head>
+	<body>
+		<header class="block compactHeader">
+			<div class="headerRow clearfix">
+				<div class="headerColumn info">
+					<ul class="horizontalMenu dropdown infoMenu">
+						<li><a href="#">Home</a></li>
+						<li><a href="#">About</a></li>
+						<li><a href="#">Contact</a></li>
+						<li><a href="#">FAQ</a></li>
+					</ul>
+					<div class="searchbox clearfix">
+						<input type="text" name="search" placeholder="Search Products" id="search"/>
+						<input type="image" src="/media/images/search.png" class="searchBtn">
+					</div>
+				</div>
+				<div class="headerColumn logo">
+					<a href=""><img src="/media/images/logo_txt.jpg"></a>
+				</div>
+				<div class="headerColumn site">
+					<ul class="horizontalMenu dropdown siteMenu">
+						<li><a href="#">Create &amp; Buy</a></li>
+						<li><a href="#">Login/Signup</a></li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<div id="content">
+			<table resize="true" id="styleboard" cellspacing="12" cellpadding="12">
+				<tbody>
+					<tr>
+						<td class="cell sidebarWrap">
+							<div id="sidebar" resize="true">
+								<div class="block sidebarTabNav">
+									<ul class="horizontalMenu">
+										<li><a id="create" class="active" href="#create">Create</a></li>
+										<li><a id="purchase" href="#purchase">Buy</a></li>
+									</ul>
+								</div>
+								<div class="clearfix block myOrder">
+									<h3>My order <a class="hidden editOrder" href="#purchase">edit</a></h3>
+									<div class="order form">
+										<input type="text" placeholder="Guest" id="guests" name="Guest" /><label for="guest">Guest</label>
+										<input type="text" placeholder="Table" id="tables" name="table" /><label for="table">Table</label>
+									</div>
+									<div class="order total">
+										<h4>Total:</h4>
+										<h5>
+											<span class="currency">US $</span>
+											<span id="order_total">0.00</span>
+										</h5>
+									</div>
+								</div>
+								<div resize="true" id="create" class="clearfix createWrap">
+									<div class="block createTabNav">
+										<ul class="horizontalMenu">
+											<li><a id="product-nav" class="active" href="#">Products</a></li>
+											<li><a id="embelishment-nav" href="#">Embellishments</a></li>
+											<li><a id="template-nav" href="#">Templates</a></li>
+										</ul>
+									</div>
+									<div resize="true" class="productWrap">
+										<div id="breadcrumb_product" class="block"></div>
+										<div resize="true" id="products" class="clearfix products">
+
+										</div>
+										<div id="pagination" class="block"></div>
+									</div>
+									<div resize="true" class="embellishmentWrap hidden">
+										<div id="breadcrumb_embellishment" class="block"></div>
+										<div resize="true" id="embellishments" class="clearfix embellishments hidden">
+
+										</div>
+									</div>
+									<div resize="true" id="template" class="templateWrap clearfix hidden">
+
+									</div>
+								</div>
+								<div id="purchase" resize="true" class="clearfix purchaseWrap hidden">
+									<div class="purchaseHeader">
+										<span>Item</span>
+										<span>Quantity</span>
+										<span>Price</span>
+									</div>
+									<div class="purchaseBody">
+										<table>
+											<tr>
+												<td>
+													<span class="purchaseImage">
+														<img src="" />
+													</span>
+													<span class="purchaseDetail">
+														<p>Item Name</p>
+														<p>$0.00</p>
+													</span>
+												</td>
+											</tr>
+										</table>
+									</div>
+									<div class="purchaseFooter">
+										<h3>Total: US $0.00</h3>
+										<button id="purchase-checkout">Checkout</button>
+									</div>
+								</div>
+							</div>
+						</td>
+						<td class="cell canvasWrap">
+							<div resize="true" id="canvas">
+								<div class="canvasMenu hidden">
+									<ul>
+										<li><a id="save" href="#">Save</a></li>
+										<li><a id="reset" href="#">Start Over</a></li>
+										<li><a id="undo" href="#">Undo</a></li>
+										<li><a id="redo" href="#">Redo</a></li>
+										<li><a id="redo" href="#">Print</a></li>
+										<li><a id="redo" href="#">PDF</a></li>
+									</ul>
+								</div>
+								<div class="controlMenu hidden">
+									<ul class="horizontalMenu">
+										<li><a id="remove" href="#">Remove</a></li>
+										<li><a id="flip" href="#">Flip</a></li>
+										<li><a id="flop" href="#">Flop</a></li>
+										<li><a id="clone" href="#">Clone</a></li>
+										<li><a id="forward" href="#">Forward</a></li>
+										<li><a id="backward" href="#">Backward</a></li>
+									</ul>
+									<div class="transformMenu hidden">
+										<ul>
+											<li><a id="with_bg" href="#"></a></li>
+											<li><a id="trans-bg" href="#"></a></li>
+											<li><a id="crop" href="#"></a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<footer class="block compactFooter clearfix">
+			<div class="copyright">&copy; Idecorate</div>
+			<div class="footerMenus">
+                <ul class="horizontalMenu">
+                	<li><a href="#">Terms of Service</a></li>
+                	<li><a href="#">Returns Policy</a></li>
+                	<li><a href="#">Privacy Policy</a></li>
+                	<li><a href="#">Copyright</a></li>
+               	</ul>
+            </div>
+		</footer>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.sidebar.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.cart.js' %}"></script>
+		<script type="text/javascript">
+
+			/*================================================
+				- set minimum height for the styleboard
+				- set heights on page loads
+				- set heights on window resize
+				- resize canvas based on aspect ratio applied
+			=================================================*/
+
+			// var app_sidebar = IdecorateSidebar;
+	  //   	app_sidebar.initialize();
+
+			$(function(){
+
+				get_min_height();
+				set_height();
+
+			});
+
+			var resizing;
+
+			$(window).resize(function(){
+
+				clearTimeout(resizing);
+
+			    resizing = setTimeout(function(){
+			    	
+			    	// if(app_sidebar.item_type == 'products'){
+			    		
+				    // 	app_sidebar.display_items('products','product');
+
+			    	// }
+
+			    	set_height();
+
+			    }, 300);
+
+			});
+
+		</script>
+	</body>
+</html> 

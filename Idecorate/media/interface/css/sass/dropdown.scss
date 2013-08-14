@@ -1,7 +1,7 @@
 //@import url("/media/interface/css/idecorate.fontface.css");
 @import "idecorate_fonts";
-.dd{
-    display: none;
+.iDdropdown{
+    // display: none;
     font-size: 14px;
     *position:relative;
     *z-index: 2;
@@ -20,7 +20,7 @@
                 vertical-align: top !important;
             }
         }
-        ul.sub-menu{
+        ul.subMenu{
             background-color: #4D4D4D !important;
             margin-left: 7px;
             li{
@@ -40,7 +40,7 @@
                 }
                 
             }
-            ul.sub-menu{
+            ul.subMenu{
                 margin-left: 0;
             }
         }
@@ -56,8 +56,8 @@
     } 
 }
 
-#info-menu{
-    .dd{
+.InfoMenu{
+    .iDdropdown{
 
         > li:first-child{ 
             a{
@@ -67,8 +67,8 @@
     }
 }
 
-#site-menu{
-    .dd{
+.SiteMenu{
+    .iDdropdown{
         #lnk-logout,#lnk-login-signup{
             padding-right: 0 !important; 
         }

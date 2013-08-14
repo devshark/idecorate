@@ -1,7 +1,7 @@
 # Django settings for Idecorate project.
 import os
-from decimal import Decimal
 PROJECT_PATH = os.path.dirname(__file__)
+SITE_ROOT = os.path.dirname(os.path.dirname(__file__))
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -54,7 +54,8 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = "%s%s" % (PROJECT_PATH, "/../media/")
+# MEDIA_ROOT = "%s%s" % (PROJECT_PATH, "/../media/")
+MEDIA_ROOT = os.path.join(SITE_ROOT, 'media/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -76,6 +77,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    os.path.join(SITE_ROOT, 'static'),
 )
 
 # List of finder classes that know how to find static files in
@@ -138,7 +140,11 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "%s%s" % (PROJECT_PATH, "/../templates"),
+    # "%s%s" % (PROJECT_PATH, "/../templates"),
+    os.path.join(SITE_ROOT, 'templates'),
+    os.path.join(SITE_ROOT, 'styleboard/templates'),
+    os.path.join(SITE_ROOT, 'interface/templates'),
+    os.path.join(SITE_ROOT, 'sites/templates'),
 )
 
 INSTALLED_APPS = (
@@ -171,6 +177,7 @@ INSTALLED_APPS = (
     'embellishments',
     'common',
     'paypal',
+    'styleboard'
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -316,8 +323,6 @@ PLATA_REPORTING_ADDRESSLINE = 'Example Corp. - 3. Example Street - 1234 Example'
 
 PLATA_SHOP_PRODUCT = 'cart.Product'
 PLATA_SHOP_CONTACT = 'cart.Contact'
-PLATA_ORDER_PROCESSORS = ('cart.views.ShippingProcessor',)
-PLATA_SHIPPING = {'cost_percentage': Decimal('0.20'), 'tax_percentage': Decimal('0.00')}
 CURRENCIES = ('USD',)
 #End of Plata Settings
 
@@ -341,103 +346,31 @@ IDECORATE_ENABLE_VISA = True
 IDECORATE_ENABLE_MASTERCARD = True
 IDECORATE_ENABLE_AMERICAN_EXPRESS = True
 
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
-
-# LOGGING = {
-#     'version': 1,
-#     'disable_existing_loggers': False,
-#     'filters': {
-#         'require_debug_false': {
-#             '()': 'django.utils.log.RequireDebugFalse'
-#         }
-#     },
-#     'handlers': {
-#         'mail_admins': {
-#             'level': 'ERROR',
-#             'filters': ['require_debug_false'],
-#             'class': 'django.utils.log.AdminEmailHandler'
-#         }
-#     },
-#     'loggers': {
-#         'django.request': {
-#             'handlers': ['mail_admins'],
-#             'level': 'ERROR',
-#             'propagate': True,
-#         },
-#     }
-# }
-
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': True,
-    'formatters': {
-        'verbose': {
-            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
         }
     },
     'handlers': {
-        'debug_log': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.path.dirname(__file__), "../logs/debug.log"),
-            'maxBytes': 1024*1024*5, # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose'
-        },
-        'info_log': {
-            'level': 'INFO',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.path.dirname(__file__), "../logs/info.log"),
-            'maxBytes': 1024*1024*5, # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose'
-        },
-        'warning_log': {
-            'level': 'WARNING',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.path.dirname(__file__), "../logs/warning.log"),
-            'maxBytes': 1024*1024*5, # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose'
-        },
-        'error_log': {
+        'mail_admins': {
             'level': 'ERROR',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.path.dirname(__file__), "../logs/error.log"),
-            'maxBytes': 1024*1024*5, # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose'
-        },
-        'critical_log': {
-            'level': 'CRITICAL',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.path.dirname(__file__), "../logs/critical.log"),
-            'maxBytes': 1024*1024*5, # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose'
-        },
-        'django_request': {
-            'level': 'DEBUG',
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': os.path.join(os.path.dirname(__file__), "../logs/django_request.log"),
-            'maxBytes': 1024*1024*5, # 5 MB
-            'backupCount': 5,
-            'formatter': 'verbose'
-        },
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
     },
     'loggers': {
-        '': {
-            'handlers': ['debug_log', 'info_log', 'warning_log', 'error_log', 'critical_log'],
-            'level': 'DEBUG',
-            'propagate': True,
-        },
         'django.request': {
-            'handlers': ['django_request'],
-            'level': 'DEBUG',
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
             'propagate': True,
         },
     }

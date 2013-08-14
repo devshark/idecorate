@@ -1,48 +1,47 @@
-.dd {
-  display: none;
+.iDdropdown {
   font-size: 14px;
   *position: relative;
   *z-index: 2; }
-  .dd > li {
+  .iDdropdown > li {
     border-left: 1px solid #999999; }
-    .dd > li a, .dd > li span {
+    .iDdropdown > li a, .iDdropdown > li span {
       text-transform: uppercase;
       font-family: "Trebuchet MS", Helvetica, sans-serif;
       font-size: 10px;
       color: #CCCCCC !important;
       white-space: nowrap !important; }
-      .dd > li a .arrow, .dd > li span .arrow {
+      .iDdropdown > li a .arrow, .iDdropdown > li span .arrow {
         padding-left: 5px;
         font-size: 8px !important;
         vertical-align: top !important; }
-    .dd > li ul.sub-menu {
+    .iDdropdown > li ul.subMenu {
       background-color: #4D4D4D !important;
       margin-left: 7px; }
-      .dd > li ul.sub-menu li {
+      .iDdropdown > li ul.subMenu li {
         background-color: #4D4D4D;
         border-bottom: none; }
-        .dd > li ul.sub-menu li > a, .dd > li ul.sub-menu li span {
+        .iDdropdown > li ul.subMenu li > a, .iDdropdown > li ul.subMenu li span {
           color: #CCCCCC !important;
           padding-top: 7px;
           padding-bottom: 5px; }
-      .dd > li ul.sub-menu li:hover {
+      .iDdropdown > li ul.subMenu li:hover {
         background-color: #CCCCCC !important; }
-        .dd > li ul.sub-menu li:hover > a, .dd > li ul.sub-menu li:hover span {
+        .iDdropdown > li ul.subMenu li:hover > a, .iDdropdown > li ul.subMenu li:hover span {
           color: #333333 !important; }
-      .dd > li ul.sub-menu ul.sub-menu {
+      .iDdropdown > li ul.subMenu ul.subMenu {
         margin-left: 0; }
-  .dd li.hover, .dd li:hover {
+  .iDdropdown li.hover, .iDdropdown li:hover {
     background-color: #000000 !important; }
-    .dd li.hover a, .dd li.hover span, .dd li:hover a, .dd li:hover span {
+    .iDdropdown li.hover a, .iDdropdown li.hover span, .iDdropdown li:hover a, .iDdropdown li:hover span {
       color: #FFFFFF !important; }
 
-#info-menu .dd > li:first-child a {
+.InfoMenu .iDdropdown > li:first-child a {
   padding-left: 0 !important; }
 
-#site-menu .dd #lnk-logout, #site-menu .dd #lnk-login-signup {
+.SiteMenu .iDdropdown #lnk-logout, .SiteMenu .iDdropdown #lnk-login-signup {
   padding-right: 0 !important; }
-#site-menu .dd li a, #site-menu .dd li span {
+.SiteMenu .iDdropdown li a, .SiteMenu .iDdropdown li span {
   white-space: nowrap !important;
   font-size: 15px !important; }
-  #site-menu .dd li a .arrow, #site-menu .dd li span .arrow {
+  .SiteMenu .iDdropdown li a .arrow, .SiteMenu .iDdropdown li span .arrow {
     font-size: 12px !important; }

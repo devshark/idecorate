@@ -1,0 +1,28 @@
+@import url("/static/stylesheets/fontface.css");
+.flatPageWrap {
+  width: 930px;
+  margin: 15px auto 0;
+  padding: 15px;
+  border: 1px solid #dbd7c9; }
+  .flatPageWrap h3 {
+    font-family: "Times New Roman", serif;
+    text-transform: uppercase;
+    border-bottom: 1px solid #666666; }
+  .flatPageWrap h3:after {
+    content: "";
+    display: block;
+    border-bottom: 2px solid #666666;
+    margin-bottom: 1px; }
+  .flatPageWrap p {
+    font-family: "Times New Roman", serif;
+    font-style: oblique;
+    font-size: 1.3em !important;
+    margin-top: 10px; }
+
+#content:after {
+  content: "";
+  background-color: #dbd7c9;
+  border: 1px solid #dbd7c9;
+  height: 20px;
+  width: 960px;
+  margin: 2px auto 0; }
