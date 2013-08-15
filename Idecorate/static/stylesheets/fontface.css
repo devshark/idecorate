@@ -3,7 +3,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('cartoGothicStd_Book'), 
-    url("/static/styleboard/fonts/CartoGothicStd-Book.otf") format("opentype");
+    url("/static/fonts/CartoGothicStd-Book.otf") format("opentype");
 }
 
 @font-face {
@@ -11,7 +11,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('cartoGothicStd_Book'), 
-    url("/static/styleboard/fonts/CartoGothicStd-Bold.otf") format("opentype");
+    url("/static/fonts/CartoGothicStd-Bold.otf") format("opentype");
 }
 
 @font-face {
@@ -19,7 +19,7 @@
     font-style: normal;
     font-weight: normal;
     src: local('cartoGothicStd_Book'), 
-    url("/static/styleboard/fonts/CartoGothicStd-BoldItalic.otf") format("opentype");
+    url("/static/fonts/CartoGothicStd-BoldItalic.otf") format("opentype");
 }
 
 @font-face {
@@ -27,5 +27,5 @@
     font-style: normal;
     font-weight: normal;
     src: local('cartoGothicStd_Book'), 
-    url("/static/styleboard/fonts/CartoGothicStd-Italic.otf") format("opentype");
+    url("/static/fonts/CartoGothicStd-Italic.otf") format("opentype");
 }
