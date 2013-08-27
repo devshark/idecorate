@@ -80,7 +80,7 @@
                 if(settings.arrows){
 
                     $('.hasSubMenu',$this).append($('<span class="arrowWrapper"/>'));
-                    $this.children('li:first').find('.arrowWrapper').html(settings.arrowDown);
+                    $this.children('li').find('.arrowWrapper').html(settings.arrowDown);
                     $('.subMenu',$this).find('.arrowWrapper').html(settings.arrowRight);
                     
                 }

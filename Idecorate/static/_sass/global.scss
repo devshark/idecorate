@@ -4,6 +4,7 @@
 =========================================*/
 html{
 	// overflow: hidden;
+	height:100%;
 	body {
 		font-size: $font_size;
 		line-height:1.2em;
@@ -11,6 +12,7 @@ html{
 		color: lighten($dark, 30%);
 		background-color: $light;
 		width:100%;
+		height:100%;
 		// overflow: hidden;	
 		header,footer{
 			width:100%;
@@ -86,6 +88,131 @@ html{
 				}
 			}
 		}	
+
+		footer{
+			left: 0;
+			bottom:0;
+			z-index: 10;
+			position: fixed;
+			text-transform: uppercase;
+			font-family: $times_newRoman;
+			.footerNavigation{
+				text-align: center;
+				margin-right: 70px;
+				background-color: #FFFFFF;
+				border-top: 1px solid #DDDDDD;
+				border-right: 1px solid #DDDDDD;
+				padding: 10px 0;
+				ul{
+					font-size: 0;
+					display: inline-block;
+					vertical-align: middle;
+					li{
+						font-size: 12px;
+						display: inline-block;
+						vertical-align: middle;
+					}
+				}
+				ul.footerMenu{
+					margin-right: 20px;
+					a{
+						height: 32px;
+						color: #333333;
+						padding: 0 20px;
+						margin:0 2px;
+						line-height: 32px;
+						text-align:center;
+						border-style: solid;
+						display: inline-block;
+						border: 1px solid #DDDDDD;
+						background-color: #F7F7F7;
+						box-shadow: inset 0 0 4px #FFFFFF;
+						@include rounded_corners();
+						// @include gradients(#EEEEEE, #DDDDDD);
+					}
+				}
+				ul.footerSocial{
+					a{
+						margin:0 1px;
+						display: inline-block;
+						img.socialIcon{
+							width: 34px;
+							height: 36px;
+							background-image: url('/static/images/social_icons.png');
+							background-position: -1px -42px;
+						}
+						img.facebook{
+							background-position: -1px -42px;
+						}
+						img.gPlus{
+							background-position: -37px -42px;
+						}
+						img.twitter{
+							background-position: -73px -42px;
+						}
+						img.pinterest{
+							background-position: -109px -42px;
+						}
+						img.tumbler{
+							background-position: -145px -42px;
+						}
+						img.youtube{
+							background-position: -181px -42px;
+						}
+						img.instagram{
+							background-position: -216px -42px;
+						}
+					}
+					a:hover{
+						img.facebook{
+							background-position: -1px -1px;
+						}
+						img.gPlus{
+							background-position: -37px -1px;
+						}
+						img.twitter{
+							background-position: -73px -1px;
+						}
+						img.pinterest{
+							background-position: -109px -1px;
+						}
+						img.tumbler{
+							background-position: -145px -1px;
+						}
+						img.youtube{
+							background-position: -181px -1px;
+						}
+						img.instagram{
+							background-position: -216px -1px;
+						}
+					}
+				}
+			}
+			.backToTopWrapper{
+				top: 0;
+				right: 0;
+				width: 65px;
+				height: 100%;
+				position: absolute;
+				background-color: #FFFFFF;
+				border-top: 1px solid #DDDDDD;
+				border-left: 1px solid #DDDDDD;
+				text-align: center;
+				padding-top: 5px;
+				a{
+					color: #333333 !important;
+					img{
+						width: 17px;
+						height: 15px;
+						background-image: url("/static/images/arrows_sprite.png");
+						background-position: -2px -40px;
+					}
+					h1{
+						font-size: 15px;
+					}
+				}
+			}
+		}
 	}
 }
 
