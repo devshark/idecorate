@@ -25,23 +25,13 @@ html body {
     html body .header .headerRow {
       width: 960px;
       margin: 0 auto;
-      font-size: 0; }
+      font-size: 0;
+      position: relative; }
       html body .header .headerRow .headerColumn {
         display: inline-block; }
-        html body .header .headerRow .headerColumn #news_letter {
-          display: block;
-          float: right;
-          margin: -55px 0 0;
-          vertical-align: top; }
-          html body .header .headerRow .headerColumn #news_letter .arrowRight {
-            width: 10px;
-            height: 10px;
-            background-image: url("/static/images/arrows_sprite.png");
-            background-repeat: no-repeat;
-            background-position: -10px 0;
-            vertical-align: top; }
       html body .header .headerRow .headerColumn.info, html body .header .headerRow .headerColumn.user {
         width: 430px;
+        vertical-align: bottom;
         font-size: 12px; }
         html body .header .headerRow .headerColumn.info ul, html body .header .headerRow .headerColumn.user ul {
           text-align: center; }
@@ -49,19 +39,35 @@ html body {
             display: inline-block;
             vertical-align: bottom; }
             html body .header .headerRow .headerColumn.info ul li ul, html body .header .headerRow .headerColumn.user ul li ul {
-              display: none; }
+              display: none;
+              background-color: #EEEEEE; }
               html body .header .headerRow .headerColumn.info ul li ul a, html body .header .headerRow .headerColumn.user ul li ul a {
                 color: #333333; }
         html body .header .headerRow .headerColumn.info a, html body .header .headerRow .headerColumn.user a {
           color: #EEEEEE;
           text-transform: uppercase;
           display: block;
-          margin: 0 4px;
           font-family: "cartoGothicStd_Bold"; }
       html body .header .headerRow .headerColumn.logo a {
         display: block; }
         html body .header .headerRow .headerColumn.logo a img {
           vertical-align: bottom; }
+      html body .header .headerRow #news_letter {
+        position: absolute;
+        top: 5px;
+        right: 0;
+        color: #EEEEEE;
+        text-transform: uppercase;
+        vertical-align: top;
+        font-size: 12px;
+        font-family: "cartoGothicStd_Bold"; }
+        html body .header .headerRow #news_letter .arrowRight {
+          width: 10px;
+          height: 10px;
+          background-image: url("/static/images/arrows_sprite.png");
+          background-repeat: no-repeat;
+          background-position: -10px 0;
+          vertical-align: top; }
 
 h3 {
   font-size: 2em;
@@ -69,3 +75,192 @@ h3 {
 
 p {
   line-height: 1.4em; }
+
+input {
+  padding: 0;
+  margin: 0; }
+
+input.inputText {
+  -webkit-border-radius: 0px !important;
+  -moz-border-radius: 0px !important;
+  border-radius: 0px !important;
+  padding: 5px !important;
+  border: 1px solid #CCCCCC !important; }
+
+input.btn {
+  cursor: pointer; }
+
+.btn {
+  padding: 5px 10px !important;
+  display: inline-block;
+  text-align: center;
+  border-style: solid;
+  border-width: 1px;
+  color: #666666;
+  text-transform: uppercase;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #888888 !important;
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+  background-image: -khtml-gradient(linear, left top, left bottom, from(#eeeeee), to(#dddddd));
+  background-image: -moz-linear-gradient(top, #eeeeee, #dddddd);
+  background-image: -ms-linear-gradient(top, #eeeeee, #dddddd);
+  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #eeeeee), color-stop(100%, #dddddd));
+  background-image: -webkit-linear-gradient(top, #eeeeee, #dddddd);
+  background-image: -o-linear-gradient(top, #eeeeee, #dddddd);
+  background-image: linear-gradient(#eeeeee, #dddddd);
+  border-color: #d4d4d4 #d4d4d4 #a2a2a2;
+  -webkit-font-smoothing: antialiased; }
+
+.fieldset {
+  margin-top: 7px;
+  border-top: 2px solid #000000;
+  text-align: center;
+  color: #000000;
+  position: relative; }
+  .fieldset .legend {
+    position: relative;
+    display: inline-block !important;
+    height: 15px !important;
+    line-height: 15px !important;
+    top: -7px !important;
+    font-size: 13px !important;
+    padding: 0 10px !important;
+    font-family: "Times New Roman", serif !important;
+    text-transform: uppercase;
+    background-color: #FFFFFF;
+    z-index: 2 !important; }
+  .fieldset .fieldsetContent {
+    display: block; }
+
+.fieldset:before {
+  height: 1px;
+  content: "";
+  width: 100%;
+  display: block;
+  background-color: #000000;
+  position: absolute;
+  top: 1px;
+  left: 0; }
+
+ul.simpleDropdown li {
+  cursor: pointer;
+  padding: 7px 5px 3px;
+  margin: 0 1px; }
+  ul.simpleDropdown li ul li {
+    padding: 7px 5px 3px !important; }
+
+.arrowWrapper img {
+  width: 10px;
+  height: 10px;
+  background-image: url("/static/images/arrows_sprite.png");
+  background-repeat: no-repeat;
+  vertical-align: text-top; }
+.arrowWrapper img.arrowUp {
+  background-position: 0 -10px; }
+.arrowWrapper img.arrowRight {
+  background-position: -10px -20px; }
+.arrowWrapper img.arrowDown {
+  background-position: 0 0; }
+.arrowWrapper img.arrowLeft {
+  background-position: -10px -30px; }
+
+.menuIconWrap {
+  display: none;
+  position: absolute;
+  bottom: 75%; }
+  .menuIconWrap img {
+    width: 47px;
+    height: 9px;
+    background-image: url("/static/images/hover_status.png");
+    background-repeat: no-repeat; }
+
+.iDCart {
+  background-color: #FFFFFF;
+  border-top-left-radius: 4px;
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px; }
+  .iDCart a {
+    color: #000000 !important; }
+  .iDCart .menuIconWrap {
+    bottom: 105%; }
+
+.iDitemCouter {
+  position: absolute;
+  top: -2px;
+  left: 110%;
+  padding: 7px 7px 4px;
+  background-color: #FFFFFF;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-family: "cartoGothicStd_Book";
+  white-space: nowrap;
+  text-transform: uppercase; }
+  .iDitemCouter var {
+    display: inline; }
+  .iDitemCouter img {
+    left: -6px;
+    top: 8px;
+    width: 10px;
+    height: 10px;
+    background-image: url("/static/images/arrows_sprite.png");
+    background-repeat: no-repeat;
+    background-position: -10px -10px;
+    position: absolute; }
+
+.iDitemCouter.hide {
+  display: none; }
+
+#cart_frame {
+  display: none;
+  width: 420px;
+  padding-top: 10px;
+  height: 500px;
+  border-right: 1px solid #000000;
+  border-left: 1px solid #000000;
+  border-bottom: 1px solid #000000;
+  background-color: #FFFFFF;
+  overflow: hidden;
+  position: absolute;
+  top: 100%;
+  right: -90%; }
+  #cart_frame .closeCartBtn {
+    position: absolute;
+    top: 11px;
+    left: 20px;
+    display: none;
+    margin: 0;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #999999 !important;
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+    background-image: -khtml-gradient(linear, left top, left bottom, from(white), to(#eeeeee));
+    background-image: -moz-linear-gradient(top, white, #eeeeee);
+    background-image: -ms-linear-gradient(top, white, #eeeeee);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, white), color-stop(100%, #eeeeee));
+    background-image: -webkit-linear-gradient(top, white, #eeeeee);
+    background-image: -o-linear-gradient(top, white, #eeeeee);
+    background-image: linear-gradient(white, #eeeeee);
+    border-color: #e6e6e6 #e6e6e6 #b3b3b3;
+    -webkit-font-smoothing: antialiased;
+    border: 1px solid #E3E3E3;
+    padding: 1px 3px; }
+    #cart_frame .closeCartBtn img {
+      width: 10px;
+      height: 10px;
+      background-image: url("/static/images/arrows_sprite.png");
+      background-repeat: no-repeat;
+      background-position: 0 -30px;
+      vertical-align: middle; }
+  #cart_frame iframe {
+    width: 420px;
+    height: 500px;
+    overflow: hidden; }

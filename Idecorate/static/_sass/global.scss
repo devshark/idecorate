@@ -29,29 +29,13 @@ html{
 				width: 960px;
 				margin: 0 auto;
 				font-size: 0;
+				position:relative;
 				.headerColumn{
 					display: inline-block;
-					#news_letter{
-						display: block;
-						float:right;
-						margin:-55px 0 0;
-						vertical-align: top;
-						// padding-right: 10px;
-						// background-image: url("/static/images/arrows_sprite.png");
-						// background-repeat: no-repeat;
-						// background-position: right top;
-						.arrowRight{
-							width: 10px;
-							height: 10px;
-							background-image: url("/static/images/arrows_sprite.png");
-							background-repeat: no-repeat;
-							background-position: -10px 0;
-							vertical-align: top;
-						}
-					}
 				}
 				.headerColumn.info, .headerColumn.user{
 					width: 430px;
+					vertical-align: bottom;
 					font-size: $font_size;
 					ul{
 						text-align: center;
@@ -60,6 +44,7 @@ html{
 							vertical-align: bottom;
 							ul{
 								display: none;
+								background-color: #EEEEEE;
 								a{
 									color: #333333;
 								}
@@ -70,7 +55,6 @@ html{
 						color: #EEEEEE;
 						text-transform:uppercase;
 						display: block;
-						margin:0 4px;
 						font-family:$cartoGothicStd_Bold;
 					}
 				}
@@ -80,6 +64,24 @@ html{
 						img{
 							vertical-align: bottom;
 						}
+					}
+				}
+				#news_letter{
+					position:absolute;
+					top:5px;
+					right: 0;
+					color: #EEEEEE;
+					text-transform:uppercase;
+					vertical-align: top;
+					font-size: $font_size;
+					font-family:$cartoGothicStd_Bold;
+					.arrowRight{
+						width: 10px;
+						height: 10px;
+						background-image: url("/static/images/arrows_sprite.png");
+						background-repeat: no-repeat;
+						background-position: -10px 0;
+						vertical-align: top;
 					}
 				}
 			}
@@ -94,4 +96,188 @@ h3{
 
 p{
 	line-height: 1.4em;
+}
+input{
+	padding:0;
+	margin:0;
+}
+input.inputText{
+	@include rounded_corners(0px !important);
+	padding:5px !important;
+	border: 1px solid #CCCCCC !important;
+}
+input.btn{
+	cursor:pointer;
+}
+
+.btn{
+	padding:5px 10px !important;
+	display: inline-block;
+	text-align:center;
+	border-style: solid;
+	border-width: 1px;
+	color: #666666;
+	text-transform: uppercase;
+	@include rounded_corners();
+	@include gradients(#EEEEEE, #DDDDDD);
+}
+
+.fieldset{
+	margin-top:7px;
+	border-top: 2px solid #000000;
+	text-align: center;
+	color: #000000;
+	position: relative;
+	.legend{
+		position: relative;
+		display:inline-block !important;
+		height: 15px !important;
+		line-height: 15px !important;
+		top: -7px !important;
+		font-size: 13px !important;
+		padding:0 10px !important;
+		font-family: $times_newRoman !important;
+		text-transform: uppercase;
+		background-color: #FFFFFF;
+		z-index: 2 !important;
+	}
+	.fieldsetContent{
+		display: block;
+	}
+}
+.fieldset:before{
+	height: 1px;
+	content: "";
+	width: 100%;
+	display: block;
+	background-color:#000000;
+	position: absolute;
+	top: 1px;
+	left:0;
+}
+
+//******* menu *********//
+ul.simpleDropdown li{ 
+	cursor: pointer;
+	padding: 7px 5px 3px;
+	margin: 0 1px;
+
+	ul{
+		li{
+			padding: 7px 5px 3px !important;
+		}
+	}
+}
+.arrowWrapper{
+	img{
+		width: 10px;
+		height: 10px;
+		background-image: url("/static/images/arrows_sprite.png");
+		background-repeat: no-repeat;
+		vertical-align: text-top;
+	}
+	img.arrowUp{
+		background-position: 0 -10px;
+	}
+	img.arrowRight{
+		background-position: -10px -20px;
+	}
+	img.arrowDown{
+		background-position: 0 0;
+	}
+	img.arrowLeft{
+		background-position: -10px -30px;
+	}
+}
+.menuIconWrap{
+	display: none;
+	position: absolute;
+	bottom: 75%;
+	img{
+		width: 47px;
+		height: 9px;
+		background-image: url("/static/images/hover_status.png");
+		background-repeat: no-repeat;
+
+	}
+}
+
+//******* cart *********//
+
+.iDCart{
+	background-color: #FFFFFF;
+	@include rounded_by_corner(top, left, 4px);
+	@include rounded_by_corner(top, right, 4px);
+	a{
+		color: #000000 !important;
+	}
+	.menuIconWrap{
+		bottom: 105%;
+	}
+}
+.iDitemCouter{
+	position: absolute;
+	top:-2px;
+	left: 110%; 
+	padding: 7px 7px 4px;
+	background-color: #FFFFFF;
+	@include rounded_corners(5px);
+	font-family: $cartoGothicStd_Book;
+	white-space: nowrap;
+	text-transform: uppercase;
+
+	var{
+		display: inline;
+	}
+	img{
+		left: -6px;
+		top: 8px;
+		width: 10px;
+		height: 10px;
+		background-image: url("/static/images/arrows_sprite.png");
+		background-repeat: no-repeat;
+		background-position: -10px -10px;
+		position: absolute;
+	}
+}
+.iDitemCouter.hide{
+	display:none;
+}
+#cart_frame{
+	display:none;
+	width:420px;
+	padding-top:10px;
+	height: 500px;
+	border-right:1px solid #000000;
+	border-left:1px solid #000000;
+	border-bottom:1px solid #000000;
+	background-color:#FFFFFF;
+	overflow:hidden;
+	position: absolute;
+	top:100%;
+	right: -90%;
+	.closeCartBtn{
+		position: absolute;
+		top: 11px;
+		left: 20px;
+		display: none;
+		margin: 0;
+		@include rounded_corners(3px);
+		@include gradients(#FFFFFF, #EEEEEE);
+		border: 1px solid #E3E3E3;
+		padding: 1px 3px;
+		img{
+			width: 10px;
+			height: 10px;
+			background-image: url("/static/images/arrows_sprite.png");
+			background-repeat: no-repeat;
+			background-position: 0 -30px;
+			vertical-align: middle;
+		}
+	}
+	iframe{
+		width: 420px;
+		height: 500px;
+		overflow:hidden;
+	}
 }

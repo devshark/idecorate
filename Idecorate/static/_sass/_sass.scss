@@ -35,3 +35,20 @@ $border_01 : #dbd7c9;
 @mixin border_by_side($side,$color:lighten($dark, 60%) ,$size:1px,$style: solid){
   border-#{$side}: $size $style $color;
 }
+
+@mixin gradients($from_color, $to_color){
+
+	background-color: darken($from_color, 40%) !important;
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+	background-image: -khtml-gradient(linear, left top, left bottom, from($from_color), to($to_color));
+	background-image: -moz-linear-gradient(top, $from_color, $to_color);
+	background-image: -ms-linear-gradient(top, $from_color, $to_color);
+	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, $from_color), color-stop(100%, $to_color));
+	background-image: -webkit-linear-gradient(top, $from_color, $to_color);
+	background-image: -o-linear-gradient(top, $from_color, $to_color);
+	background-image: linear-gradient($from_color, $to_color);
+	border-color:  darken($from_color, 10%) darken($from_color, 10%) darken($from_color, 30%);
+	// text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.33);
+	-webkit-font-smoothing: antialiased;
+}

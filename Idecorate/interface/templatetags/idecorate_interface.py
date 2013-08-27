@@ -438,7 +438,7 @@ def menuInterfaceRecursion(menus, activate_url):
                 if menu.__class__.__name__ == "SiteMenu":
 
                     element+= '<li><a id="my_account" href="%s">my account</a></li>' % reverse('profile')
-                    element+= '<li><a id="my_order" href="%s">my order</a></li>' % reverse('checkout')
+                    element+= '<li><a id="my_order" href="%s">my order</a><div id="cart_frame"></div></li>' % reverse('cart')
                 
 
             element += '</ul>'

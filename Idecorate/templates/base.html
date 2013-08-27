@@ -34,10 +34,10 @@
         <script src="{% static 'javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
         <script type="text/javascript">
-            var transparent = "{% static 'images/img_trans.gif' %}";
-            var current_url = "{{ request.get_full_path }}";
+            CART_URL = '{% url cart %}';
         </script>
-        <script type="text/javascript" src="{% static 'javascripts/global.js' %}"></script>
+        <script type="text/javascript" src="{% static 'javascripts/global.calls.js' %}"></script>
+        <script type="text/javascript" src="{% static 'javascripts/global.functions.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery.placeholder.js' %}"></script>
         <script src="{% static 'javascripts/dropdown/jquery.dropdown.js' %}"></script>
         {% block javascripts %}{% endblock %}

@@ -1316,6 +1316,12 @@ def paypal_ipn(request):
 
     return HttpResponse('recieved')
 
+def cart(request):
+
+    info = {}
+
+    return render_to_response('cart/cart.html', info, RequestContext(request))
+
 def add_to_cart_ajax(request):  
     if request.method == "POST":
         product_id = request.POST.get('prod_id')

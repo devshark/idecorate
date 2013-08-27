@@ -8,7 +8,7 @@ var iDSidebar = (function(iDSidebar){
 			__el : {
 				value : $('<div class="thumb"/>'),
 				writable : true,
-				emutable : true
+				enumerable : true
 			},
 			__img : {
 				value : $('<img />')
@@ -27,13 +27,13 @@ var iDSidebar = (function(iDSidebar){
 					callback();
 				});
 			},
-			emutable : true
+			enumerable : true
 		},
 		get_id : {
 			get : function(){
 				return this.__id;
 			},
-			emutable : true
+			enumerable : true
 		}
 	});
 
@@ -72,7 +72,7 @@ var iDSidebar = (function(iDSidebar){
 				Sidebar.prototype.removeElements('#breadcrumb_product');
 				Sidebar.prototype.generateBreadcrumb();
 			},
-			emutable : true
+			enumerable : true
 		},
 		loadItem : {
 			value : function(){
@@ -155,7 +155,7 @@ var iDSidebar = (function(iDSidebar){
 			value : function(){
 				console.log(this.__name);
 			},
-			emutable : true
+			enumerable : true
 		},
 		loadItem : {
 			value : function(){
@@ -299,7 +299,7 @@ var iDSidebar = (function(iDSidebar){
 					});
 				}
 			},
-			emutable : true
+			enumerable : true
 		},
 		loadItem : {
 			value : function(){
@@ -311,7 +311,7 @@ var iDSidebar = (function(iDSidebar){
 				this.mousedown(this.callback.bind(this));
 
 			},	
-			emutable : true
+			enumerable : true
 		}
 
 	});
@@ -410,7 +410,7 @@ var iDSidebar = (function(iDSidebar){
 					}
 
 				},
-				emutable: true
+				enumerable: true
 			},
 			prepareRequest : {
 				value: function(url, postData){
@@ -418,19 +418,19 @@ var iDSidebar = (function(iDSidebar){
 					makeRequest(url, postData, this.loadData.bind(this));
 
 				},
-				emutable: true
+				enumerable: true
 			},
 			getData : {
 				get : function(){
 					return {type : this.type, data : this.data};
 				},
-				emutable: true
+				enumerable: true
 			},
 			getBreadcrumb : {
 				get : function(){
 					return this.breadcrumb;
 				},
-				emutable: true
+				enumerable: true
 			}
 
 		});
@@ -447,14 +447,14 @@ var iDSidebar = (function(iDSidebar){
 
 				$(parentElement).append(element);
 			},
-			emutable : true
+			enumerable : true
 		},
 		removeElements : {
 			value : function(element){
 
 				$(element).children().remove();
 			},
-			emutable : true
+			enumerable : true
 		},
 		serverRequest : {
 			value : function(url, postData){

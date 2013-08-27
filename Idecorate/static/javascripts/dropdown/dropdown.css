@@ -74,37 +74,3 @@ ul.simpleDropdown ul.subMenu ul.subMenu{
 	top: 0; 
 	z-index: 15;
 }
-
-.arrowWrapper img{
-	width: 10px;
-	height: 10px;
-	background-image: url("/static/images/arrows_sprite.png");
-	background-repeat: no-repeat;
-	vertical-align: text-top;
-}
-.arrowWrapper img.arrowUp{
-	background-position: 0 -10px;
-}
-.arrowWrapper img.arrowRight{
-	background-position: -10px -20px;
-}
-.arrowWrapper img.arrowDown{
-	background-position: 0 0;
-}
-.arrowWrapper img.arrowLeft{
-	background-position: -10px -30px;
-}
-
-.menuIconWrap{
-	display: none;
-	position: absolute;
-	bottom: 100%;
-}
-
-.menuIconWrap img{
-	width: 47px;
-	height: 9px;
-	background-image: url("/static/images/hover_status.png");
-	background-repeat: no-repeat;
-
-}
