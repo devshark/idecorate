@@ -1,5 +1,5 @@
 from django.contrib.admin.views.decorators import staff_member_required
-from django.shortcuts import HttpResponse, redirect, render_to_response
+from django.shortcuts import HttpResponse, redirect, render_to_response, render, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
@@ -9,7 +9,7 @@ from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
-HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm, AddUsersForm, FilterTemplateForm
+HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm, AddUsersForm, FilterTemplateForm, AddSuggestedProductForm
 from menu.services import addMenu, saveItemMenu, arrangeItemMenu, updateItemMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
@@ -17,7 +17,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
-from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails
+from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails, SuggestedProduct
 from plata.shop.models import TaxClass, Order, OrderItem, OrderPayment
 import shutil
 from PIL import Image, ImageDraw, ImageFont
@@ -3257,3 +3257,70 @@ def admin_edit_order(request):
         return redirect(reverse('admin_manage_order') + request.session['manage_order_redirect'])
     else:
         return redirect('admin_manage_order')
+
+
+def admin_add_suggested_product(request, product_id):
+    categories = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
+    products   = Product.objects.filter(~Q(pk=int(product_id)))
+    
+    main_product = get_object_or_404(Product, pk=int(product_id))
+
+    cats           = request.GET.getlist('categories', False)    
+    product_name   = request.GET.get('product_name', False)
+    product_sku    = request.GET.get('product_sku', False)
+    product_status = request.GET.get('product_status', False)
+    search_initial = {}
+
+    if cats:
+        products = products.filter(categories__in=cats)
+        search_initial['categories'] = cats
+        request.listCats = cats
+
+    if product_name:
+        products = products.filter(name__icontains=product_name)
+        search_initial['product_name'] = product_name
+
+    if product_sku:
+        products = products.filter(sku__icontains=product_sku)
+        search_initial['product_sku'] = product_sku
+
+    if product_status:
+        if product_status != "any":
+            products = products.filter(is_active=bool(int(product_status)))
+            search_initial['product_status'] = product_status
+
+    search_form = SearchProductForm(initial=search_initial)
+
+    if request.method == 'POST':
+        form = AddSuggestedProductForm(request.POST,
+                                        initial={
+                                            'product_id':product_id,
+                                        })
+        form.fields['products'].choices = [(product.pk, product.name) for product in products]
+        if form.is_valid():
+            
+            for product in main_product.suggestedproduct_set.filter():
+                product.delete()
+
+            try:
+                for product in form.cleaned_data.get('products'):
+                        suggested_product = Product.objects.get(pk=int(product))
+                        sp = SuggestedProduct(product=main_product, suggested_product=suggested_product)
+                        sp.save()
+                messages.success(request, _('Suggested products added'))
+                return redirect('admin_manage_product')
+            except SuggestedProduct.DoesNotExist, e:
+                messages.errors(request, _('Suggested product does not exist'))
+    else:        
+        form = AddSuggestedProductForm(initial={
+                    'product_id':product_id,
+                })
+        form.fields['products'].choices = [(product.pk, product.name) for product in products]
+        form.initial['products'] = [product.suggested_product.pk for product in main_product.suggestedproduct_set.filter()]
+
+    context = {
+        'form'        : form,
+        'search_form' : search_form,
+        'categories'  : categories,
+    }
+    return render(request, 'admin/admin_add_suggested_product.html', context)

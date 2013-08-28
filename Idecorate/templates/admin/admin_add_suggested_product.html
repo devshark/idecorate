@@ -1,0 +1,146 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<link href="/media/admin/css/jquery.checkboxtree.min.css" rel="stylesheet">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<style type="text/css">
+
+  #tree1 {
+    padding: 0px 15px;
+    margin-left: 0px;
+    width: 754px;
+  }
+
+  .treelabel {
+    display: inline-block;
+    margin: 0px;
+  }
+
+  .treeinput {
+    margin-bottom: 5px !important;
+  }
+
+  ul {
+    list-style: none;
+  }
+
+  .suggested-products {
+    border: 1px solid #eaeaea;
+    height:200px;
+    overflow-x:auto;
+    overflow-y:scroll;
+    width:250px;
+  }
+
+  .suggested-products ul {
+    margin: 5px 10px;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+	<h1>{% trans "Add Suggested Products" %}</h1>
+	<div>&nbsp;</div>
+
+      {% if form.errors %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for e in form.product_id.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.products.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+        </ol> 
+      </div>
+
+      {% endif %}
+
+      {% if messages  %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %} 
+
+
+    <div class="container-fluid">      
+
+      <div class="row-fluid">
+        <div class="span12">
+          <h3 style="font-weight:normal;">{% trans "Show only products where" %}</h3>
+          <hr />
+          <form class="form-inline" name="products_filter_form" action="" method="get">
+            <label>{% trans "Category" %}:</label>
+            {{ categories|getCategoryTreeParentOnly:request }}
+            <label class="checkbox">
+                {{ search_form.product_name|add_class:"input-large"|attr:"placeholder:Product Name" }}
+            </label>
+            <label class="checkbox">
+                {{ search_form.product_sku|add_class:"input-large"|attr:"placeholder:SKU" }}
+            </label>
+            <label class="checkbox" style="margin-left:23px;">{{ search_form.product_status.label }}:
+                {{ search_form.product_status|add_class:"input-large" }}
+              </label>
+              <button type="submit" class="btn btn-primary">Apply</button>
+          </form>
+          <hr />
+        </div>
+      </div>
+
+      <form class="form-horizontal" name="suggested_products_form" action="" method="post" enctype="multipart/form-data">
+      	{% csrf_token %}
+      <div class="row-fluid">
+        <div class="span12">
+
+          <h3 style="font-weight:normal;">{% trans "Suggested Products" %}</h3>
+          <hr />
+
+          {{ form.product_id }}
+
+          <div class="row-fluid">
+            <div class="span12">
+              <div class="control-group">
+                <label class="control-label">{{ form.products.label }}</label>
+                <div class="controls">
+                  <div class="suggested-products">
+                    {{ form.products }}
+                  </div>
+                </div>
+              </div>
+            </div><!--/span-->          
+          </div><!--/row-->
+
+        </div><!--/span-->      
+      </div><!--/row-->
+			<div class="form-actions" style="text-align:left">
+  				<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+			</div>
+      </form>
+     </div>
+
+{% endblock %}
+{% block javascripts %}
+  <script type="text/javascript" src="/media/admin/js/jquery.checkboxtree.min.js"></script>
+	<script type="text/javascript" >
+    $(function(e) {
+      $('#tree1').checkboxTree();
+    });
+	</script >
+{% endblock %}

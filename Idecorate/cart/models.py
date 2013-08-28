@@ -182,3 +182,14 @@ class OrderData(models.Model):
     class Meta:
         verbose_name = _('Order data')
         db_table = 'order_data'
+
+
+class SuggestedProduct(models.Model):
+    
+    id                = models.AutoField(db_column='id', primary_key=True)
+    product           = models.ForeignKey(Product)
+    suggested_product = models.ForeignKey(Product, related_name="suggested_product")
+
+    class Meta:
+        verbose_name = _('Suggested Products')
+        db_table     = 'product_suggested_products'

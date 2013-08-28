@@ -422,3 +422,10 @@ class editOrderForm(forms.Form):
 
 		self.fields['delivery_country'] = forms.ChoiceField(choices=country_choices,label=_("Delivery Country"), required=True, error_messages={'required':_('Delivery Country is a required field.')})
 		self.fields['billing_country'] = forms.ChoiceField(choices=country_choices,label=_("Billing Country"), required=True, error_messages={'required':_('Billing Country is a required field.')})
+
+
+class AddSuggestedProductForm(forms.Form):
+
+	product_id = forms.CharField(widget=forms.HiddenInput)
+	products = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
+
