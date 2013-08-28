@@ -1,6 +1,8 @@
 //fonts
 @import url("/static/stylesheets/fontface.css");
+@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
 $helvetica: "Trebuchet MS",Helvetica,sans-serif;
+$PTserif: "PT Serif", serif;
 $times_newRoman : "Times New Roman", serif;
 $cartoGothicStd_Book: "cartoGothicStd_Book";
 $cartoGothicStd_Bold: "cartoGothicStd_Bold";
@@ -20,6 +22,11 @@ $border_01 : #dbd7c9;
 	-webkit-border-radius: $radius; 
 	-moz-border-radius: $radius; 
 	border-radius: $radius;
+}
+@mixin box_shadow($x, $y, $blur, $color, $extra:0){
+	-webkit-box-shadow: $x $y $blur $extra $color;
+	   -moz-box-shadow: $x $y $blur $extra $color;
+	        box-shadow: $x $y $blur $extra $color;
 }
 
 @mixin rounded_by_corner($vert, $horz, $radius: 5px) {

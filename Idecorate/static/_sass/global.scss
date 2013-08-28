@@ -216,7 +216,7 @@ html{
 	}
 }
 
-h3{
+.flatPageWrap h3{
 	font-size: 2em;
 	line-height: 1.5em;
 }
@@ -250,23 +250,28 @@ input.btn{
 }
 
 .fieldset{
-	margin-top:7px;
-	border-top: 2px solid #000000;
-	text-align: center;
 	color: #000000;
+	margin-top:10px;
+	padding-top:10px;
+	text-align: center;
 	position: relative;
-	.legend{
-		position: relative;
-		display:inline-block !important;
-		height: 15px !important;
-		line-height: 15px !important;
-		top: -7px !important;
-		font-size: 13px !important;
-		padding:0 10px !important;
-		font-family: $times_newRoman !important;
-		text-transform: uppercase;
-		background-color: #FFFFFF;
-		z-index: 2 !important;
+	border-top: 2px solid #000000;
+	.legendWrap{
+		left: 0;
+		top: -7px;
+		width: 100%;
+		display:block;
+		position: absolute;
+		.legend{
+			text-transform: uppercase;
+			font-family: $times_newRoman;
+			background-color: #FFFFFF;
+			display: inline-block;	
+			padding:0 10px;
+			height: 15px;
+			font-size: 13px;
+			line-height: 15px;
+		}
 	}
 	.fieldsetContent{
 		display: block;
@@ -383,9 +388,10 @@ ul.simpleDropdown li{
 	position: absolute;
 	top:100%;
 	right: -90%;
+	z-index:2;
 	.closeCartBtn{
 		position: absolute;
-		top: 11px;
+		top: 13px;
 		left: 20px;
 		display: none;
 		margin: 0;

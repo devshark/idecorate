@@ -1,4 +1,5 @@
 @import url("/static/stylesheets/fontface.css");
+@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
 /*=========================================
 	Main Styles
 =========================================*/
@@ -167,7 +168,7 @@ html {
           html body footer .backToTopWrapper a h1 {
             font-size: 15px; }
 
-h3 {
+.flatPageWrap h3 {
   font-size: 2em;
   line-height: 1.5em; }
 
@@ -213,23 +214,27 @@ input.btn {
   -webkit-font-smoothing: antialiased; }
 
 .fieldset {
-  margin-top: 7px;
-  border-top: 2px solid #000000;
-  text-align: center;
   color: #000000;
-  position: relative; }
-  .fieldset .legend {
-    position: relative;
-    display: inline-block !important;
-    height: 15px !important;
-    line-height: 15px !important;
-    top: -7px !important;
-    font-size: 13px !important;
-    padding: 0 10px !important;
-    font-family: "Times New Roman", serif !important;
-    text-transform: uppercase;
-    background-color: #FFFFFF;
-    z-index: 2 !important; }
+  margin-top: 10px;
+  padding-top: 10px;
+  text-align: center;
+  position: relative;
+  border-top: 2px solid #000000; }
+  .fieldset .legendWrap {
+    left: 0;
+    top: -7px;
+    width: 100%;
+    display: block;
+    position: absolute; }
+    .fieldset .legendWrap .legend {
+      text-transform: uppercase;
+      font-family: "Times New Roman", serif;
+      background-color: #FFFFFF;
+      display: inline-block;
+      padding: 0 10px;
+      height: 15px;
+      font-size: 13px;
+      line-height: 15px; }
   .fieldset .fieldsetContent {
     display: block; }
 
@@ -327,10 +332,11 @@ ul.simpleDropdown li {
   overflow: hidden;
   position: absolute;
   top: 100%;
-  right: -90%; }
+  right: -90%;
+  z-index: 2; }
   #cart_frame .closeCartBtn {
     position: absolute;
-    top: 11px;
+    top: 13px;
     left: 20px;
     display: none;
     margin: 0;

@@ -7,6 +7,23 @@
 	</style>
 {% endblock %}
 {% block content %}
+<div id="banner">
+	<img id="banner_img" src="{% static 'images/default_header.jpg' %}" />
+	<div id="banner_modal">
+		<h1>Design &amp; buy your dream wedding</h1>
+		<div class="fieldset bannerText">
+			<span class="legendWrap"><span class="legend">via</span></span>
+			<h1 class="bolded">Styleboard</h1>
+			<p>Don't just buy your dream wedding, design and tailor it to create something truly unique to you with the help of our styleboard</p>
+		</div>
+		<div class="operationWrap">
+			<a href="{% url create %}" class="btn toStyleboardBtn">
+				<h2>Design &amp; Buy</h2>
+				<h3>A unique styleboard</h3>
+			</a>
+		</div>
+	</div>
+</div>
 {% endblock %}
 {% block javascripts %}
 	<script type="text/javascript">

@@ -75,6 +75,16 @@ $(function() {
     });
 
 
+
+    var bannerCentering = function(){
+
+        $('#banner_img').css({marginLeft:(($('#banner_img').width()-$('#banner').width())/2)*-1});
+
+    };
+    
+    bannerCentering();
+    $(window).resize(bannerCentering);
+
     var footer_hieght = $('footer').outerHeight(true);
 
     $('footer').height(0);
