@@ -1,0 +1,186 @@
+@import 'sass';
+body{
+	overflow:hidden;
+}
+#content{
+	width: 420px;
+	height: 500px;
+	// padding: 10px 10px 0;
+	overflow:hidden;
+	text-transform: uppercase;
+	.fieldset{
+		width: 400px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	.fieldsetContent{
+		padding-bottom:15px;
+	}
+	.multiplierWrap{
+		.multiplieTable{
+			width: 70%;
+			margin: 0 auto;
+			thead td{
+				font-size: 11px;	
+				text-align: left;
+			}
+			td{
+				padding: 2px;
+				text-align: center;
+				.inputText{
+					width: 90%;
+				}
+			}
+		}
+		.multiplierBtn{
+			width: 99%;
+			font-size: 11px;
+			@include gradients(#FAFAFA, #EDEDED);
+		}
+		.multiplierBtn:hover{
+			@include gradients(#F2F2F2, #E5E5E5);
+			color:#616161;
+		}
+	}
+	.orderWrap{
+		.fieldsetContent{
+			height: 235px;
+			overflow: auto;
+			padding-bottom:0;
+			margin-bottom:15px;
+			.orderTable{
+				width: 100%;
+				margin: 0 auto;
+				font-size: 11px;
+				thead{
+					text-align: center;
+					td{
+						color:#000000 !important;
+					}
+					.itemColumn{
+						width: 47.5%;
+					}
+					.priceColumn{
+						width: 150px;
+						font-size: 0;
+						span{
+							display: inline-block;
+							margin:0;
+							width: 37.5%;
+							font-size: 11px;
+						}
+						span:first-child{
+							width: 60%;
+						}
+					}
+					.actionColumn{
+						text-align: center;
+						width: 12%;
+						right:0;
+					}
+				}
+				td{
+					color:#666666;
+					padding: 5px 0;
+					vertical-align: middle;
+					border-bottom: 1px solid #EEEEEE;	
+					input[type="checkbox"]{
+						vertical-align: middle;
+					}
+					span{
+						display:inline-block;
+						margin-left: 5px;
+						vertical-align: middle;
+					}
+					span.thumb{
+						width:26.3%;
+						img{
+							width: 100%;
+							// border: 1px solid #CCCCCC;
+							vertical-align: middle;
+						}
+					}
+					span.name{
+						width: 57.9%;
+						text-align: left;
+						vertical-align: top;
+					}
+					a.removeItem{
+						text-decoration: underline;
+						color:#666666;
+					}
+				}
+				td.calculatorWrap{
+					position:relative;
+					padding-bottom: 30px;
+					.subtotalCalculator{
+						font-size: 0;
+						span{
+							display: inline-block;
+							font-size: 11px;
+							margin:0;
+						}
+						span.unitPrice{
+							width: 60%;
+							color:#000000;
+							font-size: 12px;
+						}
+						span.qtyController{
+							width: 40%;
+							.inputText{
+								width: 95%;
+								padding: 4px 0 !important;
+								text-align: center;
+								font-size: 11px;
+							}
+						}
+					}
+					.subtotalWrap{
+						bottom:0;
+						right:1px;
+						position:absolute;
+						background-color:#EEEEEE;
+						height: 25px;
+						line-height: 25px;
+						color:#000000;
+						vertical-align: baseline;
+						width: 80%;
+						margin: 0 auto;
+						span{
+							margin: 0;
+							vertical-align: baseline;
+						}
+					}
+				}
+			}
+		}
+	}
+	.totalWrap{
+		.fieldsetContent{
+			font-size: 18px;
+		}
+	}
+	.formWrap{
+		background-image: url('/static/cart/images/curve_bg.png');
+		background-position: center bottom;
+		background-repeat: no-repeat;
+		height: 60px;
+		text-align: center;
+
+		.submitBtn{	
+			@include gradients(#FAFAFA, #EDEDED);
+			padding: 2px 20px 4px;
+			font-family: $times_newRoman;
+			font-size: 12px;
+			span{
+				display: block;
+				font-size: 15px;
+			}
+		}
+
+		.submitBtn:hover{
+			@include gradients(#F2F2F2, #E5E5E5);
+			color:#616161;
+		}
+	}
+}

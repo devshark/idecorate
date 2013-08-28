@@ -1,0 +1,182 @@
+@import url("/static/stylesheets/fontface.css");
+body {
+  overflow: hidden; }
+
+#content {
+  width: 420px;
+  height: 500px;
+  overflow: hidden;
+  text-transform: uppercase; }
+  #content .fieldset {
+    width: 400px;
+    margin-left: auto;
+    margin-right: auto; }
+  #content .fieldsetContent {
+    padding-bottom: 15px; }
+  #content .multiplierWrap .multiplieTable {
+    width: 70%;
+    margin: 0 auto; }
+    #content .multiplierWrap .multiplieTable thead td {
+      font-size: 11px;
+      text-align: left; }
+    #content .multiplierWrap .multiplieTable td {
+      padding: 2px;
+      text-align: center; }
+      #content .multiplierWrap .multiplieTable td .inputText {
+        width: 90%; }
+  #content .multiplierWrap .multiplierBtn {
+    width: 99%;
+    font-size: 11px;
+    background-color: #949494 !important;
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#fafafa), to(#ededed));
+    background-image: -moz-linear-gradient(top, #fafafa, #ededed);
+    background-image: -ms-linear-gradient(top, #fafafa, #ededed);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #ededed));
+    background-image: -webkit-linear-gradient(top, #fafafa, #ededed);
+    background-image: -o-linear-gradient(top, #fafafa, #ededed);
+    background-image: linear-gradient(#fafafa, #ededed);
+    border-color: #e1e1e1 #e1e1e1 #adadad;
+    -webkit-font-smoothing: antialiased; }
+  #content .multiplierWrap .multiplierBtn:hover {
+    background-color: #8c8c8c !important;
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+    background-image: -khtml-gradient(linear, left top, left bottom, from(#f2f2f2), to(#e5e5e5));
+    background-image: -moz-linear-gradient(top, #f2f2f2, #e5e5e5);
+    background-image: -ms-linear-gradient(top, #f2f2f2, #e5e5e5);
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f2f2), color-stop(100%, #e5e5e5));
+    background-image: -webkit-linear-gradient(top, #f2f2f2, #e5e5e5);
+    background-image: -o-linear-gradient(top, #f2f2f2, #e5e5e5);
+    background-image: linear-gradient(#f2f2f2, #e5e5e5);
+    border-color: #d8d8d8 #d8d8d8 #a5a5a5;
+    -webkit-font-smoothing: antialiased;
+    color: #616161; }
+  #content .orderWrap .fieldsetContent {
+    height: 235px;
+    overflow: auto;
+    padding-bottom: 0;
+    margin-bottom: 15px; }
+    #content .orderWrap .fieldsetContent .orderTable {
+      width: 100%;
+      margin: 0 auto;
+      font-size: 11px; }
+      #content .orderWrap .fieldsetContent .orderTable thead {
+        text-align: center; }
+        #content .orderWrap .fieldsetContent .orderTable thead td {
+          color: #000000 !important; }
+        #content .orderWrap .fieldsetContent .orderTable thead .itemColumn {
+          width: 47.5%; }
+        #content .orderWrap .fieldsetContent .orderTable thead .priceColumn {
+          width: 150px;
+          font-size: 0; }
+          #content .orderWrap .fieldsetContent .orderTable thead .priceColumn span {
+            display: inline-block;
+            margin: 0;
+            width: 37.5%;
+            font-size: 11px; }
+          #content .orderWrap .fieldsetContent .orderTable thead .priceColumn span:first-child {
+            width: 60%; }
+        #content .orderWrap .fieldsetContent .orderTable thead .actionColumn {
+          text-align: center;
+          width: 12%;
+          right: 0; }
+      #content .orderWrap .fieldsetContent .orderTable td {
+        color: #666666;
+        padding: 5px 0;
+        vertical-align: middle;
+        border-bottom: 1px solid #EEEEEE; }
+        #content .orderWrap .fieldsetContent .orderTable td input[type="checkbox"] {
+          vertical-align: middle; }
+        #content .orderWrap .fieldsetContent .orderTable td span {
+          display: inline-block;
+          margin-left: 5px;
+          vertical-align: middle; }
+        #content .orderWrap .fieldsetContent .orderTable td span.thumb {
+          width: 26.3%; }
+          #content .orderWrap .fieldsetContent .orderTable td span.thumb img {
+            width: 100%;
+            vertical-align: middle; }
+        #content .orderWrap .fieldsetContent .orderTable td span.name {
+          width: 57.9%;
+          text-align: left;
+          vertical-align: top; }
+        #content .orderWrap .fieldsetContent .orderTable td a.removeItem {
+          text-decoration: underline;
+          color: #666666; }
+      #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap {
+        position: relative;
+        padding-bottom: 30px; }
+        #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator {
+          font-size: 0; }
+          #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator span {
+            display: inline-block;
+            font-size: 11px;
+            margin: 0; }
+          #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator span.unitPrice {
+            width: 60%;
+            color: #000000;
+            font-size: 12px; }
+          #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator span.qtyController {
+            width: 40%; }
+            #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator span.qtyController .inputText {
+              width: 95%;
+              padding: 4px 0 !important;
+              text-align: center;
+              font-size: 11px; }
+        #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalWrap {
+          bottom: 0;
+          right: 1px;
+          position: absolute;
+          background-color: #EEEEEE;
+          height: 25px;
+          line-height: 25px;
+          color: #000000;
+          vertical-align: baseline;
+          width: 80%;
+          margin: 0 auto; }
+          #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalWrap span {
+            margin: 0;
+            vertical-align: baseline; }
+  #content .totalWrap .fieldsetContent {
+    font-size: 18px; }
+  #content .formWrap {
+    background-image: url("/static/cart/images/curve_bg.png");
+    background-position: center bottom;
+    background-repeat: no-repeat;
+    height: 60px;
+    text-align: center; }
+    #content .formWrap .submitBtn {
+      background-color: #949494 !important;
+      background-repeat: repeat-x;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+      background-image: -khtml-gradient(linear, left top, left bottom, from(#fafafa), to(#ededed));
+      background-image: -moz-linear-gradient(top, #fafafa, #ededed);
+      background-image: -ms-linear-gradient(top, #fafafa, #ededed);
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #ededed));
+      background-image: -webkit-linear-gradient(top, #fafafa, #ededed);
+      background-image: -o-linear-gradient(top, #fafafa, #ededed);
+      background-image: linear-gradient(#fafafa, #ededed);
+      border-color: #e1e1e1 #e1e1e1 #adadad;
+      -webkit-font-smoothing: antialiased;
+      padding: 2px 20px 4px;
+      font-family: "Times New Roman", serif;
+      font-size: 12px; }
+      #content .formWrap .submitBtn span {
+        display: block;
+        font-size: 15px; }
+    #content .formWrap .submitBtn:hover {
+      background-color: #8c8c8c !important;
+      background-repeat: repeat-x;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+      background-image: -khtml-gradient(linear, left top, left bottom, from(#f2f2f2), to(#e5e5e5));
+      background-image: -moz-linear-gradient(top, #f2f2f2, #e5e5e5);
+      background-image: -ms-linear-gradient(top, #f2f2f2, #e5e5e5);
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f2f2), color-stop(100%, #e5e5e5));
+      background-image: -webkit-linear-gradient(top, #f2f2f2, #e5e5e5);
+      background-image: -o-linear-gradient(top, #f2f2f2, #e5e5e5);
+      background-image: linear-gradient(#f2f2f2, #e5e5e5);
+      border-color: #d8d8d8 #d8d8d8 #a5a5a5;
+      -webkit-font-smoothing: antialiased;
+      color: #616161; }
