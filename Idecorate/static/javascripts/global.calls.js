@@ -75,15 +75,22 @@ $(function() {
     });
 
 
-
     var bannerCentering = function(){
 
         $('#banner_img').css({marginLeft:(($('#banner_img').width()-$('#banner').width())/2)*-1});
 
     };
-    
-    bannerCentering();
+
+
+    $('#banner_img').one('load', function() {
+      bannerCentering();
+      $(this).show();
+    }).each(function() {
+      if(this.complete) $(this).load();
+    });
+
     $(window).resize(bannerCentering);
+
 
     var footer_hieght = $('footer').outerHeight(true);
 

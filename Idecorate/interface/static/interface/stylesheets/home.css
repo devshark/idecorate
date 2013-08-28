@@ -9,7 +9,8 @@
   overflow: hidden;
   border-bottom: 1px solid #DDDDDD; }
   #banner img#banner_img {
-    display: inline-block; }
+    display: inline-block;
+    display: none; }
   #banner #banner_modal {
     position: absolute;
     left: 50%;
