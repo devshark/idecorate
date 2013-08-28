@@ -193,3 +193,16 @@ class SuggestedProduct(models.Model):
     class Meta:
         verbose_name = _('Suggested Products')
         db_table     = 'product_suggested_products'
+
+
+class ProductAlternateImage(models.Model):
+
+    id                       = models.AutoField(db_column='id', primary_key=True)
+    product                  = models.ForeignKey(Product)
+    original_image           = models.TextField(_('original_image'), blank=True)
+    original_image_thumbnail = models.TextField(_('original_image_thumbnail'), blank=True)
+    no_background            = models.TextField(_('no_background'), blank=True)
+    is_default_image         = models.BooleanField(default=False)    
+
+    class Meta:
+        db_table = 'product_alternate_images'

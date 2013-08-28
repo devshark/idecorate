@@ -9,7 +9,8 @@ from datetime import datetime, timedelta
 from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
-HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm, AddUsersForm, FilterTemplateForm, AddSuggestedProductForm
+HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm, AddUsersForm, FilterTemplateForm, AddSuggestedProductForm,\
+AlternateImageForm
 from menu.services import addMenu, saveItemMenu, arrangeItemMenu, updateItemMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
@@ -17,7 +18,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.template.defaultfilters import filesizeformat
 from django.conf import settings
 from services import getExtensionAndFileName
-from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails, SuggestedProduct
+from cart.models import Product, ProductPrice, ProductGuestTable, ProductDetails, SuggestedProduct, ProductAlternateImage
 from plata.shop.models import TaxClass, Order, OrderItem, OrderPayment
 import shutil
 from PIL import Image, ImageDraw, ImageFont
@@ -3259,6 +3260,7 @@ def admin_edit_order(request):
         return redirect('admin_manage_order')
 
 
+@staff_member_required
 def admin_add_suggested_product(request, product_id):
     categories = Categories.objects.filter(parent__id=None,deleted=False).order_by('order')
     products   = Product.objects.filter(~Q(pk=int(product_id)))
@@ -3298,7 +3300,7 @@ def admin_add_suggested_product(request, product_id):
                                         })
         form.fields['products'].choices = [(product.pk, product.name) for product in products]
         if form.is_valid():
-            
+
             for product in main_product.suggestedproduct_set.filter():
                 product.delete()
 
@@ -3324,3 +3326,212 @@ def admin_add_suggested_product(request, product_id):
         'categories'  : categories,
     }
     return render(request, 'admin/admin_add_suggested_product.html', context)
+
+
+@staff_member_required
+def admin_add_product_alternate_image(request, product_id):
+    main_product = get_object_or_404(Product, pk=int(product_id))
+
+    if request.method == 'POST':
+        form = AlternateImageForm(request.POST)
+        if form.is_valid():
+            imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
+            imgSizeProduct = (settings.PRODUCT_WIDTH, settings.PRODUCT_HEIGHT)
+            splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
+            thumbName = "%s%s" % (splittedName[0].replace(' ', '_'), '_thumbnail.jpg')
+            prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.jpg')
+
+            img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+            img.load()
+
+            if img.size[0] > 400 or img.size[1] > 400:
+
+                #RESIZE MAIN IMAGE
+                img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
+                bgImg = Image.new("RGB", img.size, (255, 255, 255))
+
+                if splittedName[1][1:] == 'png':
+                
+                    bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2), mask=img.split()[3])
+                else:
+
+                    bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
+
+            bgImg = Image.new("RGB", img.size, (255, 255, 255))
+            
+            if splittedName[1][1:] == 'png':
+                
+                    bgImg.paste(img, mask=img.split()[3])
+            else:
+
+                bgImg.paste(img)
+
+            bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", prodName), 'JPEG', quality=100)
+            
+            #CREATE THUMBNAIL
+            img.thumbnail(imgSize,Image.ANTIALIAS)
+            bgImg = Image.new('RGB', imgSize, (255, 255, 255))
+
+            if splittedName[1][1:] == 'png':
+                
+                bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2), mask=img.split()[3])
+            
+            else:
+
+                bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
+
+            bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName), 'JPEG', quality=100)
+
+
+            img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+            
+            nb_product_name = form.cleaned_data['no_background'].replace(' ', '_')
+
+            if img.size[0] > 400 or img.size[1] > 400:
+                #RESIZE NO BACKGROUND IMAGE
+                img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
+                bgImg = Image.new('RGBA', imgSizeProduct, (255, 255, 255, 0))
+                bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
+                bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", nb_product_name))
+            else:
+                img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", nb_product_name))
+
+            alternate = ProductAlternateImage(product=main_product,
+                                                original_image=prodName,
+                                                original_image_thumbnail=thumbName,
+                                                no_background=nb_product_name,
+                                                is_default_image=form.cleaned_data.get('is_default_image', False))
+            alternate.save()
+            messages.success(request, _('Image added to product'))
+            return redirect(reverse('admin_manage_product_images', args=[product_id]))
+        else:
+            messages.error(request, _('Error adding image to product. Please try again.'))
+    else:
+        form = AlternateImageForm(initial={
+                    'product_id':product_id,
+                })
+
+    context = {
+        'form' : form,
+    }
+    return render(request, 'admin/admin_add_product_alternate_image.html', context)
+
+
+@staff_member_required
+def admin_manage_product_images(request, product_id):
+    product = get_object_or_404(Product, pk=int(product_id))
+
+    action = request.GET.get('action', False)
+    pk     = request.GET.get('id', False)
+
+    if action == 'del':
+        if pk:
+            image = product.productalternateimage_set.get(pk=int(pk))
+            image.delete()
+            messages.success(request, _('Image deleted'))
+            return redirect(reverse('admin_manage_product_images', args=[product_id]))
+
+    context = {
+        'product' : product,
+        'images'  : product.productalternateimage_set.all()
+    }
+    return render(request, 'admin/admin_manage_product_images.html', context)
+
+
+@staff_member_required
+def admin_edit_product_alternate_image(request, product_id, alternate_id):
+    main_product = get_object_or_404(Product, pk=int(product_id))
+    instance = get_object_or_404(ProductAlternateImage, pk=int(alternate_id))
+
+    if request.method == 'POST':
+        form = AlternateImageForm(request.POST)
+        if form.is_valid():
+            imgSize = (settings.PRODUCT_THUMBNAIL_WIDTH, settings.PRODUCT_THUMBNAIL_HEIGHT)
+            imgSizeProduct = (settings.PRODUCT_WIDTH, settings.PRODUCT_HEIGHT)
+            splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
+            thumbName = "%s%s" % (splittedName[0].replace(' ', '_'), '_thumbnail.jpg')
+            prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.jpg')
+
+            img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
+            img.load()
+
+            if img.size[0] > 400 or img.size[1] > 400:
+
+                #RESIZE MAIN IMAGE
+                img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
+                bgImg = Image.new("RGB", img.size, (255, 255, 255))
+
+                if splittedName[1][1:] == 'png':
+                
+                    bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2), mask=img.split()[3])
+                else:
+
+                    bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
+
+            bgImg = Image.new("RGB", img.size, (255, 255, 255))
+            
+            if splittedName[1][1:] == 'png':
+                
+                    bgImg.paste(img, mask=img.split()[3])
+            else:
+
+                bgImg.paste(img)
+
+            bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", prodName), 'JPEG', quality=100)
+            
+            #CREATE THUMBNAIL
+            img.thumbnail(imgSize,Image.ANTIALIAS)
+            bgImg = Image.new('RGB', imgSize, (255, 255, 255))
+
+            if splittedName[1][1:] == 'png':
+                
+                bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2), mask=img.split()[3])
+            
+            else:
+
+                bgImg.paste(img,((imgSize[0] - img.size[0]) / 2, (imgSize[1] - img.size[1]) / 2))
+
+            bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", thumbName), 'JPEG', quality=100)
+
+
+            img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['no_background']))
+            
+            nb_product_name = form.cleaned_data['no_background'].replace(' ', '_')
+
+            if img.size[0] > 400 or img.size[1] > 400:
+                #RESIZE NO BACKGROUND IMAGE
+                img.thumbnail(imgSizeProduct,Image.ANTIALIAS)
+                bgImg = Image.new('RGBA', imgSizeProduct, (255, 255, 255, 0))
+                bgImg.paste(img,((imgSizeProduct[0] - img.size[0]) / 2, (imgSizeProduct[1] - img.size[1]) / 2))
+                bgImg.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", nb_product_name))
+            else:
+                img.save("%s%s%s" % (settings.MEDIA_ROOT, "products/", nb_product_name))
+
+            if instance.original_image != form.cleaned_data.get('original_image'):
+                instance.original_image           = prodName
+                instance.original_image_thumbnail = thumbName
+
+            if instance.no_background != form.cleaned_data.get('no_background'):
+                instance.no_background = nb_product_name
+
+            instance.is_default_image = form.cleaned_data.get('is_default_image', False)
+            instance.save()
+
+            messages.success(request, _('Image updated'))
+            return redirect(reverse('admin_manage_product_images', args=[product_id]))
+        else:
+            messages.error(request, _('Error updating image. Please try again.'))
+    else:
+        form = AlternateImageForm(initial={
+                    'product_id':product_id,
+                    'original_image':instance.original_image,
+                    'no_background':instance.no_background,
+                    'is_default_image':instance.is_default_image,
+
+                })
+
+    context = {
+        'form'     : form,
+        'instance' : instance,
+    }
+    return render(request, 'admin/admin_add_product_alternate_image.html', context)

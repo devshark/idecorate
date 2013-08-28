@@ -131,7 +131,7 @@
           <th style="width:80px;"><span class="tbtitle">Def Qty</span> <span class="tbsorter"><a href="{% url admin_manage_product %}{{ quantity_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ quantity_desc_link }}">∇</a></span></th>
           <th>Price</th>
           <th style="width:100px;"><span class="tbtitle">Status</span> <span class="tbsorter"><a href="{% url admin_manage_product %}{{ status_asc_link }}">Δ</a><a href="{% url admin_manage_product %}{{ status_desc_link }}">∇</a></span></th>
-          <th style="width:200px;">Operations</th>
+          <th style="width:350px;">Operations</th>
         </thead>
 
         {% if products %}
@@ -146,6 +146,7 @@
             <td>${{ product|getProductPrice|floatformat:2 }}</td>
             <td>{{ product|getProductStatus }}</td>
             <td>
+              <a href="{% url admin_manage_product_images product.id %}">Manage Images</a> | 
               <a href="{% url admin_add_suggested_product product.id %}">Suggested Products</a> | 
               <a href="{% url admin_edit_product product.id %}">Edit</a> | 
               <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_delete_product product.id %}')">Delete</a>

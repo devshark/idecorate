@@ -89,7 +89,10 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_manage_order/$', 'admin_manage_order', {}, name='admin_manage_order'),
     url(r'^admin/admin_view_order/$', 'admin_view_order', {}, name='admin_view_order'),
     url(r'^admin/admin_edit_order/$', 'admin_edit_order', {}, name='admin_edit_order'),
-    url(r'^admin/admin_add_suggested_product/(?P<product_id>\d+)/$', 'admin_add_suggested_product', {}, name='admin_add_suggested_product')
+    url(r'^admin/admin_add_suggested_product/(?P<product_id>\d+)/$', 'admin_add_suggested_product', {}, name='admin_add_suggested_product'),
+    url(r'^admin/admin_add_product_alternate_image/(?P<product_id>\d+)/$', 'admin_add_product_alternate_image', {}, name='admin_add_product_alternate_image'),
+    url(r'^admin/admin_manage_product_images/(?P<product_id>\d+)/$', 'admin_manage_product_images', {}, name='admin_manage_product_images'),
+    url(r'^admin/admin_edit_product_alternate_image/(?P<product_id>\d+)/(?P<alternate_id>\d+)/$', 'admin_edit_product_alternate_image', {}, name='admin_edit_product_alternate_image'),
 )
 
 """

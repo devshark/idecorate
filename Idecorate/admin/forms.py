@@ -427,5 +427,12 @@ class editOrderForm(forms.Form):
 class AddSuggestedProductForm(forms.Form):
 
 	product_id = forms.CharField(widget=forms.HiddenInput)
-	products = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
+	products   = forms.MultipleChoiceField(required=False, widget=forms.CheckboxSelectMultiple)
 
+
+class AlternateImageForm(forms.Form):
+	
+	product_id       = forms.CharField(widget=forms.HiddenInput)
+	original_image   = forms.CharField(label=_("Original Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Original Image is a required field.')})
+	no_background    = forms.CharField(label=_("No Background Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('No Background Image is a required field.')})
+	is_default_image = forms.BooleanField(required=False, label=_('Set as default image'), initial=False)
