@@ -24,8 +24,74 @@
 		</div>
 	</div>
 </div>
+<div id="main_content">
+	<div class="contentHeader">
+		<div class="fieldset contentHeaderText">
+			<span class="legendWrap">
+				<span class="legend">
+					<h3>or get inspired &amp; browse our</h3>
+					<h2>Products &amp; Styleboards</h2>
+				</span>
+			</span>
+		</div>
+	</div>
+	<div id="filtering" class="filterBar">
+		<ul class="filter">
+			<li><a class="all active" href="#">all</a></li>
+			<li>
+				<a href="#">
+					<img class="products" src="{% static 'images/img_trans.gif' %}" />
+					<span>products</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="styleboards" src="{% static 'images/img_trans.gif' %}" />
+					<span>styleboards</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="inspiration" src="{% static 'images/img_trans.gif' %}" />
+					<span>inspiration</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="celebrity" src="{% static 'images/img_trans.gif' %}" />
+					<span>celebrity styleboard</span>
+				</a>
+			</li>
+			<li>
+				<a href="#">
+					<img class="wishlist" src="{% static 'images/img_trans.gif' %}" />
+					<span>wishlist</span>
+				</a>
+			/li>
+			<li>
+				<a href="#">
+					<img class="result" src="{% static 'images/img_trans.gif' %}" />
+					<span>search result</span>
+				</a>
+			</li>
+		</ul>
+		<div class="searchBoxWrap">
+			<a class="searchIcon" href="#">
+				<img src="/static/images/img_trans.gif"/>
+			</a>
+			<div class="searchBox">
+				<input type="text" name="search" placeholder="Products,Styleboards,Keywords"/>
+				<button class="searchBtn"><img src="{% static 'images/img_trans.gif' %}"/></button>
+			</div>
+		</div>
+	</div>
+	<div id="item_list" class="lineItems">
+
+	</div>
+</div>
 {% endblock %}
 {% block javascripts %}
+    <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
 	<script type="text/javascript">
 	</script>
 {% endblock %}

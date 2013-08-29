@@ -105,9 +105,13 @@
                 </form>
             </div>
         </div>
+        <script type="text/javascript">
+            CART_URL = '{% url cart %}';
+        </script>
         <script src="{% static 'javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery.placeholder.js' %}"></script>
-        <script src="{% static 'cart/javascripts/cart.js' %}"></script>
+        <script src="{% static 'cart/javascripts/cart.functions.js' %}"></script>
+        <script src="{% static 'cart/javascripts/cart.calls.js' %}"></script>
     </body>
 </html>

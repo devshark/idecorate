@@ -1,11 +1,13 @@
 @import 'sass';
 body{
 	overflow:hidden;
+	padding: 0;
+	margin:0;
 }
 #content{
 	width: 420px;
 	height: 500px;
-	// padding: 10px 10px 0;
+	padding: 10px 0;
 	overflow:hidden;
 	text-transform: uppercase;
 	.fieldset{
@@ -35,11 +37,11 @@ body{
 		.multiplierBtn{
 			width: 99%;
 			font-size: 11px;
-			@include gradients(#FAFAFA, #EDEDED);
+			// @include gradients(#FAFAFA, #EDEDED);
 		}
 		.multiplierBtn:hover{
-			@include gradients(#F2F2F2, #E5E5E5);
-			color:#616161;
+			// @include gradients(#F2F2F2, #E5E5E5);
+			color:#000000;
 		}
 	}
 	.orderWrap{
@@ -83,7 +85,7 @@ body{
 					color:#666666;
 					padding: 5px 0;
 					vertical-align: middle;
-					border-bottom: 1px solid #EEEEEE;	
+					border-bottom: 1px solid $border_01;	
 					input[type="checkbox"]{
 						vertical-align: middle;
 					}
@@ -139,7 +141,7 @@ body{
 						bottom:0;
 						right:1px;
 						position:absolute;
-						background-color:#EEEEEE;
+						background-color:#eceae1;
 						height: 25px;
 						line-height: 25px;
 						color:#000000;
@@ -168,9 +170,9 @@ body{
 		text-align: center;
 
 		.submitBtn{	
-			@include gradients(#FAFAFA, #EDEDED);
+			// @include gradients(#FAFAFA, #EDEDED);
 			padding: 2px 20px 4px;
-			font-family: $times_newRoman;
+			font-family: $PTserif;
 			font-size: 12px;
 			span{
 				display: block;
@@ -179,8 +181,8 @@ body{
 		}
 
 		.submitBtn:hover{
-			@include gradients(#F2F2F2, #E5E5E5);
-			color:#616161;
+			// @include gradients(#F2F2F2, #E5E5E5);
+			color:#000000;
 		}
 	}
 }
