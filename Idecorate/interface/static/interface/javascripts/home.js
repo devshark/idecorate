@@ -36,6 +36,7 @@ $(function() {
         }
 
         searchIcon.click(function(e){
+            e.preventDefault();
             searchBox.find('.searchBox').toggle();
         });
     };
