@@ -1,11 +1,14 @@
 @import url("/static/stylesheets/fontface.css");
 @import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
 body {
-  overflow: hidden; }
+  overflow: hidden;
+  padding: 0;
+  margin: 0; }
 
 #content {
   width: 420px;
   height: 500px;
+  padding: 10px 0;
   overflow: hidden;
   text-transform: uppercase; }
   #content .fieldset {
@@ -27,33 +30,9 @@ body {
         width: 90%; }
   #content .multiplierWrap .multiplierBtn {
     width: 99%;
-    font-size: 11px;
-    background-color: #949494 !important;
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
-    background-image: -khtml-gradient(linear, left top, left bottom, from(#fafafa), to(#ededed));
-    background-image: -moz-linear-gradient(top, #fafafa, #ededed);
-    background-image: -ms-linear-gradient(top, #fafafa, #ededed);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #ededed));
-    background-image: -webkit-linear-gradient(top, #fafafa, #ededed);
-    background-image: -o-linear-gradient(top, #fafafa, #ededed);
-    background-image: linear-gradient(#fafafa, #ededed);
-    border-color: #e1e1e1 #e1e1e1 #adadad;
-    -webkit-font-smoothing: antialiased; }
+    font-size: 11px; }
   #content .multiplierWrap .multiplierBtn:hover {
-    background-color: #8c8c8c !important;
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
-    background-image: -khtml-gradient(linear, left top, left bottom, from(#f2f2f2), to(#e5e5e5));
-    background-image: -moz-linear-gradient(top, #f2f2f2, #e5e5e5);
-    background-image: -ms-linear-gradient(top, #f2f2f2, #e5e5e5);
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f2f2), color-stop(100%, #e5e5e5));
-    background-image: -webkit-linear-gradient(top, #f2f2f2, #e5e5e5);
-    background-image: -o-linear-gradient(top, #f2f2f2, #e5e5e5);
-    background-image: linear-gradient(#f2f2f2, #e5e5e5);
-    border-color: #d8d8d8 #d8d8d8 #a5a5a5;
-    -webkit-font-smoothing: antialiased;
-    color: #616161; }
+    color: #000000; }
   #content .orderWrap .fieldsetContent {
     height: 235px;
     overflow: auto;
@@ -87,7 +66,7 @@ body {
         color: #666666;
         padding: 5px 0;
         vertical-align: middle;
-        border-bottom: 1px solid #EEEEEE; }
+        border-bottom: 1px solid #dbd7c9; }
         #content .orderWrap .fieldsetContent .orderTable td input[type="checkbox"] {
           vertical-align: middle; }
         #content .orderWrap .fieldsetContent .orderTable td span {
@@ -130,7 +109,7 @@ body {
           bottom: 0;
           right: 1px;
           position: absolute;
-          background-color: #EEEEEE;
+          background-color: #eceae1;
           height: 25px;
           line-height: 25px;
           color: #000000;
@@ -149,35 +128,11 @@ body {
     height: 60px;
     text-align: center; }
     #content .formWrap .submitBtn {
-      background-color: #949494 !important;
-      background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
-      background-image: -khtml-gradient(linear, left top, left bottom, from(#fafafa), to(#ededed));
-      background-image: -moz-linear-gradient(top, #fafafa, #ededed);
-      background-image: -ms-linear-gradient(top, #fafafa, #ededed);
-      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fafafa), color-stop(100%, #ededed));
-      background-image: -webkit-linear-gradient(top, #fafafa, #ededed);
-      background-image: -o-linear-gradient(top, #fafafa, #ededed);
-      background-image: linear-gradient(#fafafa, #ededed);
-      border-color: #e1e1e1 #e1e1e1 #adadad;
-      -webkit-font-smoothing: antialiased;
       padding: 2px 20px 4px;
-      font-family: "Times New Roman", serif;
+      font-family: "PT Serif", serif;
       font-size: 12px; }
       #content .formWrap .submitBtn span {
         display: block;
         font-size: 15px; }
     #content .formWrap .submitBtn:hover {
-      background-color: #8c8c8c !important;
-      background-repeat: repeat-x;
-      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
-      background-image: -khtml-gradient(linear, left top, left bottom, from(#f2f2f2), to(#e5e5e5));
-      background-image: -moz-linear-gradient(top, #f2f2f2, #e5e5e5);
-      background-image: -ms-linear-gradient(top, #f2f2f2, #e5e5e5);
-      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f2f2f2), color-stop(100%, #e5e5e5));
-      background-image: -webkit-linear-gradient(top, #f2f2f2, #e5e5e5);
-      background-image: -o-linear-gradient(top, #f2f2f2, #e5e5e5);
-      background-image: linear-gradient(#f2f2f2, #e5e5e5);
-      border-color: #d8d8d8 #d8d8d8 #a5a5a5;
-      -webkit-font-smoothing: antialiased;
-      color: #616161; }
+      color: #000000; }
