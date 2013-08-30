@@ -17,3 +17,11 @@ class Countries( models.Model ):
         db_table = 'countries'
         ordering = ["name"]
         verbose_name = _("Countries")
+
+
+class QuickTip(models.Model):
+    title   = models.CharField(max_length=255, blank=True)
+    content = models.TextField(blank=True)
+
+    class Meta:
+        db_table = 'common_quick_tips'

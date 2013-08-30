@@ -121,3 +121,13 @@ urlpatterns += patterns('',
 #     url(r'^about-us/$', 'flatpage', {'url': '/about-us/'}, name='about'),
 #     url(r'^license/$', 'flatpage', {'url': '/license/'}, name='license'),
 # )
+
+
+"""
+QUICK TIPS
+"""
+urlpatterns += patterns('admin.views',
+    url(r'^admin/admin_manage_quick_tips/$', 'admin_manage_quick_tips', {}, name='admin_manage_quick_tips'),
+    url(r'^admin/admin_add_quick_tip/$', 'admin_add_quick_tip', {}, name='admin_add_quick_tip'),
+    url(r'^admin/admin_edit_quick_tip/(?P<tip_id>\d+)/$', 'admin_edit_quick_tip', {}, name='admin_edit_quick_tip'),
+)

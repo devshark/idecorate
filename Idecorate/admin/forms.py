@@ -9,7 +9,7 @@ from django.utils.html import strip_tags
 import re
 from django.contrib.auth.models import User
 from django.utils.datastructures import MultiValueDictKeyError
-from common.models import Countries
+from common.models import Countries, QuickTip
 
 class MenuAddForm(forms.Form):
 	menu_type = forms.CharField(label=_("Menu Type"), widget=forms.HiddenInput, required=False)
@@ -436,3 +436,10 @@ class AlternateImageForm(forms.Form):
 	original_image   = forms.CharField(label=_("Original Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('Original Image is a required field.')})
 	no_background    = forms.CharField(label=_("No Background Image"), widget=forms.HiddenInput, required=True, error_messages={'required':_('No Background Image is a required field.')})
 	is_default_image = forms.BooleanField(required=False, label=_('Set as default image'), initial=False)
+
+
+class QuickTipForm(forms.ModelForm):
+	content = forms.CharField(label=_('Tip'), widget=forms.Textarea)
+	class Meta:
+		model  = QuickTip
+		fields = ['title', 'content']
