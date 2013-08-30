@@ -501,7 +501,7 @@ def truncateDescription(desc,length=50):
 
     else:
 
-        return de
+        return desc
 
 
 @register.filter
