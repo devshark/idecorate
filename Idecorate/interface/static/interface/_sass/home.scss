@@ -119,6 +119,7 @@
 		text-align: center;
 		padding-top: 20px;
 		position: relative;
+		z-index:3 !important;
 		.filter{
 			display: inline-block;
 			*display: inline;
@@ -137,7 +138,9 @@
 					height: 25px;
 					line-height: 25px;
 					padding: 8px 5px;
-					font-family: $cartoGothicStd_Bold;	
+					font-family: $cartoGothicStd_Bold;
+					border-left: 1px solid #FFFFFF;	
+					border-right: 1px solid #FFFFFF;
 
 					img{
 						margin:0 !important;
@@ -173,6 +176,9 @@
 					img.result{
 						background-position: -110px 0;
 					}
+				}
+				a.all span{
+					margin: 0 5px;
 				}
 				a.active{
 					border-top: 1px solid $border_01 !important;
@@ -282,5 +288,58 @@
 		border-top: 1px solid $border_01;
 		background-color: #f0efe7;
 		min-height: 100px;
+		padding: 5px 0 70px;
+		#items_wrapper{
+			margin: 0 auto;
+			.itemWrap{
+				height: 275px;
+				background-color: #FFFFFF;
+				border-bottom: 15px solid $border_01;
+				width: 250px;
+				margin: 5px;
+			}
+
+			.itemWrap:after{
+				content: "";
+				display: block;
+				position: absolute;
+				bottom:1px;
+				left: 0;
+				width: 100%;
+				height: 5px;
+				background-color: $border_01;
+			}
+
+			.itemWrap.double{
+				width: 510px;
+			}			
+		}
+
 	}
+}
+
+.isotope-item {
+    z-index: 2;
+}
+.isotope-hidden.isotope-item {
+    pointer-events: none;
+    z-index: 1;
+}
+.isotope,
+.isotope .isotope-item {
+  /* change duration value to whatever you like */
+
+    -webkit-transition-duration: 0.8s;
+    -moz-transition-duration: 0.8s;
+    transition-duration: 0.8s;
+}
+.isotope {
+    -webkit-transition-property: height, width;
+    -moz-transition-property: height, width;
+    transition-property: height, width;
+}
+.isotope .isotope-item {
+    -webkit-transition-property: -webkit-transform, opacity;
+    -moz-transition-property: -moz-transform, opacity;
+    transition-property: transform, opacity;
 }

@@ -95,7 +95,8 @@
   #main_content .filterBar {
     text-align: center;
     padding-top: 20px;
-    position: relative; }
+    position: relative;
+    z-index: 3 !important; }
     #main_content .filterBar .filter {
       display: inline-block;
       *display: inline;
@@ -114,7 +115,9 @@
           height: 25px;
           line-height: 25px;
           padding: 8px 5px;
-          font-family: "cartoGothicStd_Bold"; }
+          font-family: "cartoGothicStd_Bold";
+          border-left: 1px solid #FFFFFF;
+          border-right: 1px solid #FFFFFF; }
           #main_content .filterBar .filter li a img {
             margin: 0 !important;
             display: inline-block;
@@ -141,6 +144,8 @@
             background-position: -88px 0; }
           #main_content .filterBar .filter li a img.result {
             background-position: -110px 0; }
+        #main_content .filterBar .filter li a.all span {
+          margin: 0 5px; }
         #main_content .filterBar .filter li a.active {
           border-top: 1px solid #dbd7c9 !important;
           border-left: 1px solid #dbd7c9 !important;
@@ -250,4 +255,48 @@
   #main_content .lineItems {
     border-top: 1px solid #dbd7c9;
     background-color: #f0efe7;
-    min-height: 100px; }
+    min-height: 100px;
+    padding: 5px 0 70px; }
+    #main_content .lineItems #items_wrapper {
+      margin: 0 auto; }
+      #main_content .lineItems #items_wrapper .itemWrap {
+        height: 275px;
+        background-color: #FFFFFF;
+        border-bottom: 15px solid #dbd7c9;
+        width: 250px;
+        margin: 5px; }
+      #main_content .lineItems #items_wrapper .itemWrap:after {
+        content: "";
+        display: block;
+        position: absolute;
+        bottom: 1px;
+        left: 0;
+        width: 100%;
+        height: 5px;
+        background-color: #dbd7c9; }
+      #main_content .lineItems #items_wrapper .itemWrap.double {
+        width: 510px; }
+
+.isotope-item {
+  z-index: 2; }
+
+.isotope-hidden.isotope-item {
+  pointer-events: none;
+  z-index: 1; }
+
+.isotope,
+.isotope .isotope-item {
+  /* change duration value to whatever you like */
+  -webkit-transition-duration: 0.8s;
+  -moz-transition-duration: 0.8s;
+  transition-duration: 0.8s; }
+
+.isotope {
+  -webkit-transition-property: height, width;
+  -moz-transition-property: height, width;
+  transition-property: height, width; }
+
+.isotope .isotope-item {
+  -webkit-transition-property: -webkit-transform, opacity;
+  -moz-transition-property: -moz-transform, opacity;
+  transition-property: transform, opacity; }

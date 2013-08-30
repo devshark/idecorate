@@ -37,33 +37,33 @@
 	</div>
 	<div id="filtering" class="filterBar">
 		<ul class="filter">
-			<li><a class="all active" href="#">all</a></li>
+			<li><a data-filter="*" class="all active" href="#"><span>all</span></a></li>
 			<li>
-				<a href="#">
+				<a data-filter=".products" href="#">
 					<img class="products" src="{% static 'images/img_trans.gif' %}" />
 					<span>products</span>
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a data-filter=".styleboards" href="#">
 					<img class="styleboards" src="{% static 'images/img_trans.gif' %}" />
 					<span>styleboards</span>
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a data-filter=".inspiration" href="#">
 					<img class="inspiration" src="{% static 'images/img_trans.gif' %}" />
 					<span>inspiration</span>
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a data-filter=".celebrity" href="#">
 					<img class="celebrity" src="{% static 'images/img_trans.gif' %}" />
 					<span>celebrity styleboard</span>
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a data-filter=".wishlist" href="#">
 					<img class="wishlist" src="{% static 'images/img_trans.gif' %}" />
 					<span>wishlist</span>
 				</a>
@@ -86,11 +86,40 @@
 		</div>
 	</div>
 	<div id="item_list" class="lineItems">
-
+		<div id="items_wrapper">
+			<div class="itemWrap single products">Products</div>
+			<div class="itemWrap single wishlist">Wishlist</div>
+			<div class="itemWrap double styleboards">Styleboard</div>
+			<div class="itemWrap single products">Products</div>
+			<div class="itemWrap single wishlist">Wishlist</div>
+			<div class="itemWrap double styleboards">Styleboard</div>
+			<div class="itemWrap single celebrity">Celebrity</div>
+			<div class="itemWrap single inspiration">Inspiration</div>
+			<div class="itemWrap single celebrity">Celebrity</div>
+			<div class="itemWrap single products">Products</div>
+			<div class="itemWrap single wishlist">Wishlist</div>
+			<div class="itemWrap single celebrity">Celebrity</div>
+			<div class="itemWrap double styleboards">Styleboard</div>
+			<div class="itemWrap single products">Products</div>
+			<div class="itemWrap single inspiration">Inspiration</div>
+			<div class="itemWrap single wishlist">Wishlist</div>
+			<div class="itemWrap double styleboards">Styleboard</div>
+			<div class="itemWrap single inspiration">Inspiration</div>
+			<div class="itemWrap single products">Products</div>
+			<div class="itemWrap double styleboards">Styleboard</div>
+			<div class="itemWrap single celebrity">Celebrity</div>
+			<div class="itemWrap single products">Products</div>
+			<div class="itemWrap single inspiration">Inspiration</div>
+			<div class="itemWrap double styleboards">Styleboard</div>
+			<div class="itemWrap single celebrity">Celebrity</div>
+			<div class="itemWrap single products">Products</div>
+			<div class="itemWrap double styleboards">Styleboard</div>
+		</div>
 	</div>
 </div>
 {% endblock %}
 {% block javascripts %}
+    <script type="text/javascript" src="{% static 'interface/javascripts/jquery.isotope.js' %}"></script>
     <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
 	<script type="text/javascript">
 	</script>

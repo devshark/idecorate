@@ -44,4 +44,30 @@ $(function() {
     searchBoxTransform();
     $(window).resize(searchBoxTransform);
 
+    var $container = $('#items_wrapper');
+    $container.isotope({
+        filter: '*',    
+        animationOptions: {
+            duration: 750,
+            easing: 'linear',
+            queue: false
+        }
+    });
+ 
+    $('.filter li a').click(function(){
+        $(this).addClass('active');
+        $(this).parent().siblings().children('a').removeClass('active')
+ 
+        var selector = $(this).attr('data-filter');
+        $container.isotope({
+            filter: selector,
+            animationOptions: {
+                duration: 750,
+                easing: 'linear',
+                queue: false
+            }
+         });
+         return false;
+    }); 
+
 });
