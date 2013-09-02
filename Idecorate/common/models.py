@@ -25,3 +25,11 @@ class QuickTip(models.Model):
 
     class Meta:
         db_table = 'common_quick_tips'
+
+
+class HelpTopic(models.Model):
+    title   = models.CharField(max_length=255, blank=True)
+    content = models.TextField(blank=True)
+
+    class Meta:
+        db_table = 'common_help_topics'

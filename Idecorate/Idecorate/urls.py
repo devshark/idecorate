@@ -131,3 +131,13 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_add_quick_tip/$', 'admin_add_quick_tip', {}, name='admin_add_quick_tip'),
     url(r'^admin/admin_edit_quick_tip/(?P<tip_id>\d+)/$', 'admin_edit_quick_tip', {}, name='admin_edit_quick_tip'),
 )
+
+
+"""
+HELP TOPICS
+"""
+urlpatterns += patterns('admin.views',
+    url(r'^admin/admin_manage_help_topics/$', 'admin_manage_help_topics', {}, name='admin_manage_help_topics'),
+    url(r'^admin/admin_add_help_topic/$', 'admin_add_help_topic', {}, name='admin_add_help_topic'),
+    url(r'^admin/admin_edit_help_topic/(?P<topic_id>\d+)/$', 'admin_edit_help_topic', {}, name='admin_edit_help_topic'),
+)

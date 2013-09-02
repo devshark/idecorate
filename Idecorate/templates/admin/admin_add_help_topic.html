@@ -1,0 +1,194 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<link href="/media/admin/css/jquery.checkboxtree.min.css" rel="stylesheet">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<style type="text/css">
+
+  .preview {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border: 2px dotted #CCC;
+    margin-right: 16px;
+  }
+
+  div.preview.loading { 
+    background: url(/media/admin/images/loading.gif) no-repeat 39px 40px; 
+  }
+
+  div.preview.loading img {
+    display: none; 
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+  {% if instance %}
+  <h1>{% trans "Edit Quick Tip" %}</h1>
+  {% else %}
+	<h1>{% trans "Add Quick Tip" %}</h1>
+  {% endif %}
+	<div>&nbsp;</div>
+
+      {% if form.errors %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for e in form.title.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.content.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+        </ol> 
+      </div>
+
+      {% endif %}
+
+      {% if messages  %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %} 
+
+    <hr />
+      
+
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.product_id }}
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="control-group">
+            <label class="control-label">{{ form.title.label }}</label>
+            <div class="controls">
+                {{ form.title }}
+            </div>
+          </div>
+        </div><!--/span-->          
+      </div><!--/row-->
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="control-group">
+            <label class="control-label">{{ form.content.label }}</label>
+            <div class="controls">
+                {{ form.content }}
+            </div>
+          </div>
+        </div><!--/span-->          
+      </div><!--/row-->
+
+      <div class="form-actions" style="text-align:left">
+      	<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+      </div>
+    </form>
+
+{% endblock %}
+{% block javascripts %}
+  <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
+	<script type="text/javascript" >
+  $(function(e){
+
+      var thumb_original = $('img#thumb_original');
+
+      new AjaxUpload('btn_orginal_image', {
+        name: 'image',
+        action: '{% url admin_upload_product_image %}',
+        onSubmit: function(file, extension) {
+          $('div#preview1').addClass('loading');
+        },
+        onComplete: function(file, response){                        
+
+          var splittedResponse = response.split(':')
+
+          if (splittedResponse[0] == 'notok') {
+            $('#error_1').text(splittedResponse[1]);
+          } else {
+            thumb_original.load(function(){
+
+              if($('#thumb_original').height() < 100) {
+                $('#thumb_original').css('top',((100 - $('#thumb_original').height()) / 2) + 'px');
+              } else {
+                $('#thumb_original').css('top','0px');
+              }
+
+              thumb_original.unbind();
+            });
+
+            thumb_original.attr('src', '/media/products/temp/' + splittedResponse[1]);
+            $('#error_1').text('');
+            $('#id_original_image').val(splittedResponse[1]);
+
+          }
+
+          $('div#preview1').removeClass('loading');
+
+        }
+      });
+
+      var thumb_no_background = $('img#thumb_no_background');
+
+      new AjaxUpload('btn_no_background', {
+        name: 'image',
+        action: '{% url admin_upload_product_image %}',
+        onSubmit: function(file, extension) {
+
+          if(extension != "png") {
+
+            $('#error_2').text('{% trans "File type is not supported" %}');
+            return false;
+          }
+
+          $('div#preview2').addClass('loading');
+        },
+        onComplete: function(file, response){                        
+
+          var splittedResponse = response.split(':')
+
+          if (splittedResponse[0] == 'notok') {
+
+            $('#error_2').text(splittedResponse[1]);
+            
+          } else {
+            thumb_no_background.load(function(){
+
+              if($('#thumb_no_background').height() < 100) {
+                $('#thumb_no_background').css('top',((100 - $('#thumb_no_background').height()) / 2) + 'px');
+              } else {
+                $('#thumb_no_background').css('top','0px');
+              }
+
+              thumb_no_background.unbind();
+            });
+
+            thumb_no_background.attr('src', '/media/products/temp/' + splittedResponse[1]);
+            $('#error_2').text('');
+            $('#id_no_background').val(splittedResponse[1]);
+          }
+
+          $('div#preview2').removeClass('loading');
+
+        }
+      });
+  });
+	</script >
+{% endblock %}

@@ -10,7 +10,7 @@ from django.template import RequestContext
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
 HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm, AddUsersForm, FilterTemplateForm, AddSuggestedProductForm,\
-AlternateImageForm, QuickTipForm
+AlternateImageForm, QuickTipForm, HelpTopicForm
 from menu.services import addMenu, saveItemMenu, arrangeItemMenu, updateItemMenu
 from menu.models import InfoMenu, SiteMenu, FooterMenu, FooterCopyright, FatFooterMenu, ItemMenu
 from django.contrib.sites.models import Site
@@ -48,7 +48,7 @@ import csv
 from django.contrib.flatpages.models import FlatPage
 from django.forms.formsets import formset_factory
 
-from common.models import QuickTip
+from common.models import QuickTip, HelpTopic
 
 @staff_member_required
 def admin(request):
@@ -3593,3 +3593,61 @@ def admin_edit_quick_tip(request, tip_id):
         'instance' : instance,
     }
     return render(request, 'admin/admin_add_quick_tip.html', context)
+
+
+@staff_member_required
+def admin_manage_help_topics(request):
+    topics = HelpTopic.objects.filter()
+
+    action = request.GET.get('action', False)
+    pk     = request.GET.get('id', False)
+
+    if action == 'del':
+        if pk:
+            topic = HelpTopic.objects.get(pk=int(pk))
+            topic.delete()
+            messages.success(request, _('Help topic deleted'))
+            return redirect('admin_manage_help_topics')
+
+    context = {
+        'topics' : topics,
+    }
+    return render(request, 'admin/admin_manage_help_topics.html', context)
+
+
+@staff_member_required
+def admin_add_help_topic(request):
+
+    if request.method == 'POST':
+        form = HelpTopicForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Help topic added'))
+            return redirect('admin_manage_help_topics')            
+    else:
+        form = HelpTopicForm()
+
+    context = {
+        'form' : form,
+    }
+    return render(request, 'admin/admin_add_help_topic.html', context)
+
+
+@staff_member_required
+def admin_edit_help_topic(request, topic_id):
+
+    instance = get_object_or_404(HelpTopic, pk=int(topic_id))
+    if request.method == 'POST':
+        form = HelpTopicForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Help topic added'))
+            return redirect('admin_manage_help_topics')            
+    else:
+        form = HelpTopicForm(instance=instance)
+
+    context = {
+        'form'     : form,
+        'instance' : instance,
+    }
+    return render(request, 'admin/admin_add_help_topic.html', context)
