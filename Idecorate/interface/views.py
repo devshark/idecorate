@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from django_xhtml2pdf.utils import generate_pdf, render_to_pdf_response
 import os
 import time
+import random
 
 from category.services import get_categories, get_cat, category_tree_crumb, search_category, get_cat_ids
 from category.models import Categories
@@ -60,6 +61,26 @@ def home(request):
         lists.append(images)
     
     info['lists'] = lists
+
+    page = request.GET.get('page')
+
+    if page:
+        product_list = Product.objects.all()[(page-1)*20:20]
+        styleboard_list = CustomerStyleBoard.objects.all()[(page-1)*10:10]
+    else:
+        product_list = Product.objects.all()[:20]
+        styleboard_list = CustomerStyleBoard.objects.all()[:10]
+
+    query_list = list(product_list) + list(styleboard_list)
+    random.shuffle(query_list)
+
+    paginator = Paginator(query_list, 15)
+    
+    try:
+        info['products'] = paginator.page(page)
+    except PageNotAnInteger:
+        info['products'] = paginator.page(1)    
+
     try:
         info['infographic'] = HomeInfoGrapics.objects.get(is_active=True)
     except:
