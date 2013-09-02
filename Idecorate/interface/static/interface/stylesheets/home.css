@@ -263,7 +263,7 @@
         height: 275px;
         background-color: #FFFFFF;
         border-bottom: 15px solid #dbd7c9;
-        width: 250px;
+        width: 240px;
         margin: 5px; }
       #main_content .lineItems #items_wrapper .itemWrap:after {
         content: "";
@@ -275,7 +275,7 @@
         height: 5px;
         background-color: #dbd7c9; }
       #main_content .lineItems #items_wrapper .itemWrap.double {
-        width: 510px; }
+        width: 490px; }
 
 .isotope-item {
   z-index: 2; }
