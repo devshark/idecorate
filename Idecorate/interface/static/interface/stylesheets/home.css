@@ -66,7 +66,8 @@
 
 #main_content {
   position: relative;
-  min-width: 1024px; }
+  min-width: 1024px;
+  background-color: #f0efe7; }
   #main_content .contentHeader {
     position: absolute;
     z-index: 1;
@@ -96,7 +97,8 @@
     text-align: center;
     padding-top: 20px;
     position: relative;
-    z-index: 3 !important; }
+    z-index: 3 !important;
+    background-color: #FFFFFF; }
     #main_content .filterBar .filter {
       display: inline-block;
       *display: inline;
@@ -254,7 +256,6 @@
         top: 120%; }
   #main_content .lineItems {
     border-top: 1px solid #dbd7c9;
-    background-color: #f0efe7;
     min-height: 100px;
     padding: 5px 0 70px; }
     #main_content .lineItems #items_wrapper {
