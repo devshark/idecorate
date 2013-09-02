@@ -293,7 +293,7 @@
       #main_content .lineItems #items_wrapper .itemWrap.double {
         width: 490px; }
         #main_content .lineItems #items_wrapper .itemWrap.double img {
-          max-height: auto !important; }
+          max-height: 310px !important; }
 
 .isotope-item {
   z-index: 2; }
