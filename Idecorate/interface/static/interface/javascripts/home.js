@@ -47,6 +47,7 @@ $(function() {
     var $container = $('#items_wrapper');
     $container.isotope({
         filter: '*',    
+        layoutMode : 'fitRows',
         animationOptions: {
             duration: 750,
             easing: 'linear',
@@ -60,7 +61,8 @@ $(function() {
  
         var selector = $(this).attr('data-filter');
         $container.isotope({
-            filter: selector,
+            filter: selector,  
+            layoutMode : 'fitRows',
             animationOptions: {
                 duration: 750,
                 easing: 'linear',
