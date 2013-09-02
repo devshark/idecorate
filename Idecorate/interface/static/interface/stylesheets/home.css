@@ -264,9 +264,22 @@
         background-color: #FFFFFF;
         border-bottom: 13px solid #dbd7c9;
         width: 240px;
-        margin: 5px; }
+        margin: 5px;
+        text-align: center;
+        font-family: "cartoGothicStd_Book"; }
         #main_content .lineItems #items_wrapper .itemWrap img {
-          width: 100%; }
+          max-width: 100%; }
+        #main_content .lineItems #items_wrapper .itemWrap h2 {
+          margin-top: 5px;
+          line-height: 1em;
+          font-size: 15px;
+          text-transform: uppercase; }
+        #main_content .lineItems #items_wrapper .itemWrap p {
+          font-family: "PT Serif", serif;
+          font-style: italic;
+          font-size: 13px;
+          margin-top: 5px;
+          line-height: 1em; }
       #main_content .lineItems #items_wrapper .itemWrap:after {
         content: "";
         display: block;
@@ -278,6 +291,8 @@
         background-color: #dbd7c9; }
       #main_content .lineItems #items_wrapper .itemWrap.double {
         width: 490px; }
+        #main_content .lineItems #items_wrapper .itemWrap.double img {
+          max-height: auto !important; }
 
 .isotope-item {
   z-index: 2; }

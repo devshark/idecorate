@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load idecorate_interface static %}
+{% load idecorate_interface admin static %}
 {% block title %}iDecorate Weddings | Home{% endblock %}
 {% block style %}
 	<link rel="stylesheet" href="{% static 'interface/stylesheets/home.css' %}">
@@ -88,9 +88,19 @@
 	<div id="item_list" class="lineItems">
 		<div id="items_wrapper">
 		{% for product in products %}
-			<div class="itemWrap {% if product|get_css_obj_classname == 'styleboards' %}double{% else %}single{% endif %} {{ product|get_css_obj_classname }}">
-				{{ product|get_css_obj_classname }}
+			{% if product|get_css_obj_classname == 'styleboards' %}
+			<div class="itemWrap double {{ product|get_css_obj_classname }}" >
+				<img class="nonProducts" src="/styleboard/generate_styleboard_view/{{product.id}}/490/310/"/>
+				<h2>{{ product.styleboard_item.name }}</h2>
+				<p>{{ product.styleboard_item.description|safe }}</p>
 			</div>
+			{% else %}
+			<div class="itemWrap single {{ product|get_css_obj_classname }}" >
+				<img src="/media/products/{{product.original_image}}"/>
+				<h2>{{ product.name }}</h2>
+				<p>${{ product|getProductPrice|floatformat:2 }}</p>
+			</div>
+			{% endif %}
 		{% endfor %}
 		</div>
 	</div>
