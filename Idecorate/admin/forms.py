@@ -9,7 +9,7 @@ from django.utils.html import strip_tags
 import re
 from django.contrib.auth.models import User
 from django.utils.datastructures import MultiValueDictKeyError
-from common.models import Countries, QuickTip
+from common.models import Countries, QuickTip, HelpTopic
 
 class MenuAddForm(forms.Form):
 	menu_type = forms.CharField(label=_("Menu Type"), widget=forms.HiddenInput, required=False)
@@ -442,4 +442,10 @@ class QuickTipForm(forms.ModelForm):
 	content = forms.CharField(label=_('Tip'), widget=forms.Textarea)
 	class Meta:
 		model  = QuickTip
+		fields = ['title', 'content']
+
+
+class HelpTopicForm(forms.ModelForm):
+	class Meta:
+		model = HelpTopic
 		fields = ['title', 'content']
