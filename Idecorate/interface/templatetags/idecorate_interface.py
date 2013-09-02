@@ -530,3 +530,15 @@ def getPaymentMethod(request):
     }
 
     return mark_safe(info.get(met, ""))
+
+
+@register.filter
+def get_css_obj_classname(obj):
+    
+    ret = ''
+    object_classname = obj._meta.object_name
+    if object_classname == 'Product':
+        ret = 'products'
+    elif object_classname == 'CustomerStyleBoard':
+        ret = 'styleboards'
+    return ret

@@ -87,7 +87,11 @@
 	</div>
 	<div id="item_list" class="lineItems">
 		<div id="items_wrapper">
-			
+		{% for product in products %}
+			<div class="itemWrap {% if product|get_css_obj_classname == 'styleboards' %}double{% else %}single{% endif %} {{ product|get_css_obj_classname }}">
+				{{ product|get_css_obj_classname }}
+			</div>
+		{% endfor %}
 		</div>
 	</div>
 </div>
