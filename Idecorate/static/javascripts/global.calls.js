@@ -54,20 +54,19 @@ $(function() {
         var $arrow = $('<span class="arrowWrapper"><img src="/static/images/img_trans.gif" alt="arrow" class="arrowDown dark" /></span>');
 
         if ($this.children('ul').length > 0) {
-            $this.children('a').append($arrow);
-        }
+            
+            $this.children('a').append($arrow).click(function(e){
 
-        $this.click(function(e){
+                e.preventDefault();
 
-            e.preventDefault();
+                $this.children('ul').slideToggle(200,function(){
 
-            $this.children('ul').slideToggle(200,function(){
+                    $this.siblings().children('ul').slideUp(100);
 
-                $this.siblings().children('ul').slideUp(100);
+                });
 
             });
-
-        });
+        }
 
     });
 

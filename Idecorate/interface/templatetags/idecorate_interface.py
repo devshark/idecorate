@@ -473,7 +473,6 @@ def getInterfaceMenus(menuType, request):
     current_url = request.path
     isLoggedIn = request.user.is_authenticated()
 
-    print isLoggedIn
     menuTypes = {
         'info' : InfoMenu,
         'site' : SiteMenu,
