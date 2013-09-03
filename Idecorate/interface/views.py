@@ -67,10 +67,12 @@ def home(request):
     info['page'] = page
 
     if page:
-        product_list = Product.objects.all()[(page-1)*settings.PRODUCT_HOME_NUM_RECORDS:settings.PRODUCT_HOME_NUM_RECORDS]
+        product_list = Product.objects.filter(is_deleted=False, 
+                                                is_active=True)[(page-1)*settings.PRODUCT_HOME_NUM_RECORDS:settings.PRODUCT_HOME_NUM_RECORDS]
         styleboard_list = CustomerStyleBoard.objects.all()[(page-1)*settings.STYLEBOARD_HOME_NUM_RECORDS:settings.STYLEBOARD_HOME_NUM_RECORDS]
     else:
-        product_list = Product.objects.all()[:settings.PRODUCT_HOME_NUM_RECORDS]
+        product_list = Product.objects.filter(is_deleted=False, 
+                                                is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
         styleboard_list = CustomerStyleBoard.objects.all()[:settings.STYLEBOARD_HOME_NUM_RECORDS]
 
     query_list = list(product_list) + list(styleboard_list)
@@ -95,15 +97,29 @@ def home(request):
 def load_products_ajax(request):
     html = ''
     if request.method == 'POST':
-        page = request.POST.get('page')
+        page     = request.POST.get('page')
+        keywords = request.POST.get('keywords', False)
+        print (keywords == True), (keywords == False), (keywords == '')
         if page:
-            product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
-            product_list = Product.objects.all()[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset] 
-            styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
-            styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]                        
+            if keywords == '':
+                product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
+                product_list = Product.objects.filter(is_deleted=False, 
+                                                        is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset] 
+                styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
+                styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+            else:
+                product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
+                product_list = Product.objects.filter(Q(is_deleted=False), 
+                                                        Q(is_active=True),
+                                                        (Q(name__icontains=keywords) | Q(description__icontains=keywords)))[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]                 
+                styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
+                styleboard_list = CustomerStyleBoard.objects.filter(Q(styleboard_item__deleted=False),
+                                                                    (Q(styleboard_item__name__icontains=keywords) | Q(styleboard_item__description__icontains=keywords))
+                                                                )[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
         else:
-            product_list = Product.objects.all()[:settings.PRODUCT_HOME_NUM_RECORDS]
-            styleboard_list = CustomerStyleBoard.objects.all()[:settings.STYLEBOARD_HOME_NUM_RECORDS]            
+            product_list = Product.objects.filter(is_deleted=False, 
+                                                    is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
+            styleboard_list = CustomerStyleBoard.objects.filter()[:settings.STYLEBOARD_HOME_NUM_RECORDS]            
 
         products = list(product_list) + list(styleboard_list)
         random.shuffle(products)
