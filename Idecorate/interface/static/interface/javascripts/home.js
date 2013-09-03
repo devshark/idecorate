@@ -3,7 +3,6 @@ $(function() {
 
     var bannerCentering = function(){
 
-        console.log('test')
         $('#banner_img').css({marginLeft:(($('#banner_img').width()-$('#banner').width())/2)*-1});
 
     };
