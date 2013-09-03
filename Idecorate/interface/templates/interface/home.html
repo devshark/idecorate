@@ -110,5 +110,30 @@
     <script type="text/javascript" src="{% static 'interface/javascripts/jquery.isotope.js' %}"></script>
     <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
 	<script type="text/javascript">
+
+	var page = {{ page }};
+	
+	function loadMoreResults() {
+		orig_page = page;
+		page++;
+		$.ajax({
+			url:'{% url load_products_ajax %}',
+			data:{'page':page},
+			type:'POST',
+			success:function(data) {
+				$('#items_wrapper').isotope('insert',$(data));
+			},
+			error:function() {
+				page = orig_page;
+			}
+		});
+	}
+
+	$(window).scroll(function() {
+		if($(window).scrollTop() == $(document).height() - $(window).height()) {
+			loadMoreResults();
+		}
+	});
+	
 	</script>
 {% endblock %}
