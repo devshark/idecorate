@@ -112,3 +112,12 @@ class StyleboardJsonize(models.Model):
 	class Meta:
 		db_table 		= 'styleboard_jsonize'
 		verbose_name 	= _("styleboard in json")
+
+
+class WishList(models.Model):
+
+	user      = models.ForeignKey(User)
+	sessionid = models.CharField(db_column='session_key', max_length=200, null=True)
+
+	class Meta:
+		db_table = 'customer_wishlists'
