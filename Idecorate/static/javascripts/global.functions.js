@@ -12,4 +12,25 @@ function addMenuIcon(icon,obj){
         icon.hide();
 
     }
-}
+};
+
+
+scrollAnimation = function(){ 
+
+    var header_height = $('#header').outerHeight(true);
+
+    ($(this).scrollTop() > header_height)? $('footer').slideDown(200) : $('footer, .FooterMenu ul').slideUp(200);
+    
+    repositionFooter();
+}; 
+
+
+repositionFooter = function(){
+
+	var $footer = $('footer');
+	var $window = $(window);
+	var scroll_left = $window.scrollLeft();
+	
+	$footer.css({marginLeft: scroll_left * -1});
+	
+};

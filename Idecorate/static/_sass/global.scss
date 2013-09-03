@@ -91,9 +91,10 @@ html{
 		}	
 
 		footer{
-			right: 0;
+			display: none;
+			left: 0;
 			bottom:0;
-			z-index: 2;
+			z-index: 5 !important;
 			position: fixed;
 			text-transform: uppercase;
 			font-family: $PTserif;
@@ -108,20 +109,20 @@ html{
 				ul{
 					font-size: 0;
 					display: inline-block;
-					vertical-align: middle;
+					vertical-align: top;
 					li{
 						font-size: 12px;
 						display: inline-block;
-						vertical-align: middle;
+						vertical-align: top;
 					}
 				}
-				ul.footerMenu{
-					margin-right: 20px;
+				ul.FooterMenu{
+					margin-right: 15px;
 					a{
 						height: 32px;
 						color: #333333;
 						padding: 0 20px !important;
-						margin:0 2px;
+						margin:0 3px;
 						line-height: 32px;
 						text-align:center;
 						border-style: solid;
@@ -131,61 +132,88 @@ html{
 						box-shadow: inset 0 0 4px #FFFFFF;
 						// @include rounded_corners();
 						// @include gradients(#EEEEEE, #DDDDDD);
+						span{
+							display: inline-block;
+							height: 1em;
+							line-height: 1em;
+							margin-left: 5px;
+							img{
+							}
+						}
+					}
+					ul{
+						display:none;
+						margin-top:10px;
+						font-family: $cartoGothicStd_Book;
+						li{
+							display: block;
+							background: none !important;
+
+							a{
+								background: none !important;
+								border: none !important;
+								padding: 4px !important;
+								height: 15px;
+								line-height: 15px;
+							}
+						}
 					}
 				}
 				ul.footerSocial{
 					a{
 						margin:0 1px;
 						display: inline-block;
+						vertical-align: top;
 						img.socialIcon{
 							width: 34px;
-							height: 36px;
+							height: 34px;
 							background-image: url('/static/images/social_icons.png');
-							background-position: -1px -42px;
+							background-position: -1px -44px;
+							vertical-align: top;
 						}
 						img.facebook{
-							background-position: -1px -42px;
+							background-position: -1px -44px;
 						}
 						img.gPlus{
-							background-position: -37px -42px;
+							background-position: -37px -44px;
 						}
 						img.twitter{
-							background-position: -73px -42px;
+							background-position: -73px -44px;
 						}
 						img.pinterest{
-							background-position: -109px -42px;
+							background-position: -109px -44px;
 						}
 						img.tumbler{
-							background-position: -145px -42px;
+							background-position: -145px -44px;
 						}
 						img.youtube{
-							background-position: -181px -42px;
+							background-position: -181px -44px;
 						}
 						img.instagram{
-							background-position: -216px -42px;
+							background-position: -216px -44px;
 						}
 					}
 					a:hover{
 						img.facebook{
-							background-position: -1px -1px;
+							background-position: -1px -3px;
 						}
 						img.gPlus{
-							background-position: -37px -1px;
+							background-position: -37px -3px;
 						}
 						img.twitter{
-							background-position: -73px -1px;
+							background-position: -73px -3px;
 						}
 						img.pinterest{
-							background-position: -109px -1px;
+							background-position: -109px -3px;
 						}
 						img.tumbler{
-							background-position: -145px -1px;
+							background-position: -145px -3px;
 						}
 						img.youtube{
-							background-position: -181px -1px;
+							background-position: -181px -3px;
 						}
 						img.instagram{
-							background-position: -216px -1px;
+							background-position: -216px -3px;
 						}
 					}
 				}
@@ -320,13 +348,25 @@ ul.simpleDropdown li{
 	img.arrowUp{
 		background-position: 0 -10px;
 	}
-	img.arrowRight{
-		background-position: -10px -20px;
-	}
 	img.arrowDown{
 		background-position: 0 0;
 	}
+	img.arrowUp.dark{
+		background-position: 0 -30px;
+	}
+	img.arrowDown.dark{
+		background-position: 0 -20px;
+	}
+	img.arrowRight{
+		background-position: -10px 0;
+	}
 	img.arrowLeft{
+		background-position: -10px -10px;
+	}
+	img.arrowRight.dark{
+		background-position: -10px -20px;
+	}
+	img.arrowLeft.dark{
 		background-position: -10px -30px;
 	}
 }

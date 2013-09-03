@@ -1,44 +1,39 @@
 {% load i18n idecorate_interface static%}
 <div class="footerNavigation">
-	<ul class="footerMenu">
-		<li><a class="btn" href="#">Design &amp; Buy</a></li>
-		<li><a class="btn" href="#">General</a></li>
-		<li><a class="btn" href="#">Legal Info</a></li>
-		<li><a class="btn" href="#">My Account</a></li>
-	</ul>
+	{{ "footer"|getInterfaceMenus:request }}
 	<ul class="footerSocial">
 		<li>
-			<a href="#">
+			<a href="https://www.facebook.com/iDecorateweddings">
 				<img class="socialIcon facebook" alt="Facebook" src="{% static 'images/img_trans.gif' %}">
 			</a>
 		</li>
 		<li>
-			<a href="#">
+			<a href="https://plus.google.com/u/0/b/102988558748577004242/102988558748577004242/posts">
 				<img class="socialIcon gPlus" alt="Google Plus" src="{% static 'images/img_trans.gif' %}">
 			</a>
 		</li>
 		<li>
-			<a href="#">
+			<a href="https://twitter.com/idecorateltd">
 				<img class="socialIcon twitter" alt="Twitter" src="{% static 'images/img_trans.gif' %}">
 			</a>
 		</li>
 		<li>
-			<a href="#">
+			<a href="http://pinterest.com/idecorateltd/">
 				<img class="socialIcon pinterest" alt="Pinterest" src="{% static 'images/img_trans.gif' %}">
 			</a>
 		</li>
 		<li>
-			<a href="#">
+			<a href="http://idecorateltd.tumblr.com/">
 				<img class="socialIcon tumbler" alt="Tumbler" src="{% static 'images/img_trans.gif' %}">
 			</a>
 		</li>
 		<li>
-			<a href="#">
+			<a href="http://www.youtube.com/idecorateweddings">
 				<img class="socialIcon youtube" alt="Youtube" src="{% static 'images/img_trans.gif' %}">
 			</a>
 		</li>
 		<li>
-			<a href="#">
+			<a href="http://web.stagram.com/n/idecorateweddings/">
 				<img class="socialIcon instagram" alt="Instagram" src="{% static 'images/img_trans.gif' %}">
 			</a>
 		</li>

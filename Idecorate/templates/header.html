@@ -2,13 +2,13 @@
 <header id="header" class="header">
 	<div class="headerRow">
 		<div class="headerColumn info">
-			{{ "info"|getInterfaceMenus:request.path }}
+			{{ "info"|getInterfaceMenus:request }}
 		</div>
 		<div class="headerColumn logo">
 			<a href="/"><img src="{% static 'images/logo.png' %}"></a>
 		</div>
 		<div class="headerColumn user">
-			{{ "site"|getInterfaceMenus:request.path }}
+			{{ "site"|getInterfaceMenus:request }}
 		</div>
 		<a id="news_letter" href="#">subscribe to our newsletter <img class="arrowRight" alt="arrow right" src="{% static 'images/img_trans.gif' %}"></a>
 	</div>

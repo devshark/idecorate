@@ -402,7 +402,7 @@ def menuItemInterface(item_menu,is_sub=False):
         return menus
 
 
-def menuInterfaceRecursion(menus, activate_url):
+def menuInterfaceRecursion(menus, activate_url, isLoggedIn):
 
         element = ""
         link = ""
@@ -414,7 +414,7 @@ def menuInterfaceRecursion(menus, activate_url):
 
                 if needToOpen:
 
-                    element += '<ul class="menu iDdropdown %s">' % menu.__class__.__name__
+                    element += '<ul class="menu %s %s">' % ('iDdropdown' if menu.__class__.__name__ != "FooterMenu" else '', menu.__class__.__name__)
                     needToOpen = False
             else:
 
@@ -426,20 +426,41 @@ def menuInterfaceRecursion(menus, activate_url):
             active = "active" if str(menu.link) == str(activate_url) else "inActive"
 
             link = '<a class="%s" href="%s">%s</a>' % (active, menu.link, menu.name) #if menu.link else '<a href="#">%s</a>' % menu.name
+            
+            if menu.__class__.__name__ == "FooterMenu" and menu.parent is None:
+                
+                link = '<a class="btn %s" href="%s">%s</a>' % (active, menu.link, menu.name) #if menu.link else '<a href="#">%s</a>' % menu.name
+           
             element += '<li>%s' % (link)
             sub_menus = menu.__class__.objects.filter(parent__id=menu.id,deleted=False).order_by('order')
-            element += menuInterfaceRecursion(sub_menus,activate_url)
+            element += menuInterfaceRecursion(sub_menus,activate_url, isLoggedIn)
             element +='</li>'
 
         if needToOpen == False:
 
             if menu.parent is None:
 
+                myAccountMenu = ""
+
+                if isLoggedIn:
+
+                    myAccountMenu = '<ul class="myAccountMenu">'
+                    myAccountMenu += '<li><a href="%s">saved styleboard</a>' % reverse('profile')
+                    myAccountMenu += '<li><a href="%s">saved images</a>' % reverse('saved_images')
+                    myAccountMenu += '<li><a href="%s">orders</a>' % reverse('orders')
+                    myAccountMenu += '<li><a href="%s">invite friends</a>' % reverse('invite_friends')
+                    myAccountMenu += '<li><a href="%s">edit profile</a>' % reverse('edit_profile')
+                    myAccountMenu += '<li><a href="%s">logout</a>' % reverse('logout')
+                    myAccountMenu += '</ul>'
+
                 if menu.__class__.__name__ == "SiteMenu":
 
-                    element+= '<li><a id="my_account" href="%s">my account</a></li>' % reverse('profile')
+                    element+= '<li><a id="%s_account_header" href="%s">my account</a>%s</li>' % ('login' if not isLoggedIn else '', reverse('profile'), myAccountMenu)
                     element+= '<li><a id="my_order" href="%s">my order</a><div id="cart_frame"></div></li>' % reverse('cart')
                 
+                if menu.__class__.__name__ == "FooterMenu":
+
+                    element+= '<li><a id="%s_account_footer" class="btn" href="%s">my account</a>%s</li>' % ('login' if not isLoggedIn else '', reverse('profile'), myAccountMenu)
 
             element += '</ul>'
 
@@ -447,12 +468,22 @@ def menuInterfaceRecursion(menus, activate_url):
 
 
 @register.filter
-def getInterfaceMenus(menuType, current_url):
+def getInterfaceMenus(menuType, request):
 
-    modelMenu = InfoMenu if menuType == "info" else SiteMenu
+    current_url = request.path
+    isLoggedIn = request.user.is_authenticated()
+
+    print isLoggedIn
+    menuTypes = {
+        'info' : InfoMenu,
+        'site' : SiteMenu,
+        'footer': FooterMenu
+    }
+
+    modelMenu = menuTypes[menuType]
     menus = modelMenu.objects.filter(parent=None,deleted=False).order_by('order')
 
-    return menuInterfaceRecursion(menus,current_url)
+    return menuInterfaceRecursion(menus,current_url, isLoggedIn)
 
 
 @register.filter
