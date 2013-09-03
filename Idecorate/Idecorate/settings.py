@@ -451,6 +451,9 @@ LOGGING = {
 
 #INTERNAL_IPS = ('127.0.0.1',)
 
+PRODUCT_HOME_NUM_RECORDS    = 20
+STYLEBOARD_HOME_NUM_RECORDS = 10
+
 try:
     from localsettings import *
 except:

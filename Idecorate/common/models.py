@@ -33,3 +33,10 @@ class HelpTopic(models.Model):
 
     class Meta:
         db_table = 'common_help_topics'
+
+
+class NewsletterSubscriber(models.Model):
+    email = models.EmailField(unique=True)
+
+    class Meta:
+        db_table = 'common_newsletter_subscribers'

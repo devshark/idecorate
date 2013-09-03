@@ -50,6 +50,7 @@ from django.core.exceptions import ValidationError
 import logging
 logr = logging.getLogger(__name__)
 
+
 def home(request):
     info = {}
     items = get_home_banners()
@@ -62,19 +63,20 @@ def home(request):
     
     info['lists'] = lists
 
-    page = request.GET.get('page')
+    page = request.GET.get('page', 1)
+    info['page'] = page
 
     if page:
-        product_list = Product.objects.all()[(page-1)*20:20]
-        styleboard_list = CustomerStyleBoard.objects.all()[(page-1)*10:10]
+        product_list = Product.objects.all()[(page-1)*settings.PRODUCT_HOME_NUM_RECORDS:settings.PRODUCT_HOME_NUM_RECORDS]
+        styleboard_list = CustomerStyleBoard.objects.all()[(page-1)*settings.STYLEBOARD_HOME_NUM_RECORDS:settings.STYLEBOARD_HOME_NUM_RECORDS]
     else:
-        product_list = Product.objects.all()[:20]
-        styleboard_list = CustomerStyleBoard.objects.all()[:10]
+        product_list = Product.objects.all()[:settings.PRODUCT_HOME_NUM_RECORDS]
+        styleboard_list = CustomerStyleBoard.objects.all()[:settings.STYLEBOARD_HOME_NUM_RECORDS]
 
     query_list = list(product_list) + list(styleboard_list)
     random.shuffle(query_list)
 
-    paginator = Paginator(query_list, 15)
+    paginator = Paginator(query_list, settings.PRODUCT_HOME_NUM_RECORDS + settings.STYLEBOARD_HOME_NUM_RECORDS)
     
     try:
         info['products'] = paginator.page(page)
@@ -87,6 +89,45 @@ def home(request):
         pass
 
     return render_to_response('interface/home.html',info,RequestContext(request))
+
+ 
+@csrf_exempt
+def load_products_ajax(request):
+    html = ''
+    if request.method == 'POST':
+        page = request.POST.get('page')
+        if page:
+            product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
+            product_list = Product.objects.all()[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset] 
+            styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
+            styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]                        
+        else:
+            product_list = Product.objects.all()[:settings.PRODUCT_HOME_NUM_RECORDS]
+            styleboard_list = CustomerStyleBoard.objects.all()[:settings.STYLEBOARD_HOME_NUM_RECORDS]            
+
+        products = list(product_list) + list(styleboard_list)
+        random.shuffle(products)
+
+        for product in products:
+            if product._meta.object_name == 'CustomerStyleBoard':
+                html += '<div class="itemWrap double styleboards">'
+                html += '<img class="nonProducts" src="/styleboard/generate_styleboard_view/%s/490/310/"/>' % (product.pk)
+                html += '<h2>%s</h2>' % (product.styleboard_item.name)
+                html += '<p>%s</p>' % (product.styleboard_item.description)
+                html += '</div>'
+            elif product._meta.object_name == 'Product':
+                html += '<div class="itemWrap single products" >'
+                html += '<img src="/media/products/%s"/>' % (product.original_image)
+                html += '<h2>%s</h2>' % product.name
+                html += '<p>$%.2f</p>' % getProductPrice(product)
+                html += '</div>'
+    return HttpResponse(html)
+
+
+def getProductPrice(product):
+    price = ProductPrice.objects.get(product=product)
+    return price._unit_price
+
 
 @csrf_exempt
 def styleboard(request, cat_id=None):   
