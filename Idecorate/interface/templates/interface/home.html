@@ -112,16 +112,21 @@
 	<script type="text/javascript">
 
 	var page = {{ page }};
+	var keywords = null;
 	
 	function loadMoreResults() {
 		orig_page = page;
 		page++;
 		$.ajax({
 			url:'{% url load_products_ajax %}',
-			data:{'page':page},
+			data:{'page':page,
+					'keywords':keywords},
 			type:'POST',
 			success:function(data) {
 				$('#items_wrapper').isotope('insert',$(data));
+				if(keywords!=null) {
+					$('#items_wrapper').isotope('reloadItems');
+				}
 			},
 			error:function() {
 				page = orig_page;
@@ -135,5 +140,13 @@
 		}
 	});
 	
+	$('.searchBtn').click(function() {		
+		$('#items_wrapper').children().remove();
+		$('#items_wrapper').isotope('destroy');
+		$('#items_wrapper').isotope();
+		keywords = $('input[name="search"]').val();
+		page = 0;
+		loadMoreResults();
+	});
 	</script>
 {% endblock %}
