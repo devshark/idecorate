@@ -1,9 +1,9 @@
 $(function() {
 
-    $(window).resize(bannerCentering);
 
     var bannerCentering = function(){
 
+        console.log('test')
         $('#banner_img').css({marginLeft:(($('#banner_img').width()-$('#banner').width())/2)*-1});
 
     };
@@ -18,6 +18,7 @@ $(function() {
       if(this.complete) $(this).load();
 
     });
+    $(window).resize(bannerCentering);
     
 
     var searchBoxTransform = function(){
