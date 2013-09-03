@@ -67,10 +67,12 @@ def home(request):
     info['page'] = page
 
     if page:
-        product_list = Product.objects.all()[(page-1)*settings.PRODUCT_HOME_NUM_RECORDS:settings.PRODUCT_HOME_NUM_RECORDS]
+        product_list = Product.objects.filter(is_deleted=False, 
+                                                is_active=True)[(page-1)*settings.PRODUCT_HOME_NUM_RECORDS:settings.PRODUCT_HOME_NUM_RECORDS]
         styleboard_list = CustomerStyleBoard.objects.all()[(page-1)*settings.STYLEBOARD_HOME_NUM_RECORDS:settings.STYLEBOARD_HOME_NUM_RECORDS]
     else:
-        product_list = Product.objects.all()[:settings.PRODUCT_HOME_NUM_RECORDS]
+        product_list = Product.objects.filter(is_deleted=False, 
+                                                is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
         styleboard_list = CustomerStyleBoard.objects.all()[:settings.STYLEBOARD_HOME_NUM_RECORDS]
 
     query_list = list(product_list) + list(styleboard_list)
@@ -98,11 +100,13 @@ def load_products_ajax(request):
         page = request.POST.get('page')
         if page:
             product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
-            product_list = Product.objects.all()[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset] 
+            product_list = Product.objects.filter(is_deleted=False, 
+                                                    is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset] 
             styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
             styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]                        
         else:
-            product_list = Product.objects.all()[:settings.PRODUCT_HOME_NUM_RECORDS]
+            product_list = Product.objects.filter(is_deleted=False, 
+                                                    is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
             styleboard_list = CustomerStyleBoard.objects.all()[:settings.STYLEBOARD_HOME_NUM_RECORDS]            
 
         products = list(product_list) + list(styleboard_list)
