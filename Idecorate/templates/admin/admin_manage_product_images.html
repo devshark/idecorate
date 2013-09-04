@@ -93,7 +93,7 @@
             <td>{{ image.is_default_image }}</td>
             <td>
               <a href="{% url admin_edit_product_alternate_image product.id image.id %}">Edit</a> | 
-              <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_manage_product_images image.id %}?action=del&id={{ image.pk }}')">Delete</a>
+              <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_manage_product_images product.id %}?action=del&id={{ image.pk }}')">Delete</a>
             </td>
           </tr>
           {% endfor %}

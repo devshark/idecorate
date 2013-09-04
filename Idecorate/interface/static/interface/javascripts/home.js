@@ -92,6 +92,13 @@ $(function() {
 
             var selector = $(this).attr('data-filter');
             $(this).addClass('active').parent().siblings().children('a').removeClass('active');
+
+            if(keywords != null) {
+                keywords = null;
+                page = 0;
+                loadMoreResults();                
+            }
+
             $container.isotope('reloadItems');
             $container.isotope({ filter: selector });
 
@@ -119,6 +126,7 @@ $(function() {
             keywords = $('#search_input').val();
             page = 0;
             loadMoreResults();
+            $container.isotope({filter: '*'});
             $container.isotope('reloadItems');
 
         }
