@@ -128,7 +128,7 @@ $(function() {
     $('#search_input').keypress(function(e){ searchItems(e); })
     $('.searchBtn').click(function(e){  searchItems(e); });
 
-    $('.itemWrap.products').live('hover', function(e){
+    $('.itemWrap:not(.wishlist)').live('hover', function(e){
 
         (e.type == 'mouseenter')? $('.operationWrap', this).stop(true, true).show(100) : $('.operationWrap', this).stop(true, true).hide();
 

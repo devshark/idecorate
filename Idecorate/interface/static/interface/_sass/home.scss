@@ -60,7 +60,7 @@ body{
 			}
 		}
 		.operationWrap{
-
+			display: block !important;
 			position: absolute;
 			left: 0;
 			bottom: -25px;
@@ -340,6 +340,32 @@ body{
 				width: 490px;
 				img{
 					max-height: 310px !important;
+				}
+
+				.operationWrap{
+					text-align: center;
+					width: 100%;
+					margin: 0;
+					a{
+						vertical-align: bottom;
+						h3{
+							font-size: 14px;
+							line-height: 14px;
+						}
+						h4{
+							font-size: 12px;
+							line-height: 12px;
+						}
+					}
+					.sendToStyleboard{
+						margin-bottom: 0;
+						margin-right: 3px;
+						padding-top: 5px !important;
+						padding-bottom: 5px !important;
+						img{
+							height: 30px;
+						}
+					}
 				}
 			}			
 		}

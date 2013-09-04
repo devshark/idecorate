@@ -130,6 +130,17 @@ def load_products_ajax(request):
                 html += '<img class="nonProducts" src="/styleboard/generate_styleboard_view/%s/490/310/"/>' % (product.pk)
                 html += '<h2>%s</h2>' % (product.styleboard_item.name)
                 html += '<p>%s</p>' % (product.styleboard_item.description)
+                html += """
+                    <div class="operationWrap">
+                        <a href="#" product-data="%s" class="btn sendToStyleboard">
+                            <img src="/static/interface/images/send_to_styleboard_icon.png"/>
+                            <span><h3>send to</h3><h4>styleboard</h4></span>
+                        </a>
+                        <a href="#" class="btn shareProduct">share</a>
+                        <a href="#" class="btn wishListProduct"><h3>add to</h3><h4>wishlist</h4></a>
+                    </div>
+                """ % (product.id)
+                html += '</div>'
                 html += '</div>'
             elif product._meta.object_name == 'Product':
                 html += '<div class="itemWrap single products" >'

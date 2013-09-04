@@ -92,7 +92,7 @@
                     <tr class="headWraptop">
                         <td id="info-menu">
                             <div class="headerColumn clearfix">
-                                {{ "info"|getInterfaceMenus:request.path }}
+                                {{ "info"|getInterfaceMenus:request }}
                             </div>
                             <div class="search clearfix">
                                 <form action="{% url styleboard %}" method="POST">
@@ -111,7 +111,7 @@
                         </td>
                         <td id="site-menu">
                             <div class="headerColumn clearfix">
-                                {{ "site"|getInterfaceMenus:request.path }}
+                                {{ "site"|getInterfaceMenus:request }}
                             </div>
                         </td>
                     </tr>

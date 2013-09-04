@@ -54,6 +54,7 @@ body {
         font-style: italic;
         font-size: 13px; }
     #banner #banner_modal .operationWrap {
+      display: block !important;
       position: absolute;
       left: 0;
       bottom: -25px;
@@ -300,6 +301,25 @@ body {
         width: 490px; }
         #main_content .lineItems #items_wrapper .itemWrap.double img {
           max-height: 310px !important; }
+        #main_content .lineItems #items_wrapper .itemWrap.double .operationWrap {
+          text-align: center;
+          width: 100%;
+          margin: 0; }
+          #main_content .lineItems #items_wrapper .itemWrap.double .operationWrap a {
+            vertical-align: bottom; }
+            #main_content .lineItems #items_wrapper .itemWrap.double .operationWrap a h3 {
+              font-size: 14px;
+              line-height: 14px; }
+            #main_content .lineItems #items_wrapper .itemWrap.double .operationWrap a h4 {
+              font-size: 12px;
+              line-height: 12px; }
+          #main_content .lineItems #items_wrapper .itemWrap.double .operationWrap .sendToStyleboard {
+            margin-bottom: 0;
+            margin-right: 3px;
+            padding-top: 5px !important;
+            padding-bottom: 5px !important; }
+            #main_content .lineItems #items_wrapper .itemWrap.double .operationWrap .sendToStyleboard img {
+              height: 30px; }
 
 .operationWrap {
   display: none;

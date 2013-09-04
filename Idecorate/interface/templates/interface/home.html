@@ -93,6 +93,14 @@
 				<img class="nonProducts" src="/styleboard/generate_styleboard_view/{{product.id}}/490/310/"/>
 				<h2>{{ product.styleboard_item.name }}</h2>
 				<p>{{ product.styleboard_item.description|safe }}</p>
+				<div class="operationWrap">
+					<a href="#" product-data="{{product.id}}" class="btn sendToStyleboard">
+						<img src="{% static 'interface/images/send_to_styleboard_icon.png' %}"/>
+						<span><h3>send to</h3><h4>styleboard</h4></span>
+					</a>
+					<a href="#" class="btn shareProduct">share</a>
+					<a href="#" class="btn wishListProduct"><h3>add to</h3><h4>wishlist</h4></a>
+				</div>
 			</div>
 			{% else %}
 			<div class="itemWrap single {{ product|get_css_obj_classname }}" >
