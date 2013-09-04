@@ -34,7 +34,9 @@ from customer.services import get_user_styleboard, get_styleboard_cart_item, get
 import admin
 from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems 
-from customer.models import CustomerStyleBoard, CustomerProfile, StyleboardInstruction, StyleboardInstructionCookie, StyleboardJsonize #, CustomerFacebookFriends
+from customer.models import (CustomerStyleBoard, CustomerProfile, 
+                                StyleboardInstruction, StyleboardInstructionCookie, 
+                                StyleboardJsonize, WishList) #, CustomerFacebookFriends
 from customer.services import print_styleboard
 from forms import SetPasswordForm, SearchFriendsForm
 from social_auth.models import UserSocialAuth
@@ -1654,3 +1656,42 @@ def set_save_template(request):
     else:
 
         return HttpResponse(0)
+
+
+@csrf_exempt
+def add_wishlist_ajax(request):    
+    response = ''
+    if request.method == 'POST':        
+        
+        object_type = request.POST.get('object_type')
+        object_id   = request.POST.get('object_id')
+        sessionid   = request.session.get('sessionid')
+
+        wishlist = WishList()
+        wishlist.object_type = object_type
+        wishlist.object_id = int(object_id)
+        wishlist.sessionid = sessionid
+
+        tmp_list = None
+
+        if request.user.is_authenticated():
+
+            wishlist.user = request.user
+
+            tmp_list = WishList.objects.filter(user=request.user,
+                                                object_type=object_type,
+                                                object_id=object_id)
+
+        else:
+
+            tmp_list = WishList.objects.filter(sessionid=sessionid,
+                                                object_type=object_type,
+                                                object_id=object_id)
+
+        if tmp_list.count():
+            response = _('Item already exist in your wishlist')
+        else:
+            wishlist.save()
+            response = _('Item added to your wishlist')
+
+    return HttpResponse(unicode(response))
