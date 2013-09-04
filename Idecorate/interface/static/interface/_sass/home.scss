@@ -415,7 +415,7 @@ body{
 		line-height: 30px;
 	}
 	.wishListProduct{
-		width: 96px;
+		width: 96px !important;
 		height: 30px;
 		h3{
 			font-size: 14px;
@@ -459,4 +459,8 @@ body{
       -ms-transition-duration: 0s;
        -o-transition-duration: 0s;
           transition-duration: 0s;
+}
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.operationWrap .wishListProduct {  width: 91px !important; }
 }

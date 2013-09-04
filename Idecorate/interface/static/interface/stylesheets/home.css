@@ -356,7 +356,7 @@ body {
     font-size: 14px;
     line-height: 30px; }
   .operationWrap .wishListProduct {
-    width: 96px;
+    width: 96px !important;
     height: 30px;
     vertical-align: middle; }
     .operationWrap .wishListProduct h3 {
@@ -394,3 +394,7 @@ body {
   -ms-transition-duration: 0s;
   -o-transition-duration: 0s;
   transition-duration: 0s; }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  .operationWrap .wishListProduct {
+    width: 91px !important; } }

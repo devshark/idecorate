@@ -464,3 +464,7 @@ ul.simpleDropdown li{
 		overflow:hidden;
 	}
 }
+
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+	.headerColumn.info, .headerColumn.user{ width: 457px !important; }
+}
