@@ -1688,6 +1688,13 @@ def add_wishlist_ajax(request):
                                                 object_type=object_type,
                                                 object_id=object_id)
 
+            # if user logs in he/she will be given a new session id
+            # to save the wishlist items added before logging in
+            # use this session key to query these items
+            wishlist_session = request.session.get('wishlist_session', False)
+            if not wishlist_session:
+                request.session['wishlist_session'] = sessionid
+
         if tmp_list.count():
             response = _('Item already exist in your wishlist')
         else:
