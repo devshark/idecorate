@@ -136,6 +136,16 @@ def load_products_ajax(request):
                 html += '<img src="/media/products/%s"/>' % (product.original_image)
                 html += '<h2>%s</h2>' % product.name
                 html += '<p>$%.2f</p>' % getProductPrice(product)
+                html += """
+                    <div class="operationWrap">
+                        <a href="#" product-data="%s" class="btn sendToStyleboard">
+                            <img src="/static/interface/images/send_to_styleboard_icon.png"/>
+                            <span><h3>send to</h3><h4>styleboard</h4></span>
+                        </a>
+                        <a href="#" class="btn shareProduct">share</a>
+                        <a href="#" class="btn wishListProduct"><h3>add to</h3><h4>wishlist</h4></a>
+                    </div>
+                """ % (product.id)
                 html += '</div>'
     return HttpResponse(html)
 

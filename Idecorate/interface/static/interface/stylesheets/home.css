@@ -301,6 +301,47 @@ body {
         #main_content .lineItems #items_wrapper .itemWrap.double img {
           max-height: 310px !important; }
 
+.operationWrap {
+  display: none;
+  margin: 0 10px;
+  position: absolute;
+  bottom: 10px;
+  left: 0;
+  font-size: 0; }
+  .operationWrap a {
+    vertical-align: top;
+    font-size: 12px; }
+  .operationWrap .sendToStyleboard {
+    width: 198px;
+    margin-bottom: 3px;
+    padding-top: 10px !important;
+    padding-bottom: 10px !important; }
+    .operationWrap .sendToStyleboard img {
+      display: inline-block;
+      vertical-align: middle; }
+    .operationWrap .sendToStyleboard span {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 5px; }
+      .operationWrap .sendToStyleboard span h3 {
+        font-size: 19px;
+        line-height: 19px; }
+      .operationWrap .sendToStyleboard span h4 {
+        font-size: 12px;
+        line-height: 12px; }
+  .operationWrap .shareProduct {
+    width: 76px;
+    margin-right: 3px;
+    height: 30px;
+    font-size: 14px;
+    line-height: 30px; }
+  .operationWrap .wishListProduct {
+    width: 96px;
+    height: 30px;
+    vertical-align: middle; }
+    .operationWrap .wishListProduct h3 {
+      font-size: 14px; }
+
 .isotope-item {
   z-index: 2; }
 

@@ -347,6 +347,58 @@ body{
 	}
 }
 
+.operationWrap{
+	display: none;
+	margin: 0 10px;
+	position: absolute;
+	bottom:10px;
+	left:0;
+	font-size: 0;
+	a{
+		vertical-align: top;
+		font-size: 12px;
+	}
+	.sendToStyleboard{
+		width: 198px;
+		margin-bottom: 3px;
+		padding-top: 10px !important;
+		padding-bottom: 10px !important;
+		img{
+			display: inline-block;
+			vertical-align: middle;
+		}
+		span{
+			display: inline-block;
+			vertical-align: middle;
+			margin-left: 5px;
+			h3{
+				font-size: 19px;
+				line-height: 19px;
+			}
+			h4{
+				font-size: 12px;
+				line-height: 12px;
+			}
+		}
+	}
+	.shareProduct{
+		width: 76px;
+		margin-right: 3px;
+		height: 30px;
+		font-size: 14px;
+		line-height: 30px;
+	}
+	.wishListProduct{
+		width: 96px;
+		height: 30px;
+		h3{
+			font-size: 14px;
+		}
+		vertical-align: middle;
+
+	}
+}
+
 .isotope-item {
     z-index: 2;
 }
