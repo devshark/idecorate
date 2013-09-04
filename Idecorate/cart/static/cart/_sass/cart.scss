@@ -5,6 +5,7 @@ body{
 	margin:0;
 }
 #content{
+	font-family: $cartoGothicStd_Book;
 	width: 420px;
 	height: 500px;
 	padding: 10px 0;
@@ -37,6 +38,7 @@ body{
 		.multiplierBtn{
 			width: 99%;
 			font-size: 11px;
+			font-family: $cartoGothicStd_Book !important;
 			// @include gradients(#FAFAFA, #EDEDED);
 		}
 		.multiplierBtn:hover{
@@ -60,10 +62,10 @@ body{
 						color:#000000 !important;
 					}
 					.itemColumn{
-						width: 47.5%;
+						width: 50%;
 					}
 					.priceColumn{
-						width: 150px;
+						width: 35%;
 						font-size: 0;
 						span{
 							display: inline-block;
@@ -76,6 +78,7 @@ body{
 						}
 					}
 					.actionColumn{
+						width: 15%;
 						text-align: center;
 						width: 12%;
 						right:0;
@@ -113,8 +116,6 @@ body{
 					}
 				}
 				td.calculatorWrap{
-					position:relative;
-					padding-bottom: 30px;
 					.subtotalCalculator{
 						font-size: 0;
 						span{
@@ -138,20 +139,24 @@ body{
 						}
 					}
 					.subtotalWrap{
-						bottom:0;
-						right:1px;
-						position:absolute;
-						background-color:#eceae1;
-						height: 25px;
-						line-height: 25px;
+						background-color:#EEEEEE;
+						padding: 6px 0;
 						color:#000000;
-						vertical-align: baseline;
-						width: 80%;
-						margin: 0 auto;
+						width: 100%;
+						margin: 5px auto -6px;
 						span{
-							margin: 0;
-							vertical-align: baseline;
+							vertical-align: bottom;
+							display: inline-block;
+							line-height: 12px;
+							margin:0;
 						}
+					}
+				}
+				td.operationWrap{
+					vertical-align:top;
+					a{
+						display: inline-block;
+						margin-top:5px;
 					}
 				}
 			}
@@ -159,7 +164,10 @@ body{
 	}
 	.totalWrap{
 		.fieldsetContent{
-			font-size: 18px;
+			padding:7px 0 0;
+			font-size: 20px;
+			line-height: 1em;
+			font-family: $PTserif;
 		}
 	}
 	.formWrap{
@@ -171,12 +179,17 @@ body{
 
 		.submitBtn{	
 			// @include gradients(#FAFAFA, #EDEDED);
-			padding: 2px 20px 4px;
+			margin-top: 10px;
+			padding: 5px 20px  !important;
 			font-family: $PTserif;
 			font-size: 12px;
-			span{
-				display: block;
+			h4{
+				font-size: 13px;
+				line-height: 13px !important;
+			}
+			h3{
 				font-size: 15px;
+				line-height: 15px !important;
 			}
 		}
 

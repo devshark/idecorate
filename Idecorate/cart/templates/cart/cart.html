@@ -85,7 +85,8 @@
                                         </span>
                                     </div>
                                     <div class="subtotalWrap">
-                                        subtotal: <span class="subtotal">$00.00</span>
+                                        <span>subtotal: $</span><span class="subtotal">00.00</span>
+                                        
                                     </div>
                                 </td>
                                 <td class="operationWrap"><a class="removeItem" href="#">remove</a></td>
@@ -101,7 +102,7 @@
             <div class="formWrap">
                 <form action="{% url checkout %}" id="cart_form" method="POST">
                     {% csrf_token %}
-                    <a href="#" id="cart_submit" class="btn submitBtn cartSubmitBtn">go to <span>checkout</span></a>
+                    <a href="#" id="cart_submit" class="btn submitBtn cartSubmitBtn"><h4>go to</h4><h3>checkout</h3></a>
                 </form>
             </div>
         </div>
