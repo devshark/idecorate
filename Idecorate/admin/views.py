@@ -829,6 +829,7 @@ def admin_upload_product_image(request):
             else:
                 splittedName = getExtensionAndFileName(uploaded.name)
                 newFileName = "%s-%s%s" % (splittedName[0],datetime.now().strftime('%b-%d-%I%M%s%p-%G'),splittedName[1])
+                newFileName = newFileName.replace(' ', '_')
 
                 destination = open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", newFileName), 'wb+')
                 for chunk in uploaded.chunks():
@@ -3341,7 +3342,10 @@ def admin_add_product_alternate_image(request, product_id):
             imgSizeProduct = (settings.PRODUCT_WIDTH, settings.PRODUCT_HEIGHT)
             splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
             thumbName = "%s%s" % (splittedName[0].replace(' ', '_'), '_thumbnail.jpg')
-            prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.jpg')
+            if splittedName[1][1:] == 'png':
+                prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.png')
+            else:
+                prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.jpg')
 
             img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
             img.load()
@@ -3452,7 +3456,10 @@ def admin_edit_product_alternate_image(request, product_id, alternate_id):
             imgSizeProduct = (settings.PRODUCT_WIDTH, settings.PRODUCT_HEIGHT)
             splittedName = getExtensionAndFileName(form.cleaned_data['original_image'])
             thumbName = "%s%s" % (splittedName[0].replace(' ', '_'), '_thumbnail.jpg')
-            prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.jpg')
+            if splittedName[1][1:] == 'png':
+                prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.png')
+            else:
+                prodName ="%s%s" % (splittedName[0].replace(' ', '_'), '.jpg')
 
             img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/temp/", form.cleaned_data['original_image']))
             img.load()
