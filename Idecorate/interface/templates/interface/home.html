@@ -99,7 +99,7 @@
 						<span><h3>send to</h3><h4>styleboard</h4></span>
 					</a>
 					<a href="#" class="btn shareProduct">share</a>
-					<a href="#" class="btn wishListProduct"><h3>add to</h3><h4>wishlist</h4></a>
+					<a href="javascript: void(0)" class="btn wishListProduct" onclick="addToWishList('{{ product|get_css_obj_classname }}', {{ product.id }})"><h3>add to</h3><h4>wishlist</h4></a>
 				</div>
 			</div>
 			{% else %}
@@ -113,7 +113,7 @@
 						<span><h3>send to</h3><h4>styleboard</h4></span>
 					</a>
 					<a href="#" class="btn shareProduct">share</a>
-					<a href="#" class="btn wishListProduct"><h3>add to</h3><h4>wishlist</h4></a>
+					<a href="javascript: void(0)" class="btn wishListProduct" onclick="addToWishList('{{ product|get_css_obj_classname }}', {{ product.id }})"><h3>add to</h3><h4>wishlist</h4></a>
 				</div>
 			</div>
 			{% endif %}
@@ -130,5 +130,21 @@
 		LOADMOREURL = '{% url load_products_ajax %}';
 	</script>
     <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
-	
+    <script>
+
+    function addToWishList(object_type, object_id) {
+    	$.ajax({
+    		url: '{% url add_wishlist_ajax %}',
+    		type: 'POST',
+    		data: {'object_type':object_type, 'object_id':object_id},
+    		success: function(data) {
+    			console.log(data);
+    		},
+    		error: function() {
+
+    		}
+    	});
+    }
+
+    </script>
 {% endblock %}
