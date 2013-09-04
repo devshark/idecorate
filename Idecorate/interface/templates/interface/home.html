@@ -63,7 +63,7 @@
 				</a>
 			</li>
 			<li>
-				<a data-filter=".wishlist" href="#">
+				<a data-filter=".wishlist" href="#" id="wish_list">
 					<img class="wishlist" src="{% static 'images/img_trans.gif' %}" />
 					<span>wishlist</span>
 				</a>
@@ -128,6 +128,7 @@
 		page = {{ page }};
 		keywords = null;
 		LOADMOREURL = '{% url load_products_ajax %}';
+		wishlist = false;
 	</script>
     <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
     <script>

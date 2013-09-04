@@ -49,9 +49,19 @@ $(function() {
 
         orig_page = page;
         page++;
+
+        options = {
+            'page' : page,
+            'keywords' :keywords
+        }
+
+        if(wishlist) {
+            options['wishlist'] = true;
+        }
+
         $.ajax({
             url: LOADMOREURL,
-            data:{'page':page, 'keywords':keywords},
+            data:options,
             type:'POST',
             success:function(data) {
 
@@ -71,6 +81,7 @@ $(function() {
         });
 
     };
+
 
     var $container = $('#items_wrapper');
     $container.isotope({
@@ -93,14 +104,36 @@ $(function() {
             var selector = $(this).attr('data-filter');
             $(this).addClass('active').parent().siblings().children('a').removeClass('active');
 
-            if(keywords != null) {
+            if($(this).attr('id') == 'wish_list'){                
+                
+                $container.isotope('remove', $container.children());
                 keywords = null;
                 page = 0;
-                loadMoreResults();                
-            }
+                wishlist = true;
+                loadMoreResults();
+                $container.isotope('reloadItems');
 
-            $container.isotope('reloadItems');
-            $container.isotope({ filter: selector });
+            } else {
+
+                if(wishlist) {
+                    wishlist = false;
+                    keywords = null;
+                    page = 0;
+                    loadMoreResults();
+                    $container.isotope('reloadItems');                   
+                }
+
+                if(keywords != null) {
+                    wishlist = false;
+                    keywords = null;
+                    page = 0;
+                    loadMoreResults();                
+                }
+
+                $container.isotope('reloadItems');
+                $container.isotope({ filter: selector });
+
+            }
 
         }
 
@@ -125,8 +158,9 @@ $(function() {
             $container.isotope('remove', $container.children());
             keywords = $('#search_input').val();
             page = 0;
+            wishlist = false;
             loadMoreResults();
-            $container.isotope({filter: '*'});
+            //$container.isotope({filter: '*'});
             $container.isotope('reloadItems');
 
         }

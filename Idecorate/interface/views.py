@@ -101,27 +101,50 @@ def load_products_ajax(request):
     if request.method == 'POST':
         page     = request.POST.get('page')
         keywords = request.POST.get('keywords', False)
-        print (keywords == True), (keywords == False), (keywords == '')
+        wishlist = request.POST.get('wishlist', False)
+        
         if page:
-            if keywords == '':
-                product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
-                product_list = Product.objects.filter(is_deleted=False, 
-                                                        is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset] 
-                styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
-                styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+            product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
+            styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
+
+            if wishlist:
+                wishlist_products = None
+                wishlist_styleboards = None
+                if request.user.is_authenticated():
+                    wishlist_products = WishList.objects.filter(user=request.user,
+                                                                object_type='products').values_list('object_id')
+                    wishlist_styleboards = WishList.objects.filter(user=request.user,
+                                                                    object_type='styleboards').values_list('object_id')
+                else:
+                    sessionid = request.session.get('sessionid')
+                    wishlist_products = WishList.objects.filter(sessionid=sessionid,
+                                                                object_type='products').values_list('object_id')
+                    wishlist_styleboards = WishList.objects.filter(sessionid=sessionid,
+                                                                    object_type='styleboards').values_list('object_id')
+
+                product_list = Product.objects.filter(is_deleted=False,
+                                        is_active=True,
+                                        id__in=wishlist_products)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]
+                styleboard_list = CustomerStyleBoard.objects.filter(id__in=wishlist_styleboards)[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]                  
             else:
-                product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
-                product_list = Product.objects.filter(Q(is_deleted=False), 
-                                                        Q(is_active=True),
-                                                        (Q(name__icontains=keywords) | Q(description__icontains=keywords)))[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]                 
-                styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
-                styleboard_list = CustomerStyleBoard.objects.filter(Q(styleboard_item__deleted=False),
-                                                                    (Q(styleboard_item__name__icontains=keywords) | Q(styleboard_item__description__icontains=keywords))
-                                                                )[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+                if keywords == '':
+                    product_list = Product.objects.filter(is_deleted=False, 
+                                                            is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]                     
+                    styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+                else:
+                    product_list = Product.objects.filter(Q(is_deleted=False), 
+                                                            Q(is_active=True),
+                                                            (Q(name__icontains=keywords) | Q(description__icontains=keywords)))[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]                 
+                    styleboard_list = CustomerStyleBoard.objects.filter(Q(styleboard_item__deleted=False),
+                                                                        (Q(styleboard_item__name__icontains=keywords) | Q(styleboard_item__description__icontains=keywords))
+                                                                    )[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
         else:
-            product_list = Product.objects.filter(is_deleted=False, 
-                                                    is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
-            styleboard_list = CustomerStyleBoard.objects.filter()[:settings.STYLEBOARD_HOME_NUM_RECORDS]            
+            if wishlist:
+                pass
+            else:
+                product_list = Product.objects.filter(is_deleted=False, 
+                                                        is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
+                styleboard_list = CustomerStyleBoard.objects.filter()[:settings.STYLEBOARD_HOME_NUM_RECORDS]            
 
         products = list(product_list) + list(styleboard_list)
         random.shuffle(products)
@@ -141,7 +164,7 @@ def load_products_ajax(request):
                         <a href="#" class="btn shareProduct">share</a>
                         <a href="javascript:void(0)" class="btn wishListProduct" onclick="addToWishList('%s', %s)"><h3>add to</h3><h4>wishlist</h4></a>
                     </div>
-                """ % (product.id, 'styleboards', product.id)
+                """ % (product.id, 'styleboards', product.styleboard_item.id)
                 html += '</div>'
                 html += '</div>'
             elif product._meta.object_name == 'Product':
