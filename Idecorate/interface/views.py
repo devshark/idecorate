@@ -139,9 +139,9 @@ def load_products_ajax(request):
                             <span><h3>send to</h3><h4>styleboard</h4></span>
                         </a>
                         <a href="#" class="btn shareProduct">share</a>
-                        <a href="#" class="btn wishListProduct"><h3>add to</h3><h4>wishlist</h4></a>
+                        <a href="javascript:void(0)" class="btn wishListProduct" onclick="addToWishList('%s', %s)"><h3>add to</h3><h4>wishlist</h4></a>
                     </div>
-                """ % (product.id)
+                """ % (product.id, 'styleboards', product.id)
                 html += '</div>'
                 html += '</div>'
             elif product._meta.object_name == 'Product':
@@ -156,9 +156,9 @@ def load_products_ajax(request):
                             <span><h3>send to</h3><h4>styleboard</h4></span>
                         </a>
                         <a href="#" class="btn shareProduct">share</a>
-                        <a href="#" class="btn wishListProduct"><h3>add to</h3><h4>wishlist</h4></a>
+                        <a href="javascript:void(0)" class="btn wishListProduct" onclick="addToWishList('%s', %s)"><h3>add to</h3><h4>wishlist</h4></a>
                     </div>
-                """ % (product.id)
+                """ % (product.id, 'products', product.id)
                 html += '</div>'
     return HttpResponse(html)
 
@@ -1687,6 +1687,13 @@ def add_wishlist_ajax(request):
             tmp_list = WishList.objects.filter(sessionid=sessionid,
                                                 object_type=object_type,
                                                 object_id=object_id)
+
+            # if user logs in he/she will be given a new session id
+            # to save the wishlist items added before logging in
+            # use this session key to query these items
+            wishlist_session = request.session.get('wishlist_session', False)
+            if not wishlist_session:
+                request.session['wishlist_session'] = sessionid
 
         if tmp_list.count():
             response = _('Item already exist in your wishlist')
