@@ -59,6 +59,10 @@ $(function() {
             options['wishlist'] = true;
         }
 
+        if(celebrity_styleboards) {
+            options['celebrity_styleboards'] = true;
+        }
+
         $.ajax({
             url: LOADMOREURL,
             data:options,
@@ -110,13 +114,25 @@ $(function() {
                 keywords = null;
                 page = 0;
                 wishlist = true;
+                celebrity_styleboards = false;
+                loadMoreResults();
+                $container.isotope('reloadItems');
+
+            } else if($(this).attr('id') == 'celebrity_styleboards') {
+
+                $container.isotope('remove', $container.children());
+                keywords = null;
+                page = 0;
+                wishlist = false;
+                celebrity_styleboards = true;
                 loadMoreResults();
                 $container.isotope('reloadItems');
 
             } else {
 
-                if(wishlist) {
+                if(wishlist || celebrity_styleboards) {
                     wishlist = false;
+                    celebrity_styleboards = false;
                     keywords = null;
                     page = 0;
                     loadMoreResults();
