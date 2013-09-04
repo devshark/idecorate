@@ -462,5 +462,8 @@ body{
 }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
-	.operationWrap .wishListProduct {  width: 91px !important; }
+	.operationWrap{
+		.sendToStyleboard{ width: 192px; }
+		.wishListProduct {  width: 91px !important; }
+	} 
 }
