@@ -1,5 +1,9 @@
 @import url("/static/stylesheets/fontface.css");
 @import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
+body {
+  height: 100%;
+  background-color: #f0efe7 !important; }
+
 #banner {
   position: relative;
   z-index: 1;
@@ -238,6 +242,7 @@
           width: 190px;
           vertical-align: bottom; }
         #main_content .filterBar .searchBoxWrap .searchBox .searchBtn {
+          display: inline-block;
           height: 22px;
           width: 22px;
           vertical-align: bottom;
@@ -319,3 +324,12 @@
   -webkit-transition-property: -webkit-transform, opacity;
   -moz-transition-property: -moz-transform, opacity;
   transition-property: transform, opacity; }
+
+.isotope.no-transition,
+.isotope.no-transition .isotope-item,
+.isotope .isotope-item.no-transition {
+  -webkit-transition-duration: 0s;
+  -moz-transition-duration: 0s;
+  -ms-transition-duration: 0s;
+  -o-transition-duration: 0s;
+  transition-duration: 0s; }

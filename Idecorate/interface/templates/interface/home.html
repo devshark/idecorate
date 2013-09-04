@@ -69,7 +69,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="#">
+				<a href="#" id="search_result">
 					<img class="result" src="{% static 'images/img_trans.gif' %}" />
 					<span>search result</span>
 				</a>
@@ -80,8 +80,8 @@
 				<img src="/static/images/img_trans.gif"/>
 			</a>
 			<div class="searchBox">
-				<input type="text" name="search" placeholder="Products,Styleboards,Keywords"/>
-				<button class="searchBtn"><img src="{% static 'images/img_trans.gif' %}"/></button>
+				<input type="text" name="search" id="search_input" placeholder="Products,Styleboards,Keywords"/>
+				<a class="searchBtn"><img src="{% static 'images/img_trans.gif' %}"/></a>
 			</div>
 		</div>
 	</div>
@@ -116,45 +116,11 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{% static 'interface/javascripts/jquery.isotope.js' %}"></script>
-    <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
-	<script type="text/javascript">
-
-	var page = {{ page }};
-	var keywords = null;
-	
-	function loadMoreResults() {
-		orig_page = page;
-		page++;
-		$.ajax({
-			url:'{% url load_products_ajax %}',
-			data:{'page':page,
-					'keywords':keywords},
-			type:'POST',
-			success:function(data) {
-				$('#items_wrapper').isotope('insert',$(data));
-				if(keywords!=null) {
-					$('#items_wrapper').isotope('reloadItems');
-				}
-			},
-			error:function() {
-				page = orig_page;
-			}
-		});
-	}
-
-	$(window).scroll(function() {
-		if($(window).scrollTop() == $(document).height() - $(window).height()) {
-			loadMoreResults();
-		}
-	});
-	
-	$('.searchBtn').click(function() {		
-		$('#items_wrapper').children().remove();
-		$('#items_wrapper').isotope('destroy');
-		$('#items_wrapper').isotope();
-		keywords = $('input[name="search"]').val();
-		page = 0;
-		loadMoreResults();
-	});
+    <script type="text/javascript">
+		page = {{ page }};
+		keywords = null;
+		LOADMOREURL = '{% url load_products_ajax %}';
 	</script>
+    <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
+	
 {% endblock %}

@@ -75,16 +75,17 @@ html{
 					right: 0;
 					color: #EEEEEE;
 					text-transform:uppercase;
-					vertical-align: top;
 					font-size: $font_size;
 					font-family:$cartoGothicStd_Bold;
 					.arrowRight{
 						width: 10px;
 						height: 10px;
+						margin-bottom: 1px;
+						display: inline-block;
+						vertical-align: middle;
 						background-image: url("/static/images/arrows_sprite.png");
 						background-repeat: no-repeat;
 						background-position: -10px 0;
-						vertical-align: top;
 					}
 				}
 			}

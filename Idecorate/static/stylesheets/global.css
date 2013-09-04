@@ -63,16 +63,17 @@ html {
           right: 0;
           color: #EEEEEE;
           text-transform: uppercase;
-          vertical-align: top;
           font-size: 12px;
           font-family: "cartoGothicStd_Bold"; }
           html body .header .headerRow #news_letter .arrowRight {
             width: 10px;
             height: 10px;
+            margin-bottom: 1px;
+            display: inline-block;
+            vertical-align: middle;
             background-image: url("/static/images/arrows_sprite.png");
             background-repeat: no-repeat;
-            background-position: -10px 0;
-            vertical-align: top; }
+            background-position: -10px 0; }
     html body footer {
       display: none;
       left: 0;

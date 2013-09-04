@@ -44,6 +44,34 @@ $(function() {
     searchBoxTransform();
     $(window).resize(searchBoxTransform);
 
+
+    var loadMoreResults = function() {
+
+        orig_page = page;
+        page++;
+        $.ajax({
+            url: LOADMOREURL,
+            data:{'page':page, 'keywords':keywords},
+            type:'POST',
+            success:function(data) {
+
+                $container.isotope('insert',$(data));
+
+                if(keywords!=null) {
+
+                    $container.isotope('reLayout');
+
+                }
+            },
+            error:function() {
+
+                page = orig_page;
+
+            }
+        });
+
+    };
+
     var $container = $('#items_wrapper');
     $container.isotope({
         filter: '*',    
@@ -58,24 +86,46 @@ $(function() {
         }
     });
  
-    $('.filter li a').click(function(){
-        $(this).addClass('active');
-        $(this).parent().siblings().children('a').removeClass('active')
- 
-        var selector = $(this).attr('data-filter');
-        $container.isotope({
-            filter: selector,  
-            layoutMode : 'masonry',
-            masonry: {
-                columnWidth: 250
-            },
-            animationOptions: {
-                duration: 750,
-                easing: 'linear',
-                queue: false
-            }
-         });
-         return false;
-    }); 
+    $('.filter li a').click(function(e){
+
+        if($(this).attr('id') != 'search_result'){
+
+            var selector = $(this).attr('data-filter');
+            $(this).addClass('active').parent().siblings().children('a').removeClass('active');
+            $container.isotope('reloadItems');
+            $container.isotope({ filter: selector });
+
+        }
+
+        e.preventDefault();
+
+    });
+
+    $(window).scroll(function() {
+
+        if($(window).scrollTop() == $(document).height() - $(window).height()) {
+
+            loadMoreResults();
+
+        }
+    });
+
+    searchItems = function(e){
+
+        if(e.which == 13 || e.type == 'click'){
+
+            $('#search_result').addClass('active').parent().siblings().children('a').removeClass('active');
+            $container.isotope('remove', $container.children());
+            keywords = $('#search_input').val();
+            page = 0;
+            loadMoreResults();
+            $container.isotope('reloadItems');
+
+        }
+
+    };
+    
+    $('#search_input').keypress(function(e){ searchItems(e); })
+    $('.searchBtn').click(function(e){  searchItems(e); });
 
 });
