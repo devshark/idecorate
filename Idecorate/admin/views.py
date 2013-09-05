@@ -3408,6 +3408,13 @@ def admin_add_product_alternate_image(request, product_id):
                                                 no_background=nb_product_name,
                                                 is_default_image=form.cleaned_data.get('is_default_image', False))
             alternate.save()
+
+            if alternate.is_default_image:
+                other_images = ProductAlternateImage.objects.filter(Q(product=main_product),~Q(id=alternate.id))
+                for other_image in other_images:
+                    other_image.is_default_image = False
+                    other_image.save()
+
             messages.success(request, _('Image added to product'))
             return redirect(reverse('admin_manage_product_images', args=[product_id]))
         else:
@@ -3525,6 +3532,12 @@ def admin_edit_product_alternate_image(request, product_id, alternate_id):
 
             instance.is_default_image = form.cleaned_data.get('is_default_image', False)
             instance.save()
+
+            if instance.is_default_image:
+                other_images = ProductAlternateImage.objects.filter(Q(product=instance.product),~Q(id=instance.id))
+                for other_image in other_images:
+                    other_image.is_default_image = False
+                    other_image.save()
 
             messages.success(request, _('Image updated'))
             return redirect(reverse('admin_manage_product_images', args=[product_id]))
