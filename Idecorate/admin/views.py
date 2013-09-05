@@ -48,7 +48,7 @@ import csv
 from django.contrib.flatpages.models import FlatPage
 from django.forms.formsets import formset_factory
 
-from common.models import QuickTip, HelpTopic
+from common.models import QuickTip, HelpTopic, NewsletterSubscriber
 
 @staff_member_required
 def admin(request):
@@ -3658,3 +3658,35 @@ def admin_edit_help_topic(request, topic_id):
         'instance' : instance,
     }
     return render(request, 'admin/admin_add_help_topic.html', context)
+
+
+@staff_member_required
+def admin_manage_newsletter_subscribers(request):
+    subscribers = NewsletterSubscriber.objects.all()
+
+    action = request.GET.get('action', False)
+    pk     = request.GET.get('id', False)
+    if action == 'del':
+        if pk:
+            subscriber = NewsletterSubscriber.objects.get(pk=int(pk))
+            subscriber.delete()
+            messages.success(request, _('Subscriber deleted'))
+            return redirect('admin_manage_newsletter_subscribers')
+
+    context = {
+        'subscribers' : subscribers,
+    }
+    return render(request, 'admin/admin_manage_newsletter_subscribers.html', context)
+
+
+@staff_member_required
+def admin_download_newsletter_subscribers_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="subscribers.csv"'
+    writer = csv.writer(response)
+
+    subscribers = NewsletterSubscriber.objects.all()
+    for subscriber in subscribers:
+        writer.writerow([subscriber.email,])
+
+    return response

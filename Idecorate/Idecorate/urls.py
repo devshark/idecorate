@@ -93,6 +93,8 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_add_product_alternate_image/(?P<product_id>\d+)/$', 'admin_add_product_alternate_image', {}, name='admin_add_product_alternate_image'),
     url(r'^admin/admin_manage_product_images/(?P<product_id>\d+)/$', 'admin_manage_product_images', {}, name='admin_manage_product_images'),
     url(r'^admin/admin_edit_product_alternate_image/(?P<product_id>\d+)/(?P<alternate_id>\d+)/$', 'admin_edit_product_alternate_image', {}, name='admin_edit_product_alternate_image'),
+    url(r'^admin/admin_manage_newsletter_subscribers/$', 'admin_manage_newsletter_subscribers', {}, name='admin_manage_newsletter_subscribers'),
+    url(r'^admin/admin_download_newsletter_subscribers_csv/$', 'admin_download_newsletter_subscribers_csv', {}, name='admin_download_newsletter_subscribers_csv'),
 )
 
 """
