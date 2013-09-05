@@ -47,9 +47,22 @@ html{
 							vertical-align: bottom;
 							ul{
 								display: none;
-								background-color: #EEEEEE;
-								a{
-									color: #333333;
+								background-color: #FFFFFF;
+								border: 1px solid  #000000;
+								left: -5px;
+								li{
+									padding:5px 10px !important;
+									a{
+										color: #333333;
+										font-family:$cartoGothicStd_Book;
+									}
+									a.active{
+										color: #000000;
+										font-family:$cartoGothicStd_Bold;
+									}
+								}
+								li:hover{
+									background-color: #EEEEEE;
 								}
 							}
 						}

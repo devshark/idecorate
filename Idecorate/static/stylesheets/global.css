@@ -45,9 +45,19 @@ html {
               vertical-align: bottom; }
               html body .header .headerRow .headerColumn.info ul li ul, html body .header .headerRow .headerColumn.user ul li ul {
                 display: none;
-                background-color: #EEEEEE; }
-                html body .header .headerRow .headerColumn.info ul li ul a, html body .header .headerRow .headerColumn.user ul li ul a {
-                  color: #333333; }
+                background-color: #FFFFFF;
+                border: 1px solid  #000000;
+                left: -5px; }
+                html body .header .headerRow .headerColumn.info ul li ul li, html body .header .headerRow .headerColumn.user ul li ul li {
+                  padding: 5px 10px !important; }
+                  html body .header .headerRow .headerColumn.info ul li ul li a, html body .header .headerRow .headerColumn.user ul li ul li a {
+                    color: #333333;
+                    font-family: "cartoGothicStd_Book"; }
+                  html body .header .headerRow .headerColumn.info ul li ul li a.active, html body .header .headerRow .headerColumn.user ul li ul li a.active {
+                    color: #000000;
+                    font-family: "cartoGothicStd_Bold"; }
+                html body .header .headerRow .headerColumn.info ul li ul li:hover, html body .header .headerRow .headerColumn.user ul li ul li:hover {
+                  background-color: #EEEEEE; }
           html body .header .headerRow .headerColumn.info a, html body .header .headerRow .headerColumn.user a {
             color: #EEEEEE;
             text-transform: uppercase;
@@ -425,7 +435,7 @@ ul.simpleDropdown li {
   width: 38px;
   height: 150px;
   background-color: #FFFFFF;
-  cursor: default; }
+  cursor: defau; }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   .headerColumn.info, .headerColumn.user {
