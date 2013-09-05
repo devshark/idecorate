@@ -99,9 +99,10 @@ def home(request):
 def load_products_ajax(request):
     html = ''
     if request.method == 'POST':
-        page     = request.POST.get('page')
+        page = request.POST.get('page')
         keywords = request.POST.get('keywords', False)
         wishlist = request.POST.get('wishlist', False)
+        celebrity_styleboards = request.POST.get('celebrity_styleboards', False)
         
         if page:
             product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
@@ -125,11 +126,14 @@ def load_products_ajax(request):
                 product_list = Product.objects.filter(is_deleted=False,
                                         is_active=True,
                                         id__in=wishlist_products)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]
-                styleboard_list = CustomerStyleBoard.objects.filter(id__in=wishlist_styleboards)[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]                  
+                styleboard_list = CustomerStyleBoard.objects.filter(id__in=wishlist_styleboards)[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+            elif celebrity_styleboards:
+                product_list = []
+                styleboard_list = CustomerStyleBoard.objects.filter(active=True)[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
             else:
                 if keywords == '':
                     product_list = Product.objects.filter(is_deleted=False, 
-                                                            is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]                     
+                                                            is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]
                     styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
                 else:
                     product_list = Product.objects.filter(Q(is_deleted=False), 
@@ -140,6 +144,8 @@ def load_products_ajax(request):
                                                                     )[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
         else:
             if wishlist:
+                pass
+            if celebrity_styleboards:
                 pass
             else:
                 product_list = Product.objects.filter(is_deleted=False, 
