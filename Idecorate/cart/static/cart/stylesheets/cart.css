@@ -52,14 +52,16 @@ body {
           width: 50%; }
         #content .orderWrap .fieldsetContent .orderTable thead .priceColumn {
           width: 35%;
-          font-size: 0; }
+          font-size: 0;
+          text-align: right; }
           #content .orderWrap .fieldsetContent .orderTable thead .priceColumn span {
+            text-align: center;
             display: inline-block;
             margin: 0;
-            width: 37.5%;
+            width: 40%;
             font-size: 11px; }
           #content .orderWrap .fieldsetContent .orderTable thead .priceColumn span:first-child {
-            width: 60%; }
+            width: 55%; }
         #content .orderWrap .fieldsetContent .orderTable thead .actionColumn {
           width: 15%;
           text-align: center;
@@ -85,24 +87,24 @@ body {
           width: 57.9%;
           text-align: left;
           vertical-align: top; }
-        #content .orderWrap .fieldsetContent .orderTable td a.removeItem {
-          text-decoration: underline;
-          color: #666666; }
       #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator {
-        font-size: 0; }
+        font-size: 0;
+        text-align: right; }
         #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator span {
           display: inline-block;
           font-size: 11px;
           margin: 0; }
         #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator span.unitPrice {
-          width: 60%;
+          width: 55%;
           color: #000000;
-          font-size: 12px; }
+          font-size: 12px;
+          line-height: 12px;
+          text-align: center; }
         #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator span.qtyController {
           width: 40%; }
           #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalCalculator span.qtyController .inputText {
-            width: 95%;
-            padding: 4px 0 !important;
+            width: 85%;
+            padding: 4px 2px !important;
             text-align: center;
             font-size: 11px; }
       #content .orderWrap .fieldsetContent .orderTable td.calculatorWrap .subtotalWrap {
@@ -118,9 +120,13 @@ body {
           margin: 0; }
       #content .orderWrap .fieldsetContent .orderTable td.operationWrap {
         vertical-align: top; }
-        #content .orderWrap .fieldsetContent .orderTable td.operationWrap a {
+        #content .orderWrap .fieldsetContent .orderTable td.operationWrap a.removeItem {
+          text-decoration: underline;
+          color: #666666;
+          font-size: 10px;
+          line-height: 10px;
           display: inline-block;
-          margin-top: 5px; }
+          margin-top: 8px; }
   #content .totalWrap .fieldsetContent {
     padding: 7px 0 0;
     font-size: 20px;

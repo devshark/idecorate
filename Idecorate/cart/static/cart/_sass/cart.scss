@@ -67,14 +67,16 @@ body{
 					.priceColumn{
 						width: 35%;
 						font-size: 0;
+						text-align: right;
 						span{
+							text-align: center;
 							display: inline-block;
 							margin:0;
-							width: 37.5%;
+							width: 40%;
 							font-size: 11px;
 						}
 						span:first-child{
-							width: 60%;
+							width: 55%;
 						}
 					}
 					.actionColumn{
@@ -110,29 +112,28 @@ body{
 						text-align: left;
 						vertical-align: top;
 					}
-					a.removeItem{
-						text-decoration: underline;
-						color:#666666;
-					}
 				}
 				td.calculatorWrap{
 					.subtotalCalculator{
 						font-size: 0;
+						text-align: right;
 						span{
 							display: inline-block;
 							font-size: 11px;
 							margin:0;
 						}
 						span.unitPrice{
-							width: 60%;
+							width: 55%;
 							color:#000000;
 							font-size: 12px;
+							line-height: 12px;
+							text-align: center;
 						}
 						span.qtyController{
 							width: 40%;
 							.inputText{
-								width: 95%;
-								padding: 4px 0 !important;
+								width: 85%;
+								padding: 4px 2px !important;
 								text-align: center;
 								font-size: 11px;
 							}
@@ -154,9 +155,13 @@ body{
 				}
 				td.operationWrap{
 					vertical-align:top;
-					a{
+					a.removeItem{
+						text-decoration: underline;
+						color:#666666;
+						font-size: 10px;
+						line-height: 10px;
 						display: inline-block;
-						margin-top:5px;
+						margin-top:8px;
 					}
 				}
 			}
