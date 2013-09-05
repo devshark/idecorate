@@ -86,6 +86,13 @@ $(function() {
 
     };
 
+    var resetVars = function() {
+        page = 0;
+        keywords = null;
+        wishlist = false;
+        celebrity_styleboards = false;
+    }
+
 
     var $container = $('#items_wrapper');
     $container.isotope({
@@ -111,19 +118,15 @@ $(function() {
             if($(this).attr('id') == 'wish_list'){                
                 
                 $container.isotope('remove', $container.children());
-                keywords = null;
-                page = 0;
-                wishlist = true;
-                celebrity_styleboards = false;
+                resetVars();
+                wishlist = true;                
                 loadMoreResults();
                 $container.isotope('reloadItems');
 
             } else if($(this).attr('id') == 'celebrity_styleboards') {
 
                 $container.isotope('remove', $container.children());
-                keywords = null;
-                page = 0;
-                wishlist = false;
+                resetVars();
                 celebrity_styleboards = true;
                 loadMoreResults();
                 $container.isotope('reloadItems');
@@ -131,18 +134,13 @@ $(function() {
             } else {
 
                 if(wishlist || celebrity_styleboards) {
-                    wishlist = false;
-                    celebrity_styleboards = false;
-                    keywords = null;
-                    page = 0;
+                    resetVars();
                     loadMoreResults();
                     $container.isotope('reloadItems');                   
                 }
 
                 if(keywords != null) {
-                    wishlist = false;
-                    keywords = null;
-                    page = 0;
+                    resetVars();
                     loadMoreResults();                
                 }
 
@@ -172,9 +170,8 @@ $(function() {
 
             $('#search_result').addClass('active').parent().siblings().children('a').removeClass('active');
             $container.isotope('remove', $container.children());
+            resetVars();
             keywords = $('#search_input').val();
-            page = 0;
-            wishlist = false;
             loadMoreResults();
             //$container.isotope({filter: '*'});
             $container.isotope('reloadItems');
