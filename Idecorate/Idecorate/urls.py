@@ -143,3 +143,14 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_add_help_topic/$', 'admin_add_help_topic', {}, name='admin_add_help_topic'),
     url(r'^admin/admin_edit_help_topic/(?P<topic_id>\d+)/$', 'admin_edit_help_topic', {}, name='admin_edit_help_topic'),
 )
+
+
+"""
+NEWSLETTER TEMPLATES 
+"""
+urlpatterns += patterns('admin.views',
+    url(r'^admin/admin_manage_newsletter_templates/$', 'admin_manage_newsletter_templates', {}, name='admin_manage_newsletter_templates'),
+    url(r'^admin/admin_add_newsletter_template/$', 'admin_add_newsletter_template', {}, name='admin_add_newsletter_template'),
+    url(r'^admin/admin_edit_newsletter_template/(?P<template_id>\d+)/$', 'admin_edit_newsletter_template', {}, name='admin_edit_newsletter_template'),    
+    url(r'^admin/admin_upload_image/$', 'admin_upload_image', {}, name='admin_upload_image'),
+)

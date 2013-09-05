@@ -48,7 +48,9 @@ import csv
 from django.contrib.flatpages.models import FlatPage
 from django.forms.formsets import formset_factory
 
-from common.models import QuickTip, HelpTopic, NewsletterSubscriber
+from common.models import (QuickTip, HelpTopic, NewsletterSubscriber, 
+                            NewsletterTemplate, UploadedImage)
+from common.forms import NewsletterSubscriberForm, NewsletterTemplateForm
 
 @staff_member_required
 def admin(request):
@@ -3703,3 +3705,114 @@ def admin_download_newsletter_subscribers_csv(request):
         writer.writerow([subscriber.email,])
 
     return response
+
+
+@staff_member_required
+def admin_manage_newsletter_templates(request):
+    templates = NewsletterTemplate.objects.filter()
+
+    action = request.GET.get('action', False)
+    pk     = request.GET.get('id', False)
+    if action == 'del':
+        if pk:
+            _hard_delete_record(request,
+                                NewsletterTemplate,
+                                int(pk),
+                                _('Newsletter template deleted'),
+                                'admin_manage_newsletter_templates')            
+    context = {
+        'templates' : templates,
+    }
+    return render(request, 'admin/admin_manage_newsletter_templates.html', context)
+
+
+@staff_member_required
+def admin_add_newsletter_template(request):
+    uploaded_images = UploadedImage.objects.all()
+
+    if request.method == 'POST':
+        form = NewsletterTemplateForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Newsletter template saved'))
+            return redirect('admin_manage_newsletter_templates')
+    else:
+        form = NewsletterTemplateForm()
+
+    context = {
+        'form'            : form,
+        'uploaded_images' : uploaded_images,
+    }
+    return render(request, 'admin/admin_add_newsletter_template.html', context)
+
+
+@staff_member_required
+def admin_edit_newsletter_template(request, template_id):
+    uploaded_images = UploadedImage.objects.all()
+
+    instance = get_object_or_404(NewsletterTemplate, pk=int(template_id))
+    if request.method == 'POST':
+        form = NewsletterTemplateForm(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            messages.success(request, _('Newsletter template updated'))
+            return redirect('admin_manage_newsletter_templates')
+    else:
+        form = NewsletterTemplateForm(instance=instance)
+
+    context = {
+        'form'            : form,
+        'instance'        : instance,
+        'uploaded_images' : uploaded_images,
+    }
+    return render(request, 'admin/admin_add_newsletter_template.html', context)
+
+
+def _hard_delete_record(request, model, id, msg, redirect_to):
+    instance = model.objects.get(id=id)
+    instance.delete()
+    messages.success(request, msg)
+    return redirect(redirect_to)
+
+
+@csrf_exempt
+def admin_upload_image(request):
+
+    if request.method == "POST":
+
+        uploaded = request.FILES['image']
+        content_type = uploaded.content_type.split('/')[0]
+
+        #print "The content type is: %s" % (uploaded.content_type)
+
+        if content_type in settings.CONTENT_TYPES:
+            if int(uploaded.size) > int(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE):
+                return HttpResponse(_('notok:Please keep filesize under %s. Current filesize %s').encode('utf-8') % (filesizeformat(settings.MAX_UPLOAD_PRODUCT_IMAGE_SIZE), filesizeformat(uploaded.size)))
+            else:
+                splittedName = getExtensionAndFileName(uploaded.name)
+                newFileName = "%s-%s%s" % (splittedName[0],datetime.now().strftime('%b-%d-%I%M%s%p-%G'),splittedName[1])
+                newFileName = newFileName.replace(' ', '_')
+
+                destination = open("%s%s%s" % (settings.MEDIA_ROOT, "uploads/", newFileName), 'wb+')
+                for chunk in uploaded.chunks():
+                    destination.write(chunk)
+
+                destination.close()
+
+                if uploaded.content_type == "image/tiff" or uploaded.content_type == "image/pjpeg" or uploaded.content_type == "image/jpeg":
+                    img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "uploads/", newFileName))
+
+                    splittedName = getExtensionAndFileName(newFileName)
+                    try:
+                        os.unlink("%s%s%s" % (settings.MEDIA_ROOT, "uploads/", newFileName))
+                    except:
+                        pass
+                    newFileName = "%s%s" % (splittedName[0], ".jpg")
+                    img.save("%s%s%s" % (settings.MEDIA_ROOT, "uploads/", newFileName))
+
+                uploaded = UploadedImage(name=newFileName)
+                uploaded.save()
+
+                return HttpResponse('ok:%s' % newFileName)
+        else:
+            return HttpResponse(_('notok:File type is not supported').encode('utf-8'))

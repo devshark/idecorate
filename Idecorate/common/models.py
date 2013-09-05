@@ -40,3 +40,19 @@ class NewsletterSubscriber(models.Model):
 
     class Meta:
         db_table = 'common_newsletter_subscribers'
+
+
+class NewsletterTemplate(models.Model):
+    name    = models.CharField(max_length=255)
+    content = models.TextField()
+
+    class Meta:
+        db_table = 'common_newsletter_templates'
+
+
+class UploadedImage(models.Model):
+    name = models.CharField(max_length=255)
+
+    class Meta:
+        db_table = 'common_uploaded_images'
+

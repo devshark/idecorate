@@ -1,0 +1,247 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin %}
+
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+
+{% block styles %}
+<link href="/media/admin/css/admin.css" rel="stylesheet">
+<link href="/media/admin/css/jquery.checkboxtree.min.css" rel="stylesheet">
+<link runat="server" rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
+<link runat="server" rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<style type="text/css">
+
+  .preview {
+    float: left;
+    width: 100px;
+    height: 100px;
+    border: 2px dotted #CCC;
+    margin-right: 16px;
+  }
+
+  div.preview.loading { 
+    background: url(/media/admin/images/loading.gif) no-repeat 39px 40px; 
+  }
+
+  div.preview.loading img {
+    display: none; 
+  }
+
+  .insert-image-thumb {
+    float:left;
+    width:100px;
+    height:100px;
+    background-color:#eee;
+    margin: 0px 5px;
+    cursor: pointer;
+  }
+
+</style>
+{% endblock %}
+
+{% block content %}
+
+          <div id="myModal1" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">Upload Image</h3>
+            </div>
+            <div class="modal-body">
+              <div class="controls">
+                <div class="preview" id="preview1" style="text-align:center;">
+                  <img id="thumb_original" style="position:relative;max-height:100px;max-width:100px" src="/media/admin/images/bg_transparent.png" alt="" />
+                </div>
+                {{ form.original_image }}
+                <a href="#" id="btn_orginal_image" class="btn btn-primary">{% trans "Browse ..." %}</a>
+                <span class="help-block">{% trans "Accepted files: JPG, PNG, GIF, TIFF. Max filesize 10MB." %}</span>
+                <div id="error_1" style="color:red">&nbsp;</div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button class="btn" id="insert_via_upload" data-dismiss="modal">Insert/Close</button>
+            </div>
+          </div>
+
+          <div id="myModal2" class="modal hide" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <h3 id="myModalLabel">Insert Image</h3>
+            </div>
+            <div class="modal-body">
+              <h6 id="myModalLabel">Click image to insert</h6>
+              {% for uploaded_image in uploaded_images %}
+                <div class="insert-image-thumb" data-dismiss="modal">
+                  <img style="position:relative;max-height:100px;max-width:100px" src="/media/uploads/{{ uploaded_image.name }}" alt="" />
+                </div>
+              {% endfor %}
+            </div>
+            <div class="modal-footer">
+              <button class="btn" data-dismiss="modal">Close</button>
+            </div>
+          </div>
+
+  {% if instance %}
+  <h1>{% trans "Edit Newsletter Template" %}</h1>
+  {% else %}
+	<h1>{% trans "Add Newsletter Template" %}</h1>
+  {% endif %}
+	<div>&nbsp;</div>
+
+      {% if form.errors %}
+
+      <div class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Please correct the following errors:</h4>
+        <ol>
+          {% for e in form.title.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+          {% for e in form.content.errors %}
+            <li>{{ e }}</li>
+          {% endfor %}
+        </ol> 
+      </div>
+
+      {% endif %}
+
+      {% if messages  %}
+
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+
+      {% endif %} 
+
+    <hr />
+      
+
+    <form class="form-horizontal" action="" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="control-group">
+            <label class="control-label">{{ form.name.label }}</label>
+            <div class="controls">
+                {{ form.name }}
+            </div>
+          </div>
+        </div><!--/span-->          
+      </div><!--/row-->
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="control-group">
+            <label class="control-label">{{ form.content.label }}</label>
+            <div class="controls">
+                {{ form.content }}
+            </div>
+          </div>
+        </div><!--/span-->          
+      </div><!--/row-->
+
+      <div class="row-fluid">
+        <div class="span12">
+          <div class="control-group">
+            <div class="controls">
+                <a data-toggle="modal" href="#myModal2"class="insert-image-link">{% trans "Insert Image" %}</a> | 
+                <a data-toggle="modal" href="#myModal1" class="insert-image-link">{% trans "Upload Image" %}</a>
+            </div>
+          </div>
+        </div><!--/span-->  
+      </div><!--/row-->
+
+
+
+      <div class="form-actions" style="text-align:left">
+      	<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+      </div>
+    </form>
+
+{% endblock %}
+{% block javascripts %}
+  <script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
+  <script type="text/javascript" src="/media/admin/js/tiny_mce/tiny_mce.js"></script>
+	<script type="text/javascript">
+    tinyMCE.init({
+            mode : "textareas",
+            theme : "advanced",
+            plugins : "autolink",
+            width: 900,
+            height: 600,
+            remove_script_host : false,
+            convert_urls : false,
+    });  
+
+    var thumb_original = $('img#thumb_original');
+
+    new AjaxUpload('btn_orginal_image', {
+      name: 'image',
+      action: '{% url admin_upload_image %}',
+      onSubmit: function(file, extension) {
+        $('div#preview1').addClass('loading');
+      },
+      onComplete: function(file, response){                        
+
+        var splittedResponse = response.split(':')
+
+        if (splittedResponse[0] == 'notok') {
+          $('#error_1').text(splittedResponse[1]);
+        } else {
+          thumb_original.load(function(){
+
+            if($('#thumb_original').height() < 100) {
+              $('#thumb_original').css('top',((100 - $('#thumb_original').height()) / 2) + 'px');
+            } else {
+              $('#thumb_original').css('top','0px');
+            }
+
+            thumb_original.unbind();
+          });
+
+          thumb_original.attr('src', '/media/uploads/' + splittedResponse[1]);
+          $('#error_1').text('');
+          $('#id_original_image').val(splittedResponse[1]);
+
+        }
+
+        $('div#preview1').removeClass('loading');
+
+      }
+    });
+
+    $( function() {
+      $('#insert_via_upload').click(function() {
+        var img_src = $('#thumb_original').attr('src');
+        placeholder = '/media/admin/images/bg_transparent.png'
+
+        if(img_src != placeholder) {
+          parent.tinyMCE.execInstanceCommand(
+            'id_content',
+            'mceInsertContent',
+            false,        
+            '<img src="' + img_src + '" />'
+          );
+        }
+
+        $('#thumb_original').attr('src', placeholder);
+      });
+
+      $('.insert-image-thumb img').click(function() {
+        var img_src = $(this).attr('src');
+        parent.tinyMCE.execInstanceCommand(
+          'id_content',
+          'mceInsertContent',
+          false,        
+          '<img src="' + img_src + '" />'
+        );
+      });
+    });
+
+	</script >
+{% endblock %}
