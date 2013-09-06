@@ -117,6 +117,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'plata.context_processors.plata_context',
     'social_auth.context_processors.social_auth_by_type_backends',
     'common.context_processors.social_network_settings',
+    'common.context_processors.misc_settings',
 )
 
 MIDDLEWARE_CLASSES = (

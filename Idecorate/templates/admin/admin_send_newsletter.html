@@ -83,11 +83,7 @@
             </div>
           </div>
 
-  {% if instance %}
-  <h1>{% trans "Edit Newsletter Template" %}</h1>
-  {% else %}
-	<h1>{% trans "Add Newsletter Template" %}</h1>
-  {% endif %}
+	<h1>{% trans "Send Newsletter" %}</h1>
 	<div>&nbsp;</div>
 
       {% if form.errors %}
@@ -128,9 +124,9 @@
       <div class="row-fluid">
         <div class="span12">
           <div class="control-group">
-            <label class="control-label">{{ form.name.label }}</label>
+            <label class="control-label">{{ form.subject.label }}</label>
             <div class="controls">
-                {{ form.name }}
+                {{ form.subject }}
             </div>
           </div>
         </div><!--/span-->          
@@ -161,7 +157,7 @@
 
 
       <div class="form-actions" style="text-align:left">
-      	<button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+      	<button type="submit" class="btn btn-primary">{% trans "Send" %}</button>
       </div>
     </form>
 
@@ -177,7 +173,7 @@
             width: 900,
             height: 600,
             remove_script_host : false,
-            convert_urls : false,
+            convert_urls : false
     });  
 
     var thumb_original = $('img#thumb_original');

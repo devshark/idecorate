@@ -10,3 +10,12 @@ def social_network_settings(request):
 	info['FACEBOOK_API_SECRET'] = settings.FACEBOOK_API_SECRET
 
 	return info
+
+
+def misc_settings(request):
+
+	context = {
+		'BASE_URL' : settings.BASE_URL,
+	}
+
+	return context

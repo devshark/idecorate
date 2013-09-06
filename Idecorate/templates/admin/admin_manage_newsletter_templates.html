@@ -90,6 +90,7 @@
           <tr>
             <td>{{ template.name }}</td>
             <td>
+              <a href="{% url admin_send_newsletter template.pk %}">Send</a> | 
               <a href="{% url admin_edit_newsletter_template template.pk %}">Edit</a> | 
               <a data-toggle="modal" href="#myModal1" onclick="setGlobalURL('{% url admin_manage_newsletter_templates %}?action=del&id={{ template.pk }}')">Delete</a>
             </td>

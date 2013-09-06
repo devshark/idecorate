@@ -6,7 +6,7 @@ from django.contrib import messages
 from admin.models import LoginLog, EmbellishmentsType, Embellishments, TextFonts
 from embellishments.models import StyleboardTemplateItems
 from datetime import datetime, timedelta
-from django.template import RequestContext
+from django.template import RequestContext, Context, Template
 from admin.forms import MenuAddForm, FooterCopyRightForm, AddProductForm, SearchProductForm, EditProductForm, EditGuestTableForm, EditCheckoutPage,\
 UploadEmbellishmentForm, UploadFontForm, SearchEmbellishmentForm, EditEmbellishmentForm, SearchFontForm, EditFontForm, SearchUsersForm, EditUsersForm,\
 HomeBannerForm, HomeInfoGraphicForm, ItemMenuForm, filterStyleboardForm, filterOrderForm, editOrderForm, AddUsersForm, FilterTemplateForm, AddSuggestedProductForm,\
@@ -47,10 +47,11 @@ import csv
 #from customer.models import StyleBoardCartItems, CustomerStyleBoard
 from django.contrib.flatpages.models import FlatPage
 from django.forms.formsets import formset_factory
+from django.core.mail import EmailMultiAlternatives
 
 from common.models import (QuickTip, HelpTopic, NewsletterSubscriber, 
                             NewsletterTemplate, UploadedImage)
-from common.forms import NewsletterSubscriberForm, NewsletterTemplateForm
+from common.forms import NewsletterSubscriberForm, NewsletterTemplateForm, EmailNewsletterForm
 
 @staff_member_required
 def admin(request):
@@ -3816,3 +3817,41 @@ def admin_upload_image(request):
                 return HttpResponse('ok:%s' % newFileName)
         else:
             return HttpResponse(_('notok:File type is not supported').encode('utf-8'))
+
+
+@csrf_exempt
+def admin_send_newsletter(request, template_id):
+    template    = get_object_or_404(NewsletterTemplate, pk=int(template_id))
+    subscribers = NewsletterSubscriber.objects.all()
+    uploaded_images = UploadedImage.objects.all()
+
+    recipients = []
+    for recipient in subscribers:
+        recipients.append(recipient.email)
+
+    if request.method == 'POST':
+        form = EmailNewsletterForm(request.POST)
+        if form.is_valid():
+            content = Template(form.cleaned_data.get('content'))
+            subject = form.cleaned_data.get('subject')
+            ctx = Context()
+            email = EmailMultiAlternatives(subject,
+                                            content.render(ctx),
+                                            settings.NEWSLETTER_EMAIL,
+                                            [settings.NEWSLETTER_EMAIL],
+                                            bcc=recipients)
+            email.attach_alternative(content.render(ctx), "text/html")
+            email.send()
+
+            messages.success(request, _('Newsletter sent to subscribers'))
+            return redirect('admin_manage_newsletter_templates')
+            #ctx = Context()
+    else:
+        form = EmailNewsletterForm(initial={'content':template.content})
+
+    context = {
+        'form'            : form,
+        'uploaded_images' : uploaded_images,
+    }
+
+    return render(request, 'admin/admin_send_newsletter.html', context)

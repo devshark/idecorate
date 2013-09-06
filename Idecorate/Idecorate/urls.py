@@ -153,4 +153,5 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_add_newsletter_template/$', 'admin_add_newsletter_template', {}, name='admin_add_newsletter_template'),
     url(r'^admin/admin_edit_newsletter_template/(?P<template_id>\d+)/$', 'admin_edit_newsletter_template', {}, name='admin_edit_newsletter_template'),    
     url(r'^admin/admin_upload_image/$', 'admin_upload_image', {}, name='admin_upload_image'),
+    url(r'^admin/admin_send_newsletter/(?P<template_id>\d+)/$', 'admin_send_newsletter', {}, name='admin_send_newsletter'),    
 )
