@@ -144,7 +144,7 @@ def load_products_ajax(request):
                     product_list = Product.objects.filter(is_deleted=False, 
                                                             is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]
                     styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
-                    inspiration_list = HomeBanners.objects.filter(is_deleted=False)[inspiration_offset:settings.INSPIRATION_NUM_RECORDS]
+                    inspiration_list = HomeBanners.objects.filter(is_deleted=False)[inspiration_offset:settings.INSPIRATION_NUM_RECORDS+inspiration_offset]
                 else:
                     product_list = Product.objects.filter(Q(is_deleted=False), 
                                                             Q(is_active=True),
@@ -152,7 +152,7 @@ def load_products_ajax(request):
                     styleboard_list = CustomerStyleBoard.objects.filter(Q(styleboard_item__deleted=False),
                                                                         (Q(styleboard_item__name__icontains=keywords) | Q(styleboard_item__description__icontains=keywords))
                                                                     )[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
-                    hbi_list = HomeBannerImages.objects.filter(Q(name__icontains=keywords) | Q(description__icontains=keywords)).values_list('id')
+                    hbi_list = HomeBannerImages.objects.filter(Q(name__icontains=keywords) | Q(description__icontains=keywords)).values_list('home_banner_id')
                     inspiration_list = HomeBanners.objects.filter(Q(is_deleted=False), Q(id__in=hbi_list))[inspiration_offset:settings.INSPIRATION_NUM_RECORDS+inspiration_offset]
                     print inspiration_list, hbi_list
         else:
@@ -201,10 +201,14 @@ def load_products_ajax(request):
                         <a href="javascript:void(0)" class="btn wishListProduct" onclick="addToWishList('%s', %s)"><h3>add to</h3><h4>wishlist</h4></a>
                     </div>
                 """ % (product.id, 'products', product.id)
+                html += '</div>'
             elif product._meta.object_name == 'HomeBanners':
-                html += '<div class="itemWrap single inspirations" >'
-                html += '<img src="/media/banners/%s"/>' % (product.get_image)
-                html += '<h2>%s</h2>' % product.get_name
+                if product.size == 1:
+                    html += '<div class="itemWrap single inspiration" >'
+                else:
+                    html += '<div class="itemWrap double inspiration" >'
+                html += '<img src="/media/banners/%s"/>' % (product.get_image())
+                html += '<h2>%s</h2>' % product.get_name()
                 html += """
                     <div class="operationWrap">
                         <a href="#" product-data="%s" class="btn sendToStyleboard">

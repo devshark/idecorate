@@ -118,8 +118,8 @@
 				</div>
 			</div>
 			{% endif %}
-			{% if product|get_css_obj_classname == 'inspirations' %}
-			<div class="itemWrap single {{ product|get_css_obj_classname }}" >
+			{% if product|get_css_obj_classname == 'inspiration' %}
+			<div class="itemWrap {% if product.size == 1 %}single{% else %}double{% endif %} {{ product|get_css_obj_classname }}" >
 				<img src="/media/banners/{{product.get_image}}"/>
 				<h2>{{ product.get_name }}</h2>
 				<div class="operationWrap">

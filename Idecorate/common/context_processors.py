@@ -1,4 +1,5 @@
 from django.conf import settings
+from customer.forms import LoginForm, SignupForm
 
 def social_network_settings(request):
 
@@ -19,3 +20,10 @@ def misc_settings(request):
 	}
 
 	return context
+
+def account_access(request):
+
+	return {
+	    'loginForm':LoginForm(),
+	    'signupForm':SignupForm()
+	}
