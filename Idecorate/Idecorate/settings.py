@@ -118,6 +118,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'social_auth.context_processors.social_auth_by_type_backends',
     'common.context_processors.social_network_settings',
     'common.context_processors.misc_settings',
+    'common.context_processors.account_access',
 )
 
 MIDDLEWARE_CLASSES = (

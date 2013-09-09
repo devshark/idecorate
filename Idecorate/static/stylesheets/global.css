@@ -435,7 +435,74 @@ ul.simpleDropdown li {
   width: 38px;
   height: 150px;
   background-color: #FFFFFF;
-  cursor: defau; }
+  cursor: default; }
+
+#user_access {
+  display: none;
+  background-color: #FFFFFF;
+  border: 1px solid #000000;
+  padding: 20px; }
+  #user_access .formWrap .fieldsetContent {
+    padding: 2px 0; }
+    #user_access .formWrap .fieldsetContent .formMessages {
+      text-align: left; }
+      #user_access .formWrap .fieldsetContent .formMessages .errorList, #user_access .formWrap .fieldsetContent .formMessages .error, #user_access .formWrap .fieldsetContent .formMessages .warning {
+        color: red;
+        font-size: 11px;
+        font-style: italic; }
+    #user_access .formWrap .fieldsetContent .fieldGroup {
+      padding: 3px 0; }
+    #user_access .formWrap .fieldsetContent .fieldGroup.operation {
+      text-align: right; }
+      #user_access .formWrap .fieldsetContent .fieldGroup.operation .forgotPassword {
+        display: inline-block;
+        margin-right: 5px;
+        color: #666666; }
+      #user_access .formWrap .fieldsetContent .fieldGroup.operation .forgotPassword:hover {
+        text-decoration: underline; }
+      #user_access .formWrap .fieldsetContent .fieldGroup.operation .btn {
+        padding: 5px !important;
+        font-size: 11px !important;
+        margin-right: 6px; }
+      #user_access .formWrap .fieldsetContent .fieldGroup.operation .btn:hover {
+        color: #333333; }
+      #user_access .formWrap .fieldsetContent .fieldGroup.operation .closeModalBtn {
+        line-height: 18px !important; }
+    #user_access .formWrap .fieldsetContent .socialLogin a {
+      display: inline-block; }
+  #user_access .formWrap label {
+    font-size: 11px;
+    text-transform: uppercase;
+    display: inline-block;
+    width: 28%;
+    text-align: right; }
+  #user_access .formWrap input[type="text"], #user_access .formWrap input[type="password"], #user_access .formWrap input[type="email"] {
+    width: 65%;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: 1px solid #dbd7c9;
+    font-size: 12px;
+    padding: 5px 2px; }
+
+/* Overlay */
+#simplemodal-overlay {
+  background-color: #000; }
+
+/* Container */
+#simplemodal-container {
+  top: 100px !important; }
+
+#simplemodal-container a.modalCloseImg {
+  background: url("/static/images/close_modal.png") no-repeat;
+  width: 25px;
+  height: 29px;
+  display: inline;
+  z-index: 3200;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  cursor: pointer; }
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   .headerColumn.info, .headerColumn.user {

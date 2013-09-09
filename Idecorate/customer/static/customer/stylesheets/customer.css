@@ -1,0 +1,25 @@
+@import url("/static/stylesheets/fontface.css");
+@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
+#forgot_password {
+  margin-top: 10px; }
+
+.errorList, .error, .warning {
+  color: red;
+  font-size: 11px;
+  font-style: italic; }
+
+input[type="text"], input[type="password"], input[type="email"] {
+  width: 25%;
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+  border: 1px solid #dbd7c9 !important;
+  font-size: 12px;
+  padding: 6px !important; }
+
+.btn {
+  padding: 5px 10px !important;
+  font-size: 11px !important; }
+
+a.btn {
+  line-height: 18px !important; }

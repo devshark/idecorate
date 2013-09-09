@@ -455,12 +455,12 @@ def menuInterfaceRecursion(menus, activate_url, isLoggedIn):
 
                 if menu.__class__.__name__ == "SiteMenu":
 
-                    element+= '<li><a id="%s_account_header" href="%s">my account</a>%s</li>' % ('login' if not isLoggedIn else '', reverse('profile'), myAccountMenu)
+                    element+= '<li><a id="%s_account_header" href="%s">my account</a>%s</li>' % ('login' if not isLoggedIn else 'my', reverse('profile'), myAccountMenu)
                     element+= '<li><a id="my_order" href="%s">my order</a><div id="cart_frame"></div></li>' % reverse('cart')
                 
                 if menu.__class__.__name__ == "FooterMenu":
 
-                    element+= '<li><a id="%s_account_footer" class="btn" href="%s">my account</a>%s</li>' % ('login' if not isLoggedIn else '', reverse('profile'), myAccountMenu)
+                    element+= '<li><a id="%s_account_footer" class="btn" href="%s">my account</a>%s</li>' % ('login' if not isLoggedIn else 'my', reverse('profile'), myAccountMenu)
 
             element += '</ul>'
 

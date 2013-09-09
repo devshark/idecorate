@@ -29,7 +29,7 @@ import re
 import math
 from idecorate_settings.models import IdecorateSettings
 from urllib import unquote
-from common.services import send_email_reset_pass
+from common.services import send_email_reset_password
 from admin.services import getExtensionAndFileName
 from admin.models import HomeBannerImages
 from cart.services import generate_unique_id
@@ -54,6 +54,147 @@ from django.core.exceptions import ValidationError
 
 import logging
 logr = logging.getLogger(__name__)
+
+
+def render_to_json(request, data):
+
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False),  mimetype=request.is_ajax() and "application/json" or "text/html" )
+
+def customer_login(request):
+
+    data_response = {}
+    data_response['response'] = 'failed'
+
+    if request.method == "POST":
+
+        loginForm = LoginForm(request.POST)
+        ip_address = get_client_ip(request)
+        loginLog = LoginLog.objects.filter(created__gte=(datetime.now() - timedelta(minutes=5)), ip_address=ip_address)
+        timeOut = False
+
+        if loginLog.count() >= 5:
+
+            timeOut = True
+            messages.error(request, _('You have failed to login 5 consecutive times. Please try to login after 5 minutes'))    
+        
+        if not timeOut:  
+
+            if loginForm.is_valid():
+
+                username = loginForm.cleaned_data['username']
+                password = loginForm.cleaned_data['password']
+                user = authenticate(username=username, password=password)
+
+                if user is not None:
+
+                    login(request, user)
+                    LoginLog.objects.filter(ip_address=ip_address).delete()
+                    data_response['response'] = 'success'
+
+                    # everthing after login is validated and authenticated
+
+                else:
+
+                    loginLog = LoginLog()
+                    loginLog.created = datetime.now()
+                    loginLog.ip_address = ip_address
+                    loginLog.save()
+                    messages.warning(request, _('Sorry we could not verify your e-mail address and password.'))
+            else:
+
+
+                loginLog = LoginLog()
+                loginLog.created = datetime.now()
+                loginLog.ip_address = ip_address
+                loginLog.save()
+
+        data_response['messages'] = render_to_string('customer/messages_ajax_response.html', {'form':loginForm}, RequestContext(request))
+
+    return render_to_json(request, data_response)
+
+
+def customer_signup(request):
+
+    data_response = {}
+    data_response['response'] = 'failed'
+
+    if request.method == "POST":
+
+        signupForm = SignupForm(request.POST)
+        
+        if signupForm.is_valid():
+
+            user = register_user(signupForm.cleaned_data)
+
+            if user is not None:
+
+                user = authenticate(username=username, password=password)
+                login(request, user)
+                data_response['response'] = 'success'
+
+                # everthing after signup is validated and authenticated
+
+            else:
+
+                messages.warning(request, _('Sorry we can\'t proccess your registration at the moment. Please try again later.'))
+        
+        data_response['messages'] = render_to_string('customer/messages_ajax_response.html', {'form':signupForm}, RequestContext(request))
+
+    return render_to_json(request, data_response)
+
+def customer_logout(request):
+
+    if request.user.is_authenticated():
+
+        logout(request)
+
+    if request.is_ajax():
+
+        return HttpResponse('logged_out')
+
+    else:
+
+        return redirect('home')
+
+def forgot_password(request):
+
+    info = {}
+    form = ForgotPassForm()
+
+
+    if request.method=="POST":
+
+        form = ForgotPassForm(request.POST)
+        
+        if form.is_valid():
+
+            username = form.cleaned_data.get('username')
+            u = User.objects.get(email=username)
+
+            if send_email_reset_password(u.id):
+
+                messages.success(request, _('Email sent. Please check your email for password reset instruction'))
+
+            else:
+            
+                messages.warning(request, _('Can\'t proccess your request at the moment. Please try again later.'))
+
+    info['form'] = form
+    info['cancel'] = request.GET.get('cancel_url', '/')
+    info['messages'] = render_to_string('customer/messages_ajax_response.html', {'form':form}, RequestContext(request))
+
+    return render_to_response('customer/forgot_password.html', info, RequestContext(request))
+
+
+# def sample_login(request):
+
+#     info = {}
+#     loginForm = LoginForm()
+#     signupForm = SignupForm()
+#     info['loginForm'] = loginForm
+#     info['signupForm'] = signupForm
+
+#     return render_to_response('customer/user_access.html', info, RequestContext(request))
 
 def login_signup(request):
 
@@ -129,38 +270,6 @@ def login_signup(request):
     info['signup_form'] = signup_form
     return render_to_response('customer/iframe/login_signup.html', info, RequestContext(request))
 
-def customer_logout(request):
-    if request.user.is_authenticated():
-        logout(request)
-    if request.is_ajax():
-        return HttpResponse('ok')
-    else:
-        return redirect('home')
-
-def forgot_password(request):
-    info = {}
-    forgot_password_form = ForgotPassForm()
-
-    if request.method=="POST":
-
-        forgot_password_form = ForgotPassForm(request.POST)
-        
-        if forgot_password_form.is_valid():
-
-            user = forgot_password_form.cleaned_data.get('username')
-            try:
-                u = User.objects.get(email=user)
-
-                send_email_reset_pass(u.id)
-                
-                info['email_sent'] = True
-                                
-            except Exception as e:
-
-                print e
-
-    info['forgot_password_form'] = forgot_password_form
-    return render_to_response('customer/iframe/forgot_password.html', info, RequestContext(request))
 
 def profile(request):
 

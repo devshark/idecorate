@@ -7,16 +7,16 @@ from services import is_registered
 from common.models import Countries
 
 class LoginForm(forms.Form):	
-	username = forms.EmailField(label=_("Enter Email"), error_messages={'required':_('Enter a valid e-mail address.')})
-	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid password.')})
+	username = forms.EmailField(label=_("Email"), error_messages={'required':_('Username field is required.')})
+	password = forms.CharField( label=_("Password"), widget=forms.PasswordInput, error_messages={'required':_('Password field is required.')})
 
 class SignupForm(forms.Form):
-	firstname = forms.CharField(max_length=100, label=_("First Name"), required=True, error_messages={'required':_('Enter your first name.')})
-	lastname = forms.CharField(max_length=100, label=_("Last Name"), required=True, error_messages={'required':_('Enter your last name.')})
-	#nickname = forms.CharField( label=_("Enter Nickname"), error_messages={'required':_('Enter your nickname.')})
-	username = forms.EmailField(label=_("Enter Email"), error_messages={'required':_('Enter a valid e-mail address.')})
-	password = forms.CharField( label=_("Enter Password"), widget=forms.PasswordInput, error_messages={'required':_('Enter a valid password.')})
-	confirm_password = forms.CharField( label=_("Enter Password Again"), widget=forms.PasswordInput, error_messages={'required':_('Re-enter password.')})
+	firstname = forms.CharField(max_length=100, label=_("First Name"), required=True, error_messages={'required':_('First name field is required.')})
+	lastname = forms.CharField(max_length=100, label=_("Last Name"), required=True, error_messages={'required':_('Last name field is required.')})
+	#nickname = forms.CharField( label=_("Nickname"), error_messages={'required':_('your nickname.')})
+	username = forms.EmailField(label=_("Email"), error_messages={'required':_('a valid e-mail address.')})
+	password = forms.CharField( label=_("Password"), widget=forms.PasswordInput, error_messages={'required':_('Password field is required..')})
+	confirm_password = forms.CharField( label=_("Confirm Pass"), widget=forms.PasswordInput, error_messages={'required':_('Confirm password field is required.')})
 
 	"""
 	def clean_nickname(self):
@@ -182,15 +182,19 @@ class PassForm(forms.Form):
 			return ""
 
 class ForgotPassForm(forms.Form):
+	
 	username = forms.EmailField(label=_("Enter Email"), error_messages={'required':_('Enter a valid e-mail address.')})
 	
 	def clean_username(self):
-		try:
-			username = self.cleaned_data['username']
-			if not is_registered(username):
-				raise forms.ValidationError(_("E-mail address entered is not associated with www.idecorateweddings.com"))
-			if len(username)>80:
-				raise forms.ValidationError(_("E-mail address entered should be maximum of 80 chars."))
-			return username
-		except MultiValueDictKeyError as e:
-			return ""
+
+		username = self.cleaned_data['username']
+
+		if not is_registered(username):
+
+			raise forms.ValidationError(_("E-mail address entered is not associated with www.idecorateweddings.com"))
+
+		if len(username) > 80:
+
+			raise forms.ValidationError(_("E-mail address entered should be maximum of 80 chars."))
+
+		return username

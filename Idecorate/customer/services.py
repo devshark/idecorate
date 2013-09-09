@@ -14,7 +14,9 @@ from plata.shop.models import Order, OrderItem
 
 @transaction.commit_manually
 def register_user(data):
+
     try:
+
         user = User.objects.create_user(data['username'], "", data['password'])
         user.email = data['username']
         user.first_name = data['firstname']
@@ -27,9 +29,13 @@ def register_user(data):
         cp.nickname = data['username']
         cp.save()
         transaction.commit()
+
         return user
+
     except Exception as e:
+
         transaction.rollback()
+        
         return None
 
 def is_registered(uname):

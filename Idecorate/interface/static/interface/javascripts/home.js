@@ -189,5 +189,9 @@ $(function() {
 
     });
 
-
 });
+
+$('#items_wrapper').children().hide();
+$(window).load(function(){ $('#items_wrapper').children().show(100); });
+
+
