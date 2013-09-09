@@ -21,7 +21,7 @@ import random
 
 from category.services import get_categories, get_cat, category_tree_crumb, search_category, get_cat_ids
 from category.models import Categories
-from cart.models import Product, CartTemp, ProductPopularity, GuestTableTemp, ProductPrice
+from cart.models import Product, CartTemp, ProductPopularity, GuestTableTemp, ProductPrice, SuggestedProduct
 from cart.services import generate_unique_id, clear_cart_temp, add_to_cart, get_product, get_product_detail, strip_tags
 from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
@@ -29,7 +29,7 @@ from django.core.urlresolvers import reverse
 import re
 from admin.services import getExtensionAndFileName
 from idecorate_settings.models import IdecorateSettings
-from admin.models import TextFonts, Embellishments, EmbellishmentsType, HomeInfoGrapics
+from admin.models import TextFonts, Embellishments, EmbellishmentsType, HomeInfoGrapics, HomeBanners, HomeBannerImages
 from customer.services import get_user_styleboard, get_styleboard_cart_item, get_facebook_friends
 import admin
 from admin.services import get_home_banners, get_home_banner_images
@@ -72,15 +72,17 @@ def home(request):
         product_list = Product.objects.filter(is_deleted=False, 
                                                 is_active=True)[(page-1)*settings.PRODUCT_HOME_NUM_RECORDS:settings.PRODUCT_HOME_NUM_RECORDS]
         styleboard_list = CustomerStyleBoard.objects.all()[(page-1)*settings.STYLEBOARD_HOME_NUM_RECORDS:settings.STYLEBOARD_HOME_NUM_RECORDS]
+        inspiration_list = HomeBanners.objects.filter(is_deleted=False)[(page-1)*settings.INSPIRATION_NUM_RECORDS:settings.INSPIRATION_NUM_RECORDS]
     else:
         product_list = Product.objects.filter(is_deleted=False, 
                                                 is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
         styleboard_list = CustomerStyleBoard.objects.all()[:settings.STYLEBOARD_HOME_NUM_RECORDS]
+        inspiration_list = HomeBanners.objects.filter(is_deleted=False)[:settings.INSPIRATION_NUM_RECORDS]
 
-    query_list = list(product_list) + list(styleboard_list)
+    query_list = list(product_list) + list(styleboard_list) + list(inspiration_list)
     random.shuffle(query_list)
 
-    paginator = Paginator(query_list, settings.PRODUCT_HOME_NUM_RECORDS + settings.STYLEBOARD_HOME_NUM_RECORDS)
+    paginator = Paginator(query_list, settings.PRODUCT_HOME_NUM_RECORDS + settings.STYLEBOARD_HOME_NUM_RECORDS + settings.INSPIRATION_NUM_RECORDS)
     
     try:
         info['products'] = paginator.page(page)
@@ -107,6 +109,7 @@ def load_products_ajax(request):
         if page:
             product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
             styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
+            inspiration_offset = (int(page)-1)*settings.INSPIRATION_NUM_RECORDS
 
             if wishlist:
                 wishlist_products = None
@@ -116,25 +119,32 @@ def load_products_ajax(request):
                                                                 object_type='products').values_list('object_id')
                     wishlist_styleboards = WishList.objects.filter(user=request.user,
                                                                     object_type='styleboards').values_list('object_id')
+                    wishlist_inspirations = WishList.objects.filter(user=request.user,
+                                                                    object_type='inspirations').values_list('object_id')
                 else:
                     sessionid = request.session.get('sessionid')
                     wishlist_products = WishList.objects.filter(sessionid=sessionid,
                                                                 object_type='products').values_list('object_id')
                     wishlist_styleboards = WishList.objects.filter(sessionid=sessionid,
                                                                     object_type='styleboards').values_list('object_id')
+                    wishlist_inspirations = WishList.objects.filter(sessionid=sessionid,
+                                                                    object_type='inspirations').values_list('object_id')
 
                 product_list = Product.objects.filter(is_deleted=False,
                                         is_active=True,
                                         id__in=wishlist_products)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]
                 styleboard_list = CustomerStyleBoard.objects.filter(id__in=wishlist_styleboards)[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+                inspiration_list = HomeBanners.objects.filter(is_deleted=False, id__in=wishlist_inspirations)[inspiration_offset:settings.INSPIRATION_NUM_RECORDS+inspiration_offset]
             elif celebrity_styleboards:
                 product_list = []
                 styleboard_list = CustomerStyleBoard.objects.filter(active=True)[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+                inspiration_list = []
             else:
                 if keywords == '':
                     product_list = Product.objects.filter(is_deleted=False, 
                                                             is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]
                     styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+                    inspiration_list = HomeBanners.objects.filter(is_deleted=False)[inspiration_offset:settings.INSPIRATION_NUM_RECORDS]
                 else:
                     product_list = Product.objects.filter(Q(is_deleted=False), 
                                                             Q(is_active=True),
@@ -142,6 +152,9 @@ def load_products_ajax(request):
                     styleboard_list = CustomerStyleBoard.objects.filter(Q(styleboard_item__deleted=False),
                                                                         (Q(styleboard_item__name__icontains=keywords) | Q(styleboard_item__description__icontains=keywords))
                                                                     )[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
+                    hbi_list = HomeBannerImages.objects.filter(Q(name__icontains=keywords) | Q(description__icontains=keywords)).values_list('id')
+                    inspiration_list = HomeBanners.objects.filter(Q(is_deleted=False), Q(id__in=hbi_list))[inspiration_offset:settings.INSPIRATION_NUM_RECORDS+inspiration_offset]
+                    print inspiration_list, hbi_list
         else:
             if wishlist:
                 pass
@@ -152,7 +165,7 @@ def load_products_ajax(request):
                                                         is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
                 styleboard_list = CustomerStyleBoard.objects.filter()[:settings.STYLEBOARD_HOME_NUM_RECORDS]            
 
-        products = list(product_list) + list(styleboard_list)
+        products = list(product_list) + list(styleboard_list) + list(inspiration_list)
         random.shuffle(products)
 
         for product in products:
@@ -178,6 +191,20 @@ def load_products_ajax(request):
                 html += '<img src="/media/products/%s"/>' % (product.original_image)
                 html += '<h2>%s</h2>' % product.name
                 html += '<p>$%.2f</p>' % getProductPrice(product)
+                html += """
+                    <div class="operationWrap">
+                        <a href="#" product-data="%s" class="btn sendToStyleboard">
+                            <img src="/static/interface/images/send_to_styleboard_icon.png"/>
+                            <span><h3>send to</h3><h4>styleboard</h4></span>
+                        </a>
+                        <a href="#" class="btn shareProduct">share</a>
+                        <a href="javascript:void(0)" class="btn wishListProduct" onclick="addToWishList('%s', %s)"><h3>add to</h3><h4>wishlist</h4></a>
+                    </div>
+                """ % (product.id, 'products', product.id)
+            elif product._meta.object_name == 'HomeBanners':
+                html += '<div class="itemWrap single inspirations" >'
+                html += '<img src="/media/banners/%s"/>' % (product.get_image)
+                html += '<h2>%s</h2>' % product.get_name
                 html += """
                     <div class="operationWrap">
                         <a href="#" product-data="%s" class="btn sendToStyleboard">
@@ -1731,3 +1758,17 @@ def add_wishlist_ajax(request):
             response = _('Item added to your wishlist')
 
     return HttpResponse(unicode(response))
+
+
+@csrf_exempt
+def get_suggested_products_ajax(request):
+    html = ''
+    if request.method == 'POST':
+        pk = request.POST.get('id', False)
+        if pk:
+            product = Product.objects.get(pk=int(pk))
+            suggested_products = product.suggestedproduct_set.all()
+            for suggested_product in suggested_products:
+                html += '%s' % suggested_product.suggested_product.name
+
+    return HttpResponse(html)
