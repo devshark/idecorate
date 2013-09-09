@@ -572,5 +572,5 @@ def get_css_obj_classname(obj):
     elif object_classname == 'CustomerStyleBoard':
         ret = 'styleboards'
     elif object_classname == 'HomeBanners':
-        ret = 'inspirations'
+        ret = 'inspiration'
     return ret

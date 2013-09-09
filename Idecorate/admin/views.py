@@ -3855,3 +3855,69 @@ def admin_send_newsletter(request, template_id):
     }
 
     return render(request, 'admin/admin_send_newsletter.html', context)
+
+
+@staff_member_required
+def admin_manage_inspirations(request):
+    context = {
+        'home_banners' : get_home_banners(),
+    }
+    return render(request, 'admin/admin_manage_inspirations.html', context)
+
+
+@staff_member_required
+def admin_add_inspiration(request):
+    
+    info        = {}
+    extra       = 1
+    sizeSelect  = {1:'selected',2:'unselected'}
+
+    size = request.GET.get('size', '1')
+
+    if not str(size).isdigit():
+
+        return redirect('manage_homepage')
+
+    """
+    if size:
+
+        if int(size) < 1:
+            extra = 1
+        elif int(size) > 3:
+            extra = 3
+        else:
+            extra = size
+
+        for i, val in sizeSelect.items():
+            
+            if i == int(size) :
+                sizeSelect[i] = 'selected'
+            else :
+                sizeSelect[i] = 'unselected'
+    """
+
+    formSet = formset_factory(HomeBannerForm, extra=int(extra))
+    if request.method == 'POST':
+
+        initial_form_count = lambda self: int(extra)
+        formSet.initial_form_count = initial_form_count
+
+        formSet = formSet(request.POST)
+        if formSet.is_valid():
+            data                = {}
+            data['size']        = request.POST.get('size')
+            data['form_data']   = formSet
+            is_save = save_home_banner(data)
+
+            if is_save :
+                messages.success(request, _('Successfully added.'))
+            else:
+                messages.error(request, _('Could not save. Please contact administrator.'))
+            
+            return redirect('admin_manage_inspirations')
+
+
+    info['sizeselect']  = sizeSelect
+    info['size']        = extra
+    info['formset']     = formSet
+    return render_to_response('admin/admin_add_inspiration.html',info,RequestContext(request))

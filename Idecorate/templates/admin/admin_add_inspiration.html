@@ -1,0 +1,243 @@
+{% extends "admin/base.html" %}
+{% load i18n widget_tweaks admin bootstrap_pagination %}
+{% block title %}
+    {% trans "iDecorate CMS" %}
+{% endblock %}
+{% block styles %}
+<style type="text/css">
+h1{
+	margin-bottom: 20px;
+}
+
+.bannerWrap{
+	float: left;
+	margin-right: 12px;
+}
+
+.bannerWrap:last-child{
+	margin-right: 0;
+}
+
+.preview{
+	border: 1px solid #DDDDDD;
+	height: 285px;
+	margin-bottom: 10px;
+}
+
+.inputWrap a{
+	margin:3px 0 12px 0; 
+	width: 198px
+}
+
+.preview3, .preview3 .inputWrap {
+	width: 288px;
+}
+
+.preview1, .preview1 .inputWrap {
+	width: 450px;
+}
+.preview2, .preview2 .inputWrap {
+	width: 936px;
+}
+
+.actionWrap{
+	margin-top: 12px;
+	text-align: left;
+}
+
+.alert-error {
+	margin-top: 20px;
+}
+
+.loading {
+	width: 16px;
+	height: 16px;
+	background-image: url('/media/images/loader.gif');
+	background-repeat:  no-repeat;
+	background-position: center center;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>{% trans "Add Inspiration" %}</h1>
+<div id="alert-error">
+	{% if messages %}
+
+		{% for message in messages %}
+		<div class="alert alert-{{ message.tags }}">
+		  <a class="close" data-dismiss="alert" href="#">×</a>
+		  <h4 class="alert-heading">{{ message.tags }}!</h4>
+		  	{{ message }}		  
+		</div>
+		{% endfor %}
+
+	{% endif %}
+	{% if formset.errors %}
+	<div class="alert alert-error">
+		<a class="close" href="#" data-dismiss="alert">×</a>
+		<h4 class="alert-heading">Please correct the following errors:</h4>
+		<ol>
+		{% for form in formset.forms %}
+			
+			{% with counter=forloop.counter %}
+
+				{% for field in form %}
+
+					{% if field.errors %}
+						<li>
+						{{field.label}} {{ counter }}
+
+						{% for field_errors in field.errors %}
+							
+							{{field_errors}}
+
+						{% endfor %}
+						</li>
+					{% endif %}
+
+				{% endfor %}
+
+			{% endwith %}
+
+		{% endfor %}
+		</ol>
+	</div>
+	{% endif %}
+</div>
+<form method="post" action="">
+{% csrf_token %}
+	{% if sizeselect %}
+		<label for="size-select">Size</label>
+		<select id="size-select" name="size">
+			{% for size, value in sizeselect.items %}
+				{% if value == 'selected' %}
+					<option value ="{{size}}" selected="selected">{{size}}</option>
+				{% else %}
+					<option value ="{{size}}">{{size}}</option>
+				{% endif %}
+			{% endfor %}
+		</select>
+	{% else %}
+		<input name="size" id="size-select" value="{{size}}" type="hidden" />
+	{% endif %}
+	<div class="bannersWrap clearfix">	
+	{% if formset %}
+		{{ formset.management_form }}
+		{% for form in formset.forms %}
+		<div class="bannerWrap preview1">
+			<div id="show_{{forloop.counter0}}" class="preview">
+				{% if preview %}
+					<img src="/media/banners/{{ form.initial.image }}" alt="" />
+				{% endif %}
+			</div>
+			<div class="inputWrap">
+				<a id="browse_{{forloop.counter0}}" class="browse button btn" rel="{{forloop.counter0}}">Choose a Photo</a>
+				{{ form.link|attr:"placeholder:Link" }}
+				{{ form.name|attr:"placeholder:Name" }}
+				{{ form.description|attr:"placeholder:Description" }}
+				{{ form.image }}
+				{{ form.image_id }}
+			</div>
+		</div>
+		{% endfor %}
+	{% endif %}
+	</div>
+	<div class="actionWrap">
+		<input id="reset-form" class="btn  btn-inverse" type="reset" value="Cancel" />
+		<input class="btn btn-primary btn-submit" type="submit" value="Save" />
+	</div>
+</form>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
+<script type="text/javascript">
+	$('#size-select').change(function(e){
+		cls = 'preview' + $(this).val();
+		$('.bannerWrap').removeClass('preview1');
+		$('.bannerWrap').removeClass('preview2');
+
+		$('.bannerWrap').addClass(cls);
+		//window.location.href = '{% url homepage_upload_banner %}?size='+$(this).val();
+	});
+
+	$('#reset-form').click(function(e){
+
+		window.location.href = '{% url manage_homepage %}';
+
+	});
+
+	$('.browse').each(function(){
+		
+		var ele 	= this;
+		var size 	= $('#size-select').val();
+		var rel		= $(ele).attr('rel');
+		var preview = '#show_'+rel;
+		var ele_id 	= $(this).attr('id');
+
+		new AjaxUpload(ele_id, {
+			name: 'image',
+			action: '{% url upload_temp_banner %}',
+			data: {
+				size : size
+			},
+			onSubmit: function(file, extension) {					
+				$(preview).append('<div class="loading"></div>');
+			},
+			onComplete: function(file, response){
+				$('div.loading').remove();
+				var deli = '|';
+				if (response.indexOf(',') !=-1)
+					deli = ',';
+				var splittedResponse = response.split(deli);					
+				if (splittedResponse[0] == 'fail') {
+					var msg = splittedResponse[1];
+					if($('.alert.alert-error').length > 0){
+						if ($('.thumb-error').length > 0)
+							$('.alert.alert-error ol li.thumb-error').text(msg);
+						else
+							$('.alert.alert-error ol').append('<li class="thumb-error">' + msg + '</li>');						
+					} else {
+						var elm = '<div class="alert alert-error">' +
+								'<a class="close" data-dismiss="alert" href="#">×</a>' +
+								'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+								'<ol>' +
+								'<li class="thumb-error">' + msg + '</li>' +
+								'</ol>' +
+							'</div>';
+						$('#alert-error').html(elm);
+					}
+				} else {
+					$('#'+ele_id).text('Photo Chosen');						
+					if ($(preview).find('img').length > 0){
+						$(preview).find('img').remove();
+					}
+					$(preview).append('<img src="/media/banners/' + splittedResponse[1] + '" />');
+					$('#id_form-'+rel+'-image').val(splittedResponse[1]);
+					if($('.alert.alert-error').length > 0){
+						$('.alert.alert-error a.close').trigger('click');
+					}
+				}				
+			},
+			error: function(msg){					
+				if($('.alert.alert-error').length > 0){
+					if ($('.thumb-error').length > 0)
+						$('.alert.alert-error ol li.thumb-error').text('{% trans "Thumbnail Upload Server Timeout. Please try again." %}');
+					else
+						$('.alert.alert-error ol').append('<li>{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>');
+				} else {
+					var elm = '<div class="alert alert-error">' +
+							'<a class="close" data-dismiss="alert" href="#">×</a>' +
+							'<h4 class="alert-heading">Please correct the following errors:</h4>' +
+							'<ol>' +
+							'<li class="thumb-error">{% trans "Thumbnail Upload Server Timeout. Please try again." %}</li>' +
+							'</ol>' +
+						'</div>';
+					$('#alert-error').html(elm);
+				}				
+				$('div.loading').remove();
+			}
+		});
+	});	
+</script>
+{% endblock %}
