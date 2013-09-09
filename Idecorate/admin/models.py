@@ -68,6 +68,12 @@ class HomeBanners(models.Model):
 		ordering = ["created"]
 		verbose_name = _("Home Banners")
 
+	def get_image(self):
+		return self.homebannerimages_set.all()[0].image
+
+	def get_name(self):
+		return self.homebannerimages_set.all()[0].name
+
 class HomeBannerImages(models.Model):
 	id = models.AutoField(db_column='id', primary_key=True)
 	home_banner = models.ForeignKey(HomeBanners)
