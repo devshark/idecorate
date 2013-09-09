@@ -456,6 +456,7 @@ LOGGING = {
 
 PRODUCT_HOME_NUM_RECORDS    = 20
 STYLEBOARD_HOME_NUM_RECORDS = 10
+INSPIRATION_NUM_RECORDS     = 5
 
 try:
     from localsettings import *

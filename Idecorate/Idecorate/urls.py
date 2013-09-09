@@ -155,3 +155,12 @@ urlpatterns += patterns('admin.views',
     url(r'^admin/admin_upload_image/$', 'admin_upload_image', {}, name='admin_upload_image'),
     url(r'^admin/admin_send_newsletter/(?P<template_id>\d+)/$', 'admin_send_newsletter', {}, name='admin_send_newsletter'),    
 )
+
+
+"""
+INSPIRATION
+"""
+urlpatterns += patterns('admin.views',
+    url(r'^admin/admin_manage_inspirations/$', 'admin_manage_inspirations', {}, name='admin_manage_inspirations'),
+    url(r'^admin/admin_add_inspiration/$', 'admin_add_inspiration', {}, name='admin_add_inspiration'),
+)
