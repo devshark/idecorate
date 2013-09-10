@@ -321,6 +321,12 @@ body {
             #main_content .lineItems #items_wrapper .itemWrap.double .operationWrap .sendToStyleboard img {
               height: 30px; }
 
+#load_more_wrap {
+  padding: 5px 0;
+  text-align: center; }
+  #load_more_wrap a {
+    display: inline-block; }
+
 .operationWrap {
   display: none;
   margin: 0 10px;

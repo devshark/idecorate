@@ -45,55 +45,6 @@ $(function() {
     $(window).resize(searchBoxTransform);
 
 
-    var loadMoreResults = function() {
-
-        orig_page = page;
-        page++;
-
-        options = {
-            'page' : page,
-            'keywords' :keywords
-        }
-
-        if(wishlist) {
-            options['wishlist'] = true;
-        }
-
-        if(celebrity_styleboards) {
-            options['celebrity_styleboards'] = true;
-        }
-
-        $.ajax({
-            url: LOADMOREURL,
-            data:options,
-            type:'POST',
-            success:function(data) {
-
-                $container.isotope('insert',$(data));
-
-                if(keywords!=null) {
-
-                    $container.isotope('reLayout');
-
-                }
-            },
-            error:function() {
-
-                page = orig_page;
-
-            }
-        });
-
-    };
-
-    var resetVars = function() {
-        page = 0;
-        keywords = null;
-        wishlist = false;
-        celebrity_styleboards = false;
-    }
-
-
     var $container = $('#items_wrapper');
     $container.isotope({
         filter: '*',    
@@ -120,7 +71,7 @@ $(function() {
                 $container.isotope('remove', $container.children());
                 resetVars();
                 wishlist = true;                
-                loadMoreResults();
+                loadMoreResults($container);
                 $container.isotope('reloadItems');
 
             } else if($(this).attr('id') == 'celebrity_styleboards') {
@@ -128,20 +79,20 @@ $(function() {
                 $container.isotope('remove', $container.children());
                 resetVars();
                 celebrity_styleboards = true;
-                loadMoreResults();
+                loadMoreResults($container);
                 $container.isotope('reloadItems');
 
             } else {
 
                 if(wishlist || celebrity_styleboards) {
                     resetVars();
-                    loadMoreResults();
+                    loadMoreResults($container);
                     $container.isotope('reloadItems');                   
                 }
 
                 if(keywords != null) {
                     resetVars();
-                    loadMoreResults();                
+                    loadMoreResults($container);                
                 }
 
                 $container.isotope('reloadItems');
@@ -159,9 +110,14 @@ $(function() {
 
         if($(window).scrollTop() == $(document).height() - $(window).height()) {
 
-            loadMoreResults();
+            loadMoreResults($container);
 
         }
+    });
+
+    $('#load_more').click(function(e){
+        e.preventDefault();
+        loadMoreResults($container);
     });
 
     searchItems = function(e){
@@ -172,7 +128,7 @@ $(function() {
             $container.isotope('remove', $container.children());
             resetVars();
             keywords = $('#search_input').val();
-            loadMoreResults();
+            loadMoreResults($container);
             //$container.isotope({filter: '*'});
             $container.isotope('reloadItems');
 
@@ -194,4 +150,64 @@ $(function() {
 $('#items_wrapper').children().hide();
 $(window).load(function(){ $('#items_wrapper').children().show(100); });
 
+
+var loadMoreResults = function($container) {
+
+
+    $('#load_more_wrap').hide();
+    orig_page = page;
+    page++;
+
+    options = {
+        'page' : page,
+        'keywords' :keywords
+    }
+
+    if(wishlist) {
+        options['wishlist'] = true;
+    }
+
+    if(celebrity_styleboards) {
+        options['celebrity_styleboards'] = true;
+    }
+
+    request = $.ajax({
+        url: LOADMOREURL,
+        type: "POST",
+        data: options,
+        async: true
+    });
+
+    request.done(function (response, textStatus, jqXHR){
+
+        $container.isotope('insert',$(response));
+
+        if(keywords!=null) {
+
+            $container.isotope('reLayout');
+
+        }
+    });
+
+    request.fail(function (jqXHR, textStatus, errorThrown){
+        
+        page = orig_page;
+        $('#load_more_wrap').show();
+
+    });
+
+    request.always(function(){
+
+        $container.isotope('reLayout');
+
+    });
+
+};
+
+var resetVars = function() {
+    page = 0;
+    keywords = null;
+    wishlist = false;
+    celebrity_styleboards = false;
+}
 
