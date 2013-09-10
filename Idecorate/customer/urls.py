@@ -2,7 +2,6 @@ from django.conf.urls import patterns, include, url
 from django.conf import settings
 
 urlpatterns =  patterns('customer.views',
-    # url(r'^sample_login/$', 'sample_login', {}, name='sample_login'),
     url(r'^customer_login/$', 'customer_login', {}, name='customer_login'),
     url(r'^customer_signup/$', 'customer_signup', {}, name='customer_signup'),
     url(r'^login_signup/$', 'login_signup', {}, name='login_signup'),

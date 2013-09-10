@@ -186,16 +186,6 @@ def forgot_password(request):
     return render_to_response('customer/forgot_password.html', info, RequestContext(request))
 
 
-# def sample_login(request):
-
-#     info = {}
-#     loginForm = LoginForm()
-#     signupForm = SignupForm()
-#     info['loginForm'] = loginForm
-#     info['signupForm'] = signupForm
-
-#     return render_to_response('customer/user_access.html', info, RequestContext(request))
-
 def login_signup(request):
 
     info = {}

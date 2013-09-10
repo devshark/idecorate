@@ -32,6 +32,27 @@
         {% if not user.is_authenticated %}
             {% include 'customer/user_access.html' %}
         {% endif %}
+        <div id="newsletter_form_wrap">
+            <div class="formWrap">
+                <form id="newsletter_form" action="" method="post">
+                    <div class="fieldset">
+                        <span class="legendWrap"><span class="legend">Subscribe to our newsletter</span></span>
+                        <div class="fieldsetContent">
+                            <div class="formMessages"></div>
+                            {% csrf_token %}
+                            <div class="fieldGroup">
+                                <label>Email address: </label>
+                                <input type="email" placeholder="Enter your email address"/>
+                            </div>
+                            <div class="fieldGroup operation">
+                                <a href="#" class="closeModalBtn btn">cancel</a>
+                                <input class="btn" type="submit" name="submit" value="login" />
+                            </div>
+                        </div>
+                    </div>  
+                </form>
+            </div>
+        </div>
         <div style='display:none'><img src="{% static 'images/close_modal.png' %}" alt='' /></div>
         <script src="{% static 'javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
@@ -40,75 +61,12 @@
         <script type="text/javascript" src="{% static 'javascripts/dropdown/jquery.dropdown.js' %}"></script>
         <script type="text/javascript">
             CART_URL = '{% url cart %}';
+            var request;
         </script>
         <script type="text/javascript" src="{% static 'javascripts/global.calls.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/global.functions.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.functions.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.calls.js' %}"></script>
-        <script type="text/javascript">
-
-            $(function(){
-
-                $('#login_account_header, #login_account_footer').click(function(e){
-
-                    e.preventDefault();
-                    $('#user_access').modal({
-                        closeClass:'closeModalBtn',
-                    });
-
-                });
-            });
-
-            var request;
-
-            $("#login_form, #signup_form").submit(function(event){
-
-                $('.formMessages').children().remove();
-                
-                if (request) {
-                    request.abort();
-                }
-
-
-                var $form = $(this);
-                var $inputs = $form.find("input, select, button, textarea");
-                var serializedData = $form.serialize();
-
-                $inputs.prop("disabled", true);
-
-                request = $.ajax({
-                    url: $form.attr('action'),
-                    type: "post",
-                    data: serializedData
-                });
-
-                request.done(function (response, textStatus, jqXHR){
-
-                    $form.find('.formMessages').html(response.messages);
-
-                    if(response.response == "success"){
-                        
-                        location.reload();
-
-                    }
-
-                });
-
-                request.fail(function (jqXHR, textStatus, errorThrown){
-
-                    var error = "<p>Cant proccess your request. Please try again</p>";
-                    $form.find('.formMessages').html(error);
-
-                });
-
-                request.always(function () {
-                $inputs.prop("disabled", false);
-                });
-
-                event.preventDefault();
-            });
-
-        </script>
         {% block javascripts %}{% endblock %}
     </body>
 </html>

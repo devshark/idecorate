@@ -70,4 +70,69 @@ $(function() {
 
     });
 
+    $('#login_account_header, #login_account_footer').click(function(e){
+
+        e.preventDefault();
+        $('#user_access').modal();
+
+    });
+
+    $('#news_letter').click(function(e){
+
+        e.preventDefault();
+        $('#newsletter_form_wrap').modal({
+            closeClass:'closeModalBtn',
+        });
+
+    });
+
+
+    $("#login_form, #signup_form").submit(function(event){
+
+        var $form = $(this);
+        var $inputs = $form.find("input, select, button, textarea");
+        var serializedData = $form.serialize();
+        $('.formMessages').children().remove();
+        
+        if (request) {
+
+            request.abort();
+
+        }
+
+        $inputs.prop("disabled", true);
+        request = $.ajax({
+            url: $form.attr('action'),
+            type: "post",
+            data: serializedData
+        });
+
+        request.done(function (response, textStatus, jqXHR){
+
+            $form.find('.formMessages').html(response.messages);
+
+            if(response.response == "success"){
+                
+                location.reload();
+
+            }
+
+        });
+
+        request.fail(function (jqXHR, textStatus, errorThrown){
+
+            var error = "<p>Cant proccess your request. Please try again</p>";
+            $form.find('.formMessages').html(error);
+
+        });
+
+        request.always(function(){
+
+            $inputs.prop("disabled", false);
+
+        });
+
+        event.preventDefault();
+    });
+
 });
