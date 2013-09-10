@@ -323,6 +323,7 @@ body {
 
 #load_more_wrap {
   padding: 5px 0;
+  display: none;
   text-align: center; }
   #load_more_wrap a {
     display: inline-block; }
