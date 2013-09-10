@@ -22,7 +22,7 @@ from django.contrib.auth.models import User
 from forms import LoginForm, SignupForm, SaveStyleboardForm, EditProfileForm, PassForm,ForgotPassForm
 from services import register_user, customer_profile, get_client_ip, get_user_styleboard, save_styleboard_item,\
     get_customer_styleboard_item, manage_styleboard_cart_items, get_styleboard_cart_item, get_user_keep_images, get_user_keep_image, dynamic_styleboard,\
-    get_user_orders,get_user_order,get_order, print_styleboard
+    get_user_orders,get_user_order,get_order, print_styleboard, get_user_unsaved_wishlist
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
 import re
@@ -92,6 +92,7 @@ def customer_login(request):
                     data_response['response'] = 'success'
 
                     # everthing after login is validated and authenticated
+                    get_user_unsaved_wishlist(request)
 
                 else:
 
@@ -126,13 +127,14 @@ def customer_signup(request):
 
             user = register_user(signupForm.cleaned_data)
 
-            if user is not None:
+            if user:
 
-                user = authenticate(username=username, password=password)
+                user = authenticate(username=user.email, password=signupForm.cleaned_data.get('password'))
                 login(request, user)
                 data_response['response'] = 'success'
 
                 # everthing after signup is validated and authenticated
+                get_user_unsaved_wishlist(request)
 
             else:
 

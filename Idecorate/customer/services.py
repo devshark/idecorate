@@ -12,6 +12,8 @@ from urllib import unquote
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
 from plata.shop.models import Order, OrderItem
 
+from .models import WishList
+
 @transaction.commit_manually
 def register_user(data):
 
@@ -36,7 +38,7 @@ def register_user(data):
 
         transaction.rollback()
         
-        return None
+        return False
 
 def is_registered(uname):
     return User.objects.filter(username=uname).exists() or User.objects.filter(email=uname).exists()
@@ -1154,3 +1156,14 @@ def print_styleboard(data, w, h, isImage=False):
     else:
         
         return bgImg
+
+
+def get_user_unsaved_wishlist(request):
+    if request.user.is_authenticated():
+        wishlist_session_id = request.session.get('wishlist_session_id', False)
+        if wishlist_session_id:
+            wishlists = WishList.objects.filter(sessionid=wishlist_session_id)
+            for wishlist in wishlists:
+                wishlist.user = request.user
+                wishlist.save()
+            del request.session['wishlist_session_id']
