@@ -8,4 +8,6 @@
 *.egg-info
 .coverage
 .DS_Store
+Idecorate/media/*
 *.scssc
+Idecorate/Idecorate/localsettings.py
