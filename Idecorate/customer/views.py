@@ -1,3 +1,9 @@
+import re
+import math
+import shutil
+import time
+import os
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import HttpResponse, redirect, render_to_response
 from django.contrib.auth import authenticate, login, logout
@@ -25,11 +31,9 @@ from services import register_user, customer_profile, get_client_ip, get_user_st
     get_user_orders,get_user_order,get_order, print_styleboard, get_user_unsaved_wishlist
 from admin.models import LoginLog, TextFonts, Embellishments, EmbellishmentsType
 from django.conf import settings
-import re
-import math
 from idecorate_settings.models import IdecorateSettings
 from urllib import unquote
-from common.services import send_email_reset_password
+from common.services import send_email_reset_password, render_to_json
 from admin.services import getExtensionAndFileName
 from admin.models import HomeBannerImages
 from cart.services import generate_unique_id
@@ -38,10 +42,7 @@ from django.utils.html import strip_tags
 from cart.models import Contact, ProductPrice
 from social_auth.models import UserSocialAuth
 from django.template.defaultfilters import filesizeformat
-import shutil
 from cart.views import shop
-import time
-import os
 from django_xhtml2pdf.utils import generate_pdf, render_to_pdf_response
 
 from django.core.mail import EmailMultiAlternatives
@@ -55,10 +56,6 @@ from django.core.exceptions import ValidationError
 import logging
 logr = logging.getLogger(__name__)
 
-
-def render_to_json(request, data):
-
-    return HttpResponse(simplejson.dumps(data, ensure_ascii=False),  mimetype=request.is_ajax() and "application/json" or "text/html" )
 
 def customer_login(request):
 
@@ -109,7 +106,7 @@ def customer_login(request):
                 loginLog.ip_address = ip_address
                 loginLog.save()
 
-        data_response['messages'] = render_to_string('customer/messages_ajax_response.html', {'form':loginForm}, RequestContext(request))
+        data_response['messages'] = render_to_string('messages_ajax_response.html', {'form':loginForm}, RequestContext(request))
 
     return render_to_json(request, data_response)
 
@@ -140,9 +137,10 @@ def customer_signup(request):
 
                 messages.warning(request, _('Sorry we can\'t proccess your registration at the moment. Please try again later.'))
         
-        data_response['messages'] = render_to_string('customer/messages_ajax_response.html', {'form':signupForm}, RequestContext(request))
+        data_response['messages'] = render_to_string('messages_ajax_response.html', {'form':signupForm}, RequestContext(request))
 
     return render_to_json(request, data_response)
+
 
 def customer_logout(request):
 
@@ -157,6 +155,7 @@ def customer_logout(request):
     else:
 
         return redirect('home')
+
 
 def forgot_password(request):
 
@@ -183,7 +182,7 @@ def forgot_password(request):
 
     info['form'] = form
     info['cancel'] = request.GET.get('cancel_url', '/')
-    info['messages'] = render_to_string('customer/messages_ajax_response.html', {'form':form}, RequestContext(request))
+    info['messages'] = render_to_string('messages_ajax_response.html', {'form':form}, RequestContext(request))
 
     return render_to_response('customer/forgot_password.html', info, RequestContext(request))
 

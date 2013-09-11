@@ -1,6 +1,14 @@
 @import 'sass';
 #forgot_password{
 	margin-top:10px;
+
+}
+.forgotPasswordPage{
+	text-align: center;
+	width: 600px;
+	p{
+		font-size: 13px;
+	}
 }
 .errorList, .error, .warning{
 	color:red;
@@ -8,7 +16,7 @@
 	font-style: italic;
 }
 input[type="text"],input[type="password"],input[type="email"]{
-	width: 25%;
+	width: 55%;
 	@include rounded_corners(0 !important);
 	border: 1px solid $border_01 !important;
 	font-size: 12px;

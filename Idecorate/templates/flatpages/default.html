@@ -5,9 +5,18 @@
 	<link rel="stylesheet" href="{% static 'stylesheets/flat.css' %}">
 {% endblock %}
 {% block content %}
-<div class="flatPageWrap clearfix">
-	<h3>{{ flatpage.title }}</h3>
-	{{ flatpage.content }}
+
+<div id="content_header">
+	<div class="headingWrap">
+		<div class="fieldset contentHeading">
+			<div class="legend"><span >{{ flatpage.title }}</span></div>
+	    </div>
+    </div>
+</div>
+<div id="content_body">
+	<div class="flatPageWrap clearfix">
+		{{ flatpage.content }}
+	</div>
 </div>
 {% endblock %}
 {% block javascripts %}

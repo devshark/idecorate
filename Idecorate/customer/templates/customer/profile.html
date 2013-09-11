@@ -1,53 +1,41 @@
 {% extends "base.html" %}
-{% load idecorate_interface humanize %}
+{% load idecorate_interface humanize static %}
 {{ request|set_last_page_idecorate }}
 {% block title %}My Profile{% endblock %}
 {%  block style %}
-<link rel="stylesheet" type="text/css" href="/media/interface/css/home.css">
-<link rel="stylesheet" type="text/css" href="/media/interface/css/profile.css">
-<link rel="shortcut icon" href="/media/images/favicon.1.ico" type="image/x-icon" />
-<link rel="icon" href="/media/images/favicon.1.ico" type="image/ico" />
+<link rel="stylesheet" type="text/css" href="{% static 'customer/stylesheets/profile.css'%}">
 {% endblock %}
 {% block content %}
-<div class="profileWrap">
-	<div class="clearfix user-profile">
-		<div class="picture-wrap">
-			{% if user_profile.picture %}
+<div id="content_header">
+	<div class="profileWrap profileName">
+		{% if user_profile.first_name and user_profile.last_name %}
+			<h3>{{ user_profile.first_name }}</h3>
+			<h2>{{ user_profile.last_name }}'s</h2> 
+		{% else %}
+			<h2>{{ user_profile.username }}</h2> 
+		{% endif %}
+			<h4>Styleboards</h4>
+	</div>
+	<div class="profileWrap profileImage">
+		{% if user_profile.picture %}
 			<img src="{{ user_profile.picture }}" alt="" />
-			{% else %}
-			<img src="/media/images/nopic.jpg" alt="" />
-			{% endif %}	
-		</div>
-		<div class="description-wrap">
-			<p class="title">
-				{% if user_profile.first_name != "" and user_profile.last_name != "" %}
-				{{ user_profile.first_name }} {{ user_profile.last_name }} 
-				{% else %}
-				{{ user_profile.username }} 
-				{% endif %}
-			</p>
-			<p class="desc">
-				{% if user_profile.description %}
-				{{ user_profile.description }}
-				{% endif %}
-			</p>
-		</div>
-	</div>	
-	<h2>My Style Boards</h2>
+		{% else %}
+			<img src="{% static 'images/default_profile_image.jpg' %}" alt="" />
+		{% endif %}	
+	</div>
+	<div class="profileWrap profileInfo">
+		{% if user_profile.description %}
+			<p>{{ user_profile.description }}</p>
+		{% endif %}
+	</div>
+</div>
+<div id="content_body"></div>
+<div class="profileWrap">
+	
 	<div class="clearfix styleboardWrapper">
 	
-	{% if user_styleboard %}	
-		{% if messages %}
-        <div class="clearfix errorBlock">
-            <ul>                    
-                {% for message in messages %}
-                <li>{{ message }}</li>
-                {% endfor %}                    
-            </ul>
-        </div>
-        {% endif %}
+		{% if user_styleboard %}	
 		{% for item in user_styleboard %}
-
 		<div class="featureContentWrap clearfix">
 			<a class="delStyleboard" href="{% url delete_styleboard  item.styleboard_item.id %}">Delete</a>
 			<div class="socials">
@@ -87,7 +75,9 @@
 				</div>
 			</div>
 			<div class="clearfix featureImg">
-				<a href="{% url styleboard_view item.styleboard_item.id %}"><img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" /></a> 
+				<a href="{% url styleboard_view item.styleboard_item.id %}">
+					<img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" />
+				</a> 
 			</div>
 			<h3 class="clearfix featureTitle">{{ item.styleboard_item.name }}</h3>
 			<div class="clearfix">
@@ -96,8 +86,6 @@
 				</div>
 				<div class="featurePrice">
 					<h5 class="clearfix">${{ item.styleboard_item.id|get_emb_save_total|intcomma }}</h5>
-					<!-- <p>{% if item.styleboard_item.item_guest %}{{ item.styleboard_item.item_guest }}{% else %}{{ global_default_quantity }}{% endif %} guests</p>
-					<p>{% if item.styleboard_item.item_tables %}{{ item.styleboard_item.item_tables }}{% else %}{{ global_guest_table }}{% endif %} tables</p> -->
 				</div>
 			</div>
 			<div class="clearfix featureFooter">
@@ -108,14 +96,10 @@
 				{% endif %}	<span class="member">by {{ styleboard_user|get_nickname }}</span>
 			</div>
 		</div>
-
 		{% endfor %}
-
-	{% else %}
-
-		<a href="{% url styleboard %}">Create New Style Board</a>
-
-	{% endif %}
+		{% else %}
+		<a href="{% url create %}">Create New Style Board</a>
+		{% endif %}
 
 	</div>
 </section>

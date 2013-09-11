@@ -29,31 +29,7 @@
                 {% include "footer.html" %}                
             </footer>
         </div>
-        {% if not user.is_authenticated %}
-            {% include 'customer/user_access.html' %}
-        {% endif %}
-        <div id="newsletter_form_wrap">
-            <div class="formWrap">
-                <form id="newsletter_form" action="" method="post">
-                    <div class="fieldset">
-                        <span class="legendWrap"><span class="legend">Subscribe to our newsletter</span></span>
-                        <div class="fieldsetContent">
-                            <div class="formMessages"></div>
-                            {% csrf_token %}
-                            <div class="fieldGroup">
-                                <label>Email address: </label>
-                                <input type="email" placeholder="Enter your email address"/>
-                            </div>
-                            <div class="fieldGroup operation">
-                                <a href="#" class="closeModalBtn btn">cancel</a>
-                                <input class="btn" type="submit" name="submit" value="login" />
-                            </div>
-                        </div>
-                    </div>  
-                </form>
-            </div>
-        </div>
-        <div style='display:none'><img src="{% static 'images/close_modal.png' %}" alt='' /></div>
+        {% include 'global_forms.html' %}
         <script src="{% static 'javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/jquery/jquery.placeholder.js' %}"></script>

@@ -141,50 +141,15 @@
 {% block javascripts %}
     <script type="text/javascript" src="{% static 'interface/javascripts/jquery.isotope.js' %}"></script>
     <script type="text/javascript">
+
+		ADD_WISHLIST_URL_AJAX = '{% url add_wishlist_ajax %}';
+		LOADMOREURL = '{% url load_products_ajax %}';
 		page = {{ page }};
 		keywords = null;
-		LOADMOREURL = '{% url load_products_ajax %}';
 		wishlist = false;
 		celebrity_styleboards = false;
+		$container = $('#items_wrapper');
+
 	</script>
     <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
-    <script>
-
-    function addToWishList(object_type, object_id) {
-    	$.ajax({
-    		url: '{% url add_wishlist_ajax %}',
-    		type: 'POST',
-    		data: {'object_type':object_type, 'object_id':object_id},
-    		success: function(data) {
-    			
-    		},
-    		error: function() {
-
-    		}
-    	});
-    }
-
-    $('#newsletter_form input[type="submit"]').click(function() {
-    	var email = $('#newsletter_form input[type="email"]').val();
-
-    	$.ajax({
-    		type    : 'POST',
-    		url     : '{% url subscribe_newsletter_ajax %}',
-    		data    : {'email' : email},
-    		success : function(data) {
-    			data = JSON.parse(data);
-    			if(data['status']=='error') {
-    				$('#newsletter_form .formMessages').html(data['message']);
-    			} else {
-    				$.modal.close();
-    			}
-    		},
-    		error   : function(data) {    			
-
-    		}
-    	});
-    	return false;
-
-    });
-    </script>
 {% endblock %}

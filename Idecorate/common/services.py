@@ -27,7 +27,9 @@ from django.core.mail import EmailMultiAlternatives
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from django.core.validators import validate_email
-from django.core.exceptions import ValidationError   
+from django.core.exceptions import ValidationError 
+from django.utils import simplejson  
+from django.shortcuts import HttpResponse
 
 def ss_direct(params, url, secure=False):
     """
@@ -433,3 +435,10 @@ def set_cookie(response, key, value, days_expire = 7):
         max_age = days_expire * 24 * 60 * 60 
         expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
         response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE or None)
+
+
+def render_to_json(request, data):
+
+    return HttpResponse(simplejson.dumps(data, ensure_ascii=False),  mimetype=request.is_ajax() and "application/json" or "text/html" )
+
+

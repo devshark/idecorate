@@ -40,7 +40,7 @@ from customer.models import (CustomerStyleBoard, CustomerProfile,
 from customer.services import print_styleboard
 from forms import SetPasswordForm, SearchFriendsForm
 from social_auth.models import UserSocialAuth
-from common.services import set_cookie, IdecorateEmail
+from common.services import set_cookie, IdecorateEmail, render_to_json
 from common.forms import NewsletterSubscriberForm
 import urllib #urtl_plus(ncode
 
@@ -1782,23 +1782,20 @@ def get_suggested_products_ajax(request):
 
 @csrf_exempt
 def subscribe_newsletter_ajax(request):
-    response = None
+
+    data_response = {}
+    data_response['response'] = 'failed'
+
     if request.method == 'POST':
+
         form = NewsletterSubscriberForm(request.POST)
+
         if form.is_valid():
+
             form.save()
-            response = {
-                'status'  : 'success',
-                'message' : unicode(_('Thank you for subscribing to our newsletter'))
-            }
-        else:
-            err = ''
-            for error in form.errors:
-                err += form.errors[error].as_text() + '<br />'
+            data_response['response'] = 'success'
+            messages.success(request, _('You are now subscribed to our email newsletter.'))
+            
+    data_response['messages'] = render_to_string('messages_ajax_response.html', {'form':form}, RequestContext(request))
 
-            response = {
-                'status'  : 'error',
-                'message' : err,
-            }
-
-    return HttpResponse(simplejson.dumps(response))
+    return render_to_json(request, data_response)

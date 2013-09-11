@@ -16,6 +16,9 @@ $font_size: 12px;
 $dark: #000000;
 $light : #FFFFFF;
 $border_01 : #dbd7c9;
+$background_color01 : #f2efe8;
+$background_color02 : #fbfaf3;
+$box_shadow : #989391;
 
 //mixins
 @mixin rounded_corners($radius: 5px) {

@@ -1,12 +1,5 @@
 $(function() {
 
-
-    var bannerCentering = function(){
-
-        $('#banner_img').css({marginLeft:(($('#banner_img').width()-$('#banner').width())/2)*-1});
-
-    };
-
     $('#banner_img').one('load', function() {
 
       bannerCentering();
@@ -19,33 +12,11 @@ $(function() {
     });
     $(window).resize(bannerCentering);
     
-
-    var searchBoxTransform = function(){
-
-        var filterBar = $('.filterBar');
-        var searchBox = $('.searchBoxWrap');
-        var searchIcon = $('a.searchIcon');
-
-        if(filterBar.width() < 1220){
-            searchIcon.show();
-            searchBox.find('.searchBox').hide().addClass('transform');
-
-        }else{
-            searchIcon.hide();
-            searchBox.find('.searchBox').show().removeClass('transform');
-        }
-
-        searchIcon.click(function(e){
-            e.preventDefault();
-            searchBox.find('.searchBox').toggle();
-        });
-    };
-
+    
     searchBoxTransform();
     $(window).resize(searchBoxTransform);
 
 
-    var $container = $('#items_wrapper');
     $container.isotope({
         filter: '*',    
         layoutMode : 'masonry',
@@ -71,7 +42,7 @@ $(function() {
                 $container.isotope('remove', $container.children());
                 resetVars();
                 wishlist = true;                
-                loadMoreResults($container);
+                loadMoreResults();
                 $container.isotope('reloadItems');
 
             } else if($(this).attr('id') == 'celebrity_styleboards') {
@@ -79,20 +50,20 @@ $(function() {
                 $container.isotope('remove', $container.children());
                 resetVars();
                 celebrity_styleboards = true;
-                loadMoreResults($container);
+                loadMoreResults();
                 $container.isotope('reloadItems');
 
             } else {
 
                 if(wishlist || celebrity_styleboards) {
                     resetVars();
-                    loadMoreResults($container);
+                    loadMoreResults();
                     $container.isotope('reloadItems');                   
                 }
 
                 if(keywords != null) {
                     resetVars();
-                    loadMoreResults($container);                
+                    loadMoreResults();                
                 }
 
                 $container.isotope('reloadItems');
@@ -110,31 +81,16 @@ $(function() {
 
         if($(window).scrollTop() == $(document).height() - $(window).height()) {
 
-            loadMoreResults($container);
+            loadMoreResults();
 
         }
     });
 
     $('#load_more').click(function(e){
         e.preventDefault();
-        loadMoreResults($container);
+        loadMoreResults();
     });
 
-    searchItems = function(e){
-
-        if(e.which == 13 || e.type == 'click'){
-
-            $('#search_result').addClass('active').parent().siblings().children('a').removeClass('active');
-            $container.isotope('remove', $container.children());
-            resetVars();
-            keywords = $('#search_input').val();
-            loadMoreResults($container);
-            //$container.isotope({filter: '*'});
-            $container.isotope('reloadItems');
-
-        }
-
-    };
     
     $('#search_input').keypress(function(e){ searchItems(e); })
     $('.searchBtn').click(function(e){  searchItems(e); });
@@ -151,7 +107,46 @@ $('#items_wrapper').children().hide();
 $(window).load(function(){ $('#items_wrapper').children().show(100); });
 
 
-var loadMoreResults = function($container) {
+var searchBoxTransform = function(){
+
+    var filterBar = $('.filterBar');
+    var searchBox = $('.searchBoxWrap');
+    var searchIcon = $('a.searchIcon');
+
+    if(filterBar.width() < 1220){
+        searchIcon.show();
+        searchBox.find('.searchBox').hide().addClass('transform');
+
+    }else{
+        searchIcon.hide();
+        searchBox.find('.searchBox').show().removeClass('transform');
+    }
+
+    searchIcon.click(function(e){
+        e.preventDefault();
+        searchBox.find('.searchBox').toggle();
+    });
+};
+
+
+var searchItems = function(e){
+
+    if(e.which == 13 || e.type == 'click'){
+
+        $('#search_result').addClass('active').parent().siblings().children('a').removeClass('active');
+        $container.isotope('remove', $container.children());
+        resetVars();
+        keywords = $('#search_input').val();
+        loadMoreResults();
+        //$container.isotope({filter: '*'});
+        $container.isotope('reloadItems');
+
+    }
+
+};
+
+
+var loadMoreResults = function() {
 
 
     $('#load_more_wrap').hide();
@@ -204,10 +199,35 @@ var loadMoreResults = function($container) {
 
 };
 
+
 var resetVars = function() {
     page = 0;
     keywords = null;
     wishlist = false;
     celebrity_styleboards = false;
 }
+
+
+var addToWishList = function(object_type, object_id) {
+
+    $.ajax({
+        url: ADD_WISHLIST_URL_AJAX,
+        type: 'POST',
+        data: {'object_type':object_type, 'object_id':object_id},
+        success: function(data) {
+            
+        },
+        error: function() {
+
+        }
+    });
+    
+}
+
+
+var bannerCentering = function(){
+
+    $('#banner_img').css({marginLeft:(($('#banner_img').width()-$('#banner').width())/2)*-1});
+
+};
 

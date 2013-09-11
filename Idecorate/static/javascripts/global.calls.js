@@ -70,10 +70,14 @@ $(function() {
 
     });
 
+    $.modal.defaults.closeHTML = '<a title="Close" class="modalCloseImg simplemodal-close">&#10005;</a>';
+
     $('#login_account_header, #login_account_footer').click(function(e){
 
         e.preventDefault();
-        $('#user_access').modal();
+        $('#user_access').modal({
+            overlayClose: true
+        });
 
     });
 
@@ -82,6 +86,7 @@ $(function() {
         e.preventDefault();
         $('#newsletter_form_wrap').modal({
             closeClass:'closeModalBtn',
+            overlayClose: true
         });
 
     });
@@ -133,6 +138,64 @@ $(function() {
         });
 
         event.preventDefault();
+    });
+
+    $('#newsletter_form').submit(function(event) {
+
+        var $form = $(this);
+        var $inputs = $form.find("input, select, button, textarea");
+        var serializedData = $form.serialize();
+        $('.formMessages').children().remove();
+
+        if (request) {
+
+            request.abort();
+
+        }
+
+        $inputs.prop("disabled", true);
+        request = $.ajax({
+            url: $form.attr('action'),
+            type: "POST",
+            data: serializedData
+        });
+
+        request.done(function (response, textStatus, jqXHR){
+
+            $form.find('.formMessages').html(response.messages);
+
+            if(response.response == "success"){
+                
+                $.modal.close();
+                var successModal =  $('#newsletter_success_wrap');
+                successModalMessage = response.messages;
+                successModalMessage += '<h3>Thank you</h3>';
+                successModalMessage += '<a href="#" class="btn closeModalBtn">Ok</a>';
+                successModal.find('.fieldsetContent').html(successModalMessage)
+                successModal.modal({
+                    closeClass:'closeModalBtn',
+                    overlayClose: true
+                });
+
+            }
+
+        });
+
+        request.fail(function (jqXHR, textStatus, errorThrown){
+
+            var error = "<p>Cant proccess your request. Please try again</p>";
+            $form.find('.formMessages').html(error);
+
+        });
+
+        request.always(function(){
+
+            $inputs.prop("disabled", false);
+
+        });
+
+        event.preventDefault();
+
     });
 
 });

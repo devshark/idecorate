@@ -1,8 +1,4 @@
 @import 'sass';
-body{
-	height: 100%;
-	background-color: #f0efe7 !important;
-}
 #banner{
 	position: relative;
 	z-index:1;
@@ -87,7 +83,6 @@ body{
 #main_content{
 	position: relative;
 	min-width:1024px;
-	background-color: #f0efe7;
 	.contentHeader{
 		position: absolute;
 		z-index: 1;
@@ -190,10 +185,10 @@ body{
 					border-top: 1px solid $border_01 !important;
 					border-left: 1px solid $border_01 !important;
 					border-right: 1px solid $border_01 !important;
-					border-bottom: 1px solid #f0efe7 !important;
+					border-bottom: 1px solid $background_color01 !important;
 					@include rounded_by_corner(top, left, 4px);
 					@include rounded_by_corner(top, right, 4px);
-					@include gradients(#fbfaf3, #f0efe7);
+					@include gradients($background_color02, $background_color01);
 					color: #333333;
 
 					img.products{
@@ -242,9 +237,9 @@ body{
 			border-top: 1px solid $border_01 !important;
 			border-left: 1px solid $border_01 !important;
 			border-right: 1px solid $border_01 !important;
-			border-bottom: 1px solid #f0efe7 !important;
+			border-bottom: 1px solid $background_color01 !important;
 			@include rounded_by_corner(top, left, 4px);
-			@include gradients(#fbfaf3, #f0efe7);
+			@include gradients($background_color02, $background_color01);
 			padding: 7px 8px;
 			position:absolute;
 			right: 0;

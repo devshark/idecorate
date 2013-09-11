@@ -7,12 +7,12 @@ html{
 	height:100%;
 	body {
 		font-size: $font_size;
-		line-height:1.2em;
+		// line-height:1.2em;
 		font-family: $helvetica;
 		color: lighten($dark, 30%);
-		background-color: $light;
 		width:100%;
 		height:100%;
+		background-color: $background_color01;
 		// overflow: hidden;	
 		header,footer{
 			width:100%;
@@ -398,7 +398,6 @@ ul.simpleDropdown li{
 }
 
 //******* cart *********//
-
 .iDCart{
 	background-color: #FFFFFF;
 	@include rounded_by_corner(top, left, 4px);
@@ -414,7 +413,7 @@ ul.simpleDropdown li{
 	position: absolute;
 	top:-2px;
 	left: 110%; 
-	padding: 7px 7px 4px;
+	padding: 7px;
 	background-color: #FFFFFF;
 	@include rounded_corners(5px);
 	font-family: $cartoGothicStd_Book;
@@ -490,22 +489,98 @@ ul.simpleDropdown li{
 	cursor: default;
 }
 
-#user_access, #newsletter_form_wrap {
+/* site pages */
+#content_header{
+	text-align:center;
+	background-color: #FFFFFF;
+	.headingWrap{
+		display: inline-block;
+		*display: inline;
+		zoom : 1;
+		background-color: #FFFFFF;
+		margin-bottom: -25px;
+		.contentHeading{
+			background-color: #FFFFFF;
+			margin: 30px 20px 0;
+			padding: 0;
+			.legend{
+				padding: 0 70px;
+				margin-top: -15px;
+				position: relative;
+				z-index: 1;
+				span{
+					height: 30px;
+					font-size: 20px !important;
+					line-height: 30px !important;
+					white-space: nowrap;
+					display: inline-block;
+					background-color: #FFFFFF;
+					text-transform: uppercase;
+					font-family: $PTserif;
+					color: #333333;
+					padding: 0 20px;
+				}
+			}
+		}
+	}
+	.headingWrap:after{
+		display: block;
+		content: "";
+		height: 24px;
+		border-bottom: 1px solid $border_01;
+		border-left: 1px solid $border_01;
+		border-right: 1px solid $border_01;
+		width: 100%;
+		box-shadow: 0 1px 0 $box_shadow;
+	}
+}
+#content_body{
+	padding-bottom:70px;
+	border-top: 1px solid $border_01;
+}
+
+#user_access, #newsletter_form_wrap, #newsletter_success_wrap{
 	display:none;
 	background-color:#FFFFFF; 
-	border:1px solid #000000; 
-	padding:20px;
-
+	border:1px solid $border_01; 
+	padding:25px;
+	p{
+		color: #666666;
+		font-family: $PTserif;
+		font-size: 12px;
+	}
 	.formWrap{
 		// float: left;
+		.fieldset{
+			.legendWrap{
+				.legend{
+					font-size: 17px;
+					color: #333333;
+				}
+			}
+		}
 		.fieldsetContent{
 			padding: 2px 0;
+			// .formMessages{
+			// 	text-align: left;
+			// 	.errorList, .error, .warning{
+			// 		color:red;
+			// 		font-size: 11px;
+			// 		font-style: italic;
+			// 	}
+			// }
 			.formMessages{
-				text-align: left;
+				background-color: #f6f5f0;
+				width: 266px !important;
+				margin: 0 auto;
 				.errorList, .error, .warning{
-					color:red;
 					font-size: 11px;
-					font-style: italic;
+					line-height: 13px;
+					padding: 7px;
+					text-align: left;
+					text-transform: uppercase;
+					font-style: normal !important;
+					color: #666666 !important;
 				}
 			}
 			.fieldGroup{
@@ -513,14 +588,6 @@ ul.simpleDropdown li{
 			}
 			.fieldGroup.operation{
 				text-align: right;
-				.forgotPassword{
-					display: inline-block;
-					margin-right: 5px;
-					color: #666666;
-				}
-				.forgotPassword:hover{
-					text-decoration: underline;
-				}
 				.btn{
 					padding: 5px !important;
 					font-size: 11px !important;
@@ -530,11 +597,6 @@ ul.simpleDropdown li{
 				}
 				.closeModalBtn{
 					line-height: 18px !important;
-				}
-			}
-			.socialLogin{
-				a{
-					display: inline-block;
 				}
 			}
 		}
@@ -547,7 +609,7 @@ ul.simpleDropdown li{
 			white-space: nowrap !important;
 		}
 		input[type="text"],input[type="password"],input[type="email"]{
-			width: 220px !important;
+			width: 260px;
 			@include rounded_corners(0);
 			border: 1px solid $border_01;
 			font-size: 12px;
@@ -555,29 +617,120 @@ ul.simpleDropdown li{
 		}
 	}
 }
+#user_access{
+	border-right:none;
+	padding: 0;
+	.formWrap{
+		padding: 25px;
+		min-height: 260px;
+		float: left;
+		border-right: 1px solid $border_01;
+		.fieldset{
+			margin-top: 20px;
+			padding-top: 20px;
+			.legendWrap{
+				top:-20px;
+				.legend{
+					height: 40px;
+					line-height: 20px;
+				}
+			}
+			.fieldsetContent{
+				margin-top:10px;
+				.fieldGroup.operation{
+					.btn{
+						width: 100%;
+						padding-top:10px !important;
+						padding-bottom:10px !important;
+					}
+					.forgotPassword{
+						display: inline-block;
+						margin-top:10px;
+						color: #666666;
+					}
+					.forgotPassword:hover{
+						text-decoration: underline;
+					}
+				}
+			}
+		}
+		.fieldset.socialLogin{
+			border-top:1px solid #666666;
+			margin-top: 15px !important;
+			padding-top: 5px !important;
+			.legendWrap{
+				top:-15px !important;
+				.legend{
+					font-size: 18px !important;
+					height: 20px !important;
+					line-height: 20px !important;
+					text-transform: lowercase;
+					font-style: italic;
+				}
+			}
+			a{
+				display: block;
+			}
+		}
+		.socialLogin:before{
+			border: none;
+			background-color: #FFFFFF;
+			height: 0;
+		}
+	}
+}
+#newsletter_form_wrap{
+	p{
+		margin: 10px 0;
+	}
+	input[type="text"],input[type="password"],input[type="email"]{
+		width: 320px !important;
+	}
+	.fieldGroup.operation{
+		text-align: center !important;
+	}
+	.formMessages{
+		background-color: #f6f5f0;
+		width: 326px !important;
+		margin: 0 auto;
+		ul{
+			padding: 7px;
+			text-align: center;
+			text-transform: uppercase;
+			font-style: normal !important;
+			color: #666666 !important;
+		}
+	}
+}
 
 /* Overlay */
 #simplemodal-overlay {
-	background-color:#000;
+	background-color:#FFFFFF;
 }
 
 /* Container */
 #simplemodal-container {
-	top: 100px !important;
+	// top: 100px !important;
 }
 
 #simplemodal-container a.modalCloseImg {
-	background:url('/static/images/close_modal.png') 
-	no-repeat; width:25px; 
-	height:29px; 
-	display:inline; 
+	// background:url('/static/images/close_modal.png') 
+	// no-repeat; 
+	// width:25px; 
+	// height:29px; 
+	// display:inline;
+	top:10px; 
+	right:4px; 
 	z-index:3200; 
+	cursor:pointer; 
 	position:absolute; 
-	top:-10px; 
-	right:-10px; 
-	cursor:pointer;
+	font-size: 25px;
+	color: #999999;
 }
 
+#simplemodal-container a.modalCloseImg:hover{
+	color: #666666;
+}
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.headerColumn.info, .headerColumn.user{ width: 457px !important; }
