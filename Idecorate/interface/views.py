@@ -41,6 +41,7 @@ from customer.services import print_styleboard
 from forms import SetPasswordForm, SearchFriendsForm
 from social_auth.models import UserSocialAuth
 from common.services import set_cookie, IdecorateEmail
+from common.forms import NewsletterSubscriberForm
 import urllib #urtl_plus(ncode
 
 from django.core.mail import EmailMultiAlternatives
@@ -120,7 +121,7 @@ def load_products_ajax(request):
                     wishlist_styleboards = WishList.objects.filter(user=request.user,
                                                                     object_type='styleboards').values_list('object_id')
                     wishlist_inspirations = WishList.objects.filter(user=request.user,
-                                                                    object_type='inspirations').values_list('object_id')
+                                                                    object_type='inspiration').values_list('object_id')
                 else:
                     sessionid = request.session.get('sessionid')
                     wishlist_products = WishList.objects.filter(sessionid=sessionid,
@@ -128,7 +129,7 @@ def load_products_ajax(request):
                     wishlist_styleboards = WishList.objects.filter(sessionid=sessionid,
                                                                     object_type='styleboards').values_list('object_id')
                     wishlist_inspirations = WishList.objects.filter(sessionid=sessionid,
-                                                                    object_type='inspirations').values_list('object_id')
+                                                                    object_type='inspiration').values_list('object_id')
 
                 product_list = Product.objects.filter(is_deleted=False,
                                         is_active=True,
@@ -154,7 +155,7 @@ def load_products_ajax(request):
                                                                     )[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
                     hbi_list = HomeBannerImages.objects.filter(Q(name__icontains=keywords) | Q(description__icontains=keywords)).values_list('home_banner_id')
                     inspiration_list = HomeBanners.objects.filter(Q(is_deleted=False), Q(id__in=hbi_list))[inspiration_offset:settings.INSPIRATION_NUM_RECORDS+inspiration_offset]
-                    print inspiration_list, hbi_list
+                    
         else:
             if wishlist:
                 pass
@@ -1776,3 +1777,28 @@ def get_suggested_products_ajax(request):
                 html += '%s' % suggested_product.suggested_product.name
 
     return HttpResponse(html)
+
+
+
+@csrf_exempt
+def subscribe_newsletter_ajax(request):
+    response = None
+    if request.method == 'POST':
+        form = NewsletterSubscriberForm(request.POST)
+        if form.is_valid():
+            form.save()
+            response = {
+                'status'  : 'success',
+                'message' : unicode(_('Thank you for subscribing to our newsletter'))
+            }
+        else:
+            err = ''
+            for error in form.errors:
+                err += form.errors[error].as_text() + '<br />'
+
+            response = {
+                'status'  : 'error',
+                'message' : err,
+            }
+
+    return HttpResponse(simplejson.dumps(response))
