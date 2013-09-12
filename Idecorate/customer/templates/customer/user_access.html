@@ -1,6 +1,6 @@
 {% load i18n widget_tweaks static %}
 <div id="user_access" class="clearfix">
-	<div class="formWrap">
+	<div class="formWrap loginWrap">
 		<form action="/customer_login/" id="login_form">
 			<div class="fieldset">
                 <span class="legendWrap"><span class="legend">Login into an<br/>existing account</span></span>
@@ -26,12 +26,18 @@
 		<div class="fieldset socialLogin">
             <span class="legendWrap"><span class="legend">or</span></span>
             <div class="fieldsetContent">
-				<a id="idecorate_fb" href="/login/facebook/" class="clearfix">
-                	<img src="{% static 'images/login_facebook.png' %}" />
-                </a>
-                <a id="idecorate_twitter" href="/login/twitter/" class="clearfix">
-                	<img src="{% static 'images/login_twitter.png' %}" />
-                </a>
+            	<div>
+					<a id="idecorate_fb" class="btn facebookLogin" href="/login/facebook/">
+	                	<img src="{% static 'images/img_trans.gif' %}" />
+	                	<span>Sign with facebook</span>
+	                </a>
+                </div>
+            	<div>
+	                <a id="idecorate_twitter" class="btn twitterLogin" href="/login/twitter/">
+	                	<img src="{% static 'images/img_trans.gif' %}" />
+	                	<span>Sign with twitter</span>
+	                </a>
+                </div>
 			</div>
 		</div>
 	</div>

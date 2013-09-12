@@ -280,8 +280,12 @@ input.inputText{
 input.btn{
 	cursor:pointer;
 }
+input::-moz-focus-inner { 
+  border: 0; 
+}
 
 .btn{
+	outline: 0;
 	padding:5px 10px !important;
 	display: inline-block;
 	text-align:center;
@@ -539,7 +543,7 @@ ul.simpleDropdown li{
 	border-top: 1px solid $border_01;
 }
 
-#user_access, #newsletter_form_wrap, #newsletter_success_wrap{
+#user_access, #newsletter_form_wrap, #modal_default_messages{
 	display:none;
 	background-color:#FFFFFF; 
 	border:1px solid $border_01; 
@@ -571,7 +575,7 @@ ul.simpleDropdown li{
 			// }
 			.formMessages{
 				background-color: #f6f5f0;
-				width: 266px !important;
+				width: 266px;
 				margin: 0 auto;
 				.errorList, .error, .warning{
 					font-size: 11px;
@@ -617,14 +621,39 @@ ul.simpleDropdown li{
 		}
 	}
 }
+#modal_default_messages{
+	min-width: 400px;
+	color: #666666;
+}
+#modal_default_messages.newsletterSubscribe{
+	.fieldsetContent{
+		font-family: $PTserif;
+		margin-top: 20px;
+		color: #666666 !important;
+		h3{
+			font-size: 14px;
+			line-height: 18px;
+			font-style: italic;
+			margin-bottom: 20px;
+		}
+		.btn{
+			padding: 10px 30px !important;
+		}
+	}
+	
+}
 #user_access{
-	border-right:none;
+	border-left:none;
 	padding: 0;
-	.formWrap{
-		padding: 25px;
-		min-height: 260px;
-		float: left;
+	.loginWrap{
 		border-right: 1px solid $border_01;
+	}
+	.formWrap{
+		margin-left: -1px;
+		padding: 25px;
+		min-height: 320px;
+		float: left;
+		border-left: 1px solid $border_01;
 		.fieldset{
 			margin-top: 20px;
 			padding-top: 20px;
@@ -668,8 +697,30 @@ ul.simpleDropdown li{
 					font-style: italic;
 				}
 			}
+			.fieldsetContent div{
+				margin-top: 5px;
+			}
 			a{
-				display: block;
+				img{
+					background-image : url('/static/images/social_icons.png');
+					background-repeat: no-repeat;
+					height: 29px;
+					width: 29px;
+					display: inline-block;
+					vertical-align: middle;
+				}
+				span{
+					display: inline-block;
+					width: 150px;
+					text-align: center;
+					vertical-align: middle;
+				}
+			}
+			a.facebookLogin img{
+				background-position: -254px -6px;
+			}
+			a.twitterLogin img{
+				background-position: -254px -47px;
 			}
 		}
 		.socialLogin:before{

@@ -140,6 +140,7 @@ $(function() {
         event.preventDefault();
     });
 
+
     $('#newsletter_form').submit(function(event) {
 
         var $form = $(this);
@@ -167,10 +168,11 @@ $(function() {
             if(response.response == "success"){
                 
                 $.modal.close();
-                var successModal =  $('#newsletter_success_wrap');
-                successModalMessage = response.messages;
-                successModalMessage += '<h3>Thank you</h3>';
-                successModalMessage += '<a href="#" class="btn closeModalBtn">Ok</a>';
+                var successModal =  $('#modal_default_messages');
+                var successModalMessage = response.messages;
+                successModalMessage += '<h3>Thank you</h3><a href="#" class="btn closeModalBtn">Ok</a>';
+                successModal.addClass('newsletterSubscribe');
+                successModal.find('.legend').text('Subscribe to our newsletter');
                 successModal.find('.fieldsetContent').html(successModalMessage)
                 successModal.modal({
                     closeClass:'closeModalBtn',

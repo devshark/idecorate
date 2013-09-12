@@ -219,7 +219,11 @@ input.inputText {
 input.btn {
   cursor: pointer; }
 
+input::-moz-focus-inner {
+  border: 0; }
+
 .btn {
+  outline: 0;
   padding: 5px 10px !important;
   display: inline-block;
   text-align: center;
@@ -480,25 +484,25 @@ ul.simpleDropdown li {
   padding-bottom: 70px;
   border-top: 1px solid #dbd7c9; }
 
-#user_access, #newsletter_form_wrap, #newsletter_success_wrap {
+#user_access, #newsletter_form_wrap, #modal_default_messages {
   display: none;
   background-color: #FFFFFF;
   border: 1px solid #dbd7c9;
   padding: 25px; }
-  #user_access p, #newsletter_form_wrap p, #newsletter_success_wrap p {
+  #user_access p, #newsletter_form_wrap p, #modal_default_messages p {
     color: #666666;
     font-family: "PT Serif", serif;
     font-size: 12px; }
-  #user_access .formWrap .fieldset .legendWrap .legend, #newsletter_form_wrap .formWrap .fieldset .legendWrap .legend, #newsletter_success_wrap .formWrap .fieldset .legendWrap .legend {
+  #user_access .formWrap .fieldset .legendWrap .legend, #newsletter_form_wrap .formWrap .fieldset .legendWrap .legend, #modal_default_messages .formWrap .fieldset .legendWrap .legend {
     font-size: 17px;
     color: #333333; }
-  #user_access .formWrap .fieldsetContent, #newsletter_form_wrap .formWrap .fieldsetContent, #newsletter_success_wrap .formWrap .fieldsetContent {
+  #user_access .formWrap .fieldsetContent, #newsletter_form_wrap .formWrap .fieldsetContent, #modal_default_messages .formWrap .fieldsetContent {
     padding: 2px 0; }
-    #user_access .formWrap .fieldsetContent .formMessages, #newsletter_form_wrap .formWrap .fieldsetContent .formMessages, #newsletter_success_wrap .formWrap .fieldsetContent .formMessages {
+    #user_access .formWrap .fieldsetContent .formMessages, #newsletter_form_wrap .formWrap .fieldsetContent .formMessages, #modal_default_messages .formWrap .fieldsetContent .formMessages {
       background-color: #f6f5f0;
-      width: 266px !important;
+      width: 266px;
       margin: 0 auto; }
-      #user_access .formWrap .fieldsetContent .formMessages .errorList, #user_access .formWrap .fieldsetContent .formMessages .error, #user_access .formWrap .fieldsetContent .formMessages .warning, #newsletter_form_wrap .formWrap .fieldsetContent .formMessages .errorList, #newsletter_form_wrap .formWrap .fieldsetContent .formMessages .error, #newsletter_form_wrap .formWrap .fieldsetContent .formMessages .warning, #newsletter_success_wrap .formWrap .fieldsetContent .formMessages .errorList, #newsletter_success_wrap .formWrap .fieldsetContent .formMessages .error, #newsletter_success_wrap .formWrap .fieldsetContent .formMessages .warning {
+      #user_access .formWrap .fieldsetContent .formMessages .errorList, #user_access .formWrap .fieldsetContent .formMessages .error, #user_access .formWrap .fieldsetContent .formMessages .warning, #newsletter_form_wrap .formWrap .fieldsetContent .formMessages .errorList, #newsletter_form_wrap .formWrap .fieldsetContent .formMessages .error, #newsletter_form_wrap .formWrap .fieldsetContent .formMessages .warning, #modal_default_messages .formWrap .fieldsetContent .formMessages .errorList, #modal_default_messages .formWrap .fieldsetContent .formMessages .error, #modal_default_messages .formWrap .fieldsetContent .formMessages .warning {
         font-size: 11px;
         line-height: 13px;
         padding: 7px;
@@ -506,25 +510,25 @@ ul.simpleDropdown li {
         text-transform: uppercase;
         font-style: normal !important;
         color: #666666 !important; }
-    #user_access .formWrap .fieldsetContent .fieldGroup, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup, #newsletter_success_wrap .formWrap .fieldsetContent .fieldGroup {
+    #user_access .formWrap .fieldsetContent .fieldGroup, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup, #modal_default_messages .formWrap .fieldsetContent .fieldGroup {
       padding: 3px 0; }
-    #user_access .formWrap .fieldsetContent .fieldGroup.operation, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup.operation, #newsletter_success_wrap .formWrap .fieldsetContent .fieldGroup.operation {
+    #user_access .formWrap .fieldsetContent .fieldGroup.operation, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup.operation, #modal_default_messages .formWrap .fieldsetContent .fieldGroup.operation {
       text-align: right; }
-      #user_access .formWrap .fieldsetContent .fieldGroup.operation .btn, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup.operation .btn, #newsletter_success_wrap .formWrap .fieldsetContent .fieldGroup.operation .btn {
+      #user_access .formWrap .fieldsetContent .fieldGroup.operation .btn, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup.operation .btn, #modal_default_messages .formWrap .fieldsetContent .fieldGroup.operation .btn {
         padding: 5px !important;
         font-size: 11px !important; }
-      #user_access .formWrap .fieldsetContent .fieldGroup.operation .btn:hover, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup.operation .btn:hover, #newsletter_success_wrap .formWrap .fieldsetContent .fieldGroup.operation .btn:hover {
+      #user_access .formWrap .fieldsetContent .fieldGroup.operation .btn:hover, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup.operation .btn:hover, #modal_default_messages .formWrap .fieldsetContent .fieldGroup.operation .btn:hover {
         color: #333333; }
-      #user_access .formWrap .fieldsetContent .fieldGroup.operation .closeModalBtn, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup.operation .closeModalBtn, #newsletter_success_wrap .formWrap .fieldsetContent .fieldGroup.operation .closeModalBtn {
+      #user_access .formWrap .fieldsetContent .fieldGroup.operation .closeModalBtn, #newsletter_form_wrap .formWrap .fieldsetContent .fieldGroup.operation .closeModalBtn, #modal_default_messages .formWrap .fieldsetContent .fieldGroup.operation .closeModalBtn {
         line-height: 18px !important; }
-  #user_access .formWrap label, #newsletter_form_wrap .formWrap label, #newsletter_success_wrap .formWrap label {
+  #user_access .formWrap label, #newsletter_form_wrap .formWrap label, #modal_default_messages .formWrap label {
     font-size: 11px;
     text-transform: uppercase;
     display: inline-block;
     width: 90px;
     text-align: right;
     white-space: nowrap !important; }
-  #user_access .formWrap input[type="text"], #user_access .formWrap input[type="password"], #user_access .formWrap input[type="email"], #newsletter_form_wrap .formWrap input[type="text"], #newsletter_form_wrap .formWrap input[type="password"], #newsletter_form_wrap .formWrap input[type="email"], #newsletter_success_wrap .formWrap input[type="text"], #newsletter_success_wrap .formWrap input[type="password"], #newsletter_success_wrap .formWrap input[type="email"] {
+  #user_access .formWrap input[type="text"], #user_access .formWrap input[type="password"], #user_access .formWrap input[type="email"], #newsletter_form_wrap .formWrap input[type="text"], #newsletter_form_wrap .formWrap input[type="password"], #newsletter_form_wrap .formWrap input[type="email"], #modal_default_messages .formWrap input[type="text"], #modal_default_messages .formWrap input[type="password"], #modal_default_messages .formWrap input[type="email"] {
     width: 260px;
     -webkit-border-radius: 0;
     -moz-border-radius: 0;
@@ -533,14 +537,33 @@ ul.simpleDropdown li {
     font-size: 12px;
     padding: 5px 2px; }
 
+#modal_default_messages {
+  min-width: 400px;
+  color: #666666; }
+
+#modal_default_messages.newsletterSubscribe .fieldsetContent {
+  font-family: "PT Serif", serif;
+  margin-top: 20px;
+  color: #666666 !important; }
+  #modal_default_messages.newsletterSubscribe .fieldsetContent h3 {
+    font-size: 14px;
+    line-height: 18px;
+    font-style: italic;
+    margin-bottom: 20px; }
+  #modal_default_messages.newsletterSubscribe .fieldsetContent .btn {
+    padding: 10px 30px !important; }
+
 #user_access {
-  border-right: none;
+  border-left: none;
   padding: 0; }
-  #user_access .formWrap {
-    padding: 25px;
-    min-height: 260px;
-    float: left;
+  #user_access .loginWrap {
     border-right: 1px solid #dbd7c9; }
+  #user_access .formWrap {
+    margin-left: -1px;
+    padding: 25px;
+    min-height: 320px;
+    float: left;
+    border-left: 1px solid #dbd7c9; }
     #user_access .formWrap .fieldset {
       margin-top: 20px;
       padding-top: 20px; }
@@ -573,8 +596,24 @@ ul.simpleDropdown li {
           line-height: 20px !important;
           text-transform: lowercase;
           font-style: italic; }
-      #user_access .formWrap .fieldset.socialLogin a {
-        display: block; }
+      #user_access .formWrap .fieldset.socialLogin .fieldsetContent div {
+        margin-top: 5px; }
+      #user_access .formWrap .fieldset.socialLogin a img {
+        background-image: url("/static/images/social_icons.png");
+        background-repeat: no-repeat;
+        height: 29px;
+        width: 29px;
+        display: inline-block;
+        vertical-align: middle; }
+      #user_access .formWrap .fieldset.socialLogin a span {
+        display: inline-block;
+        width: 150px;
+        text-align: center;
+        vertical-align: middle; }
+      #user_access .formWrap .fieldset.socialLogin a.facebookLogin img {
+        background-position: -254px -6px; }
+      #user_access .formWrap .fieldset.socialLogin a.twitterLogin img {
+        background-position: -254px -47px; }
     #user_access .formWrap .socialLogin:before {
       border: none;
       background-color: #FFFFFF;
