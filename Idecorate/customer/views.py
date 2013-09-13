@@ -264,21 +264,41 @@ def login_signup(request):
 
 def profile(request):
 
-    user_id = request.GET.get('id',None)
-    if user_id:
-        try:
-            user = User.objects.get(id=user_id)
-        except:
-            if request.user.is_authenticated():
-                user = request.user
-            else:
-                return redirect('home')
-    else:
-        if request.user.is_authenticated():
-            user = request.user
-        else:
-            return redirect('home')
     info = {}
+    info['styleboard_delete'] = True
+    user_id = request.GET.get('id',None)
+
+    if user_id:
+
+        try:
+
+            user = User.objects.get(id=user_id)
+
+        except:
+
+            if request.user.is_authenticated():
+
+                user = request.user
+
+            else:
+
+                raise Http404
+
+        if user_id != request.user.id:
+
+            info['styleboard_delete'] = False
+
+    else:
+
+        if request.user.is_authenticated():
+
+            user = request.user
+
+        else:
+            
+            raise Http404
+
+
     info['styleboard_user'] = user
     user_profile = customer_profile(user)
     info['user_profile'] = user_profile
@@ -609,12 +629,15 @@ def save_styleboard(request):
 
     return render_to_response('customer/iframe/save_styleboard.html', info, RequestContext(request))
 
-def styleboard_view(request,sid=None):
+def view_styleboard(request,sid=None):
+
+    info = {}
     if not sid:
         # return redirect('home')
         raise Http404
-    info = {}
+
     styleboard = get_user_styleboard(None, sid)
+
     if not styleboard:
         # return redirect('home')
         raise Http404
@@ -633,7 +656,7 @@ def styleboard_view(request,sid=None):
     info['styleboard'] = get_user_styleboard(None, sid)
     info['cart_items'] = get_styleboard_cart_item(styleboard.styleboard_item)
     info['styleboard_id'] = sid
-    return render_to_response('customer/styleboard_view.html', info, RequestContext(request))
+    return render_to_response('customer/view_styleboard.html', info, RequestContext(request))
 
 def get_product_price(product):
         product_details = ProductPrice.objects.get(product=product)

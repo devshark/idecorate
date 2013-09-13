@@ -543,7 +543,7 @@ ul.simpleDropdown li{
 	border-top: 1px solid $border_01;
 }
 
-#user_access, #newsletter_form_wrap, #modal_default_messages{
+#user_access, #newsletter_form_wrap, #modal_default_messages,#modal_confirm_prompt{
 	display:none;
 	background-color:#FFFFFF; 
 	border:1px solid $border_01; 
@@ -621,7 +621,21 @@ ul.simpleDropdown li{
 		}
 	}
 }
-#modal_default_messages{
+#modal_confirm_prompt{
+	.operation{
+		margin: 10px 0 0;
+		.btn{
+			padding: 8px 10px !important;
+		}
+	}
+	.fieldsetContent{
+		margin: 10px 0 0;
+		color: #666666;
+		font-size: 13px;
+		line-height: 14px;
+	}
+}
+#modal_default_messages,#modal_confirm_prompt{
 	min-width: 400px;
 	color: #666666;
 }

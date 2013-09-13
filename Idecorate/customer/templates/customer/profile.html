@@ -29,182 +29,64 @@
 		{% endif %}
 	</div>
 </div>
-<div id="content_body"></div>
-<div class="profileWrap">
-	
-	<div class="clearfix styleboardWrapper">
-	
-		{% if user_styleboard %}	
+<div id="content_body">
+	<div class="customerStyleboards clearfix">
+	{% if user_styleboard %}	
 		{% for item in user_styleboard %}
-		<div class="featureContentWrap clearfix">
-			<a class="delStyleboard" href="{% url delete_styleboard  item.styleboard_item.id %}">Delete</a>
-			<div class="socials">
-				<div class="facebookShare">
-					<a href="#" onclick="postToFeed('http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}','http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/640/405/','{{ item.styleboard_item.name }}','{{ item.styleboard_item.description|escapejs }}')">
-						<img border="0" src="/media/images/fb_share.png" />
-					</a>
-				</div>
-				<div class="tumblerShare">
-					<a href="http://www.tumblr.com/share/link?url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}&name={{ item.styleboard_item.name|urlencode }}&description={{ item.styleboard_item.description|urlencode }}" title="Share on Tumblr" style="display:inline-block; text-indent:-9999px; overflow:hidden; width:20px; height:20px; background:url('http://platform.tumblr.com/v1/share_4.png') top left no-repeat transparent;" target="_blank">
-						<img src='/media/images/tumblr.png' border="0" />
-					</a>
-				</div>
-				<div class="twitterShare">
-					<a href="https://twitter.com/share" class="twitter-share-button" data-text="{{ item.styleboard_item.description }}" data-url="http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}" data-lang="en" data-related="anywhere:{{ item.styleboard_item.name }}" data-count="none">Tweet</a>
+		<div class="styleboardWrap">
+			<div class="styleboardImage">
+				<img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" />
+				{% if styleboard_delete %}
+					<a class="btn delStyleboard" href="{% url delete_styleboard  item.styleboard_item.id %}">Delete</a>
+				{% endif %}
+				<div class="operation">
+					<a class="btn share" href="#">Share</a>
+					<a class="btn" href="{% url view_styleboard item.styleboard_item.id %}">Open<br/>Styleboard</a>
+					<div class="socialMediaShare">
+						<a  class="share facebook" href="#" onclick="return postToFeed('http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}','http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/405/','{{ item.styleboard_item.name }}','{{ item.styleboard_item.description|escapejs }}');">
+							<img border="0" src="{% static 'images/img_trans.gif' %}" />
+						</a>
+						<a  class="share twitter popupWindow" href="https://twitter.com/home?status=Check this out {{ item.styleboard_item.name|urlencode }}+http%3A%2F%2F{{ request|get_host|urlencode:'' }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}">
+							<img border="0" src="{% static 'images/img_trans.gif' %}" />
+						</a>
+						<a  class="share tumblr" href="http://www.tumblr.com/share/link?url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}&name={{ item.styleboard_item.name|urlencode }}&description={{ item.styleboard_item.description|urlencode }}">
+							<img border="0" src="{% static 'images/img_trans.gif' %}" />
+						</a>
+						<a  class="share google popupWindow" href="https://plus.google.com/share?url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}">
+							<img border="0" src="{% static 'images/img_trans.gif' %}" />
+						</a>
+						<a  class="share pinterest popupWindow" href="http://pinterest.com/pin/create/bookmarklet/?media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/&description={{ item.styleboard_item.description|linebreak }}&url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}&is_video=false">
+							<img border="0" src="{% static 'images/img_trans.gif' %}" />
+						</a>
+						<a  class="share email" href="mailto:?subject=iDecorate%20Weddings{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20from%20iDecorateweddings.com%20http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}">
+							<img border="0" src="{% static 'images/img_trans.gif' %}" />
+						</a>
+						<a  class="share print" href="/print_customer_sb/0/{{ item.styleboard_item.id }}/" target="_blank" id="print">
+							<img border="0" src="{% static 'images/img_trans.gif' %}" />
+						</a>
+						<a  class="share pdf" href="/print_customer_sb/1/{{ item.styleboard_item.id }}/" target="_blank" id="pdf" >
+							<img border="0" src="{% static 'images/img_trans.gif' %}" />
+						</a>
 					</div>
-				<div class="pinterestShare">
-					<a data-pin-config="none" data-pin-do="buttonPin" target="_blank" href="//pinterest.com/pin/create/button/?url=http%3A%2F%2F{{ request|get_host|urlencode:'' }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}&media=http%3A%2F%2F{{ request|get_host|urlencode:'' }}%2Fstyleboard%2Fgenerate_styleboard_view%2F{{ item.styleboard_item.id }}%2F450%2F285%2F&description={{ item.styleboard_item.description|urlencode }}"></a>
-				</div>
-				<div class="googleShare">
-					<div class="g-plusone" data-size="medium" data-annotation="none" data-href="http://{{ request|get_host }}/styleboard/view/{{ item.styleboard_item.id }}"></div>
-				</div>
-				<div class="email">
-					<a id="def_email" href="mailto:?subject=iDecorate%20Weddings{{ item.styleboard_item.name }}&body=Check%20this%20styleboard%20I%20made%20http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}">
-						<img src="/media/images/email.jpg" height="20" />
-					</a>
-				</div>
-				<div class="print">
-					<a href="/print_customer_sb/0/{{ item.styleboard_item.id }}/" target="_blank" id="print">
-						<img src="/media/images/print_btn.png" alt="Print">
-					</a>
-				</div>
-				<div class="pdf">
-					<a href="/print_customer_sb/1/{{ item.styleboard_item.id }}/" target="_blank" id="pdf" >
-						<img src="/media/images/pdf_btn.png" alt="PDF">
-					</a>
 				</div>
 			</div>
-			<div class="clearfix featureImg">
-				<a href="{% url styleboard_view item.styleboard_item.id %}">
-					<img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" />
-				</a> 
-			</div>
-			<h3 class="clearfix featureTitle">{{ item.styleboard_item.name }}</h3>
-			<div class="clearfix">
-				<div class="featureDesc">
-					{{ item.styleboard_item.description|replace_space|linebreak }}
-				</div>
-				<div class="featurePrice">
-					<h5 class="clearfix">${{ item.styleboard_item.id|get_emb_save_total|intcomma }}</h5>
-				</div>
-			</div>
-			<div class="clearfix featureFooter">
-				{% if user_profile.picture %}
-				<img src="{{ user_profile.picture }}" style="width:23px;height:23px;" alt="" />
-				{% else %}
-				<img src="/media/images/man.png" alt="" />
-				{% endif %}	<span class="member">by {{ styleboard_user|get_nickname }}</span>
+			<h3 class="styleboardName">{{ item.styleboard_item.name }}</h3>
+			<h4 class="styleboardCreated">Created {{ item.styleboard_item.created }}</h4>
+			<h5 class="styleboardPrice">${{ item.styleboard_item.id|get_emb_save_total|intcomma }}</h5>
+			<div class="styleboardDesription">
+				{{ item.styleboard_item.description|replace_space|linebreak|truncatechars:300 }}
 			</div>
 		</div>
 		{% endfor %}
-		{% else %}
+	{% else %}
 		<a href="{% url create %}">Create New Style Board</a>
-		{% endif %}
-
+	{% endif %}
 	</div>
+</div>
 </section>
-<script type="text/javascript">
-(function() {
-	var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
-	po.src = 'https://apis.google.com/js/plusone.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
-})();
-</script>
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
-<script type="text/javascript">
-$(function(){
-
-	$('.socials a:not(#def_email, #print, #pdf)').click(function(e){
-		e.preventDefault();
-	});
-
-	FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
-
-	$('.delStyleboard').click(function(e){
-
-		e.preventDefault();
-
-		if(confirm('Are you sure you want to delete this styleboard? It will be removed from your saved styleboards and will no longer be viewable online.')){
-			
-			window.location.href = $(this).attr('href');
-
-		}else{
-
-			return false;
-		}
-	});
-/*
-	page_H();
-	$(window).resize(page_H);
-*/
-	$('.featureContentWrap:odd').each(function(i,val){
-		if($(val).height() < $(val).prev().height()){
-			$(val).find('.featureDesc').height($(val).prev().find('.featureDesc').height());
-			$(val).prev().find('.featureDesc').height($(val).prev().find('.featureDesc').height());
-
-			$(val).find('.featureTitle').height($(val).prev().find('.featureTitle').height());
-			$(val).prev().find('.featureTitle').height($(val).prev().find('.featureTitle').height());
-		}else{
-			$(val).find('.featureDesc').height($(val).find('.featureDesc').height());
-			$(val).prev().find('.featureDesc').height($(val).find('.featureDesc').height());
-
-			$(val).find('.featureTitle').height($(val).find('.featureTitle').height());
-			$(val).prev().find('.featureTitle').height($(val).find('.featureTitle').height());
-		}
-	});
-	//for IE 7 and 8
-	$('.featureContentWrap:even').each(function(i,val){
-		$(val).css({'margin-left': 0});
-	});
-
-	$('.socials, .delStyleboard').fadeTo('fast', 0.5);
-	$('.featureContentWrap').hover(function(){
-		$(this).find('.socials, .delStyleboard').stop(true, false).fadeTo('fast', 1);
-	},
-	function(){
-		$(this).find('.socials, .delStyleboard').stop(true, false).fadeTo('fast', 0.5);
-	});
-
-});
-/*
-function page_H(){
-		
-	var windowH = $(window).height();
-		headerH = $('#header').outerHeight(true);
-		footerH = $('#footer').outerHeight(true);
-		newHeight = windowH - headerH - footerH;
-		sectionH = $('#feature-wrap').outerHeight(true);
-		
-		if(sectionH < windowH) {
-			$('#feature-wrap').height(newHeight);
-		}
-
-}*/
-</script>
-<script> 
-function postToFeed(url,image,name,description) {
-
-	// calling the API ...
-	var obj = {
-		method: 'feed',
-		redirect_uri: 'http://www.facebook.com',
-		link:url,//page link here
-		picture: image, //add image link of product here 
-		name: name, //styleboard title
-		caption: 'iDecorate Weddings',
-		description: description //description
-	};
-
-	function callback(response) {
-		document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
-	}
-
-	FB.ui(obj, callback);
-}
-
-</script>
-<script src="http://platform.tumblr.com/v1/share.js"></script>
-<script src="//assets.pinterest.com/js/pinit.js"></script>
+<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
+<script type="text/javascript" src="http://connect.facebook.net/en_US/all.js"></script>
+<script type="text/javascript" src="{% static 'customer/javascripts/profile.js'%}"></script>
 {% endblock %}

@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% load idecorate_interface static humanize %}
+{{ request|set_last_page_idecorate }}
+{% block title %}iDecorate Weddings | {{ styleboard.styleboard_item.name }}{% endblock %}
+{%  block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'customer/stylesheets/profile.css'%}">
+{% endblock %}
+{% block content %}
+<div id="content_header">
+	<div class="profileWrap profileName">
+		{% if user_profile.first_name and user_profile.last_name %}
+			<h3>{{ user_profile.first_name }}</h3>
+			<h2>{{ user_profile.last_name }}'s</h2> 
+		{% else %}
+			<h2>{{ user_profile.username }}</h2> 
+		{% endif %}
+			<h4>Styleboards</h4>
+	</div>
+	<div class="profileWrap profileImage">
+		<a id="lnk-profile" href="{% url profile %}?id={{ styleboard.user.id }}">
+		{% if user_profile.picture %}
+				<img src="{{ user_profile.picture }}" alt="" />
+		{% else %}
+			<img src="{% static 'images/default_profile_image.jpg' %}" alt="" />
+		{% endif %}	
+		</a>
+	</div>
+	<div class="profileWrap profileInfo">
+		{% if user_profile.description %}
+			<p>{{ user_profile.description }}</p>
+		{% endif %}
+	</div>
+</div>
+<div id="content_body">
+<div class="clearfix viewStyleboardWrap" itemscope itemtype="http://schema.org/Product">
+	<aside>
+		<a href="{% url profile %}?id={{ styleboard.user.id }}" class="personalize btn">My Styleboards</a>
+		<a href="{% url clear_session_sbid %}?sbid={{ styleboard.styleboard_item.id }}" class="personalize btn">Personalize</a>
+		{% if cart_items %}
+		<h2>In this Styleboard</h2>
+		<form id="formCheckout" method="POST" action="{% url checkout_from_view_styleboard %}">
+			{% csrf_token %}
+			<input type="hidden" name="sid" value="{{ styleboard.styleboard_item.id }}" />
+			<table id="cart-items" cellpadding="0" cellspacing="0" border="0">
+				<tbody class="tbody">
+					{% for item in cart_items %}
+					<tr>
+						<td class="listItem image">
+							<img src="/media/products/{{ item.product.original_image_thumbnail }}" />
+						</td>
+						<td class="listItem info">
+							<p>{{ item.product.name }}</p>
+							<p>${{ item.product|get_product_price|intcomma }}</p>
+						</td>
+						<td class="listItem quantity">
+							x{{ item.quantity }}
+						</td>
+						<td class="listItem subtotal">
+							${{ item.product|get_product_price|get_sub_total:item.quantity|intcomma }}
+						</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+			<h3 class="total">Total: ${{ styleboard.styleboard_item.id|get_emb_save_total|intcomma }}</h3>
+			<input id="btnSubmitBuy" type="submit" value="Buy this styleboard" class="btn buyItem" />				
+		</form>
+		{% endif %}
+	</aside>
+	<section>
+		<div class="styleboardImage">
+			<img itemprop="image" src="/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/450/285/" alt="{{ styleboard.styleboard_item.name }}">
+		</div>
+		<div class="socialMediaShare">
+			<span>Share: </span>
+			<a  class="share facebook" href="#" onclick="return postToFeed();">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share twitter popupWindow" href="https://twitter.com/share">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share tumblr" href="http://www.tumblr.com/share">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share google popupWindow" href="https://plus.google.com/share?url={{ request|get_url }}">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share pinterest popupWindow" href="http://pinterest.com/pin/create/bookmarklet/?media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/450/285/&description={{ styleboard.styleboard_item.description|linebreak }}&url={{request|get_url}}&is_video=false">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share email" href="mailto:?subject=iDecorate%20Weddings{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20from%20iDecorateweddings.com%20{{ request|get_url }}">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share print" href="/print_customer_sb/0/{{ styleboard_id }}/" target="_blank" id="print">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share pdf" href="/print_customer_sb/1/{{ styleboard_id }}/" target="_blank" id="pdf" >
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+		</div>
+		<h3 class="styleboardName" itemprop="name">{{ styleboard.styleboard_item.name }}</h3>
+		<h4 class="styleboardCreated">Created {{ styleboard.styleboard_item.created }}</h4>
+		<!-- <h5 class="styleboardPrice">${{ styleboard.styleboard_item.id|get_emb_save_total|intcomma }}</h5> -->
+		<div class="styleboardDesription" itemprop="description">
+			{{ styleboard.styleboard_item.description|replace_space|linebreak }}
+		</div>
+	</section>
+</div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript" src="http://platform.tumblr.com/v1/share.js"></script>
+<script type="text/javascript" src='http://connect.facebook.net/en_US/all.js'></script>
+<script type="text/javascript" src="{% static 'customer/javascripts/view_styleboard.js'%}"></script>
+{% endblock %}

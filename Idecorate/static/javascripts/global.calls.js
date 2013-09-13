@@ -1,4 +1,6 @@
 $(function() {
+    
+    $(':input[placeholder]').placeholder();
 
     menuIcon = $('<span id="menu_icon" class="menuIconWrap" />');
     menuIcon.html($('<img src="/static/images/img_trans.gif" alt="menu icon" class="menuIcon" />'));
@@ -71,6 +73,7 @@ $(function() {
     });
 
     $.modal.defaults.closeHTML = '<a title="Close" class="modalCloseImg simplemodal-close">&#10005;</a>';
+    $.modal.defaults.position = ["15%",];
 
     $('#login_account_header, #login_account_footer').click(function(e){
 

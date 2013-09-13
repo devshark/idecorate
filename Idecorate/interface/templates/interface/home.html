@@ -92,7 +92,7 @@
 			<div class="itemWrap double {{ product|get_css_obj_classname }}" >
 				<img class="nonProducts" src="/styleboard/generate_styleboard_view/{{product.id}}/490/310/"/>
 				<h2>{{ product.styleboard_item.name }}</h2>
-				<p>{{ product.styleboard_item.description|safe }}</p>
+				<p>{{ product.styleboard_item.description|safe|truncatechars:80 }}</p>
 				<div class="operationWrap">
 					<a href="#" product-data="{{product.id}}" class="btn sendToStyleboard">
 						<img src="{% static 'interface/images/send_to_styleboard_icon.png' %}"/>
@@ -140,6 +140,7 @@
 {% endblock %}
 {% block javascripts %}
     <script type="text/javascript" src="{% static 'interface/javascripts/jquery.isotope.js' %}"></script>
+	<script src='http://connect.facebook.net/en_US/all.js'></script>
     <script type="text/javascript">
 
 		ADD_WISHLIST_URL_AJAX = '{% url add_wishlist_ajax %}';

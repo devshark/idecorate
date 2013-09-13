@@ -1,3 +1,37 @@
+function confirm(header, message, callback) {
+
+    $('#modal_confirm_prompt').modal({ 
+        closeClass:'closeModalBtn',
+        overlayClose: true,
+        onShow: function (dialog) {
+
+            var modal = this;
+
+            if(header !== undefined){
+
+                $('.legend', dialog.data[0]).html(header);
+
+            }else{
+
+                $('.legend', dialog.data[0]).html('confirm');
+            }   
+
+            $('.fieldsetContent', dialog.data[0]).html(message);
+
+            $('.confirmYes', dialog.data[0]).click(function() {
+
+                if ($.isFunction(callback)) {
+
+                    callback.apply();
+
+                }
+
+                modal.close();
+            });
+        }
+    });
+}
+
 function addMenuIcon(icon,obj){
 
     if(obj.length > 0){
