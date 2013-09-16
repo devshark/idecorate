@@ -161,7 +161,8 @@
       border-top: 1px solid #dbd7c9;
       margin-top: 3px; }
     #content_body .viewStyleboardWrap aside table#cart-items {
-      text-align: left; }
+      text-align: left;
+      width: 100%; }
       #content_body .viewStyleboardWrap aside table#cart-items .listItem {
         vertical-align: middle;
         padding: 3px 1%; }
