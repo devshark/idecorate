@@ -284,7 +284,7 @@ def profile(request):
 
                 raise Http404
 
-        if user_id != request.user.id:
+        if int(user_id) != request.user.id:
 
             info['styleboard_delete'] = False
 
@@ -1424,19 +1424,27 @@ def send_saved_image(request,mailto_list, sender):
 
 def delete_styleboard(request, sb_id):
 
+    data_response = {}
+    data_response['response'] = 'failed'
+
     if request.user.is_authenticated():
         user = request.user
 
         try:
+
             styleboard = CustomerStyleBoard.objects.get(user=user, styleboard_item__id=int(sb_id))
             styleboardItem = StyleboardItems.objects.get(id=styleboard.styleboard_item.id)
             styleboardItem.deleted = True
             styleboardItem.save()
 
+            data_response['response'] = 'success'
             messages.success(request, _('Styleboard %s successfully deleted.' % (styleboardItem.name) ))
+
         except Exception as e: 
 
             messages.warning(request, _('Deleting styleboard failed.'))
             logr.error(e)
     
-    return redirect('profile')
+    data_response['messages'] = render_to_string('messages_ajax_response.html', {}, RequestContext(request))
+
+    return render_to_json(request, data_response)

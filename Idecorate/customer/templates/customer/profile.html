@@ -37,7 +37,7 @@
 			<div class="styleboardImage">
 				<img src="/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/" />
 				{% if styleboard_delete %}
-					<a class="btn delStyleboard" href="{% url delete_styleboard  item.styleboard_item.id %}">Delete</a>
+				<a class="btn delStyleboard" href="{% url delete_styleboard  item.styleboard_item.id %}">Delete</a>
 				{% endif %}
 				<div class="operation">
 					<a class="btn share" href="#">Share</a>
@@ -86,7 +86,10 @@
 </section>
 {% endblock %}
 {% block javascripts %}
-<script type="text/javascript" src="//assets.pinterest.com/js/pinit.js"></script>
 <script type="text/javascript" src="http://connect.facebook.net/en_US/all.js"></script>
+<script type="text/javascript" src="http://platform.tumblr.com/v1/share.js"></script>
+<script type="text/javascript">
+	FACEBOOK_APP_ID = "{{ FACEBOOK_APP_ID }}";
+</script>
 <script type="text/javascript" src="{% static 'customer/javascripts/profile.js'%}"></script>
 {% endblock %}

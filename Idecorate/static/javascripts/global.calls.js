@@ -94,6 +94,7 @@ $(function() {
 
     });
 
+    var site_access_request;
 
     $("#login_form, #signup_form").submit(function(event){
 
@@ -102,20 +103,20 @@ $(function() {
         var serializedData = $form.serialize();
         $('.formMessages').children().remove();
         
-        if (request) {
+        if (site_access_request) {
 
-            request.abort();
+            site_access_request.abort();
 
         }
 
         $inputs.prop("disabled", true);
-        request = $.ajax({
+        site_access_request = $.ajax({
             url: $form.attr('action'),
             type: "post",
             data: serializedData
         });
 
-        request.done(function (response, textStatus, jqXHR){
+        site_access_request.done(function (response, textStatus, jqXHR){
 
             $form.find('.formMessages').html(response.messages);
 
@@ -127,14 +128,14 @@ $(function() {
 
         });
 
-        request.fail(function (jqXHR, textStatus, errorThrown){
+        site_access_request.fail(function (jqXHR, textStatus, errorThrown){
 
             var error = "<p>Cant proccess your request. Please try again</p>";
             $form.find('.formMessages').html(error);
 
         });
 
-        request.always(function(){
+        site_access_request.always(function(){
 
             $inputs.prop("disabled", false);
 
@@ -143,6 +144,7 @@ $(function() {
         event.preventDefault();
     });
 
+    var newsletter_request;
 
     $('#newsletter_form').submit(function(event) {
 
@@ -151,49 +153,44 @@ $(function() {
         var serializedData = $form.serialize();
         $('.formMessages').children().remove();
 
-        if (request) {
+        if (newsletter_request) {
 
-            request.abort();
+            newsletter_request.abort();
 
         }
 
         $inputs.prop("disabled", true);
-        request = $.ajax({
+        newsletter_request = $.ajax({
             url: $form.attr('action'),
             type: "POST",
             data: serializedData
         });
 
-        request.done(function (response, textStatus, jqXHR){
+        newsletter_request.done(function (response, textStatus, jqXHR){
 
             $form.find('.formMessages').html(response.messages);
 
             if(response.response == "success"){
                 
                 $.modal.close();
-                var successModal =  $('#modal_default_messages');
-                var successModalMessage = response.messages;
-                successModalMessage += '<h3>Thank you</h3><a href="#" class="btn closeModalBtn">Ok</a>';
-                successModal.addClass('newsletterSubscribe');
-                successModal.find('.legend').text('Subscribe to our newsletter');
-                successModal.find('.fieldsetContent').html(successModalMessage)
-                successModal.modal({
-                    closeClass:'closeModalBtn',
-                    overlayClose: true
-                });
+
+                var header = 'Subscribe to our newsletter';
+                var message = response.messages + '<h3>Thank you</h3>';
+
+                response_message(header, message);
 
             }
 
         });
 
-        request.fail(function (jqXHR, textStatus, errorThrown){
+        newsletter_request.fail(function (jqXHR, textStatus, errorThrown){
 
             var error = "<p>Cant proccess your request. Please try again</p>";
             $form.find('.formMessages').html(error);
 
         });
 
-        request.always(function(){
+        newsletter_request.always(function(){
 
             $inputs.prop("disabled", false);
 

@@ -286,6 +286,7 @@ input::-moz-focus-inner {
 
 .btn{
 	outline: 0;
+	cursor: pointer;
 	padding:5px 10px !important;
 	display: inline-block;
 	text-align:center;
@@ -621,7 +622,7 @@ ul.simpleDropdown li{
 		}
 	}
 }
-#modal_confirm_prompt{
+#modal_confirm_prompt,#modal_default_messages{
 	.operation{
 		margin: 10px 0 0;
 		.btn{
@@ -638,21 +639,18 @@ ul.simpleDropdown li{
 #modal_default_messages,#modal_confirm_prompt{
 	min-width: 400px;
 	color: #666666;
-}
-#modal_default_messages.newsletterSubscribe{
 	.fieldsetContent{
-		font-family: $PTserif;
-		margin-top: 20px;
-		color: #666666 !important;
-		h3{
-			font-size: 14px;
-			line-height: 18px;
-			font-style: italic;
-			margin-bottom: 20px;
-		}
-		.btn{
-			padding: 10px 30px !important;
-		}
+
+		color: #666666;
+
+	}
+}
+#modal_default_messages{
+	h3{
+		font-size: 14px;
+		line-height: 18px;
+		font-style: italic;
+		margin-bottom: 20px;
 	}
 	
 }

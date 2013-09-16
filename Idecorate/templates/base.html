@@ -18,6 +18,9 @@
         {% block style %}{% endblock %}
         <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
         <!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+        <script type="text/javascript">
+            CART_URL = '{% url cart %}';
+        </script>
     </head>
     <body>
         <div id="main-container" class="clearfix">
@@ -35,10 +38,6 @@
         <script type="text/javascript" src="{% static 'javascripts/jquery/jquery.placeholder.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/jquery.simplemodal.1.4.4.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/dropdown/jquery.dropdown.js' %}"></script>
-        <script type="text/javascript">
-            CART_URL = '{% url cart %}';
-            var request;
-        </script>
         <script type="text/javascript" src="{% static 'javascripts/global.calls.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/global.functions.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.functions.js' %}"></script>

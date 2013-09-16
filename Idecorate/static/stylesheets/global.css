@@ -224,6 +224,7 @@ input::-moz-focus-inner {
 
 .btn {
   outline: 0;
+  cursor: pointer;
   padding: 5px 10px !important;
   display: inline-block;
   text-align: center;
@@ -537,11 +538,11 @@ ul.simpleDropdown li {
     font-size: 12px;
     padding: 5px 2px; }
 
-#modal_confirm_prompt .operation {
+#modal_confirm_prompt .operation, #modal_default_messages .operation {
   margin: 10px 0 0; }
-  #modal_confirm_prompt .operation .btn {
+  #modal_confirm_prompt .operation .btn, #modal_default_messages .operation .btn {
     padding: 8px 10px !important; }
-#modal_confirm_prompt .fieldsetContent {
+#modal_confirm_prompt .fieldsetContent, #modal_default_messages .fieldsetContent {
   margin: 10px 0 0;
   color: #666666;
   font-size: 13px;
@@ -550,18 +551,14 @@ ul.simpleDropdown li {
 #modal_default_messages, #modal_confirm_prompt {
   min-width: 400px;
   color: #666666; }
+  #modal_default_messages .fieldsetContent, #modal_confirm_prompt .fieldsetContent {
+    color: #666666; }
 
-#modal_default_messages.newsletterSubscribe .fieldsetContent {
-  font-family: "PT Serif", serif;
-  margin-top: 20px;
-  color: #666666 !important; }
-  #modal_default_messages.newsletterSubscribe .fieldsetContent h3 {
-    font-size: 14px;
-    line-height: 18px;
-    font-style: italic;
-    margin-bottom: 20px; }
-  #modal_default_messages.newsletterSubscribe .fieldsetContent .btn {
-    padding: 10px 30px !important; }
+#modal_default_messages h3 {
+  font-size: 14px;
+  line-height: 18px;
+  font-style: italic;
+  margin-bottom: 20px; }
 
 #user_access {
   border-left: none;

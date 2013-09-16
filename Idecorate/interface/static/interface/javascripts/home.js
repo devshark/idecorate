@@ -145,7 +145,7 @@ var searchItems = function(e){
 
 };
 
-
+var home_items_request;
 var loadMoreResults = function() {
 
 
@@ -166,14 +166,14 @@ var loadMoreResults = function() {
         options['celebrity_styleboards'] = true;
     }
 
-    request = $.ajax({
+    home_items_request = $.ajax({
         url: LOADMOREURL,
         type: "POST",
         data: options,
         async: true
     });
 
-    request.done(function (response, textStatus, jqXHR){
+    home_items_request.done(function (response, textStatus, jqXHR){
 
         $container.isotope('insert',$(response));
 
@@ -184,14 +184,14 @@ var loadMoreResults = function() {
         }
     });
 
-    request.fail(function (jqXHR, textStatus, errorThrown){
+    home_items_request.fail(function (jqXHR, textStatus, errorThrown){
         
         page = orig_page;
         $('#load_more_wrap').show();
 
     });
 
-    request.always(function(){
+    home_items_request.always(function(){
 
         $container.isotope('reLayout');
 

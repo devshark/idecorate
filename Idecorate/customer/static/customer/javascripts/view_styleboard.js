@@ -1,6 +1,6 @@
 $(function(){
 
-	FB.init({appId: "{{ FACEBOOK_APP_ID }}", status: true, cookie: true});
+	FB.init({appId: FACEBOOK_APP_ID, status: true, cookie: true});
 
 	$('#btnSubmitBuy').click(function(e){
 

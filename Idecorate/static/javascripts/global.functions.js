@@ -6,17 +6,18 @@ function confirm(header, message, callback) {
         onShow: function (dialog) {
 
             var modal = this;
+             
+
+            $('.fieldsetContent', dialog.data[0]).html(message);
 
             if(header !== undefined){
 
-                $('.legend', dialog.data[0]).html(header);
+                $('.legendWrap', dialog.data[0]).html('<span class="legend">'+header+'</span>');
 
             }else{
 
-                $('.legend', dialog.data[0]).html('confirm');
-            }   
-
-            $('.fieldsetContent', dialog.data[0]).html(message);
+                $('.legendWrap', dialog.data[0]).html('<span class="legend">Confirm</span>');
+            }  
 
             $('.confirmYes', dialog.data[0]).click(function() {
 
@@ -31,6 +32,30 @@ function confirm(header, message, callback) {
         }
     });
 }
+
+function response_message(header, message) {
+
+    $('#modal_default_messages').modal({ 
+        closeClass:'closeModalBtn',
+        overlayClose: true,
+        onShow: function (dialog) {
+
+            var modal = this;
+
+            $('.fieldsetContent', dialog.data[0]).html(message);
+
+            if(header !== undefined){
+
+                $('.legendWrap', dialog.data[0]).html('<span class="legend">'+header+'</span>');
+
+            }else{
+
+                $('.legendWrap', dialog.data[0]).html('<span class="legend">Message</span>');
+            }
+        }
+    });
+}
+
 
 function addMenuIcon(icon,obj){
 
