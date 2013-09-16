@@ -73,7 +73,7 @@
 		</div>
 		<div class="socialMediaShare">
 			<span>Share: </span>
-			<a  class="share facebook" href="#" onclick="return postToFeed();">
+			<a  class="share facebook" href="#" onclick="return postToFeed('http://{{ request|get_host }}/styleboard/view/{{ styleboard.styleboard_item.id }}/', 'http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ styleboard.styleboard_item.id }}/450/285/', '{{ styleboard.styleboard_item.name }}', '{{ styleboard.styleboard_item.description|truncateDescription }}');">
 				<img border="0" src="{% static 'images/img_trans.gif' %}" />
 			</a>
 			<a  class="share twitter popupWindow" href="https://twitter.com/share">
@@ -114,5 +114,6 @@
 <script type="text/javascript">
 	FACEBOOK_APP_ID = "{{ FACEBOOK_APP_ID }}";
 </script>
+<script type="text/javascript" src="{% static 'customer/javascripts/profile.js'%}"></script>
 <script type="text/javascript" src="{% static 'customer/javascripts/view_styleboard.js'%}"></script>
 {% endblock %}
