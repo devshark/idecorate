@@ -137,7 +137,14 @@ var searchItems = function(e){
         $container.isotope('remove', $container.children());
         resetVars();
         keywords = $('#search_input').val();
-        loadMoreResults();
+        var results = loadMoreResults();
+
+        if(results){
+
+            $container.isotope('remove',$('h2'));
+            $container.isotope('insert',$('<h2 style="font-size:18px; padding: 20px 0;">Your search yielded no results.</h2>')); 
+            $container.isotope('reLayout');
+        }
         //$container.isotope({filter: '*'});
         $container.isotope('reloadItems');
 
@@ -148,7 +155,7 @@ var searchItems = function(e){
 var home_items_request;
 var loadMoreResults = function() {
 
-
+    var is_empty_result = false;
     $('#load_more_wrap').hide();
     orig_page = page;
     page++;
@@ -170,7 +177,7 @@ var loadMoreResults = function() {
         url: LOADMOREURL,
         type: "POST",
         data: options,
-        async: true
+        async: false
     });
 
     home_items_request.done(function (response, textStatus, jqXHR){
@@ -180,8 +187,9 @@ var loadMoreResults = function() {
         if(keywords!=null) {
 
             $container.isotope('reLayout');
-
         }
+        
+        is_empty_result = (response.trim() == "")
     });
 
     home_items_request.fail(function (jqXHR, textStatus, errorThrown){
@@ -196,6 +204,8 @@ var loadMoreResults = function() {
         $container.isotope('reLayout');
 
     });
+
+    return is_empty_result;
 
 };
 

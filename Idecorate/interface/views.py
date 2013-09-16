@@ -169,59 +169,9 @@ def load_products_ajax(request):
         products = list(product_list) + list(styleboard_list) + list(inspiration_list)
         random.shuffle(products)
 
-        for product in products:
-            if product._meta.object_name == 'CustomerStyleBoard':
-                html += '<div class="itemWrap double styleboards">'
-                html += '<img class="nonProducts" src="/styleboard/generate_styleboard_view/%s/490/310/"/>' % (product.pk)
-                html += '<h2>%s</h2>' % (product.styleboard_item.name)
-                html += '<p>%s</p>' % (product.styleboard_item.description)
-                html += """
-                    <div class="operationWrap">
-                        <a href="#" product-data="%s" class="btn sendToStyleboard">
-                            <img src="/static/interface/images/send_to_styleboard_icon.png"/>
-                            <span><h3>send to</h3><h4>styleboard</h4></span>
-                        </a>
-                        <a href="#" class="btn shareProduct">share</a>
-                        <a href="javascript:void(0)" class="btn wishListProduct" onclick="addToWishList('%s', %s)"><h3>add to</h3><h4>wishlist</h4></a>
-                    </div>
-                """ % (product.id, 'styleboards', product.styleboard_item.id)
-                html += '</div>'
-                html += '</div>'
-            elif product._meta.object_name == 'Product':
-                html += '<div class="itemWrap single products" >'
-                html += '<img src="/media/products/%s"/>' % (product.original_image)
-                html += '<h2>%s</h2>' % product.name
-                html += '<p>$%.2f</p>' % getProductPrice(product)
-                html += """
-                    <div class="operationWrap">
-                        <a href="#" product-data="%s" class="btn sendToStyleboard">
-                            <img src="/static/interface/images/send_to_styleboard_icon.png"/>
-                            <span><h3>send to</h3><h4>styleboard</h4></span>
-                        </a>
-                        <a href="#" class="btn shareProduct">share</a>
-                        <a href="javascript:void(0)" class="btn wishListProduct" onclick="addToWishList('%s', %s)"><h3>add to</h3><h4>wishlist</h4></a>
-                    </div>
-                """ % (product.id, 'products', product.id)
-                html += '</div>'
-            elif product._meta.object_name == 'HomeBanners':
-                if product.size == 1:
-                    html += '<div class="itemWrap single inspiration" >'
-                else:
-                    html += '<div class="itemWrap double inspiration" >'
-                html += '<img src="/media/banners/%s"/>' % (product.get_image())
-                html += '<h2>%s</h2>' % product.get_name()
-                html += """
-                    <div class="operationWrap">
-                        <a href="#" product-data="%s" class="btn sendToStyleboard">
-                            <img src="/static/interface/images/send_to_styleboard_icon.png"/>
-                            <span><h3>send to</h3><h4>styleboard</h4></span>
-                        </a>
-                        <a href="#" class="btn shareProduct">share</a>
-                        <a href="javascript:void(0)" class="btn wishListProduct" onclick="addToWishList('%s', %s)"><h3>add to</h3><h4>wishlist</h4></a>
-                    </div>
-                """ % (product.id, 'products', product.id)
-                html += '</div>'
-    return HttpResponse(html)
+        html_items = render_to_string('interface/home_items.html', {'products': products} ,RequestContext(request))
+
+    return HttpResponse(html_items)
 
 
 def getProductPrice(product):
