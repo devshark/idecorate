@@ -21,7 +21,7 @@ import random
 
 from category.services import get_categories, get_cat, category_tree_crumb, search_category, get_cat_ids
 from category.models import Categories
-from cart.models import Product, CartTemp, ProductPopularity, GuestTableTemp, ProductPrice, SuggestedProduct
+from cart.models import Product, CartTemp, ProductPopularity, GuestTableTemp, ProductPrice, SuggestedProduct, ProductAlternateImage
 from cart.services import generate_unique_id, clear_cart_temp, add_to_cart, get_product, get_product_detail, strip_tags
 from django.conf import settings
 from PIL import Image, ImageDraw, ImageFont
@@ -74,16 +74,18 @@ def home(request):
                                                 is_active=True)[(page-1)*settings.PRODUCT_HOME_NUM_RECORDS:settings.PRODUCT_HOME_NUM_RECORDS]
         styleboard_list = CustomerStyleBoard.objects.all()[(page-1)*settings.STYLEBOARD_HOME_NUM_RECORDS:settings.STYLEBOARD_HOME_NUM_RECORDS]
         inspiration_list = HomeBanners.objects.filter(is_deleted=False)[(page-1)*settings.INSPIRATION_NUM_RECORDS:settings.INSPIRATION_NUM_RECORDS]
+        product_situation_list = ProductAlternateImage.objects.filter(product__is_deleted=False)[(page-1)*settings.PRODUCT_SITUATION_NUM_RECORDS:settings.PRODUCT_SITUATION_NUM_RECORDS]
     else:
         product_list = Product.objects.filter(is_deleted=False, 
                                                 is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
         styleboard_list = CustomerStyleBoard.objects.all()[:settings.STYLEBOARD_HOME_NUM_RECORDS]
         inspiration_list = HomeBanners.objects.filter(is_deleted=False)[:settings.INSPIRATION_NUM_RECORDS]
+        product_situation_list = ProductAlternateImage.objects.filter(product__is_deleted=False)[:settings.PRODUCT_SITUATION_NUM_RECORDS]
 
-    query_list = list(product_list) + list(styleboard_list) + list(inspiration_list)
+    query_list = list(product_list) + list(styleboard_list) + list(inspiration_list) + list(product_situation_list)
     random.shuffle(query_list)
 
-    paginator = Paginator(query_list, settings.PRODUCT_HOME_NUM_RECORDS + settings.STYLEBOARD_HOME_NUM_RECORDS + settings.INSPIRATION_NUM_RECORDS)
+    paginator = Paginator(query_list, settings.PRODUCT_HOME_NUM_RECORDS + settings.STYLEBOARD_HOME_NUM_RECORDS + settings.INSPIRATION_NUM_RECORDS + settings.PRODUCT_SITUATION_NUM_RECORDS)
     
     try:
         info['products'] = paginator.page(page)
@@ -111,7 +113,7 @@ def load_products_ajax(request):
             product_offset = (int(page)-1)*settings.PRODUCT_HOME_NUM_RECORDS
             styleboard_offset = (int(page)-1)*settings.STYLEBOARD_HOME_NUM_RECORDS
             inspiration_offset = (int(page)-1)*settings.INSPIRATION_NUM_RECORDS
-
+            situation_offset = (int(page)-1)*settings.PRODUCT_SITUATION_NUM_RECORDS
             if wishlist:
                 wishlist_products = None
                 wishlist_styleboards = None
@@ -122,6 +124,8 @@ def load_products_ajax(request):
                                                                     object_type='styleboards').values_list('object_id')
                     wishlist_inspirations = WishList.objects.filter(user=request.user,
                                                                     object_type='inspiration').values_list('object_id')
+                    wishlist_situation = WishList.objects.filter(user=request.user,
+                                                                    object_type='situation').values_list('object_id')
                 else:
                     sessionid = request.session.get('sessionid')
                     wishlist_products = WishList.objects.filter(sessionid=sessionid,
@@ -130,22 +134,27 @@ def load_products_ajax(request):
                                                                     object_type='styleboards').values_list('object_id')
                     wishlist_inspirations = WishList.objects.filter(sessionid=sessionid,
                                                                     object_type='inspiration').values_list('object_id')
+                    wishlist_situation = WishList.objects.filter(sessionid=sessionid,
+                                                                    object_type='situation').values_list('object_id')
 
                 product_list = Product.objects.filter(is_deleted=False,
                                         is_active=True,
                                         id__in=wishlist_products)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]
                 styleboard_list = CustomerStyleBoard.objects.filter(id__in=wishlist_styleboards)[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
                 inspiration_list = HomeBanners.objects.filter(is_deleted=False, id__in=wishlist_inspirations)[inspiration_offset:settings.INSPIRATION_NUM_RECORDS+inspiration_offset]
+                situation_list = ProductAlternateImage.objects.filter(product__is_deleted=False, id__in=wishlist_situation)[situation_offset:settings.PRODUCT_SITUATION_NUM_RECORDS+situation_offset]
             elif celebrity_styleboards:
                 product_list = []
                 styleboard_list = CustomerStyleBoard.objects.filter(active=True)[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
                 inspiration_list = []
+                situation_list = []
             else:
                 if keywords == '':
                     product_list = Product.objects.filter(is_deleted=False, 
                                                             is_active=True)[product_offset:settings.PRODUCT_HOME_NUM_RECORDS+product_offset]
                     styleboard_list = CustomerStyleBoard.objects.all()[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
                     inspiration_list = HomeBanners.objects.filter(is_deleted=False)[inspiration_offset:settings.INSPIRATION_NUM_RECORDS+inspiration_offset]
+                    situation_list = ProductAlternateImage.objects.filter(product__is_deleted=False)[situation_offset:settings.PRODUCT_SITUATION_NUM_RECORDS+situation_offset]
                 else:
                     product_list = Product.objects.filter(Q(is_deleted=False), 
                                                             Q(is_active=True),
@@ -155,6 +164,7 @@ def load_products_ajax(request):
                                                                     )[styleboard_offset:settings.STYLEBOARD_HOME_NUM_RECORDS+styleboard_offset]
                     hbi_list = HomeBannerImages.objects.filter(Q(name__icontains=keywords) | Q(description__icontains=keywords)).values_list('home_banner_id')
                     inspiration_list = HomeBanners.objects.filter(Q(is_deleted=False), Q(id__in=hbi_list))[inspiration_offset:settings.INSPIRATION_NUM_RECORDS+inspiration_offset]
+                    situation_list = ProductAlternateImage.objects.filter(Q(product__is_deleted=False), Q(product__name__icontains=keywords))[situation_offset:settings.PRODUCT_SITUATION_NUM_RECORDS+situation_offset]
                     
         else:
             if wishlist:
@@ -166,7 +176,7 @@ def load_products_ajax(request):
                                                         is_active=True)[:settings.PRODUCT_HOME_NUM_RECORDS]
                 styleboard_list = CustomerStyleBoard.objects.filter()[:settings.STYLEBOARD_HOME_NUM_RECORDS]            
 
-        products = list(product_list) + list(styleboard_list) + list(inspiration_list)
+        products = list(product_list) + list(styleboard_list) + list(inspiration_list) + list(situation_list)
         random.shuffle(products)
 
         html_items = render_to_string('interface/home_items.html', {'products': products} ,RequestContext(request))
