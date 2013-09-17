@@ -44,4 +44,18 @@
 	</div>
 </div>
 {% endif %}
+{% if product|get_css_obj_classname == 'situation' %}
+<div class="itemWrap single inspiration" >
+	<img src="/media/products/{{ product.original_image_thumbnail }}"/>
+	<h2>{{ product.product.name }}</h2>
+	<div class="operationWrap">
+		<a href="#" product-data="{{product.id}}" class="btn sendToStyleboard">
+			<img src="{% static 'interface/images/send_to_styleboard_icon.png' %}"/>
+			<span><h3>send to</h3><h4>styleboard</h4></span>
+		</a>
+		<a href="#" class="btn shareProduct">share</a>
+		<a href="javascript: void(0)" class="btn wishListProduct" onclick="addToWishList('{{ product|get_css_obj_classname }}', {{ product.id }})"><h3>add to</h3><h4>wishlist</h4></a>
+	</div>
+</div>
+{% endif %}
 {% endfor %}
