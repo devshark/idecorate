@@ -343,17 +343,18 @@ def add_http_prefix(url):
 
 
 @register.filter
-def get_ordered_styleboard(order):
+def get_ordered_styleboard(order, data):
 
     try:
 
         order_styleboard = OrderStyleboard.objects.get(order=order)
-        board = "/media/styleboards/%s" % (order_styleboard.styleboard)
-        return board
+        return getattr(order_styleboard, data)
 
-    except:
+    except Exception as e:
 
-        return "/media/images/error_logo.jpg"
+        return None
+
+
 
 
 @register.filter
@@ -445,11 +446,11 @@ def menuInterfaceRecursion(menus, activate_url, isLoggedIn):
                 if isLoggedIn:
 
                     myAccountMenu = '<ul class="myAccountMenu">'
-                    myAccountMenu += '<li><a href="%s">saved styleboard</a>' % reverse('profile')
-                    myAccountMenu += '<li><a href="%s">saved images</a>' % reverse('saved_images')
-                    myAccountMenu += '<li><a href="%s">orders</a>' % reverse('orders')
-                    myAccountMenu += '<li><a href="%s">invite friends</a>' % reverse('invite_friends')
-                    myAccountMenu += '<li><a href="%s">edit profile</a>' % reverse('edit_profile')
+                    myAccountMenu += '<li><a class="%s" href="%s">saved styleboard</a>' % ("active" if reverse('profile') == str(activate_url) else "inActive" , reverse('profile'))
+                    # myAccountMenu += '<li><a class="%s" href="%s">saved images</a>' % ("active" if reverse('saved_images') == str(activate_url) else "inActive", reverse('saved_images'))
+                    myAccountMenu += '<li><a class="%s" href="%s">orders</a>' % ("active" if reverse('orders') == str(activate_url) else "inActive", reverse('orders'))
+                    myAccountMenu += '<li><a class="%s" href="%s">invite friends</a>' % ("active" if reverse('invite_friends') == str(activate_url) else "inActive", reverse('invite_friends'))
+                    myAccountMenu += '<li><a class="%s" href="%s">edit profile</a>' % ("active" if reverse('edit_profile') == str(activate_url) else "inActive", reverse('edit_profile'))
                     myAccountMenu += '<li><a href="%s">logout</a>' % reverse('logout')
                     myAccountMenu += '</ul>'
 

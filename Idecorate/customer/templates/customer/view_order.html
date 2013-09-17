@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+{% load idecorate_interface admin humanize static %}
+{{ request|set_last_page_idecorate }}
+{% block title %}My Orders{% endblock %}
+{%  block style %}
+    <link rel="stylesheet" href="{% static 'customer/stylesheets/orders.css' %}">
+{% endblock %}
+{% block content %}
+<div id="content_header">
+    <div class="headingWrap">
+        <div class="fieldset contentHeading">
+            <div class="legend"><span >View Order</span></div>
+        </div>
+    </div>
+</div>
+<div id="content_body">
+<div class="viewOrderWrap">
+	<div class="viewOrderInfo">
+		<div class="operation">
+			{% if page == 0 %}
+			<a href="{% url orders %}" class="btn">My Orders</a>
+			{% else %}
+			<a href="{% url orders %}?page={{page}}" class="btn">My Orders</a>
+			{% endif %}
+			<a id="print" target="blank" href="{% url hard_copy_order 0 order.id %}">
+				<img src="{% static 'images/img_trans.gif' %}">
+			</a>
+			<a id="pdf" target="blank" href="{% url hard_copy_order 1 order.id %}" >
+				<img src="{% static 'images/img_trans.gif' %}">
+			</a>
+		</div>
+		{% if order|get_ordered_styleboard:'styleboard_name' %}
+		<h2>{{ order|get_ordered_styleboard:'styleboard_name' }}</h2>
+		{% endif %}
+		<div class="infoWrap">
+			<div class="infoGroup order">
+				<span class="info">
+					<h5>Order id</h5>
+					<p>{{order.order_id}}</p>
+				</span>
+				<span class="info">
+					<h5>Date Created</h5>
+					<p>{{order.created}}</p>
+				</span>
+				<span class="info">
+					<h5>Status</h5>
+					<p>{{order.status|readable_status}}</p>
+				</span>
+			</div>
+			<div class="infoGroup customer">
+				<span class="info">
+					<h5>First Name</h5>
+					<p>{{order.billing_first_name}}</p>
+				</span>
+				<span class="info">
+					<h5>Last Name</h5>
+					<p>{{order.billing_last_name}}</p>
+				</span>
+				<span class="info">
+					<h5>Email Address</h5>
+					<p>{{order.email}}</p>
+				</span>
+				<span class="info">
+					<h5>Contact Number</h5>
+					<p>{{order|get_order_detail:'contact_number'}}</p>
+				</span>
+			</div>
+			<div class="infoGroup payment">
+				<span class="info">
+					<h5>Payment Method</h5>
+					<p>{{order|get_order_detail:'payment_method'|readable_status_payment}}</p>
+				</span>
+				<span class="info notes">
+					<h5>Payment Notes</h5>
+					<p>{{order|get_order_detail:'note'}}</p>
+				</span>
+			</div>
+		</div>
+		<div class="infoWrap">
+			<div class="infoGroup delivery">
+				<span class="info">
+					<h5>Delivery Date:</h5>
+					<p>{{order|get_order_detail:"delivery_date"}}</p>
+				</span>
+				<span class="info">
+					<h5>Delivery Address:</h5>
+					<p>{{order|get_order_detail:'delivery_address'}}</p>
+				</span>
+				<span class="info">
+					<h5>Delivery Address2:</h5>
+					<p>{{order|get_order_detail:'delivery_address2'}}</p>
+				</span>
+				<span class="info">
+					<h5>Delivery City:</h5>
+					<p>{{order|get_order_detail:'delivery_city'}}</p>
+				</span>
+				<span class="info">
+					<h5>Delivery State:</h5>
+					<p>{{order|get_order_detail:'delivery_state'}}</p>
+				</span>
+				<span class="info">
+					<h5>Delivery Zip Code:</h5>
+					<p>{{order|get_order_detail:'delivery_zip_code'}}</p>
+				</span>
+				<span class="info">
+					<h5>Delivery Country:</h5>
+					<p>{{order|get_order_detail:'delivery_country'}}</p>
+				</span>
+			</div>
+			<div class="infoGroup billing">
+				<span class="info">
+					<h5>Billing Address:</h5>
+					<p>{{order|get_order_detail:'billing_address'}}</p>
+				</span>
+				<span class="info">
+					<h5>Billing Address2:</h5>
+					<p>{{order|get_order_detail:'billing_address2'}}</p>
+				</span>
+				<span class="info">
+					<h5>Billing City:</h5>
+					<p>{{order|get_order_detail:'billing_city'}}</p>
+				</span>
+				<span class="info">
+					<h5>Billing State:</h5>
+					<p>{{order|get_order_detail:'billing_state'}}</p>
+				</span>
+				<span class="info">
+					<h5>Billing Zip Code:</h5>
+					<p>{{order|get_order_detail:'billing_zip_code'}}</p>
+				</span>
+				<span class="info">
+					<h5>Billing Country:</h5>
+					<p>{{order|get_order_detail:'billing_country'}}</p>
+				</span>
+			</div>
+		</div>
+		<div class="infoWrap orderNotes">
+			<h2>Order notes:</h2>
+			<p>{{order|get_order_detail:'note'}}</p>
+		</div>
+	</div>
+	<div class="viewOrderInfo products">
+		<div>
+			<table class="productTable">
+				<thead> 
+					<tr>
+						<th>&nbsp;</th>
+						<th>Product name</th>
+						<th>Unit Price</th>
+						<th>Quantity</th>
+						<th class="productTotal">Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for order_item in order_items %}
+					<tr>
+						<td class="productInfo productImage">
+							<img src="/media/products/{{order_item.product.original_image_thumbnail}}" width="50" height="50" />
+						</td>
+						<td class="productInfo productName">{{order_item.name}}</td>
+						<td class="productInfo productPrice">${{order_item.unit_price|floatformat:2|intcomma}}</td>
+						<td class="productInfo productQty">{{order_item.quantity}}</td>
+						<td class="productInfo productTotal">${{order_item.unit_price|multiply:order_item.quantity|floatformat:2|intcomma}}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+				<tfoot>
+					<tr>
+						<td colspan="3">&nbsp;</td>
+						<td colspan="2">
+							<div class="subtotal">
+								<span class="label">Subtotal:</span>
+								<span class="value">${{order.items_subtotal|floatformat:2|intcomma}}</span>
+								<span class="label">Delivery Charge:</span>
+								<span class="value">${{order.shipping_cost|floatformat:2|intcomma}}</span>
+							</div>
+							<div class="total">
+								<span class="label">Total:</span>
+								<span class="value">${{order.total|floatformat:2|intcomma}}</span>
+							</div>
+						</td>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+	</div>
+</div>
+</div>
+{% endblock %}

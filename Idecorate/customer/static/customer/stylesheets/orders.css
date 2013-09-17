@@ -1,0 +1,207 @@
+@import url("/static/stylesheets/fontface.css");
+@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
+.ordersWrap {
+  width: 960px;
+  margin: 60px auto 0; }
+  .ordersWrap table.ordersTable {
+    width: 720px;
+    margin: 0 auto;
+    border-top: 1px solid #dbd7c9; }
+    .ordersWrap table.ordersTable tr td {
+      padding: 10px 0; }
+    .ordersWrap table.ordersTable tbody td {
+      border-bottom: 1px solid #dbd7c9;
+      vertical-align: middle; }
+    .ordersWrap table.ordersTable tbody td.orderImage {
+      width: 33%;
+      padding: 10px 1%; }
+      .ordersWrap table.ordersTable tbody td.orderImage img {
+        background-color: #FFFFFF;
+        outline: 1px solid #dbd7c9;
+        width: 100%; }
+    .ordersWrap table.ordersTable tbody td.orderInfo {
+      width: 38%;
+      padding: 10px 1%;
+      font-size: 0; }
+      .ordersWrap table.ordersTable tbody td.orderInfo .info {
+        font-size: 13px;
+        line-height: 15px;
+        display: inline-block;
+        *display: inline;
+        padding: 0.5%;
+        zoom: 1; }
+        .ordersWrap table.ordersTable tbody td.orderInfo .info p {
+          text-transform: uppercase;
+          font-weight: 700;
+          color: #666666; }
+        .ordersWrap table.ordersTable tbody td.orderInfo .info h5 {
+          text-transform: uppercase;
+          color: #777777;
+          font-family: "PT Serif", serif; }
+      .ordersWrap table.ordersTable tbody td.orderInfo .info.long {
+        width: 63%; }
+      .ordersWrap table.ordersTable tbody td.orderInfo .info.short {
+        width: 33%; }
+    .ordersWrap table.ordersTable tbody td.operation {
+      width: 23%;
+      padding: 10px 1%;
+      text-align: center; }
+      .ordersWrap table.ordersTable tbody td.operation .btn {
+        font-size: 14px;
+        line-height: 16px;
+        font-weight: 700;
+        padding: 5px 40px !important; }
+    .ordersWrap table.ordersTable tfoot td.paginate {
+      text-align: center; }
+      .ordersWrap table.ordersTable tfoot td.paginate ul li {
+        display: inline; }
+        .ordersWrap table.ordersTable tfoot td.paginate ul li a, .ordersWrap table.ordersTable tfoot td.paginate ul li span {
+          display: inline-block;
+          padding: 5px 3px; }
+        .ordersWrap table.ordersTable tfoot td.paginate ul li a:hover {
+          text-decoration: underline; }
+
+.viewOrderWrap {
+  width: 960px;
+  margin: 60px auto 0; }
+  .viewOrderWrap .viewOrderInfo {
+    background-color: #FFFFFF;
+    padding: 20px 40px;
+    position: relative; }
+    .viewOrderWrap .viewOrderInfo .operation {
+      position: absolute;
+      right: 0;
+      top: -35px; }
+      .viewOrderWrap .viewOrderInfo .operation a {
+        display: inline-block !important;
+        vertical-align: middle;
+        margin-left: 1px;
+        height: 31px; }
+        .viewOrderWrap .viewOrderInfo .operation a img {
+          background-image: url("/static/images/share_icons.png");
+          background-repeat: no-repeat;
+          min-width: 31px;
+          height: 31px; }
+      .viewOrderWrap .viewOrderInfo .operation a#print img {
+        width: 35px !important;
+        background-position: -261px 0; }
+      .viewOrderWrap .viewOrderInfo .operation a#pdf img {
+        width: 35px !important;
+        background-position: -331px 0; }
+      .viewOrderWrap .viewOrderInfo .operation a#print:hover img {
+        background-position: -261px -31px; }
+      .viewOrderWrap .viewOrderInfo .operation a#pdf:hover img {
+        background-position: -331px -31px; }
+      .viewOrderWrap .viewOrderInfo .operation a.btn {
+        height: 29px;
+        line-height: 29px;
+        padding: 0 10px !important; }
+    .viewOrderWrap .viewOrderInfo .infoWrap {
+      font-size: 0;
+      margin-bottom: 15px; }
+      .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup {
+        padding: 1%;
+        vertical-align: top;
+        font-size: 14px;
+        display: inline-block;
+        *display: inline;
+        zoom: 1; }
+        .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup .info {
+          display: block;
+          margin-bottom: 5px;
+          line-height: 18px; }
+          .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup .info h5 {
+            text-transform: uppercase;
+            color: #777777;
+            font-family: "PT Serif", serif; }
+          .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup .info p {
+            text-transform: uppercase;
+            font-weight: 700;
+            color: #666666; }
+        .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup .info.notes p {
+          text-transform: none !important;
+          font-size: 12px;
+          font-weight: 400; }
+      .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.order {
+        width: 38%; }
+      .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.customer {
+        width: 28%; }
+      .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.payment {
+        width: 28%; }
+      .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.delivery, .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.billing {
+        width: 48%;
+        vertical-align: bottom; }
+        .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.delivery .info, .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.billing .info {
+          margin-bottom: 15px; }
+          .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.delivery .info h5, .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.delivery .info p, .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.billing .info h5, .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.billing .info p {
+            display: inline-block; }
+          .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.delivery .info h5, .viewOrderWrap .viewOrderInfo .infoWrap .infoGroup.billing .info h5 {
+            width: 35%; }
+    .viewOrderWrap .viewOrderInfo .infoWrap.orderNotes {
+      font-size: 14px;
+      text-align: center; }
+      .viewOrderWrap .viewOrderInfo .infoWrap.orderNotes h2 {
+        text-transform: uppercase;
+        color: #777777;
+        font-family: "PT Serif", serif;
+        line-height: 20px; }
+      .viewOrderWrap .viewOrderInfo .infoWrap.orderNotes p {
+        text-transform: none !important;
+        font-size: 12px;
+        font-weight: 400;
+        width: 700px;
+        margin: 0 auto; }
+  .viewOrderWrap .viewOrderInfo.products {
+    margin-top: 20px;
+    font-size: 14px; }
+    .viewOrderWrap .viewOrderInfo.products .productTable {
+      width: 100%;
+      text-transform: uppercase; }
+      .viewOrderWrap .viewOrderInfo.products .productTable thead {
+        color: #777777;
+        font-family: "PT Serif", serif; }
+        .viewOrderWrap .viewOrderInfo.products .productTable thead th.productTotal {
+          text-align: right; }
+      .viewOrderWrap .viewOrderInfo.products .productTable tbody td {
+        text-align: center;
+        padding: 3px 0;
+        vertical-align: middle; }
+        .viewOrderWrap .viewOrderInfo.products .productTable tbody td img {
+          background-color: #FFFFFF;
+          outline: 1px solid #dbd7c9;
+          width: 80px;
+          height: 80px; }
+      .viewOrderWrap .viewOrderInfo.products .productTable tbody td.productImage {
+        width: 10%;
+        text-align: left; }
+      .viewOrderWrap .viewOrderInfo.products .productTable tbody td.productName {
+        width: 45%; }
+      .viewOrderWrap .viewOrderInfo.products .productTable tbody td.productPrice {
+        width: 15%; }
+      .viewOrderWrap .viewOrderInfo.products .productTable tbody td.productQty {
+        width: 20%; }
+      .viewOrderWrap .viewOrderInfo.products .productTable tbody td.productTotal {
+        width: 10%;
+        text-align: right; }
+      .viewOrderWrap .viewOrderInfo.products .productTable tfoot td {
+        font-size: 0; }
+        .viewOrderWrap .viewOrderInfo.products .productTable tfoot td div.subtotal {
+          padding: 10px 0;
+          border-top: 1px solid #dbd7c9;
+          border-bottom: 1px solid #dbd7c9;
+          margin-bottom: 10px; }
+        .viewOrderWrap .viewOrderInfo.products .productTable tfoot td span {
+          font-size: 14px;
+          display: inline-block;
+          margin: 5px 0; }
+        .viewOrderWrap .viewOrderInfo.products .productTable tfoot td .label {
+          color: #777777;
+          width: 50%;
+          font-family: "PT Serif", serif; }
+        .viewOrderWrap .viewOrderInfo.products .productTable tfoot td .value {
+          width: 50%;
+          text-align: right; }
+        .viewOrderWrap .viewOrderInfo.products .productTable tfoot td div.total .value {
+          font-size: 20px;
+          font-weight: 700;
+          font-family: "PT Serif", serif; }

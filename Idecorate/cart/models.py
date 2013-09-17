@@ -165,9 +165,10 @@ class Contact(models.Model):
 
 class OrderStyleboard(models.Model):
 
-    id          = models.AutoField(db_column='id', primary_key=True)
-    order       = models.ForeignKey(Order, db_column='order_id')
-    styleboard  = models.CharField(db_column='styleboard_img', max_length=256)
+    id = models.AutoField(db_column='id', primary_key=True)
+    order = models.ForeignKey(Order, db_column='order_id')
+    styleboard_name = models.CharField(db_column='styleboard_name', max_length=256)
+    styleboard = models.CharField(db_column='styleboard_img', max_length=256)
 
     class Meta:
         verbose_name = _('Ordered Styleboard')

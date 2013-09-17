@@ -402,6 +402,7 @@ def st_save_helper(request,order):
                 os.unlink(path)
                 
                 order_styleboard.order = order
+                order_styleboard.styleboard_name = result.styleboard_item.name
                 order_styleboard.styleboard = styleboard_img
                 order_styleboard.save()
 
@@ -409,6 +410,7 @@ def st_save_helper(request,order):
 
                 order_styleboard = OrderStyleboard()
                 order_styleboard.order = order
+                order_styleboard.styleboard_name = result.styleboard_item.name
                 order_styleboard.styleboard = styleboard_img
                 order_styleboard.save()
 

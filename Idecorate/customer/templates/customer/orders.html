@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load idecorate_interface admin humanize static %}
+{{ request|set_last_page_idecorate }}
+{% block title %}My Orders{% endblock %}
+{%  block style %}
+    <link rel="stylesheet" href="{% static 'customer/stylesheets/orders.css' %}">
+<!-- <link rel="stylesheet" type="text/css" href="/media/interface/css/orders.css"> -->
+{% endblock %}
+{% block content %}
+<div id="content_header">
+    <div class="headingWrap">
+        <div class="fieldset contentHeading">
+            <div class="legend"><span >My Orders</span></div>
+        </div>
+    </div>
+</div>
+<div id="content_body">
+	<div class="ordersWrap">
+		<table class="ordersTable">
+			<tbody>
+				{% if orders %}
+				{% for order in orders %}
+				<tr>
+					<td class="orderImage">
+						{% if order|get_ordered_styleboard:'styleboard' %}
+						<img src="/media/styleboards/{{ order|get_ordered_styleboard:'styleboard' }}"/>
+						{% else %}
+						<img src="/media/images/error_logo.jpg" />
+						{% endif %}
+					</td>
+					<td class="orderInfo">
+						{% if order|get_ordered_styleboard:'styleboard_name' %}
+						<h2>{{ order|get_ordered_styleboard:'styleboard_name' }}</h2>
+						{% endif %}
+						<div class="info long">
+							<h5>order id</h5>
+							<p>{{ order.order_id }}</p>
+						</div>
+						<div class="info short">
+							<h5>Total</h5>
+							<p>${{order.total|floatformat:2|intcomma}}</p>
+						</div>
+						<div class="info long">
+							<h5>Date Created</h5>
+							<p>{{ order.created }}</p>
+						</div>
+						<div class="info short">
+							<h5>Status</h5>
+							<p>{{order.status|readable_status}}</p>
+						</div>
+					</td>
+					<td class="operation">
+						<a class="btn" href="{% url view_order %}?order={{ order.id }}&p={{ page }}">View<br/>Order</a>
+					</td>
+				</tr>
+				{% endfor %}
+				{% endif %}
+			</tbody>
+			<tfoot>
+				<tr>
+					<td class="paginate" colspan="3">{{ orders|interface_paginate }}</td>
+				</tr>
+			</tfoot>
+		</table>
+	</div>
+</div>
+{% endblock %}
+{% block javascripts %}
+<script type="text/javascript">
+</script>
+{% endblock %}

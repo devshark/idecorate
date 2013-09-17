@@ -1,277 +1,55 @@
-@import url("/static/stylesheets/fontface.css");
-@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
-#content_header {
-  padding: 20px 0; }
-  #content_header .profileWrap {
-    display: inline-block;
-    *display: inline;
-    zoom: 1;
-    vertical-align: middle; }
-  #content_header h3, #content_header h2, #content_header h4 {
-    text-transform: uppercase; }
-  #content_header h3 {
-    font-family: "cartoGothicStd_Bold";
-    font-size: 19px;
-    line-height: 19px; }
-  #content_header h2 {
-    font-family: "PT Serif", serif;
-    font-weight: 700;
-    font-size: 30px;
-    line-height: 25px; }
-  #content_header h4 {
-    font-family: "PT Serif", serif;
-    font-size: 17px;
-    line-height: 25px; }
-  #content_header .profileName {
-    width: 500px; }
-  #content_header .profileImage img {
-    width: 110px;
-    height: 110px;
-    outline: 1px solid #dbd7c9;
-    background-color: #f2efe8; }
-  #content_header .profileInfo {
-    width: 200px;
-    margin: 10px 0 10px 10px;
-    padding-right: 130px;
-    text-align: left;
-    vertical-align: top; }
+/*
+Syntax error: File to import not found or unreadable: sass.
+              Load paths:
+                .
+                ../../../static/
+                _sass/
+        on line 1 of _sass/profile.scss
 
-#content_body .customerStyleboards {
-  width: 925px;
-  margin: 0 auto;
-  padding-left: 35px;
-  text-align: left; }
-  #content_body .customerStyleboards .styleboardWrap {
-    width: 423px;
-    display: inline-block;
-    float: left;
-    margin-right: 35px;
-    margin-top: 25px;
-    background-color: #f8f8f6;
-    border-top: 1px solid #dbd7c9;
-    border-left: 1px solid #dbd7c9;
-    border-right: 1px solid #dbd7c9;
-    border-bottom: 15px solid #dbd7c9;
-    text-align: center; }
-    #content_body .customerStyleboards .styleboardWrap .styleboardImage {
-      background-color: #FFFFFF;
-      position: relative;
-      vertical-align: bottom; }
-      #content_body .customerStyleboards .styleboardWrap .styleboardImage img {
-        width: 100%; }
-      #content_body .customerStyleboards .styleboardWrap .styleboardImage .operation {
-        text-align: center;
-        position: absolute;
-        bottom: 1%;
-        width: 100%; }
-      #content_body .customerStyleboards .styleboardWrap .styleboardImage a.btn {
-        display: none;
-        padding: 5px 20px !important;
-        font-size: 13px;
-        line-height: 15px;
-        vertical-align: middle; }
-      #content_body .customerStyleboards .styleboardWrap .styleboardImage a.btn.share {
-        line-height: 16px;
-        padding: 12px 20px !important; }
-      #content_body .customerStyleboards .styleboardWrap .styleboardImage a.btn.delStyleboard {
-        font-size: 12px;
-        position: absolute;
-        right: 7px;
-        top: 7px;
-        z-index: 1;
-        padding: 3px 7px !important; }
-    #content_body .customerStyleboards .styleboardWrap .styleboardName {
-      text-transform: uppercase;
-      padding: 15px 0;
-      font-size: 18px;
-      line-height: 18px;
-      font-family: "PT Serif", serif; }
-    #content_body .customerStyleboards .styleboardWrap .styleboardCreated {
-      font-family: "cartoGothicStd_Book";
-      padding: 5px 0;
-      text-transform: uppercase; }
-    #content_body .customerStyleboards .styleboardWrap .styleboardPrice {
-      font-family: "PT Serif", serif;
-      font-weight: 700;
-      font-size: 17px;
-      padding: 5px 0; }
-    #content_body .customerStyleboards .styleboardWrap .styleboardDesription {
-      padding: 5px 0 20px;
-      height: 70px;
-      width: 350px;
-      margin: 0 auto;
-      line-height: 1.2em;
-      text-align: justify; }
-  #content_body .customerStyleboards .styleboardWrap:after {
-    display: block;
-    content: "";
-    height: 2px;
-    background-color: #dbd7c9;
-    margin-bottom: 1px; }
-  #content_body .customerStyleboards .socialMediaShare {
-    display: none;
-    background-color: #FFFFFF;
-    padding: 5px;
-    border: 1px solid #dbd7c9;
-    position: absolute;
-    top: 101%;
-    z-index: 1; }
-  #content_body .customerStyleboards .socialMediaShare:before {
-    display: block;
-    position: absolute;
-    content: "";
-    background-image: url("/static/images/modal_arrow.png");
-    background-repeat: no-repeat;
-    width: 22px;
-    height: 12px;
-    bottom: 100%;
-    left: 140px;
-    z-index: 2; }
-#content_body .viewStyleboardWrap {
-  width: 960px;
-  margin: 25px auto 0; }
-  #content_body .viewStyleboardWrap aside, #content_body .viewStyleboardWrap section {
-    float: right; }
-  #content_body .viewStyleboardWrap aside {
-    width: 320px;
-    margin-left: 10px;
-    padding: 15px;
-    text-align: right; }
-    #content_body .viewStyleboardWrap aside .btn {
-      padding: 7px 10px !important;
-      font-size: 11px !important; }
-    #content_body .viewStyleboardWrap aside a.btn {
-      line-height: 16px !important; }
-    #content_body .viewStyleboardWrap aside h2 {
-      text-transform: uppercase;
-      padding: 10px 0;
-      font-size: 15px;
-      line-height: 15px;
-      font-family: "PT Serif", serif;
-      text-align: right;
-      border-bottom: 1px solid #dbd7c9;
-      margin-bottom: 3px; }
-    #content_body .viewStyleboardWrap aside h3.total {
-      text-transform: uppercase;
-      padding: 10px 0;
-      font-size: 15px;
-      line-height: 15px;
-      font-family: "PT Serif", serif;
-      text-align: right;
-      border-top: 1px solid #dbd7c9;
-      margin-top: 3px; }
-    #content_body .viewStyleboardWrap aside table#cart-items {
-      text-align: left;
-      width: 100%; }
-      #content_body .viewStyleboardWrap aside table#cart-items .listItem {
-        vertical-align: middle;
-        padding: 3px 1%; }
-      #content_body .viewStyleboardWrap aside table#cart-items .listItem.image {
-        width: 20%; }
-        #content_body .viewStyleboardWrap aside table#cart-items .listItem.image img {
-          width: 100%;
-          outline: 1px solid #dbd7c9; }
-      #content_body .viewStyleboardWrap aside table#cart-items .listItem.info {
-        width: 50%; }
-      #content_body .viewStyleboardWrap aside table#cart-items .listItem.quantity {
-        width: 10%;
-        text-align: center; }
-      #content_body .viewStyleboardWrap aside table#cart-items .listItem.subtotal {
-        width: 20%;
-        text-align: right; }
-  #content_body .viewStyleboardWrap section {
-    width: 598px;
-    background-color: #FFFFFF;
-    border-top: 1px solid #dbd7c9;
-    border-left: 1px solid #dbd7c9;
-    border-right: 1px solid #dbd7c9;
-    border-bottom: 15px solid #dbd7c9;
-    text-align: center; }
-    #content_body .viewStyleboardWrap section .styleboardImage img {
-      width: 100%; }
-    #content_body .viewStyleboardWrap section .styleboardName {
-      text-transform: uppercase;
-      padding: 15px 0;
-      font-size: 18px;
-      line-height: 18px;
-      font-family: "PT Serif", serif; }
-    #content_body .viewStyleboardWrap section .styleboardCreated {
-      font-family: "cartoGothicStd_Book";
-      padding: 5px 0;
-      text-transform: uppercase; }
-    #content_body .viewStyleboardWrap section .styleboardPrice {
-      font-family: "PT Serif", serif;
-      font-weight: 700;
-      font-size: 17px;
-      padding: 5px 0; }
-    #content_body .viewStyleboardWrap section .styleboardDesription {
-      padding: 5px 0 20px;
-      width: 550px;
-      margin: 0 auto;
-      line-height: 1.2em;
-      text-align: justify; }
-  #content_body .viewStyleboardWrap section:after {
-    display: block;
-    content: "";
-    height: 2px;
-    background-color: #dbd7c9;
-    margin-bottom: 1px; }
+1: @import 'sass';
+2: #content_header{
+3: 	padding: 20px 0;
+4: 	.profileWrap{
+5: 		display: inline-block;
+6: 		*display: inline;
 
-.socialMediaShare {
-  font-size: 0; }
-  .socialMediaShare span {
-    display: inline-block;
-    vertical-align: middle;
-    font-family: "PT Serif", serif;
-    font-size: 14px;
-    text-transform: uppercase; }
-  .socialMediaShare a.share {
-    display: inline-block !important;
-    vertical-align: middle;
-    margin-left: 1px;
-    height: 31px; }
-    .socialMediaShare a.share img {
-      background-image: url("/static/images/share_icons.png");
-      background-repeat: no-repeat;
-      min-width: 31px;
-      height: 31px; }
-  .socialMediaShare a.share.facebook img {
-    width: 90px !important;
-    background-position: 0 0; }
-  .socialMediaShare a.share.twitter img {
-    width: 90px !important;
-    background-position: -90px 0; }
-  .socialMediaShare a.share.tumblr img {
-    width: 35px !important;
-    background-position: -180px 0; }
-  .socialMediaShare a.share.google img {
-    width: 46px !important;
-    background-position: -215px 0; }
-  .socialMediaShare a.share.pinterest img {
-    width: 35px !important;
-    background-position: -366px 0; }
-  .socialMediaShare a.share.print img {
-    width: 35px !important;
-    background-position: -261px 0; }
-  .socialMediaShare a.share.email img {
-    width: 35px !important;
-    background-position: -296px 0; }
-  .socialMediaShare a.share.pdf img {
-    width: 35px !important;
-    background-position: -331px 0; }
-  .socialMediaShare a.share.facebook:hover img {
-    background-position: 0 -31px; }
-  .socialMediaShare a.share.twitter:hover img {
-    background-position: -90px -31px; }
-  .socialMediaShare a.share.tumblr:hover img {
-    background-position: -180px -31px; }
-  .socialMediaShare a.share.google:hover img {
-    background-position: -215px -31px; }
-  .socialMediaShare a.share.pinterest:hover img {
-    background-position: -366px -31px; }
-  .socialMediaShare a.share.print:hover img {
-    background-position: -261px -31px; }
-  .socialMediaShare a.share.email:hover img {
-    background-position: -296px -31px; }
-  .socialMediaShare a.share.pdf:hover img {
-    background-position: -331px -31px; }
+Backtrace:
+_sass/profile.scss:1
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/import_node.rb:120:in `import'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/import_node.rb:25:in `imported_file'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/import_node.rb:49:in `css_import?'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/import_node.rb:71:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:37:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `map'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:332:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:59:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:320:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:37:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:29:in `render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:262:in `_render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:233:in `render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:311:in `update_stylesheet'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:179:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:172:in `each'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:172:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:170:in `each'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:170:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:212:in `watch'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin.rb:110:in `send'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin.rb:110:in `method_missing'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:369:in `watch_or_update'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:273:in `process_result'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:41:in `parse'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:21:in `parse!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/sass:8
+/home/ryanangeles/.gem/ruby/1.8/bin/sass:19:in `load'
+/home/ryanangeles/.gem/ruby/1.8/bin/sass:19
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: File to import not found or unreadable: sass.\A               Load paths:\A                 .\A                 ../../../static/\A                 _sass/\A         on line 1 of _sass/profile.scss\A \A 1: @import 'sass';\A 2: #content_header{\A 3: 	padding: 20px 0;\A 4: 	.profileWrap{\A 5: 		display: inline-block;\A 6: 		*display: inline;"; }

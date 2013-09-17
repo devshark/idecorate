@@ -449,21 +449,20 @@ ul.simpleDropdown li {
     display: inline-block;
     *display: inline;
     zoom: 1;
-    background-color: #FFFFFF;
-    margin-bottom: -25px; }
+    background-color: #FFFFFF; }
     #content_header .headingWrap .contentHeading {
       background-color: #FFFFFF;
       margin: 30px 20px 0;
       padding: 0; }
       #content_header .headingWrap .contentHeading .legend {
-        padding: 0 70px;
+        padding: 0 100px;
         margin-top: -15px;
         position: relative;
         z-index: 1; }
         #content_header .headingWrap .contentHeading .legend span {
           height: 30px;
           font-size: 20px !important;
-          line-height: 30px !important;
+          line-height: 27px !important;
           white-space: nowrap;
           display: inline-block;
           background-color: #FFFFFF;
@@ -474,16 +473,19 @@ ul.simpleDropdown li {
   #content_header .headingWrap:after {
     display: block;
     content: "";
-    height: 24px;
+    height: 29px;
+    margin-top: -13px;
     border-bottom: 1px solid #dbd7c9;
     border-left: 1px solid #dbd7c9;
     border-right: 1px solid #dbd7c9;
-    width: 100%;
     box-shadow: 0 1px 0 #989391; }
 
 #content_body {
+  margin-top: -30px;
+  padding-top: 30px;
   padding-bottom: 70px;
-  border-top: 1px solid #dbd7c9; }
+  border-top: 1px solid #dbd7c9;
+  background-color: #f2efe8; }
 
 #user_access, #newsletter_form_wrap, #modal_default_messages, #modal_confirm_prompt {
   display: none;

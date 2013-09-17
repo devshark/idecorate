@@ -1,31 +1,55 @@
-@import url("/static/stylesheets/fontface.css");
-@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
-#forgot_password {
-  margin-top: 10px; }
+/*
+Syntax error: File to import not found or unreadable: sass.
+              Load paths:
+                .
+                ../../../static/
+                _sass/
+        on line 1 of _sass/customer.scss
 
-.forgotPasswordPage {
-  text-align: center;
-  width: 600px; }
-  .forgotPasswordPage p {
-    font-size: 13px; }
+1: @import 'sass';
+2: #forgot_password{
+3: 	margin-top:10px;
+4: 
+5: }
+6: .forgotPasswordPage{
 
-.errorList, .error, .warning {
-  color: red;
-  font-size: 11px;
-  font-style: italic; }
-
-input[type="text"], input[type="password"], input[type="email"] {
-  width: 55%;
-  -webkit-border-radius: 0 !important;
-  -moz-border-radius: 0 !important;
-  border-radius: 0 !important;
-  border: 1px solid #dbd7c9 !important;
-  font-size: 12px;
-  padding: 6px !important; }
-
-.btn {
-  padding: 5px 10px !important;
-  font-size: 11px !important; }
-
-a.btn {
-  line-height: 18px !important; }
+Backtrace:
+_sass/customer.scss:1
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/import_node.rb:120:in `import'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/import_node.rb:25:in `imported_file'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/import_node.rb:49:in `css_import?'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/import_node.rb:71:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:37:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `map'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:341:in `perform_children'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:332:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:59:in `perform!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:320:in `_perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/node.rb:213:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:37:in `perform'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/tree/root_node.rb:29:in `render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:262:in `_render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/engine.rb:233:in `render'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:311:in `update_stylesheet'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:179:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:172:in `each'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:172:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:170:in `each'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:170:in `update_stylesheets'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin/compiler.rb:212:in `watch'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin.rb:110:in `send'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/sass/plugin.rb:110:in `method_missing'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:369:in `watch_or_update'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:273:in `process_result'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:41:in `parse'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/../lib/haml/exec.rb:21:in `parse!'
+/home/ryanangeles/.gem/ruby/1.8/gems/haml-edge-3.1.79/bin/sass:8
+/home/ryanangeles/.gem/ruby/1.8/bin/sass:19:in `load'
+/home/ryanangeles/.gem/ruby/1.8/bin/sass:19
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Syntax error: File to import not found or unreadable: sass.\A               Load paths:\A                 .\A                 ../../../static/\A                 _sass/\A         on line 1 of _sass/customer.scss\A \A 1: @import 'sass';\A 2: #forgot_password{\A 3: 	margin-top:10px;\A 4: \A 5: }\A 6: .forgotPasswordPage{"; }
