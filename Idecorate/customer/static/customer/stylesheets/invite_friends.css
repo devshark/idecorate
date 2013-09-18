@@ -1,0 +1,72 @@
+@import url("/static/stylesheets/fontface.css");
+@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
+.inviteFriendsWrap {
+  width: 720px;
+  margin: 60px auto 0;
+  background-color: #FFFFFF;
+  position: relative; }
+  .inviteFriendsWrap .loading {
+    display: none; }
+  .inviteFriendsWrap .loading, .inviteFriendsWrap .loading2 {
+    text-align: center; }
+  .inviteFriendsWrap .searchFriends {
+    position: absolute;
+    right: 0;
+    top: -30px;
+    padding: 1px 0;
+    border: 1px solid #dbd7c9;
+    background-color: #FFFFFF;
+    height: 22px;
+    text-align: left; }
+    .inviteFriendsWrap .searchFriends input {
+      height: 22px;
+      padding: 0;
+      vertical-align: middle;
+      border: none;
+      line-height: 22px; }
+    .inviteFriendsWrap .searchFriends input[type="text"] {
+      padding: 0 3px;
+      width: 200px;
+      font-size: 10px; }
+    .inviteFriendsWrap .searchFriends input[type="submit"] {
+      visibility: hidden;
+      display: none; }
+  .inviteFriendsWrap #content_friends {
+    padding: 25px 0;
+    margin: 0 auto;
+    width: 500px; }
+    .inviteFriendsWrap #content_friends li {
+      text-align: center;
+      padding: 5px 0;
+      border-bottom: 1px solid #dbd7c9;
+      vertical-align: middle; }
+      .inviteFriendsWrap #content_friends li .fbData {
+        width: 380px;
+        text-align: left;
+        display: inline-block;
+        *display: inline;
+        zoom: 1; }
+        .inviteFriendsWrap #content_friends li .fbData span {
+          display: inline-block;
+          vertical-align: middle; }
+      .inviteFriendsWrap #content_friends li .btn {
+        width: 88px;
+        padding: 10px !important; }
+  .inviteFriendsWrap .inviteLogoff {
+    padding: 25px;
+    text-align: center; }
+    .inviteFriendsWrap .inviteLogoff #login-btn {
+      margin-top: 20px;
+      padding: 10px 20px !important;
+      font-size: 15px;
+      vertical-align: middle; }
+      .inviteFriendsWrap .inviteLogoff #login-btn img, .inviteFriendsWrap .inviteLogoff #login-btn span {
+        display: inline-block;
+        vertical-align: middle; }
+      .inviteFriendsWrap .inviteLogoff #login-btn img {
+        background-image: url("/static/images/social_icons.png");
+        background-repeat: no-repeat;
+        height: 29px;
+        width: 29px;
+        background-position: -254px -6px;
+        margin-right: 10px; }

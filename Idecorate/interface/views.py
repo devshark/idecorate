@@ -1307,7 +1307,7 @@ def invite_friends(request):
     info['associated'] = associated
     info['fb_auth_error'] = fb_auth_error
     
-    return render_to_response('interface/invite_friends.html', info,RequestContext(request))
+    return render_to_response('customer/invite_friends.html', info,RequestContext(request))
 
 @csrf_exempt
 def invite_friends_content(request):
@@ -1330,9 +1330,9 @@ def invite_friends_content(request):
 
                 if 'data' in fb_api:
                     fb_friends = fb_api['data']
-                    #print fb_friends
 
         except:
+            
             pass
         
 
@@ -1349,7 +1349,7 @@ def invite_friends_content(request):
         """
 
     info['fb_friends'] = fb_friends
-    return render_to_response('interface/invite_friends_content.html', info,RequestContext(request))
+    return render_to_response('customer/invite_friends_content.html', info,RequestContext(request))
 
 def ideas(request):
     info = {}

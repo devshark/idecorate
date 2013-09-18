@@ -1,0 +1,10 @@
+{% load idecorate_interface %}
+{% for fb_friend in fb_friends %}
+<li style="opacity:0;-moz-opacity: 0;filter: alpha(opacity=0);">
+	<div class="fbData">
+		<span class="fbImg"><img src="http://graph.facebook.com/{{ fb_friend.uid }}/picture?type=small" alt="" /></span>
+		<span class="fbName">{{ fb_friend.name|convert_unicode_to_entity }}</span>
+	</div>
+	<a class="inviteBtn btn" href="#" onclick="inviteFriendsNow('{{ fb_friend.uid }}')">Invite</a>
+</li>
+{% endfor %}

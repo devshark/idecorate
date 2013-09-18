@@ -1,0 +1,87 @@
+@import 'sass';
+.inviteFriendsWrap{
+	width: 720px;
+	margin: 60px auto 0;
+	background-color: #FFFFFF;
+	position: relative;
+	.loading{
+		display:none;
+	}
+	.loading,.loading2  {
+		text-align:center;
+	}
+	.searchFriends{
+		position: absolute;
+		right: 0;
+		top: -30px;
+		padding: 1px 0;
+		border: 1px solid $border_01;
+		background-color: #FFFFFF;
+		height: 22px;
+		text-align: left;
+		input{
+			height: 22px;
+			padding: 0;
+			vertical-align: middle;
+			border: none;
+			line-height: 22px;
+		}
+		input[type="text"]{
+			padding: 0 3px;
+			width: 200px;
+			font-size: 10px;
+		}
+		input[type="submit"]{
+			visibility: hidden;
+			display: none;
+		}
+	}
+	#content_friends{
+		padding: 25px 0;
+		margin: 0 auto;
+		width: 500px;
+		li{
+			text-align: center;
+			padding: 5px 0;
+			border-bottom: 1px solid $border_01;
+			vertical-align: middle;
+			.fbData{
+				width: 380px;
+				text-align: left;
+				display: inline-block;
+				*display: inline;
+				zoom: 1;
+				span{
+					display: inline-block;
+					vertical-align: middle;
+				}
+			}
+			.btn{
+				width: 88px;
+				padding: 10px !important;
+			}
+		}
+	}
+	.inviteLogoff{
+		padding: 25px;
+		text-align: center;
+		#login-btn{
+			margin-top: 20px;
+			padding: 10px 20px !important;
+			font-size: 15px;
+			vertical-align:middle;
+			img, span{
+				display: inline-block;
+				vertical-align: middle;
+			}
+			img{
+				background-image : url('/static/images/social_icons.png');
+				background-repeat: no-repeat;
+				height: 29px;
+				width: 29px;
+				background-position: -254px -6px;
+				margin-right: 10px;
+			}
+		}
+	}
+}
