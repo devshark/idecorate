@@ -8,6 +8,7 @@
   .inviteFriendsWrap .loading {
     display: none; }
   .inviteFriendsWrap .loading, .inviteFriendsWrap .loading2 {
+    padding: 25px 0;
     text-align: center; }
   .inviteFriendsWrap .searchFriends {
     position: absolute;
@@ -48,7 +49,8 @@
         zoom: 1; }
         .inviteFriendsWrap #content_friends li .fbData span {
           display: inline-block;
-          vertical-align: middle; }
+          vertical-align: middle;
+          margin-right: 5px; }
       .inviteFriendsWrap #content_friends li .btn {
         width: 88px;
         padding: 10px !important; }

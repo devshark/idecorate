@@ -1,0 +1,440 @@
+{% extends "base.html" %}
+{% load idecorate_interface humanize admin static %}
+{{ request|set_last_page_idecorate }}
+{% block title %}Edit Profile{% endblock %}
+{%  block style %}
+<link rel="stylesheet" type="text/css" href="{% static 'customer/stylesheets/edit_profile.css' %}">
+{% endblock %}
+{% block content %}
+<div id="content_header">
+    <div class="headingWrap">
+        <div class="fieldset contentHeading">
+            <div class="legend"><span >Edit profile</span></div>
+        </div>
+    </div>
+</div>
+<div id="content_body">
+	{% if form.errors or pass_form.errors or request.session.fb_auth_error %}
+	<div class="messageWrap errorBlock">
+		<a href="#" class="closeMessage">&#10005;</a>
+		<h4>Please correct the following errors:</h4>
+		<ol>
+			{% if request.session.fb_auth_error %}
+			<li>{{ request.session.fb_auth_error }}</li>
+			{% endif %}
+			{% for field in pass_form %}
+				{% if field.errors %}
+					{% for field_errors in field.errors %}
+						<li>{{field_errors}}</li>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+			{% for field in form %}
+				{% if field.errors %}
+					{% for field_errors in field.errors %}
+						<li>{{field_errors}}</li>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		</ol>
+	</div>
+	{% endif %}
+{% if request.session.fb_auth_error %}
+	{{ request|deleteSession:"fb_auth_error" }}
+{% else %}
+	{% if messages %}
+	<div class="messageWrap messageBlock">
+	    <a class="closeMessage" href="#">&#10005;</a>
+	    <h4>Success!</h4>
+	    <ul class="messages_list">
+			{% for message in messages %}
+			<li class="{{message.tags}}">
+				{% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+			</li>
+			{% endfor %}
+		</ul>
+	</div>
+	{% endif %}
+{% endif %}
+	<div class="editProfileWrap">
+		<form action="" method="post" id="frmedit">
+			{% csrf_token %}
+			<input type="hidden" name="task" id="frmtask" value="1" />
+			<div class="pannel personalInfoWrap">
+				<div class="fieldSet personalInfo">
+					<h2 class="fieldSetLegend">Personal Information</h2>
+					<div class="fieldGroup profileImage">
+						<div class="imageWrap">
+							<div id="image_error" style="color:red">&nbsp;</div>
+		                  	<div class="preview" id="image_preview" style="`-align:center;">
+		                    	<img id="thumb_original" style="position:relative;height:120px;width:120px" src="/media/admin/images/bg_transparent.png" alt="" />
+		                  	</div>
+							{{ form.user_image }}
+							<a href="#" class="btn" id="btn_orginal_image">Upload</a>
+							<a href="#" class="btn" id="get-FB-image">
+								<h5>Reload From</h5><h4>Facebook</h4>
+							</a>
+						</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Title</label>
+						<div class="inputWrap">{{ form.salutation }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>First Name</label>
+						<div class="inputWrap">{{ form.firstname }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Last Name</label>
+						<div class="inputWrap">{{ form.lastname }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>About</label>
+						<div class="inputWrap">{{ form.about }}</div>
+					</div>
+				</div>
+				<div class="fieldSet accountSetting">
+					<h2 class="fieldSetLegend">User Account Settings</h2>
+					<div class="fieldGroup">
+						<label>Email Address</label>
+						<div class="inputWrap">{{ form.username }}</div>
+					</div>
+					<div class="fieldGroup changePassword">
+						<h2 class="fieldSetLegend">Change Your Password</h2>
+						{% if idecorate_user.password != "!" %}
+						<span class="passwordFieldWrap">
+							<label>Current Password</label>
+							<div class="inputWrap">{{ pass_form.current_password }}</div>
+						</span>
+						{% endif %}
+						<span class="passwordFieldWrap">
+							<label>Password</label>
+							<div class="inputWrap">{{ pass_form.password }}</div>
+						</span>
+						<span class="passwordFieldWrap">
+							<label>Confirm Password</label>
+							<div class="inputWrap">{{ pass_form.confirm_password }}</div>
+						</span>
+						<span class="passwordFieldWrap operation">
+							<button id="change-password" class="btn" type="button">Save Password</button>
+						</span>
+					</div>
+					<div class="fieldGroup">
+						<label>Language</label>
+						<div class="inputWrap">{{ form.language }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Gender</label>
+	                {% for choice in form.gender.field.choices %}
+	                 <input type="radio" name="gender" value="{{choice.0}}" {% if form.gender.data == choice.0 or initial_form_data.gender == choice.0 %}checked="checked" {% endif %}/> {{choice.1}}
+	                {% endfor %}
+					</div>
+				</div>
+			</div>
+			<div class="pannel miscInfoWrap">
+				<div class="fieldSet deliverySettings">
+					<h2 class="fieldSetLegend">Delivery Address</h2>
+					<div class="fieldGroup">
+						<label>Address 1</label>
+						<div class="inputWrap">{{ form.shipping_address }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Address 2</label>
+						<div class="inputWrap">{{ form.shipping_address2 }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>City</label>
+						<div class="inputWrap">{{ form.shipping_city }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>State</label>
+						<div class="inputWrap">{{ form.shipping_state }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Postal Code</label>
+						<div class="inputWrap">{{ form.shipping_zip_code }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Country</label>
+						<div class="inputWrap">{{ form.shipping_country }}</div>
+					</div>
+					<div class="fieldGroup">
+						{{ form.shipping_same_as_billing }} My delivery address is the same as my billing address
+					</div>
+				</div>
+				<div class="fieldSet billingSetting">
+					<h2 class="fieldSetLegend">Billing Address</h2>
+					<div class="fieldGroup">
+						<label>Address 1</label>
+						<div class="inputWrap">{{ form.billing_address }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Address 2</label>
+						<div class="inputWrap">{{ form.billing_address2 }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>City</label>
+						<div class="inputWrap">{{ form.billing_city }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>State</label>
+						<div class="inputWrap">{{ form.billing_state }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Postal Code</label>
+						<div class="inputWrap">{{ form.billing_zip_code }}</div>
+					</div>
+					<div class="fieldGroup">
+						<label>Country</label>
+						<div class="inputWrap">{{ form.billing_country }}</div>
+					</div>
+				</div>
+				<div class="fieldSet socialNetwork">
+					<h2 class="fieldSetLegend">Social Network</h2>
+					<div class="fieldGroup">
+						{% if user_facebook %}
+						<input type="checkbox" id="fb_chkbox" name="facebook" checked="checked" />
+						{% else %}
+						<input type="checkbox" id="fb_chkbox" name="facebook" />
+						{% endif %} Sign in with Facebook
+					</div>
+					<div class="fieldGroup">
+						{% if user_twitter %}
+						<input type="checkbox" id="tw_chkbox" name="twitter" checked="checked" />
+						{% else %}<input type="checkbox" id="tw_chkbox" name="twitter" />
+						{% endif %} Sign in with Twitter
+					</div>
+				</div>
+			</div>
+			<div class="operation submitWrap">
+				<button class="btn submit">Save Profile</button>
+			</div>
+		</form>
+	</div>
+</div>
+{% endblock %}
+{%  block javascripts %}
+<script type="text/javascript" src="/media/admin/js/ajaxupload.js"></script>
+<script type="text/javascript">
+
+	function checkSameAs(obj) {
+
+		if($(obj).is(':checked')){
+
+			$('.billingSetting').addClass('readOnly');//.hide()
+			$('.billingSetting').find('input[type="text"],input[type="password"],input[type="email"]').attr('readonly','readonly');
+			$('.billingSetting').find('select option').attr('disabled', 'disabled');
+
+		}else{
+
+			$('.billingSetting').removeClass('readOnly');//.show()
+			$('.billingSetting').find('input[type="text"],input[type="password"],input[type="email"]').removeAttr( "readonly" );
+			$('.billingSetting').find('select option').removeAttr( "disabled" );
+
+		}		
+	}
+
+    function initThumbnail() {
+
+		var thumb_original = $('img#thumb_original');
+
+		thumb_original.load(function(){
+
+			if($('#thumb_original').height() < 120) {
+
+				$('#thumb_original').css('top',((120 - $('#thumb_original').height()) / 2) + 'px');
+
+			} else {
+
+				$('#thumb_original').css('top','0px');
+
+			}
+
+			thumb_original.unbind();
+
+		});
+
+		$('#image_error').text('');
+
+		if($('#id_user_image').val() == "") {
+
+			thumb_original.attr('src','/static/images/default_profile_image.jpg');
+
+		} else {
+
+			thumb_original.attr('src',$('#id_user_image').val());
+
+		}
+
+    }
+
+	$(function(){
+
+      	initThumbnail();
+
+      	var thumb_original = $('img#thumb_original');
+      	new AjaxUpload('btn_orginal_image', {
+	        name: 'image',
+	        action: '{% url customer_upload_image %}',
+	        onSubmit: function(file, extension) {
+
+	          	$('div#image_preview').addClass('loading');
+
+        	},
+        	onComplete: function(file, response){                        
+
+          		var splittedResponse = response.split(':')
+
+				if (splittedResponse[0] == 'notok') {
+
+					$('#image_error').text(splittedResponse[1]);
+
+				} else {
+
+					thumb_original.load(function(){
+
+						if($('#thumb_original').height() < 120) {
+
+							$('#thumb_original').css('top',((120 - $('#thumb_original').height()) / 2) + 'px');
+
+						} else {
+						
+							$('#thumb_original').css('top','0px');
+						}
+
+						thumb_original.unbind();
+					});
+
+					thumb_original.attr('src', '/media/profiles/temp/' + splittedResponse[1]);
+					$('#image_error').text('');
+					$('#id_user_image').val(splittedResponse[1]);
+
+				}
+
+          		$('div#image_preview').removeClass('loading');
+
+        	}
+      	});
+
+
+		$('#id_shipping_same_as_billing').click(function(e){
+
+			checkSameAs($(this));
+
+		});
+
+		checkSameAs($('#id_shipping_same_as_billing'));
+
+		$('#get-FB-image').click(function(e){
+
+			e.preventDefault();
+			window.location.href = '/login/facebook/';
+
+		});
+
+		var message;
+		var header;
+		var modal;
+		$('#fb_chkbox').click(function(e){
+
+			header = "Sign in with facebook";
+			var self = this;
+
+			if($(self).is(':checked')) {
+
+				message = 'Are you sure you want to associate your iDecorate account with your Facebook account?'
+
+				modal = confirm(header, message, function(){
+
+					window.location.href = '/login/facebook/';
+
+				});
+
+				modal.o.onClose = function(){
+
+					$(self).attr('checked', false);
+					modal.close();
+
+				};
+
+
+				
+			} else {
+
+				message = 'Are you sure you want to disconnect your iDecorate account with your Facebook account?';
+
+				modal = confirm(header, message, function(){
+
+					window.location.href = '/disconnect/facebook/';
+
+				});
+				
+				modal.o.onClose = function(){
+
+					$(self).attr('checked',true);
+					modal.close();
+
+				};
+				
+
+			}
+			
+		});
+
+		$('#tw_chkbox').click(function(e){
+
+			header = "Sign in with twitter";
+			var self = this;
+
+			if($(self).is(':checked')) {
+
+				message = 'Are you sure you want to associate your iDecorate account with your Twitter account?';
+
+				modal = confirm(header, message, function(){
+
+					window.location.href = '/login/twitter/';
+
+				});
+
+				modal.o.onClose = function(){
+
+					$(self).attr('checked', false);
+					modal.close();
+
+				};
+
+
+			} else {
+
+				message = 'Are you sure you want to disconnect your iDecorate account with your Twitter account?';
+
+				modal = confirm(header, message, function(){
+
+					window.location.href = '/disconnect/twitter/';
+
+				});
+				
+				modal.o.onClose = function(){
+
+					$(self).attr('checked',true);
+					modal.close();
+
+				};
+
+			}
+		});
+
+		$('#change-password').click(function(e){
+
+			$('#frmtask').val(2);
+			$('#frmedit').submit();
+
+		});
+
+		$('.closeMessage').click(function(e){
+			$(this).parent().hide();
+		});
+
+	});
+</script>
+{% endblock %}

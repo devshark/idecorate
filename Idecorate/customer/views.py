@@ -282,7 +282,7 @@ def profile(request):
 
             else:
 
-                raise Http404
+                return redirect('home')
 
         if int(user_id) != request.user.id:
 
@@ -311,8 +311,11 @@ def profile(request):
 
     return render_to_response('customer/profile.html', info, RequestContext(request))
 
+
 def edit_profile(request):
+
     if not request.user.is_authenticated():
+
         return redirect('home')
     
     info = {}
@@ -320,16 +323,23 @@ def edit_profile(request):
     u = User.objects.get(id=request.user.id)
 
     try:
+
         u_prof = CustomerProfile.objects.get(user=u)
+
     except:
+
         u_prof = CustomerProfile()
         u_prof.nickname = u.email
         u_prof.user = u
         u_prof.save()
 
+
     try:
+
         u_contact = Contact.objects.get(user=u)
+
     except:
+
         u_contact = Contact()
         u_contact.user = u
         u_contact.currency = "USD"
@@ -337,13 +347,20 @@ def edit_profile(request):
         #shop.contact_model(user=u)
 
     try:
+
         user_twitter = UserSocialAuth.objects.get(user=u, provider='twitter')
+
     except:
+
         user_twitter = None
 
+
     try:
+
         user_facebook = UserSocialAuth.objects.get(user=u, provider='facebook')
+
     except:
+        
         user_facebook = None
 
     initial_form_data = {

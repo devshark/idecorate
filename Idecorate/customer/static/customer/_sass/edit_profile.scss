@@ -1,0 +1,157 @@
+@import 'sass';
+#content_body{
+    .messageWrap {
+        color: #666666;
+        width: 940px;
+        margin: 25px auto 0;
+        background: #F6F5F0;
+        border: 1px solid #CCCCCC;
+        text-transform: uppercase;
+        position: relative;
+        padding: 10px;
+        .closeMessage {
+            font-size: 20px;
+            color: #999999;
+            font-weight: bold;
+            position: absolute;
+            top: 5px;
+            right: 2px; 
+            display: block;
+        }
+        h4{
+            font-weight: 700;
+            font-size: 14px;
+            color: #777777;
+            font-family: $PTserif;
+            line-height: 14px;
+            padding:5px 0;
+        }
+    }
+    .editProfileWrap{
+        width: 940px;
+        margin: 25px auto 0;
+        font-size: 0;
+        text-align: right;
+        .pannel{
+            vertical-align: top;
+            font-size: 12px;
+            display: inline-block;
+            *display: inline;
+            zoom: 1;
+            width: 40%;
+            text-align:left;
+            .fieldSet{
+                padding: 15px 35px;
+                .fieldSetLegend{
+                    text-transform: uppercase;
+                    font-size: 18px;
+                    font-family: $PTserif;
+                    line-height: 20px;
+                    text-align: center;
+                    margin-bottom: 15px;
+                }
+                .fieldGroup{
+                    margin: 10px 0;
+                    label{
+                        display: block;
+                        padding: 2px 0;
+                        font-size: 11px;
+                        font-family: $cartoGothicStd_Bold;
+                        text-transform: uppercase;
+                    }
+                    .inputWrap{
+                        background-color: #FFFFFF;
+                        border: 1px solid $border_01;
+                        padding: 0 5px;
+                    }
+                }
+                .fieldGroup.changePassword{
+                    background-color: #edeae1;
+                    padding: 15px;
+                    .fieldSetLegend{
+                        font-size: 14px;
+                    }
+                    .passwordFieldWrap{
+                        display: block;
+                        padding: 5px 0;
+                    }
+                    .passwordFieldWrap.operation{
+                        text-align: center;
+                    }
+                }
+            }
+            .fieldSet.accountSetting,.fieldSet.socialNetwork{
+                border-top: 1px solid $border_01;
+            }
+            .fieldSet.billingSetting.readOnly{
+                color: #c0bdb6 !important;
+                .inputWrap{
+                    background-color: $background_color01;
+                    padding: 0 5px;
+                }
+                input[type="text"],input[type="password"],input[type="email"],textarea,select{
+                    background-color: $background_color01 !important;
+                }
+            }
+        }
+        .pannel.personalInfoWrap{
+            border-right: 1px solid $border_01;
+        }
+        .pannel.miscInfoWrap{
+            border-left: 1px solid $border_01;
+            margin-left: -1px;
+        }
+        .personalInfo{
+            position: relative;
+            .profileImage{
+                width: 120px;
+                position: absolute;
+                right: 105%;
+                top: 0;
+                text-align: center;
+                .btn{
+                    margin-top: 5px;
+                    width: 98px;
+                    padding: 10px !important;
+                    font-size: 14px;
+                    h5{
+                        font-size: 12px;
+                        line-height: 14px;
+                    }
+                }
+            }
+        }
+
+        .operation.submitWrap{
+            padding-top: 15px;
+            text-align: center;
+            border-top: 1px solid $border_01;
+            .btn{
+                font-size: 14px;
+                font-weight: 700 !important;
+                padding: 10px 30px !important;
+            }
+        }
+    }
+}
+.preview {
+    width: 120px;
+    height: 120px;
+}
+div.preview.loading { 
+    background: url('/static/images/loader.gif') no-repeat 0 0; 
+}
+div.preview.loading img {
+    display: none; 
+}
+input[type="text"],input[type="password"],input[type="email"],textarea,select{
+    @include rounded_corners(0 !important); 
+    border: none !important;
+    width: 100%;
+    background-color: #FFFFFF;
+    padding: 5px 0 !important;
+    display: block;
+}
+textarea{
+    resize: none;
+}

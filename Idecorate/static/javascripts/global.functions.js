@@ -1,6 +1,6 @@
 function confirm(header, message, callback) {
 
-    $('#modal_confirm_prompt').modal({ 
+    return $('#modal_confirm_prompt').modal({ 
         closeClass:'closeModalBtn',
         overlayClose: true,
         onShow: function (dialog) {

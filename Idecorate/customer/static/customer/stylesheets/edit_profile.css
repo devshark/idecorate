@@ -1,0 +1,131 @@
+@import url("/static/stylesheets/fontface.css");
+@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
+#content_body .messageWrap {
+  color: #666666;
+  width: 940px;
+  margin: 25px auto 0;
+  background: #F6F5F0;
+  border: 1px solid #CCCCCC;
+  text-transform: uppercase;
+  position: relative;
+  padding: 10px; }
+  #content_body .messageWrap .closeMessage {
+    font-size: 20px;
+    color: #999999;
+    font-weight: bold;
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    display: block; }
+  #content_body .messageWrap h4 {
+    font-weight: 700;
+    font-size: 14px;
+    color: #777777;
+    font-family: "PT Serif", serif;
+    line-height: 14px;
+    padding: 5px 0; }
+#content_body .editProfileWrap {
+  width: 940px;
+  margin: 25px auto 0;
+  font-size: 0;
+  text-align: right; }
+  #content_body .editProfileWrap .pannel {
+    vertical-align: top;
+    font-size: 12px;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    width: 40%;
+    text-align: left; }
+    #content_body .editProfileWrap .pannel .fieldSet {
+      padding: 15px 35px; }
+      #content_body .editProfileWrap .pannel .fieldSet .fieldSetLegend {
+        text-transform: uppercase;
+        font-size: 18px;
+        font-family: "PT Serif", serif;
+        line-height: 20px;
+        text-align: center;
+        margin-bottom: 15px; }
+      #content_body .editProfileWrap .pannel .fieldSet .fieldGroup {
+        margin: 10px 0; }
+        #content_body .editProfileWrap .pannel .fieldSet .fieldGroup label {
+          display: block;
+          padding: 2px 0;
+          font-size: 11px;
+          font-family: "cartoGothicStd_Bold";
+          text-transform: uppercase; }
+        #content_body .editProfileWrap .pannel .fieldSet .fieldGroup .inputWrap {
+          background-color: #FFFFFF;
+          border: 1px solid #dbd7c9;
+          padding: 0 5px; }
+      #content_body .editProfileWrap .pannel .fieldSet .fieldGroup.changePassword {
+        background-color: #edeae1;
+        padding: 15px; }
+        #content_body .editProfileWrap .pannel .fieldSet .fieldGroup.changePassword .fieldSetLegend {
+          font-size: 14px; }
+        #content_body .editProfileWrap .pannel .fieldSet .fieldGroup.changePassword .passwordFieldWrap {
+          display: block;
+          padding: 5px 0; }
+        #content_body .editProfileWrap .pannel .fieldSet .fieldGroup.changePassword .passwordFieldWrap.operation {
+          text-align: center; }
+    #content_body .editProfileWrap .pannel .fieldSet.accountSetting, #content_body .editProfileWrap .pannel .fieldSet.socialNetwork {
+      border-top: 1px solid #dbd7c9; }
+    #content_body .editProfileWrap .pannel .fieldSet.billingSetting.readOnly {
+      color: #c0bdb6 !important; }
+      #content_body .editProfileWrap .pannel .fieldSet.billingSetting.readOnly .inputWrap {
+        background-color: #f2efe8;
+        padding: 0 5px; }
+      #content_body .editProfileWrap .pannel .fieldSet.billingSetting.readOnly input[type="text"], #content_body .editProfileWrap .pannel .fieldSet.billingSetting.readOnly input[type="password"], #content_body .editProfileWrap .pannel .fieldSet.billingSetting.readOnly input[type="email"], #content_body .editProfileWrap .pannel .fieldSet.billingSetting.readOnly textarea, #content_body .editProfileWrap .pannel .fieldSet.billingSetting.readOnly select {
+        background-color: #f2efe8 !important; }
+  #content_body .editProfileWrap .pannel.personalInfoWrap {
+    border-right: 1px solid #dbd7c9; }
+  #content_body .editProfileWrap .pannel.miscInfoWrap {
+    border-left: 1px solid #dbd7c9;
+    margin-left: -1px; }
+  #content_body .editProfileWrap .personalInfo {
+    position: relative; }
+    #content_body .editProfileWrap .personalInfo .profileImage {
+      width: 120px;
+      position: absolute;
+      right: 105%;
+      top: 0;
+      text-align: center; }
+      #content_body .editProfileWrap .personalInfo .profileImage .btn {
+        margin-top: 5px;
+        width: 98px;
+        padding: 10px !important;
+        font-size: 14px; }
+        #content_body .editProfileWrap .personalInfo .profileImage .btn h5 {
+          font-size: 12px;
+          line-height: 14px; }
+  #content_body .editProfileWrap .operation.submitWrap {
+    padding-top: 15px;
+    text-align: center;
+    border-top: 1px solid #dbd7c9; }
+    #content_body .editProfileWrap .operation.submitWrap .btn {
+      font-size: 14px;
+      font-weight: 700 !important;
+      padding: 10px 30px !important; }
+
+.preview {
+  width: 120px;
+  height: 120px; }
+
+div.preview.loading {
+  background: url("/static/images/loader.gif") no-repeat 0 0; }
+
+div.preview.loading img {
+  display: none; }
+
+input[type="text"], input[type="password"], input[type="email"], textarea, select {
+  -webkit-border-radius: 0 !important;
+  -moz-border-radius: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  width: 100%;
+  background-color: #FFFFFF;
+  padding: 5px 0 !important;
+  display: block; }
+
+textarea {
+  resize: none; }

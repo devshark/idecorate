@@ -301,7 +301,7 @@ input::-moz-focus-inner {
 	@include box_shadow(inset 0, -1px, 5px, #FFFFFF);
 }
 
-.btn:hover{
+.btn:hover,.btn.hover{
 	@include gradients(#edece6, #cfcdc5);
 }
 

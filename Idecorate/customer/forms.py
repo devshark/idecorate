@@ -78,7 +78,7 @@ class EditProfileForm(forms.Form):
 	
 	salutation = forms.ChoiceField(label=_("Salutation"), choices=(('Mr','Mr'), ('Ms','Ms'), ('Mrs','Mrs')), required=False,widget=forms.Select, error_messages={'required':_('Salutation is a required field.')})
 	user_image = forms.CharField(label=_("Image"), widget=forms.HiddenInput, required=False)
-	about = forms.CharField(label=_("About"), widget=forms.Textarea, required=False, error_messages={'required':_('About is a required field.')})
+	about = forms.CharField(label=_("About"), widget=forms.Textarea(attrs={'rows':4, 'cols':15}), required=False, error_messages={'required':_('About is a required field.')})
 	gender = forms.ChoiceField(label=_("Gender"), choices=(('Male','Male'),('Female','Female'),), required=False,widget=forms.RadioSelect, error_messages={'required':_('Gender is a required field.')})
 	language = forms.ChoiceField(label=_("Language"), choices=(('English','English'),), required=False,widget=forms.Select, error_messages={'required':_('Language is a required field.')})
 
