@@ -36,7 +36,8 @@ from admin.services import get_home_banners, get_home_banner_images
 from embellishments.models import StyleboardTemplateItems 
 from customer.models import (CustomerStyleBoard, CustomerProfile, 
                                 StyleboardInstruction, StyleboardInstructionCookie, 
-                                StyleboardJsonize, WishList) #, CustomerFacebookFriends
+                                StyleboardJsonize, WishList,
+                                StyleboardItems) #, CustomerFacebookFriends
 from customer.services import print_styleboard
 from forms import SetPasswordForm, SearchFriendsForm
 from social_auth.models import UserSocialAuth
@@ -1769,15 +1770,124 @@ def send_product_to_styleboard(request):
         if not sessionid:
             sessionid = generate_unique_id()
             request.session['cartsession'] = sessionid
+
         _add_to_cart(request.POST, sessionid)
-        print 'a'
+        
         _set_styleboard_jsonize(request.POST, sessionid)
-        print 'b'
+        
         _set_send_to_styleboard_product_positions(request, request.POST, sessionid)
-        print 'c'
+        
         return HttpResponse('ok')
     else:
         return HttpResponseNotFound()
+
+
+@csrf_exempt
+def send_styleboard_to_styleboard(request):
+
+    if request.method == 'POST':
+        sessionid = request.session.get('cartsession',None)
+        if not sessionid:
+            sessionid = generate_unique_id()
+            request.session['cartsession'] = sessionid
+        sbid = request.POST.get('sbid')
+        styleboard_items = StyleboardItems.objects.get(pk=int(sbid))
+
+        _add_styleboard_items_to_cart(styleboard_items, sessionid)
+
+        _add_styleboard_items_positions(request, styleboard_items, sessionid)
+
+    return HttpResponse('ok')
+
+
+def _add_styleboard_items_to_cart(obj, sessionid):
+    for cart_item in obj.styleboardcartitems_set.all():
+        data = {
+            'product' : cart_item.product,
+            'sessionid' : sessionid,
+            'quantity' : int(cart_item.quantity),
+            'guests' : 1,
+            'tables' : 1,
+            'wedding' : 1,
+        }
+        add_to_cart(data)    
+
+
+def _add_styleboard_items_positions(request, obj, sessionid):
+    obj_counter = 0
+    unique_identifier = 1
+    changes_counter = 0
+    product_objects = ''
+    embellishment_objects = ''
+    template_objects = ''
+    action_url = '/cart/add/'
+    total = ''
+    quantity = ''
+    selected_prev_prod_qty = ''
+    buy_table_html = ''
+    tables = ''
+    guests = ''
+
+    try:
+        jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
+    except StyleboardJsonize.DoesNotExist:
+        jsonize = StyleboardJsonize(sessionid=sessionid)
+
+    if jsonize.data:
+        json_objs = simplejson.loads(jsonize.data)
+        obj_counter = len(json_objs)
+
+    product_positions = request.session.get('product_positions', None)
+
+    if not product_positions:
+        request.session['product_positions'] = {}
+    else:
+        unique_identifier = product_positions.get('unique_identifier')
+        changes_counter += 1
+        product_objects = product_positions.get('product_objects')
+        embellishment_objects = product_positions.get('embellishment_objects')
+        template_objects = product_positions.get('template_objects')
+        action_url = product_positions.get('action_url')
+        total = product_positions.get('total')
+        quantity = product_positions.get('quatity')
+        selected_prev_prod_qty = product_positions.get('selected_prev_prod_qty')
+        buy_table_html = product_positions.get('buy_table_html')
+        tables = product_positions.get('tables')
+        guests = product_positions.get('guests')
+
+    items = simplejson.loads(obj.item)
+    for item in items:
+        t = get_template('interface/styleboard_items.html')
+        obj_counter += 1
+        item['object_id'] = obj_counter
+        item['src'] = item['img'][0]['src']
+        item['nb'] = item['img'][0]['nb']
+        item['wb'] = item['img'][0]['wb']
+        item['style'] = item['img'][0]['style']
+
+        html = t.render(Context(item))
+
+        if item['_type'] == 'product':
+            product_objects += html
+
+    request.session['product_positions'] = {
+        'obj_counter' : str(obj_counter),
+        'unique_identifier' : str(unique_identifier),
+        'changes_counter' : str(changes_counter),
+        'product_objects' : str(product_objects),
+        'embellishment_objects' : str(embellishment_objects),
+        'template_objects' : str(template_objects),
+        'action_url' : str(action_url),
+        'total' : str(total),
+        'quantity' : str(quantity),
+        'selected_prev_prod_qty' : str(selected_prev_prod_qty),
+        'buy_table_html' : str(buy_table_html),
+        'tables' : str(tables),
+        'guests' : str(guests),
+    }
+
+    return True
+
 
 
 def _add_to_cart(obj, sessionid):
@@ -1797,22 +1907,7 @@ def _add_to_cart(obj, sessionid):
     data['wedding'] = wedding # edited added weding option -ryan -02152013
     add_to_cart(data)
 
-    reponse_data = {}
-    reponse_data['id'] = product.product.id
-    reponse_data['original_image_thumbnail'] = product.product.original_image_thumbnail
-    reponse_data['sku'] = product.product.sku
-    reponse_data['name'] = product.product.name
-    reponse_data['default_quantity'] = product.product.default_quantity
-    reponse_data['price'] = product._unit_price
-    reponse_data['currency'] = product.currency
-    reponse_data['original_image'] = product.product.original_image
-    guest_table = 'Table'
-    try:
-        guest_table = product.product.guest_table.name
-    except:
-        pass
-    reponse_data['guest_table'] = guest_table
-    return simplejson.dumps(reponse_data)
+    return True
 
 
 def _set_styleboard_jsonize(obj, sessionid):

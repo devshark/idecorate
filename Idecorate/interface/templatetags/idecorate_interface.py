@@ -577,3 +577,8 @@ def get_css_obj_classname(obj):
     elif object_classname == 'ProductAlternateImage':
         ret = 'situation'
     return ret
+
+
+@register.filter
+def get_item(dictionary, key):
+    return dictionary.get(key)

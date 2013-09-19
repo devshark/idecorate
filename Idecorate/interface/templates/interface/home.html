@@ -110,6 +110,16 @@
     <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
     <script type="text/javascript">
 
+		function aspectratio(width, height, percent){
+
+		    var dimension = new Array();
+		    var aspectRatio = height/width;
+		    dimension['width'] = width*percent;
+		    dimension['height'] = aspectRatio*dimension['width'];
+
+		    return dimension;
+		}   
+
     	function productSendToStyleboard(prod_id) {
 
     		_matrix = [{
@@ -144,6 +154,17 @@
     			url : '{% url send_product_to_styleboard %}',
     			type : 'POST',
     			data : {'prod_id' : prod_id, styleboard_json : json},
+    			success : function(data) {
+    				console.log(data);
+    			}
+    		});
+    	}
+
+    	function styleboardSendToStyleboard(sbid) {
+    		$.ajax({
+    			url : '{% url send_styleboard_to_styleboard %}',
+    			type : 'POST',
+    			data : {'sbid' : sbid},
     			success : function(data) {
     				console.log(data);
     			}

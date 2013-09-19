@@ -44,4 +44,5 @@ urlpatterns =  patterns('interface.views',
     url(r'^newsletter/subscriber/add/$', 'subscribe_newsletter_ajax', {}, name='subscribe_newsletter_ajax'),
 
     url(r'^send_product_to_styleboard/$', 'send_product_to_styleboard', {}, name='send_product_to_styleboard'),
+    url(r'^send_styleboard_to_styleboard/$', 'send_styleboard_to_styleboard', {}, name='send_styleboard_to_styleboard'),
 )
