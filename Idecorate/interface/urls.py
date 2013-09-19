@@ -42,4 +42,6 @@ urlpatterns =  patterns('interface.views',
     url(r'^wishlist/add/$', 'add_wishlist_ajax', {}, name='add_wishlist_ajax'),
     #url(r'^load/wishlist/ajax/$', 'load_wishlist_ajax', {}, name='load_wishlist_ajax'),
     url(r'^newsletter/subscriber/add/$', 'subscribe_newsletter_ajax', {}, name='subscribe_newsletter_ajax'),
+
+    url(r'^send_product_to_styleboard/$', 'send_product_to_styleboard', {}, name='send_product_to_styleboard'),
 )

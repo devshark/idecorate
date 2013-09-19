@@ -21,7 +21,7 @@
 	<h2>{{ product.name }}</h2>
 	<p>${{ product|getProductPrice|floatformat:2 }}</p>
 	<div class="operationWrap">
-		<a href="#" product-data="{{product.id}}" class="btn sendToStyleboard">
+		<a href="javascript:void(0)" product-data="{{product.id}}" class="btn sendToStyleboard" onclick="productSendToStyleboard({{product.id}})">
 			<img src="{% static 'interface/images/send_to_styleboard_icon.png' %}"/>
 			<span><h3>send to</h3><h4>styleboard</h4></span>
 		</a>
