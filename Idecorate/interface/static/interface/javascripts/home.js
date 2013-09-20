@@ -35,9 +35,11 @@ $(function() {
         if($(this).attr('id') != 'search_result'){
 
             var selector = $(this).attr('data-filter');
-            $(this).addClass('active').parent().siblings().children('a').removeClass('active');
+            $(this).parent().siblings().children('a').removeClass('active');
+            $(this).addClass('active');
+            // $container.isotope('remove',$('.noMoreResults'));
 
-            if($(this).attr('id') == 'wish_list'){                
+            if($(this).attr('id') == 'wish_list'){
                 
                 $container.isotope('remove', $container.children());
                 resetVars();
@@ -45,7 +47,7 @@ $(function() {
                 loadMoreResults();
                 $container.isotope('reloadItems');
 
-            } else if($(this).attr('id') == 'celebrity_styleboards') {
+            }else if($(this).attr('id') == 'celebrity_styleboards'){
 
                 $container.isotope('remove', $container.children());
                 resetVars();
@@ -63,9 +65,10 @@ $(function() {
 
                 if(keywords != null) {
                     resetVars();
-                    loadMoreResults();                
+                    loadMoreResults();  
+                    $container.isotope('reloadItems');              
                 }
-
+                
                 $container.isotope('reloadItems');
                 $container.isotope({ filter: selector });
 
@@ -137,14 +140,14 @@ var searchItems = function(e){
         $container.isotope('remove', $container.children());
         resetVars();
         keywords = $('#search_input').val();
-        var results = loadMoreResults();
+        var is_empty = loadMoreResults();
 
-        if(results){
+        // if(is_empty){
 
-            $container.isotope('remove',$('h2'));
-            $container.isotope('insert',$('<h2 style="font-size:18px; padding: 20px 0;">Your search yielded no results.</h2>')); 
-            $container.isotope('reLayout');
-        }
+        //     $container.isotope('remove',$('.noMoreResults'));
+        //     $container.isotope('insert',$('<h2 class="noMoreResults">Your search yielded no results.</h2>')); 
+        //     $container.isotope('reLayout');
+        // }
         //$container.isotope({filter: '*'});
         $container.isotope('reloadItems');
 

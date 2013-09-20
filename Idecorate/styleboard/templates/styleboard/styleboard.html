@@ -35,8 +35,17 @@
 		</script>
 	</head>
 	<body>
-		{% include "header.html" %}
-		{% include "styleboard/content.html" %}
+
+		<table id="styleboard" cellspacing="0" cellpadding="0">
+			<thead>
+				<tr>
+					<td colspan="2">
+						{% include "header.html" %}
+					</td>
+				</tr>
+			</thead>
+			{% include "styleboard/content.html" %}
+		</table>
         {% include 'global_forms.html' %}
         <script src="{% static 'javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
@@ -51,9 +60,9 @@
         <script type="text/javascript" src="{% static 'javascripts/jquery.simplemodal.1.4.4.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.functions.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.calls.js' %}"></script>
-		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
+		<!--<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.sidebar.js' %}"></script>
-		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>-->
 		<script type="text/javascript">
 
 			/*================================================
@@ -68,18 +77,18 @@
 
 			$(function(){
 
-				get_min_height();
-				set_height();
+			// 	get_min_height();
+			// 	set_height();
 
-			});
+			// });
 
-			var resizing;
+			// var resizing;
 
-			$(window).resize(function(){
+			// $(window).resize(function(){
 
-				clearTimeout(resizing);
+			// 	clearTimeout(resizing);
 
-			    resizing = setTimeout(function(){
+			//     resizing = setTimeout(function(){
 			    	
 			    	// if(app_sidebar.item_type == 'products'){
 			    		
@@ -87,9 +96,9 @@
 
 			    	// }
 
-			    	set_height();
+			    // 	set_height();
 
-			    }, 300);
+			    // }, 300);
 
 			});
 

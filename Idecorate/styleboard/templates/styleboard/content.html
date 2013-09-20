@@ -1,0 +1,98 @@
+{% load i18n idecorate_interface static %}
+<!-- <div id="content"> -->
+<tbody>
+	<tr>
+		<td class="menuWrap menusSidebar">
+			<div class="sideBarMenu">
+				<ul class="horizontalMenu">
+					<li><a id="product" class="tabActive" href="#products">products</a></li>
+					<li><a id="embellishment" href="#embellishment">embellishments</a></li>
+					<li><a id="template" href="#template">templates</a></li>
+					<li><a id="wishlist" href="#wishlist">wishlist</a></li>
+				</ul>
+			</div>
+		</td>
+		<td class="menuWrap menusCanvas">
+			<div class="canvasMenu">
+				<ul class="horizontalMenu mainMenu">
+					<li><img src="{% static 'images/img_trans.gif' %}"></li>
+					<li><a id="save" href="#">save</a></li>
+					<li><a id="reset" href="#">new</a></li>
+					<li><a id="undo" href="#">undo</a></li>
+					<li><a id="redo" href="#">redo</a></li>
+					<li><a id="print" href="#">print</a></li>
+					<li><a id="pdf" href="#">pdf</a></li>
+				</ul>
+				<ul class="horizontalMenu itemMenu">
+					<li><img src="{% static 'images/img_trans.gif' %}"></li>
+					<li><a id="remove" href="#">remove</a></li>
+					<li><a id="flip" href="#">flip</a></li>
+					<li><a id="flop" href="#">flop</a></li>
+					<li><a id="clone" href="#">clone</a></li>
+					<li><a id="forward" href="#">forward</a></li>
+					<li><a id="backward" href="#">backward</a></li>
+					<li><a id="info" href="#">info</a></li>
+				</ul>
+				<ul class="horizontalMenu miscMenu">
+					<li>
+						<a href="#" id="tip">
+							<img src="{% static 'images/img_trans.gif' %}" alt="tip"/>
+						</a>
+					</li>
+					<li>
+						<a href="#" id="help">
+							<img src="{% static 'images/img_trans.gif' %}" alt="help"/>
+						</a>
+					</li>
+				</ul>
+				<div class="transformMenu hidden">
+					<ul class="itemTransformMenu" >
+						<li>
+							<a id="opaque" href="#">
+								<img src="{% static 'images/img_trans.gif' %}" alt="opaque"/>	
+							</a>
+						</li>
+						<li>
+							<a id="transparent" href="#">
+								<img src="{% static 'images/img_trans.gif' %}" alt="transparent"/>	
+							</a>
+						</li>
+						<li>
+							<a id="crop" href="#">
+								<img src="{% static 'images/img_trans.gif' %}" alt="crop"/>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td class="cell sidebarWrap">
+			<div class="sideBarSearch">
+				<div class="searchWrap">
+					<form action="" method="post">
+						{% csrf_token %}
+						<input type="text" placeholder="Products, Color, Texture">
+						<input type="image" src="{% static 'images/search_icon.png' %}" class="searchIcon" />
+						<input type="submit" value="Search" class="searchButton">
+					</form>
+				</div>
+			</div>
+			<div class="sideBarItems">
+				<div id="products" class="tabs productTab clearfix">
+					<div class="pannel category">
+						<h3 class="resultHeading">Search Result</h3>
+					</div>
+					<div class="pannel product">
+						{% include 'styleboard/product_items.html' %}
+					</div>
+				</div>
+			</div>
+		</td>
+		<td class="cell canvasWrap">
+			<div id="canvas"></div>
+		</td>
+	</tr>
+</tbody>
+<!-- </div> -->

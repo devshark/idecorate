@@ -1,1 +1,307 @@
 @import url("/static/stylesheets/fontface.css");
+@import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
+body {
+  background-color: #FFFFFF !important; }
+
+#styleboard {
+  width: 100%;
+  height: 100%; }
+  #styleboard thead td {
+    height: 110px; }
+  #styleboard tbody .menuWrap {
+    height: 30px;
+    font-size: 0; }
+    #styleboard tbody .menuWrap .horizontalMenu {
+      display: inline-block; }
+      #styleboard tbody .menuWrap .horizontalMenu li {
+        height: 30px;
+        line-height: 30px;
+        padding: 0 6px;
+        font-size: 11px;
+        display: inline-block;
+        text-transform: uppercase; }
+    #styleboard tbody .menuWrap .mainMenu, #styleboard tbody .menuWrap .itemMenu {
+      border-right: 1px solid #dbd7c9; }
+      #styleboard tbody .menuWrap .mainMenu img, #styleboard tbody .menuWrap .itemMenu img {
+        vertical-align: middle;
+        display: inline-block;
+        width: 20px;
+        background-image: url("/static/interface/images/buttons_sprite.png");
+        background-repeat: no-repeat;
+        background-position: -22px -22px; }
+    #styleboard tbody .menuWrap .miscMenu, #styleboard tbody .menuWrap .itemMenu {
+      border-left: 1px solid #fbfaf3; }
+    #styleboard tbody .menuWrap .miscMenu {
+      float: right; }
+      #styleboard tbody .menuWrap .miscMenu li {
+        padding: 0 2px; }
+        #styleboard tbody .menuWrap .miscMenu li img {
+          display: inline-block;
+          vertical-align: middle;
+          height: 21px;
+          width: 21px;
+          background-image: url("/static/styleboard/images/buttons.png"); }
+        #styleboard tbody .menuWrap .miscMenu li #tip img {
+          background-position: 0 0; }
+        #styleboard tbody .menuWrap .miscMenu li #tip:hover img {
+          background-position: 0 -21px; }
+        #styleboard tbody .menuWrap .miscMenu li #help img {
+          background-position: -21px 0; }
+        #styleboard tbody .menuWrap .miscMenu li #help:hover img {
+          background-position: -21px -21px; }
+    #styleboard tbody .menuWrap .itemMenu img {
+      background-position: 0 -22px !important; }
+    #styleboard tbody .menuWrap .sideBarMenu {
+      font-size: 0; }
+      #styleboard tbody .menuWrap .sideBarMenu li {
+        font-size: 11px;
+        padding: 0;
+        text-align: center; }
+        #styleboard tbody .menuWrap .sideBarMenu li a {
+          color: #FFFFFF;
+          display: block;
+          background-color: #999594;
+          border-top-left-radius: 5px;
+          -moz-border-radius-topleft: 5px;
+          -webkit-border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          -moz-border-radius-topright: 5px;
+          -webkit-border-top-right-radius: 5px;
+          padding: 0 14px;
+          margin-left: 1px;
+          margin-bottom: -1px;
+          border-top: 1px solid #999594;
+          border-left: 1px solid #999594;
+          border-right: 1px solid #999594; }
+        #styleboard tbody .menuWrap .sideBarMenu li a:hover {
+          background-color: #aba5a4; }
+        #styleboard tbody .menuWrap .sideBarMenu li a.tabActive {
+          background-color: #c8ba5a !important;
+          background-repeat: repeat-x;
+          filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+          background-image: -khtml-gradient(linear, left top, left bottom, from(#fbfaf3), to(#f2efe8));
+          background-image: -moz-linear-gradient(top, #fbfaf3, #f2efe8);
+          background-image: -ms-linear-gradient(top, #fbfaf3, #f2efe8);
+          background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfaf3), color-stop(100%, #f2efe8));
+          background-image: -webkit-linear-gradient(top, #fbfaf3, #f2efe8);
+          background-image: -o-linear-gradient(top, #fbfaf3, #f2efe8);
+          background-image: linear-gradient(#fbfaf3, #f2efe8);
+          border-color: #eeeacd #eeeacd #d5ca80;
+          -webkit-font-smoothing: antialiased;
+          border-top: 1px solid #dbd7c9;
+          border-left: 1px solid #dbd7c9;
+          border-right: 1px solid #dbd7c9;
+          border-bottom: 1px solid #f2efe8;
+          color: #333333; }
+    #styleboard tbody .menuWrap .canvasMenu {
+      position: relative;
+      border-top-left-radius: 5px;
+      -moz-border-radius-topleft: 5px;
+      -webkit-border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      -moz-border-radius-topright: 5px;
+      -webkit-border-top-right-radius: 5px;
+      border-top: 1px solid #dbd7c9;
+      border-left: 1px solid #dbd7c9;
+      border-right: 1px solid #dbd7c9;
+      background-color: #c8ba5a !important;
+      background-repeat: repeat-x;
+      filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+      background-image: -khtml-gradient(linear, left top, left bottom, from(#fbfaf3), to(#f2efe8));
+      background-image: -moz-linear-gradient(top, #fbfaf3, #f2efe8);
+      background-image: -ms-linear-gradient(top, #fbfaf3, #f2efe8);
+      background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfaf3), color-stop(100%, #f2efe8));
+      background-image: -webkit-linear-gradient(top, #fbfaf3, #f2efe8);
+      background-image: -o-linear-gradient(top, #fbfaf3, #f2efe8);
+      background-image: linear-gradient(#fbfaf3, #f2efe8);
+      border-color: #eeeacd #eeeacd #d5ca80;
+      -webkit-font-smoothing: antialiased; }
+      #styleboard tbody .menuWrap .canvasMenu a {
+        color: #333333; }
+      #styleboard tbody .menuWrap .canvasMenu a:hover {
+        color: #000000; }
+      #styleboard tbody .menuWrap .canvasMenu .transformMenu {
+        position: absolute;
+        right: 5px;
+        top: 120%;
+        z-index: 1000; }
+        #styleboard tbody .menuWrap .canvasMenu .transformMenu ul li a {
+          display: block;
+          width: 50px;
+          height: 50px;
+          border: 1px solid #dbd7c9;
+          margin-bottom: 4px;
+          background-color: #FFFFFF; }
+          #styleboard tbody .menuWrap .canvasMenu .transformMenu ul li a img {
+            width: 50px;
+            height: 50px; }
+        #styleboard tbody .menuWrap .canvasMenu .transformMenu ul li a#transparent {
+          background-image: url("/static/styleboard/images/transparent_bg.jpg"); }
+        #styleboard tbody .menuWrap .canvasMenu .transformMenu ul li a#crop {
+          position: relative; }
+          #styleboard tbody .menuWrap .canvasMenu .transformMenu ul li a#crop img {
+            position: relative;
+            z-index: 1; }
+        #styleboard tbody .menuWrap .canvasMenu .transformMenu ul li a#crop:after {
+          display: block;
+          content: "";
+          position: absolute;
+          width: 50px;
+          height: 50px;
+          left: 0;
+          top: 0;
+          z-index: 2;
+          background-image: url("/static/styleboard/images/custom_icon_bg.png");
+          background-repeat: no-repeat; }
+  #styleboard tbody .cell {
+    vertical-align: top; }
+  #styleboard tbody .cell.sidebarWrap {
+    width: 360px; }
+    #styleboard tbody .cell.sidebarWrap .sideBarSearch {
+      border: 1px solid #dbd7c9;
+      height: 25px;
+      padding: 4px; }
+      #styleboard tbody .cell.sidebarWrap .sideBarSearch .searchWrap {
+        border: 1px solid #dbd7c9;
+        background-color: #FFFFFF;
+        height: 23px;
+        text-align: left;
+        display: inline-block;
+        *display: inline;
+        zoom: 1; }
+        #styleboard tbody .cell.sidebarWrap .sideBarSearch .searchWrap input {
+          height: 23px;
+          padding: 0;
+          vertical-align: middle;
+          border: none;
+          line-height: 23px; }
+        #styleboard tbody .cell.sidebarWrap .sideBarSearch .searchWrap input[type="text"] {
+          padding: 0 3px;
+          width: 180px;
+          font-size: 10px; }
+        #styleboard tbody .cell.sidebarWrap .sideBarSearch .searchWrap input[type="submit"] {
+          visibility: hidden;
+          display: none; }
+    #styleboard tbody .cell.sidebarWrap .sideBarSearch, #styleboard tbody .cell.sidebarWrap .sideBarItems {
+      margin-right: 2px;
+      background-color: #f2efe8; }
+    #styleboard tbody .cell.sidebarWrap .tabs {
+      font-size: 0; }
+      #styleboard tbody .cell.sidebarWrap .tabs .pannel {
+        height: 100%;
+        overflow: auto;
+        font-size: 12px;
+        vertical-align: top;
+        display: inline-block;
+        *display: inline;
+        zoom: 1; }
+      #styleboard tbody .cell.sidebarWrap .tabs .pannel.category {
+        width: 159px;
+        border-right: 1px solid #dbd7c9;
+        background-color: #FFFFFF; }
+      #styleboard tbody .cell.sidebarWrap .tabs .pannel.product {
+        width: 196px; }
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem {
+          background: #FFFFFF;
+          margin: 2px auto;
+          width: 98%;
+          text-align: center;
+          border-bottom: 8px solid #dbd7c9;
+          position: relative; }
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span {
+            vertical-align: middle;
+            display: inline-block; }
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productImage {
+            width: 45%; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productImage img {
+              width: 100%; }
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo {
+            width: 50%; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h4 {
+              text-transform: uppercase;
+              font-size: 11px;
+              font-family: "cartoGothicStd_Bold";
+              margin-bottom: 7px; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h3 {
+              font-family: "PT Serif", serif;
+              font-style: italic;
+              font-weight: 700;
+              font-size: 14px;
+              margin-bottom: 10px; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h5 {
+              font-size: 11px;
+              font-family: "PT Serif", serif;
+              font-style: italic; }
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation {
+            display: none;
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            width: 60%;
+            text-align: right; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn {
+              width: 85%;
+              padding: 9px 0 !important; }
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn img {
+                display: inline-block;
+                width: 20px;
+                height: 20px;
+                vertical-align: middle;
+                background-image: url("/static/styleboard/images/styleboardIcons.png");
+                background-repeat: no-repeat; }
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn h4 {
+                vertical-align: middle;
+                display: inline-block; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn {
+              margin-bottom: 4px; }
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn img {
+                background-position: 0 -8px; }
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn h4 {
+                width: 60%;
+                font-size: 13px; }
+                #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn h4 span {
+                  font-size: 9px; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn:hover {
+              -webkit-border-radius: 5px;
+              -moz-border-radius: 5px;
+              border-radius: 5px;
+              background-color: #c8ba5a !important;
+              background-repeat: repeat-x;
+              filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=$from_color, endColorstr=$to_color);
+              background-image: -khtml-gradient(linear, left top, left bottom, from(#fbfaf3), to(#eceae1));
+              background-image: -moz-linear-gradient(top, #fbfaf3, #eceae1);
+              background-image: -ms-linear-gradient(top, #fbfaf3, #eceae1);
+              background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #fbfaf3), color-stop(100%, #eceae1));
+              background-image: -webkit-linear-gradient(top, #fbfaf3, #eceae1);
+              background-image: -o-linear-gradient(top, #fbfaf3, #eceae1);
+              background-image: linear-gradient(#fbfaf3, #eceae1);
+              border-color: #eeeacd #eeeacd #d5ca80;
+              -webkit-font-smoothing: antialiased;
+              -webkit-box-shadow: inset 0 -1px 5px 0 white;
+              -moz-box-shadow: inset 0 -1px 5px 0 white;
+              box-shadow: inset 0 -1px 5px 0 white;
+              cursor: move; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info {
+              padding: 5px 0 !important; }
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info img {
+                width: 14px;
+                height: 18px;
+                background-position: -21px -8px; }
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info h4 {
+                width: 60%; }
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem:after {
+          display: block;
+          content: "";
+          background-color: #dbd7c9;
+          height: 2px;
+          margin-bottom: 2px; }
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem:hover .itemOperation {
+          display: block; }
+  #styleboard tbody .cell.canvasWrap {
+    background: url("/static/styleboard/images/mainBg.jpg") repeat; }
+    #styleboard tbody .cell.canvasWrap #canvas {
+      height: 100%;
+      position: relative;
+      border: 1px solid #dbd7c9; }
+    #styleboard tbody .cell.canvasWrap #canvas.empty {
+      background: url("/static/styleboard/images/logo.png") no-repeat center center; }

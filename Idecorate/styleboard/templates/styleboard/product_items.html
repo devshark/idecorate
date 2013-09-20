@@ -1,0 +1,23 @@
+{% load i18n idecorate_interface static %}
+{% for i in 'xxxxx' %}
+<div class="productItem draggable">
+	<span class="productImage">
+		<img alt="Product Name" src="/media/products/001-Jun-22-11331371872034AM-2013_thumbnail.jpg">
+	</span>
+	<span class="productInfo">
+		<h4>Product Name</h4>
+		<h3>$00.00</h3>
+		<h5>1 per wedding</h5>
+	</span>
+	<div class="itemOperation">
+		<span class="btn">
+			<img src="{% static 'images/img_trans.gif' %}">
+			<h4>Drag To<span>Styleboard</span></h4>
+		</span>
+		<a class="btn info" href="/product/1/">
+			<img src="{% static 'images/img_trans.gif' %}">
+			<h4>Info</h4>
+		</a>
+	</div>
+</div>
+{% endfor %}
