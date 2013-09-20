@@ -1801,6 +1801,10 @@ def send_styleboard_to_styleboard(request):
 
 
 def _add_styleboard_items_to_cart(obj, sessionid):
+    """
+    for send styleboard item to styleboard on homepage
+    """
+
     for cart_item in obj.styleboardcartitems_set.all():
         data = {
             'product' : cart_item.product,
@@ -1814,6 +1818,9 @@ def _add_styleboard_items_to_cart(obj, sessionid):
 
 
 def _add_styleboard_items_positions(request, obj, sessionid):
+    """
+    for send styleboard item to styleboard on homepage
+    """
     obj_counter = 0
     unique_identifier = 1
     changes_counter = 0
@@ -1855,6 +1862,16 @@ def _add_styleboard_items_positions(request, obj, sessionid):
         tables = product_positions.get('tables')
         guests = product_positions.get('guests')
 
+    try:
+        jsonize = StyleboardJsonize.objects.get(sessionid=sessionid)
+    except StyleboardJsonize.DoesNotExist:
+        jsonize = StyleboardJsonize()
+
+    if jsonize.data:
+        json_objs = simplejson.loads(jsonize.data)
+    else:
+        json_objs = simplejson.loads('[]')
+
     items = simplejson.loads(obj.item)
     for item in items:
         t = get_template('interface/styleboard_items.html')
@@ -1863,12 +1880,18 @@ def _add_styleboard_items_positions(request, obj, sessionid):
         item['src'] = item['img'][0]['src']
         item['nb'] = item['img'][0]['nb']
         item['wb'] = item['img'][0]['wb']
-        item['style'] = item['img'][0]['style']
+        item['img_style'] = item['img'][0]['style']
+        item['matrix'] = simplejson.dumps(item['matrix'][0])
+
+        json_objs.append(item)
 
         html = t.render(Context(item))
 
         if item['_type'] == 'product':
             product_objects += html
+
+    jsonize.data = simplejson.dumps(json_objs)
+    jsonize.save()
 
     request.session['product_positions'] = {
         'obj_counter' : str(obj_counter),
@@ -1889,28 +1912,30 @@ def _add_styleboard_items_positions(request, obj, sessionid):
     return True
 
 
-
 def _add_to_cart(obj, sessionid):
+    """
+    for send product to styleboard on homepage
+    """
     product_id = obj.get('prod_id')
-    quantity = obj.get('quantity',1)
-    guests = obj.get('guests', 1)
-    tables = obj.get('tables', 1)
-    wedding = obj.get('wedding', 1) # edited added weding option -ryan -02152013
     product = get_product(product_id)
 
     data = {}
     data['product'] = product.product
     data['sessionid'] = sessionid
-    data['quantity'] = quantity
-    data['guests'] = guests
-    data['tables'] = tables
-    data['wedding'] = wedding # edited added weding option -ryan -02152013
+    data['quantity'] = obj.get('quantity',1)
+    data['guests'] = obj.get('guests', 1)
+    data['tables'] = obj.get('tables', 1)
+    data['wedding'] = obj.get('wedding', 1)
+
     add_to_cart(data)
 
     return True
 
 
 def _set_styleboard_jsonize(obj, sessionid):
+    """
+    for send product to styleboard on homepage
+    """
     prod_id = obj.get('prod_id')
     product = Product.objects.get(pk=int(prod_id))
 
@@ -1950,6 +1975,9 @@ def _set_styleboard_jsonize(obj, sessionid):
 
 
 def _set_send_to_styleboard_product_positions(request, obj, sessionid):
+    """
+    for send product to styleboard on homepage
+    """
     prod_id = obj.get('prod_id')
     product = Product.objects.get(pk=int(prod_id))
 
