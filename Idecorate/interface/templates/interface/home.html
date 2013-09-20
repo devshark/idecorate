@@ -108,4 +108,67 @@
 
 	</script>
     <script type="text/javascript" src="{% static 'interface/javascripts/home.js' %}"></script>
+    <script type="text/javascript">
+
+		function aspectratio(width, height, percent){
+
+		    var dimension = new Array();
+		    var aspectRatio = height/width;
+		    dimension['width'] = width*percent;
+		    dimension['height'] = aspectRatio*dimension['width'];
+
+		    return dimension;
+		}   
+
+    	function productSendToStyleboard(prod_id) {
+
+    		_matrix = [{
+    			a: 1,
+    			b: 0,
+    			c: 0,
+    			d: 1,
+    			e: false,
+    			f: false
+    		}];
+
+    		data = {
+    			uid: prod_id,
+    			_type: 'product',
+    			def_qty: '1',
+    			gst_tb: 'wedding',
+    			left: 0,
+    			top: 0,
+    			style: "width: 133.79999999999998px; height: 185.99999999999997px; top: 0px; left: 0px; z-index: 1; ",
+    			matrix: _matrix,
+    			zindex: "1",
+    			handle: "nw,sw,se,ne,w,s,e,n",
+    			angle: 0,
+    			text: '',
+    			rgb: '',
+    			cls: 'unselected',
+    		}
+
+    		json = JSON.stringify(data);
+
+    		$.ajax({
+    			url : '{% url send_product_to_styleboard %}',
+    			type : 'POST',
+    			data : {'prod_id' : prod_id, styleboard_json : json},
+    			success : function(data) {
+    				console.log(data);
+    			}
+    		});
+    	}
+
+    	function styleboardSendToStyleboard(sbid) {
+    		$.ajax({
+    			url : '{% url send_styleboard_to_styleboard %}',
+    			type : 'POST',
+    			data : {'sbid' : sbid},
+    			success : function(data) {
+    				console.log(data);
+    			}
+    		});
+    	}
+    </script>
 {% endblock %}
