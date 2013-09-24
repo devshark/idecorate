@@ -1,7 +1,8 @@
 @import url("/static/stylesheets/fontface.css");
 @import url("http://fonts.googleapis.com/css?family=PT+Serif:400,700,400italic,700italic");
 body {
-  background-color: #FFFFFF !important; }
+  background-color: #FFFFFF !important;
+  overflow: hidden; }
 
 #styleboard {
   width: 100%;
@@ -158,6 +159,9 @@ body {
   #styleboard tbody .cell.sidebarWrap {
     width: 360px; }
     #styleboard tbody .cell.sidebarWrap .sideBarSearch {
+      position: relative;
+      left: 0;
+      top: 0;
       border: 1px solid #dbd7c9;
       height: 25px;
       padding: 4px; }

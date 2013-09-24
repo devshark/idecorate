@@ -7,16 +7,45 @@ from django.template import Context, RequestContext
 from django.shortcuts import HttpResponse, render_to_response
 from django.views.decorators.csrf import csrf_exempt
 
+from common.services import render_to_json
 from category.models import Categories
 from cart.models import Product
 
 def create(request, category_id=None, styleboard_id=None): 
 
     info = {}
+
     info['category_id'] =  category_id if category_id is not None else 0
     info['styleboard_id'] =  styleboard_id if styleboard_id is not None else 0
 
     return render_to_response('styleboard/styleboard.html', info,RequestContext(request))
+
+@csrf_exempt
+def get_all_categories(request):
+
+    data = {}
+
+    if request.method == "POST":
+
+        categories = Categories.objects.filter(deleted=False)
+        data['categories'] = serializers.serialize("json", categories, fields=('id','name','thumbnail','parent'))
+
+        return render_to_json(request, data)
+
+@csrf_exempt
+def get_all_products(request):
+
+    if request.method == "POST":
+
+        products = Product.objects.filter(is_active=True, is_deleted=False)
+        data['categories'] = serializers.serialize("json", products, fields=('id','name','thumbnail','parent'))
+        return render_to_json(request, data)
+
+@csrf_exempt
+def get_product_by_category(request):
+
+    if request.method == "POST":
+        return  HttpResponse(simplejson.dumps(Product.objects.filter(is_active=True, is_deleted=False)), mimetype="application/json")
 
 @csrf_exempt
 def sidebar_items(request):

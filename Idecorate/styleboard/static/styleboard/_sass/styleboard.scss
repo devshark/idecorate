@@ -1,7 +1,7 @@
 @import 'sass';
 body{
 	background-color: #FFFFFF !important;
-	// overflow: hidden;
+	overflow: hidden;
 }
 #styleboard{
 	width: 100%;
@@ -167,6 +167,9 @@ body{
 		.cell.sidebarWrap{
 			width: 360px;
 			.sideBarSearch{
+				position: relative;
+				left: 0;
+				top: 0;
 				border: 1px solid $border_01;
 				height: 25px;
 				padding: 4px;

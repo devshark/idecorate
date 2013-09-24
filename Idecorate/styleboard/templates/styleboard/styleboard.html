@@ -25,6 +25,7 @@
 			====================*/
 			MEDIA_URL = '/{{ MEDIA_URL }}';
 			APP_SIDEBAR_ITEMS_URL = '{% url sidebar_items %}';
+			REQUEST_CATEGORIES = '{% url get_all_categories %}'
 
 			/*===================
 				   VARIABLES
@@ -60,8 +61,8 @@
         <script type="text/javascript" src="{% static 'javascripts/jquery.simplemodal.1.4.4.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.functions.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.calls.js' %}"></script>
-		<!--<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.sidebar.js' %}"></script>
+		<!--<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>-->
 		<script type="text/javascript">
 
@@ -69,7 +70,6 @@
 				- set minimum height for the styleboard
 				- set heights on page loads
 				- set heights on window resize
-				- resize canvas based on aspect ratio applied
 			=================================================*/
 
 			// var app_sidebar = IdecorateSidebar;
@@ -80,25 +80,17 @@
 			// 	get_min_height();
 			// 	set_height();
 
-			// });
+			});
 
-			// var resizing;
+			var resizing;
 
-			// $(window).resize(function(){
+			$(window).resize(function(){
 
-			// 	clearTimeout(resizing);
+				clearTimeout(resizing);
 
-			//     resizing = setTimeout(function(){
-			    	
-			    	// if(app_sidebar.item_type == 'products'){
-			    		
-				    // 	app_sidebar.display_items('products','product');
+			    resizing = setTimeout(function(){
 
-			    	// }
-
-			    // 	set_height();
-
-			    // }, 300);
+			    }, 300);
 
 			});
 
