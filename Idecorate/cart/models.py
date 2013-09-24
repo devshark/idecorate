@@ -42,6 +42,19 @@ class Product(ProductBase):
     def __unicode__(self):
         return self.name
 
+    def natural_key(self):
+        return {
+            'id': self.id, 
+            'name' : self.name, 
+            'description' : self.description, 
+            'thumb' : self.original_image_thumbnail, 
+            'opaque_image' : self.original_image, 
+            'transparent_image' : self.no_background, 
+            'default_quantity' : self.default_quantity, 
+            'default_quantity_unit' : self.guest_table.name,
+            'categories' : [category.id for category in self.categories.all()]
+            }
+
     @models.permalink
     def get_absolute_url(self):
         return ('plata_product_detail', (), {'object_id': self.pk})

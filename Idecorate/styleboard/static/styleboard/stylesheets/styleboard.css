@@ -186,14 +186,16 @@ body {
         #styleboard tbody .cell.sidebarWrap .sideBarSearch .searchWrap input[type="submit"] {
           visibility: hidden;
           display: none; }
+    #styleboard tbody .cell.sidebarWrap .sideBarItems {
+      height: 100%; }
     #styleboard tbody .cell.sidebarWrap .sideBarSearch, #styleboard tbody .cell.sidebarWrap .sideBarItems {
       margin-right: 2px;
       background-color: #f2efe8; }
     #styleboard tbody .cell.sidebarWrap .tabs {
-      font-size: 0; }
+      font-size: 0;
+      height: 100%; }
       #styleboard tbody .cell.sidebarWrap .tabs .pannel {
         height: 100%;
-        overflow: auto;
         font-size: 12px;
         vertical-align: top;
         display: inline-block;
@@ -203,7 +205,53 @@ body {
         width: 159px;
         border-right: 1px solid #dbd7c9;
         background-color: #FFFFFF; }
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading {
+          background-image: url("/static/styleboard/images/resultsBg.png");
+          background-repeat: repeat-x;
+          background-position: 0 -28px;
+          height: 28px;
+          line-height: 28px;
+          text-transform: uppercase;
+          font-style: italic;
+          color: #666666;
+          position: relative;
+          margin: 5px 0 0 15px; }
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading:before {
+          background-image: url("/static/styleboard/images/resultsBg.png");
+          background-repeat: no-repeat;
+          background-position: 0 0;
+          position: absolute;
+          display: block;
+          content: "";
+          width: 10px;
+          height: 28px;
+          left: -10px; }
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading:after {
+          background-image: url("/static/styleboard/images/resultsBg.png");
+          background-repeat: no-repeat;
+          background-position: 0 -56px;
+          position: absolute;
+          display: block;
+          content: "";
+          width: 13px;
+          height: 28px;
+          right: -13px;
+          top: 0;
+          z-index: 1; }
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList {
+          margin: 5px 10px;
+          text-transform: uppercase; }
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li {
+            padding: 7px 0; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a {
+              color: #666666; }
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a:hover {
+              color: #333333; }
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li.active a {
+            color: #333333;
+            font-style: italic; }
       #styleboard tbody .cell.sidebarWrap .tabs .pannel.product {
+        overflow: auto;
         width: 196px; }
         #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem {
           background: #FFFFFF;
@@ -216,6 +264,7 @@ body {
             vertical-align: middle;
             display: inline-block; }
           #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productImage {
+            min-height: 90px;
             width: 45%; }
             #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productImage img {
               width: 100%; }
@@ -244,7 +293,7 @@ body {
             width: 60%;
             text-align: right; }
             #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn {
-              width: 85%;
+              width: 95%;
               padding: 9px 0 !important; }
               #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn img {
                 display: inline-block;
@@ -306,6 +355,6 @@ body {
     #styleboard tbody .cell.canvasWrap #canvas {
       height: 100%;
       position: relative;
-      border: 1px solid #dbd7c9; }
+      outline: 1px solid #dbd7c9; }
     #styleboard tbody .cell.canvasWrap #canvas.empty {
       background: url("/static/styleboard/images/logo.png") no-repeat center center; }

@@ -199,15 +199,18 @@ body{
 					}
 				}
 			}
+			.sideBarItems{
+				height: 100%;
+			}
 			.sideBarSearch,.sideBarItems{
 				margin-right: 2px;
 				background-color: $background_color01;
 			}
 			.tabs{
 				font-size: 0;
+				height: 100%;
 				.pannel{
 					height: 100%;
-					overflow: auto;
 					font-size: 12px;
 					vertical-align: top;
 					display: inline-block;
@@ -218,8 +221,66 @@ body{
 					width: 159px;
 					border-right: 1px solid $border_01;
 					background-color: #FFFFFF;
+					.resultHeading{
+						background-image: url('/static/styleboard/images/resultsBg.png');
+						background-repeat: repeat-x;
+						background-position: 0 -28px;
+						height: 28px;
+						line-height: 28px;
+						text-transform: uppercase;
+						font-style: italic;
+						color: #666666;
+						position: relative;
+						margin: 5px 0 0 15px;
+					}
+					.resultHeading:before{
+						background-image: url('/static/styleboard/images/resultsBg.png');
+						background-repeat: no-repeat;
+						background-position: 0 0;
+						position: absolute;
+						display: block;
+						content: "";
+						width: 10px;
+						height: 28px;
+						left: -10px;
+
+					}
+					.resultHeading:after{
+						background-image: url('/static/styleboard/images/resultsBg.png');
+						background-repeat: no-repeat;
+						background-position: 0 -56px;
+						position: absolute;
+						display: block;
+						content: "";
+						width: 13px;
+						height: 28px;
+						right: -13px;
+						top: 0;
+						z-index: 1;
+
+					}
+					.categoryList{
+						margin: 5px 10px;
+						text-transform: uppercase;
+						li{
+							padding: 7px 0;
+							a{
+								color: #666666;
+							}
+							a:hover{
+								color: #333333;
+							}
+						}
+						li.active{
+							a{
+								color: #333333;
+								font-style: italic;
+							}
+						}
+					}
 				}
 				.pannel.product{
+					overflow: auto;
 					width: 196px;
 					.productItem{
 						background: #FFFFFF;
@@ -233,6 +294,7 @@ body{
 							display: inline-block;
 						}
 						span.productImage{
+							min-height: 90px; 
 							width: 45%;
 							img{
 								width: 100%;
@@ -267,7 +329,7 @@ body{
 							width: 60%;
 							text-align: right;
 							.btn{
-								width: 85%;
+								width: 95%;
 								padding: 9px 0 !important;
 								img{
 									display: inline-block;
@@ -332,7 +394,7 @@ body{
 			#canvas{
 				height: 100%;
 				position: relative;
-				border: 1px solid $border_01;
+				outline: 1px solid $border_01;
 			}
 			#canvas.empty{
 				background: url('/static/styleboard/images/logo.png') no-repeat center center;

@@ -25,7 +25,9 @@
 			====================*/
 			MEDIA_URL = '/{{ MEDIA_URL }}';
 			APP_SIDEBAR_ITEMS_URL = '{% url sidebar_items %}';
-			REQUEST_CATEGORIES = '{% url get_all_categories %}'
+			REQUEST_CATEGORIES = '{% url get_all_categories %}';
+			REQUEST_PRODUCTS = '{% url get_products %}';
+			PRODUCT_PAGE = '{% url get_products %}';
 
 			/*===================
 				   VARIABLES
@@ -61,24 +63,20 @@
         <script type="text/javascript" src="{% static 'javascripts/jquery.simplemodal.1.4.4.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.functions.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.calls.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/Math.uuid.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.sidebar.js' %}"></script>
-		<!--<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
-		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>-->
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
+		<!--<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>-->
 		<script type="text/javascript">
 
 			/*================================================
-				- set minimum height for the styleboard
 				- set heights on page loads
 				- set heights on window resize
 			=================================================*/
 
-			// var app_sidebar = IdecorateSidebar;
-	  //   	app_sidebar.initialize();
-
 			$(function(){
 
-			// 	get_min_height();
-			// 	set_height();
+				pannelResize('.sideBarItems, #canvas');
 
 			});
 
@@ -90,7 +88,10 @@
 
 			    resizing = setTimeout(function(){
 
-			    }, 300);
+			    	$('.sideBarItems, #canvas').height(0);
+			    	pannelResize('.sideBarItems, #canvas');
+
+			    }, 100);
 
 			});
 
