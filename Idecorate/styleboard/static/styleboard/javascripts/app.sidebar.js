@@ -198,13 +198,22 @@ var clearProducts = function(){
 	products = {};
 
 };
+var divObjectIdExists = function(key){
+	ret = false;
+	div = 'div[object-id="' + key + '"]';
+	if($(div).hasClass('products')) {
+		ret = true;
+	}
+	return ret
+};
 var displayProducts = function(){
 
 	for(var key in products){
 
 		if(products.hasOwnProperty(key)){
-
-			productContainer.append(products[key].__loadItem(key));
+			if(!divObjectIdExists(key)) {
+				productContainer.append(products[key].__loadItem(key));
+			}
 		}
 	}
 
@@ -224,10 +233,14 @@ var displayProducts = function(){
     });
 
 };
-var generateProducts = function(category_id){
+var generateProducts = function(category_id, product_page){
 
-	clearProducts();
-	var postData = {category_id: (category_id === undefined) ? 0 : category_id};
+	if(product_page === undefined) {
+		clearProducts();
+	} 
+
+	var postData = {category_id: (category_id === undefined) ? 0 : category_id,
+					product_page: (product_page === undefined) ? 0: product_page};
 	serverRequest(postData, REQUEST_PRODUCTS, function(response){
 
 		var data = $.parseJSON(response.products);

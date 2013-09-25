@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from common.services import render_to_json
 from category.models import Categories
 from cart.models import Product, ProductPrice
+from django.conf import settings
 
 def create(request, category_id=None, styleboard_id=None): 
 
@@ -41,13 +42,21 @@ def get_products(request):
 
         category_id = int(request.POST.get('category_id'))
 
+        product_page = int(request.POST.get('product_page', 0))
+        product_page_offset = product_page*settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS
+
         if int(category_id) == 0:
 
-            product = ProductPrice.objects.filter(product__is_active=True, product__is_deleted=False)
+            if product_page:
+                product = ProductPrice.objects.filter(product__is_active=True, product__is_deleted=False)[product_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+product_page_offset]
+            else:
+                product = ProductPrice.objects.filter(product__is_active=True, product__is_deleted=False)[:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS]
 
         else:
-
-            product = ProductPrice.objects.filter(product__categories__id=category_id, product__is_active=True, product__is_deleted=False)
+            if product_page:
+                product = ProductPrice.objects.filter(product__categories__id=category_id, product__is_active=True, product__is_deleted=False)[product_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+product_page_offset]
+            else:
+                product = ProductPrice.objects.filter(product__categories__id=category_id, product__is_active=True, product__is_deleted=False)[:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS]
 
        
         data['products'] = serializers.serialize("json", product, use_natural_keys=True, fields=('id','product','_unit_price'))

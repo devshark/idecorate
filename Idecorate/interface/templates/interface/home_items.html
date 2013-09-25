@@ -2,7 +2,7 @@
 {% for product in products %}
 {% if product|get_css_obj_classname == 'styleboards' %}
 <div class="itemWrap double {{ product|get_css_obj_classname }}" >
-	<img class="nonProducts" src="/styleboard/generate_styleboard_view/{{product.id}}/490/310/"/>
+	<img id="styleboard_img_{{ product.id }}" class="nonProducts" src="/styleboard/generate_styleboard_view/{{product.id}}/490/310/"/>
 	<h2>{{ product.styleboard_item.name }}</h2>
 	<p>{{ product.styleboard_item.description|safe|truncatechars:80 }}</p>
 	<div class="operationWrap">
@@ -17,7 +17,7 @@
 {% endif %}
 {% if product|get_css_obj_classname == 'products' %}
 <div class="itemWrap single {{ product|get_css_obj_classname }}" >
-	<img src="/media/products/{{product.original_image}}"/>
+	<img id="product_img_{{ product.id }}" src="/media/products/{{product.original_image}}"/>
 	<h2>{{ product.name }}</h2>
 	<p>${{ product|getProductPrice|floatformat:2 }}</p>
 	<div class="operationWrap">
@@ -32,10 +32,10 @@
 {% endif %}
 {% if product|get_css_obj_classname == 'inspiration' %}
 <div class="itemWrap {% if product.size == 1 %}single{% else %}double{% endif %} {{ product|get_css_obj_classname }}" >
-	<img src="/media/banners/{{product.get_image}}"/>
+	<img id="inspiration_img_{{ product.id }}" src="/media/banners/{{product.get_image}}"/>
 	<h2>{{ product.get_name }}</h2>
 	<div class="operationWrap">
-		<a href="#" product-data="{{product.id}}" class="btn sendToStyleboard">
+		<a href="{{ product.id|get_inspiration_link }} " product-data="{{product.id}}" class="btn sendToStyleboard">
 			<img src="{% static 'interface/images/send_to_styleboard_icon.png' %}"/>
 			<span><h3>send to</h3><h4>styleboard</h4></span>
 		</a>
@@ -46,10 +46,10 @@
 {% endif %}
 {% if product|get_css_obj_classname == 'situation' %}
 <div class="itemWrap single inspiration" >
-	<img src="/media/products/{{ product.original_image_thumbnail }}"/>
+	<img id="situation_img_{{ product.id }}" src="/media/products/{{ product.original_image_thumbnail }}"/>
 	<h2>{{ product.product.name }}</h2>
 	<div class="operationWrap">
-		<a href="#" product-data="{{product.id}}" class="btn sendToStyleboard">
+		<a href="javascript:void(0)" product-data="{{product.product.id}}" class="btn sendToStyleboard" onclick="situationProductSendToStyleboard({{ product.product.id }}, {{ product.id }}, '#situation_img_{{ product.id }}')">
 			<img src="{% static 'interface/images/send_to_styleboard_icon.png' %}"/>
 			<span><h3>send to</h3><h4>styleboard</h4></span>
 		</a>

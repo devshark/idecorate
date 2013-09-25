@@ -1780,7 +1780,7 @@ def send_product_to_styleboard(request):
         return HttpResponse('ok')
     else:
         return HttpResponseNotFound()
-
+    
 
 @csrf_exempt
 def send_styleboard_to_styleboard(request):
@@ -1939,8 +1939,15 @@ def _set_styleboard_jsonize(obj, sessionid):
     prod_id = obj.get('prod_id')
     product = Product.objects.get(pk=int(prod_id))
 
-    original_image = product.original_image
-    no_background_image = product.no_background
+    alt_id = obj.get('alt_id', None)
+    if not alt_id:
+        original_image = product.original_image
+        no_background_image = product.no_background
+    else:
+        alternate = ProductAlternateImage.objects.get(pk=int(alt_id))
+        original_image = alternate.original_image
+        no_background_image = alternate.no_background
+
 
     img = {
         'src' : '/media/products/' + original_image,
@@ -1981,8 +1988,14 @@ def _set_send_to_styleboard_product_positions(request, obj, sessionid):
     prod_id = obj.get('prod_id')
     product = Product.objects.get(pk=int(prod_id))
 
-    original_image = product.original_image
-    no_background_image = product.no_background
+    alt_id = obj.get('alt_id', None)
+    if not alt_id:
+        original_image = product.original_image
+        no_background_image = product.no_background
+    else:
+        alternate = ProductAlternateImage.objects.get(pk=int(alt_id))
+        original_image = alternate.original_image
+        no_background_image = alternate.no_background
 
     obj_counter = 0
     unique_identifier = 1
