@@ -9,7 +9,7 @@ from cart.services import get_product
 
 from customer.services import customer_profile, get_save_styleboard_total
 from cart.models import ProductPrice, Contact, OrderStyleboard
-from admin.models import Embellishments, TextFonts, EmbellishmentsType
+from admin.models import Embellishments, TextFonts, EmbellishmentsType, HomeBannerImages
 from django.conf import settings
 import math
 import re
@@ -582,3 +582,9 @@ def get_css_obj_classname(obj):
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
+
+
+@register.filter
+def get_inspiration_link(id):
+    obj = HomeBannerImages.objects.get(home_banner__id=int(id))
+    return obj.link

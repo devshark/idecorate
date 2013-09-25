@@ -45,4 +45,5 @@ urlpatterns =  patterns('interface.views',
 
     url(r'^send_product_to_styleboard/$', 'send_product_to_styleboard', {}, name='send_product_to_styleboard'),
     url(r'^send_styleboard_to_styleboard/$', 'send_styleboard_to_styleboard', {}, name='send_styleboard_to_styleboard'),
+    
 )
