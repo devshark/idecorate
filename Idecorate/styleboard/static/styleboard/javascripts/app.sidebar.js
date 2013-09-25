@@ -69,7 +69,9 @@ var displayCategories = function(){
 			var item = $('<li/>');
 			categories[key].click(function(object,event){
 
+				$('#load_all').remove();
 				object.ele.parent().addClass('active').siblings().removeClass('active');
+				categoryList.prepend('<li id="load_all"><a href="#">all</a></li>');
 				event.preventDefault();
 				generateProducts(object.__id);
 
@@ -79,6 +81,12 @@ var displayCategories = function(){
 
 		}
 	}
+
+	$('#load_all').live('click', 'a', function(event){
+		event.preventDefault();
+		generateProducts();
+		$(this).remove();
+	})
 
 	categoryContainer.append(categoryList);
 
@@ -199,6 +207,21 @@ var displayProducts = function(){
 			productContainer.append(products[key].__loadItem(key));
 		}
 	}
+
+	productContainer.mCustomScrollbar({
+        scrollButtons:{
+            enable:false
+        },
+        callbacks:{
+            onScrollStart:function(){},
+            onScroll:function(){},
+            onTotalScroll:function(){},
+            onTotalScrollBack:function(){},
+            onTotalScrollOffset:40,
+            onTotalScrollBackOffset:20,
+            whileScrolling:function(){ } 
+        }
+    });
 
 };
 var generateProducts = function(category_id){
