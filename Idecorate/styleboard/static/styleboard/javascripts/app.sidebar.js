@@ -9,7 +9,8 @@ var category_id = 0;
 var categories = {};
 var products = {}
 var	page_products = [];
-
+var product_keyword = null;
+var keyword_textbox = $('#keyword_textbox');
 
 /*================================================
    - start
@@ -272,7 +273,7 @@ var generateProducts = function(){
 
 	page_products = []
 
-	var postData = {category_id: category_id, product_page: product_page};
+	var postData = {category_id: category_id, product_page: product_page, product_keyword: product_keyword};
 	serverRequest(postData, REQUEST_PRODUCTS, function(response){
 
 		total_product_page = response.total_page;
@@ -359,4 +360,12 @@ $(function(){
     });
     generateCategories();
     generateProducts();
+
+    keyword_textbox.keypress(function(e) {
+    	code = e.which;
+    	if(code==13) {
+    		product_keyword = $(this).val();
+    		generateProducts();
+    	}
+    });
 });
