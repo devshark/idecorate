@@ -9,4 +9,5 @@ urlpatterns = patterns('styleboard.views',
     url(r'^sidebar_items/$', 'sidebar_items', {}, name='sidebar_items'),
     url(r'^get_categories/$', 'get_categories', {}, name='get_categories'),
     url(r'^get_products/$', 'get_products', {}, name='get_products'),
+    url(r'^get_product_info/(?P<product_id>\d+)/$', 'get_product_info', {}, name='get_product_info'),
 )

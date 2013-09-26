@@ -1,0 +1,37 @@
+{% load admin %}
+
+{% block content %}
+	<img src="/media/products/{{ product.original_image }}" />
+
+	<h1>{{ product.name }}</h1>
+	Recommended Quantity: {{ product.default_quantity }} per Wedding
+	{% autoescape off %}
+		{{ product.description }}
+	{% endautoescape %}
+	<br />
+	<h3>${{ product|getProductPrice|floatformat:2 }} Per Item</h3>
+
+	<h2>Alternate Images</h2>
+	<ul>
+		<li>
+			<img src="/media/products/{{ product.original_image_thumbnail }}" />
+		</li>
+		{% for alternate_image in alternate_images %}
+			<li>
+				<img src="/media/products/{{ alternate_image.original_image }}" />
+			</li>
+		{% endfor %}
+	</ul>
+
+	<h2>Suggested Products</h2>
+	<ul>
+	{% for suggested_product in suggested_products %}
+		<li>
+			<img src="/media/products/{{ suggested_product.suggested_product.original_image }}" />
+			{{ suggested_product.suggested_product.name }}
+			${{ suggested_product.suggested_product|getProductPrice|floatformat:2 }}
+		</li>
+	{% endfor %}
+	</ul>
+
+{% endblock %}

@@ -5,7 +5,7 @@ from django.utils import simplejson
 from django.http import HttpResponse
 from django.template.loader import get_template
 from django.template import Context, RequestContext
-from django.shortcuts import HttpResponse, render_to_response
+from django.shortcuts import HttpResponse, render_to_response, render, get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.models import Q
 from django.conf import settings
@@ -103,3 +103,17 @@ def get_parent_categories(cat_id, data=None):
         pass
 
     return data
+
+
+def get_product_info(request, product_id):
+    product = get_object_or_404(Product, pk=int(product_id))    
+    suggested_products = product.suggestedproduct_set.all()
+    alternate_images = product.productalternateimage_set.all()
+
+    context = {
+        'product' : product,
+        'suggested_products' : suggested_products,
+        'alternate_images' : alternate_images,
+    }
+
+    return render(request, 'styleboard/product_info.html', context)

@@ -111,11 +111,11 @@
     <script type="text/javascript">
 
 		function aspectratio(width, height, percent){
-		    var dimension = new Array();
-		    var aspectRatio = height/width;
-		    dimension['width'] = width*percent;
-		    dimension['height'] = aspectRatio*dimension['width'];
-		    return dimension;
+		    dim = new Array();
+		    aspectRatio = height/width;
+		    dim['width'] = width*percent;
+		    dim['height'] = aspectRatio*dim['width'];
+		    return dim;
 		}   
 
     	function productSendToStyleboard(prod_id) {
@@ -160,8 +160,10 @@
 
     	function situationProductSendToStyleboard(prod_id, alt_id, img) {
     		//dimension = aspectratio($(img).css('width'), $(img).css('height'), 0.66);
-    		dim = aspectratio(parseInt($(img).css('width')), parseInt($(img).css('height')), 0.66);
-    		console.log(dim);
+    		//dim = aspectratio(parseInt($(img).css('width')), parseInt($(img).css('height')), 0.66);
+    		aspectRatio = parseInt($(img).css('height'))/parseInt($(img).css('width'));
+    		width = parseInt($(img).css('width')) * 0.66;
+    		height = aspectRatio*width;
 
     		_matrix = [{a:1, b:0, c:0, d:1, e:false, f:false}];
     		data = {
@@ -171,14 +173,17 @@
     			gst_tb: 'wedding',
     			left: 0,
     			top: 0,
-    			style: "width: 133.79999999999998px; height: 185.99999999999997px; top: 0px; left: 0px; z-index: 1; ",
+    			//style: "width: 133.79999999999998px; height: 185.99999999999997px; top: 0px; left: 0px; z-index: 1; ",
+    			style: "width:" + width + "px; height:" + height + "px; top: 0px; left: 0px; z-index: 1; ",
     			matrix: _matrix,
     			zindex: "1",
     			handle: "nw,sw,se,ne,w,s,e,n",
     			angle: 0,
     			text: '',
     			rgb: '',
-    			cls: 'unselected', 			
+    			cls: 'unselected', 	
+    			width: width,
+    			height: height		
     		}
 
     		json = JSON.stringify(data);
