@@ -47,7 +47,15 @@ def get_products(request):
         product_page = int(request.POST.get('product_page', 0))
         product_page_offset = product_page*settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS
         q = ~Q(product__categories__id=category_id)  if category_id == 0 else Q(product__categories__id=category_id)
+
+        product_keyword = request.POST.get('product_keyword')
+        if product_keyword != '':
+            q.add(Q(product__name__icontains=product_keyword), Q.AND)
+            q.add(Q(product__description__icontains=product_keyword), Q.OR)
+            q.add(Q(product__categories__name__icontains=product_keyword), Q.OR)
+
         product = ProductPrice.objects.filter(q, product__is_active=True, product__is_deleted=False)[product_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+product_page_offset]
+        print product.query.__str__()
         data['products'] = serializers.serialize("json", product, use_natural_keys=True, fields=('id','product','_unit_price'))
         data['total_page'] = math.ceil(ProductPrice.objects.filter(q, product__is_active=True, product__is_deleted=False).count()/settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS)
         

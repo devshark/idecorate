@@ -71,9 +71,9 @@
 		<td class="cell sidebarWrap">
 			<div class="sideBarSearch">
 				<div class="searchWrap">
-					<form action="" method="post">
+					<form action="" method="post" onsubmit="return false;">
 						{% csrf_token %}
-						<input type="text" placeholder="Products, Color, Texture">
+						<input type="text" id="keyword_textbox" name="keyword_textbox" placeholder="Products, Color, Texture">
 						<input type="image" src="{% static 'images/search_icon.png' %}" class="searchIcon" />
 						<input type="submit" value="Search" class="searchButton">
 					</form>
