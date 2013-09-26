@@ -189,6 +189,9 @@ var Product = function(data){
 		},
 		__class : {
 			value : 'productItem products'
+		},
+		info_btn : {
+			value : $('<a class="btn info"><img src="/static/images/img_trans.gif"><h4>Info</h4></a>')
 		}
 	});
 
@@ -211,7 +214,7 @@ Object.defineProperties(Product.prototype, {
 			productInfo.append('<h5>'+ this.__default_quantity + ' per ' + this.__default_quantity_unit +'</h5>');
 
 			itemOperation.append('<span class="btn"><img src="/static/images/img_trans.gif"><h4>Drag To<span>Styleboard</span></h4></span>');
-			itemOperation.append('<a class="btn info" href="'+ PRODUCT_PAGE + this.__id +'/"><img src="/static/images/img_trans.gif"><h4>Info</h4></a>');
+			itemOperation.append(this.info_btn.attr('href', PRODUCT_PAGE + this.__id + '/'));
 
 			elementItem.addClass(this.__class).attr('object-id',uuid);
 			elementItem.append([productImage, productInfo, itemOperation]);
@@ -233,6 +236,7 @@ var displayProducts = function(){
 		if(products.hasOwnProperty(value)){
 
 			var product = products[value].__loadItem(value);
+			var product_info = products[value].info_btn;
 			productContainer.find('.mCSB_container').append(product);
 
 			product.draggable({
@@ -249,6 +253,11 @@ var displayProducts = function(){
 	            	return cloned;
 
 	            }
+	        });
+
+	        product_info.click(function(e){
+
+	        	e.preventDefault();
 	        });
 
 		}

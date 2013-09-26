@@ -28,7 +28,7 @@
 			APP_SIDEBAR_ITEMS_URL = '{% url sidebar_items %}';
 			REQUEST_CATEGORIES = '{% url get_categories %}';
 			REQUEST_PRODUCTS = '{% url get_products %}';
-			PRODUCT_PAGE = '{% url get_products %}';
+			PRODUCT_PAGE = '{% url get_product_info %}';
 
 			/*===================
 				   VARIABLES
@@ -50,6 +50,7 @@
 			</thead>
 			{% include "styleboard/content.html" %}
 		</table>
+		<div id="info_page"></div>
         {% include 'global_forms.html' %}
         <script src="{% static 'javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>

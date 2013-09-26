@@ -54,6 +54,20 @@ def get_products(request):
         return render_to_json(request, data)
 
 
+def get_product_info(request, product_id=0):
+
+    product = get_object_or_404(Product, pk=int(product_id))    
+    suggested_products = product.suggestedproduct_set.all()
+    alternate_images = product.productalternateimage_set.all()
+
+    context = {
+        'product' : product,
+        'suggested_products' : suggested_products,
+        'alternate_images' : alternate_images,
+    }
+
+    return render(request, 'styleboard/product_info.html', context)
+
 @csrf_exempt
 def sidebar_items(request):
 
@@ -103,17 +117,3 @@ def get_parent_categories(cat_id, data=None):
         pass
 
     return data
-
-
-def get_product_info(request, product_id):
-    product = get_object_or_404(Product, pk=int(product_id))    
-    suggested_products = product.suggestedproduct_set.all()
-    alternate_images = product.productalternateimage_set.all()
-
-    context = {
-        'product' : product,
-        'suggested_products' : suggested_products,
-        'alternate_images' : alternate_images,
-    }
-
-    return render(request, 'styleboard/product_info.html', context)
