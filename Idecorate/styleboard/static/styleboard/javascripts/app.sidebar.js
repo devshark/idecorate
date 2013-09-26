@@ -1,5 +1,20 @@
-var categories = {};
+/*================================================
+   - global variables
+=================================================*/
 var categoryContainer = $('.pannel.category');
+var productContainer = $('.pannel.product');
+var total_product_page = 0;
+var product_page = 0;
+var category_id = 0;
+var categories = {};
+var products = {}
+var	page_products = [];
+
+
+/*================================================
+   - start
+   - Category Objects and functions
+=================================================*/
 var ProductCategory = function(data){
 
 	Object.defineProperties(this,{
@@ -67,15 +82,19 @@ var displayCategories = function(){
 		if(categories.hasOwnProperty(key)){
 
 			var item = $('<li/>');
+
 			categories[key].click(function(object,event){
 
 				$('#load_all').remove();
 				object.ele.parent().addClass('active').siblings().removeClass('active');
 				categoryList.prepend('<li id="load_all"><a href="#">all</a></li>');
 				event.preventDefault();
-				generateProducts(object.__id);
+				category_id = object.__id;
+				product_page = 0;
+				generateProducts();
 
 			});
+
 			item.html(categories[key].__loadItem(key));
 			categoryList.append(item);
 
@@ -83,10 +102,14 @@ var displayCategories = function(){
 	}
 
 	$('#load_all').live('click', 'a', function(event){
+
 		event.preventDefault();
+		product_page = 0;
+		category_id = 0;
 		generateProducts();
 		$(this).remove();
-	})
+
+	});
 
 	categoryContainer.append(categoryList);
 
@@ -117,10 +140,15 @@ var generateCategories = function(){
 	});
 
 };
+/*================================================
+   - Category Objects and functions
+   - end
+=================================================*/
 
-
-var products = {}
-var productContainer = $('.pannel.product');
+/*================================================
+   - start
+   - Product Objects and functions
+=================================================*/
 var Product = function(data){
 
 	Object.defineProperties(this,{
@@ -175,7 +203,7 @@ Object.defineProperties(Product.prototype, {
 			var productInfo = $('<span class="productInfo"/>'); 
 			var itemOperation = $('<div class="itemOperation"/>');
 
-			image.attr('src', MEDIA_URL + '/products/' + this.__thumb);
+			image.attr('src', MEDIA_URL + 'products/' + this.__thumb);
 			productImage.append(image);
 
 			productInfo.append('<h4>'+ this.__name +'</h4>');
@@ -194,55 +222,60 @@ Object.defineProperties(Product.prototype, {
 });
 var clearProducts = function(){
 
-	productContainer.children('.productItem').remove();
+	productContainer.find('.mCSB_container').children('.productItem').remove();
 	products = {};
 
 };
-var divObjectIdExists = function(key){
-	ret = false;
-	div = 'div[object-id="' + key + '"]';
-	if($(div).hasClass('products')) {
-		ret = true;
-	}
-	return ret
-};
 var displayProducts = function(){
 
-	for(var key in products){
+	$.each(page_products, function(index, value){
 
-		if(products.hasOwnProperty(key)){
-			if(!divObjectIdExists(key)) {
-				productContainer.append(products[key].__loadItem(key));
-			}
+		if(products.hasOwnProperty(value)){
+
+			var product = products[value].__loadItem(value);
+			productContainer.find('.mCSB_container').append(product);
+
+			product.draggable({
+	            revert:true,
+    			appendTo: "body",
+    			cursor : "move",
+    			containment: "body", 
+	            helper: function(){
+
+	            	var cloned = $(this).clone();
+            	 	var productName = products[value].__name;
+            	 	cloned.find('.productInfo, .itemOperation').remove();
+            	 	cloned.append('<h3>'+ productName +'</h3>');
+	            	return cloned;
+
+	            }
+	        });
+
 		}
+
+	});
+
+    productContainer.mCustomScrollbar("update");
+
+	if(product_page == 0) {
+		
+    	productContainer.mCustomScrollbar("scrollTo", "top");
+
+	}
+};
+var generateProducts = function(){
+
+	if(product_page == 0) {
+
+		clearProducts();
 	}
 
-	productContainer.mCustomScrollbar({
-        scrollButtons:{
-            enable:false
-        },
-        callbacks:{
-            onScrollStart:function(){},
-            onScroll:function(){},
-            onTotalScroll:function(){},
-            onTotalScrollBack:function(){},
-            onTotalScrollOffset:40,
-            onTotalScrollBackOffset:20,
-            whileScrolling:function(){ } 
-        }
-    });
+	page_products = []
 
-};
-var generateProducts = function(category_id, product_page){
-
-	if(product_page === undefined) {
-		clearProducts();
-	} 
-
-	var postData = {category_id: (category_id === undefined) ? 0 : category_id,
-					product_page: (product_page === undefined) ? 0: product_page};
+	var postData = {category_id: category_id, product_page: product_page};
 	serverRequest(postData, REQUEST_PRODUCTS, function(response){
 
+		total_product_page = response.total_page;
 		var data = $.parseJSON(response.products);
     	
     	$.each(data,function(index, value){
@@ -254,12 +287,18 @@ var generateProducts = function(category_id, product_page){
  
 			var uuid = Math.uuid(12, 62);
     		products[uuid] = new Product(productData);
+    		page_products.push(uuid); 
 
 		});
 
 		displayProducts();
 	});
 };
+
+/*================================================
+   - Product Objects and functions
+   - end
+=================================================*/
 
 var serverRequest = function(data, url, success, fail){
 
@@ -298,5 +337,26 @@ var serverRequest = function(data, url, success, fail){
     return request;
 };
 
-generateCategories();
-generateProducts();
+$(function(){
+
+    productContainer.mCustomScrollbar({
+        scrollInertia:200,
+        scrollButtons:{
+            enable:false
+        },
+        theme: 'dark-thick',
+        callbacks:{
+            onTotalScrollOffset : 50,
+            onTotalScroll:function(){
+
+            	if(product_page <= total_product_page ){
+	                ++product_page;
+	                generateProducts();
+            	}
+            	
+            }
+        }
+    });
+    generateCategories();
+    generateProducts();
+});

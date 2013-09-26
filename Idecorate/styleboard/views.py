@@ -1,4 +1,5 @@
 # Create your views here.
+import math
 from django.core import serializers
 from django.utils import simplejson
 from django.http import HttpResponse
@@ -6,11 +7,12 @@ from django.template.loader import get_template
 from django.template import Context, RequestContext
 from django.shortcuts import HttpResponse, render_to_response
 from django.views.decorators.csrf import csrf_exempt
+from django.db.models import Q
+from django.conf import settings
 
 from common.services import render_to_json
 from category.models import Categories
 from cart.models import Product, ProductPrice
-from django.conf import settings
 
 def create(request, category_id=None, styleboard_id=None): 
 
@@ -22,7 +24,7 @@ def create(request, category_id=None, styleboard_id=None):
     return render_to_response('styleboard/styleboard.html', info,RequestContext(request))
 
 @csrf_exempt
-def get_all_categories(request):
+def get_categories(request):
 
     data = {}
 
@@ -44,22 +46,10 @@ def get_products(request):
 
         product_page = int(request.POST.get('product_page', 0))
         product_page_offset = product_page*settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS
-
-        if int(category_id) == 0:
-
-            if product_page:
-                product = ProductPrice.objects.filter(product__is_active=True, product__is_deleted=False)[product_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+product_page_offset]
-            else:
-                product = ProductPrice.objects.filter(product__is_active=True, product__is_deleted=False)[:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS]
-
-        else:
-            if product_page:
-                product = ProductPrice.objects.filter(product__categories__id=category_id, product__is_active=True, product__is_deleted=False)[product_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+product_page_offset]
-            else:
-                product = ProductPrice.objects.filter(product__categories__id=category_id, product__is_active=True, product__is_deleted=False)[:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS]
-
-       
+        q = ~Q(product__categories__id=category_id)  if category_id == 0 else Q(product__categories__id=category_id)
+        product = ProductPrice.objects.filter(q, product__is_active=True, product__is_deleted=False)[product_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+product_page_offset]
         data['products'] = serializers.serialize("json", product, use_natural_keys=True, fields=('id','product','_unit_price'))
+        data['total_page'] = math.ceil(ProductPrice.objects.filter(q, product__is_active=True, product__is_deleted=False).count()/settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS)
         
         return render_to_json(request, data)
 

@@ -16,6 +16,7 @@
 		<link rel="stylesheet" href="{% static 'stylesheets/global.css' %}">
         <link rel="stylesheet" href="{% static 'javascripts/dropdown/dropdown.css' %}">
 		<link rel="stylesheet" href="{% static 'styleboard/javascripts/jquery/jquery-ui-1.10.2.custom.css' %}">
+		<link rel="stylesheet" href="{% static 'styleboard/javascripts/jquery/custom.scrollbar/jquery.mCustomScrollbar.css' %}">
 		<link rel="stylesheet" href="{% static 'styleboard/stylesheets/styleboard.css' %}">
 
 		<script type="text/javascript">
@@ -25,7 +26,7 @@
 			====================*/
 			MEDIA_URL = '/{{ MEDIA_URL }}';
 			APP_SIDEBAR_ITEMS_URL = '{% url sidebar_items %}';
-			REQUEST_CATEGORIES = '{% url get_all_categories %}';
+			REQUEST_CATEGORIES = '{% url get_categories %}';
 			REQUEST_PRODUCTS = '{% url get_products %}';
 			PRODUCT_PAGE = '{% url get_products %}';
 
@@ -54,47 +55,18 @@
         <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
         <script type="text/javascript">
             CART_URL = '{% url cart %}';
-            var request;
         </script>
         <script type="text/javascript" src="{% static 'javascripts/global.calls.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/global.functions.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/jquery/jquery.placeholder.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/dropdown/jquery.dropdown.js' %}"></script>
         <script type="text/javascript" src="{% static 'javascripts/jquery.simplemodal.1.4.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/custom.scrollbar/jquery.mCustomScrollbar.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.functions.js' %}"></script>
         <script type="text/javascript" src="{% static 'cart/javascripts/cart.calls.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/Math.uuid.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.sidebar.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
 		<!--<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>-->
-		<script type="text/javascript">
-
-			/*================================================
-				- set heights on page loads
-				- set heights on window resize
-			=================================================*/
-
-			$(function(){
-
-				pannelResize('.sideBarItems, #canvas');
-
-			});
-
-			var resizing;
-
-			$(window).resize(function(){
-
-				clearTimeout(resizing);
-
-			    resizing = setTimeout(function(){
-
-			    	$('.sideBarItems, #canvas').height(0);
-			    	pannelResize('.sideBarItems, #canvas');
-
-			    }, 100);
-
-			});
-
-		</script>
 	</body>
 </html> 

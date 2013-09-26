@@ -2,6 +2,7 @@
 body{
 	background-color: #FFFFFF !important;
 	overflow: hidden;
+	height: 100% !important;
 }
 #styleboard{
 	width: 100%;
@@ -69,6 +70,7 @@ body{
 				}
 			}
 			.sideBarMenu{
+				white-space: nowrap;
 				font-size: 0;
 				li{
 					font-size: 11px;
@@ -400,5 +402,43 @@ body{
 				background: url('/static/styleboard/images/logo.png') no-repeat center center;
 			}
 		}
+	}
+}
+
+// custom scrollbar styles 
+.mCSB_container{
+	margin-right: 10px;
+}
+.mCSB_scrollTools{
+	width: 10px !important;
+}
+
+//sidebar jquery ui style
+.ui-draggable-dragging{
+	margin: 0 !important;
+	width: 120px !important;
+	outline: none !important; 
+	border: 1px solid #CCC;
+	background-color: #FFF;
+	box-shadow: -2px 0 5px #999999;
+	opacity: 0.7;
+	-moz-opacity: 0.7;
+	-khtml-opacity: 0.7;
+	filter: alpha(opacity=70);
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	// padding: 0.5%;
+	.productImage{
+		display: block;
+		width: 100% !important;
+		margin-bottom: 10px;
+		img{
+			width: 100% !important;
+		}
+	}
+	h3{
+		text-transform: uppercase;
+		text-align: center;
+		font-size: 12px;
+		line-height: 14px;
 	}
 }
