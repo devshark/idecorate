@@ -11,6 +11,7 @@ var products = {}
 var	page_products = [];
 var product_keyword = null;
 var keyword_textbox = $('#keyword_textbox');
+var keyword_search_btn = $('#keyword_search_btn');
 
 /*================================================
    - start
@@ -365,6 +366,16 @@ $(function(){
     	code = e.which;
     	if(code==13) {
     		product_keyword = $(this).val();
+    		if(product_keyword != '') {
+    			generateProducts();
+    		}
+    	}
+    });
+
+    
+    keyword_search_btn.click(function() {
+    	product_keyword = keyword_textbox.val();
+    	if(product_keyword != '') {
     		generateProducts();
     	}
     });
