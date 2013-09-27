@@ -259,7 +259,7 @@ var displayProducts = function(){
 	        });
 
 	        product_info.click(function(e){
-	        	productInfo.openPannel();
+	        	productInfo.openPannel(products[value].__id);
 	        	e.preventDefault();
 	        });
 

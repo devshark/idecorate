@@ -79,16 +79,36 @@ Object.defineProperties(ProductInfo.prototype,{
         },
         enumerable : true
     },
-    openPannel: {
+    frameChange:{
         value: function(){
 
+            this.iframe.attr({src:PRODUCT_PAGE + this.__product_id + '/', class: 'productInfoIframe'});
+            this.pannel.append(this.iframe);
+        },
+        enumerable : true
+    },
+    openPannel: {
+        value: function(product_id){
+
             var self = this;
+
             if(self.pannel.hasClass('hidden') || !this.toggle_button.hasClass('hide')){
-                self.pannel.animate({right:"0"},600, function(){
+                self.pannel.animate({right:"0"},(self.pannel.hasClass('hidden'))?600:300, function(){
                     self.toggle_button.addClass('hide');
                     self.pannel.removeClass('hidden');
                 });
             };
+            if(self.__product_id != product_id){
+                self.iframe.remove();
+                self.__product_id = product_id;
+                self.pannel.find('.loadingIcon').removeClass('hidden');
+                setTimeout(function(){
+                    self.frameChange();
+                    self.iframe.load(function(){
+                        self.pannel.find('.loadingIcon').addClass('hidden');
+                    });
+                },300);
+            }
         },
         enumerable : true
     } 

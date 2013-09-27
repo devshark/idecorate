@@ -12,6 +12,8 @@ body {
     top: 0;
     z-index: 9999;
     min-width: 55%;
+    text-align: center;
+    vertical-align: middle;
     border-bottom: 15px solid #dbd7c9;
     border-top: 1px solid #dbd7c9;
     border-left: 1px solid #dbd7c9;
@@ -61,6 +63,19 @@ body {
         background-position: 0 0; }
       body #product_info_page .pageOperation a.toggle.hide:hover img {
         background-position: -10px 0; }
+    body #product_info_page .loadingIcon {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 80px;
+      height: 80px;
+      margin-top: -40px;
+      margin-left: -40px; }
+    body #product_info_page .loadingIcon.hidden {
+      display: none; }
+    body #product_info_page .productInfoIframe {
+      width: 100%;
+      height: 100%; }
   body #product_info_page:after {
     content: "";
     display: block;
