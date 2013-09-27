@@ -108,6 +108,7 @@ var displayCategories = function(){
 		product_page = 0;
 		category_id = 0;
 		generateProducts();
+		$(this).siblings().removeClass('active');
 		$(this).remove();
 
 	});
@@ -257,7 +258,7 @@ var displayProducts = function(){
 	        });
 
 	        product_info.click(function(e){
-
+	        	productInfo.openPannel();
 	        	e.preventDefault();
 	        });
 

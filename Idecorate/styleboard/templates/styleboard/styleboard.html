@@ -50,7 +50,16 @@
 			</thead>
 			{% include "styleboard/content.html" %}
 		</table>
-		<div id="info_page"></div>
+		<div id="product_info_page" class="hidden">
+			<div class="pageOperation">
+				<a class="close" href="#">
+					<img src="{% static 'images/img_trans.gif' %}" alt="close"/>
+				</a>
+				<a class="toggle hide" href="#">
+					<img src="{% static 'images/img_trans.gif' %}" alt="pannel toggle"/>
+				</a>
+			</div>
+		</div>
         {% include 'global_forms.html' %}
         <script src="{% static 'javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
         <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
@@ -68,6 +77,6 @@
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/Math.uuid.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.sidebar.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.global.js' %}"></script>
-		<!--<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>-->
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/app.canvas.js' %}"></script>
 	</body>
 </html> 

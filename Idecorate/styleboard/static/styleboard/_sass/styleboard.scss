@@ -4,18 +4,71 @@ body{
 	overflow: hidden;
 	height: 100% !important;
 	position:relative;
-	#info_page{
-		// display: none;
+	#product_info_page{
 		position: absolute;
 		background-color: #FFFFFF;
-		right:0;
+		right:-55%;
 		top: 0;
-		z-index: 999999;
-		width: 60%;
-		min-height: 400px;
+		z-index: 9999;
+		min-width: 55%;
+		// height: 600px;
 		border-bottom: 15px solid $border_01;
+		border-top: 1px solid $border_01;
+		border-left: 1px solid $border_01;
+		border-right: 1px solid $border_01;
+		.pageOperation{
+			position: absolute;
+			left: -31px;
+			top: 30px;
+			width: 30px;
+			a{
+				width: 30px;
+				padding: 10px 0;
+				text-align: center;
+				display: inline-block;
+				background-color: #FFFFFF;
+				border-bottom: 1px solid $border_01;
+				border-top: 1px solid $border_01;
+				border-left: 1px solid $border_01;
+				@include rounded_by_corner(top, left, 7px);
+				@include rounded_by_corner(bottom, left, 7px);
+			}
+			a.close{
+				height: 12px;
+				img{
+					height: 13px;
+					width: 13px;
+					background-image: url("/static/styleboard/images/styleboardIcons.png");
+					background-repeat: no-repeat;
+					background-position: -37px -12px;
+				}
+			}
+			a.close:hover img{
+				background-position: -50px -12px;
+			}
+			a.toggle{
+				height: 97px;
+				margin-top: 5px;
+				img{
+					height: 97px;
+					width: 10px;
+					background-image: url("/static/styleboard/images/hideshow_info.png");
+					background-repeat: no-repeat;
+					background-position:-20px 0;
+				}
+			}
+			a.toggle:hover img{
+				background-position: -30px 0;
+			}
+			a.toggle.hide img{
+				background-position: 0 0;
+			}
+			a.toggle.hide:hover img{
+				background-position: -10px 0;
+			}
+		}
 	}
-	#info_page:after{
+	#product_info_page:after{
 		content: "";
 		display: block;
 		position: absolute;
@@ -25,6 +78,9 @@ body{
 		left: 0;
 		width: 100%;
 
+	}
+	#product_info_page.hidden{
+		right:-100%;
 	}
 }
 #styleboard{
