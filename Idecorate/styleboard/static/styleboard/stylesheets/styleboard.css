@@ -6,7 +6,6 @@ body {
   height: 100% !important;
   position: relative; }
   body #product_info_page {
-    overflow: hidden;
     position: absolute;
     background-color: #FFFFFF;
     right: 0;
