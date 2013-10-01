@@ -1,37 +1,136 @@
-{% load admin %}
-
+{% load admin i18n idecorate_interface static %}
 {% block content %}
-	<img src="/media/products/{{ product.original_image }}" />
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>iDecorate|{{ product.name }}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="author" content="iDecorate Wedding">
+        <meta name="description" content="">
 
-	<h1>{{ product.name }}</h1>
-	Recommended Quantity: {{ product.default_quantity }} per Wedding
-	{% autoescape off %}
-		{{ product.description }}
-	{% endautoescape %}
-	<br />
-	<h3>${{ product|getProductPrice|floatformat:2 }} Per Item</h3>
-
-	<h2>Alternate Images</h2>
-	<ul>
-		<li>
-			<img src="/media/products/{{ product.original_image_thumbnail }}" />
-		</li>
-		{% for alternate_image in alternate_images %}
-			<li>
-				<img src="/media/products/{{ alternate_image.original_image }}" />
-			</li>
-		{% endfor %}
-	</ul>
-
-	<h2>Suggested Products</h2>
-	<ul>
-	{% for suggested_product in suggested_products %}
-		<li>
-			<img src="/media/products/{{ suggested_product.suggested_product.original_image }}" />
-			{{ suggested_product.suggested_product.name }}
-			${{ suggested_product.suggested_product|getProductPrice|floatformat:2 }}
-		</li>
-	{% endfor %}
-	</ul>
-
+        <link rel="shortcut icon" href="/{{ MEDIA_URL }}images/favicon.1.ico" type="image/x-icon" />
+        <!-- Load global stylings -->
+        <link rel="stylesheet" href="{% static 'stylesheets/reset.css' %}">
+        <link rel="stylesheet" href="{% static 'stylesheets/global.css' %}">
+		<link rel="stylesheet" type="text/css" href="{% static 'styleboard/zoom_and_slide/stylesheets/flexslider.css' %}"/>
+        <link rel="stylesheet" href="{% static 'styleboard/stylesheets/product_info.css' %}">
+        <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
+        <!--[if lt IE 9]> <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script> <![endif]-->
+    </head>
+    <body>
+        <div id="content">
+        	<div class="clearfix productPanels">
+	        	<div class="panel productImage">
+					<img id="product_zoom" src="{% url zoom_product_image product.id 300 1 %}" data-zoom-image="{% url zoom_product_image product.id 800 1 %}" />
+					<div class="productSlides flexslider carousel">
+						<ul id="product_image_gallery" class="slides">
+							<li>
+								<a href="#" class="zoomGalleryActive" data-image="{% url zoom_product_image product.id 300 1 %}" data-zoom-image="{% url zoom_product_image product.id 800 1 %}" >
+									<img src="/media/products/{{ product.original_image_thumbnail }}" />
+								</a>
+								
+							</li>
+							{% for alternate_image in alternate_images %}
+								<li>
+									<a href="#" data-image="{% url zoom_product_image alternate_image.id 300 0 %}" data-zoom-image="{% url zoom_product_image alternate_image.id 800 0 %}" >
+										<img src="/media/products/{{ alternate_image.original_image_thumbnail }}" />
+									</a>
+								</li>
+							{% endfor %}
+						</ul>
+					</div>
+				</div>
+	        	<div class="panel productInfo">
+					<h1>{{ product.name }}</h1>
+					<h4>
+						<span class="label">Recommended Quantity:</span> {{ product.default_quantity }} per {{ product.guest_table }}
+					</h4>
+					<h4>
+						<span class="label">Dimension:</span> {{ product_details.size }}
+					</h4>
+					{% autoescape off %}
+						{{ product.description }}
+					{% endautoescape %}
+					<h3>${{ product|getProductPrice|floatformat:2 }}<br/><span>Per Item</span></h3>
+				</div>
+			</div>
+			<div class="fieldset">
+                <span class="legendWrap"><span class="legend">Suggested Products</span></span>
+                <div class="fieldsetContent flexslider carousel">
+                    <ul class="slides">
+					{% for suggested_product in suggested_products %}
+						<li class="clearfix">
+							<div class="productImage">
+								<img src="/media/products/{{ suggested_product.suggested_product.original_image }}" />
+							</div>
+							<div class="productInfo">
+								<h4>{{ suggested_product.suggested_product.name }}</h4>
+								<h3>${{ suggested_product.suggested_product|getProductPrice|floatformat:2 }}</h3>
+							</div>
+						</li>
+					{% endfor %}
+					</ul>
+                </div>
+            </div>
+			
+		</div>
+		<script  type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+  		<script  type="text/javascript">window.jQuery || document.write('<script src="/static/javascripts/jquery/jquery-1.8.2.min.js">\x3C/script>')</script>
+        <script src="{% static 'javascripts/jquery/jquery-ui.js' %}"></script>
+        <script src="{% static 'javascripts/jquery/jquery.placeholder.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/zoom_and_slide/javascripts/jquery.elevatezoom.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/zoom_and_slide/javascripts/jquery.flexslider.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/zoom_and_slide/javascripts/jquery.mousewheel.js' %}"></script>
+		<script type="text/javascript">
+			$(function(){
+				$('#product_zoom').elevateZoom({
+				gallery:'product_image_gallery',
+				scrollZoom : true,
+				borderSize : 1,
+				borderColour : '#dbd7c9',
+				tint: true, 
+				tintOpacity: 0.7, 
+				tintColour: "#FFFFFF", 
+				lensOpacity : 0,
+				lensSize : 50,
+				lensBorderColour : '#dbd7c9',
+				zoomWindowOffetx : 5,
+				zoomWindowOffety : 0,
+				zoomWindowWidth : 300,
+				zoomWindowHeight : 300,
+				cursor: 'url(/static/images/search_icon.png), auto;'
+			});
+		    $("#product_zoom").bind("click", function(e) {  
+		  		var ez = $('#product_zoom').data('elevateZoom');	
+				$.fancybox(ez.getGalleryList());
+				e.preventDefault();
+			});
+			$('.productSlides').flexslider({
+	            animation: "slide",
+			    animationLoop: false,
+			    itemWidth: 80,
+			    itemMargin: 5,
+		        slideshow : false,
+				controlNav: false,
+		        mousewheel: true,
+				prevText: '<img src="/static/images/img_trans.gif" />',
+				nextText: '<img src="/static/images/img_trans.gif" />'
+	      	});
+			$('.fieldsetContent').flexslider({
+	            animation: "slide",
+			    animationLoop: false,
+			    itemWidth: 200,
+			    itemMargin: 5,
+		        slideshow : false,
+				controlNav: false,
+		        mousewheel: true,
+				prevText: '<img src="/static/images/img_trans.gif" />',
+				nextText: '<img src="/static/images/img_trans.gif" />'
+	      	});
+		});
+		</script>
+    </body>
+</html>
 {% endblock %}

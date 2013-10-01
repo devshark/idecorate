@@ -16,6 +16,9 @@ class ProductGuestTable(models.Model):
         db_table = 'product_guest_table'
         ordering = ["id"]
         verbose_name = _("Product Per Guest Table") 
+        
+    def __unicode__(self):
+        return unicode(self.name)
 
 class Product(ProductBase):
 
@@ -106,6 +109,9 @@ class ProductDetails(models.Model):
         verbose_name = _('Product Details')
         db_table = 'product_details'
 
+    def __unicode__(self):
+        return unicode(self.product)
+        
 class GuestTableTemp(models.Model):
 
     id = models.AutoField(db_column='id', primary_key=True)

@@ -11,4 +11,5 @@ urlpatterns = patterns('styleboard.views',
     url(r'^get_products/$', 'get_products', {}, name='get_products'),
     url(r'^get_product_info/$', 'get_product_info', {}, name='get_product_info'),
     url(r'^get_product_info/(?P<product_id>\d+)/$', 'get_product_info', {}, name='get_product_info'),
+    url(r'^zoom_product_image/(?P<object_id>\d+)/(?P<size>\d+)/(?P<is_product>\d+)/$', 'zoom_product_image', {}, name='zoom_product_image'),
 )
