@@ -372,7 +372,7 @@ $(function(){
     generateCategories();
     generateProducts();
 
-    keyword_textbox.keypress(function(e) {
+    keyword_textbox.keyup(function(e) {
     	code = e.which;
     	if(code==13) {
     		product_keyword = $(this).val();

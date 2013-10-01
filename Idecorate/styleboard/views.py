@@ -51,11 +51,15 @@ def get_products(request):
 
         product_keyword = request.POST.get('product_keyword')
         if product_keyword != '':
-            q.add(Q(product__name__icontains=product_keyword), Q.AND)
-            q.add(Q(product__description__icontains=product_keyword), Q.OR)
-            q.add(Q(product__categories__name__icontains=product_keyword), Q.OR)
+            search_q = Q(product__name__icontains=product_keyword)
+            search_q.add(Q(product__description__icontains=product_keyword), Q.OR)
+            search_q.add(Q(product__categories__name__icontains=product_keyword), Q.OR)
+            q.add(search_q, Q.AND)
 
-        product = ProductPrice.objects.filter(q, product__is_active=True, product__is_deleted=False)[product_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+product_page_offset]
+        product = ProductPrice.objects.filter(q, product__is_active=True, product__is_deleted=False) \
+                                                .distinct() \
+                                                [product_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+product_page_offset]
+
         data['products'] = serializers.serialize("json", product, use_natural_keys=True, fields=('id','product','_unit_price'))
         data['total_page'] = math.ceil(ProductPrice.objects.filter(q, product__is_active=True, product__is_deleted=False).count()/settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS)
         
