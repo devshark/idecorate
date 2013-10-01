@@ -381,9 +381,20 @@ $(function(){
 
     
     keyword_search_btn.click(function() {
-    	product_keyword = keyword_textbox.val();
-    	if(product_keyword != '') {
+    	if(keyword_textbox.val() != '' && product_keyword != keyword_textbox.val()) {
+    		product_keyword = keyword_textbox.val();
     		generateProducts();
+    		$('.clearSearch').removeClass('hidden');
     	}
     });
+
+    $('.clearSearch').click(function(e){
+    	e.preventDefault();
+    	product_keyword = '';
+		product_page = 0;
+		category_id = 0;
+		keyword_textbox.val('');
+		generateProducts();
+		$('.clearSearch').addClass('hidden');
+    })
 });

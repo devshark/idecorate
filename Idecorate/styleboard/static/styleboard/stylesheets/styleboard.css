@@ -272,6 +272,14 @@ body {
         #styleboard tbody .cell.sidebarWrap .sideBarSearch .searchWrap input[type="submit"] {
           visibility: hidden;
           display: none; }
+      #styleboard tbody .cell.sidebarWrap .sideBarSearch .clearSearch {
+        color: #666666;
+        font-size: 11px;
+        font-style: italic;
+        text-shadow: 1px 1px 0 #dbd7c9;
+        font-family: "PT Serif", serif; }
+      #styleboard tbody .cell.sidebarWrap .sideBarSearch .clearSearch.hidden {
+        display: none; }
     #styleboard tbody .cell.sidebarWrap .sideBarItems {
       height: 100%; }
     #styleboard tbody .cell.sidebarWrap .sideBarSearch, #styleboard tbody .cell.sidebarWrap .sideBarItems {
