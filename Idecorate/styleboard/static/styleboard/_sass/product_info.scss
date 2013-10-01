@@ -55,6 +55,7 @@ body{
 				margin:0 auto 20px;
 			}
 			h3{
+				margin: 20px auto 0;
 				text-align:center;
 				text-transform: uppercase;
 				font-family: $PTserif;
@@ -81,9 +82,6 @@ body{
 					text-transform: uppercase;
 					font-style: normal;
 				}
-			}
-			p{
-				margin: 20px auto;
 			}
 		}
 		.fieldset{

@@ -372,13 +372,10 @@ $(function(){
     generateCategories();
     generateProducts();
 
-    keyword_textbox.keyup(function(e) {
+    keyword_textbox.keypress(function(e) {
     	code = e.which;
     	if(code==13) {
-    		product_keyword = $(this).val();
-    		if(product_keyword != '') {
-    			generateProducts();
-    		}
+    		keyword_search_btn.click();
     	}
     });
 
