@@ -99,7 +99,7 @@ Object.defineProperties(ProductInfo.prototype,{
             };
             if(self.__product_id != product_id){
                 self.iframe.remove();
-                self.__product_id = product_id;
+                self.__product_id = parseInt(product_id);
                 self.pannel.find('.loadingIcon').removeClass('hidden');
                 setTimeout(function(){
                     self.__frameChange();
@@ -127,6 +127,10 @@ var generateProductPannel = function(){
     });
     return productInfo;
 };
+
+var StyleboardIntro = function(){
+    
+}
 
 $(function(){
 

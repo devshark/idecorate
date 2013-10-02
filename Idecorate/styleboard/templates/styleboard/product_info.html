@@ -23,7 +23,9 @@
         <div id="content">
         	<div class="clearfix productPanels">
 	        	<div class="panel productImage">
-					<img id="product_zoom" src="{% url zoom_product_image product.id 300 1 %}" data-zoom-image="{% url zoom_product_image product.id 800 1 %}" />
+	        		<div class="toZoom">
+						<img id="product_zoom" src="{% url zoom_product_image product.id 300 1 %}" data-zoom-image="{% url zoom_product_image product.id 800 1 %}" />
+					</div>
 					<div class="productSlides flexslider carousel">
 						<ul id="product_image_gallery" class="slides">
 							<li>
@@ -43,23 +45,35 @@
 					</div>
 				</div>
 	        	<div class="panel productInfo">
-					<h1>{{ product.name }}</h1>
-					<h4>
-						<span class="label">Recommended Quantity:</span> {{ product.default_quantity }} per {{ product.guest_table }}
-					</h4>
-					<h4>
-						<span class="label">Dimension:</span> {{ product_details.size }}
-					</h4>
-					{% autoescape off %}
-						{{ product.description }}
-					{% endautoescape %}
-					<h3>${{ product|getProductPrice|floatformat:2 }}<br/><span>Per Item</span></h3>
+	        		<div class="infoWrap">
+						<h1>{{ product.name }}</h1>
+						<h4 class="quantity">
+							<span class="label">Recommended Quantity:</span> {{ product.default_quantity }} per {{ product.guest_table }}
+						</h4>
+						<h4 class="dimension">
+							<span class="label">Dimension:</span> {{ product_details.size }}
+						</h4>
+						<div class="description">
+						{% autoescape off %}
+							{{ product.description }}
+						{% endautoescape %}
+						</div>
+						<h3>${{ product|getProductPrice|floatformat:2 }}<br/><span>Per Item</span></h3>
+					</div>
+					<div class="operation clearfix">
+						<a class="btn addToStyleboard" href="#">
+							<img src="{% static 'images/img_trans.gif' %}">
+							<span>Add to<span>Styleboard</span></span>
+						</a>
+						<a class="btn share" href="#">Share</a>
+						<a class="btn addToWishlist" href="#">Add to<span>Wishlist</span></a>
+					</div>
 				</div>
 			</div>
 			<div class="fieldset">
                 <span class="legendWrap"><span class="legend">Suggested Products</span></span>
                 <div class="fieldsetContent flexslider carousel">
-                    <ul class="slides">
+                    <ul class="slides suggestedProducts">
 					{% for suggested_product in suggested_products %}
 						<li class="clearfix">
 							<div class="productImage">
@@ -68,6 +82,15 @@
 							<div class="productInfo">
 								<h4>{{ suggested_product.suggested_product.name }}</h4>
 								<h3>${{ suggested_product.suggested_product|getProductPrice|floatformat:2 }}</h3>
+							</div>
+							<div class="itemOperation">
+								<a class="btn addToStyleboard" href="#">
+									<img src="{% static 'interface/images/send_to_styleboard_icon.png' %}">
+									<span>Add to<span>Styleboard</span></span>
+								</a>
+								<a class="btn info" info-id="{{ suggested_product.pk }}" href="{% url get_product_info suggested_product.pk %}">				
+									<img src="{% static 'images/img_trans.gif' %}"><h4>Info</h4>
+								</a>
 							</div>
 						</li>
 					{% endfor %}
@@ -129,6 +152,13 @@
 				prevText: '<img src="/static/images/img_trans.gif" />',
 				nextText: '<img src="/static/images/img_trans.gif" />'
 	      	});
+			$('.suggestedProducts .info').each(function(index, value){
+				$(value).click(function(e){
+					e.preventDefault();
+					var product_id = $(this).attr('info-id');
+					window.parent.productInfo.openPannel(product_id);
+				});
+			});
 		});
 		</script>
     </body>

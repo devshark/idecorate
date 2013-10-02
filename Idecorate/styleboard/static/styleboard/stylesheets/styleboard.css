@@ -6,6 +6,7 @@ body {
   height: 100% !important;
   position: relative; }
   body #product_info_page {
+    padding: 20px;
     position: absolute;
     background-color: #FFFFFF;
     right: 0;
@@ -424,9 +425,6 @@ body {
               background-image: linear-gradient(#fbfaf3, #eceae1);
               border-color: #eeeacd #eeeacd #d5ca80;
               -webkit-font-smoothing: antialiased;
-              -webkit-box-shadow: inset 0 -1px 5px 0 white;
-              -moz-box-shadow: inset 0 -1px 5px 0 white;
-              box-shadow: inset 0 -1px 5px 0 white;
               cursor: move; }
             #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info {
               padding: 5px 0 !important; }
