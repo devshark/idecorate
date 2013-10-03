@@ -71,9 +71,9 @@ Object.defineProperties(ProductInfo.prototype,{
         value: function(){
 
             if(this.toggle_button.hasClass('hide')){
-                this.pannel.animate({width:0},300);
+                this.pannel.animate({width:0, right: '-40px'},300);
             }else{
-                this.pannel.animate({width:"55%"},300);
+                this.pannel.animate({width:"55%",right: 0},300);
             }
             this.toggle_button.toggleClass('hide');
         },
@@ -93,7 +93,7 @@ Object.defineProperties(ProductInfo.prototype,{
 
             if(self.pannel.hasClass('hidden') || !this.toggle_button.hasClass('hide')){
                 self.pannel.removeClass('hidden');
-                self.pannel.animate({width:"55%"},300, function(){
+                self.pannel.animate({width:"55%",right: 0},300, function(){
                     self.toggle_button.addClass('hide');
                 });
             };

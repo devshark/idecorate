@@ -364,6 +364,11 @@
     .operationWrap .wishListProduct h3 {
       font-size: 14px; }
 
+.noMoreResults {
+  font-size: 18px;
+  padding: 20px 0;
+  width: 100%; }
+
 .isotope-item {
   z-index: 2; }
 
