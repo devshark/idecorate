@@ -1,5 +1,15 @@
 $(function() {
 
+    FB.init({appId: FACEBOOK_APP_ID, status: true, cookie: true});
+
+    $('.popupWindow').live('click',function(e){
+
+        window.open($(this).attr('href'),'',
+            'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=600,width=600');
+        e.preventDefault();
+
+    });
+
     $('#banner_img').one('load', function() {
 
       bannerCentering();
@@ -98,10 +108,20 @@ $(function() {
     $('#search_input').keypress(function(e){ searchItems(e); })
     $('.searchBtn').click(function(e){  searchItems(e); });
 
-    $('.itemWrap:not(.wishlist)').live('hover', function(e){
+    $('.itemWrap:not(.wishlist)').live('mouseenter', function(e){
 
-        (e.type == 'mouseenter')? $('.operationWrap', this).stop(true, true).show(100) : $('.operationWrap', this).stop(true, true).hide();
+        $('.operationWrap', this).stop(true, true).show(100);
 
+    }).live('mouseleave', function(e){
+
+        $('.operationWrap',this).stop(true, true).hide();
+        $('.socialMediaShare').hide();
+    });
+
+    $('.operationWrap .shareProduct').live('click', function(e){
+
+        e.preventDefault();
+        $(this).siblings('.socialMediaShare').toggle();
     });
 
 });
@@ -243,4 +263,27 @@ var bannerCentering = function(){
     $('#banner_img').css({marginLeft:(($('#banner_img').width()-$('#banner').width())/2)*-1});
 
 };
+
+
+function postToFeed(url,image,name,description) {
+
+    // calling the API ...
+    var obj = {
+        method: 'feed',
+        redirect_uri: 'http://www.facebook.com',
+        link:url,//page link here
+        picture: image, //add image link of product here 
+        name: name, //styleboard title
+        caption: 'iDecorate Weddings',
+        description: description //description
+    };
+
+    function callback(response) {
+        document.getElementById('msg').innerHTML = "Post ID: " + response['post_id'];
+    }
+
+    FB.ui(obj, callback);
+
+    return false;
+}
 

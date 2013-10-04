@@ -6,8 +6,8 @@
 			<div class="sideBarMenu">
 				<ul class="horizontalMenu">
 					<li><a id="product" class="tabActive" href="#products">products</a></li>
-					<li><a id="embellishment" href="#embellishment">embellishments</a></li>
-					<li><a id="template" href="#template">templates</a></li>
+					<li><a id="embellishment" href="#embellishments">embellishments</a></li>
+					<li><a id="template" href="#templates">templates</a></li>
 					<li><a id="wishlist" href="#wishlist">wishlist</a></li>
 				</ul>
 			</div>
@@ -77,13 +77,23 @@
 				<a href="#" class="clearSearch hidden">clear search</a>
 			</div>
 			<div class="sideBarItems">
-				<div id="products" class="tabs productTab clearfix">
+				<div id="products" class="tabs productTab clearfix pannelActive">
 					<div class="pannel category">
 						<h3 class="resultHeading">Search Result</h3>
 					</div>
 					<div class="pannel product">
-						{% include 'styleboard/product_items.html' %}
 					</div>
+				</div>
+				<div id="embellishments" class="tabs embellishmentTab clearfix">
+					<div class="pannel embellishmentCategory">
+						<h3 class="resultHeading">Search Result</h3>
+					</div>
+					<div class="pannel embellishment">
+					</div>
+				</div>
+				<div id="templates" class="tabs templateTab clearfix">
+				</div>
+				<div id="wishlist" class="tabs wishlistTab clearfix">
 				</div>
 			</div>
 		</td>

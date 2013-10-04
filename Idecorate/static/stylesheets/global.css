@@ -662,6 +662,65 @@ ul.simpleDropdown li {
 #simplemodal-container a.modalCloseImg:hover {
   color: #666666; }
 
+.socialMediaShare {
+  font-size: 0; }
+  .socialMediaShare span {
+    display: inline-block;
+    vertical-align: middle;
+    font-family: "PT Serif", serif;
+    font-size: 14px;
+    text-transform: uppercase; }
+  .socialMediaShare a.share {
+    display: inline-block !important;
+    vertical-align: middle;
+    margin-left: 1px;
+    height: 31px; }
+    .socialMediaShare a.share img {
+      background-image: url("/static/images/share_icons.png");
+      background-repeat: no-repeat;
+      min-width: 31px;
+      height: 31px; }
+  .socialMediaShare a.share.facebook img {
+    width: 90px !important;
+    background-position: 0 0; }
+  .socialMediaShare a.share.twitter img {
+    width: 90px !important;
+    background-position: -90px 0; }
+  .socialMediaShare a.share.tumblr img {
+    width: 35px !important;
+    background-position: -180px 0; }
+  .socialMediaShare a.share.google img {
+    width: 46px !important;
+    background-position: -215px 0; }
+  .socialMediaShare a.share.pinterest img {
+    width: 35px !important;
+    background-position: -366px 0; }
+  .socialMediaShare a.share.print img {
+    width: 35px !important;
+    background-position: -261px 0; }
+  .socialMediaShare a.share.email img {
+    width: 35px !important;
+    background-position: -296px 0; }
+  .socialMediaShare a.share.pdf img {
+    width: 35px !important;
+    background-position: -331px 0; }
+  .socialMediaShare a.share.facebook:hover img {
+    background-position: 0 -31px; }
+  .socialMediaShare a.share.twitter:hover img {
+    background-position: -90px -31px; }
+  .socialMediaShare a.share.tumblr:hover img {
+    background-position: -180px -31px; }
+  .socialMediaShare a.share.google:hover img {
+    background-position: -215px -31px; }
+  .socialMediaShare a.share.pinterest:hover img {
+    background-position: -366px -31px; }
+  .socialMediaShare a.share.print:hover img {
+    background-position: -261px -31px; }
+  .socialMediaShare a.share.email:hover img {
+    background-position: -296px -31px; }
+  .socialMediaShare a.share.pdf:hover img {
+    background-position: -331px -31px; }
+
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   .headerColumn.info, .headerColumn.user {
     width: 457px !important; } }

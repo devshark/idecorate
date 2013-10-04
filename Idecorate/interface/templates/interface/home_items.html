@@ -12,6 +12,26 @@
 		</a>
 		<a href="#" class="btn shareProduct">share</a>
 		<a href="javascript: void(0)" class="btn wishListProduct" onclick="addToWishList('{{ product|get_css_obj_classname }}', {{ product.id }})"><span><h3>add to</h3><h4>wishlist</h4></span></a>
+		<div class="socialMediaShare">
+			<a  class="share facebook" href="#" onclick="return postToFeed('http://{{ request|get_host }}/styleboard/view/{{ product.id }}/','http://{{ request|get_host }}/styleboard/generate_styleboard_view/{{ product.id }}/450/405/','{{ product.styleboard_item.name }}','{{ product.styleboard_item.description|escapejs }}');">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share twitter popupWindow" href="https://twitter.com/home?status=Check this out {{ product.styleboard_item.name|urlencode }}+http%3A%2F%2F{{ request|get_host|urlencode:'' }}%2Fstyleboard%2Fview%2F{{ product.id }}">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share tumblr" href="http://www.tumblr.com/share/link?url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ product.id }}&name={{ product.styleboard_item.name|urlencode }}&description={{ product.styleboard_item.description|urlencode }}">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share google popupWindow" href="https://plus.google.com/share?url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ product.id }}">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share pinterest popupWindow" href="http://pinterest.com/pin/create/bookmarklet/?media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ product.id }}/450/285/&description={{ product.styleboard_item.description|linebreak }}&url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ product.styleboard_item.id }}&is_video=false">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+			<a  class="share email" href="mailto:?subject=iDecorate%20Weddings{{ product.styleboard_item.name }}&body=Check%20this%20styleboard%20from%20iDecorateweddings.com%20http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ product.styleboard_item.id }}">
+				<img border="0" src="{% static 'images/img_trans.gif' %}" />
+			</a>
+		</div>
 	</div>
 </div>
 {% endif %}

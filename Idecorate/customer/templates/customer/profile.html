@@ -58,7 +58,7 @@
 						<a  class="share pinterest popupWindow" href="http://pinterest.com/pin/create/bookmarklet/?media=http%3A%2F%2F{{ request|get_host }}/styleboard/generate_styleboard_view/{{ item.styleboard_item.id }}/450/285/&description={{ item.styleboard_item.description|linebreak }}&url=http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}&is_video=false">
 							<img border="0" src="{% static 'images/img_trans.gif' %}" />
 						</a>
-						<a  class="share email" href="mailto:?subject=iDecorate%20Weddings{{ styleboard.styleboard_item.name }}&body=Check%20this%20styleboard%20from%20iDecorateweddings.com%20http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}">
+						<a  class="share email" href="mailto:?subject=iDecorate%20Weddings{{ item.styleboard_item.name }}&body=Check%20this%20styleboard%20from%20iDecorateweddings.com%20http:%2F%2F{{ request|get_host }}%2Fstyleboard%2Fview%2F{{ item.styleboard_item.id }}">
 							<img border="0" src="{% static 'images/img_trans.gif' %}" />
 						</a>
 						<a  class="share print" href="/print_customer_sb/0/{{ item.styleboard_item.id }}/" target="_blank" id="print">

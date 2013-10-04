@@ -270,7 +270,9 @@ body{
 				position: relative;
 				left: 0;
 				top: 0;
-				border: 1px solid $border_01;
+				border-bottom: 1px solid $border_01;
+				border-right: 1px solid $border_01;
+				border-left: 1px solid $border_01;
 				height: 25px;
 				padding: 4px;
 				.searchWrap{
@@ -319,6 +321,7 @@ body{
 			.tabs{
 				font-size: 0;
 				height: 100%;
+				display: none;
 				.pannel{
 					height: 100%;
 					font-size: 12px;
@@ -327,7 +330,7 @@ body{
 					*display: inline;
 					zoom:1;
 				}
-				.pannel.category{
+				.pannel.category, .pannel.embellishmentCategory{
 					width: 159px;
 					border-right: 1px solid $border_01;
 					background-color: #FFFFFF;
@@ -496,6 +499,9 @@ body{
 						display: block;
 					}	
 				}
+			}
+			.tabs.pannelActive{
+				display: block;
 			}
 		}
 		.cell.canvasWrap{

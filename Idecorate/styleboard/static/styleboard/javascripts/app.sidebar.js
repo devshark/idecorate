@@ -7,11 +7,16 @@ var total_product_page = 0;
 var product_page = 0;
 var category_id = 0;
 var categories = {};
-var products = {}
+var products = {};
 var	page_products = [];
 var product_keyword = null;
 var keyword_textbox = $('#keyword_textbox');
 var keyword_search_btn = $('#keyword_search_btn');
+var embellishment_categories_id = 0;
+var embellishment_categories = {};
+var embellishments = {};
+var wishlist = {};
+var templates = {};
 
 /*================================================
    - start
@@ -312,6 +317,143 @@ var generateProducts = function(){
    - end
 =================================================*/
 
+
+
+/*================================================
+   - start
+   - Embellishment Category Objects and functions
+=================================================*/
+var EmbellishmentCategory = function(data){
+
+	Object.defineProperties(this,{
+		ele:{
+			value : $('<a href="#"/>'),
+			writable : true,
+			enumerable : true
+		},
+		__id : {
+			value : data.id
+		},
+		__thumb : {
+			value : data.thumbnail
+		},
+		__name : {
+			value : data.name
+		},
+		__parent : {
+			value : data.parent
+		},
+		__class : {
+			value : 'embellishmentsCategories'
+		}
+	});
+
+};
+Object.defineProperties(EmbellishmentCategory.prototype, {
+	click :{
+		value : function(callback){
+
+			var self = this;
+
+			self.ele.click(function(event){
+
+				if($.isFunction(callback)){
+
+					callback.apply(null,[self, event])
+
+				}
+			});
+
+		},
+		enumerable : true
+	},
+	__loadItem : {
+		value : function(uuid){
+
+			return this.ele.addClass(this.__class).text(this.__name).attr('object-id',uuid);
+
+		}
+	}
+});
+var clearEmbellishmentCategories = function(){
+
+	categoryContainer.children('.categoryList').remove();
+	categories = {};
+
+};
+var displayEmbellishmentCategories = function(){
+
+	var categoryList = $('<ul class="categoryList" />');
+
+	for(var key in categories){
+
+		if(categories.hasOwnProperty(key)){
+
+			var item = $('<li/>');
+
+			categories[key].click(function(object,event){
+
+				$('#load_all').remove();
+				object.ele.parent().addClass('active').siblings().removeClass('active');
+				categoryList.prepend('<li id="load_all"><a href="#">all</a></li>');
+				event.preventDefault();
+				category_id = object.__id;
+				product_page = 0;
+				generateProducts();
+
+			});
+
+			item.html(categories[key].__loadItem(key));
+			categoryList.append(item);
+
+		}
+	}
+
+	$('#load_all').live('click', 'a', function(event){
+
+		event.preventDefault();
+		product_page = 0;
+		category_id = 0;
+		generateProducts();
+		$(this).siblings().removeClass('active');
+		$(this).remove();
+
+	});
+
+	categoryContainer.append(categoryList);
+
+};
+var generateEmbellishmentCategories = function(){
+
+	clearCategories();
+
+	serverRequest({}, REQUEST_CATEGORIES, function(response){
+
+		var data = $.parseJSON(response.categories);
+    	
+    	$.each(data,function(index, value){
+
+    		categoryData = {
+    			id : value.pk,
+    			thumbnail : value.fields.thumbnail,
+    			name : value.fields.name,
+    			parent : value.fields.parent
+    		}
+ 
+			var uuid = Math.uuid(12, 62);
+    		categories[uuid] = new ProductCategory(categoryData);
+
+		});
+
+		displayCategories();
+	});
+
+};
+/*================================================
+   - Embellishment Category Objects and functions
+   - end
+=================================================*/
+
 var serverRequest = function(data, url, success, fail){
 
 	var request;
@@ -349,6 +491,46 @@ var serverRequest = function(data, url, success, fail){
     return request;
 };
 
+var pannels = {
+	'#products' : {
+		element : $('#products'),
+		is_empty: function(){
+			return ($.isEmptyObject(categories) && $.isEmptyObject(products)) ? true : false;
+		},
+		action : function(){
+		    generateCategories();
+		    generateProducts();
+		}
+	},
+	'#embellishments' : {
+		element : $('#embellishments'),
+		is_empty: function(){
+			return ($.isEmptyObject(embellishment_categories) && $.isEmptyObject(embellishments)) ? true : false;
+		},
+		action : function(){
+		    // generateEmbellishmentCategories();
+		}
+	},
+	'#templates' : {
+		element : $('#templates'),
+		is_empty: function(){
+			return $.isEmptyObject(templates);
+		},
+		action : function(){
+			console.log('load templates functions here');
+		}
+	},
+	'#wishlist' : {
+		element : $('#wishlist'),
+		is_empty: function(){
+			return $.isEmptyObject(wishlist);
+		},
+		action : function(){
+			console.log('load wishlist functions here');
+		}
+	}
+};
+
 $(function(){
 
     productContainer.mCustomScrollbar({
@@ -369,8 +551,11 @@ $(function(){
             }
         }
     });
-    generateCategories();
-    generateProducts();
+    
+    var product_pannel = pannels['#products'];
+	if(product_pannel.is_empty()){
+		product_pannel.action();
+	}
 
     keyword_textbox.keypress(function(e) {
     	code = e.which;
@@ -396,5 +581,26 @@ $(function(){
 		keyword_textbox.val('');
 		generateProducts();
 		$('.clearSearch').addClass('hidden');
-    })
+    });
+
+    $('.sideBarMenu a').click(function(e){
+
+    	e.preventDefault();
+    	var link = $(this);
+    	var pannel = pannels[link.attr('href')];
+    	if(pannel.is_empty()){
+    		pannel.action();
+    	}
+
+    	link.addClass('tabActive')
+    		.parent()
+    		.siblings()
+    		.children('a')
+    		.removeClass('tabActive');
+    	pannel.element.show()
+			.addClass('pannelActive')
+    		.siblings('.tabs').hide()
+    		.removeClass('pannelActive');
+
+    });
 });

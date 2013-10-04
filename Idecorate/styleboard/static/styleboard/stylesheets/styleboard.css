@@ -249,7 +249,9 @@ body {
       position: relative;
       left: 0;
       top: 0;
-      border: 1px solid #dbd7c9;
+      border-bottom: 1px solid #dbd7c9;
+      border-right: 1px solid #dbd7c9;
+      border-left: 1px solid #dbd7c9;
       height: 25px;
       padding: 4px; }
       #styleboard tbody .cell.sidebarWrap .sideBarSearch .searchWrap {
@@ -288,7 +290,8 @@ body {
       background-color: #f2efe8; }
     #styleboard tbody .cell.sidebarWrap .tabs {
       font-size: 0;
-      height: 100%; }
+      height: 100%;
+      display: none; }
       #styleboard tbody .cell.sidebarWrap .tabs .pannel {
         height: 100%;
         font-size: 12px;
@@ -296,11 +299,11 @@ body {
         display: inline-block;
         *display: inline;
         zoom: 1; }
-      #styleboard tbody .cell.sidebarWrap .tabs .pannel.category {
+      #styleboard tbody .cell.sidebarWrap .tabs .pannel.category, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory {
         width: 159px;
         border-right: 1px solid #dbd7c9;
         background-color: #FFFFFF; }
-        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading {
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .resultHeading {
           background-image: url("/static/styleboard/images/resultsBg.png");
           background-repeat: repeat-x;
           background-position: 0 -28px;
@@ -311,7 +314,7 @@ body {
           color: #666666;
           position: relative;
           margin: 5px 0 0 15px; }
-        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading:before {
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading:before, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .resultHeading:before {
           background-image: url("/static/styleboard/images/resultsBg.png");
           background-repeat: no-repeat;
           background-position: 0 0;
@@ -321,7 +324,7 @@ body {
           width: 10px;
           height: 28px;
           left: -10px; }
-        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading:after {
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .resultHeading:after, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .resultHeading:after {
           background-image: url("/static/styleboard/images/resultsBg.png");
           background-repeat: no-repeat;
           background-position: 0 -56px;
@@ -333,16 +336,16 @@ body {
           right: -13px;
           top: 0;
           z-index: 1; }
-        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList {
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList {
           margin: 5px 10px;
           text-transform: uppercase; }
-          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li {
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li {
             padding: 7px 0; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li a {
               color: #666666; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a:hover {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a:hover, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li a:hover {
               color: #333333; }
-          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li.active a {
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li.active a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li.active a {
             color: #333333;
             font-style: italic; }
       #styleboard tbody .cell.sidebarWrap .tabs .pannel.product {
@@ -442,6 +445,8 @@ body {
           margin-bottom: 2px; }
         #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem:hover .itemOperation {
           display: block; }
+    #styleboard tbody .cell.sidebarWrap .tabs.pannelActive {
+      display: block; }
   #styleboard tbody .cell.canvasWrap {
     background: url("/static/styleboard/images/mainBg.jpg") repeat; }
     #styleboard tbody .cell.canvasWrap #canvas {

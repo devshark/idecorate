@@ -318,6 +318,12 @@
 					margin-top: 5px;
 					line-height: 1em;
 				}
+				.socialMediaShare a{
+					margin-bottom: 1px !important;
+				}
+				.socialMediaShare:after{
+					left: 40px;
+				}	
 			}
 
 			.itemWrap:after{
@@ -344,8 +350,8 @@
 					.btn{
 						padding: 0 !important;
 						margin: 0 !important;
-						height: 45px;
-						line-height: 45px;
+						height: 40px;
+						line-height: 40px;
 					}
 					.sendToStyleboard{
 						width: 47%;
@@ -358,9 +364,34 @@
 						font-size: 14px;
 					}
 					.wishListProduct{
+						line-height: 35px;
 						width: 26%;
 					}
+					.socialMediaShare{
+						left: 50px;
+					}
+					.socialMediaShare:after{
+						left: 240px;
+					}	
 				}
+			}
+			.socialMediaShare{
+				display: none;
+				background-color: #FFFFFF;
+				padding: 5px;
+				border:1px solid $border_01;
+				position: absolute;
+				bottom: 45px;
+			}
+			.socialMediaShare:after{
+				display: block;
+				position: absolute;
+				content: "";
+				background-image: url('/static/images/modal_arrow_down.png');
+				background-repeat: no-repeat;
+				width: 22px;
+				height: 12px;
+				top:100%;
 			}			
 		}
 
@@ -423,6 +454,7 @@
 	}
 	.wishListProduct{
 		width: 52%;
+		line-height: 35px;
 		span{
 			display: inline-block;
 			vertical-align: middle;
