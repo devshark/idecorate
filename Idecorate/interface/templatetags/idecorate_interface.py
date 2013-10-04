@@ -588,3 +588,12 @@ def get_item(dictionary, key):
 def get_inspiration_link(id):
     obj = HomeBannerImages.objects.get(home_banner__id=int(id))
     return obj.link
+
+
+@register.filter
+def get_product_default_image(obj):
+    alternate = obj.productalternateimage_set.filter(is_default_image=True)
+    ret = obj.original_image
+    if alternate.count():
+        ret = alternate[0].original_image
+    return ret

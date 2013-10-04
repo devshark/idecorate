@@ -17,7 +17,8 @@
 {% endif %}
 {% if product|get_css_obj_classname == 'products' %}
 <div class="itemWrap single {{ product|get_css_obj_classname }}" >
-	<img id="product_img_{{ product.id }}" src="/media/products/{{product.original_image}}"/>
+	<!--<img id="product_img_{{ product.id }}" src="/media/products/{{product.original_image}}"/>-->
+	<img id="product_img_{{ product.id }}" src="/media/products/{{ product|get_product_default_image }}"/>
 	<h2>{{ product.name }}</h2>
 	<p>${{ product|getProductPrice|floatformat:2 }}</p>
 	<div class="operationWrap">
