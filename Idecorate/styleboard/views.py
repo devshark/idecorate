@@ -1,6 +1,7 @@
 # Create your views here.
 from PIL import Image, ImageDraw, ImageFont, ImageOps, ImageEnhance
 import math
+import random
 from django.core import serializers
 from django.utils import simplejson
 from django.http import HttpResponse
@@ -14,6 +15,7 @@ from django.conf import settings
 from common.services import render_to_json
 from category.models import Categories
 from cart.models import Product, ProductPrice, ProductDetails, ProductAlternateImage
+from admin.models import TextFonts, Embellishments, EmbellishmentsType
 
 def create(request, category_id=None, styleboard_id=None): 
 
@@ -44,7 +46,6 @@ def get_products(request):
     if request.method == "POST":
 
         category_id = int(request.POST.get('category_id'))
-
         product_page = int(request.POST.get('product_page', 0))
         product_page_offset = product_page*settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS
         q = ~Q(product__categories__id=category_id)  if category_id == 0 else Q(product__categories__id=category_id)
@@ -81,6 +82,7 @@ def get_product_info(request, product_id=0):
 
     return render(request, 'styleboard/product_info.html', context)
 
+
 def zoom_product_image(request, object_id, size, is_product):
 
     dimension = int(size), int(size)
@@ -111,6 +113,38 @@ def zoom_product_image(request, object_id, size, is_product):
     bgImg.save(response, 'JPEG')
 
     return response
+
+@csrf_exempt
+def get_embellishment_categories(request):
+
+    data = {}
+    embellishment_categories = EmbellishmentsType.objects.all()
+    data['embellishment_categories'] = serializers.serialize("json", embellishment_categories, fields=('id','name','title'))
+
+    return render_to_json(request, data)
+
+
+@csrf_exempt
+def get_embellishments(request):
+
+    data = {}
+    category_id = int(request.POST.get('embellishment_category_id',0))
+    embellishment_page = int(request.POST.get('embellishment_page', 0))
+    embellishment_page_offset = embellishment_page*settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS
+    q = ~Q(e_type=category_id)  if category_id == 0 else Q(e_type=category_id)
+    embellishment = Embellishments.objects.filter(q, is_active=True, is_deleted=False)[embellishment_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+embellishment_page_offset]
+    total_page = Embellishments.objects.filter(q, is_active=True, is_deleted=False).count()
+    textFonts = {}
+    if category_id == 0 or category_id == 6:
+        textFonts = TextFonts.objects.filter(is_deleted=False)[embellishment_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+embellishment_page_offset]
+        total_page += TextFonts.objects.filter(is_deleted=False).count()
+    combined = list(embellishment)+list(textFonts)
+    random.shuffle(combined)
+    data['embellishments'] = serializers.serialize("json", combined, fields=('id','description','e_type','image','image_thumb', 'font'))
+    data['total_page'] = math.ceil(total_page/settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS)
+        
+    return render_to_json(request, data)
+
 
 @csrf_exempt
 def sidebar_items(request):

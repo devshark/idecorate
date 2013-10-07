@@ -336,83 +336,83 @@ body {
           right: -13px;
           top: 0;
           z-index: 1; }
-        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList {
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList, #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .embellishmentCategoryList, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .embellishmentCategoryList {
           margin: 5px 10px;
           text-transform: uppercase; }
-          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li {
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li, #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .embellishmentCategoryList li, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .embellishmentCategoryList li {
             padding: 7px 0; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li a {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .embellishmentCategoryList li a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .embellishmentCategoryList li a {
               color: #666666; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a:hover, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li a:hover {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li a:hover, #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .embellishmentCategoryList li a:hover, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li a:hover, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .embellishmentCategoryList li a:hover {
               color: #333333; }
-          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li.active a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li.active a {
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .categoryList li.active a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.category .embellishmentCategoryList li.active a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .categoryList li.active a, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishmentCategory .embellishmentCategoryList li.active a {
             color: #333333;
             font-style: italic; }
-      #styleboard tbody .cell.sidebarWrap .tabs .pannel.product {
+      #styleboard tbody .cell.sidebarWrap .tabs .pannel.product, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment {
         overflow: auto;
         width: 196px; }
-        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem {
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem {
           background: #FFFFFF;
           margin: 2px auto;
           width: 98%;
           text-align: center;
           border-bottom: 8px solid #dbd7c9;
           position: relative; }
-          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span {
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem span, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem span, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem span {
             vertical-align: middle;
             display: inline-block; }
-          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productImage {
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productImage, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem span.productImage, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem span.productImage, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem span.productImage {
             min-height: 90px;
             width: 45%; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productImage img {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productImage img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem span.productImage img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem span.productImage img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem span.productImage img {
               width: 100%; }
-          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo {
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem span.productInfo, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem span.productInfo, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem span.productInfo {
             width: 50%; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h4 {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem span.productInfo h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem span.productInfo h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem span.productInfo h4 {
               text-transform: uppercase;
               font-size: 11px;
               font-family: "cartoGothicStd_Bold";
               margin-bottom: 7px; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h3 {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h3, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem span.productInfo h3, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem span.productInfo h3, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem span.productInfo h3 {
               font-family: "PT Serif", serif;
               font-style: italic;
               font-weight: 700;
               font-size: 14px;
               margin-bottom: 10px; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h5 {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem span.productInfo h5, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem span.productInfo h5, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem span.productInfo h5, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem span.productInfo h5 {
               font-size: 11px;
               font-family: "PT Serif", serif;
               font-style: italic; }
-          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation {
+          #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation {
             display: none;
             position: absolute;
             right: 4px;
             top: 4px;
             width: 60%;
             text-align: right; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation .btn, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation .btn, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation .btn {
               width: 95%;
               padding: 9px 0 !important; }
-              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn img {
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation .btn img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation .btn img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation .btn img {
                 display: inline-block;
                 width: 20px;
                 height: 20px;
                 vertical-align: middle;
                 background-image: url("/static/styleboard/images/styleboardIcons.png");
                 background-repeat: no-repeat; }
-              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn h4 {
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation .btn h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation .btn h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation .btn h4 {
                 vertical-align: middle;
                 display: inline-block; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation span.btn, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation span.btn, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation span.btn {
               margin-bottom: 4px; }
-              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn img {
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation span.btn img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation span.btn img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation span.btn img {
                 background-position: 0 -8px; }
-              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn h4 {
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation span.btn h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation span.btn h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation span.btn h4 {
                 width: 60%;
                 font-size: 13px; }
-                #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn h4 span {
+                #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn h4 span, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation span.btn h4 span, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation span.btn h4 span, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation span.btn h4 span {
                   font-size: 9px; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn:hover {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation span.btn:hover, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation span.btn:hover, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation span.btn:hover, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation span.btn:hover {
               -webkit-border-radius: 5px;
               -moz-border-radius: 5px;
               border-radius: 5px;
@@ -429,21 +429,21 @@ body {
               border-color: #eeeacd #eeeacd #d5ca80;
               -webkit-font-smoothing: antialiased;
               cursor: move; }
-            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info {
+            #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation .btn.info, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation .btn.info, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation .btn.info {
               padding: 5px 0 !important; }
-              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info img {
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation .btn.info img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation .btn.info img, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation .btn.info img {
                 width: 14px;
                 height: 18px;
                 background-position: -21px -8px; }
-              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info h4 {
+              #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem .itemOperation .btn.info h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem .itemOperation .btn.info h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem .itemOperation .btn.info h4, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem .itemOperation .btn.info h4 {
                 width: 60%; }
-        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem:after {
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem:after, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem:after, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem:after, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem:after {
           display: block;
           content: "";
           background-color: #dbd7c9;
           height: 2px;
           margin-bottom: 2px; }
-        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem:hover .itemOperation {
+        #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .productItem:hover .itemOperation, #styleboard tbody .cell.sidebarWrap .tabs .pannel.product .embellishmentItem:hover .itemOperation, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .productItem:hover .itemOperation, #styleboard tbody .cell.sidebarWrap .tabs .pannel.embellishment .embellishmentItem:hover .itemOperation {
           display: block; }
     #styleboard tbody .cell.sidebarWrap .tabs.pannelActive {
       display: block; }

@@ -1,8 +1,8 @@
 /*================================================
    - global variables
 =================================================*/
-var categoryContainer = $('.pannel.category');
-var productContainer = $('.pannel.product');
+var category_container = $('.pannel.category');
+var product_container = $('.pannel.product');
 var total_product_page = 0;
 var product_page = 0;
 var category_id = 0;
@@ -12,9 +12,14 @@ var	page_products = [];
 var product_keyword = null;
 var keyword_textbox = $('#keyword_textbox');
 var keyword_search_btn = $('#keyword_search_btn');
-var embellishment_categories_id = 0;
+var embellishment_category_container = $('.pannel.embellishmentCategory');
+var embellishment_container = $('.pannel.embellishment');
+var embellishment_category_id = 0;
 var embellishment_categories = {};
 var embellishments = {};
+var	page_embellishments = [];
+var total_embellishment_page = 0;
+var embellishment_page = 0;
 var wishlist = {};
 var templates = {};
 
@@ -76,7 +81,7 @@ Object.defineProperties(ProductCategory.prototype, {
 });
 var clearCategories = function(){
 
-	categoryContainer.children('.categoryList').remove();
+	category_container.children('.categoryList').remove();
 	categories = {};
 
 };
@@ -119,7 +124,7 @@ var displayCategories = function(){
 
 	});
 
-	categoryContainer.append(categoryList);
+	category_container.append(categoryList);
 
 };
 var generateCategories = function(){
@@ -233,7 +238,7 @@ Object.defineProperties(Product.prototype, {
 });
 var clearProducts = function(){
 
-	productContainer.find('.mCSB_container').children('.productItem').remove();
+	product_container.find('.mCSB_container').children('.productItem').remove();
 	products = {};
 
 };
@@ -245,7 +250,7 @@ var displayProducts = function(){
 
 			var product = products[value].__loadItem(value);
 			var product_info = products[value].info_btn;
-			productContainer.find('.mCSB_container').append(product);
+			product_container.find('.mCSB_container').append(product);
 
 			product.draggable({
 	            revert:true,
@@ -272,11 +277,11 @@ var displayProducts = function(){
 
 	});
 
-    productContainer.mCustomScrollbar("update");
+    product_container.mCustomScrollbar("update");
 
 	if(product_page == 0) {
 		
-    	productContainer.mCustomScrollbar("scrollTo", "top");
+    	product_container.mCustomScrollbar("scrollTo", "top");
 
 	}
 };
@@ -334,14 +339,11 @@ var EmbellishmentCategory = function(data){
 		__id : {
 			value : data.id
 		},
-		__thumb : {
-			value : data.thumbnail
+		__title : {
+			value : data.title
 		},
-		__name : {
-			value : data.name
-		},
-		__parent : {
-			value : data.parent
+		__description : {
+			value : data.description
 		},
 		__class : {
 			value : 'embellishmentsCategories'
@@ -370,82 +372,82 @@ Object.defineProperties(EmbellishmentCategory.prototype, {
 	__loadItem : {
 		value : function(uuid){
 
-			return this.ele.addClass(this.__class).text(this.__name).attr('object-id',uuid);
+			return this.ele.addClass(this.__class).text(this.__title).attr('object-id',uuid);
 
 		}
 	}
 });
 var clearEmbellishmentCategories = function(){
 
-	categoryContainer.children('.categoryList').remove();
-	categories = {};
+	embellishment_category_container.children('.embellishmentCategoryList').remove();
+	embellishment_categories = {};
 
 };
 var displayEmbellishmentCategories = function(){
 
-	var categoryList = $('<ul class="categoryList" />');
+	var categoryList = $('<ul class="embellishmentCategoryList" />');
 
-	for(var key in categories){
+	for(var key in embellishment_categories){
 
-		if(categories.hasOwnProperty(key)){
+		if(embellishment_categories.hasOwnProperty(key)){
 
 			var item = $('<li/>');
 
-			categories[key].click(function(object,event){
+			embellishment_categories[key].click(function(object,event){
 
-				$('#load_all').remove();
+				$('#load_all_embellishments').remove();
 				object.ele.parent().addClass('active').siblings().removeClass('active');
-				categoryList.prepend('<li id="load_all"><a href="#">all</a></li>');
+				categoryList.prepend('<li id="load_all_embellishments"><a href="#">all</a></li>');
 				event.preventDefault();
-				category_id = object.__id;
-				product_page = 0;
-				generateProducts();
+				embellishment_category_id = object.__id;
+				embellishment_page = 0;
+				generateEmbellishments();
 
 			});
 
-			item.html(categories[key].__loadItem(key));
+			item.html(embellishment_categories[key].__loadItem(key));
 			categoryList.append(item);
 
 		}
 	}
 
-	$('#load_all').live('click', 'a', function(event){
+	$('#load_all_embellishments').live('click', 'a', function(event){
 
 		event.preventDefault();
-		product_page = 0;
-		category_id = 0;
-		generateProducts();
+		embellishment_category_id = 0;
+		embellishment_page = 0;
+		generateEmbellishments();
 		$(this).siblings().removeClass('active');
 		$(this).remove();
 
 	});
-
-	categoryContainer.append(categoryList);
+	embellishment_category_container.append(categoryList);
 
 };
 var generateEmbellishmentCategories = function(){
 
-	clearCategories();
+	clearEmbellishmentCategories();
 
-	serverRequest({}, REQUEST_CATEGORIES, function(response){
+	serverRequest({}, REQUEST_EMBELLISHMENT_CATEGORIES, function(response){
 
-		var data = $.parseJSON(response.categories);
+		var data = $.parseJSON(response.embellishment_categories);
     	
     	$.each(data,function(index, value){
 
     		categoryData = {
     			id : value.pk,
-    			thumbnail : value.fields.thumbnail,
-    			name : value.fields.name,
-    			parent : value.fields.parent
+    			title : value.fields.name,
+    			description : value.fields.name
     		}
  
 			var uuid = Math.uuid(12, 62);
-    		categories[uuid] = new ProductCategory(categoryData);
+    		embellishment_categories[uuid] = new EmbellishmentCategory(categoryData);
 
 		});
+		var uuid = Math.uuid(12, 62);
+    		embellishment_categories[uuid] = new EmbellishmentCategory({id:6, title: "Text", description : "Text embellishment"});
 
-		displayCategories();
+		displayEmbellishmentCategories();
 	});
 
 };
@@ -453,6 +455,158 @@ var generateEmbellishmentCategories = function(){
    - Embellishment Category Objects and functions
    - end
 =================================================*/
+
+/*================================================
+   - start
+   - Embellishment Objects and functions
+=================================================*/
+var Embellishment = function(data){
+
+	var get_embellishment_type  = function(value){
+		for(var key in embellishment_categories){
+			var category = embellishment_categories[key];
+			if(category.__id == value){
+				return key
+			}
+		}
+	};
+
+	Object.defineProperties(this,{
+		ele:{
+			value : $('<div/>'),
+			writable : true,
+			enumerable : true
+		},
+		__id : {
+			value : data.id
+		},
+		__description : {
+			value : data.description
+		},
+		__image : {
+			value : data.image
+		},
+		__thumb : {
+			value : data.thumb
+		},
+		__font : {
+			value : data.font
+		},
+		__type:{
+			value : get_embellishment_type(data.type)
+		},
+		__class : {
+			value : 'embellishmentItem'
+		}
+	});
+
+};
+Object.defineProperties(Embellishment.prototype, {
+	__loadItem : {
+		value : function(uuid){
+
+			var elementItem = this.ele;
+			var embellishmentImage = $('<span class="embellishmentImage" />');
+			var image = $('<img alt="'+this.__type+'" />');
+			var itemOperation = $('<div class="itemOperation"/>');
+			var embellishment_category = embellishment_categories[this.__type]
+			if(embellishment_category.__id == 6){
+				image.attr('src', '/generate_text/?font_size=100&amp;font_text=Abc&amp;font_color=000000000&amp;font_id='+ this.__id +'&amp;font_thumbnail=1');
+			}else{
+				image.attr('src', '/generate_embellishment/?embellishment_id='+ this.__id +'&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100');
+			}
+			embellishmentImage.append(image);
+
+			itemOperation.append('<span class="btn"><img src="/static/images/img_trans.gif"><h4>Drag To<span>Styleboard</span></h4></span>');
+			
+			elementItem.addClass(this.__class + " " + embellishment_category.__title.toLowerCase()).attr('object-id',uuid);
+			elementItem.append([embellishmentImage, itemOperation]);
+
+			return elementItem
+		}
+	}
+});
+var clearEmbellishments = function(){
+
+	embellishment_container.find('.mCSB_container').children('.embellishmentItem').remove();
+	embellishments = {};
+
+};
+var displayEmbellishments = function(){
+
+	$.each(page_embellishments, function(index, value){
+
+		if(embellishments.hasOwnProperty(value)){
+
+			var embellishment = embellishments[value].__loadItem(value);
+			embellishment_container.find('.mCSB_container').append(embellishment);
+
+			embellishment.draggable({
+	            revert:true,
+    			appendTo: "body",
+    			cursor : "move",
+    			containment: "body", 
+	            helper: function(){
+
+	            	var cloned = $(this).clone();
+	            	cloned.find('.itemOperation').remove();
+	            	return cloned;
+
+	            }
+	        });
+		}
+
+	});
+
+	embellishment_container.find('img').load(function(){
+    	embellishment_container.mCustomScrollbar("update");
+	});
+
+	if(embellishment_page == 0) {
+    	embellishment_container.mCustomScrollbar("scrollTo", "top");
+	}
+};
+var generateEmbellishments = function(){
+
+	if(embellishment_page == 0) {
+		clearEmbellishments();
+	}
+
+	page_embellishments = []
+
+	var postData = {embellishment_category_id: embellishment_category_id, embellishment_page: embellishment_page};
+	serverRequest(postData, REQUEST_EMBELLISHMENT, function(response){
+
+		total_embellishment_page = response.total_page;
+		console.log(total_embellishment_page)
+		var data = $.parseJSON(response.embellishments);
+    	
+    	$.each(data,function(index, value){
+
+    		embellishmentData = {
+    			id : value.pk,
+    			description : value.fields.description,
+    			image : value.fields.image,
+    			thumb : value.fields.image_thumb,
+    			font : value.fields.font,
+    			type : (value.fields.e_type === undefined) ? 6 : value.fields.e_type
+    		}
+			var uuid = Math.uuid(12, 62);
+    		embellishments[uuid] = new Embellishment(embellishmentData);
+    		page_embellishments.push(uuid); 
+
+		});
+
+		displayEmbellishments();
+	});
+};
+
+/*================================================
+   - Embellishment Objects and functions
+   - end
+=================================================*/
+
+
 
 var serverRequest = function(data, url, success, fail){
 
@@ -498,6 +652,24 @@ var pannels = {
 			return ($.isEmptyObject(categories) && $.isEmptyObject(products)) ? true : false;
 		},
 		action : function(){
+			product_container.mCustomScrollbar({
+		        scrollInertia:200,
+		        scrollButtons:{
+		            enable:false
+		        },
+		        theme: 'dark-thick',
+		        callbacks:{
+		            onTotalScrollOffset : 50,
+		            onTotalScroll:function(){
+
+		            	if(product_page <= total_product_page ){
+			                ++product_page;
+			                generateProducts();
+		            	}
+		            	
+		            }
+		        }
+		    });
 		    generateCategories();
 		    generateProducts();
 		}
@@ -508,7 +680,26 @@ var pannels = {
 			return ($.isEmptyObject(embellishment_categories) && $.isEmptyObject(embellishments)) ? true : false;
 		},
 		action : function(){
-		    // generateEmbellishmentCategories();
+			embellishment_container.mCustomScrollbar({
+		        scrollInertia:200,
+		        scrollButtons:{
+		            enable:false
+		        },
+		        theme: 'dark-thick',
+		        callbacks:{
+		            onTotalScrollOffset : 50,
+		            onTotalScroll:function(){
+
+		            	if(embellishment_page <= total_embellishment_page ){
+			                ++embellishment_page;
+			                generateEmbellishments();
+		            	}
+		            	
+		            }
+		        }
+		    });
+		    generateEmbellishmentCategories();
+			generateEmbellishments();
 		}
 	},
 	'#templates' : {
@@ -533,25 +724,6 @@ var pannels = {
 
 $(function(){
 
-    productContainer.mCustomScrollbar({
-        scrollInertia:200,
-        scrollButtons:{
-            enable:false
-        },
-        theme: 'dark-thick',
-        callbacks:{
-            onTotalScrollOffset : 50,
-            onTotalScroll:function(){
-
-            	if(product_page <= total_product_page ){
-	                ++product_page;
-	                generateProducts();
-            	}
-            	
-            }
-        }
-    });
-    
     var product_pannel = pannels['#products'];
 	if(product_pannel.is_empty()){
 		product_pannel.action();

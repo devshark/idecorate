@@ -372,7 +372,7 @@ body{
 						z-index: 1;
 
 					}
-					.categoryList{
+					.categoryList,.embellishmentCategoryList{
 						margin: 5px 10px;
 						text-transform: uppercase;
 						li{
@@ -392,10 +392,10 @@ body{
 						}
 					}
 				}
-				.pannel.product{
+				.pannel.product, .pannel.embellishment{
 					overflow: auto;
 					width: 196px;
-					.productItem{
+					.productItem, .embellishmentItem{
 						background: #FFFFFF;
 						margin: 2px auto;
 						width: 98%;
@@ -488,14 +488,14 @@ body{
 							}
 						}
 					}
-					.productItem:after{
+					.productItem:after, .embellishmentItem:after{
 						display: block;
 						content: "";
 						background-color: $border_01;
 						height: 2px;
 						margin-bottom: 2px;
 					}
-					.productItem:hover .itemOperation{
+					.productItem:hover .itemOperation, .embellishmentItem:hover .itemOperation{
 						display: block;
 					}	
 				}
