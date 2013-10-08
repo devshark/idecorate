@@ -471,6 +471,9 @@ body {
 .mCSB_scrollTools {
   width: 10px !important; }
 
+.templateItem.ui-draggable-dragging {
+  width: 150px !important; }
+
 .ui-draggable-dragging {
   margin: 0 !important;
   width: 120px !important;
@@ -483,12 +486,13 @@ body {
   -khtml-opacity: 0.7;
   filter: alpha(opacity=70);
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)"; }
-  .ui-draggable-dragging .productImage {
+  .ui-draggable-dragging .productImage, .ui-draggable-dragging .embellishmentImage, .ui-draggable-dragging .templateImage {
     display: block;
-    width: 100% !important;
-    margin-bottom: 10px; }
-    .ui-draggable-dragging .productImage img {
+    width: 100% !important; }
+    .ui-draggable-dragging .productImage img, .ui-draggable-dragging .embellishmentImage img, .ui-draggable-dragging .templateImage img {
       width: 100% !important; }
+  .ui-draggable-dragging .productImage {
+    margin-bottom: 10px; }
   .ui-draggable-dragging h3 {
     text-transform: uppercase;
     text-align: center;

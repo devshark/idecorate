@@ -466,9 +466,9 @@ var embellishmentCatalogue = (function(embellishmentCatalogue){
                 var image = $('<img alt="'+this.__type+'" />');
                 var itemOperation = $('<div class="itemOperation"/>');
                 if(this.__type.__id == 6){
-                    image.attr('src', '/generate_text/?font_size=120&amp;font_text=Abc&amp;font_color=000000000&amp;font_id='+ this.__id +'&amp;font_thumbnail=1');
+                    image.attr('src', '/generate_text/?font_size=100&amp;font_text=Abc&amp;font_color=000000000&amp;font_id='+ this.__id +'&amp;font_thumbnail=1');
                 }else{
-                    image.attr('src', '/generate_embellishment/?embellishment_id='+ this.__id +'&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=120');
+                    image.attr('src', '/generate_embellishment/?embellishment_id='+ this.__id +'&amp;embellishment_color=000000000&amp;embellishment_thumbnail=1&amp;embellishment_size=100');
                 }
                 embellishmentImage.append(image);
 
