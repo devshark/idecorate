@@ -13,5 +13,6 @@ urlpatterns = patterns('styleboard.views',
     url(r'^zoom_product_image/(?P<object_id>\d+)/(?P<size>\d+)/(?P<is_product>\d+)/$', 'zoom_product_image', {}, name='zoom_product_image'),
     url(r'^get_embellishment_categories/$', 'get_embellishment_categories', {}, name='get_embellishment_categories'),
     url(r'^get_embellishments/$', 'get_embellishments', {}, name='get_embellishments'),
+    url(r'^get_templates/$', 'get_templates', {}, name='get_templates'),
     url(r'^sidebar_items/$', 'sidebar_items', {}, name='sidebar_items'),
 )

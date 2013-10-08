@@ -14,6 +14,7 @@ from django.conf import settings
 
 from common.services import render_to_json
 from category.models import Categories
+from embellishments.models import StyleboardTemplateItems
 from cart.models import Product, ProductPrice, ProductDetails, ProductAlternateImage
 from admin.models import TextFonts, Embellishments, EmbellishmentsType
 
@@ -143,6 +144,18 @@ def get_embellishments(request):
     data['embellishments'] = serializers.serialize("json", combined, fields=('id','description','e_type','image','image_thumb', 'font'))
     data['total_page'] = math.ceil(total_page/settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS)
         
+    return render_to_json(request, data)
+
+@csrf_exempt
+def get_templates(request):
+
+    data = {}
+    template_page = int(request.POST.get('template_page', 0))
+    template_page_offset = template_page*settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS
+    templates = StyleboardTemplateItems.objects.filter(deleted=0)[template_page_offset:settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS+template_page_offset]
+    data['templates'] = serializers.serialize("json", templates, fields=('id','description','name'))
+    data['total_page'] = math.ceil(StyleboardTemplateItems.objects.filter(deleted=0).count()/settings.STYLEBOARD_GET_PRODUCTS_NUM_RECORDS)
+    
     return render_to_json(request, data)
 
 
