@@ -1,12 +1,15 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
+from django.conf import settings
 
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase
 from category.models import Categories
 from plata.shop.models import Order
 from plata.fields import CurrencyField
+
+from PIL import Image
 
 class ProductGuestTable(models.Model):
     id = models.AutoField(db_column='id', primary_key=True)
@@ -61,6 +64,18 @@ class Product(ProductBase):
     @models.permalink
     def get_absolute_url(self):
         return ('plata_product_detail', (), {'object_id': self.pk})
+
+    @property
+    def original_image_size(self):
+        img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", self.original_image))
+        width, height = img.size
+        return {'width':width, 'height':height}  
+
+    @property
+    def no_background_size(self):
+        img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", self.no_background))
+        width, height = img.size
+        return {'width':width, 'height':height} 
 
 class ProductPrice(PriceBase):
     product = models.ForeignKey(Product, verbose_name=_('product'),
@@ -226,3 +241,15 @@ class ProductAlternateImage(models.Model):
 
     class Meta:
         db_table = 'product_alternate_images'
+
+    @property
+    def original_image_size(self):
+        img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", self.original_image))
+        width, height = img.size
+        return {'width':width, 'height':height}  
+
+    @property
+    def no_background_size(self):
+        img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", self.no_background))
+        width, height = img.size
+        return {'width':width, 'height':height} 
