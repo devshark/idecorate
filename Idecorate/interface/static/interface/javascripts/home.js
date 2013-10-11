@@ -248,7 +248,9 @@ var addToWishList = function(object_type, object_id) {
         type: 'POST',
         data: {'object_type':object_type, 'object_id':object_id},
         success: function(data) {
-            
+            header = 'Add to Wishlist';
+            message = 'Item added to wishlist';
+            response_message(header, message);
         },
         error: function() {
 

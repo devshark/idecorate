@@ -155,7 +155,9 @@
     			type : 'POST',
     			data : {'prod_id' : prod_id, styleboard_json : json},
     			success : function(data) {
-    				//console.log(data);
+    				header = 'Send to Styleboard';
+    				message = 'Item added to styleboard';
+					response_message(header, message);
     			}
     		});
     	}
@@ -195,7 +197,9 @@
     			type : 'POST',
     			data : {'prod_id' : prod_id, styleboard_json : json, 'alt_id': alt_id},
     			success : function(data) {
-    				//console.log(data);
+    				header = 'Send to Styleboard';
+    				message = 'Item added to styleboard';
+					response_message(header, message);
     			}
     		});
 
@@ -207,7 +211,9 @@
     			type : 'POST',
     			data : {'sbid' : sbid},
     			success : function(data) {
-    				//console.log(data);
+    				header = 'Send to Styleboard';
+    				message = 'Item added to styleboard';
+					response_message(header, message);
     			}
     		});
     	}
