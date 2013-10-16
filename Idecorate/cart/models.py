@@ -56,6 +56,8 @@ class Product(ProductBase):
             'thumb' : self.original_image_thumbnail, 
             'opaque_image' : self.original_image, 
             'transparent_image' : self.no_background, 
+            'opaque_image_size' : self.original_image_size, 
+            'transparent_image_size' : self.no_background_size, 
             'default_quantity' : self.default_quantity, 
             'default_quantity_unit' : self.guest_table.name,
             'categories' : [category.id for category in self.categories.all()]

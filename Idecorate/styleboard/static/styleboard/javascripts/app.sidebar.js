@@ -80,6 +80,12 @@ var productCatalogue = (function(productCatalogue){
             __transparent_image : {
                 value : data.product.transparent_image
             },
+            __opaque_image_size : {
+                value : data.product.opaque_image_size
+            },
+            __transparent_image_size : {
+                value : data.product.transparent_image_size
+            },
             __categories : {
                 value : data.product.categories
             },
@@ -107,11 +113,14 @@ var productCatalogue = (function(productCatalogue){
 
                 var elementItem = this.ele;
                 var productImage = $('<span class="productImage" />');
-                var image = $('<img alt="'+this.__name+'" />');
+                var image = $('<img/>');
                 var productInfo = $('<span class="productInfo"/>'); 
                 var itemOperation = $('<div class="itemOperation"/>');
 
-                image.attr('src', MEDIA_URL + 'products/' + this.__thumb);
+                image.attr({
+                    alt: this.__name,
+                    src : MEDIA_URL + 'products/' + this.__thumb
+                });
                 productImage.append(image);
 
                 productInfo.append('<h4>'+ this.__name +'</h4>');
@@ -121,7 +130,7 @@ var productCatalogue = (function(productCatalogue){
                 itemOperation.append('<span class="btn"><img src="/static/images/img_trans.gif"><h4>Drag To<span>Styleboard</span></h4></span>');
                 itemOperation.append(this.info_btn.attr('href', PRODUCT_PAGE + this.__id + '/'));
 
-                elementItem.addClass(this.__class).attr('object-id',uuid);
+                elementItem.addClass(this.__class).attr({id:"PR_"+this.__id,'object-id':uuid});
                 elementItem.append([productImage, productInfo, itemOperation]);
 
                 return elementItem
@@ -463,7 +472,7 @@ var embellishmentCatalogue = (function(embellishmentCatalogue){
 
                 var elementItem = this.ele;
                 var embellishmentImage = $('<span class="embellishmentImage" />');
-                var image = $('<img alt="'+this.__type+'" />');
+                var image = $('<img alt="'+this.__type.__title.toLowerCase()+'" />');
                 var itemOperation = $('<div class="itemOperation"/>');
                 if(this.__type.__id == 6){
                     image.attr('src', '/generate_text/?font_size=100&amp;font_text=Abc&amp;font_color=000000000&amp;font_id='+ this.__id +'&amp;font_thumbnail=1');

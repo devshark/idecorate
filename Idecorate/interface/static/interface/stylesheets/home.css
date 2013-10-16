@@ -27,7 +27,7 @@
       font-weight: 400;
       text-transform: uppercase;
       color: #333333;
-      font-size: 2.04em;
+      font-size: 2.00em;
       line-height: 1em; }
     #banner #banner_modal .fieldset {
       margin-top: 15px;
@@ -57,7 +57,8 @@
       width: 100%; }
       #banner #banner_modal .operationWrap .toStyleboardBtn {
         font-family: "PT Serif", serif;
-        padding: 7px 40px !important; }
+        padding: 7px 40px !important;
+        height: auto !important; }
         #banner #banner_modal .operationWrap .toStyleboardBtn h2 {
           font-size: 18px;
           line-height: 1.1em; }
@@ -236,12 +237,14 @@
         #main_content .filterBar .searchBoxWrap .searchBox input {
           border: none !important;
           width: 190px;
-          vertical-align: bottom; }
+          vertical-align: middle;
+          font-size: 10px;
+          text-transform: uppercase; }
         #main_content .filterBar .searchBoxWrap .searchBox .searchBtn {
           display: inline-block;
           height: 22px;
           width: 22px;
-          vertical-align: bottom;
+          vertical-align: middle;
           border: none;
           cursor: pointer;
           padding: 0;
@@ -436,8 +439,6 @@
   -o-transition-duration: 0s;
   transition-duration: 0s; }
 
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  .operationWrap .sendToStyleboard {
-    width: 192px; }
-  .operationWrap .wishListProduct {
-    width: 91px !important; } }
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .operationWrap .wishListProduct span h3 {
+    padding-top: 5px; } }

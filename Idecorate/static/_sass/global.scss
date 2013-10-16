@@ -88,12 +88,17 @@ html{
 					right: 0;
 					color: #EEEEEE;
 					text-transform:uppercase;
-					font-size: $font_size;
-					font-family:$cartoGothicStd_Bold;
+					font-size: 0;
+					span{
+						font-size: $font_size;
+						display: inline-block;
+						vertical-align: middle;	
+						font-family: $cartoGothicStd_Bold;
+					}
 					.arrowRight{
+						margin-left:3px;
 						width: 10px;
 						height: 10px;
-						margin-bottom: 1px;
 						display: inline-block;
 						vertical-align: middle;
 						background-image: url("/static/images/arrows_sprite.png");
@@ -420,6 +425,7 @@ ul.simpleDropdown li{
 	position: absolute;
 	top:-2px;
 	left: 110%; 
+	height: auto !important;
 	padding: 7px;
 	background-color: #FFFFFF;
 	@include rounded_corners(5px);
@@ -880,4 +886,5 @@ ul.simpleDropdown li{
 
 @media screen and (-webkit-min-device-pixel-ratio:0) {
 	.headerColumn.info, .headerColumn.user{ width: 457px !important; }
+	#news_letter span{padding-top:3px;}.iDitemCouter{padding: 9px 7px 6px;}
 }

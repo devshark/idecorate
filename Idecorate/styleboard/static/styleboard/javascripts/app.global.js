@@ -13,7 +13,6 @@ var StyleboardIntro = function(){
 }
 
 $(function(){
-
     /*================================================
         - set heights on page loads
         - set heights on window resize

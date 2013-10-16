@@ -168,19 +168,19 @@ body{
 				}
 			}
 			.sideBarMenu{
-				white-space: nowrap;
 				font-size: 0;
+				white-space: nowrap;
 				li{
 					font-size: 11px;
 					padding: 0;
 					text-align: center;
 					a{
+						width: 87px;
 						color: #FFFFFF;
 						display: block;
 						background-color: #999594;
 						@include rounded_by_corner(top, left, 5px);
 						@include rounded_by_corner(top, right, 5px);
-						padding: 0 14px;
 						margin-left: 1px;
 						margin-bottom: -1px;
 						border-top: 1px solid #999594;
@@ -197,6 +197,21 @@ body{
 						border-right: 1px solid $border_01;
 						border-bottom: 1px solid $background_color01;
 						color: #333333;
+					}
+					a#product{
+						width: 82px;
+						margin-left: 0;
+					}
+					a#embellishment{
+						width: 116px;
+
+					}
+					a#template{
+						width: 82px;
+
+					}
+					a#wishlist{
+						width: 67px;
 					}
 				}
 			}
@@ -265,7 +280,7 @@ body{
 			vertical-align: top;
 		}
 		.cell.sidebarWrap{
-			width: 360px;
+			width: 360px !important;
 			.sideBarSearch{
 				position: relative;
 				left: 0;
@@ -529,6 +544,34 @@ body{
 		}
 	}
 }
+#canvas{
+	overflow: hidden;
+	.handleWrap{
+		border: 1px solid #999999;
+		position: absolute;
+		z-index: 300;
+		.filler{
+			cursor: move;
+			z-index: -20;
+		}
+	}
+	.handleWrap.hidden.invisible{
+		display: none;
+		visibility: hidden;
+	}
+	.canvasItem{
+		position: absolute;
+		img{
+			width: 100%;
+		}
+	}
+	.selected{
+		z-index: 250 !important;
+		opacity: 0.8;
+		-moz-opacity: 0.8;
+		-khtml-opacity: 0.8;
+	}
+}
 
 // custom scrollbar styles 
 .mCSB_container{
@@ -541,7 +584,8 @@ body{
 .templateItem.ui-draggable-dragging{
 	width: 150px !important;
 }
-.ui-draggable-dragging{
+.embellishmentItem.ui-draggable-dragging,
+.productItem.ui-draggable-dragging{
 	margin: 0 !important;
 	width: 120px !important;
 	outline: none !important; 
@@ -553,6 +597,7 @@ body{
 	-khtml-opacity: 0.7;
 	filter: alpha(opacity=70);
 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=70)";
+	z-index: 999999;
 	// padding: 0.5%;
 	.productImage,.embellishmentImage, .templateImage{
 		display: block;
@@ -570,4 +615,43 @@ body{
 		font-size: 12px;
 		line-height: 14px;
 	}
+}
+
+.ui-resizable-handle{
+    background: #CCCCCC;
+    border: 1px solid #333333;
+    width: 9px;
+    height: 9px;
+    
+    z-index: 2;
+}
+.ui-resizable-se{
+    right: -5px;
+    bottom: -5px;
+}
+
+.ui-rotatable-handle{
+	width: 1px;
+	height: 20px;
+    position:absolute;
+    top:-20px;
+    left:50%;
+    background: #999999;
+    cursor: pointer;
+}
+
+.ui-rotatable-handle:after{
+	content:"";
+	display: block;
+    background: #CCCCCC;
+    border: 1px solid #333333;
+	@include rounded_corners(6px);
+    height:11px;
+    width:11px;
+    position:absolute;
+    top:-5px;
+    left:-6px;
+}
+.ui-rotatable-handle.ui-draggable-dragging{
+    visibility:  hidden;
 }
