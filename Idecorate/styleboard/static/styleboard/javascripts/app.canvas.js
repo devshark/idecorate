@@ -174,7 +174,7 @@ var iDcanvas = (function(iDcanvas){
     var ToolbarItem = function(element){
 
         Object.defineProperty(this, "__ele", {
-            value: (element !== "undefined") ? $(element) : $('<li/>')
+            value: (element !== "undefined") ? $(element) : $('<a/>')
         });
     };
 
@@ -221,6 +221,13 @@ var iDcanvas = (function(iDcanvas){
 
     var createToolbarItems = function(elements){
 
+        var items = {};
+        elements.each(function(index, value){
+            var uuid = Math.uuid(12,62);
+            var item = $(value).attr('object-id', uuid);
+            items[uuid] = new ToolbarItem(item);
+        });
+        return items;
 
     };
 
@@ -242,15 +249,17 @@ var iDcanvas = (function(iDcanvas){
     Object.defineProperties(Toolbar.prototype, {
         add: {
             value: function (options) {
-                var li = $("<li/>");
+                var anchor = $("<a/>");
                 var uuid = Math.uuid(12, 62);
-                li.addClass("toolbarItem");
-                li.attr("object-id", uuid);
+                anchor.addClass("toolbarItem");
+                anchor.attr("object-id", uuid);
+                var itemMenuWrap = $('<li/>');
+                itemMenuWrap.append(anchor);
                 if(options.subClass !== undefined){
-                    li.addClass(options.subClass);
+                    anchor.addClass(options.subClass);
                 }
-                this.__ele.append(li);
-                var item = new ToolbarItem(li);
+                // this.__ele.append(itemMenuWrap);
+                var item = new ToolbarItem(anchor);
                 this.items[uuid] = item;
             },
             enumerable : true
@@ -274,22 +283,9 @@ var iDcanvas = (function(iDcanvas){
 
     var ProductMenu = function(canvas){
 
+        Toolbar.apply(this,[$('.itemTransformMenu')]);
+
         Object.defineProperties(this, {
-            ele : {
-                value : $('.itemTransformMenu'),
-                writable : true,
-                enumerable : true
-            },
-            menus : {
-                value : {},
-                enumerable : true,
-                writable : true
-            },
-            active : {
-                value : false,
-                enumerable : true,
-                writable : true
-            },
             canvas: {
                 value : canvas,
                 writable : true,
@@ -297,11 +293,6 @@ var iDcanvas = (function(iDcanvas){
             }
         });
 
-    };
-
-
-    var generateProductMenu = function(canvas){
-        return new ProductMenu(canvas);
     };
 
 
@@ -333,7 +324,7 @@ var iDcanvas = (function(iDcanvas){
                 enumerable : true
             },
             product_menus : {
-                value : generateProductMenu(this),
+                value : new ProductMenu(this),
                 enumerable : true
             },
             object_count:{
