@@ -281,23 +281,111 @@ var iDcanvas = (function(iDcanvas){
     });
 
 
-    var ProductMenu = function(canvas){
+    var ProductMenu = function(){
 
-        Toolbar.apply(this,[$('.itemTransformMenu')]);
+        Toolbar.apply(this,[$('.productTransformMenu')]);
 
-        Object.defineProperties(this, {
-            canvas: {
-                value : canvas,
-                writable : true,
-                enumerable : true
-            }
+        Object.defineProperty(this, "product", {
+            value: null,
+            enumerable: true,
+            writable: true
         });
 
     };
 
+    ProductMenu.prototype = Object.create(Toolbar.prototype, {
+        init : {
+            value : function(){
+                var self= this;
+                var actions = {
+                    opaque : function(){
+                        self.product.ele.find("img")[0].src  = MEDIA_URL + 'products/' + self.product.__opaque_image;
+                    },
+
+                    transparent : function(){
+                        self.product.ele.find("img")[0].src = MEDIA_URL + 'products/' + self.product.__transparent_image;
+                    },
+
+                    crop : function(){
+                        //work on crop
+                    }
+                };
+                for(var key in self.items){
+                    if(self.items.hasOwnProperty(key)){
+                        self.items[key].__ele.click(function(e){
+                            if(self.product != null){
+                                actions[this.id]();
+                            }
+                            e.preventDefault();
+                        });
+                    }
+                }
+            }
+        },
+        iconChange: {
+            value: function(object){
+
+                var self = this;
+                self.product = object;
+                var images = {
+                    "opaque" : self.product.__opaque_image,
+                    "transparent" : self.product.__transparent_image,
+                    "crop" : self.product.__transparent_image,
+                };
+                for(var key in self.items){
+                    if(self.items.hasOwnProperty(key)){
+                        self.items[key].__ele.find("img")[0].src = MEDIA_URL + 'products/' + images[self.items[key].__ele[0].id];
+                    }
+                }
+                self.enabled = true;
+            },
+            enumerable: true 
+        },
+        iconRemove : {
+            value : function(){
+
+                var self = this;
+                for(var key in self.items){
+                    if(self.items.hasOwnProperty(key)){
+                        self.items[key].__ele.find("img")[0].src = "/static/images/img_trans.gif";
+                    }
+                }
+                self.product = null;
+                self.enabled = false;
+                
+            },
+            enumerable: true 
+        },
+        enabled: {
+            get: function () {
+                return !this.__ele.hasClass("disabled");
+            },
+            set: function (value) {
+                var currentValue = this.enabled;
+                if(currentValue === value){
+                    return;
+                }
+                if(value){
+                    this.__ele.removeClass("disabled");
+                } else {
+                    this.__ele.addClass("disabled");
+                }
+            }
+        }
+
+    });
+
+
+    var generateProductMenu = function(){
+        var menu = new ProductMenu();
+        menu.init();
+        return menu;
+    };
+
+
 
     var generateCanvasItems = function(){
-        items = {}
+        var items = {}
 
         return items;
     };
@@ -324,7 +412,7 @@ var iDcanvas = (function(iDcanvas){
                 enumerable : true
             },
             product_menus : {
-                value : new ProductMenu(this),
+                value : generateProductMenu(),
                 enumerable : true
             },
             object_count:{
@@ -434,6 +522,9 @@ var iDcanvas = (function(iDcanvas){
                         var attribute;
                         element.mousedown(function(e){
                             self.showHandle(self.selectItem($(this)));
+                            if(item.__class.search('products') != -1){
+                                self.product_menus.iconChange(item);
+                            }
                             e.preventDefault();     
                         }).draggable({
                             drag: function(e, ui){
@@ -496,11 +587,13 @@ var iDcanvas = (function(iDcanvas){
                     var code = e.keyCode || e.which;
                     if(code == 46 || code == 8) { 
                         self.removeCanvasItem();
+                        self.product_menus.iconRemove();
                     }
                 }).click(function(e){
-                    var click =  $.contains(self.__ele.children()[0],e.target);
+                    var click =  $.contains(self.__ele.children()[0],e.target) || $(e.target).parents('ul').hasClass('canvasMenu');
                     if(!click){
                         self.deSelectItems();
+                        self.product_menus.iconRemove();
                     }
                 });
             },

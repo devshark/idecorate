@@ -274,6 +274,10 @@ body{
 						}
 					}
 				}
+				.productTransformMenu.disabled{
+					display: none;
+					visibility: hidden;
+				}
 			}
 		}
 		.cell{
