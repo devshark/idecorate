@@ -1,118 +1,283 @@
 {% load i18n plata_tags idecorate_interface humanize %}
-<h3>ORDER CONFIRMATION</h3>
-<div class="paymentWrap">
-	<div class="payment clearfix">
-		<div id="confirm-order">
 
-			{% if misc_data.order_payment_method == "PayPal" %}
-			<form id="conf_form" method="post" action="{{ paypal_url }}">
-			{{ paypal_form }}
-			<input type="hidden" name="custom" value="{{ custom_data|safe }}" />
-			 <input type="hidden" name="handling_cart" value="{{ order.shipping|floatformat:2|intcomma }}">
-			{% else %}
-			<form id="conf_form" action="" method="post">
-				<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />
-				<input type="hidden" name="terms_and_conditions" value="on" />
-				<input type="hidden" name="process_now_the_order" value="yes" />
-				<input type="hidden" name="card_number" value="{{ card_number }}" />
-				<input type="hidden" name="name_on_card" value="{{ name_on_card }}" />
-				<input type="hidden" name="expires" value="{{ expires }}" />
-				<input type="hidden" name="cvv_code" value="{{ cvv_code }}" />
-			{% endif %}
-			{% csrf_token %}
 
-			<p>Your order is almost complete. Please review the details below and click "Proceed to Payment" if all the information is correct. You may use the "Back" button to make changes to your order if necessary.</p>
-			<div class="myOrderTable">
-				<h4>My Order
-					<div class="operation">
-						<a id="print" target="blank" href="{% url hard_copy_order 0 order.id %}">Print</a> | <a id="pdf" target="blank" href="{% url hard_copy_order 1 order.id %}" >PDF</a>| <a id="email_order" target="blank" href="#" >Email</a>
-					</div>
-				</h4>
-				<table>
-					<thead>
-						<tr>
-							<th colspan="2">Item</th>
-							<th>Unit Cost</th>
-							<th>Price</th>
-						</tr>
-					</thead>
-					<tbody>
-						{{ order.items|generate_product_order_list2:order }}
-						<tr>
-							<td> &nbsp; </td>
-							<td style="text-align:left;"> Shipping</td>
-							<td> &nbsp; </td>
-							<td>${{order.shipping|floatformat:2|intcomma}}</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="3">
-								<h5>{{ guest_table.guests }} Guests</h5>
-								<h5>{{ guest_table.tables }} Tables</h5>
-							</td>
-							<td>
-								<!-- <p>+$20 Shipping fee</p> -->
-								<span class="total">Total: ${{ order.total|floatformat:2|intcomma }}</span>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</div>
 
-			<fieldset class="clearfix">
-				<legend>PERSONAL INFORMATION</legend>
-				<span class="label">Salutation</span><span class="value">{{ contact.billing_salutation  }}</span><!--request.session.salutation-->
-				<span class="label">First Name</span><span class="value">{{ order.billing_first_name }}</span>
-				<span class="label">Last Name</span><span class="value">{{ order.billing_last_name }}</span>
-				<span class="label">Email</span><span class="value">{{ order.email }}</span>
-				<span class="label">Contact Number</span><span class="value">{{ misc_data.billing_contact_number }}</span>
-				
-			</fieldset>
-
-			<fieldset class="clearfix">
-				<legend>DELIVERY ADDRESS</legend>
-				<span class="label">Address 1</span><span class="value">{{ contact.address }}</span>
-				<span class="label">Address 2</span><span class="value">{{ contact.shipping_address2 }}</span>
-				<span class="label">City</span><span class="value">{{ contact.city }}</span>
-				<span class="label">State</span><span class="value">{{ contact.shipping_state }}</span>
-				<span class="label">Postal Code</span><span class="value">{{ contact.zip_code }}</span>
-				<span class="label">Country</span><span class="value">{{ contact.countries }}</span>
-			</fieldset>
-
-			<fieldset class="clearfix">
-				<legend>BILLING ADDRESS</legend>
-				<span class="label">Address 1</span><span class="value">{{ contact.address2 }}</span>
-				<span class="label">Address 2</span><span class="value">{{ contact.billing_address2 }}</span>
-				<span class="label">City</span><span class="value">{{ contact.city2 }}</span>
-				<span class="label">State</span><span class="value">{{ contact.billing_state }}</span>
-				<span class="label">Postal Code</span><span class="value">{{ contact.zip_code2 }}</span>
-				<span class="label">Country</span><span class="value">{{ contact.countries2 }}</span>
-			</fieldset>
-
-			{% if request.session.delivery_date %}
-
-			<fieldset class="clearfix">
-				<legend>DELIVERY DATE</legend>
-				<h5>{{ request.session.delivery_date }}</h5>
-			</fieldset>
-			{% endif %}
-
-			<fieldset class="clearfix">
-				<legend>PAYMENT METHOD</legend>
-				<h5>{{ misc_data.order_payment_method }}</h5>
-			</fieldset>
-		     
-		     {% if misc_data.order_notes %}
-		     <fieldset class="clearfix">
-				<legend>SPECIAL REQUESTS AND COMMENTS</legend>
-				<p class="comment">{{ misc_data.order_notes|linebreak }}</p>
-			</fieldset>   
-			{% endif %}
-
-			<a class="btn cancel" href="{% url plata_shop_checkout %}">BACK</a>
-			<a class="btn submit" id="conf_order" href="#">PROCEED TO PAYMENT</a>
-			</form>
+<h3><span>Order Confirmation</span></h3>
+<div class="checkout_wrapper">
+	{% if misc_data.order_payment_method == "PayPal" %}
+	<form id="conf_form" method="post" action="{{ paypal_url }}">
+	{{ paypal_form }}
+	<input type="hidden" name="custom" value="{{ custom_data|safe }}" />
+	<input type="hidden" name="handling_cart" value="{{ order.shipping|floatformat:2|intcomma }}">
+	{% else %}
+	<form id="conf_form" action="" method="post">
+	<input type="hidden" name="payment_method" value="plata.payment.modules.cod" />
+	<input type="hidden" name="terms_and_conditions" value="on" />
+	<input type="hidden" name="process_now_the_order" value="yes" />
+	<input type="hidden" name="card_number" value="{{ card_number }}" />
+	<input type="hidden" name="name_on_card" value="{{ name_on_card }}" />
+	<input type="hidden" name="expires" value="{{ expires }}" />
+	<input type="hidden" name="cvv_code" value="{{ cvv_code }}" />
+	{% endif %}
+	{% csrf_token %}
+	<section id="order_overview" class="checkout_section clearfix">
+		<header>
+			<h4>Order Details</h4>
+			<nav>
+				<ul>
+					<li><a href="" title="">Return to Style Board</a></li>
+					<li><a href="" title="">Show Order Contents</a></li>
+					<li><a id="print" target="blank" href="{% url hard_copy_order 0 order.id %}">Print</a></li>
+					<li><a id="pdf" target="blank" href="{% url hard_copy_order 1 order.id %}" >PDF</a></li>
+					<li><a id="email_order" target="blank" href="#" >Email</a></li>
+				</ul>
+			</nav>
+		</header>
+		<p>Your order contains <span>10</span> items.</p>
+		<div class="order_contents">
+			<table>
+				<thead>
+					<tr>
+						<th></th>
+						<th>Product Name</th>
+						<th>Unit Price</th>
+						<th>Qty</th>
+						<th>Total</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td><img src="/media/dev_images/sample_product.jpg" alt=""></td>
+						<td>Three Tier Silver Cake Stand</td>
+						<td>100.00</td>
+						<td>4</td>
+						<td>400.00</td>
+					</tr>
+					<tr>
+						<td><img src="/media/dev_images/sample_product.jpg" alt=""></td>
+						<td>Three Tier Silver Cake Stand</td>
+						<td>100.00</td>
+						<td>4</td>
+						<td>400.00</td>
+					</tr>
+					<tr>
+						<td><img src="/media/dev_images/sample_product.jpg" alt=""></td>
+						<td>Three Tier Silver Cake Stand</td>
+						<td>100.00</td>
+						<td>4</td>
+						<td>400.00</td>
+					</tr>
+					<tr>
+						<td><img src="/media/dev_images/sample_product.jpg" alt=""></td>
+						<td>Three Tier Silver Cake Stand</td>
+						<td>100.00</td>
+						<td>4</td>
+						<td>400.00</td>
+					</tr>
+					<tr>
+						<td><img src="/media/dev_images/sample_product.jpg" alt=""></td>
+						<td>Three Tier Silver Cake Stand</td>
+						<td>100.00</td>
+						<td>4</td>
+						<td>400.00</td>
+					</tr>
+				</tbody>
+			</table>
 		</div>
+		<div class="costs clearfix">
+			<div class="info_wrapper">
+				<dl id="wedding_layout" class="col">
+					<dt>Guests:</dt>
+					<dd>{{ guest_table.guests }} </dd>
+					<dt>Tables:</dt>
+					<dd>{{ guest_table.tables }} </dd>
+				</dl>
+				<dl id="sub_costs" class="col">
+					<dt>Sub Total:</dt>
+					<dd>${{ order.subtotal|floatformat:2|intcomma }}</dd>
+					<dt>Shipping Cost (20%)</dt>
+					<dd>$20</dd>
+				</dl>
+				<dl id="total_cost" class="col">
+					<dt>Total</dt>
+					<dd>${{ order.total|floatformat:2|intcomma }}</dd>
+				</dl>
+				<div class="notes">
+					<ul>
+						<li>All prices are in USD.</li>
+						<li>Estimated shipping cost applies 20% flat rate.</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section id="details_address" class="checkout_section clearfix">
+		<header>
+			<h4>Your Details and Addresses</h4>
+		</header>
+		<div class="data_field col">
+			<h5>Your Details</h5>
+			<dl>
+				<dt>Title</dt>
+				<dd>{{ contact.billing_salutation  }}</dd>
+				<dt>First Name</dd>
+				<dd>{{ contact.first_name  }}</dd>
+				<dt>Last Name</dt>
+				<dd>{{ contact.last_name  }}</dd>
+				<dt>Contact E-Mail Address</dt>
+				<dd>{{ order.email }}</dd>
+				<dt>Contact Telephone Number</dt>
+				<dd>{{ misc_data.billing_contact_number }}</dd>
+			</dl>
+		</div>
+		<div class="data_field col">
+			<h5>Delivery Address</h5>
+			<dl>
+				<dt>Address Line 1</dt>
+				<dd>{{ contact.address }}</dd>
+				<dt>Address Line 2</dd>
+				<dd>{{ contact.shipping_address2 }}</dd>
+				<dt>City</dt>
+				<dd>{{ contact.city }}</dd>
+				<dt>State</dt>
+				<dd>{{ contact.shipping_state }}</dd>
+				<dt>Postal Code</dt>
+				<dd>{{ contact.zip_code }}</dd>
+				<dt>Country</dt>
+				<dd>{{ contact.countries }}</dd>
+			</dl>
+		</div>
+		<div class="data_field col">
+			<h5>Billing Address</h5>
+			<dl>
+				<dt>Address Line 1</dt>
+				<dd>{{ contact.address2 }}</dd>
+				<dt>Address Line 2</dd>
+				<dd>{{ contact.billing_address2 }}</dd>
+				<dt>City</dt>
+				<dd>{{ contact.city2 }}</dd>
+				<dt>State</dt>
+				<dd>{{ contact.shipping_state2 }}</dd>
+				<dt>Postal Code</dt>
+				<dd>{{ contact.zip_code2 }}</dd>
+				<dt>Country</dt>
+				<dd>{{ contact.countries2 }}</dd>
+			</dl>
+		</div>
+	</section>
+	<section id="delivery_date" class="checkout_section small">
+		<header>
+			<h4>Delivery Date</h4>
+		</header>
+		<p>{{ request.session.delivery_date }}</p>
+		<div class="notes">
+			<p>Please note:</p>
+			<ul>
+				<li>It's ideal to schedule every 3 weeks before your wedding date</li>
+				<li>For scheduling concerns please contact us at: +852 9319 3117</li>
+				<li>Please see our returns policy for more details</li>
+			</ul>
+		</div>		
+	</section>
+	<section id="payment_method" class="checkout_section small clearfix">
+		<header>
+			<h4>Payment Method</h4>
+		</header>
+		<div id="payment_methods">
+			<p class="chosen_method">You have chosen <span>{{ misc_data.order_payment_method }}</span></p>
+			<div class="col">
+				<img src="/media/images/visa_icon_inactive.png" alt="Visa"/>
+			</div>
+			<div class="col">
+				<img src="/media/images/mastercard_icon_inactive.png" alt="Mastercard"/>
+			</div>
+			<div class="col">
+				<img src="/media/images/amex_icon_inactive.png" alt="American Express"/>
+			</div>
+			<div class="col">
+				<img src="/media/images/paypal_icon_inactive.png" alt="PayPal"/>
+			</div>
+		</div>
+	</section>
+	<section id="special_requests" class="checkout_section small clearfix">
+		<header>
+			<h4>Special Requests / Comments</h4>
+		</header>
+		<div class="data_field">
+			<p>{{ misc_data.order_notes|linebreak }}</p>
+		</div>
+	</section> 
+	<section id="any_questions" class="checkout_section small clearfix">
+		<header>
+			<h4>Any Questions?</h4>
+		</header>
+		<p>{{ "any_question"|get_checkout_page_info }}</p>
+	</section>
+	<div class="checkout_actions">
+		<a id="" class="call_to_action" href="{% url plata_shop_checkout %}" title="">Back</a>
+		<a id="conf_order" class="call_to_action submit" href="" title="">Proceed to Payment</a>
 	</div>
 </div>
+
+<script type="text/javascript">
+	function OrderContentsToggle()
+	{
+		var target = $('*#order_overview *.order_contents');
+		var trigger = $('*#order_overview header nav ul li:nth-child(2) a');
+		var self = this;
+		target.hide();
+
+		trigger.click(function()
+		{
+			self.toggle();
+			return false;
+		});
+
+		this.toggle = function()
+		{
+			if(target.hasClass('active'))
+			{
+				target.slideUp(250, function()
+				{
+					target.removeClass('active')
+				})
+				trigger.html('Show Order Contents')
+			}
+			else
+			{
+				target.slideDown(250, function()
+				{
+					target.addClass('active')
+				})
+				trigger.html('Hide Order Contents')
+			}
+		}
+	}
+
+	function EmptyFieldFill()
+	{
+		var target = $('*#details_address *.data_field dd');
+
+		target.each(function()
+		{
+			if(!$(this).html()) $(this).html('- - -')
+		});
+
+	}
+
+	function ChosenPaymentMethodHighlight()
+	{
+		var parent = $('*#payment_methods')
+		var value = parent.find('p.chosen_method span').html();
+
+		parent.find('img').each(function()
+		{
+			if($(this).attr('alt') == value)
+			{
+				var src = $(this).attr('src');
+				src = src.substr(0, src.lastIndexOf('_')+1) + 'active.png'
+				$(this).attr('src', src)
+			}
+		})
+	}
+</script>

@@ -69,4 +69,12 @@
     }
 
 </script>
+<script type="text/javascript">
+    $(document).ready(function()
+    {
+        if(typeof OrderContentsToggle != undefined) new OrderContentsToggle();
+        if(typeof EmptyFieldFill != undefined) new EmptyFieldFill();
+        if(typeof ChosenPaymentMethodHighlight != undefined) new ChosenPaymentMethodHighlight()
+    })
+</script>
 {% endblock %}

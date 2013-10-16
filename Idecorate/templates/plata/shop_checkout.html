@@ -30,266 +30,211 @@
 	</style>
 <![endif]-->
 {% endblock %}
-{% block content %}
-<h3>CHECKOUT</h3>
-<div class="checkoutWrap">
-	<div class="clearfix checkout">
-		<div class="clearfix orderWrap">
-			
-			{% if orderform.errors %}
-			<div class="clearfix errorBlock">
-				<a href="" class="closeX">x</a>
-				<h4>Please correct the following errors:</h4>
-				<ol>
-
-				{% for field in orderform %}
-
-					{% if field.errors %}
-
-						{% for field_errors in field.errors %}
-							<li>
-								
-								{{field_errors}}
-
-							</li>
-						{% endfor %}
-
-					{% endif %}
-
-				{% endfor %}
-
-				</ol>
+{%  block content %}
+<h3><span>Checkout</span></h3>
+<div class="checkout_wrapper">
+	{% if orderform.errors %}
+	<div class="clearfix errorBlock checkout_section">
+		<a href="" class="close">✕</a>
+		<h4>Sorry, please correct the following erros to proceed:</h4>
+		<ol>
+			{% for field in orderform %}
+				{% if field.errors %}
+					{% for field_errors in field.errors %}
+						<li>{{field_errors}}</li>
+					{% endfor %}
+				{% endif %}
+			{% endfor %}
+		</ol>
+	</div>
+	{% endif %}
+	{% if request.session.checkout_login_error %}
+	<div class="clearfix errorBlock checkout_section">
+		<a href="" class="close">✕</a>
+		<h4>Sorry, please correct the following erros to proceed:</h4>
+		<ol>
+			<li>{{ request.session.checkout_login_error }}</li>
+		</ol>
+	</div>
+	{{ request|deleteSession:"checkout_login_error" }}
+	{% endif %}
+	<section id="order_overview" class="checkout_section clearfix">
+		<header>
+			<h4>Order Details</h4>
+			<nav>
+				<ul>
+					<li><a href="" title="">Return to Style Board</a></li>
+					<li><a href="" title="">Show/Edit Order</a></li>
+				</ul>
+			</nav>
+		</header>
+		<p>Your order contains <span>10</span> items.</p>
+		<div class="costs clearfix">
+			<div class="info_wrapper">
+				<dl id="wedding_layout" class="col">
+					<dt>Guests:</dt>
+					<dd>{{ guest_table.guests }} </dd>
+					<dt>Tables:</dt>
+					<dd>{{ guest_table.tables }} </dd>
+				</dl>
+				<dl id="sub_costs" class="col">
+					<dt>Sub Total:</dt>
+					<dd>${{ order.subtotal|floatformat:2|intcomma }}</dd>
+					<dt>Shipping Cost (20%)</dt>
+					<dd>$20</dd>
+				</dl>
+				<dl id="total_cost" class="col">
+					<dt>Total</dt>
+					<dd>${{ order.total|floatformat:2|intcomma }}</dd>
+				</dl>
+				<div class="notes">
+					<ul>
+						<li>All prices are in USD.</li>
+						<li>Estimated shipping cost applies 20% flat rate.</li>
+					</ul>
+				</div>
 			</div>
-			{% endif %}
-			{% if request.session.checkout_login_error %}
-
-			<div class="clearfix errorBlock">
-				<a href="" class="closeX">x</a>
-				<h4>Please correct the following errors:</h4>
-				<ol>
-					<li>{{ request.session.checkout_login_error }}</li>
-				</ol>
-			</div>
-			{{ request|deleteSession:"checkout_login_error" }}
-			{% endif %}
-			<div class="clearfix orderTable">MY ORDER</div>
-			<fieldset>
-				<table>
-					<thead>
-						<tr>
-							<th>Items</th>
-							<th>Unit Cost</th>
-							<th>Quantity</th>
-							<th>Total Cost</th>
-						</th>
-					</thead>
-					<tbody>
-						{{ order.items|generate_product_order_list:order }}
-						<tr>
-							<td colspan="3" style="text-align:left;" class="productPricing"> Shipping </td>
-							<td class="productPricing">${{order.shipping|floatformat:2|intcomma}}</td>
-						</tr>
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="2">&nbsp;</td>
-							<td>
-								<p>{{ guest_table.guests }} Guests</p>
-								<p>{{ guest_table.tables }} Tables</p>
-							</td>
-							<td>
-								<p style="text-align:right;">Subtotal: ${{ order.subtotal|floatformat:2|intcomma }}</p>
-							</td>
-						</tr>
-						<tr>
-							<td colspan="3">
-								<p style="font-size:11px;">All prices are in USD</p>
-								<p style="font-size:11px;">Estimated shipping cost applies 20% flat rate</p>
-							</td>
-							<td>
-								<!--<p> + $100 Shipping Fee &nbsp;</p>--> 
-								<p class="totalCost">Total: ${{ order.total|floatformat:2|intcomma }}</p>
-								<button type="button" id="edit_button">EDIT</button>
-							</td>
-						</tr>
-					</tfoot>
-				</table>
-			</fieldset>
 		</div>
-			{% if not request.user.is_authenticated %}
-			<form action="{% url checkout_login %}" method="post">
+	</section>
+	<section id="details_address" class="checkout_section clearfix">
+		<header>
+			<h4>Your Details and Addresses</h4>
+		</header>
+		{% if not request.user.is_authenticated %}
+		<div id="login_notification">
+			<h5>Are You a Returning Customer?</h5>
+			<p>If you have previously placed an order with us, no need to fill in your address and personal details again. Just <a href="" title="">login</a> and we’ll use the details from last time.</p>
+			<form id="login_notication_form">
 				{% csrf_token %}
-			<div class="clearfix loginDetails">
-				<h4>ARE YOU A RETURNING CUSTOMER?</h4>
-				<p align="justify">If you have previously placed an order with us, no need to fill in your address and personal details again. Just login and choose your preferred payment method and you're done!</p>
-				<!--
-				<p align="justify">If you're a new customer, we'll automatically create an account for you after you have finished your order.</p>
-				-->
-					<input type="text" placeholder="Email" name="checkout_email" />
-					<input type="password" placeholder="Password" name="checkout_password" />
-					<input type="submit" value="LOGIN" class="submit" />
-					<a id="forgot_pass" href="#">Forgot your password?</a>
-			</div>
+				<fieldset>
+					<label for="lnf_username">Username</label>
+					<input id="lnf_username" name="lnf_username" type="text" value="" placeholder="Username"/>
+					<label for="lnf_password">Password</label>
+					<input id="lnf_password" name="lnf_password" type="password" value="" placeholder="Password"/>
+				</fieldset>
+				<input class="button" type="submit" value="Login"/>
+				<p><a id="forgot_pass" href="#">Forgotten Password?</a></p>
 			</form>
-			{% else %}
-			<div>&nbsp;</div>
-			{% endif %}
-			
-		<form method="post" action="." id="plata_form">
+		</div>
+		{% endif %}
+		<form id="details_address_form">
 			<input value="on" type="hidden" name="order-create_account" id="id_order-create_account" />
 			{% csrf_token %}
 			<input type="hidden" name="_checkout" value="1" />
-			<div class="clearfix information">
-				<fieldset class="personal">
-					<legend>PERSONAL INFORMATION</legend>
-					<br />
-						<div class="clearfix">
-							<label>Salutation</label>
-							{{ orderform.billing_salutation }}
-						</div>
-						<div class="clearfix">
-							<label>First Name</label>
-							{{ orderform.billing_first_name }}
-						</div>
-						<div class="clearfix">
-							<label>Last Name</label>
-							{{ orderform.billing_last_name }}
-						</div>
-						<div class="clearfix">
-							<label>Email</label>
-							{% if user.id %}
-							{{ orderform.email|attr:'readonly="readonly"' }}
-							<span style="font-size:11px;">To edit your email address, please go to <a href="{% url edit_profile %}" style="color:#333333;text-decoration:none;">Edit Profile</a></span>
-							{% else %}
-							{{ orderform.email }}
-							{% endif %}
-						</div>
-						<div class="clearfix">
-							<label>Contact No.</label>
-							{{ orderform.billing_contact_number|attr:'placeholder="(XXX)XXXX-XXXX"' }}
-						</div>
-				</fieldset>
-				<fieldset class="delivery">
-					<legend>DELIVERY ADDRESS</legend>
-					<br />
-						<div class="clearfix">
-							<label>Address 1</label>
-							{{ orderform.shipping_address }}
-						</div>
-						<div class="clearfix">
-							<label>Address 2</label>
-							{{ orderform.shipping_address2 }}
-						</div>
-						<div class="clearfix">
-							<label>City</label>
-							{{ orderform.shipping_city|add_class:"districtList" }}
-						</div>
-						<div class="clearfix">
-							<label>State</label>
-							{{ orderform.shipping_state|add_class:"districtList" }}
-						</div><!--
-						<div class="clearfix">
-							<label>Country</label>
-							{{ orderform.shipping_city|add_class:"districtList" }}
-						</div>-->
-						<div class="clearfix">
-							<label>Postal Code</label>
-							{{ orderform.shipping_zip_code }}
-						</div>
-						<div class="clearfix">
-							<label>Country</label>
-							{{ orderform.shipping_country }}
-						</div>
-						{{ orderform.shipping_same_as_billing|attr:"class:checkbox" }} My delivery address is the same as my billing address.
-				</fieldset>
-			</div>
-
-		<div class="clearfix" style="width: 100%; height: auto;">
-			<div class="leftPannel">
-				<fieldset class="deliveryDate">
-		            <legend>DELIVERY DATE</legend>
-					<br />
-						<div class="clearfix calendarWrapper">
-		                	{{ orderform.shipping_date|attr:"placeholder:Date"|attr:"id:datepicker_checkout" }}
-		                </div>
-		             	{{ "delivery_date_note"|get_checkout_page_info }}
-		        </fieldset>
-		        <fieldset class="specialRequests">
-		        	<legend>{{ orderform.notes.label }}</legend>
-		        	{{ orderform.notes }}
-		        	left <span id="note-counter">250</span>
-		        </fieldset>
-			</div>
-			<div class="rightPannel">
-	            <fieldset class="delivery paymentMethod" id="billing_orig">
-	                <legend>BILLING ADDRESS</legend>
-					<br />
-	                    <div class="clearfix">
-	                        <label>Address 1</label>
-	                        {{ orderform.billing_address }}
-	                    </div>
-	                    <div class="clearfix">
-	                        <label>Address 2</label>
-	                        {{ orderform.billing_address2 }}
-	                    </div>
-	                    <div class="clearfix">
-	                        <label>City</label>
-	                        {{ orderform.billing_city|add_class:"districtList" }}
-	                    </div>
-	                    <div class="clearfix">
-	                        <label>State</label>
-	                        {{ orderform.billing_state|add_class:"districtList" }}
-	                    </div><!--
-						<div class="clearfix">
-							<label>Country</label>
-							{{ orderform.shipping_city|add_class:"districtList" }}
-						</div>-->
-	                    <div class="clearfix">
-	                        <label>Postal Code</label>
-	                        {{ orderform.billing_zip_code }}
-	                    </div>
-	                    <div class="clearfix">
-	                        <label>Country</label>
-	                        {{ orderform.billing_country }}
-	                    </div>
-	            </fieldset>
-	            <fieldset class="paymentMethod2" id="payment_orig">
-		            <legend>PAYMENT METHOD</legend>
-						{% for choice in orderform.payment_method.field.choices %}
-		                <div class="clearfix">
-						   	<input name='order-{{ orderform.payment_method.name }}' id='{{ orderform.payment_method.auto_id }}_{{ forloop.counter0 }}' type='radio' value='{{ choice.0 }}'
-							{% if not orderform.is_bound %}
-								{% ifequal orderform.payment_method.value|default_if_none:"" choice.0 %} 
-									checked='checked' 
-								{% endifequal %}
-						   	{% else %}
-							   	{% ifequal orderform.payment_method.value|default_if_none:"" choice.0 %} 
-							   		checked='checked' 
-							   	{% endifequal %}
-						   	{% endif %}/>
-						   	<label for='{{ orderform.payment_method.auto_id }}_{{ forloop.counter0 }}'>{{ choice.1 }}</label>
-		                    {{ choice.0|getImagePaymentMethod }}
-		                </div>
-						 {% endfor %}
-
-		        </fieldset>
-		        <fieldset class="question">
-		            <legend>ANY QUESTIONS?</legend>
-					<br />
-		            <p align="justify">{{ "any_question"|get_checkout_page_info }}</p>
-		        </fieldset>
-		        <!--
-		        <fieldset class="request">
-		        	<legend>REQUESTS/COMMENTS</legend>
-		        	<textarea></textarea>
-		        </fieldset>-->
-			</div>
-		</div>
-		<div class="clearfix disclaimer" style="clear: both;">
-			{{ "t_and_c"|get_checkout_page_info }}
-			<button id="p_button" type="button">REVIEW ORDER</button>
-		</div>
+			<fieldset class="col">
+				<legend>Your Details</legend>
+				<label>Title</label>
+				{{ orderform.billing_salutation }}
+				<label>First Name</label>
+				{{ orderform.billing_first_name }}
+				<label>Last Name</label>
+				{{ orderform.billing_last_name }}
+				<label>Contact E-Mail Address</label>
+				{% if user.id %}
+					{{ orderform.email|attr:'readonly="readonly"' }}
+				{% else %}
+				<input type="text" value="" />
+				{% endif %}
+				<label>Contact Telephone Number</label>
+				{{ orderform.billing_contact_number|attr:'placeholder="(XXX)XXXX-XXXX"' }}
+			</fieldset>
+			<fieldset class="col">
+				<legend>Delivery Address</legend>
+				<label>Address Line 1</label>
+				{{ orderform.shipping_address }}
+				<label>Address Line 2</label>
+				{{ orderform.shipping_address2 }}
+				<label>City</label>
+				{{ orderform.shipping_city }}
+				<label>State</label>
+				{{ orderform.shipping_state }}
+				<label>Postal Code</label>
+				{{ orderform.shipping_zip_code }}
+				<label>Country</label>
+				{{ orderform.shipping_country }}
+				{{ orderform.shipping_same_as_billing}}
+				<label for="id_order-shipping_same_as_billing">My billing address is the same as my delivery address</label>
+			</fieldset> 
+			<fieldset class="col">
+				<legend>Billing Address</legend>
+				<label>Address Line 1</label>
+				{{ orderform.billing_address }}
+				<label>Address Line 2</label>
+				{{ orderform.billing_address2 }}
+				<label>City</label>
+				{{ orderform.billing_city }}
+				<label>State</label>
+				{{ orderform.billing_state }}
+				<label>Postal Code</label>
+				{{ orderform.billing_zip_code }}
+				<label>Country</label>
+				{{ orderform.billing_country }}
+			</fieldset>
 		</form>
+	</section>
+	<section id="delivery_date" class="checkout_section small">
+		<header>
+			<h4>Delivery Date</h4>
+		</header>
+		<form id="delivery_date_form">
+			<fieldset>
+				{{ orderform.shipping_date|attr:"placeholder:Date"}}
+				<p class="pick_date button"><a href="" title="">Pick a Date</a></p>
+			</fieldset>
+		</form>
+		<div class="notes">
+			<p>Please note:</p>
+			<ul>
+				<li>It's ideal to schedule every 3 weeks before your wedding date</li>
+				<li>For scheduling concerns please contact us at: +852 9319 3117</li>
+				<li>Please see our returns policy for more details</li>
+			</ul>
+		</div>		
+	</section> 
+	<section id="payment_method" class="checkout_section small clearfix">
+		<header>
+			<h4>Payment Method</h4>
+		</header>
+		<form id="payment_method_form">
+			<fieldset>
+				<div class="col">
+					<label for="pmf_visa"><img src="/media/images/visa_icon_active.png" alt="Visa"/></label>
+					<input name="pmf_choice" id="pmf_visa" type="radio" value="Visa" />
+				</div>
+				<div class="col">
+					<label for="pmf_mastercard"><img src="/media/images/mastercard_icon_active.png" alt="Mastercard"/></label>
+					<input name="pmf_choice" id="pmf_mastercard" type="radio" value="mastercard" />
+				</div>
+				<div class="col">
+					<label for="pmf_amex"><img src="/media/images/amex_icon_active.png" alt="American Express"/></label>
+					<input name="pmf_choice" id="pmf_amex" type="radio" value="American Express" />
+				</div>
+				<div class="col">
+					<label for="pmf_paypal"><img src="/media/images/paypal_icon_active.png" alt="PayPal"/></label>
+					<input name="pmf_choice" id="pmf_paypal" type="radio" value="PayPal" />
+				</div>
+			</fieldset>
+		</form>
+	</section>
+	<section id="special_requests" class="checkout_section small clearfix">
+		<header>
+			<h4>Special Requests / Comments</h4>
+		</header>
+		<form id="special_requests_form">
+			<fieldset>
+				<label>Any Special Requests or Comments</label>
+				<textarea rows="12" cols="8"></textarea>
+			</fieldset>
+		</form>
+	</section> 
+	<section id="any_questions" class="checkout_section small clearfix">
+		<header>
+			<h4>Any Questions?</h4>
+		</header>
+		<p>{{ "any_question"|get_checkout_page_info }}</p>
+	</section>
+	<div class="checkout_actions">
+		<button id="p_button" class="call_to_action" href="" title="">Confirm Order</button>
 	</div>
 </div>
 {% endblock %}
@@ -298,20 +243,6 @@
 QUESTION_ORIGINAL_SIZE = 0;
 
 	$(function(){
-
-		$( '#datepicker_checkout' ).datepicker({
-			dateFormat: 'yy-mm-dd',
-			defaultDate: "+1w",
-            numberOfMonths: 1,
-            showOn: "button",
-            buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
-            buttonImageOnly: true ,
-            changeYear: true,
-            changeMonth: true,
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            showButtonPanel: true
-		});
 		//page_H();
 
 		QUESTION_ORIGINAL_SIZE = $('.question').height();
@@ -509,7 +440,360 @@ QUESTION_ORIGINAL_SIZE = 0;
 
 </script>
 <script src="/media/interface/js/jquery.placeholder.js"></script>
+<script type="text/javascript" src="/media/js/jquery-ui-datepicker.min.js"></script>
 <script type="text/javascript">
 $(':input[placeholder]').placeholder();
+</script>
+<script type="text/javascript">
+
+function ToggleBillingAddress()
+{
+	
+	var parent = $('form#details_address_form');
+	var overlay = $('<div class="overlay" />');
+	var checkbox = parent.find('input#id_order-shipping_same_as_billing');
+	var deliveryWrapper = parent.find('fieldset.col:nth-of-type(2)')
+	var billingWrapper = parent.find('fieldset.col:nth-of-type(3)');
+	var isChecked = checkbox.is(":checked");
+	var isActive = false;
+	var self = this;
+
+	overlay.css('z-index', 1)
+
+	checkbox.click(function()
+	{
+		if(isActive)
+		{
+			self.removeOverlay()
+		}
+		else
+		{
+			self.appendOverlay();
+		}
+		//return false;
+	})
+
+	deliveryWrapper.find('input[type="text"]').keyup(function()
+	{
+		if(isActive) self.mimicInput($(this))
+	})
+
+	deliveryWrapper.find('select').change(function()
+	{
+		if(isActive) self.mimicInput($(this))
+	})
+
+	this.appendOverlay = function()
+	{
+		overlay.width(billingWrapper.width()).height(billingWrapper.height() + 60);
+
+		if(!$('html').hasClass('ie9'))
+		{
+			overlay.css('margin-top', '-60px')
+		}
+
+		billingWrapper.prepend(overlay);
+		isActive = true;
+		deliveryWrapper.find('input[type="text"], select').each(function()
+		{
+			self.mimicInput($(this));
+		})
+		billingWrapper.find('input[type="text"], select').each(function()
+		{
+			$(this).attr('tabindex', '-1');
+		})
+	}
+
+	this.removeOverlay = function()
+	{
+		overlay.remove();
+		isActive = false;
+		billingWrapper.find('input[type="text"]').each(function()
+		{
+			$(this).attr('tabindex', '')
+			$(this).val('');
+		})
+		billingWrapper.find('select').each(function()
+		{
+			$(this).attr('tabindex', '')
+			$(this).val($(this).find("option:first").val());
+			$(this).change();
+		})
+	}
+
+	this.mimicInput = function(element)
+	{
+		var element = $(element);
+		var index = element.index();
+		var counterpart = billingWrapper.find('*:eq('+ (index + 1) +')'); // +1 to account for the overlay element which is appended into the billingWrapper element.
+		counterpart.val(element.val())
+
+		if(element.is('select'))
+		{
+			counterpart.change();
+		}
+	}
+
+	if(isChecked) this.appendOverlay()
+}
+
+function DeliveryDate()
+{
+	var parent = $('form#delivery_date_form');
+
+	parent.find('input').datepicker();
+	parent.find('p.pick_date').click(function()
+	{
+		if($('*#ui-datepicker-div').is(':visible') && $('*#ui-datepicker-div').html().length)
+		{
+			parent.find('input').blur();
+		}
+		else
+		{
+			parent.find('input').focus();
+		}
+		
+		return false;
+	})
+}
+
+function CustomCheckbox(target)
+{
+	var t = $(target);
+	var replacement = $('<div class="custom_checkbox"/>');
+	var label = t.next('label');
+	var self = this;
+	t.after(replacement);
+	t.hide();
+
+
+	this.toggleState = function()
+	{
+		if(t.is(":checked"))
+		{
+			replacement.addClass('checked');
+		}
+		else
+		{
+			replacement.removeClass('checked');
+		}
+	}
+
+	replacement.click(function()
+	{
+		t.click();
+	});
+
+	t.change(function()
+	{
+		self.toggleState();
+	})
+
+	this.toggleState();
+}
+
+function CustomRadioField(nameAttr)
+{
+	var fields = [];
+	var radioButton = $('<div class="custom_radio"/>');
+	var self = this;
+	$('html').find('input[name="'+ nameAttr +'"]').each(function()
+	{
+		var e = {
+			original: $(this),
+			replacement: radioButton.clone()
+		}
+		if(e.original.is(':checked')) e.replacement.addClass('checked');
+		e.original.after(e.replacement);
+		e.original.hide();
+		e.replacement.click(function()
+		{
+			e.original.click();
+		})
+		e.original.change(function()
+		{
+			self.toggleStates();
+		});
+		fields.push(e);
+	})
+
+	this.toggleStates = function()
+	{
+		for(var i = 0; i < fields.length; i ++)
+		{
+			if(fields[i].original.is(':checked'))
+			{
+				fields[i].replacement.addClass('checked');
+			}
+			else
+			{
+				fields[i].replacement.removeClass('checked')
+			}
+		}
+	}
+
+	self.toggleStates();
+}
+
+function CustomDropDown(target)
+{
+	var target = $(target);
+	var value = target.val();
+	var replacement = $('<div class="custom_drop_down"/>');
+	var selection = $('<p class="selection"/>');
+	var optionsList = $('<ul/>');
+	var trigger = $('<a class="button"><span/></a>');
+	var self = this;
+	var defaultValue = target.find('option:first').html();
+
+	if(!target.val()) value = defaultValue
+
+	selection.html(value);
+
+	target.find('option').each(function()
+	{
+		var e = $("<li/>");
+		e.html($(this).html());
+		if($(this).is(":selected")) e.addClass('selected');
+		optionsList.append(e);
+	})
+
+	optionsList.css('z-index', 1001)
+
+	replacement.append(selection)
+	replacement.append(optionsList)
+	replacement.append(trigger)
+	replacement.width(target.width())
+
+	target.after(replacement)
+	target.hide();
+
+	optionsList.click(function(e)
+	{
+		var t = $(e.target);
+		target.val(t.html())
+		value = t.html();
+		target.change();
+		//self.updateValues();
+		self.toggleMenu();
+	})
+
+	selection.click(function()
+	{
+		self.toggleMenu();
+		return false;
+	})
+
+	trigger.click(function()
+	{
+		self.toggleMenu();
+		return false;
+	})
+
+	$(target).change(function()
+	{
+		if(target.val())
+		{
+			value = target.val();
+		}
+		else
+		{
+			value = defaultValue;
+		}
+		self.updateValues();
+	})
+
+	this.updateValues = function()
+	{
+		optionsList.find('li').each(function()
+		{
+			if($(this).hasClass('selected'))
+			{
+				$(this).removeClass('selected');
+			}
+			else if($(this).html() == value)
+			{
+				$(this).addClass('selected');
+				selection.html(value)
+			}
+		})
+	}
+
+	this.toggleMenu = function()
+	{
+		if(replacement.hasClass('open'))
+		{
+			replacement.removeClass('open')
+		}
+		else
+		{
+			optionsList.css('top', selection.outerHeight() - 1)
+			replacement.addClass('open')
+		}
+	}
+}
+
+function LoginFormToggle()
+{
+	var parent = $('#login_notification')
+	var trigger = parent.find('> p a');
+	var target = parent.find('form');
+	var self = this;
+
+	target.hide();
+
+	trigger.click(function()
+	{
+		self.toggle()
+		return false;
+	})
+
+	this.toggle = function()
+	{
+		if(target.hasClass('active'))
+		{
+			target.hide();
+			target.removeClass('active');
+		}
+		else
+		{
+			target.show()
+			target.addClass('active');
+		}
+	}
+}
+
+function ValidationControl()
+{
+	var parent = $('.errorBlock')
+
+	parent.find('a.close').click(function()
+	{
+		parent.slideUp(250)
+		return false;
+	})
+
+
+}
+
+
+$(document).ready(function()
+{
+	if(navigator.userAgent.indexOf("Safari") > -1)
+	{
+		$('html').addClass('safari')
+	}
+
+	new CustomCheckbox('#id_order-shipping_same_as_billing');
+	new CustomRadioField('pmf_choice');
+	new CustomDropDown('#id_order-billing_salutation')
+	new CustomDropDown('#id_order-billing_country')
+	new CustomDropDown('#id_order-shipping_country')
+	new DeliveryDate();
+	new ToggleBillingAddress();
+	new LoginFormToggle();
+	new ValidationControl()
+})
+
 </script>
 {% endblock %}
