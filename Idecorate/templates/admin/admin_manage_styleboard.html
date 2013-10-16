@@ -158,7 +158,7 @@
 				<td>${{ item.total_price|floatformat:2|intcomma }}</td>
 				<td>{{ item.styleboard_item.description|truncateDescription:30 }}</td>
 				<td style="text-align: center;">
-					<a href="{% url styleboard_view item.styleboard_item.id %}">View</a> | 
+					<a href="{% url view_styleboard item.styleboard_item.id %}">View</a> | 
 					<a href="{% url styleboard %}?sbid={{ item.styleboard_item.id }}">Edit</a><br/><br/>
 					<button id="{{item.id}}" class="btn" value="{{item.active}}" data-toggle="dropdown"></button>
 				</td>
