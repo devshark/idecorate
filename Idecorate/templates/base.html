@@ -1,6 +1,11 @@
 {% load i18n idecorate_interface static %}
 {{ request|set_last_page_idecorate }}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--[if !IE]> <html class="lang-ch"> <![endif]-->
+<!--[if lt IE 7]>      <html class="lt-ie9 lt-ie8 lt-ie7 lang-ch"> <![endif]-->
+<!--[if IE 7]>         <html class="lt-ie10 lt-ie9 lt-ie8 ie7 lang-ch"> <![endif]-->
+<!--[if IE 8]>         <html class="lt-ie10 lt-ie9 ie8 lang-ch"> <![endif]-->
+<!--[if gt IE 8]> <html class="no-js no-placeholder ie9 lang-ch"> <![endif]-->
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
     <head>
         <meta charset="utf-8">
