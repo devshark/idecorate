@@ -629,9 +629,145 @@ body{
     
     z-index: 2;
 }
-.ui-resizable-se{
-    right: -5px;
-    bottom: -5px;
+@mixin resizable-handle($type) {
+	@if $type == 'nw'{
+	    left: -5px;
+	    top: -5px;
+	    bottom: auto;
+	    right: auto;
+	}
+	@if $type == 'ne'{
+	    right: -5px;
+	    top: -5px;
+	    bottom: auto;
+	    left: auto;
+	}
+	@if $type == 'se'{
+	    bottom: -5px;
+	    right: -5px;
+	    left: auto;
+	    top: auto;
+	}
+	@if $type == 'sw'{
+	    left: -5px;
+	    bottom: -5px;
+	    top: auto;
+	    right: auto;
+	}
+}
+.handleWrap{
+	&.n{
+		.ui-resizable-nw{
+			@include  resizable-handle('nw')
+		}
+		.ui-resizable-ne{
+			@include  resizable-handle('ne')
+		}
+		.ui-resizable-se{
+			@include  resizable-handle('se')
+		}
+		.ui-resizable-sw{
+			@include  resizable-handle('sw')
+		}
+	}
+	&.ne{
+		.ui-resizable-n{
+			@include  resizable-handle('nw')
+		}
+		.ui-resizable-e{
+			@include  resizable-handle('ne')
+		}
+		.ui-resizable-s{
+			@include  resizable-handle('se')
+		}
+		.ui-resizable-w{
+			@include  resizable-handle('sw')
+		}
+	}
+	&.e{
+		.ui-resizable-nw{
+			@include  resizable-handle('sw')
+		}
+		.ui-resizable-ne{
+			@include  resizable-handle('nw')
+		}
+		.ui-resizable-se{
+			@include  resizable-handle('ne')
+		}
+		.ui-resizable-sw{
+			@include  resizable-handle('se')
+		}
+	}
+	&.se{
+		.ui-resizable-n{
+			@include  resizable-handle('sw')
+		}
+		.ui-resizable-e{
+			@include  resizable-handle('nw')
+		}
+		.ui-resizable-s{
+			@include  resizable-handle('ne')
+		}
+		.ui-resizable-w{
+			@include  resizable-handle('se')
+		}
+	}
+	&.s{
+		.ui-resizable-nw{
+			@include  resizable-handle('se')
+		}
+		.ui-resizable-ne{
+			@include  resizable-handle('sw')
+		}
+		.ui-resizable-se{
+			@include  resizable-handle('nw')
+		}
+		.ui-resizable-sw{
+			@include  resizable-handle('ne')
+		}
+	}
+	&.sw{
+		.ui-resizable-n{
+			@include  resizable-handle('se')
+		}
+		.ui-resizable-e{
+			@include  resizable-handle('sw')
+		}
+		.ui-resizable-s{
+			@include  resizable-handle('nw')
+		}
+		.ui-resizable-w{
+			@include  resizable-handle('ne')
+		}
+	}
+	&.w{
+		.ui-resizable-nw{
+			@include  resizable-handle('ne')
+		}
+		.ui-resizable-ne{
+			@include  resizable-handle('se')
+		}
+		.ui-resizable-se{
+			@include  resizable-handle('sw')
+		}
+		.ui-resizable-sw{
+			@include  resizable-handle('nw')
+		}
+	}
+	&.nw{
+		.ui-resizable-n{
+			@include  resizable-handle('ne')
+		}
+		.ui-resizable-e{
+			@include  resizable-handle('se')
+		}
+		.ui-resizable-s{
+			@include  resizable-handle('sw')
+		}
+		.ui-resizable-w{
+			@include  resizable-handle('nw')
+		}
+	}
 }
 
 .ui-rotatable-handle{

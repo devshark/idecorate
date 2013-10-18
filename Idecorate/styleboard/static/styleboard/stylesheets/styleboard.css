@@ -550,9 +550,166 @@ body {
   height: 9px;
   z-index: 2; }
 
-.ui-resizable-se {
+.handleWrap.n .ui-resizable-nw {
+  left: -5px;
+  top: -5px;
+  bottom: auto;
+  right: auto; }
+.handleWrap.n .ui-resizable-ne {
   right: -5px;
-  bottom: -5px; }
+  top: -5px;
+  bottom: auto;
+  left: auto; }
+.handleWrap.n .ui-resizable-se {
+  bottom: -5px;
+  right: -5px;
+  left: auto;
+  top: auto; }
+.handleWrap.n .ui-resizable-sw {
+  left: -5px;
+  bottom: -5px;
+  top: auto;
+  right: auto; }
+.handleWrap.ne .ui-resizable-n {
+  left: -5px;
+  top: -5px;
+  bottom: auto;
+  right: auto; }
+.handleWrap.ne .ui-resizable-e {
+  right: -5px;
+  top: -5px;
+  bottom: auto;
+  left: auto; }
+.handleWrap.ne .ui-resizable-s {
+  bottom: -5px;
+  right: -5px;
+  left: auto;
+  top: auto; }
+.handleWrap.ne .ui-resizable-w {
+  left: -5px;
+  bottom: -5px;
+  top: auto;
+  right: auto; }
+.handleWrap.e .ui-resizable-nw {
+  left: -5px;
+  bottom: -5px;
+  top: auto;
+  right: auto; }
+.handleWrap.e .ui-resizable-ne {
+  left: -5px;
+  top: -5px;
+  bottom: auto;
+  right: auto; }
+.handleWrap.e .ui-resizable-se {
+  right: -5px;
+  top: -5px;
+  bottom: auto;
+  left: auto; }
+.handleWrap.e .ui-resizable-sw {
+  bottom: -5px;
+  right: -5px;
+  left: auto;
+  top: auto; }
+.handleWrap.se .ui-resizable-n {
+  left: -5px;
+  bottom: -5px;
+  top: auto;
+  right: auto; }
+.handleWrap.se .ui-resizable-e {
+  left: -5px;
+  top: -5px;
+  bottom: auto;
+  right: auto; }
+.handleWrap.se .ui-resizable-s {
+  right: -5px;
+  top: -5px;
+  bottom: auto;
+  left: auto; }
+.handleWrap.se .ui-resizable-w {
+  bottom: -5px;
+  right: -5px;
+  left: auto;
+  top: auto; }
+.handleWrap.s .ui-resizable-nw {
+  bottom: -5px;
+  right: -5px;
+  left: auto;
+  top: auto; }
+.handleWrap.s .ui-resizable-ne {
+  left: -5px;
+  bottom: -5px;
+  top: auto;
+  right: auto; }
+.handleWrap.s .ui-resizable-se {
+  left: -5px;
+  top: -5px;
+  bottom: auto;
+  right: auto; }
+.handleWrap.s .ui-resizable-sw {
+  right: -5px;
+  top: -5px;
+  bottom: auto;
+  left: auto; }
+.handleWrap.sw .ui-resizable-n {
+  bottom: -5px;
+  right: -5px;
+  left: auto;
+  top: auto; }
+.handleWrap.sw .ui-resizable-e {
+  left: -5px;
+  bottom: -5px;
+  top: auto;
+  right: auto; }
+.handleWrap.sw .ui-resizable-s {
+  left: -5px;
+  top: -5px;
+  bottom: auto;
+  right: auto; }
+.handleWrap.sw .ui-resizable-w {
+  right: -5px;
+  top: -5px;
+  bottom: auto;
+  left: auto; }
+.handleWrap.w .ui-resizable-nw {
+  right: -5px;
+  top: -5px;
+  bottom: auto;
+  left: auto; }
+.handleWrap.w .ui-resizable-ne {
+  bottom: -5px;
+  right: -5px;
+  left: auto;
+  top: auto; }
+.handleWrap.w .ui-resizable-se {
+  left: -5px;
+  bottom: -5px;
+  top: auto;
+  right: auto; }
+.handleWrap.w .ui-resizable-sw {
+  left: -5px;
+  top: -5px;
+  bottom: auto;
+  right: auto; }
+.handleWrap.nw .ui-resizable-n {
+  right: -5px;
+  top: -5px;
+  bottom: auto;
+  left: auto; }
+.handleWrap.nw .ui-resizable-e {
+  bottom: -5px;
+  right: -5px;
+  left: auto;
+  top: auto; }
+.handleWrap.nw .ui-resizable-s {
+  left: -5px;
+  bottom: -5px;
+  top: auto;
+  right: auto; }
+.handleWrap.nw .ui-resizable-w {
+  left: -5px;
+  top: -5px;
+  bottom: auto;
+  right: auto; }
 
 .ui-rotatable-handle {
   width: 1px;

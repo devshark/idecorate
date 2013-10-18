@@ -658,7 +658,7 @@ var iDcanvas = (function(iDcanvas){
                     }
                 }).resizable({
                     aspectRatio: true,
-                    handles: 'ne, se, sw, nw',
+                    handles: 'all',
                     minWidth: 50,
                     start: function(e, ui){
                         selected = self.__ele.find('.selected');
@@ -695,10 +695,10 @@ var iDcanvas = (function(iDcanvas){
                             '-ms-transform'    : matrix,
                             'transform'        : matrix
                         });
-                        console.log(ui.degree.current);
                     },
                     stop : function(e, ui){
                         $('body, .handleWrap .filler').css('cursor', "");
+                        self.updateHandle(attribute.degree);
                     }
                 });
             },
@@ -725,6 +725,7 @@ var iDcanvas = (function(iDcanvas){
                         width : selected.item_attribute.width,
                         height : selected.item_attribute.height
                     });
+                    self.updateHandle(selected.item_attribute.degree);
                 }else{
                     throw new Error("Error: undefined canvas item Object");
                 }
@@ -737,6 +738,38 @@ var iDcanvas = (function(iDcanvas){
                 self.__item_handle.addClass('hidden invisible');
             },
             enumerable : true
+        },
+        updateHandle : {
+            value : function(angle){
+                var handles = this.__item_handle;
+                var between = function(angle, min, max){
+                    return angle >= min && angle <= max;
+                };
+                if(between(angle, 338,359)|| between(angle, 0,22)){//1
+                    handles.addClass('n').removeClass('e s w nw ne se sw');
+                }else if(between(angle, 23,66)){//2
+                    handles.addClass('ne').removeClass('n e s w nw se sw');
+                }else if (between(angle, 67, 112)) {//3;
+                    handles.addClass('e').removeClass('n s w nw ne se sw');
+                }else if(between(angle, 113,157)){//4
+                    handles.addClass('se').removeClass('n e s w nw ne sw');
+                }else if(between(angle, 158,202)){//5
+                    handles.addClass('s').removeClass('n e w nw ne se sw');
+                }else if(between(angle, 203,247)){//6
+                    handles.addClass('sw').removeClass('n e s w nw ne se');
+                }else if(between(angle, 248,292)){//7
+                    handles.addClass('w').removeClass('n e s nw ne se sw');
+                }else if(between(angle, 293,337)){//8
+                    handles.addClass('nw').removeClass('n e s w sw ne se');
+                } 
+                if(handles.hasClass('n') || handles.hasClass('e') || handles.hasClass('s') || handles.hasClass('w')){
+                    handles.find('.ui-resizable-n, .ui-resizable-e, .ui-resizable-s, .ui-resizable-w').hide();
+                    handles.find('.ui-resizable-nw, .ui-resizable-ne, .ui-resizable-se, .ui-resizable-sw').show();
+                }else{
+                    handles.find('.ui-resizable-nw, .ui-resizable-ne, .ui-resizable-se, .ui-resizable-sw').hide();
+                    handles.find('.ui-resizable-n, .ui-resizable-e, .ui-resizable-s, .ui-resizable-w').show();
+                }
+            }
         }
     });
   

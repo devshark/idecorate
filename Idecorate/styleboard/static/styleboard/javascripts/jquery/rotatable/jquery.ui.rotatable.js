@@ -35,10 +35,9 @@
         this.elementCurrentAngle = parseFloat(this.element.attr('rotation'));
     },
     performRotation: function(angle) {
-        this.element.attr('rotation', angle);
         if(this.options.matrix){
-            var angle = this.radianToDegree(angle);
-            var matrix = this.generateMatrix(angle);
+            var degree = this.radianToDegree(angle);
+            var matrix = this.generateMatrix(degree);
             this.performRotationByMatrix(matrix);
         }else{
             this.element.css('transform','rotate(' + angle + 'rad)');
@@ -46,6 +45,7 @@
             this.element.css('-webkit-transform','rotate(' + angle + 'rad)');
             this.element.css('-o-transform','rotate(' + angle + 'rad)');
         }
+        this.element.attr('rotation', angle);   
     },
     performRotationByMatrix : function(matrix){
         var matrix = 'matrix('+ matrix[0] +', '+ matrix[1] +', '+ matrix[2] +', '+ matrix[3] +', 0, 0)';
@@ -95,6 +95,11 @@
         this.elementStartAngle = this.elementCurrentAngle;
         this.hasRotated = false;
 
+        this.elementStartDegreeAngle = this.radianToDegree(this.elementStartAngle);
+        if(startXFromCenter < 0 && startYFromCenter < 0){
+            this.elementStartDegreeAngle = 359+this.elementStartDegreeAngle;
+        }
+
         this._propagate("start", event);
 
         $(document).bind('mousemove', this.listeners.rotateElement);
@@ -106,17 +111,19 @@
         if (!this.element) {
             return false;
         }
-
         var center = this.getElementCenter();
         var xFromCenter = event.pageX - center[0];
         var yFromCenter = event.pageY - center[1];
         var mouseAngle = Math.atan2(yFromCenter, xFromCenter);
         var rotateAngle = mouseAngle - this.mouseStartAngle + this.elementStartAngle;
-
         this.performRotation(rotateAngle);
         var previousRotateAngle = this.elementCurrentAngle;
         this.elementCurrentAngle = rotateAngle;
 
+        this.elementCurrentDegreeAngle = this.radianToDegree(this.elementCurrentAngle);
+        if(xFromCenter < 0 && yFromCenter < 0){
+            this.elementCurrentDegreeAngle = 359+this.elementCurrentDegreeAngle;
+        }
         // Plugins callbacks need to be called first.
         this._propagate("rotate", event);
 
@@ -136,6 +143,7 @@
         $(document).unbind('mouseup', this.listeners.stopRotate);
 
         this.elementStopAngle = this.elementCurrentAngle;
+        this.elementStopDegreeAngle = this.elementCurrentDegreeAngle;
         if (this.hasRotated) {
             this._propagate("stop", event);
         }
@@ -158,9 +166,9 @@
                 stop: this.elementStopAngle
             },
             degree:{
-                start: this.radianToDegree(this.elementStartAngle),
-                current: this.radianToDegree(this.elementCurrentAngle),
-                stop: this.radianToDegree(this.elementStopAngle)
+                start: this.elementStartDegreeAngle,
+                current: this.elementCurrentDegreeAngle,
+                stop: this.elementStopDegreeAngle
             },
             matrix:{
                 start: this.generateMatrix(this.radianToDegree(this.elementStartAngle)),
