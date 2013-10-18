@@ -16,15 +16,14 @@ var iDcanvas = (function(iDcanvas){
             ,
             item_attribute : {
                 value : {
-                    style : {
-                        width : 0,
-                        height : 0,
-                        zIndex : 0,
-                        top: 0,
-                        left: 0
-                    },
+                    width : 0,
+                    height : 0,
+                    zIndex : 0,
+                    top: 0,
+                    left: 0,
                     matrix : [1,0,0,1],
-                    rotation : 0
+                    degree : 0,
+                    radian : 0
                 },
                 enumerable : true,
                 writable : true
@@ -49,7 +48,6 @@ var iDcanvas = (function(iDcanvas){
                 writable : true
             }
         });
-
     };
 
 
@@ -178,6 +176,7 @@ var iDcanvas = (function(iDcanvas){
         });
     };
 
+
     Object.defineProperties(ToolbarItem.prototype, {
         toggleActiveState: {
             value : function () {
@@ -219,6 +218,7 @@ var iDcanvas = (function(iDcanvas){
         }
     });
 
+
     var createToolbarItems = function(elements){
 
         var items = {};
@@ -228,8 +228,8 @@ var iDcanvas = (function(iDcanvas){
             items[uuid] = new ToolbarItem(item);
         });
         return items;
-
     };
+
 
     var Toolbar = function (toolbarElement) {
 
@@ -246,6 +246,7 @@ var iDcanvas = (function(iDcanvas){
         });
     };
 
+
     Object.defineProperties(Toolbar.prototype, {
         add: {
             value: function (options) {
@@ -253,12 +254,10 @@ var iDcanvas = (function(iDcanvas){
                 var uuid = Math.uuid(12, 62);
                 anchor.addClass("toolbarItem");
                 anchor.attr("object-id", uuid);
-                var itemMenuWrap = $('<li/>');
-                itemMenuWrap.append(anchor);
                 if(options.subClass !== undefined){
                     anchor.addClass(options.subClass);
                 }
-                // this.__ele.append(itemMenuWrap);
+                this.__ele.append(anchor);
                 var item = new ToolbarItem(anchor);
                 this.items[uuid] = item;
             },
@@ -280,17 +279,26 @@ var iDcanvas = (function(iDcanvas){
         }
     });
 
+    var ItemMenu = function(element){
 
-    var ProductMenu = function(){
+        Toolbar.apply(this,[element]);
+        
+    };
 
-        Toolbar.apply(this,[$('.productTransformMenu')]);
+    ItemMenu.prototype = Object.create(Toolbar.prototype, {
+        
+    });
+
+
+    var ProductMenu = function(element){
+
+        Toolbar.apply(this,[element]);
 
         Object.defineProperty(this, "product", {
             value: null,
             enumerable: true,
             writable: true
         });
-
     };
 
     ProductMenu.prototype = Object.create(Toolbar.prototype, {
@@ -372,16 +380,14 @@ var iDcanvas = (function(iDcanvas){
                 }
             }
         }
-
     });
 
 
     var generateProductMenu = function(){
-        var menu = new ProductMenu();
+        var menu = new ProductMenu($('.productTransformMenu'));
         menu.init();
         return menu;
     };
-
 
 
     var generateCanvasItems = function(){
@@ -389,6 +395,7 @@ var iDcanvas = (function(iDcanvas){
 
         return items;
     };
+
 
     var Canvas = function(){
 
@@ -426,8 +433,8 @@ var iDcanvas = (function(iDcanvas){
                 writable: true
             }
         });
-
     };
+
 
     Object.defineProperties(Canvas.prototype,{
         isEmpty:{
@@ -590,7 +597,7 @@ var iDcanvas = (function(iDcanvas){
                         self.product_menus.iconRemove();
                     }
                 }).click(function(e){
-                    var click =  $.contains(self.__ele.children()[0],e.target) || $(e.target).parents('ul').hasClass('canvasMenu');
+                    var click =  $.contains(self.__ele.children()[0],e.target) || $(e.target).parents('ul').hasClass('toolBar');
                     if(!click){
                         self.deSelectItems();
                         self.product_menus.iconRemove();
@@ -618,11 +625,11 @@ var iDcanvas = (function(iDcanvas){
         updateItem:{
             value : function(item, data, update_type){
                 var self = this;
-                var defaults = item.item_attribute.style;
+                var defaults = item.item_attribute;
                 var update = $.extend({}, defaults, data);
-                item.item_attribute.style = update;
+                item.item_attribute = update;
 
-                return item.item_attribute.style;
+                return item.item_attribute;
             },
             enumerable: true
         },
@@ -667,22 +674,60 @@ var iDcanvas = (function(iDcanvas){
                         $('.filler', this).width(attribute.width).height(attribute.height);
                         selected.css(attribute);
                     }
-                }).rotatable();
+                }).rotatable({
+                    matrix : true,
+                    start : function(e,ui){
+                        selected = self.__ele.find('.selected');
+                        selected_id = selected.attr('object-id');
+                    },
+                    rotate : function(e, ui){
+                        $('body, .handleWrap .filler').css('cursor', "url(/static/styleboard/javascripts/jquery/rotatable/rotate.png), auto");
+                        attribute = self.updateItem(self.canvas_items[selected_id], {
+                            matrix : ui.matrix.current,
+                            degree : ui.degree.current,
+                            radian : ui.radian.current
+                        } , "resize");
+                        var matrix = 'matrix('+ attribute.matrix.join(',') +', 0, 0)';
+                        selected.css({
+                            '-moz-transform'   : matrix,
+                            '-o-transform'     : matrix,
+                            '-webkit-transform': matrix,
+                            '-ms-transform'    : matrix,
+                            'transform'        : matrix
+                        });
+                        console.log(ui.degree.current);
+                    },
+                    stop : function(e, ui){
+                        $('body, .handleWrap .filler').css('cursor', "");
+                    }
+                });
             },
             enumerable : true
         },
         showHandle : {
             value : function(selected_element){
                 var self = this;
-                self.__item_handle.removeClass('hidden invisible').css({
-                    top : selected_element.css('top'),
-                    left : selected_element.css('left'),
-                    width : selected_element.width(),
-                    height : selected_element.height()
-                }).find('.filler').css({
-                    width : selected_element.width(),
-                    height : selected_element.height()
-                });
+                if(self.canvas_items.hasOwnProperty(selected_element.attr('object-id'))){
+                    var selected = self.canvas_items[selected_element.attr('object-id')];
+                    var matrix = 'matrix('+ selected.item_attribute.matrix.join(',') +', 0, 0)';
+                    self.__item_handle.attr('rotation',selected.item_attribute.radian);
+                    self.__item_handle.removeClass('hidden invisible').css({
+                        top : selected.item_attribute.top,
+                        left : selected.item_attribute.left,
+                        width : selected.item_attribute.width,
+                        height : selected.item_attribute.height,
+                        '-moz-transform'   : matrix,
+                        '-o-transform'     : matrix,
+                        '-webkit-transform': matrix,
+                        '-ms-transform'    : matrix,
+                        'transform'        : matrix
+                    }).find('.filler').css({
+                        width : selected.item_attribute.width,
+                        height : selected.item_attribute.height
+                    });
+                }else{
+                    throw new Error("Error: undefined canvas item Object");
+                }
             },
             enumerable : true
         },
@@ -694,12 +739,12 @@ var iDcanvas = (function(iDcanvas){
             enumerable : true
         }
     });
-    
+  
+
     iDcanvas.createCanvas = function(){
 
         var canvas =  new Canvas();
         return canvas;
-
     };
 
     return iDcanvas;

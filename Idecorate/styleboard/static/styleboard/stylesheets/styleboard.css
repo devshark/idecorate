@@ -560,8 +560,7 @@ body {
   position: absolute;
   top: -20px;
   left: 50%;
-  background: #999999;
-  cursor: pointer; }
+  background: #999999; }
 
 .ui-rotatable-handle:after {
   content: "";
