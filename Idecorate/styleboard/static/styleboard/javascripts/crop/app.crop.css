@@ -1,0 +1,63 @@
+body{
+	height:auto !important;
+	background-color: #FFFFFF !important;
+}
+.iDimageTool{
+	margin: 10px auto;
+}
+#pen_tools li{
+	display: inline-block;
+}
+#pen_tools li a{
+	display: block;
+	height: 20px;
+	line-height: 20px;
+	margin-right: 5px;
+}
+#operation_tools{
+	margin-top: 5px;
+	text-align: right;
+}
+#operation_tools li{
+	display: inline-block;
+}
+#operation_tools li a{
+	display: block;
+	height: 18px;
+	line-height: 18px;
+	margin-left: 5px;
+}
+#outer_canvas{
+	position: relative;
+	border: 1px solid #CCCCCC;
+	background-image: url('/static/styleboard/javascripts/crop/background.png');
+}
+#image_layer{
+	position: absolute;
+	z-index: 3;
+}
+#tool_canvas{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 4;
+}
+#pen_layers{
+	position: absolute;
+	left: 0;
+	top: 0;
+	z-index: 5;
+}
+#stroke_pattern,
+#canvas_background{
+	display: none;
+}
+.penPoint{
+	width: 8px;
+	height: 8px;
+	position: absolute;
+	margin-top: -4px;
+	margin-left: -4px;
+	background-color: #CCCCCC;
+	outline: 1px solid #333333;
+}

@@ -143,6 +143,11 @@ var iDcanvas = (function(iDcanvas){
                 value : data.image_size,
                 enumerable : true,
             },
+            use_transparent : {
+                value : false,
+                enumerable : true,
+                writable : true
+            },
             __class : {
                 value : this.__class + "products"
             }
@@ -276,17 +281,109 @@ var iDcanvas = (function(iDcanvas){
                 }
             },
             enumerable : true
+        },
+        enabled: {
+            get: function () {
+                return !this.__ele.hasClass("disabled");
+            },
+            set: function (value) {
+                var currentValue = this.enabled;
+                if(currentValue === value){
+                    return;
+                }
+                if(value){
+                    this.__ele.removeClass("disabled");
+                } else {
+                    this.__ele.addClass("disabled");
+                }
+            }
         }
     });
 
     var ItemMenu = function(element){
 
         Toolbar.apply(this,[element]);
-        
+
+        Object.defineProperty(this, "selected_item", {
+            value: null,
+            enumerable: true,
+            writable: true
+        });
     };
 
     ItemMenu.prototype = Object.create(Toolbar.prototype, {
-        
+        remove : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "remove"]);
+                }
+                this.selected_item.ele.remove();
+            },
+            enumerable: true 
+        },
+        flip : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "flip"]);
+                }
+            },
+            enumerable: true 
+        },
+        flop : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "flop"]);
+                }
+            },
+            enumerable: true 
+        },
+        clone : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "clone"]);
+                }
+            },
+            enumerable: true 
+        },
+        forward : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "forward"]);
+                }
+            },
+            enumerable: true 
+        },
+        backward : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "backward"]);
+                }
+            },
+            enumerable: true 
+        },
+        productInfo : {
+            value : function(){
+                if(this.selected_item != null && this.selected_item.ele.hasClass('.products')){
+                    productPage.openPannel(this.selected_item.__id);
+                }
+                return;
+            },
+            enumerable: true 
+        },
+        setItem : {
+            value : function(item){
+                this.selected_item = item;
+                this.enabled = true;
+            },
+            enumerable: true 
+        },
+        unSetItem: {
+            value : function(){
+                this.selected_item = null;
+                this.enabled = false;
+            },
+            enumerable: true 
+        }
     });
 
 
@@ -294,12 +391,16 @@ var iDcanvas = (function(iDcanvas){
 
         Toolbar.apply(this,[element]);
 
-        Object.defineProperty(this, "product", {
-            value: null,
-            enumerable: true,
-            writable: true
+        Object.defineProperties(this,{
+            product : {
+                value : null,
+                enumerable : true,
+                writable: true
+            }
+            
         });
     };
+
 
     ProductMenu.prototype = Object.create(Toolbar.prototype, {
         init : {
@@ -308,14 +409,30 @@ var iDcanvas = (function(iDcanvas){
                 var actions = {
                     opaque : function(){
                         self.product.ele.find("img")[0].src  = MEDIA_URL + 'products/' + self.product.__opaque_image;
+                        self.product.__cropped_image = "";
+                        self.product.use_transparent = false;
                     },
 
                     transparent : function(){
                         self.product.ele.find("img")[0].src = MEDIA_URL + 'products/' + self.product.__transparent_image;
+                        self.product.__cropped_image = "";
+                        self.product.use_transparent = true;
                     },
 
                     crop : function(){
-                        //work on crop
+                        $('#modal_crop').modal({
+                            onShow: function (dialog) {
+                                var iframe = $('<iframe id="iDCropIframe"/>');
+                                var type = (self.product.use_transparent) ? 1 : 0;
+                                iframe.attr({
+                                    src: '/app/crop/' + self.product.__id + '/' + type + '/',
+                                    width : 450,
+                                    height : 480 
+                                });
+                                $(dialog.data[0]).html(iframe);
+                            }
+                        });
+
                     }
                 };
                 for(var key in self.items){
@@ -363,22 +480,6 @@ var iDcanvas = (function(iDcanvas){
                 
             },
             enumerable: true 
-        },
-        enabled: {
-            get: function () {
-                return !this.__ele.hasClass("disabled");
-            },
-            set: function (value) {
-                var currentValue = this.enabled;
-                if(currentValue === value){
-                    return;
-                }
-                if(value){
-                    this.__ele.removeClass("disabled");
-                } else {
-                    this.__ele.addClass("disabled");
-                }
-            }
         }
     });
 
@@ -411,7 +512,7 @@ var iDcanvas = (function(iDcanvas){
                 enumerable : true
             },
             item_menus : {
-                value : {},
+                value : new ItemMenu($('.itemMenu')),
                 enumerable : true
             },
             canvas_menus : {
@@ -532,6 +633,7 @@ var iDcanvas = (function(iDcanvas){
                             if(item.__class.search('products') != -1){
                                 self.product_menus.iconChange(item);
                             }
+                            self.item_menus.setItem(item);
                             e.preventDefault();     
                         }).draggable({
                             drag: function(e, ui){
@@ -595,12 +697,14 @@ var iDcanvas = (function(iDcanvas){
                     if(code == 46 || code == 8) { 
                         self.removeCanvasItem();
                         self.product_menus.iconRemove();
+                        self.item_menus.unSetItem();
                     }
                 }).click(function(e){
-                    var click =  $.contains(self.__ele.children()[0],e.target) || $(e.target).parents('ul').hasClass('toolBar');
+                    var click =  $.contains(self.__ele.children()[0],e.target) || $(e.target).parents('ul').hasClass('toolBar') || $(e.target).hasClass('simplemodal-overlay') || $(e.target).hasClass('simplemodal-close');
                     if(!click){
                         self.deSelectItems();
                         self.product_menus.iconRemove();
+                        self.item_menus.unSetItem();
                     }
                 });
             },

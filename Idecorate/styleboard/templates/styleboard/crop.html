@@ -1,0 +1,114 @@
+{% load static %}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+		<title>Crop</title>
+		<meta name="description" content="">
+		<meta name="author" content="Ryan Angeles">
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="{% static 'stylesheets/reset.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'stylesheets/global.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'styleboard/javascripts/jquery/jquery-ui-1.10.2.custom.css' %}"></link>
+		<link rel="stylesheet" href="{% static 'styleboard/javascripts/crop/app.crop.css' %}">
+        <script type="text/javascript">
+
+	        BASE_FILENAME = '{{ product.image }}';
+	        CROP_URL = '{% url crop_image %}';
+        
+        </script>
+	</head>
+	<body>
+		<div id="image_tool"></div>
+		<img src="/media/products/{{ product.image }}" id="image_layer" alt="{{ product.name }}" />
+		<img src="{% static 'styleboard/javascripts/crop/background.png' %}" id="canvas_background" alt="background" />
+		<img src="{% static 'styleboard/javascripts/crop/checkerboard.jpg' %}" id="stroke_pattern" alt="stroke" />
+
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/jquery-ui-1.10.2.custom.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/Math.uuid.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/crop/app.crop.js' %}"></script>
+		<script type="text/javascript">
+			var imagetool = iDimageTool.createImageTool('#image_tool');
+			var canvas = imagetool.canvas;
+			var image = new Image();
+			var pen_tool = imagetool.pen_tool;
+			var operation_tool = imagetool.operation_tool;
+			var polygon = pen_tool.add({
+				content : "Polygon",
+				wrap : 'li',
+				subClass : 'polygon',
+				click : function(ele, e){
+					if(!canvas.polygon){
+						canvas.polygon = true;
+						canvas.clear();
+					}
+				}
+			});
+			var rectangle = pen_tool.add({
+				content : "Rectangle",
+				wrap : 'li',
+				subClass : 'rectangle',
+				click : function(ele, e){
+					if(canvas.polygon){
+						canvas.polygon = false;
+						canvas.clear(); 
+						canvas.drawRectangle(e);
+					}
+				}
+			});
+			var cancel = operation_tool.add({
+				content : "Cancel",
+				wrap : 'li',
+				subClass : 'cancel btn',
+				click : function(ele, e){
+					window.parent.$.modal.close();
+				}
+			});
+			var clear = operation_tool.add({
+				content : "Clear",
+				wrap : 'li',
+				subClass : 'clear btn',
+				click : function(ele, e){ 
+					canvas.clear(); 
+					canvas.polygon = true;
+				}
+			});
+			var submit = operation_tool.add({
+				content : "Submit",
+				wrap : 'li',
+				subClass : 'submit btn',
+				click : function(ele, e){
+					if(canvas.close_path){
+						var coordinates = canvas.coordinates;
+						var str_coordinates = $.makeArray();
+						var task = (canvas.polygon) ? 'poly' : 'rect';
+						$.each(coordinates, function(index, value){
+							str_coordinates.push(value.join(':'));
+						});
+						var cropped_image = CROP_URL + '?&task=' + task + '&coordinates=' + escape(str_coordinates.toString()) + '&filename=' + escape(BASE_FILENAME);
+
+						window.parent.canvas.product_menus.product.ele.find("img")[0].src = cropped_image;
+						window.parent.canvas.product_menus.product.__cropped_image = cropped_image;
+						window.parent.$.modal.close();
+					}
+				}
+			});
+			image.onload = function(){
+				imagetool.load($('#image_layer'), [400,400]);
+				if(canvas.polygon){
+					canvas.__ele.on('mousedown',function(e){
+						canvas.drawLine(e);
+					});
+				}else{
+					// rectangle.__ele.trigger('click');
+				}
+			};
+			image.src = $('#image_layer').attr('src');
+		</script>
+	</body>
+</html>

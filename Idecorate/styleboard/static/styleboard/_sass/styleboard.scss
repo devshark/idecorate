@@ -166,6 +166,19 @@ body{
 				img{
 					background-position: 0 -22px !important;
 				}
+				&.disabled a{
+					color: #CCCCCC;
+					cursor: default;
+					&:hover{
+						color: #CCCCCC;
+						cursor: default;
+					}
+				}
+				&.disabled img{
+					opacity: 0.3;
+					-moz-opacity: 0.3;
+					-khtml-opacity: 0.3;
+				}
 			}
 			.sideBarMenu{
 				font-size: 0;
@@ -575,6 +588,16 @@ body{
 		-moz-opacity: 0.8;
 		-khtml-opacity: 0.8;
 	}
+}
+
+//modal crop
+#modal_crop{
+	display:none;
+	background-color:#FFFFFF; 
+	border:1px solid $border_01; 
+	padding:5px;
+	width: 450px;
+	min-width: 450px;
 }
 
 // custom scrollbar styles 

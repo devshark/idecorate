@@ -138,6 +138,16 @@ body {
           background-position: -21px -21px; }
     #styleboard tbody .menuWrap .itemMenu img {
       background-position: 0 -22px !important; }
+    #styleboard tbody .menuWrap .itemMenu.disabled a {
+      color: #CCCCCC;
+      cursor: default; }
+      #styleboard tbody .menuWrap .itemMenu.disabled a:hover {
+        color: #CCCCCC;
+        cursor: default; }
+    #styleboard tbody .menuWrap .itemMenu.disabled img {
+      opacity: 0.3;
+      -moz-opacity: 0.3;
+      -khtml-opacity: 0.3; }
     #styleboard tbody .menuWrap .sideBarMenu {
       font-size: 0;
       white-space: nowrap; }
@@ -498,6 +508,14 @@ body {
     opacity: 0.8;
     -moz-opacity: 0.8;
     -khtml-opacity: 0.8; }
+
+#modal_crop {
+  display: none;
+  background-color: #FFFFFF;
+  border: 1px solid #dbd7c9;
+  padding: 5px;
+  width: 450px;
+  min-width: 450px; }
 
 .mCSB_container {
   margin-right: 10px; }

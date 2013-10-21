@@ -159,6 +159,47 @@ def get_templates(request):
     return render_to_json(request, data)
 
 
+def crop(request, product_id, is_transparent):
+
+    info = {}
+    product = get_object_or_404(Product, pk=int(product_id))
+    data = {
+        'id' : product.pk,
+        'name' : product.name,
+        'image' : product.no_background if bool(int(is_transparent)) else product.original_image
+    }
+    info['product'] = data
+    return render_to_response('styleboard/crop.html', info,RequestContext(request))
+
+
+def crop_image(request):
+
+    filename = request.GET.get('filename')
+
+    img = Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", filename))
+    back = Image.new('RGBA', (400,400), (255, 255, 255, 0))
+    back.paste(img, ((400 - img.size[0]) / 2, (400 - img.size[1]) /2 ))
+
+    poly = Image.new('RGBA', (settings.PRODUCT_WIDTH,settings.PRODUCT_HEIGHT), (255, 255, 255, 0))
+    pdraw = ImageDraw.Draw(poly)
+
+    dimensionList = []
+    splittedPosts = request.GET.get('coordinates').split(',')
+
+    for splittedPost in splittedPosts:
+        spl = splittedPost.split(':')
+        dimensionList.append((float(spl[0]),float(spl[1])))
+
+    pdraw.polygon(dimensionList,fill=(255,255,255,255),outline=(255,255,255,255))
+        
+    poly.paste(back,mask=poly)
+    response = HttpResponse(mimetype="image/png")
+
+    newImg = poly.crop(((400 - img.size[0]) / 2, (400 - img.size[1]) /2 , ((400 - img.size[0]) / 2) + img.size[0], ((400 - img.size[1]) / 2) + img.size[1]))
+    newImg.save(response, "PNG")
+    return response
+
+
 @csrf_exempt
 def sidebar_items(request):
 
