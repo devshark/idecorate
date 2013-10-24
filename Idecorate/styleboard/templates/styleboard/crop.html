@@ -17,25 +17,25 @@
 		<link rel="stylesheet" href="{% static 'styleboard/javascripts/crop/app.crop.css' %}">
         <script type="text/javascript">
 
-	        BASE_FILENAME = '{{ product.image }}';
+	        BASE_FILENAME = '{{ filename }}';
 	        CROP_URL = '{% url crop_image %}';
         
         </script>
 	</head>
 	<body>
 		<div id="image_tool"></div>
-		<img src="/media/products/{{ product.image }}" id="image_layer" alt="{{ product.name }}" />
+		<img src="/media/products/{{ filename }}" id="image_layer"/>
 		<img src="{% static 'styleboard/javascripts/crop/background.png' %}" id="canvas_background" alt="background" />
 		<img src="{% static 'styleboard/javascripts/crop/checkerboard.jpg' %}" id="stroke_pattern" alt="stroke" />
 
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/jquery-1.8.2.min.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/jquery/jquery-ui-1.10.2.custom.js' %}"></script>
 		<script type="text/javascript" src="{% static 'styleboard/javascripts/Math.uuid.js' %}"></script>
-		<script type="text/javascript" src="{% static 'styleboard/javascripts/crop/app.crop.js' %}"></script>
+		<script type="text/javascript" src="{% static 'styleboard/javascripts/crop/app.crop.min.js' %}"></script>
 		<script type="text/javascript">
+	        var raw_coordinates ='{{ coordinates }}';
 			var imagetool = iDimageTool.createImageTool('#image_tool');
 			var canvas = imagetool.canvas;
-			var image = new Image();
 			var pen_tool = imagetool.pen_tool;
 			var operation_tool = imagetool.operation_tool;
 			var polygon = pen_tool.add({
@@ -90,22 +90,36 @@
 						$.each(coordinates, function(index, value){
 							str_coordinates.push(value.join(':'));
 						});
-						var cropped_image = CROP_URL + '?&task=' + task + '&coordinates=' + escape(str_coordinates.toString()) + '&filename=' + escape(BASE_FILENAME);
-
-						window.parent.canvas.product_menus.product.ele.find("img")[0].src = cropped_image;
-						window.parent.canvas.product_menus.product.__cropped_image = cropped_image;
+						var cropped_image = CROP_URL + '?task=' + task + '&coordinates=' + escape(str_coordinates.toString()) + '&filename=' + escape(BASE_FILENAME);
+						var selected_product = window.parent.canvas.product_menus.selected_product;
+						selected_product.__cropped_image = cropped_image;
+						selected_product.item_attribute.use_image = cropped_image;
+						selected_product.generated = true;
+						selected_product.updateImage();
 						window.parent.$.modal.close();
+
 					}
 				}
 			});
-			image.onload = function(){
+			var image = new Image();
+			image.onload = function(e){
 				imagetool.load($('#image_layer'), [400,400]);
+				if(raw_coordinates != ""){
+					var raw = unescape(raw_coordinates);
+					raw = raw.split(',');
+					$.each(raw, function(index, val) {
+						var points = val.split(':');
+						canvas.addPoint([ parseInt(points[0]) , parseInt(points[1]) ]);
+					});
+	                canvas.closePath(e);
+	                canvas.drawLine(e);
+				}
 				if(canvas.polygon){
 					canvas.__ele.on('mousedown',function(e){
 						canvas.drawLine(e);
 					});
 				}else{
-					// rectangle.__ele.trigger('click');
+					rectangle.__ele.trigger('click');
 				}
 			};
 			image.src = $('#image_layer').attr('src');

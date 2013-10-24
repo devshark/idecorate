@@ -159,16 +159,21 @@ def get_templates(request):
     return render_to_json(request, data)
 
 
-def crop(request, product_id, is_transparent):
+def crop(request):
 
     info = {}
-    product = get_object_or_404(Product, pk=int(product_id))
-    data = {
-        'id' : product.pk,
-        'name' : product.name,
-        'image' : product.no_background if bool(int(is_transparent)) else product.original_image
-    }
-    info['product'] = data
+    filename = request.GET.get('filename');
+    info['coordinates'] = ""
+    try:
+        Image.open("%s%s%s" % (settings.MEDIA_ROOT, "products/", filename));
+    except:
+        files = filename.split('/')
+        file_data = files[3].split('&')
+        coordinates = file_data[1].split('=')[1]
+        filename = file_data[2].split('=')[1]
+        info['coordinates'] = coordinates
+
+    info['filename'] = filename
     return render_to_response('styleboard/crop.html', info,RequestContext(request))
 
 

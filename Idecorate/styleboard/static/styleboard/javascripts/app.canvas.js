@@ -4,7 +4,7 @@ var iDcanvas = (function(iDcanvas){
 
         Object.defineProperties(this, {
             ele : {
-                value : $('<div class="canvasItem"/>'),
+                value : $('<div/>'),
                 writable : true,
                 enumerable : true
             },
@@ -23,7 +23,10 @@ var iDcanvas = (function(iDcanvas){
                     left: 0,
                     matrix : [1,0,0,1],
                     degree : 0,
-                    radian : 0
+                    radian : 0,
+                    flip : false,
+                    flop : false,
+                    use_image : ""
                 },
                 enumerable : true,
                 writable : true
@@ -45,6 +48,12 @@ var iDcanvas = (function(iDcanvas){
             },
             __class : {
                 value : "canvasItem unselected ",
+                writable : true,
+                enumerable : true
+            },
+            generated :{
+                value :  false,
+                enumerable : true,
                 writable : true
             }
         });
@@ -68,7 +77,8 @@ var iDcanvas = (function(iDcanvas){
                 if(this.resize != value){
                     this.resize = value;
                 }
-            }
+            },
+            enumerable : true
         },
         is_draggable : {
             get: function(){
@@ -78,7 +88,8 @@ var iDcanvas = (function(iDcanvas){
                 if(this.draggable != value){
                     this.draggable = value;
                 }
-            }
+            },
+            enumerable : true
         },
         resizeByAspect : {
             value : function(base_dimension){
@@ -93,7 +104,58 @@ var iDcanvas = (function(iDcanvas){
                 dimension['height'] = aspect_ratio*new_width;
 
                 return dimension;
-            }
+            },
+            enumerable : true
+        },
+        styles : {
+            value : function(){
+                var self = this;
+                var matrix = 'matrix('+ self.item_attribute.matrix.join(',') +', 0, 0)';
+                styles = {
+                    width               : self.item_attribute.width,
+                    height              : self.item_attribute.height,
+                    zIndex              : self.item_attribute.zIndex,
+                    top                 : self.item_attribute.top,
+                    left                : self.item_attribute.left,
+                    '-moz-transform'    : matrix,
+                    '-o-transform'      : matrix,
+                    '-webkit-transform' : matrix,
+                    '-ms-transform'     : matrix,
+                    'transform'         : matrix
+                };
+                return styles;
+            },
+            enumerable : true
+        },
+        updateAppearance : {
+            value : function(){
+                var self = this;
+                self.ele.css(self.styles());
+            },
+            enumerable : true
+        },
+        updateImage : {
+            value : function(){
+                var self = this;
+                self.ele.find('img')[0].src = (self.generated) ? self.item_attribute.use_image :self.__item_directory + self.item_attribute.use_image;
+            },
+            enumerable : true
+        },      
+        toggleFlip: {
+            value : function () {
+                this.item_attribute.flip = !this.item_attribute.flip;
+                this.item_attribute.matrix[0] = -this.item_attribute.matrix[0];
+                this.item_attribute.matrix[2] = -this.item_attribute.matrix[2];
+            },
+            enumerable : true
+        },
+        toggleFlop: {
+            value : function () {
+                this.item_attribute.flop = !this.item_attribute.flop;
+                this.item_attribute.matrix[1] = -this.item_attribute.matrix[1];
+                this.item_attribute.matrix[3] = -this.item_attribute.matrix[3];
+            },
+            enumerable : true
         }
     });
 
@@ -126,6 +188,7 @@ var iDcanvas = (function(iDcanvas){
             __cropped_image : {
                 value : "",
                 enumerable : true,
+                writable : true
             },
             __default_quantity : {
                 value : data.default_quantity,
@@ -143,13 +206,13 @@ var iDcanvas = (function(iDcanvas){
                 value : data.image_size,
                 enumerable : true,
             },
-            use_transparent : {
-                value : false,
-                enumerable : true,
-                writable : true
-            },
             __class : {
-                value : this.__class + "products"
+                value : this.__class + "products",
+                enumerable : true
+            },
+            __item_directory : {
+                value :  MEDIA_URL + 'products/',
+                enumerable : true
             }
         });
     };
@@ -160,16 +223,14 @@ var iDcanvas = (function(iDcanvas){
             value : function(uuid){
                 var self = this;
                 var element = self.ele;
-                var image = self.image;
-                image.attr({
-                    src: MEDIA_URL + 'products/' + self.__opaque_image + '?c='+new Date().getTime(),
-                    alt:self.__name
-                });
+                self.image.attr({ alt:self.__name });
                 element.addClass(self.__class).attr('object-id',uuid);
-                element.append(image);
+                element.append(self.image);
+                self.updateImage();
 
                 return element
-            }
+            },
+            enumerable : true
         }
     });
 
@@ -300,6 +361,75 @@ var iDcanvas = (function(iDcanvas){
         }
     });
 
+    var CanvasMenu = function(element){
+
+        Toolbar.apply(this,[element]);
+
+        Object.defineProperties(this, {
+            canvas_states: {
+                value: $.makeArray(),
+                enumerable : true,
+                writable : true
+            },
+            current_state_index: {
+                value: 0,
+                enumerable : true,
+                writable : true
+            }
+        });
+    };
+
+    CanvasMenu.prototype = Object.create(Toolbar.prototype, {
+        saveStyleboard : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this);
+                }
+            },
+            enumerable: true 
+        },
+        startNew : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this);
+                }
+            },
+            enumerable: true 
+        },
+        undo : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this);
+                }
+            },
+            enumerable: true 
+        },
+        redo : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this);
+                }
+            },
+            enumerable: true 
+        },
+        print : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this);
+                }
+            },
+            enumerable: true 
+        },
+        pdf : {
+            value : function(callback){
+                if(typeof callback === "function"){
+                    callback.apply(this);
+                }
+            },
+            enumerable: true 
+        }
+    });
+
     var ItemMenu = function(element){
 
         Toolbar.apply(this,[element]);
@@ -315,16 +445,15 @@ var iDcanvas = (function(iDcanvas){
         remove : {
             value : function(callback){
                 if(typeof callback === "function"){
-                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "remove"]);
+                    callback.apply(this, [this.selected_item, "remove"]);
                 }
-                this.selected_item.ele.remove();
             },
             enumerable: true 
         },
         flip : {
             value : function(callback){
                 if(typeof callback === "function"){
-                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "flip"]);
+                    callback.apply(this, [this.selected_item, "flip"]);
                 }
             },
             enumerable: true 
@@ -332,15 +461,52 @@ var iDcanvas = (function(iDcanvas){
         flop : {
             value : function(callback){
                 if(typeof callback === "function"){
-                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "flop"]);
+                    callback.apply(this, [this.selected_item, "flop"]);
                 }
             },
             enumerable: true 
         },
         clone : {
             value : function(callback){
+                var clone = function(src_object){
+                    var mixin = function(dest, source, copyFunc) {
+                        var name, s, i, empty = {};
+                        for(name in source){
+                            s = source[name];
+                            if(!(name in dest) || (dest[name] !== s && (!(name in empty) || empty[name] !== s))){
+                                dest[name] = copyFunc ? copyFunc(s) : s;
+                            }
+                        }
+                        return dest;
+                    }
+                    if(!src_object || typeof src_object != "object" || Object.prototype.toString.call(src_object) === "[object Function]"){
+                        return src_object;
+                    }
+                    if(src_object.nodeType && "cloneNode" in src_object){
+                        return src_object.cloneNode(true);
+                    }
+                    if(src_object instanceof Date){
+                        return new Date(src_object.getTime());
+                    }
+                    if(src_object instanceof RegExp){
+                        return new RegExp(src_object);
+                    }
+                    var r, i, l;
+                    if(src_object instanceof Array){
+                        r = [];
+                        for(i = 0, l = src_object.length; i < l; ++i){
+                            if(i in src_object){
+                                r.push(clone(src_object[i]));
+                            }
+                        }
+                    }else{
+                        r = src_object.constructor ? new src_object.constructor() : {};
+                    }
+                    return mixin(r, src_object, clone);
+                };
+                
                 if(typeof callback === "function"){
-                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "clone"]);
+                    callback.apply(this, [clone(this.selected_item), "clone"]);
                 }
             },
             enumerable: true 
@@ -348,7 +514,7 @@ var iDcanvas = (function(iDcanvas){
         forward : {
             value : function(callback){
                 if(typeof callback === "function"){
-                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "forward"]);
+                    callback.apply(this, [this.selected_item, "forward"]);
                 }
             },
             enumerable: true 
@@ -356,14 +522,14 @@ var iDcanvas = (function(iDcanvas){
         backward : {
             value : function(callback){
                 if(typeof callback === "function"){
-                    callback.apply(this, [this.selected_item.ele.attr('object-id'), "backward"]);
+                    callback.apply(this, [this.selected_item, "backward"]);
                 }
             },
             enumerable: true 
         },
         productInfo : {
             value : function(){
-                if(this.selected_item != null && this.selected_item.ele.hasClass('.products')){
+                if(this.selected_item.ele.hasClass('products')){
                     productPage.openPannel(this.selected_item.__id);
                 }
                 return;
@@ -391,71 +557,68 @@ var iDcanvas = (function(iDcanvas){
 
         Toolbar.apply(this,[element]);
 
-        Object.defineProperties(this,{
-            product : {
-                value : null,
-                enumerable : true,
-                writable: true
-            }
-            
+        Object.defineProperty(this, "selected_product", {
+            value: null,
+            enumerable: true,
+            writable: true
         });
     };
 
 
     ProductMenu.prototype = Object.create(Toolbar.prototype, {
-        init : {
-            value : function(){
-                var self= this;
-                var actions = {
-                    opaque : function(){
-                        self.product.ele.find("img")[0].src  = MEDIA_URL + 'products/' + self.product.__opaque_image;
-                        self.product.__cropped_image = "";
-                        self.product.use_transparent = false;
-                    },
-
-                    transparent : function(){
-                        self.product.ele.find("img")[0].src = MEDIA_URL + 'products/' + self.product.__transparent_image;
-                        self.product.__cropped_image = "";
-                        self.product.use_transparent = true;
-                    },
-
-                    crop : function(){
-                        $('#modal_crop').modal({
-                            onShow: function (dialog) {
-                                var iframe = $('<iframe id="iDCropIframe"/>');
-                                var type = (self.product.use_transparent) ? 1 : 0;
-                                iframe.attr({
-                                    src: '/app/crop/' + self.product.__id + '/' + type + '/',
-                                    width : 450,
-                                    height : 480 
-                                });
-                                $(dialog.data[0]).html(iframe);
-                            }
-                        });
-
-                    }
-                };
-                for(var key in self.items){
-                    if(self.items.hasOwnProperty(key)){
-                        self.items[key].__ele.click(function(e){
-                            if(self.product != null){
-                                actions[this.id]();
-                            }
-                            e.preventDefault();
-                        });
-                    }
+        transformOpaque : {
+            value : function(callback){
+                var self = this;
+                self.selected_product.item_attribute.use_image  = self.selected_product.__opaque_image;
+                self.selected_product.generated = false;
+                self.selected_product.updateImage();
+                if(typeof callback === "function"){
+                    callback.apply(self, [self.selected_product, "opaque"]);
                 }
-            }
+            },
+            enumerable: true 
+        },
+        transformTransparent : {
+            value : function(callback){
+                var self = this;
+                self.selected_product.item_attribute.use_image = self.selected_product.__transparent_image;
+                self.selected_product.generated = false;
+                self.selected_product.updateImage();
+                if(typeof callback === "function"){
+                    callback.apply(self, [self.selected_product, "transparent"]);
+                }
+            },
+            enumerable: true 
+        },
+        transformCrop : {
+            value : function(callback){
+                var self = this;
+                $('#modal_crop').modal({
+                    onShow: function (dialog) {
+                        var iframe = $('<iframe id="iDCropIframe"/>');
+                        iframe.attr({
+                            src: '/app/crop/?filename=' + escape(self.selected_product.item_attribute.use_image),
+                            width : 450,
+                            height : 480 
+                        });
+                        $(dialog.data[0]).html(iframe);
+                    }
+                });
+                if(typeof callback === "function"){
+                    callback.apply(self, [self.selected_product, "crop"]);
+                }
+            },
+            enumerable: true 
         },
         iconChange: {
             value: function(object){
 
                 var self = this;
-                self.product = object;
+                self.selected_product = object;
                 var images = {
-                    "opaque" : self.product.__opaque_image,
-                    "transparent" : self.product.__transparent_image,
-                    "crop" : self.product.__transparent_image,
+                    "opaque" : self.selected_product.__opaque_image,
+                    "transparent" : self.selected_product.__transparent_image,
+                    "crop" : self.selected_product.__transparent_image,
                 };
                 for(var key in self.items){
                     if(self.items.hasOwnProperty(key)){
@@ -475,20 +638,13 @@ var iDcanvas = (function(iDcanvas){
                         self.items[key].__ele.find("img")[0].src = "/static/images/img_trans.gif";
                     }
                 }
-                self.product = null;
+                self.selected_product = null;
                 self.enabled = false;
                 
             },
             enumerable: true 
         }
     });
-
-
-    var generateProductMenu = function(){
-        var menu = new ProductMenu($('.productTransformMenu'));
-        menu.init();
-        return menu;
-    };
 
 
     var generateCanvasItems = function(){
@@ -516,20 +672,15 @@ var iDcanvas = (function(iDcanvas){
                 enumerable : true
             },
             canvas_menus : {
-                value : {},
+                value : new CanvasMenu($('.canvasMenu')),
                 enumerable : true
             },
             product_menus : {
-                value : generateProductMenu(),
+                value : new ProductMenu($('.productTransformMenu')),
                 enumerable : true
             },
             object_count:{
                 value : 0,
-                enumerable: true,
-                writable: true
-            },
-            empty: {
-                value : true,
                 enumerable: true,
                 writable: true
             }
@@ -538,23 +689,29 @@ var iDcanvas = (function(iDcanvas){
 
 
     Object.defineProperties(Canvas.prototype,{
-        isEmpty:{
-            get : function(){
-                return this.empty;
-            },
-            set : function(value){
-                if(value != this.empty){
-                    this.empty = value;
-                }
-            },
-            enumerable : true
-        },
         init:{
             value : function(){
-                if(!this.isEmpty){
+                if(!this.empty){
                     this.arrangeCanvasItems();
                 }
                 this.dropableCanvas();
+            },
+            enumerable : true
+        },
+        empty:{
+            get : function(){
+                return this.__ele.hasClass('empty');
+            },
+            set : function(value){
+                var currentValue = this.empty;
+                if(currentValue === value){
+                    return;
+                }
+                if(value){
+                    this.__ele.addClass("empty");
+                } else {
+                    this.__ele.removeClass("empty");
+                }
             },
             enumerable : true
         },
@@ -593,10 +750,14 @@ var iDcanvas = (function(iDcanvas){
                 if(selected.length > 1){
                     //error: selected should always be one and one only!!!!
                 }else{
+                    --self.object_count;
                     var item_key = selected.attr('object-id');
                     delete self.canvas_items[item_key];
                     self.deSelectItems();
                     selected.remove();
+                    if(self.object_count < 1){
+                        self.empty = true;
+                    }
                 }
             },
             enumerable : true
@@ -608,22 +769,32 @@ var iDcanvas = (function(iDcanvas){
             enumerable : true
         },
         dropItem : {
-            value : function(uuid, e, ui){
+            value : function(uuid, e, clone){
                 var self = this;
                 if(self.canvas_items.hasOwnProperty(uuid)){
                     var item = self.canvas_items[uuid];
-                    var element = item.__loadItem(uuid);
                     var dimension = (item.is_resize) ? item.resizeByAspect(item.__dimension) : item.__dimension;
+                    var data = {};
                     ++self.object_count;
-                    var data = {
-                        width: dimension.width,
-                        zIndex: self.object_count,
-                        height: dimension.height,
-                        top: (e.pageY - self.__ele.offset().top) - (dimension.height / 2),
-                        left: (e.pageX - self.__ele.offset().left) - (dimension.width / 2)
-                    };
-                    var attribute = self.updateItem(item, data , "drop");
-                    element.css(attribute);
+                    if(clone && clone !== "undefined"){
+                        item.ele.attr("class","").find("img").remove();
+                        data = {
+                            zIndex: self.object_count,
+                            top : item.item_attribute.top + 20,
+                            left : item.item_attribute.left + 20
+                        };
+                    }else{
+                        data = {
+                            width: dimension.width,
+                            zIndex: self.object_count,
+                            height: dimension.height,
+                            top: (e.pageY - self.__ele.offset().top) - (dimension.height / 2),
+                            left: (e.pageX - self.__ele.offset().left) - (dimension.width / 2)
+                        };
+                        self.savingPoint(uuid, "drop");
+                    }
+                    var element = item.__loadItem(uuid);
+                    var attribute = self.updateItemAttribute(item, data);
                     self.__ele.append(element);
 
                     if(item.is_draggable){
@@ -637,23 +808,23 @@ var iDcanvas = (function(iDcanvas){
                             e.preventDefault();     
                         }).draggable({
                             drag: function(e, ui){
-                                attribute = self.updateItem(item, {
+                                attribute = self.updateItemAttribute(item, {
                                     top: ui.position.top,
                                     left: ui.position.left
-                                } , "drag");
+                                });
                                 self.__item_handle.css({
                                     top : attribute.top,
                                     left : attribute.left
                                 });
                             },
                             stop: function(e, ui){
-                                self.__item_handle.css({
-                                    top : attribute.top,
-                                    left : attribute.left
-                                });
+                                self.savingPoint($(this).attr('object-id'),"drag");
                             }
                         });
                         element.trigger('mousedown');
+                    }
+                    if(self.object_count > 0){
+                        self.empty = false;
                     }
                 }else{
                     throw new Error("Error: undefined canvas item Object");
@@ -680,8 +851,10 @@ var iDcanvas = (function(iDcanvas){
                                 }
                                 if($.inArray('productItem', item_type) > -1){
                                     uuid = self.addCanvasItem('product', item_id);
+                                    var item = self.canvas_items[uuid];
+                                    item.item_attribute.use_image = item.__opaque_image;
                                 }
-                                self.dropItem(uuid, e, ui);
+                                self.dropItem(uuid, e);
                             }
                         }
                     });
@@ -695,9 +868,14 @@ var iDcanvas = (function(iDcanvas){
                 $(document).keydown(function(e){
                     var code = e.keyCode || e.which;
                     if(code == 46 || code == 8) { 
-                        self.removeCanvasItem();
-                        self.product_menus.iconRemove();
-                        self.item_menus.unSetItem();
+                        for(var key in self.item_menus.items){
+                            if(self.item_menus.items.hasOwnProperty(key)){
+                                var item = item_menu.items[key].__ele;
+                                if(item[0].id == "remove"){
+                                    item.trigger('click');
+                                }
+                            }
+                        }
                     }
                 }).click(function(e){
                     var click =  $.contains(self.__ele.children()[0],e.target) || $(e.target).parents('ul').hasClass('toolBar') || $(e.target).hasClass('simplemodal-overlay') || $(e.target).hasClass('simplemodal-close');
@@ -726,14 +904,22 @@ var iDcanvas = (function(iDcanvas){
             },
             enumerable : true
         },
-        updateItem:{
-            value : function(item, data, update_type){
+        updateItemAttribute:{
+            value : function(item, data){
                 var self = this;
                 var defaults = item.item_attribute;
                 var update = $.extend({}, defaults, data);
                 item.item_attribute = update;
-
+                item.updateAppearance();
                 return item.item_attribute;
+            },
+            enumerable: true
+        },
+        savingPoint:{
+            value : function(uuid, action_type){
+                var self = this;
+                console.log(action_type + "-object: " + uuid)
+                ++self.canvas_menus.current_state;
             },
             enumerable: true
         },
@@ -750,15 +936,13 @@ var iDcanvas = (function(iDcanvas){
                         selected_id = selected.attr('object-id');
                     },
                     drag: function(e, ui){
-                        attribute = self.updateItem(self.canvas_items[selected_id], {
+                        attribute = self.updateItemAttribute(self.canvas_items[selected_id], {
                             top: ui.position.top,
                             left: ui.position.left
-                        } , "drag");
-                        selected.css(attribute);
+                        });
                     },
-                    stop : function(e, ui){
-                        selected.css(attribute);
-
+                    stop: function(e, ui){
+                        self.savingPoint(selected_id, "drag");
                     }
                 }).resizable({
                     aspectRatio: true,
@@ -769,14 +953,16 @@ var iDcanvas = (function(iDcanvas){
                         selected_id = selected.attr('object-id');
                     },
                     resize : function(e, ui){
-                        attribute = self.updateItem(self.canvas_items[selected_id], {
+                        attribute = self.updateItemAttribute(self.canvas_items[selected_id], {
                             height: $(this).height(),
                             width: $(this).width(),
                             top : parseInt($(this).css('top')),
                             left: parseInt($(this).css('left'))
-                        } , "resize");
+                        });
                         $('.filler', this).width(attribute.width).height(attribute.height);
-                        selected.css(attribute);
+                    },
+                    stop: function(e, ui){
+                        self.savingPoint(selected_id, "resize");
                     }
                 }).rotatable({
                     matrix : true,
@@ -786,23 +972,19 @@ var iDcanvas = (function(iDcanvas){
                     },
                     rotate : function(e, ui){
                         $('body, .handleWrap .filler').css('cursor', "url(/static/styleboard/javascripts/jquery/rotatable/rotate.png), auto");
-                        attribute = self.updateItem(self.canvas_items[selected_id], {
-                            matrix : ui.matrix.current,
-                            degree : ui.degree.current,
-                            radian : ui.radian.current
-                        } , "resize");
-                        var matrix = 'matrix('+ attribute.matrix.join(',') +', 0, 0)';
-                        selected.css({
-                            '-moz-transform'   : matrix,
-                            '-o-transform'     : matrix,
-                            '-webkit-transform': matrix,
-                            '-ms-transform'    : matrix,
-                            'transform'        : matrix
+                        var matrix = ui.matrix.current;
+                        var radian = ui.radian.current;
+                        var degree = ui.degree.current;
+                        attribute = self.updateItemAttribute(self.canvas_items[selected_id], {
+                            matrix : matrix,
+                            degree : degree,
+                            radian : radian
                         });
                     },
                     stop : function(e, ui){
                         $('body, .handleWrap .filler').css('cursor', "");
                         self.updateHandle(attribute.degree);
+                        self.savingPoint(selected_id, "rotate");
                     }
                 });
             },
@@ -813,19 +995,12 @@ var iDcanvas = (function(iDcanvas){
                 var self = this;
                 if(self.canvas_items.hasOwnProperty(selected_element.attr('object-id'))){
                     var selected = self.canvas_items[selected_element.attr('object-id')];
-                    var matrix = 'matrix('+ selected.item_attribute.matrix.join(',') +', 0, 0)';
+                    var styles = $.extend({},selected.styles());
+                    delete styles.zIndex;
                     self.__item_handle.attr('rotation',selected.item_attribute.radian);
-                    self.__item_handle.removeClass('hidden invisible').css({
-                        top : selected.item_attribute.top,
-                        left : selected.item_attribute.left,
-                        width : selected.item_attribute.width,
-                        height : selected.item_attribute.height,
-                        '-moz-transform'   : matrix,
-                        '-o-transform'     : matrix,
-                        '-webkit-transform': matrix,
-                        '-ms-transform'    : matrix,
-                        'transform'        : matrix
-                    }).find('.filler').css({
+                    self.__item_handle.attr('flip',selected.item_attribute.flip);
+                    self.__item_handle.attr('flop',selected.item_attribute.flop);
+                    self.__item_handle.removeClass('hidden invisible').css(styles).find('.filler').css({
                         width : selected.item_attribute.width,
                         height : selected.item_attribute.height
                     });
@@ -890,3 +1065,108 @@ var iDcanvas = (function(iDcanvas){
 
 var canvas = iDcanvas.createCanvas();
 canvas.init();
+var product_menu = canvas.product_menus;
+var item_menu = canvas.item_menus;
+
+for(var key in product_menu.items){
+    if(product_menu.items.hasOwnProperty(key)){
+        product_menu.items[key].__ele.click(function(e){
+            if(product_menu.selected_product != null){
+                if(this.id == 'opaque'){
+                    product_menu.transformOpaque(function(selected_product, action_type){
+
+                        canvas.savingPoint(selected_product.ele.attr('object-id'),action_type);
+                    });
+                }else if(this.id == 'transparent'){
+                    product_menu.transformTransparent(function(selected_product, action_type){
+
+                        canvas.savingPoint(selected_product.ele.attr('object-id'),action_type);
+                    });
+                }else if(this.id == 'crop'){
+                    product_menu.transformCrop();
+                }
+            }
+            e.preventDefault();
+        });   
+    }
+}
+
+for(var key in item_menu.items){
+    if(item_menu.items.hasOwnProperty(key)){
+        item_menu.items[key].__ele.click(function(e){
+            if(item_menu.selected_item != null){
+                if(!item_menu.__ele.hasClass('disabled')){
+                    if(this.id == 'info'){
+                        item_menu.productInfo();
+                    }else if(this.id == 'remove'){
+                        item_menu.remove(function(selected_object, action_type){
+                            canvas.removeCanvasItem();
+                            canvas.product_menus.iconRemove();
+                            canvas.item_menus.unSetItem();
+                            canvas.savingPoint(selected_object.ele.attr('object-id'),action_type);
+                        });
+                    }else if(this.id == 'backward'){
+                        item_menu.backward(function(selected_object, action_type){
+                            var currentIndex = selected_object.item_attribute.zIndex;
+                            var prevIndex = currentIndex - 1;
+                            if(prevIndex >= 1) {
+                                for(var key in canvas.canvas_items){
+                                     if(canvas.canvas_items.hasOwnProperty(key)){
+                                        var item = canvas.canvas_items[key];
+                                        if(item.item_attribute.zIndex == prevIndex){
+                                            item.item_attribute.zIndex = currentIndex;
+                                            item.updateAppearance();
+                                        }
+                                     }
+                                }
+                                selected_object.item_attribute.zIndex = prevIndex;
+                                selected_object.updateAppearance();
+                                canvas.savingPoint(selected_object.ele.attr('object-id'),action_type);
+                            }
+                        });
+                    }else if(this.id == 'forward'){ 
+                        item_menu.forward(function(selected_object, action_type){
+                            var currentIndex = selected_object.item_attribute.zIndex;
+                            var nextIndex = currentIndex + 1;
+                            if(nextIndex <= canvas.object_count) {
+                                for(var key in canvas.canvas_items){
+                                     if(canvas.canvas_items.hasOwnProperty(key)){
+                                        var item = canvas.canvas_items[key];
+                                        if(item.item_attribute.zIndex == nextIndex){
+                                            item.item_attribute.zIndex = currentIndex;
+                                            item.updateAppearance();
+                                        }
+                                     }
+                                }
+                                selected_object.item_attribute.zIndex = nextIndex;
+                                selected_object.updateAppearance();
+                                canvas.savingPoint(selected_object.ele.attr('object-id'), action_type);
+                            }
+                        });
+                    }else if(this.id == 'clone'){
+                        item_menu.clone(function(cloned_object, action_type){
+                            var uuid = Math.uuid(12,62); 
+                            cloned_object.ele.attr('object-id', uuid);
+                            canvas.canvas_items[uuid] = cloned_object;
+                            canvas.dropItem(uuid,e, true);
+                            canvas.savingPoint(uuid, action_type);
+                        });
+                    }else if(this.id == 'flip'){
+                        item_menu.flip(function(selected_object, action_type){
+                            selected_object.toggleFlip();
+                            selected_object.updateAppearance();
+                            canvas.savingPoint(selected_object.ele.attr('object-id'), action_type);
+                        });
+                    }else if(this.id == 'flop'){
+                        item_menu.flop(function(selected_object, action_type){
+                            selected_object.toggleFlop();
+                            selected_object.updateAppearance();
+                            canvas.savingPoint(selected_object.ele.attr('object-id'), action_type);
+                        });
+                    }
+                }
+            }
+            e.preventDefault();
+        });   
+    }
+}
